@@ -11,7 +11,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
-public class FinalProjectApplication {
+public class FinalProjectApplication { 
 
 
 	//주석대신 사용하려면 의존성주입을 여기서 해줘야한다.
