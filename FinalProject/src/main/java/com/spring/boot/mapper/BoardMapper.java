@@ -10,7 +10,7 @@ import com.spring.boot.dto.BoardDTO;
 @Mapper
 public interface BoardMapper {  
 	
-	//mybatis 기능  
+	//mybatis 기능 여기에 주석을 남겼어
 	//boardMapper.xml의 각 쿼리를 가져와 사용가능하다.
 	//boardMapper.xml로 연결
 	
