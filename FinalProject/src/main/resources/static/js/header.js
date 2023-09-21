@@ -15,3 +15,17 @@
     });
   });
 });
+
+function applyWindowSizeToBox() {
+	const boxElement = document.getElementById('subbody');
+
+	const windowWidth = window.innerWidth;
+
+	// 브라우저 창 크기를 #box 요소의 width와 height에 적용
+  if(windowWidth > 730){
+	  boxElement.style.maxWidth = (windowWidth - 300) + 'px';
+  }
+
+}
+window.addEventListener('load', applyWindowSizeToBox);
+window.addEventListener('resize', applyWindowSizeToBox);

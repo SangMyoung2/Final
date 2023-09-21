@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width-initial-scale=1,shrink-to-fit=no">
+<link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/reset.css}"/>
+<link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/structure/header.css}"/>
+<link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/structure/footer.css}"/>
+</head>
+<body>
+
+	<!-- navbar -->
+	<nav th:replace="structure/header :: headerFragment"></nav>
+	
+
+	<th:block layout:fragment="content"></th:block>
+	
+	<div th:replace="structure/footer :: footerFragment"></div>
+
+	<script src="http://localhost:8080/js/header.js"></script>
+</body>
+</html>
