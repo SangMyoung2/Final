@@ -301,6 +301,18 @@ public class BoardController {
 	}
 	
 	
+
+
+	@GetMapping("/meetmate.action")
+	public ModelAndView meetmate() throws Exception{
+		System.out.println("meetmate.action 들어옴");
+		ModelAndView mav = new ModelAndView();
+		
+		mav.setViewName("/meetmate/list");
+		
+		return mav;
+		
+	}
 	
 	
 }

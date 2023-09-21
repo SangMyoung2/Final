@@ -1,11 +1,257 @@
-<!DOCTYPE html>
-<html lang="en">
+<html layout:decorate="~{layout}">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+<meta charset="UTF-8">
+
+<title>MeetMate</title>
+
+<link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/meetmate/list.css}"/>
+
 </head>
 <body>
-    
+
+<div layout:fragment="content">    
+  <ul class="cards">
+      <li>
+        <a href="" class="card">
+          <img src="https://i.imgur.com/oYiTqum.jpg" class="card__image" alt="" />
+          <div class="card__overlay">
+            <div class="card__header">
+              <svg class="card__arc" xmlns="http://www.w3.org/2000/svg"><path /></svg>                     
+              <img class="card__thumb" src="https://i.imgur.com/7D7I6dI.png" alt="" />
+              <div class="card__header-text">
+                <h3 class="card__title">카테고리 위치</h3>            
+                <span class="card__status">날짜, 시간, 위치</span><br/>
+                <span class="card__status1">현재 참석인원/최대인원</span>
+              </div>
+            </div>
+            <p class="card__description">이번 주 토요일 같이 저녁먹으면서 얘기나눠요!  </p>
+          </div>
+        </a>      
+      </li>
+      <li>
+        <a href="" class="card">
+          <img src="https://i.imgur.com/2DhmtJ4.jpg" class="card__image" alt="" />
+          <div class="card__overlay">        
+            <div class="card__header">
+              <svg class="card__arc" xmlns="http://www.w3.org/2000/svg"><path /></svg>                 
+              <img class="card__thumb" src="https://i.imgur.com/sjLMNDM.png" alt="" />
+              <div class="card__header-text">
+                <h3 class="card__title">카테고리 위치</h3>            
+                <span class="card__status">날짜, 시간, 위치</span><br/>
+                <span class="card__status1">현재 참석인원/최대인원</span>
+              </div>
+            </div>
+            <p class="card__description">다음주 일요일에 한강가실분! </p>
+          </div>
+        </a>
+      </li>  
+      <li>
+        <a href="" class="card">
+          <img src="https://i.imgur.com/oYiTqum.jpg" class="card__image" alt="" />
+          <div class="card__overlay">
+            <div class="card__header">
+              <svg class="card__arc" xmlns="http://www.w3.org/2000/svg"><path /></svg>                     
+              <img class="card__thumb" src="https://i.imgur.com/7D7I6dI.png" alt="" />
+              <div class="card__header-text">
+                <h3 class="card__title">카테고리 위치</h3>            
+                <span class="card__status">날짜, 시간, 위치</span><br/>
+                <span class="card__status1">현재 참석인원/최대인원</span>
+              </div>
+            </div>
+            <p class="card__description">이번 주 토요일 같이 저녁먹으면서 얘기나눠요!  </p>
+          </div>
+        </a>      
+      </li>
+      <li>
+        <a href="" class="card">
+          <img src="https://i.imgur.com/2DhmtJ4.jpg" class="card__image" alt="" />
+          <div class="card__overlay">        
+            <div class="card__header">
+              <svg class="card__arc" xmlns="http://www.w3.org/2000/svg"><path /></svg>                 
+              <img class="card__thumb" src="https://i.imgur.com/sjLMNDM.png" alt="" />
+              <div class="card__header-text">
+                <h3 class="card__title">카테고리 위치</h3>            
+                <span class="card__status">날짜, 시간, 위치</span><br/>
+                <span class="card__status1">현재 참석인원/최대인원</span>
+              </div>
+            </div>
+            <p class="card__description">다음주 일요일에 한강가실분! </p>
+          </div>
+        </a>
+      </li>  
+      <li>
+        <a href="" class="card">
+          <img src="https://i.imgur.com/oYiTqum.jpg" class="card__image" alt="" />
+          <div class="card__overlay">
+            <div class="card__header">
+              <svg class="card__arc" xmlns="http://www.w3.org/2000/svg"><path /></svg>                     
+              <img class="card__thumb" src="https://i.imgur.com/7D7I6dI.png" alt="" />
+              <div class="card__header-text">
+                <h3 class="card__title">카테고리 위치</h3>            
+                <span class="card__status">날짜, 시간, 위치</span><br/>
+                <span class="card__status1">현재 참석인원/최대인원</span>
+              </div>
+            </div>
+            <p class="card__description">이번 주 토요일 같이 저녁먹으면서 얘기나눠요!  </p>
+          </div>
+        </a>      
+      </li>
+      <li>
+        <a href="" class="card">
+          <img src="https://i.imgur.com/2DhmtJ4.jpg" class="card__image" alt="" />
+          <div class="card__overlay">        
+            <div class="card__header">
+              <svg class="card__arc" xmlns="http://www.w3.org/2000/svg"><path /></svg>                 
+              <img class="card__thumb" src="https://i.imgur.com/sjLMNDM.png" alt="" />
+              <div class="card__header-text">
+                <h3 class="card__title">카테고리 위치</h3>            
+                <span class="card__status">날짜, 시간, 위치</span><br/>
+                <span class="card__status1">현재 참석인원/최대인원</span>
+              </div>
+            </div>
+            <p class="card__description">다음주 일요일에 한강가실분! </p>
+          </div>
+        </a>
+      </li>  
+      <li>
+        <a href="" class="card">
+          <img src="https://i.imgur.com/oYiTqum.jpg" class="card__image" alt="" />
+          <div class="card__overlay">
+            <div class="card__header">
+              <svg class="card__arc" xmlns="http://www.w3.org/2000/svg"><path /></svg>                     
+              <img class="card__thumb" src="https://i.imgur.com/7D7I6dI.png" alt="" />
+              <div class="card__header-text">
+                <h3 class="card__title">카테고리 위치</h3>            
+                <span class="card__status">날짜, 시간, 위치</span><br/>
+                <span class="card__status1">현재 참석인원/최대인원</span>
+              </div>
+            </div>
+            <p class="card__description">이번 주 토요일 같이 저녁먹으면서 얘기나눠요!  </p>
+          </div>
+        </a>      
+      </li>
+      <li>
+        <a href="" class="card">
+          <img src="https://i.imgur.com/2DhmtJ4.jpg" class="card__image" alt="" />
+          <div class="card__overlay">        
+            <div class="card__header">
+              <svg class="card__arc" xmlns="http://www.w3.org/2000/svg"><path /></svg>                 
+              <img class="card__thumb" src="https://i.imgur.com/sjLMNDM.png" alt="" />
+              <div class="card__header-text">
+                <h3 class="card__title">카테고리 위치</h3>            
+                <span class="card__status">날짜, 시간, 위치</span><br/>
+                <span class="card__status1">현재 참석인원/최대인원</span>
+              </div>
+            </div>
+            <p class="card__description">다음주 일요일에 한강가실분! </p>
+          </div>
+        </a>
+      </li>  
+      <li>
+        <a href="" class="card">
+          <img src="https://i.imgur.com/oYiTqum.jpg" class="card__image" alt="" />
+          <div class="card__overlay">
+            <div class="card__header">
+              <svg class="card__arc" xmlns="http://www.w3.org/2000/svg"><path /></svg>                     
+              <img class="card__thumb" src="https://i.imgur.com/7D7I6dI.png" alt="" />
+              <div class="card__header-text">
+                <h3 class="card__title">카테고리 위치</h3>            
+                <span class="card__status">날짜, 시간, 위치</span><br/>
+                <span class="card__status1">현재 참석인원/최대인원</span>
+              </div>
+            </div>
+            <p class="card__description">이번 주 토요일 같이 저녁먹으면서 얘기나눠요!  </p>
+          </div>
+        </a>      
+      </li>
+      <li>
+        <a href="" class="card">
+          <img src="https://i.imgur.com/2DhmtJ4.jpg" class="card__image" alt="" />
+          <div class="card__overlay">        
+            <div class="card__header">
+              <svg class="card__arc" xmlns="http://www.w3.org/2000/svg"><path /></svg>                 
+              <img class="card__thumb" src="https://i.imgur.com/sjLMNDM.png" alt="" />
+              <div class="card__header-text">
+                <h3 class="card__title">카테고리 위치</h3>            
+                <span class="card__status">날짜, 시간, 위치</span><br/>
+                <span class="card__status1">현재 참석인원/최대인원</span>
+              </div>
+            </div>
+            <p class="card__description">다음주 일요일에 한강가실분! </p>
+          </div>
+        </a>
+      </li>  
+      <li>
+        <a href="" class="card">
+          <img src="https://i.imgur.com/oYiTqum.jpg" class="card__image" alt="" />
+          <div class="card__overlay">
+            <div class="card__header">
+              <svg class="card__arc" xmlns="http://www.w3.org/2000/svg"><path /></svg>                     
+              <img class="card__thumb" src="https://i.imgur.com/7D7I6dI.png" alt="" />
+              <div class="card__header-text">
+                <h3 class="card__title">카테고리 위치</h3>            
+                <span class="card__status">날짜, 시간, 위치</span><br/>
+                <span class="card__status1">현재 참석인원/최대인원</span>
+              </div>
+            </div>
+            <p class="card__description">이번 주 토요일 같이 저녁먹으면서 얘기나눠요!  </p>
+          </div>
+        </a>      
+      </li>
+      <li>
+        <a href="" class="card">
+          <img src="https://i.imgur.com/2DhmtJ4.jpg" class="card__image" alt="" />
+          <div class="card__overlay">        
+            <div class="card__header">
+              <svg class="card__arc" xmlns="http://www.w3.org/2000/svg"><path /></svg>                 
+              <img class="card__thumb" src="https://i.imgur.com/sjLMNDM.png" alt="" />
+              <div class="card__header-text">
+                <h3 class="card__title">카테고리 위치</h3>            
+                <span class="card__status">날짜, 시간, 위치</span><br/>
+                <span class="card__status1">현재 참석인원/최대인원</span>
+              </div>
+            </div>
+            <p class="card__description">다음주 일요일에 한강가실분! </p>
+          </div>
+        </a>
+      </li>  
+      <li>
+        <a href="" class="card">
+          <img src="https://i.imgur.com/oYiTqum.jpg" class="card__image" alt="" />
+          <div class="card__overlay">
+            <div class="card__header">
+              <svg class="card__arc" xmlns="http://www.w3.org/2000/svg"><path /></svg>                     
+              <img class="card__thumb" src="https://i.imgur.com/7D7I6dI.png" alt="" />
+              <div class="card__header-text">
+                <h3 class="card__title">카테고리 위치</h3>            
+                <span class="card__status">날짜, 시간, 위치</span><br/>
+                <span class="card__status1">현재 참석인원/최대인원</span>
+              </div>
+            </div>
+            <p class="card__description">이번 주 토요일 같이 저녁먹으면서 얘기나눠요!  </p>
+          </div>
+        </a>      
+      </li>
+      <li>
+        <a href="" class="card">
+          <img src="https://i.imgur.com/2DhmtJ4.jpg" class="card__image" alt="" />
+          <div class="card__overlay">        
+            <div class="card__header">
+              <svg class="card__arc" xmlns="http://www.w3.org/2000/svg"><path /></svg>                 
+              <img class="card__thumb" src="https://i.imgur.com/sjLMNDM.png" alt="" />
+              <div class="card__header-text">
+                <h3 class="card__title">카테고리 위치</h3>            
+                <span class="card__status">날짜, 시간, 위치</span><br/>
+                <span class="card__status1">현재 참석인원/최대인원</span>
+              </div>
+            </div>
+            <p class="card__description">다음주 일요일에 한강가실분! </p>
+          </div>
+        </a>
+      </li>  
+
+    </ul>
+</div>
+
 </body>
 </html>
