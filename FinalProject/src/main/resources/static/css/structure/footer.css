@@ -1,0 +1,23 @@
+
+footer {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+}
+
+#pageFooter {
+	grid-area: footer;
+	color: #898989;
+	background: #cfcfcf;
+    height: 300px; /* 푸터 높이 조정 */
+}
+
+.content_p{
+	padding: 30px 50px;
+}
+
+.content_p p {
+    font-size: 15px;
+    margin: 5px;
+}
