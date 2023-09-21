@@ -1,41 +1,103 @@
-<html layout:decorate="~{layout}">
+<html layout:decorate="~{layoutHeader}">
     <head>
-
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-        <title>간단한 지도 표시하기</title>
-        <script src="../../docs/js/jquery-1.9.1.js"></script>
-        <script type="text/javascript" src="../../docs/js/examples-base.js"></script>
-        <script type="text/javascript" src="../../docs/js/highlight.min.js"></script>
-        <!-- ncpClientId는 등록 환경에 따라 일반(ncpClientId), 공공(govClientId), 금융(finClientId)으로 나뉩니다. 사용하는 환경에 따라 키 이름을 변경하여 사용하세요. 참고: clientId(네이버 개발자 센터)는 지원 종료 -->
+        
+        <title>메인 지도</title>
+        
+        <script th:src="@{http://localhost:8080/js/map/jquery-1.9.1.js}"></script>
+        <script type="text/javascript" th:src="@{http://localhost:8080/js/map/examples-base.js}"></script>
+        <script type="text/javascript" th:src="@{http://localhost:8080/js/map/highlight.min.js}"></script>
+        <script type="text/javascript" th:src="@{http://localhost:8080/js/map/highlight.min.js}"></script>
         <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=83bfuniegk"></script>
-        <link rel="stylesheet" type="text/css" href="../../docs/css/examples-base.css" />
+        
+        <link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/map/examples-base.css}" />
+
+<title>가치</title>
 
 <link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/index.css}"/>
 </head>
 <body>
 
-<div layout:fragment="content" style="height: 6000;">
     
-    <!-- @category Map -->
 
-    <div id="wrap" class="section">
-        <h2>간단한 지도 표시하기</h2>
-        <p>지도를 생성하는 가장 기본적인 예제입니다. 지도 옵션을 설정하지 않으면 다음과 같이 서울 시청을 중심으로 하는 지도가 생성됩니다.</p>
-        <div id="map" style="width:100%;height:600px;"></div>
-        <code id="snippet" class="snippet"></code>
+
+
+<div layout:fragment="content">
+
+ 
+
+<!-- @category Map -->
+
+<style type="text/css">
+    #wrap .buttons { position:absolute;top:0;left:0;z-index:1000;padding:5px; }
+    #wrap .buttons .control-btn { margin:0 5px 5px 0; }
+</style>
+<div id="wrap" class="section">
+    <h2>지도 옵션 조정하기</h2>
+    <p>지도의 옵션(지도 인터랙션, 관성 드래깅, 타일 fadeIn 효과, 지도 컨트롤, 최소/최대 줌 레벨)을 설정, 해제하는 예제입니다. 이 예제는 jQuery 구문을 포함하고 있습니다.</p>
+    <p>지도 초기화 시 지도의 인터랙션과 타일 fadeIn 효과는 기본적으로 활성화되어 있습니다. 지도 옵션에 대한 자세한 내용은 {@link naver.maps.MapOptions MapOptions}를 참고하세요.</p>
+    <div id="map" style="width:100%;height:600px;">
+        <div class="buttons">
+            <input id="interaction" type="button" name="지도 인터렉션" value="지도 인터렉션" class="control-btn" />
+            <input id="kinetic" type="button" name="관성 드래깅" value="관성 드래깅" class="control-btn" />
+            <input id="tile-transition" type="button" name="타일 fadeIn 효과" value="타일 fadeIn 효과" class="control-btn" />
+            <input id="controls" type="button" name="모든 지도 컨트롤" value="모든 지도 컨트롤" class="control-btn" />
+            <input id="min-max-zoom" type="button" name="최소/최대 줌 레벨" value="최소/최대 줌 레벨: 10 ~ 21" class="control-btn" />
+        </div>
     </div>
-    <script id="code">
-    //지도를 삽입할 HTML 요소 또는 HTML 요소의 id를 지정합니다.
-    var mapDiv = document.getElementById('map'); // 'map'으로 선언해도 동일
+    <code id="snippet" class="snippet"></code>
+</div>
+<script id="code">
+//지도 생성 시에 옵션을 지정할 수 있습니다.
+var map = new naver.maps.Map('map', {
+        center: new naver.maps.LatLng(37.3595704, 127.105399), //지도의 초기 중심 좌표
+        zoom: 13, //지도의 초기 줌 레벨
+        minZoom: 7, //지도의 최소 줌 레벨
+        zoomControl: true, //줌 컨트롤의 표시 여부
+        zoomControlOptions: { //줌 컨트롤의 옵션
+            position: naver.maps.Position.TOP_RIGHT
+        }
+    });
 
-    //옵션 없이 지도 객체를 생성하면 서울 시청을 중심으로 하는 16 레벨의 지도가 생성됩니다.
-    var map = new naver.maps.Map(mapDiv);
-    </script>
+//setOptions 메서드를 이용해 옵션을 조정할 수도 있습니다.
+map.setOptions("mapTypeControl", true); //지도 유형 컨트롤의 표시 여부
 
-<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+naver.maps.Event.addListener(map, 'zoom_changed', function (zoom) {
+    console.log('zoom:' + zoom);
+});
+
+map.setOptions('minZoom', 10);
+console.log('잘못된 참조 시점', map.getOptions('minZoom'), map.getOptions('minZoom') === 10);
+
+// 지도의 옵션 참조는 init 이벤트 이후에 참조해야 합니다.
+naver.maps.Event.once(map, 'init', function () {
+    console.log('올바른 참조 시점', map.getOptions('minZoom') === 10);
+});
+
+
+
+
+
+
+
+
+</script>
+
+
+
 </div>
 
+
+
+
+
+
+
+
 </body>
+
+
+
 </html>
