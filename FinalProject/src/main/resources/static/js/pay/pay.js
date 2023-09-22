@@ -253,13 +253,12 @@ $(document).on({
             'vbank':가상계좌,
             'phone':휴대폰소액결제 
         */
-        merchant_uid: 'merchant_' + new Date().getTime(),
+        merchant_uid: 'merchant_' + new Date().getTime(), 
         /* 
-            merchant_uid에 경우 
-            https://docs.iamport.kr/implementation/payment
-            위에 url에 따라가시면 넣을 수 있는 방법이 있습니다.
-            참고하세요. 
-            나중에 포스팅 해볼게요.
+            결제 요청 시, 가맹점에서 아임포트로 전달한 가맹점 고유 주문번호
+            - 결제완료 (paid/ 빌링키 발급 포함)된 거래에 사용된 적있는 merchant_uid는 재사용이 불가
+            - 가맹점 서비스의 DB정보와 아임포트 서비스에 저장 된 정보 간 비교를 할 때 사용 주문번호를 기준으로
+            결제된 내역을 확인 하는 경우 사용
          */
         name: '가치페이 50,000',
         //결제창에서 보여질 이름
