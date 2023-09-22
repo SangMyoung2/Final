@@ -1,0 +1,45 @@
+<html layout:decorate="~{layout}">
+<head>
+<meta charset="UTF-8">
+
+<title>아티클</title>
+
+<link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/index.css}"/>
+<link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/bbsYj/articleYj.css}"/>
+<link rel="icon" type="image/png" th:href="@{http://localhost:8080/image/Icon2-removebg.png}"/>
+
+
+</head>
+<body>
+
+<div layout:fragment="content">
+
+    <h1>Meet 테이블 내용</h1>
+    <div style="border: 1px;">
+      <div class="yj-img">
+            <div style="border: 1px;">
+                <img th:src="@{/image/bbsYj/6666.png}" width="100" height="100"/>
+                
+            </div>
+            <div class="Main_content">
+                안녕하세요 
+            </div>
+            <div th:each="meet : ${meetList}">
+                <p class="text" th:text="${meet.meet_listnum}"></p>
+                <p class="text" th:text="${meet.meet_ctgnum}"></p>
+                <p class="text" th:text="${meet.meet_master}"></p>
+                <p class="text" th:text="${meet.meet_title}"></p>
+                <p class="text" th:text="${meet.meet_content}"></p>
+                <p class="text" th:text="${meet.meet_place}"></p>
+                <p class="text" th:text="${meet.meet_memcnt}"></p>
+                <p class="text" th:text="${meet.meet_max_memcnt}"></p>
+                <p class="text" th:text="${meet.meet_hitcount}"></p>
+                <p class="text" th:text="${meet.meet_like}"></p>
+                <p class="text" th:text="${meet.meet_date}"></p>
+            </div>
+    </div>
+</div>
+</div>
+
+</body>
+</html>

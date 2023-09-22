@@ -5,9 +5,36 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="com.spring.boot.mapper.MeetMapperYj">
 
-<select id="getLists" parameterType="hashMap" resultType="com.spring.boot.dto.MeetDTOYj">
+<!-- <select id="getLists" parameterType="hashMap" resultType="com.spring.boot.dto.MeetDTOYj">
 	select * from category order by meet_ctgnum asc
+</select> -->
+
+<select id="getLists" parameterType="hashMap" resultType="com.spring.boot.dto.MeetDTOYj">
+	SELECT
+    m.meet_listnum,
+    m.meet_ctgnum,
+    c.meet_ctgname,
+    m.meet_master,
+    m.meet_title,
+    m.meet_content,
+    m.meet_place,
+    m.meet_memcnt,
+    m.meet_max_memcnt,
+    m.meet_hitcount,
+    m.meet_like,
+    m.meet_date,
+    m.meet_list_image
+FROM
+    meet m
+INNER JOIN
+    category c ON m.meet_ctgnum = c.meet_ctgnum
 </select>
+
+
+<!-- <insert id="insertData" parameterType="com.spring.boot.dto.MeetDTOYj">
+	insert into meet (meet_listnum,meet_ctgnum,meet_master,meet_title,meet_content,meet_place,meet_memcnt,meet_max_memcnt,meet_hitcount,meet_like,meet_date,meet_list_image) values (#{meet_listnum},#{meet_ctgnum},#{meet_master},#{meet_title},#{meet_content},#{meet_place},
+	#{meet_memcnt},meet_max_memcnt,meet_hitcount,meet_like,meet_date,meet_list_image)
+</insert> -->
 
 
 </mapper>

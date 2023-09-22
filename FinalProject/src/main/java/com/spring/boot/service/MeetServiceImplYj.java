@@ -20,4 +20,11 @@ public class MeetServiceImplYj implements MeetServiceYj {
         return meetMapperYj.getLists();
     }
 
+    // @Override
+	// public void insertData(MeetDTOYj dto) throws Exception {
+
+	// 	meetMapperYj.insertData(dto);
+		
+	// }
+
 }
