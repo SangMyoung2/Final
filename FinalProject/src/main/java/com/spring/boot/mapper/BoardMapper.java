@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Param;
 import com.spring.boot.dto.BoardDTO;
 
 @Mapper
-public interface BoardMapper {
+public interface BoardMapper {  
 	
 	//mybatis 기능
 	//boardMapper.xml의 각 쿼리를 가져와 사용가능하다.
