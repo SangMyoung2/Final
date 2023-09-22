@@ -303,12 +303,23 @@ public class BoardController {
 	
 
 
-	@GetMapping("/meetmate.action")
-	public ModelAndView meetmate() throws Exception{
+	@GetMapping("/meetmateList.action")
+	public ModelAndView meetmateList() throws Exception{
 		
 		ModelAndView mav = new ModelAndView();
 		
 		mav.setViewName("/meetmate/list");
+		
+		return mav;
+		
+	}
+
+	@GetMapping("/meetmateWrite.action")
+	public ModelAndView meetmate() throws Exception{
+		
+		ModelAndView mav = new ModelAndView();
+		
+		mav.setViewName("/meetmate/boardwrite");
 		
 		return mav;
 		
