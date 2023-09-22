@@ -1,7 +1,7 @@
 <html layout:decorate="~{layout}">
 <head>
 <title>결제 페이지</title>
-
+<link rel="stylesheet" type="text/css" href="css/pay/paybutton.css"/>
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script type="text/javascript" src="https://service.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 <script type="text/javascript" src="http://localhost:8080/js/pay/pay.js"></script>
@@ -9,8 +9,12 @@
 </head>
 <body>
 <div layout:fragment="content">
-<p>결제 테스트</p> 
-<button id="check_module" type="button">결제하기</button>
+<p>가치페이 충전</p>
+
+<button class="snip1535" id="check_module5" type="button">5,000 포인트 충전</button>
+<button class="snip1535" id="check_module10" type="button">10,000 포인트 충전</button>
+<button class="snip1535" id="check_module30" type="button">30,000 포인트 충전</button>
+<button class="snip1535" id="check_module50" type="button">50,000 포인트 충전</button>
 </div>
 </body>
 
