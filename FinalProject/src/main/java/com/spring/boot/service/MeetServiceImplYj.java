@@ -15,6 +15,13 @@ public class MeetServiceImplYj implements MeetServiceYj {
     private MeetMapperYj meetMapperYj;
 
     @Override
+    public List<MeetDTOYj> getAllCategories() throws Exception {
+    
+        return meetMapperYj.getAllCategories();
+    
+    }
+
+    @Override
     public List<MeetDTOYj> getLists() throws Exception {
         
         return meetMapperYj.getLists();

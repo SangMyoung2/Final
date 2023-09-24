@@ -9,6 +9,8 @@ import com.spring.boot.dto.MeetDTOYj;
 @Mapper
 public interface MeetMapperYj {
 
+    public List<MeetDTOYj> getAllCategories() throws Exception;
+
     public List<MeetDTOYj> getLists() throws Exception;
 
     //public void insertData(MeetDTOYj dto) throws Exception;

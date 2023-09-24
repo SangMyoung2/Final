@@ -9,6 +9,11 @@
     background-color: #f4f4f4;
 }
 
+.yj-img img {
+    width: 500px;
+    height: 300px;
+}
+
 .iy-img img{
     width: 100%;
     height: 200px;
@@ -30,15 +35,52 @@
     height: auto;
     border-radius: 16px;
     z-index: 100;
+    text-align: center;
+    padding: 20px;
+}
+
+.title {
+    font-size: 21px;
+    color: #000000;
+    font-weight: bold;
+}
+
+.master {
+    font-size: 14px;
+    color: #383535;
 }
 
 .text {
     position: relative;
-    width: calc(100% - 28px);
+    /* width: calc(100% - 28px); */
     height: auto;
     background-color: #f4f4f4;
-    padding: 8px 14px 41px;
+    /* padding: 8px 14px 5px; */
     color: #383535;
     font-size: 16px;
-    line-height: 26px;
+    line-height: 20px;
     letter-spacing: -.6px;
+}
+
+.text-with-hyphen::before {
+    content: "- ";
+}
+
+.text-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.round-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.round-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}

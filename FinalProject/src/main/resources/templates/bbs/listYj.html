@@ -26,14 +26,13 @@
 
     <script>
         // JavaScript 코드
-        // 각 카테고리를 클릭했을 때 리스트를 불러오는 함수
-        document.querySelectorAll('li').forEach(function (element) {
+        document.querySelectorAll('.yj-li').forEach(function (element) {
             element.addEventListener('click', function () {
                 var categoryName = element.getAttribute('data-category');
                 loadCategoryList(categoryName);
             });
         });
-
+    
         // 카테고리별 리스트를 불러와 화면에 표시하는 함수
         function loadCategoryList(categoryName) {
             // Ajax 요청을 사용하여 서버에서 카테고리별 리스트를 가져온 후, 화면에 표시하는 코드를 추가

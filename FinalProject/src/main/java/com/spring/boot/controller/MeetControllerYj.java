@@ -15,22 +15,19 @@ import com.spring.boot.service.MeetServiceYj;
 @RestController
 public class MeetControllerYj {
     
-@Autowired
-    private MeetServiceYj meetServiceYj;
+	@Autowired
+		private MeetServiceYj meetServiceYj;
 
-		@GetMapping("/listYj.action")
-		public ModelAndView listYj() throws Exception {
-			
-			List<MeetDTOYj> listYj = meetServiceYj.getLists();
-			
-			ModelAndView mav = new ModelAndView();
-			
-			mav.addObject("listYj", listYj);
-			mav.setViewName("bbs/listYj");
-			
-			return mav;
-			
-		}
+	@GetMapping("/listYj.action")
+	public ModelAndView listYj() throws Exception {
+		List<MeetDTOYj> listYj = meetServiceYj.getAllCategories(); // getLists() 대신 getAllCategories() 호출
+
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("listYj", listYj);
+		mav.setViewName("bbs/listYj");
+
+		return mav;
+	}
 
 	@GetMapping("/articleYj.action")
 	public ModelAndView articleYj(HttpServletRequest request) throws Exception {

@@ -9,6 +9,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	select * from category order by meet_ctgnum asc
 </select> -->
 
+<select id="getAllCategories" resultType="com.spring.boot.dto.MeetDTOYj">
+    select * from category order by meet_ctgnum asc
+</select>
+
 <select id="getLists" parameterType="hashMap" resultType="com.spring.boot.dto.MeetDTOYj">
 	SELECT
     m.meet_listnum,
