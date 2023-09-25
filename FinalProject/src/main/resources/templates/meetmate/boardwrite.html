@@ -18,6 +18,9 @@
     유진이가 만든 카테고리 버튼 위치<br/><br/><br/>
 
     <div>       
+        <label for="meetmate-title">Meetmate 소개 제목</label>
+        <input type="text" id="meetmate-title" required placeholder="Meetmate Title" class="t1"/>
+        
         <label for="meetmate-name">Meetmate 모임명</label>
         <input type="text" id="meetmate-name" required placeholder="Meetmate Name" class="t1"/>
         
@@ -31,7 +34,7 @@
     <br/>
     
     <div>
-        <label>Meetmate Date 날짜</label>
+        <label>Meetmate 날짜</label>
         <div style="width: 116%;">
             <input type="text" name="meetmate-date-year" id="meetmate-date-year"
             pattern="[0-9]*" value label="Meetmate-date" size="4" maxlength="4" placeholder="YYYY" class="t2"/>
@@ -43,22 +46,22 @@
                 pattern="[0-9]*" value label="Meetmate-date" size="2" maxlength="2" placeholder="DD" class="t2"/>
         </div>    
             
-        <label>Meetmate Date 시간</label>
+        <label>Meetmate 시간</label>
         <div style="width: 113%;">
-            <select class="select1" style="height: 45px; width: 27%;">
+            <select class="select1" style="width: 27%;">
                 <option value="AM/PM" selected disabled>AM / PM</option>
                 <option value="AM">AM</option>
                 <option  class="select1 option"  value="PM">PM</option>
             </select>　
 
-            <select style="height: 45px; width: 27%;" name="hour" class="select1">
+            <select style="width: 27%;" name="hour" class="select1">
                 <option value="${num}" th:text= "시"></option>
                 <th:block th:each="num : ${#numbers.sequence(1,12)}">
                     <option value="${num}" th:text= "|${num}|">시</option>
                 </th:block>
             </select> 시　
 
-            <select style="height: 45px; width: 27%;" class="select1">
+            <select style="width: 27%;" class="select1">
                 <option value="" selected disabled>분</option>
                 <option value="00">00</option>
                 <option value="05">05</option>
@@ -75,13 +78,61 @@
             </select> 분
         </div>
 
+        <div> 
+            <label for="meet_max_memcnt">Meetmate 최대인원수</label>
+            <input type="text" id="meet_max_memcnt" required placeholder="Meetmate 최대인원수" class="t1"/>
+        </div>    
+        
+        <label>Meetmate 기본참가비</label>
+        <div id="wrap_gender"> 
+            <span id="wrap_man" class="gender">
+                <input type="radio" id="man" name="gender" onclick="gender()">
+                <label for="man"> 있음 </label>
+            </span>
+            <span id="wrap_woman" class="gender no_line">
+                <input type="radio" id="woman" name="gender" onclick="gender()">
+                <label for="woman"> 없음 </label>
+            </span>
+        </div> 
+        
+        <div> 
+            <label>Meetmate 기본참가비 금액</label>
+            <label style="color: rgba(145, 142, 142, 0.808);">기본참가비가 있음을 체크한 경우에만 입력해주세요.</label>
+            <input type="text" id="meet_max_memcnt" required placeholder="0" class="t1"/>
+        </div>    
+
     </div>
 
     <button type="submit">Meetmate 생성하기</button>     
             
     </form>
+
 </div>
 
+
 </body>
+
+
+<script>
+
+    function gender(){
+        
+        var wrap_gender = document.getElementById("wrap_gender")
+        var man = document.getElementById("man")
+        var woman = document.getElementById("woman")
+
+        if(man.checked){
+            document.getElementById("wrap_man").className='gender_act';
+            document.getElementById("wrap_woman").className='gender';
+        }
+        
+        if(woman.checked){
+            document.getElementById("wrap_woman").className='gender_act';
+            document.getElementById("wrap_man").className='gender';
+        }
+    }    
+    
+</script>
+
 
 </html>
