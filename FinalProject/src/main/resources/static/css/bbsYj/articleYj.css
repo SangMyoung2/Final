@@ -2,26 +2,30 @@
     width: 100%;
     height: auto;
     display: flex;
-    justify-content: center;
+    margin: 0 auto;
     align-items: center;
     flex-direction: column;
     position: relative;
     background-color: #f4f4f4;
+    max-width: 800px;
+}
+
+.yj-img2 {
+    width: 100%;
+    height: auto;
+    display: flex;
+    margin: 0 auto;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
+    background-color: #E4EEF7;
+    max-width: 800px;
 }
 
 .yj-img img {
     width: 500px;
     height: 300px;
 }
-
-.iy-img img{
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    position: relative;
-}
-
-
 
 .Main_content {
     display: flex;
@@ -39,37 +43,75 @@
     padding: 20px;
 }
 
-.title {
-    font-size: 21px;
+.Yj-title {
+    font-size: 25px;
     color: #000000;
     font-weight: bold;
+    padding-top: 25px;
 }
 
-.master {
-    font-size: 14px;
+.Yj-master {
+    font-size: 15px;
     color: #383535;
 }
 
-.text {
+.Yj-text1 {
     position: relative;
     /* width: calc(100% - 28px); */
     height: auto;
     background-color: #f4f4f4;
-    /* padding: 8px 14px 5px; */
+    padding: 30px 45px 10px; /*위/양사이드/아래*/ 
+    color: #383535;
+    font-size: 18px;
+    line-height: 20px;
+    letter-spacing: -.6px;
+}
+
+.Yj-text2 {
+    position: relative;
+    /* width: calc(100% - 28px); */
+    height: auto;
+    background-color: #f4f4f4;
+    /* padding: 30px 45px 10px; 위/양사이드/아래*/ 
+    color: #383535;
+    font-size: 18px;
+    line-height: 20px;
+    letter-spacing: -.6px;
+}
+
+.Yj-text3 {
+    position: relative;
+    /* width: calc(100% - 28px); */
+    height: auto;
+    background-color: #f4f4f4;
+    /* padding: 30px 45px 10px;*/
+    color: #383535;
+    font-size: 18px;
+    line-height: 20px;
+    letter-spacing: -.6px;
+    
+}
+
+.text-with-hyphen::before {
+    content: "- ";
+    position: relative;
+    /* width: calc(100% - 28px); */
+    height: auto;
+    background-color: #f4f4f4;
+    /* padding: 1px 30px 10px; */
+    padding-left: 35px;
     color: #383535;
     font-size: 16px;
     line-height: 20px;
     letter-spacing: -.6px;
 }
 
-.text-with-hyphen::before {
-    content: "- ";
-}
-
 .text-container {
     display: flex;
     align-items: center;
     gap: 10px;
+    padding-left: 40px;
+    padding-bottom: 40px;
 }
 
 .round-image {
@@ -83,4 +125,69 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+}
+
+.yj-info {
+    padding: 50px 30px 10px; /*위/양사이드/아래*/
+    color: #F43E42;
+}
+
+.yj-inwon {
+    padding: 35px 30px 10px; /*위/양사이드/아래*/
+    color: #F43E42;
+}
+
+.review-title {
+    padding-top: 50px;
+    padding-bottom: 40px;
+    font-size: 18px;
+    color: #000000;
+    font-weight: bold;
+}
+
+.review-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: #fefefe;
+    position: relative;
+    width: calc(65% - 8px);
+    height: auto;
+    border-radius: 16px;
+    z-index: 100;
+    text-align: center;
+    padding: 50px;
+    margin-bottom: 30px;
+}
+
+.review {
+    position: relative;
+    /* width: calc(100% - 28px); */
+    height: auto;
+    /* padding: 30px 45px 10px;*/
+    color: #383535;
+    font-size: 18px;
+    line-height: 20px;
+    letter-spacing: -.6px;
+}
+
+.Yj-text1, .Yj-text2, .Yj-text3, .yj-info, .yj-inwon, .text-with-hyphen {
+    text-align: left;
+}
+
+.main-text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: #fefefe;
+    position: relative;
+    width: calc(65% - 8px);
+    height: auto;
+    border-radius: 16px;
+    z-index: 100;
+    padding: 50px;
+    margin-bottom: 30px;
+    text-align: left;
 }

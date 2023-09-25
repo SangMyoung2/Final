@@ -13,6 +13,8 @@ public interface MeetMapperYj {
 
     public List<MeetDTOYj> getLists() throws Exception;
 
+    public List<MeetDTOYj> getReview() throws Exception;
+
     //public void insertData(MeetDTOYj dto) throws Exception;
 
 }

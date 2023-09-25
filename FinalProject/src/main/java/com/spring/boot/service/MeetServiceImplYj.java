@@ -27,6 +27,12 @@ public class MeetServiceImplYj implements MeetServiceYj {
         return meetMapperYj.getLists();
     }
 
+    @Override
+    public List<MeetDTOYj> getReview() throws Exception {
+        
+        return meetMapperYj.getReview();
+    }
+
     // @Override
 	// public void insertData(MeetDTOYj dto) throws Exception {
 

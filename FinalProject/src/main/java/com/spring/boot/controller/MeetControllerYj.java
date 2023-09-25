@@ -20,7 +20,7 @@ public class MeetControllerYj {
 
 	@GetMapping("/listYj.action")
 	public ModelAndView listYj() throws Exception {
-		List<MeetDTOYj> listYj = meetServiceYj.getAllCategories(); // getLists() 대신 getAllCategories() 호출
+		List<MeetDTOYj> listYj = meetServiceYj.getAllCategories();
 
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("listYj", listYj);
@@ -33,9 +33,11 @@ public class MeetControllerYj {
 	public ModelAndView articleYj(HttpServletRequest request) throws Exception {
 		
 		List<MeetDTOYj> meetList = meetServiceYj.getLists();
+		List<MeetDTOYj> meetReview = meetServiceYj.getReview();
 		ModelAndView mav = new ModelAndView();
 
 		mav.addObject("meetList", meetList);
+		mav.addObject("meetReview", meetReview);
 		mav.setViewName("bbs/articleYj");
 		
 		return mav;

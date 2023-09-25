@@ -5,12 +5,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="com.spring.boot.mapper.MeetMapperYj">
 
-<!-- <select id="getLists" parameterType="hashMap" resultType="com.spring.boot.dto.MeetDTOYj">
-	select * from category order by meet_ctgnum asc
-</select> -->
-
 <select id="getAllCategories" resultType="com.spring.boot.dto.MeetDTOYj">
-    select * from category order by meet_ctgnum asc
+    select * from MEET_CATEGORY order by meet_ctgnum asc
 </select>
 
 <select id="getLists" parameterType="hashMap" resultType="com.spring.boot.dto.MeetDTOYj">
@@ -29,11 +25,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     m.meet_date,
     m.meet_list_image
 FROM
-    meet m
+    MEET m
 INNER JOIN
-    category c ON m.meet_ctgnum = c.meet_ctgnum
+    MEET_CATEGORY c ON m.meet_ctgnum = c.meet_ctgnum
 </select>
 
+<select id="getReview" parameterType="hashMap" resultType="com.spring.boot.dto.MeetDTOYj">
+    select * from MEET_REVIEW
+</select>
 
 <!-- <insert id="insertData" parameterType="com.spring.boot.dto.MeetDTOYj">
 	insert into meet (meet_listnum,meet_ctgnum,meet_master,meet_title,meet_content,meet_place,meet_memcnt,meet_max_memcnt,meet_hitcount,meet_like,meet_date,meet_list_image) values (#{meet_listnum},#{meet_ctgnum},#{meet_master},#{meet_title},#{meet_content},#{meet_place},

@@ -13,32 +13,39 @@
 <body>
 
 <div layout:fragment="content">
-    <div style="border: 1px;">
-      <div class="yj-img">
-            <img th:src="@{/image/bbsYj/6666.png}"/>
-            <div class="Main_content" th:each="meet : ${meetList}">
-                <div class="round-image">
-                    <img th:src="@{/image/bbsYj/1111.jpg}"/>
-                </div>
-                <p class="master" th:text="${meet.meet_master}"></p>
-                <br/><br/>
-                <p class="title" th:text="${meet.meet_title}"></p>
+
+    <div class="yj-img">
+        <img th:src="@{/image/bbsYj/6666.png}"/>
+        <div class="Main_content" th:each="meet : ${meetList}">
+            <div class="round-image">
+                <img th:src="@{/image/bbsYj/1111.jpg}"/>
             </div>
-            <div th:each="meet : ${meetList}">
-                <p class="text" th:text="${meet.meet_content}"></p>
-                <br/><br/>
-                <b>자세한 정보</b>
-                <p class="text-with-hyphen" th:text="${meet.meet_place}"></p>
-                <p class="text-with-hyphen" th:text="${meet.meet_date}"></p>
-                <br/><br/><br/>
-                <b>모집 인원</b>
-                <div class="text-container">
-                    <p class="text" th:text="${meet.meet_memcnt}"></p>/
-                    <p class="text" th:text="${meet.meet_max_memcnt}"></p>
-                </div>
+            <p class="Yj-master" th:text="${meet.meet_master}"></p>
+            <p class="Yj-title" th:text="${meet.meet_title}"></p>
+        </div>
+        <div class="main-text" th:each="meet : ${meetList}">
+            <p class="Yj-text1" th:text="${meet.meet_content}"></p>
+
+            <div class="yj-info">상세 정보</div>
+            <p class="text-with-hyphen Yj-text2" th:text="${meet.meet_place}"></p>
+            <p class="text-with-hyphen Yj-text2" th:text="${meet.meet_date}"></p>
+
+            <div class="yj-inwon">모집 인원</div>
+            <div class="text-container">
+                <p class="Yj-text3" th:text="${meet.meet_memcnt}"></p>/
+                <p class="Yj-text3" th:text="${meet.meet_max_memcnt}"></p>
             </div>
+        </div>
     </div>
-</div>
+    <div class="yj-img2">
+        <div class="review-title">모임 후기</div>
+        
+        <!-- <div class="review-content" th:each="MEET_REVIEW : ${meetReview}">
+            <div class="review" th:text="${MEET_REVIEW.meet_review_content}"></div>
+        </div> -->
+        </div>
+    </div>
+
 </div>
 
 </body>
