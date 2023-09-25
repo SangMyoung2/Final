@@ -166,9 +166,8 @@ button.accent {
 
 #chat-page ul li {
     line-height: 1.5rem;
-    padding: 10px 20px;
+    padding: 5px 20px;
     margin: 0;
-    border-bottom: 1px solid #f4f4f4;
 }
 
 #chat-page ul li p {
@@ -190,6 +189,14 @@ button.accent {
 #chat-page .chat-message {
     padding-left: 68px;
     position: relative;
+}
+
+#chat-page .chat-myMessage{
+    padding-left: 68px;
+    position: relative;
+    display: flex;
+    justify-content: right;
+    align-items: center;
 }
 
 #chat-page .chat-message i {
@@ -216,6 +223,16 @@ button.accent {
 
 #chat-page .chat-message p {
     color: #43464b;
+}
+
+.chat-myMessage p {
+    padding: 10px 15px;
+    width: auto;
+    max-width: 350px;
+    color: white;
+    border-radius: 20px;
+    text-align: left;
+    background-color: #128ff2;
 }
 
 #messageForm .input-group input {
@@ -296,4 +313,30 @@ button.accent {
     .chat-header h2 {
         font-size: 1.1em;
     }
+
+    #menu{
+        width: 310px;
+    }
+    button#uploadFile {
+        margin-left: 225px;
+        margin-top: -55px;
+    }
+    input {
+        padding-left: 5px;
+        outline: none;
+        width: 250px;
+        margin-top: 15px;
+    }
+    .btn fa fa-download {
+        background-color: DodgerBlue;
+        border: none;
+        color: white;
+        padding: 12px 30px;
+        cursor: pointer;
+        font-size: 20px;
+    }
+
+    .input-group{width:80.5%}
+    .chat-container{position: relative;}
+    .chat-container .btn-group{position:absolute; bottom:-12px; right:-50px; transform: translate(-50%,-50%);}
 }

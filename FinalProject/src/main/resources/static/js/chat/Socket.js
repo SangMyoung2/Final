@@ -153,25 +153,26 @@ function onMessageReceived(payload) {
     } else { // chatType 이 talk 라면 아래 내용용
         messageElement.classList.add('chat-message');
 
-        var avatarElement = document.createElement('i');
-        var avatarText = document.createTextNode(chat.sender[0]);
-        avatarElement.appendChild(avatarText);
-        avatarElement.style['background-color'] = getAvatarColor(chat.sender);
+        // var avatarElement = document.createElement('i');
+        // var avatarText = document.createTextNode(chat.sender[0]);
+        // avatarElement.appendChild(avatarText);
+        // avatarElement.style['background-color'] = getAvatarColor(chat.sender);
 
-        messageElement.appendChild(avatarElement);
+        // messageElement.appendChild(avatarElement);
 
-        var usernameElement = document.createElement('span');
-        var usernameText = document.createTextNode(chat.sender);
-        usernameElement.appendChild(usernameText);
-        messageElement.appendChild(usernameElement);
+        // var usernameElement = document.createElement('span');
+        // var usernameText = document.createTextNode(chat.sender);
+        // usernameElement.appendChild(usernameText);
+        // messageElement.appendChild(usernameElement);
     }
 
     var textElement = document.createElement('p');
     var messageText = document.createTextNode(chat.message);
     textElement.appendChild(messageText);
-
+    
     messageElement.appendChild(textElement);
-
+    //messageElement.appendChild(messageText);
+    
     messageArea.appendChild(messageElement);
     messageArea.scrollTop = messageArea.scrollHeight;
 }
