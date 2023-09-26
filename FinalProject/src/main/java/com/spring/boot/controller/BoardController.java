@@ -303,7 +303,7 @@ public class BoardController {
 	
 
 
-	@GetMapping("/meetmateList.action")
+	@GetMapping("/meetmateList")
 	public ModelAndView meetmateList() throws Exception{
 		
 		ModelAndView mav = new ModelAndView();
@@ -314,7 +314,7 @@ public class BoardController {
 		
 	}
 
-	@GetMapping("/meetmateWrite.action")
+	@GetMapping("/meetmateWrite")
 	public ModelAndView meetmate() throws Exception{
 		
 		ModelAndView mav = new ModelAndView();
