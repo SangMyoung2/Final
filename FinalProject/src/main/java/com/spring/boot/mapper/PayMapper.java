@@ -6,5 +6,5 @@ import com.spring.boot.dto.PayDTO;
 
 @Mapper
 public interface PayMapper {
-    void insertPayment(PayDTO paymentDTO);
+    void insertPay(PayDTO paymentDTO);
 }

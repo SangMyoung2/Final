@@ -1,32 +1,26 @@
 package com.spring.boot.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.spring.boot.dto.PayDTO;
-import com.spring.boot.mapper.PayMapper;
 
 @Service
 public class PayServiceImpl implements PayService {
 
-    @Autowired
-    private PayMapper payMapper; // PayMapper 주입
-
     @Override
-    @Transactional // 트랜잭션 관리를 위해 @Transactional 어노테이션을 사용합니다.
-    public PayDTO processPayment(PayDTO payDTO) {
-        // 여기에서 실제 결제 처리 로직을 구현합니다.
-        // payDTO를 사용하여 결제를 처리하고 결과를 반환합니다.
+    public boolean processPayment(PayDTO payDTO) {
+        try {
+            // 여기에서 실제 결제 처리 로직을 구현합니다.
 
-        // 결제 처리가 성공하면 결제 상태 업데이트
-        payDTO.setPaymentsStatus("SUCCESS");
+            // 결제 처리가 성공하면 true를 반환하고, 실패하면 false를 반환합니다.
+            // 결제 정보를 데이터베이스에 저장하는 코드를 추가합니다.
 
-        // 결제 정보를 데이터베이스에 저장
-        payMapper.insertPayment(payDTO);
-
-        // 결제 정보를 포함한 DTO를 반환
-        return payDTO;
+            return true; // 결제 성공 시 true 반환
+        } catch (Exception e) {
+            // 결제 실패 시 예외 처리
+            e.printStackTrace();
+            return false; // 결제 실패 시 false 반환
+        }
     }
 
     // 추가적인 결제 관련 메서드를 필요에 따라 정의할 수 있습니다.
