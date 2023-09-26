@@ -170,7 +170,7 @@ button.accent {
     margin: 0;
 }
 
-#chat-page ul li p {
+#chat-page ul li .sendtext {
     margin: 0;
 }
 
@@ -180,15 +180,19 @@ button.accent {
     clear: both;
 }
 
-#chat-page .event-message p {
+#chat-page .event-message .sendtext {
     color: #777;
     font-size: 14px;
     word-wrap: break-word;
 }
 
 #chat-page .chat-message {
-    padding-left: 68px;
-    position: relative;
+    padding-left: 40px;
+    /* position: relative; */
+    display: flex;
+    justify-content: left;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
 #chat-page .chat-myMessage{
@@ -221,14 +225,20 @@ button.accent {
     font-weight: 600;
 }
 
-#chat-page .chat-message p {
-    color: #43464b;
-}
-
-.chat-myMessage p {
+#chat-page .chat-message .sendtext {
     padding: 10px 15px;
     width: auto;
-    max-width: 350px;
+    max-width: 400px;
+    color: white;
+    border-radius: 20px;
+    text-align: left;
+    background-color: #43464b;
+}
+
+.chat-myMessage .sendtext {
+    padding: 10px 15px;
+    width: auto;
+    max-width: 400px;
     color: white;
     border-radius: 20px;
     text-align: left;
@@ -339,4 +349,47 @@ button.accent {
     .input-group{width:80.5%}
     .chat-container{position: relative;}
     .chat-container .btn-group{position:absolute; bottom:-12px; right:-50px; transform: translate(-50%,-50%);}
+}
+
+.balloon_left {
+    position: relative;
+    display: inline-block;
+    max-width: calc(100% - 70px);
+    padding: 10px;
+    margin-top: 7px;
+    margin-left: 20px;
+    border-radius: 10px;
+    font-size: 13px;
+    background-color: #ddd;
+   }
+   .balloon_left:after {
+    position: absolute;
+    display: block;
+    content: "◀";
+    top: 0;
+    left: -15px;
+    font-size: 1.5rem;
+    color: #ddd;
+   }
+
+.balloon_right{
+    position: relative;
+    display: inline-block;
+    max-width: calc(100% - 70px);
+    padding: 10px;
+    margin-top: 7px;
+    margin-left: 20px;
+    border-radius: 10px;
+    font-size: 13px;
+    background-color: #ddd;
+   }
+   .balloon_right:before {
+    position: absolute;
+    display: block;
+    content: "▶";
+    top: 0;
+    right: -15px;
+    font-size: 1.5rem;
+    color: #ddd;
+   
 }

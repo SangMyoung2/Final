@@ -36,6 +36,8 @@ public class ChatController {
     @Autowired
     ChatDAO repository;
 
+    private String userUUID;
+
     // MessageMapping 을 통해 webSocket 로 들어오는 메시지를 발신 처리한다.
     // 이때 클라이언트에서는 /pub/chat/message 로 요청하게 되고 이것을 controller 가 받아서 처리한다.
     // 처리가 완료되면 /sub/chat/room/roomId 로 메시지가 전송된다.
@@ -46,12 +48,12 @@ public class ChatController {
         repository.plusUserRoom(chat.getRoomId());
 
         // 채팅방에 유저 추가 및 UserUUID 반환
-        String userUUID = repository.addUser(chat.getRoomId(), chat.getSender());
+        userUUID = repository.addUser(chat.getRoomId(), chat.getSender());
 
         // 반환 결과를 socket session 에 userUUID 로 저장
         headerAccessor.getSessionAttributes().put("userUUID", userUUID);
         headerAccessor.getSessionAttributes().put("roomId", chat.getRoomId());
-
+        
         chat.setMessage(chat.getSender() + " 님 입장!!");
         
         System.out.println("chat.getRoomId : " + chat.getRoomId());
@@ -62,11 +64,11 @@ public class ChatController {
 
     // 해당 유저
     @MessageMapping("/chat/sendMessage")
-    public void sendMessage(@Payload ChatDTO chat) {
+    public void sendMessage(@Payload ChatDTO chat,SimpMessageHeaderAccessor headerAccessor) {
         System.out.println("chat sendMessage 들어옴...");
-
         log.info("CHAT {}", chat);
         chat.setMessage(chat.getMessage());
+        
         template.convertAndSend("/sub/chat/room/" + chat.getRoomId(), chat);
 
     }

@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ChatDTO {
     public enum MessageType{
-        ENTER, TALK, LEAVE;
+        ENTER, TALK, MYTALK, LEAVE;
     }
 
 
