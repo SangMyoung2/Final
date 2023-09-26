@@ -1,0 +1,149 @@
+
+
+    body {
+    
+        font-family: 'Raleway', sans-serif;
+    }
+    
+    form#login-form {
+        background: #fff;
+        width: 40em;
+        margin: 2em auto;
+        border-radius: 0.3em;
+        box-shadow: 0 0 0.1em #000;
+    }
+    
+    div.heading {
+        background: #5CA8B5;
+        color: #fff;
+        text-align: center;
+        text-transform: uppercase;
+        font-weight: bold;
+        padding: 1.5em;
+        font-size: 1.1em;
+    }
+    
+    div.left {
+        width: 45%;
+        margin: 0px auto;
+        box-sizing: border-box;
+    }
+    
+    div.right {
+        width: 52%;
+        margin: 0px auto;
+        box-sizing: border-box;
+    }
+    
+  
+    
+    div.left label {
+        display: inline-block;
+        color: gray;
+        font-size: 20px;
+        margin-top: 0.6em;
+    }
+    
+    input[type="email"],
+    input[type="password"] {
+        border: 0.1em solid darken(#eee, 6%);
+        padding: 1em;
+        margin: 0.6em 0;
+        width:  116%;
+        margin-left: -20px;
+        border-radius: -0.8em;
+        
+        transition: 0.15s all ease-in-out;
+    }
+    
+    input[type="email"]:focus,
+    input[type="password"]:focus {
+        outline: none;
+        border: 0.1em solid darken(#aaa, 10%);
+    }
+    
+    input[type="submit"] {
+        background: #5CA8B5;
+        color: #fff;
+        outline: none;
+        text-transform: uppercase;
+        padding: 1.2em;
+        overflow: hidden;
+        border: none;
+        letter-spacing: 0.1em;
+        margin: 0.5em 0;
+        font-weight: bold;
+        border-radius: 0.4em;
+        transition: 0.15s all ease-in-out;
+        margin-top: 21px;
+         margin-left: 14px;
+    }
+    
+    button {
+        background: #5CA8B5;
+        color: #fff;
+        outline: none;
+        text-transform: uppercase;
+        padding: 1.2em;
+        overflow: hidden;
+        border: none;
+        letter-spacing: 0.1em;
+        margin: 0.5em 0;
+        font-weight: bold;
+        border-radius: 0.4em;
+        transition: 0.15s all ease-in-out;
+    }
+    
+    input[type="submit"]:hover {
+        background: rgba(#f85f64, 0.8);
+    }
+    
+    div.right div.connect {
+        margin-bottom: 50px;
+        color: gray;
+        font-size: 1.1em;
+        text-align: center;
+    }
+    
+    .naver, .kakao, .google {
+        display: inline-block;
+        font-size: 1.5em;
+        text-decoration: none;
+        color: white;
+        width: 14em;
+        padding: 0.55em 0.3em;
+        clear: both;
+        text-align: center;
+        margin: 0.5em 0.1em;
+        border-radius: 0.3em;
+    }
+    
+    a.naver {
+        background: #39cb60;
+        margin-top: 0.8em;
+        transition: 0.15s all ease-in-out;
+    }
+    
+    a.naver:hover {
+        background: rgba(#3a589a, 0.8);
+    }
+    
+    a.kakao {
+        background: #ccd73b;
+        transition: 0.15s all ease-in-out;
+    }
+    
+    a.kakao:hover {
+        background: rgba(#4099ff, 0.8);
+    }
+    
+    a.google {
+        background: #e9544f;
+        transition: 0.15s all ease-in-out;
+    }
+    
+    a.google:hover {
+        background: rgba(#e9544f, 0.8);
+    }
+    
+    

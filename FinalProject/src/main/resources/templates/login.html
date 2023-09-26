@@ -1,0 +1,62 @@
+<html layout:decorate="~{layout}">
+    <head>
+<meta charset="UTF-8">
+
+<title>가치</title>
+
+
+<link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/login/login.css}"/>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" integrity="sha512-10/jx2EXwxxWqCLX/hHth/vu2KY3jCF70dCQB8TSgNjbCVAC/8vai53GfMDrO2Emgwccf2pJqxct9ehpzG+MTw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+<body>
+
+<div layout:fragment="content">
+    <form th:action="@{/login.action}" method="post"  id="login-form">
+        <div class="heading" style="font-size: 20px;">L O G I N</div>
+        <div class="left">
+          <label for="email">이 메 일</label> <br />
+          <input type="email" name="email" id="email" /> <br />
+          <label for="password">비 밀 번 호</label> <br />
+          <input type="password" name="password" id="pass" /> <br />
+          <input style="width: 230px;" type="submit" value="로 그 인" />
+          <div style="width: 277px;">
+            <a style="color:#0070ff; margin-right: 10px; margin-left: 12px; font-size: 18px;" href="/signup.action">회원가입</a>
+            <a style="color:#0070ff; margin-right: 10px; font-size: 18px;" href="#">아이디 찾기</a>
+            <a style="color:#0070ff; font-size: 18px;" href="/#">비밀번호 찾기</a>
+        </div>
+          
+        </div>
+        <div class="right">
+      
+          <h3 style="margin-left: 100px; font-size: 25px; color: gray;">소셜 로그인</h3>
+          <a href="/oauth2/authorization/naver" class="naver">
+      
+           <i class="fa-solid fa-n"> 네이버</i>
+          </a> <br />
+          <a href="/oauth2/authorization/kakao" class="kakao">
+      
+            <i class="fa-solid fa-k"> 카카오</i>
+          </a> <br />
+          
+          <a href="/oauth2/authorization/google" class="google">
+         
+            <i class="fab fa-google"> 구글</i>
+          </a>
+          <br/><br/>
+          
+        </div>
+      </form>  
+      
+      
+</div>
+
+      <button style="width: 230px; position: fixed; top: 77%; left: 50%; transform: translate(-50%, -50%);" onclick="window.location.href='/join.action'">
+          회원가입
+      </button>
+
+</body>
+</html>
