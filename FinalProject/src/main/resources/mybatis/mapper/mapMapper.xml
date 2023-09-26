@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.spring.boot.mapper.MapMapper">
+
+
+<select id="getLists" parameterType="hashMap" resultType="com.spring.boot.dto.MapDTO">
+	select * from (
+	select rownum rnum, data.* from (
+	select lat,lng,id from latlng
+	order by id desc) data)
+</select>
+
+
+</mapper>
