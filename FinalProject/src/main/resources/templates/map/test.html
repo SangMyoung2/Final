@@ -140,7 +140,27 @@
     var jsonArray = JSON.parse(hiddenData);
 
     // 파싱된 객체를 순회하면서 데이터를 추출
-    for (var i = 0; i < jsonArray.length; i++) {
+    
+
+
+    var bounds = map.getBounds(),
+    southWest = bounds.getSW(),
+    northEast = bounds.getNE(),
+    lngSpan = northEast.lng() - southWest.lng(),
+    latSpan = northEast.lat() - southWest.lat();
+
+        
+    //마커 및 인포 담을 배열 변수
+    var markers = [],
+    infoWindows = [];
+
+
+    var position = new naver.maps.LatLng(
+            southWest.lat() + latSpan,
+            southWest.lng() + lngSpan
+        );
+
+    for (let i = 0; i < jsonArray.length; i++) {
         var data = jsonArray[i];
         var lat = data.lat;
         var lng = data.lng;
@@ -151,24 +171,6 @@
         console.log("lng:", lng);
         console.log("id:", id);
 
-
-        var bounds = map.getBounds(),
-        southWest = bounds.getSW(),
-        northEast = bounds.getNE(),
-        lngSpan = northEast.lng() - southWest.lng(),
-        latSpan = northEast.lat() - southWest.lat();
-
-           
-        //마커 및 인포 담을 배열 변수
-        var markers = [],
-        infoWindows = [];
-
-
-        // 여기에서 데이터를 원하는 방식으로 처리
-        var position = new naver.maps.LatLng(
-            southWest.lat() + latSpan,
-            southWest.lng() + lngSpan
-        );
 
         var marker = new naver.maps.Marker({
             map: map,

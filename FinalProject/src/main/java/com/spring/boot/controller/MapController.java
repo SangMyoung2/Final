@@ -32,7 +32,7 @@ public class MapController {
         
         mav.addObject("jsonArray", jsonArray);
         
-        mav.setViewName("map/test");
+        mav.setViewName("map/fullsize");
 
         return mav;
     }
