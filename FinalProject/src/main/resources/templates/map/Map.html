@@ -14,76 +14,274 @@
         
         <link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/map/examples-base.css}" />
 
+        <!-- 위도 경도 좌표가져오는 모듈 -->
+        <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=YOUR_CLIENT_ID&submodules=geocoder"></script>
+
 <title>가치</title>
 
 <link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/index.css}"/>
 </head>
+
+
 <body>
+
+
+<!-- 여기안으로 작성 -->
+<div layout:fragment="content">
+
+    <!-- @category Geocoder -->
+
+    <style type="text/css">
+        .search { position:absolute;z-index:1000;top:20px;left:20px; }
+        .search #address { width:150px;height:20px;line-height:20px;border:solid 1px #555;padding:5px;font-size:12px;box-sizing:content-box; }
+        .search #submit { height:30px;line-height:30px;padding:0 10px;font-size:12px;border:solid 1px #555;border-radius:3px;cursor:pointer;box-sizing:content-box; }
+    </style>
+
+
+    <!-- 지도 띄우는곳 -->
+    <div id="wrap" class="section">
+        <div id="map" style="width:100%;height:780px;">
+            <div class="search" style="">
+                <input id="address" type="text" placeholder="검색할 주소"/>
+                <input id="submit" type="button" value="주소 검색"/>
+            </div>
+        </div>
+    </div>
+    
+
+
+
+    <script id="code">
+
+
+    var map = new naver.maps.Map("map", {
+        center: new naver.maps.LatLng(37.3595316, 127.1052133),
+        zoom: 18,
+        minZoom: 8, //지도의 최소 줌 레벨
+        zoomControl: true, //줌 컨트롤의 표시 여부
+        zoomControlOptions: { //줌 컨트롤의 옵션
+            position: naver.maps.Position.TOP_RIGHT
+        },
+        mapTypeControl: true
+
+    });
+
+    var $window = $(window);
+
+function getMapSize() {
+    var size = new naver.maps.Size($window.width() - 15, $window.height() - 15);
+
+    return size;
+};
+
+$window.on('resize', function() {
+    map.setSize(getMapSize());
+});
+
+
+
+    //zoom의 변화관리
+    naver.maps.Event.addListener(map, 'zoom_changed', function (zoom) {
+        console.log('zoom:' + zoom);
+    });
+
+    //설정창
+    var infoWindow = new naver.maps.InfoWindow({
+        anchorSkew: true
+    });
+    
+    map.setCursor('pointer');
+    
+
+    //좌표를 주소로 변환
+    function searchCoordinateToAddress(latlng) {
+    
+        infoWindow.close();
+    
+        naver.maps.Service.reverseGeocode({
+            coords: latlng,
+            orders: [
+                naver.maps.Service.OrderType.ADDR,
+                naver.maps.Service.OrderType.ROAD_ADDR
+            ].join(',')
+        }, function(status, response) {
+            if (status === naver.maps.Service.Status.ERROR) {
+                return alert('Something Wrong!');
+            }
+    
+            var items = response.v2.results,
+                address = '',
+                htmlAddresses = [];
+    
+            for (var i=0, ii=items.length, item, addrType; i<ii; i++) {
+                item = items[i];
+                address = makeAddress(item) || '';
+                addrType = item.name === 'roadaddr' ? '[도로명 주소]' : '[지번 주소]';
+    
+                htmlAddresses.push((i+1) +'. '+ addrType +' '+ address);
+            }
+    
+            infoWindow.setContent([
+                '<div style="padding:10px;min-width:200px;line-height:150%;">',
+                '<h4 style="margin-top:5px;">검색 좌표</h4><br />',
+                htmlAddresses.join('<br />'),
+                '</div>'
+            ].join('\n'));
+    
+            infoWindow.open(map, latlng);
+        });
+    }
+    
+
+    //주소를 좌표로 변환
+    function searchAddressToCoordinate(address) {
+        naver.maps.Service.geocode({
+            query: address
+        }, function(status, response) {
+            if (status === naver.maps.Service.Status.ERROR) {
+                return alert('Something Wrong!');
+            }
+    
+            if (response.v2.meta.totalCount === 0) {
+                return alert('주소를 입력하여 주세요.');
+            }
+    
+            var htmlAddresses = [],
+                item = response.v2.addresses[0],
+                point = new naver.maps.Point(item.x, item.y);
+    
+            if (item.roadAddress) {
+                htmlAddresses.push('[도로명 주소] ' + item.roadAddress);
+            }
+    
+            if (item.jibunAddress) {
+                htmlAddresses.push('[지번 주소] ' + item.jibunAddress);
+            }
+    
+            if (item.englishAddress) {
+                htmlAddresses.push('[영문명 주소] ' + item.englishAddress);
+            }
+    
+            infoWindow.setContent([
+                '<div style="padding:10px;min-width:200px;line-height:150%;">',
+                '<h4 style="margin-top:5px;">검색 주소 : '+ address +'</h4><br />',
+                htmlAddresses.join('<br />'),
+                '</div>'
+            ].join('\n'));
+    
+            map.setCenter(point);
+            infoWindow.open(map, point);
+        });
+    }
+    
+    function initGeocoder() {
+        map.addListener('click', function(e) {
+            searchCoordinateToAddress(e.coord);
+        });
+    
+        $('#address').on('keydown', function(e) {
+            var keyCode = e.which;
+    
+            if (keyCode === 13) { // Enter Key
+                searchAddressToCoordinate($('#address').val());
+            }
+        });
+    
+        $('#submit').on('click', function(e) {
+            e.preventDefault();
+    
+            searchAddressToCoordinate($('#address').val());
+        });
+    
+        searchAddressToCoordinate('정자동 178-1');
+    }
+    
+    function makeAddress(item) {
+        if (!item) {
+            return;
+        }
+    
+        var name = item.name,
+            region = item.region,
+            land = item.land,
+            isRoadAddress = name === 'roadaddr';
+    
+        var sido = '', sigugun = '', dongmyun = '', ri = '', rest = '';
+    
+        if (hasArea(region.area1)) {
+            sido = region.area1.name;
+        }
+    
+        if (hasArea(region.area2)) {
+            sigugun = region.area2.name;
+        }
+    
+        if (hasArea(region.area3)) {
+            dongmyun = region.area3.name;
+        }
+    
+        if (hasArea(region.area4)) {
+            ri = region.area4.name;
+        }
+    
+        if (land) {
+            if (hasData(land.number1)) {
+                if (hasData(land.type) && land.type === '2') {
+                    rest += '산';
+                }
+    
+                rest += land.number1;
+    
+                if (hasData(land.number2)) {
+                    rest += ('-' + land.number2);
+                }
+            }
+    
+            if (isRoadAddress === true) {
+                if (checkLastString(dongmyun, '면')) {
+                    ri = land.name;
+                } else {
+                    dongmyun = land.name;
+                    ri = '';
+                }
+    
+                if (hasAddition(land.addition0)) {
+                    rest += ' ' + land.addition0.value;
+                }
+            }
+        }
+    
+        return [sido, sigugun, dongmyun, ri, rest].join(' ');
+    }
+    
+    function hasArea(area) {
+        return !!(area && area.name && area.name !== '');
+    }
+    
+    function hasData(data) {
+        return !!(data && data !== '');
+    }
+    
+    function checkLastString (word, lastString) {
+        return new RegExp(lastString + '$').test(word);
+    }
+    
+    function hasAddition (addition) {
+        return !!(addition && addition.value);
+    }
+    
+    naver.maps.onJSContentLoaded = initGeocoder;
+
+
+
+    </script>
+    
 
     
 
 
 
-<div layout:fragment="content">
 
- 
-
-<!-- @category Map -->
-
-<style type="text/css">
-    #wrap .buttons { position:absolute;top:0;left:0;z-index:1000;padding:5px; }
-    #wrap .buttons .control-btn { margin:0 5px 5px 0; }
-</style>
-<div id="wrap" class="section">
-    <h2>지도 옵션 조정하기</h2>
-    <p>지도의 옵션(지도 인터랙션, 관성 드래깅, 타일 fadeIn 효과, 지도 컨트롤, 최소/최대 줌 레벨)을 설정, 해제하는 예제입니다. 이 예제는 jQuery 구문을 포함하고 있습니다.</p>
-    <p>지도 초기화 시 지도의 인터랙션과 타일 fadeIn 효과는 기본적으로 활성화되어 있습니다. 지도 옵션에 대한 자세한 내용은 {@link naver.maps.MapOptions MapOptions}를 참고하세요.</p>
-    <div id="map" style="width:100%;height:600px;">
-        <div class="buttons">
-            <input id="interaction" type="button" name="지도 인터렉션" value="지도 인터렉션" class="control-btn" />
-            <input id="kinetic" type="button" name="관성 드래깅" value="관성 드래깅" class="control-btn" />
-            <input id="tile-transition" type="button" name="타일 fadeIn 효과" value="타일 fadeIn 효과" class="control-btn" />
-            <input id="controls" type="button" name="모든 지도 컨트롤" value="모든 지도 컨트롤" class="control-btn" />
-            <input id="min-max-zoom" type="button" name="최소/최대 줌 레벨" value="최소/최대 줌 레벨: 10 ~ 21" class="control-btn" />
-        </div>
-    </div>
-    <code id="snippet" class="snippet"></code>
-</div>
-<script id="code">
-//지도 생성 시에 옵션을 지정할 수 있습니다.
-var map = new naver.maps.Map('map', {
-        center: new naver.maps.LatLng(37.3595704, 127.105399), //지도의 초기 중심 좌표
-        zoom: 13, //지도의 초기 줌 레벨
-        minZoom: 7, //지도의 최소 줌 레벨
-        zoomControl: true, //줌 컨트롤의 표시 여부
-        zoomControlOptions: { //줌 컨트롤의 옵션
-            position: naver.maps.Position.TOP_RIGHT
-        }
-    });
-
-//setOptions 메서드를 이용해 옵션을 조정할 수도 있습니다.
-map.setOptions("mapTypeControl", true); //지도 유형 컨트롤의 표시 여부
-
-naver.maps.Event.addListener(map, 'zoom_changed', function (zoom) {
-    console.log('zoom:' + zoom);
-});
-
-map.setOptions('minZoom', 10);
-console.log('잘못된 참조 시점', map.getOptions('minZoom'), map.getOptions('minZoom') === 10);
-
-// 지도의 옵션 참조는 init 이벤트 이후에 참조해야 합니다.
-naver.maps.Event.once(map, 'init', function () {
-    console.log('올바른 참조 시점', map.getOptions('minZoom') === 10);
-});
-
-
-
-
-
-
-
-
-</script>
 
 
 
