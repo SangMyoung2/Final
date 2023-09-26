@@ -22,8 +22,8 @@ public class MeetDTOYj {
     private String meet_memid;
     private int meet_memblack;
 
-    private String review_content;
-    private String review_date;
-    private String review_image;
+    private String meet_review_content;
+    private String meet_review_date;
+    private String meet_review_img;
 
 }

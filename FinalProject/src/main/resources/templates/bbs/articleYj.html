@@ -39,13 +39,19 @@
     </div>
     <div class="yj-img2">
         <div class="review-title">모임 후기</div>
-        
-        <!-- <div class="review-content" th:each="MEET_REVIEW : ${meetReview}">
-            <div class="review" th:text="${MEET_REVIEW.meet_review_content}"></div>
-        </div> -->
+        <div class="review-content"  th:each="meetReview : ${meetReview}">
+            <div class="round-image-rev">
+                <img th:src="@{/image/bbsYj/1111.jpg}"/>
+            </div>
+            <p class="memid" th:text="${meetReview.meet_memid}"></p>
+            <p class="date" th:text="${meetReview.meet_review_date}"></p>
+            <p class="yj-content" th:text="${meetReview.meet_review_content}"></p>
+            <div class="review-img">
+                <img th:src="@{/image/bbsYj/6666.png}"/>
+            </div>
         </div>
     </div>
-
+    
 </div>
 
 </body>
