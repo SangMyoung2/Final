@@ -27,76 +27,477 @@
     </style>
 
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css">
+<link rel="stylesheet" href="https://unpkg.com/css-pro-layout@1.1.0/dist/css/css-pro-layout.css">
 
+  
+<style>
+.layout {
+  z-index: 1;
+}
+.layout .header {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+}
+.layout .content {
+  padding: 12px 50px;
+  display: flex;
+  flex-direction: column;
+}
+.layout .footer {
+  text-align: center;
+  margin-top: auto;
+  margin-bottom: 20px;
+  padding: 20px;
+}
+
+.sidebar {
+  color: #7d84ab;
+  overflow-x: hidden !important;
+  position: relative;
+}
+.sidebar::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+}
+.sidebar:hover::-webkit-scrollbar-thumb {
+  background-color: #1a4173;
+}
+.sidebar::-webkit-scrollbar {
+  width: 6px;
+  background-color: #0c1e35;
+}
+.sidebar .image-wrapper {
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+  display: none;
+}
+.sidebar .image-wrapper > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+.sidebar.has-bg-image .image-wrapper {
+  display: block;
+}
+.sidebar .sidebar-layout {
+  height: auto;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background-color: #0c1e35;
+  z-index: 2;
+}
+.sidebar .sidebar-layout .sidebar-header {
+  height: 100px;
+  min-height: 100px;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+}
+.sidebar .sidebar-layout .sidebar-header > span {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.sidebar .sidebar-layout .sidebar-content {
+  flex-grow: 1;
+  padding: 10px 0;
+}
+
+
+@keyframes swing {
+  0%, 30%, 50%, 70%, 100% {
+    transform: rotate(0deg);
+  }
+  10% {
+    transform: rotate(10deg);
+  }
+  40% {
+    transform: rotate(-10deg);
+  }
+  60% {
+    transform: rotate(5deg);
+  }
+  80% {
+    transform: rotate(-5deg);
+  }
+}
+.layout .sidebar .menu ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+.layout .sidebar .menu .menu-header {
+  font-weight: 600;
+  padding: 10px 25px;
+  font-size: 0.8em;
+  letter-spacing: 2px;
+  transition: opacity 0.3s;
+  opacity: 0.5;
+}
+.layout .sidebar .menu .menu-item a {
+  display: flex;
+  align-items: center;
+  height: 50px;
+  padding: 0 20px;
+  color: #7d84ab;
+}
+.layout .sidebar .menu .menu-item a .menu-icon {
+  font-size: 1.2rem;
+  width: 35px;
+  min-width: 35px;
+  height: 35px;
+  line-height: 35px;
+  text-align: center;
+  display: inline-block;
+  margin-right: 10px;
+  border-radius: 2px;
+  transition: color 0.3s;
+}
+.layout .sidebar .menu .menu-item a .menu-icon i {
+  display: inline-block;
+}
+.layout .sidebar .menu .menu-item a .menu-title {
+  font-size: 0.9em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex-grow: 1;
+  transition: color 0.3s;
+}
+.layout .sidebar .menu .menu-item a .menu-prefix,
+.layout .sidebar .menu .menu-item a .menu-suffix {
+  display: inline-block;
+  padding: 5px;
+  opacity: 1;
+  transition: opacity 0.3s;
+}
+.layout .sidebar .menu .menu-item a:hover .menu-title {
+  color: #dee2ec;
+}
+.layout .sidebar .menu .menu-item a:hover .menu-icon {
+  color: #dee2ec;
+}
+.layout .sidebar .menu .menu-item a:hover .menu-icon i {
+  animation: swing ease-in-out 0.5s 1 alternate;
+}
+.layout .sidebar .menu .menu-item a:hover::after {
+  border-color: #dee2ec !important;
+}
+.layout .sidebar .menu .menu-item.sub-menu {
+  position: relative;
+}
+.layout .sidebar .menu .menu-item.sub-menu > a::after {
+  content: "";
+  transition: transform 0.3s;
+  border-right: 2px solid currentcolor;
+  border-bottom: 2px solid currentcolor;
+  width: 5px;
+  height: 5px;
+  transform: rotate(-45deg);
+}
+.layout .sidebar .menu .menu-item.sub-menu > .sub-menu-list {
+  padding-left: 20px;
+  display: none;
+  overflow: hidden;
+  z-index: 999;
+}
+.layout .sidebar .menu .menu-item.sub-menu.open > a {
+  color: #dee2ec;
+}
+.layout .sidebar .menu .menu-item.sub-menu.open > a::after {
+  transform: rotate(45deg);
+}
+.layout .sidebar .menu .menu-item.active > a .menu-title {
+  color: #dee2ec;
+}
+.layout .sidebar .menu .menu-item.active > a::after {
+  border-color: #dee2ec;
+}
+.layout .sidebar .menu .menu-item.active > a .menu-icon {
+  color: #dee2ec;
+}
+.layout .sidebar .menu > ul > .sub-menu > .sub-menu-list {
+  background-color: #0b1a2c;
+}
+.layout .sidebar .menu.icon-shape-circle .menu-item a .menu-icon, .layout .sidebar .menu.icon-shape-rounded .menu-item a .menu-icon, .layout .sidebar .menu.icon-shape-square .menu-item a .menu-icon {
+  background-color: #0b1a2c;
+}
+.layout .sidebar .menu.icon-shape-circle .menu-item a .menu-icon {
+  border-radius: 50%;
+}
+.layout .sidebar .menu.icon-shape-rounded .menu-item a .menu-icon {
+  border-radius: 4px;
+}
+.layout .sidebar .menu.icon-shape-square .menu-item a .menu-icon {
+  border-radius: 0;
+}
+.layout .sidebar:not(.collapsed) .menu > ul > .menu-item.sub-menu > .sub-menu-list {
+  visibility: visible !important;
+  position: static !important;
+  transform: translate(0, 0) !important;
+}
+.layout .sidebar.collapsed .menu > ul > .menu-header {
+  opacity: 0;
+}
+.layout .sidebar.collapsed .menu > ul > .menu-item > a .menu-prefix,
+.layout .sidebar.collapsed .menu > ul > .menu-item > a .menu-suffix {
+  opacity: 0;
+}
+.layout .sidebar.collapsed .menu > ul > .menu-item.sub-menu > a::after {
+  content: "";
+  width: 5px;
+  height: 5px;
+  background-color: currentcolor;
+  border-radius: 50%;
+  display: inline-block;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  border: none;
+  transform: translateY(-50%);
+}
+.layout .sidebar.collapsed .menu > ul > .menu-item.sub-menu > a:hover::after {
+  background-color: #dee2ec;
+}
+.layout .sidebar.collapsed .menu > ul > .menu-item.sub-menu > .sub-menu-list {
+  transition: none !important;
+  width: 200px;
+  margin-left: 3px !important;
+  border-radius: 4px;
+  display: block !important;
+}
+.layout .sidebar.collapsed .menu > ul > .menu-item.active > a::after {
+  background-color: #dee2ec;
+}
+.layout .sidebar.has-bg-image .menu.icon-shape-circle .menu-item a .menu-icon, .layout .sidebar.has-bg-image .menu.icon-shape-rounded .menu-item a .menu-icon, .layout .sidebar.has-bg-image .menu.icon-shape-square .menu-item a .menu-icon {
+  background-color: rgba(11, 26, 44, 0.6);
+}
+.layout .sidebar.has-bg-image:not(.collapsed) .menu > ul > .sub-menu > .sub-menu-list {
+  background-color: rgba(11, 26, 44, 0.6);
+}
+.layout.rtl .sidebar .menu .menu-item a .menu-icon {
+  margin-left: 10px;
+  margin-right: 0;
+}
+.layout.rtl .sidebar .menu .menu-item.sub-menu > a::after {
+  transform: rotate(135deg);
+}
+.layout.rtl .sidebar .menu .menu-item.sub-menu > .sub-menu-list {
+  padding-left: 0;
+  padding-right: 20px;
+}
+.layout.rtl .sidebar .menu .menu-item.sub-menu.open > a::after {
+  transform: rotate(45deg);
+}
+.layout.rtl .sidebar.collapsed .menu > ul > .menu-item.sub-menu a::after {
+  right: auto;
+  left: 10px;
+}
+.layout.rtl .sidebar.collapsed .menu > ul > .menu-item.sub-menu > .sub-menu-list {
+  margin-left: -3px !important;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  height: 100vh;
+  font-family: "Poppins", sans-serif;
+  color: #3f4750;
+  font-size: 0.9rem;
+}
+
+a {
+  text-decoration: none;
+}
+
+@media (max-width: 576px) {
+  #btn-collapse {
+    display: none;
+  }
+}
+.layout .sidebar .pro-sidebar-logo {
+  display: flex;
+  align-items: center;
+}
+.layout .sidebar .pro-sidebar-logo > div {
+  width: 35px;
+  min-width: 35px;
+  height: 35px;
+  min-height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  color: white;
+  font-size: 24px;
+  font-weight: 700;
+  background-color: #ff8100;
+  margin-right: 10px;
+}
+.layout .sidebar .pro-sidebar-logo > h5 {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 20px;
+  line-height: 30px;
+  transition: opacity 0.3s;
+  opacity: 1;
+}
+.layout .sidebar .footer-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 0.8em;
+  padding: 20px 0;
+  border-radius: 8px;
+  width: 180px;
+  min-width: 190px;
+  margin: 0 auto;
+  background-color: #162d4a;
+}
+.layout .sidebar .footer-box img.react-logo {
+  width: 40px;
+  height: 40px;
+  margin-bottom: 10px;
+}
+.layout .sidebar .footer-box a {
+  color: #fff;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+.layout .sidebar .sidebar-collapser {
+  transition: left, right, 0.3s;
+  position: fixed;
+  left: 260px;
+  top: 40px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #00829f;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2em;
+  transform: translateX(50%);
+  z-index: 111;
+  cursor: pointer;
+  color: white;
+  box-shadow: 1px 1px 4px #0c1e35;
+}
+.layout .sidebar.collapsed .pro-sidebar-logo > h5 {
+  opacity: 0;
+}
+.layout .sidebar.collapsed .footer-box {
+  display: none;
+}
+.layout .sidebar.collapsed .sidebar-collapser {
+  left: 60px;
+}
+.layout .sidebar.collapsed .sidebar-collapser i {
+  transform: rotate(180deg);
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.25em 0.4em;
+  font-size: 75%;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 0.25rem;
+  color: #fff;
+  background-color: #6c757d;
+}
+.badge.primary {
+  background-color: #ab2dff;
+}
+.badge.secondary {
+  background-color: #079b0b;
+}
+
+.sidebar-toggler {
+  position: fixed;
+  right: 20px;
+  top: 20px;
+}
+
+.social-links a {
+  margin: 0 10px;
+  color: #3f4750;
+}
+</style>
 
 
 </head>
 
-<body>
+<body translate="no">
 
 <!-- @category Overlay/Marker -->
 
 <!-- 맵출력 객체 -->
 <div id="map" style="width:100%;height:100%;">
-
     <input type="hidden" id="hiddenData" th:value="${jsonArray}"/>
+
+
+    <div class="layout has-sidebar fixed-sidebar fixed-header">
+        <aside id="sidebar" class="sidebar break-point-sm has-bg-image">
+          <a id="btn-collapse" class="sidebar-collapser"><i class="ri-arrow-left-s-line"></i></a>
+
+          <div class="sidebar-layout">
+            <div class="sidebar-header">
+              <div class="pro-sidebar-logo">
+                <div>로</div>
+                <h5>GATCHI</h5>
+              </div>
+            </div>
+
+            <div class="sidebar-content">
+
+
+            </div>
+          </div>
+        </aside>
+      </div>
 </div>
+
 
 <script id="code">
 var HOME_PATH = window.HOME_PATH || '.';
 
-// var MARKER_SPRITE_X_OFFSET = 29,
-//     MARKER_SPRITE_Y_OFFSET = 50,
-//     MARKER_SPRITE_POSITION = {
-//         "A0": [0, 0],
-//         "B0": [MARKER_SPRITE_X_OFFSET, 0],
-//         "C0": [MARKER_SPRITE_X_OFFSET*2, 0],
-//         "D0": [MARKER_SPRITE_X_OFFSET*3, 0],
-//         "E0": [MARKER_SPRITE_X_OFFSET*4, 0],
-//         "F0": [MARKER_SPRITE_X_OFFSET*5, 0],
-//         "G0": [MARKER_SPRITE_X_OFFSET*6, 0],
-//         "H0": [MARKER_SPRITE_X_OFFSET*7, 0],
-//         "I0": [MARKER_SPRITE_X_OFFSET*8, 0],
-
-//         "A1": [0, MARKER_SPRITE_Y_OFFSET],
-//         "B1": [MARKER_SPRITE_X_OFFSET, MARKER_SPRITE_Y_OFFSET],
-//         "C1": [MARKER_SPRITE_X_OFFSET*2, MARKER_SPRITE_Y_OFFSET],
-//         "D1": [MARKER_SPRITE_X_OFFSET*3, MARKER_SPRITE_Y_OFFSET],
-//         "E1": [MARKER_SPRITE_X_OFFSET*4, MARKER_SPRITE_Y_OFFSET],
-//         "F1": [MARKER_SPRITE_X_OFFSET*5, MARKER_SPRITE_Y_OFFSET],
-//         "G1": [MARKER_SPRITE_X_OFFSET*6, MARKER_SPRITE_Y_OFFSET],
-//         "H1": [MARKER_SPRITE_X_OFFSET*7, MARKER_SPRITE_Y_OFFSET],
-//         "I1": [MARKER_SPRITE_X_OFFSET*8, MARKER_SPRITE_Y_OFFSET],
-
-//         "A2": [0, MARKER_SPRITE_Y_OFFSET*2],
-//         "B2": [MARKER_SPRITE_X_OFFSET, MARKER_SPRITE_Y_OFFSET*2],
-//         "C2": [MARKER_SPRITE_X_OFFSET*2, MARKER_SPRITE_Y_OFFSET*2],
-//         "D2": [MARKER_SPRITE_X_OFFSET*3, MARKER_SPRITE_Y_OFFSET*2],
-//         "E2": [MARKER_SPRITE_X_OFFSET*4, MARKER_SPRITE_Y_OFFSET*2],
-//         "F2": [MARKER_SPRITE_X_OFFSET*5, MARKER_SPRITE_Y_OFFSET*2],
-//         "G2": [MARKER_SPRITE_X_OFFSET*6, MARKER_SPRITE_Y_OFFSET*2],
-//         "H2": [MARKER_SPRITE_X_OFFSET*7, MARKER_SPRITE_Y_OFFSET*2],
-//         "I2": [MARKER_SPRITE_X_OFFSET*8, MARKER_SPRITE_Y_OFFSET*2]
-//     };
-
-
-    var hiddenData = document.getElementById("hiddenData").value;
-
-    var jsonArray = JSON.parse(hiddenData);
-
+// 데이터 받기
+var hiddenData = document.getElementById("hiddenData").value;
+var jsonArray = JSON.parse(hiddenData);
 
 
 
 var map = new naver.maps.Map('map', {
-    center: new naver.maps.LatLng(37.3595704, 127.105399),
-    zoom: 10
+    zoom: 15,
+    minZoom: 8, //지도의 최소 줌 레벨
+    zoomControl: true, //줌 컨트롤의 표시 여부
+    zoomControlOptions: { //줌 컨트롤의 옵션
+        position: naver.maps.Position.TOP_RIGHT
+    },
+    mapTypeControl: true
 });
-
-var bounds = map.getBounds(),
-    southWest = bounds.getSW(),
-    northEast = bounds.getNE(),
-    lngSpan = northEast.lng() - southWest.lng(),
-    latSpan = northEast.lat() - southWest.lat();
 
 var markers = [],
     infoWindows = [];
@@ -104,6 +505,9 @@ var markers = [],
 
 for (var key in jsonArray) {
 
+    //넘어오는 데이터 확인
+
+    console.log(key)
     console.log(jsonArray[key].lat)
     console.log(jsonArray[key].lng)
 
@@ -117,16 +521,28 @@ for (var key in jsonArray) {
         position: position,
         title: key,
         icon: {
-            url: HOME_PATH +'',
-            size: new naver.maps.Size(24, 37),
-            anchor: new naver.maps.Point(12, 37),
+            url: HOME_PATH +'/image/map/logo_200x200.png',
+            size: new naver.maps.Size(50, 52),
             origin: new naver.maps.Point(jsonArray[key].lat, jsonArray[key].lng)
         },
         zIndex: 100
     });
 
+
+    var contentString = [
+        '<div class="iw_inner">',
+        '   <h3>모임명'+ key +'</h3>',
+        '   <p>모임주소 : 서울특별시 중구 태평로1가 31<br />',
+        '       <img src="'+ HOME_PATH +'/image/map/marker-default.png" width="55" height="55" alt="서울시청" class="thumb" /><br />',
+        '       02-120 | 공공,사회기관 &gt; 특별,광역시청<br />',
+        '       <a href="#" target="_blank">www.seoul.go.kr/</a>',
+        '   </p>',
+        '</div>'
+    ].join('');
+
+
     var infoWindow = new naver.maps.InfoWindow({
-        content: '<div style="width:150px;text-align:center;padding:10px;">The Letter is <b>"'+ key.substr(0, 1) +'"</b>.</div>'
+        content: contentString
     });
 
     markers.push(marker);
@@ -187,6 +603,182 @@ for (var i=0, ii=markers.length; i<ii; i++) {
 </script>
 
 
+
+
+
+<script>
+var infowindow = new naver.maps.InfoWindow({
+    borderWidth: 0,
+    disableAnchor: true,
+    backgroundColor: 'transparent'
+});
+
+function onSuccessGeolocation(position) {
+    var location = new naver.maps.LatLng(position.coords.latitude,
+                                         position.coords.longitude);
+
+
+
+
+    map.setCenter(location); // 얻은 좌표를 지도의 중심으로 설정합니다.
+    map.setZoom(15); // 지도의 줌 레벨을 변경합니다.
+
+    
+
+
+
+    var contentString = [
+        
+    ].join('');
+
+
+    infowindow.setContent('<img src="'+ HOME_PATH +'/image/map/marker-default.png"/>');
+
+    infowindow.open(map, location);
+    console.log('Coordinates: ' + location.toString());
+}
+
+function onErrorGeolocation() {
+    var center = map.getCenter();
+
+    infowindow.setContent('<div style="padding:20px;">' +
+        '<h5 style="margin-bottom:5px;color:#f00;">위치정보를 불러올 수 없습니다.</h5>'+ "latitude: "+ center.lat() +"<br />longitude: "+ center.lng() +'</div>');
+
+    infowindow.open(map, center);
+}
+
+$(window).on("load", function() {
+    if (navigator.geolocation) {
+        /**
+         * navigator.geolocation 은 Chrome 50 버젼 이후로 HTTP 환경에서 사용이 Deprecate 되어 HTTPS 환경에서만 사용 가능 합니다.
+         * http://localhost 에서는 사용이 가능하며, 테스트 목적으로, Chrome 의 바로가기를 만들어서 아래와 같이 설정하면 접속은 가능합니다.
+         * chrome.exe --unsafely-treat-insecure-origin-as-secure="http://example.com"
+         */
+        navigator.geolocation.getCurrentPosition(onSuccessGeolocation, onErrorGeolocation);
+    } else {
+        var center = map.getCenter();
+        infowindow.setContent('<div style="padding:20px;"><h5 style="margin-bottom:5px;color:#f00;">Geolocation not supported</h5></div>');
+        infowindow.open(map, center);
+    }
+});
+</script>
+
+
+<script id="rendered-js">
+    function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}const ANIMATION_DURATION = 300;
+    
+    const SIDEBAR_EL = document.getElementById("sidebar");
+    
+  
+    
+    
+    const FIRST_SUB_MENUS_BTN = document.querySelectorAll(
+    ".menu > ul > .menu-item.sub-menu > a");
+    
+    
+    const INNER_SUB_MENUS_BTN = document.querySelectorAll(
+    ".menu > ul > .menu-item.sub-menu .menu-item.sub-menu > a");
+    
+    
+    class PopperObject {
+    
+    
+    
+    
+      constructor(reference, popperTarget) {_defineProperty(this, "instance", null);_defineProperty(this, "reference", null);_defineProperty(this, "popperTarget", null);
+        this.init(reference, popperTarget);
+      }
+    
+      init(reference, popperTarget) {
+        this.reference = reference;
+        this.popperTarget = popperTarget;
+        this.instance = Popper.createPopper(this.reference, this.popperTarget, {
+          placement: "right",
+          strategy: "fixed",
+          resize: true,
+          modifiers: [
+          {
+            name: "computeStyles",
+            options: {
+              adaptive: false } },
+    
+    
+          {
+            name: "flip",
+            options: {
+              fallbackPlacements: ["left", "right"] } }] });
+    
+    
+    
+    
+    
+        document.addEventListener(
+        "click",
+        e => this.clicker(e, this.popperTarget, this.reference),
+        false);
+    
+    
+        const ro = new ResizeObserver(() => {
+          this.instance.update();
+        });
+    
+        ro.observe(this.popperTarget);
+        ro.observe(this.reference);
+      }
+    
+      clicker(event, popperTarget, reference) {
+        if (
+        SIDEBAR_EL.classList.contains("collapsed") &&
+        !popperTarget.contains(event.target) &&
+        !reference.contains(event.target))
+        {
+          this.hide();
+        }
+      }
+    
+      hide() {
+        this.instance.state.elements.popper.style.visibility = "hidden";
+      }}
+    
+    
+  
+  
+    class Poppers {}
+  
+    const PoppersInstance = new Poppers();
+    
+    /**
+     * wait for the current animation to finish and update poppers position
+     */
+    const updatePoppersTimeout = () => {
+      setTimeout(() => {
+      }, ANIMATION_DURATION);
+    };
+    
+    /**
+     * sidebar collapse handler
+     */
+    document.getElementById("btn-collapse").addEventListener("click", () => {
+      SIDEBAR_EL.classList.toggle("collapsed");
+      
+      if (SIDEBAR_EL.classList.contains("collapsed"))
+      FIRST_SUB_MENUS_BTN.forEach(element => {
+        element.parentElement.classList.remove("open");
+      });
+    
+      updatePoppersTimeout();
+    });
+    
+    
+  
+    
+  
+    
+   
+    
+  
+  
+        </script>
 
 </body>
 </html>
