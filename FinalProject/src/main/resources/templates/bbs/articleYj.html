@@ -15,6 +15,23 @@
 
 <div layout:fragment="content">
 
+    <div class="d-flex justify-content-center" style="margin-bottom: -50px;">
+        <div class="btn-group" role="group" aria-label="Basic radio toggle button group" style="width: 800px;">
+            <!-- 홈 버튼 -->
+            <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
+            <label class="btn btn-link" for="btnradio1" onclick="showHomeContent()">
+                <span style="color: black; text-decoration: none;">홈</span>
+            </label>
+    
+            <!-- 리뷰 버튼 -->
+            <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
+            <label class="btn btn-link" for="btnradio2" onclick="showReviewContent()">
+                <span style="color: black; text-decoration: none;">리뷰</span>
+            </label>
+        </div>
+    </div>
+    
+    
     
 
     <div class="yj-img">
@@ -67,6 +84,21 @@
             </div>
         </div>
 </div>
+<script>
+    // 홈 내용 표시 함수
+    function showHomeContent() {
+        document.querySelector('.yj-img').style.display = 'block';
+        document.querySelector('.yj-img2').style.display = 'none';
+    }
+    
+    // 리뷰 내용 표시 함수
+    function showReviewContent() {
+        document.querySelector('.yj-img').style.display = 'none';
+        document.querySelector('.yj-img2').style.display = 'block';
+    }
+    </script>
 
 </body>
+
+
 </html>

@@ -8,6 +8,8 @@
     position: relative;
     background-color: #f4f4f4;
     max-width: 800px;
+    display: block;
+    margin-top: 50px;
 }
 
 .yj-img2 {
@@ -20,6 +22,8 @@
     position: relative;
     background-color: #E4EEF7;
     max-width: 800px;
+    display: none;
+    margin-top: 50px;
 }
 
 .yj-img img {
@@ -151,6 +155,7 @@
 }
 
 .review-title {
+    text-align: center;
     padding-top: 70px;
     padding-bottom: 10px;
     font-size: 20px;
@@ -159,6 +164,7 @@
 }
 
 .review-sub {
+    text-align: center;
     padding-bottom: 60px;
     font-size: 15px;
     color: #AAAAAA;
@@ -265,4 +271,13 @@
 /* 버튼 아이콘 스타일 (예시로 가입 아이콘 사용) */
 .icon {
     margin-right: 8px; /* 아이콘과 텍스트 사이 여백 조정 */
+}
+
+
+
+
+
+.btn-link {
+    color: #000; /* 글씨 색을 검정색(#000)으로 설정 */
+    text-decoration: none; /* 밑줄 제거 */
 }
