@@ -18,6 +18,9 @@ html, html * {
 	-webkit-user-drag: none;
 	-webkit-user-select: none;
 	-ms-user-select: none;
+    /* 연속되는 영어 or 숫자 줄바꿈 지정 */
+    word-wrap:break-word;
+    word-break:break-all;
 }
 
 html, body {

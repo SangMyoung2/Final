@@ -54,7 +54,7 @@ public class ChatController {
         headerAccessor.getSessionAttributes().put("userUUID", userUUID);
         headerAccessor.getSessionAttributes().put("roomId", chat.getRoomId());
         
-        chat.setMessage(chat.getSender() + " 님 입장!!");
+        chat.setMessage(chat.getSender() + " 님 환영합니다!!");
         
         System.out.println("chat.getRoomId : " + chat.getRoomId());
 

@@ -136,6 +136,7 @@ function sendMessage(event) {
 // 넘어온 JSON 형식의 메시지를 parse 해서 사용한다.
 var isSendCaht = false;
 var isReciveChat = false;
+var sendUser;
 
 function onMessageReceived(payload) {
     console.log(payload);
@@ -171,10 +172,13 @@ function onMessageReceived(payload) {
         
     }
     else{
-        if(isReciveChat == false){
+        if(chat.sender !== sendUser || isReciveChat===false){
+            sendUser = chat.sender;
             messageElement.classList.add('chat-message');
 
-            var avatarElement = document.createElement('i');
+            var avatarElement = document.createElement('img');
+            avatarElement.src="http://localhost:8080/image/chat/none.png"
+            
             var avatarText = document.createTextNode(chat.sender[0]);
             avatarElement.appendChild(avatarText);
             avatarElement.style['background-color'] = getAvatarColor(chat.sender);
