@@ -46,7 +46,6 @@ public class FinalProjectApplication {
 		
 		//위에 주석대신 이렇게 작성도 가능함
 		sessionFactory.setMapperLocations(applicationContext.getResources("classpath:mybatis/mapper/*.xml"));
-		
 		return sessionFactory.getObject();
 		
 	}
