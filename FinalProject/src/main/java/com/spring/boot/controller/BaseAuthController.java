@@ -1,5 +1,7 @@
 package com.spring.boot.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -7,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.boot.dto.SessionUser;
+import com.spring.boot.dto.SignupDTO;
 import com.spring.boot.service.LoginUser;
 
 @Controller
@@ -50,14 +53,16 @@ public class BaseAuthController {
 
 
 	@GetMapping("/signup_ok.action")
-	public String signup_ok(@RequestParam("isAuthenticated") boolean isAuthenticated) {
-        if (isAuthenticated) {
-            // isAuthenticated가 true일 때의 로직을 수행
-            return "success-page"; // 성공 페이지로 이동
-        } else {
-            // isAuthenticated가 false일 때의 로직을 수행
-            return "failure-page"; // 실패 페이지로 이동
-        }
+	public ModelAndView signup_ok(@RequestParam("isAuthenticated")
+	 boolean isAuthenticated,SignupDTO dto,HttpServletRequest req) {
+       
+		
+		ModelAndView mav = new ModelAndView();
+		
+		mav.setViewName("signup_ok");
+		
+		return mav;
+		
     }
 
 	

@@ -8,19 +8,25 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 <link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/login/signup.css}"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<script type="text/javascript" src="js/util.js"></script>
+
+
 
 </head>
 <body>
-
-<div layout:fragment="content">
+<div class="container">
+<div layout:fragment="content" >
+  <br/><br/><br/><br/><br/>
+  
+  <div class="container">
     <div class="row">
-        <form class="col s12" name="myForm">
-          <div class="row">
-             <div class="input-field col s12">
+        <form  name="myForm">
+          <div class="row" >
+             <div class="input-field col s12" >
               <input id="name" type="text" class="validate" required>
-              <label for="name">이름</label>
+              <label style="font-size: 23px;" for="name" >이름</label>
+              <div id="nameErrorMessage" style="display: none;">
+                <p style='color: red; font-size: 18px;'>이름을 입력하세요</p>
+             </div>
             </div>
             
            
@@ -28,7 +34,13 @@
           <div class="row">
             <div class="input-field col s12">
               <input id="email" type="email" class="validate" required>
-              <label for="email">이메일</label>
+              <label style="font-size: 23px;" for="email">이메일</label>
+              <div id="emailErrorMessage" style="display: none;">
+                <p style='color: red; font-size: 18px;'>이메일을 입력하세요</p>
+             </div>
+             <div id="mailErrorMessage" style="display: none;">
+              <p style='color: red; font-size: 18px;'>정상적인 이메일을 입력하세요</p>
+           </div>
             </div>
           </div>
           
@@ -38,47 +50,71 @@
           <div class="row">
             <div class="input-field col s12">
               <input id="password" type="password" class="validate" minlength="6" required>
-              <label for="password">비밀번호(6자리 이상)</label>
+              <label style="font-size: 23px;" for="password">비밀번호(6자리 이상)</label>
+              <div id="ErrorMessage" style="display: none;">
+                <p style='color: red; font-size: 18px;'>비밀번호를 6자리 이상 입력 하세요</p>
+             </div>
             </div>
           </div>
           
           <div class="row">
             <div class="input-field col s12">
               <input id="password2" type="password" class="validate" minlength="6" required>
-              <label for="password2">비밀번호 확인</label>
+              <label style="font-size: 23px;" for="password2">비밀번호 확인</label>
+              <div id="pwdErrorMessage" style="display: none;">
+                <p style='color: red; font-size: 18px;'>비밀번호 확인 칸을 입력 하세요</p>
+             </div>
+             <div id="pwdErrorMessage2" style="display: none;">
+              <p style='color: red; font-size: 18px;'>비밀번호와 비밀번호 확인이 일치하지 않습니다.</p>
+           </div>
             </div>
           </div>
           
           <div class="row">
             <div class="input-field col s12">
               <input  id="to" name="to" type="text" >
-              <label for="to" >휴대전화 번호</label>
+              <label style="font-size: 23px;" for="to" >휴대전화 번호</label>
+              <div id="pErrorMessage" style="display: none;">
+                <p style='color: red; font-size: 18px;' >휴대전화 번호를 입력해 주세요</p>
+             </div>
+             <div id="okMessage" style="display: none;">
+              <p style='color: red; font-size: 18px;' >인증 번호가 전송 되었습니다</p>
+           </div>
             
               <button style="height: 47px; line-height: 49px;" 
               class="btn btn-large btn-register waves-effect waves-light" type="button" id="send">인증번호 전송</button>
+              <br/> <br/>
+              <div id="telErrorMessage" style="display: none;">
+                <p style='color: red; font-size: 18px;' >휴대전화 인증을 진행해 주세요</p>
+             </div>
               <br/>
               <br/>
     
-              <div class="row">
+              <div class="row" id="secondBlock" style="display: none;">
                 <div class="input-field col s12">
               <input type="text" id="userNum">   
-              <label for="to" >인증 번호</label>
+              <label style="font-size: 23px;" for="to" >인증 번호</label>
                   <button style="height: 37px; line-height: 34px;"  class="btn btn-large btn-register waves-effect waves-light" type="button" id="enterBtn">확인</button>
-       
+                  <div id="MessageOk" style="display: none;">
+                    <p style='color: red; font-size: 18px;' >인증이 완료 되었습니다</p>
+                 </div>
+                 <div id="failMessage" style="display: none;">
+                  <p style='color: red; font-size: 18px;' >인증 번호가 일치 하지 않습니다</p>
+               </div>
+
             </div>
           </div>
           
-          
-          
-          
-             
-    
+        </div>
+
             <div class="row">
       <div class="input-field col s6">
         <button class="btn btn-large btn-register waves-effect waves-light" type="button" onclick="join();">회원가입</button>
       </div>
       <div class="input-field col s6">
-        <a href="/login.action" style="height: 54px; line-height: 55px; margin-left: 0px;" class="btn btn-large btn-register waves-effect waves-light">가입 취소</a>
+
+        <button class="btn btn-large btn-register waves-effect waves-light" type="button" onclick="window.location.href='/login.action'">가입취소</button>
+        
       </div>
     </div>
      </form>
@@ -86,147 +122,13 @@
            
           </div>
       
-      
-      
+         
+          <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+          <script type="text/javascript" src="js/util.js"></script>
+          <script type="text/javascript" src="http://localhost:8080/js/signup/signup.js"></script>
 </div>
 
+<br/><br/><br/><br/><br/><br/><br/>
 
 </body>
-
-
-<script type="text/javascript">
-    const join = () => {
-           
-           f = document.myForm;
-       
-           
-           str = f.name.value;
-           str = str.trim(); 
-           if(!str){
-               alert("\n이름을 입력하세요");
-               f.name.focus();
-               return;
-           }
-   
-   
-       str = f.email.value;
-           str = str.trim(); 
-           if(!str){
-               alert("\n이메일을 입력하세요");
-               f.email.focus();
-               return;
-           }
-      
-       
-           if(f.email.value){
-               if(!isValidEmail(f.email.value)){
-                   alert("\n정상적인 E-Mail주소를 입력하세요");
-                   f.email.focus();
-                   return;
-               }
-   
-           }
-           
-           str = f.password.value;
-           str = str.trim(); 
-           if(!str){
-               alert("\n비밀번호를 입력 하세요");
-               f.password.focus();
-               return;
-           }
-           f.password.value = str;
-           
-           str = f.password2.value;
-           str = str.trim(); 
-           if(!str){
-               alert("\n비밀번호 확인 칸을 입력 하세요");
-               f.password2.focus();
-               return;
-           }
-           f.password2.value = str;
-   
-   
-       if (f.password.value !== f.password2.value) {
-       alert("\n비밀번호와 비밀번호 확인이 일치하지 않습니다.");
-       f.password2.focus();
-       return;
-       }
-       
-   
-       str = f.to.value;
-           str = str.trim(); 
-           if(!str){
-               alert("\n휴대전화 인증은 필수 입니다");
-               f.to.focus();
-               return;
-           }
-           
-   
-   
-       f.action = "/signup_ok.action";
-           f.submit();
-   
-   };
-     </script>
-   
-   <script type="text/javascript">
-   
-   let checkNum;
-   let isAuthenticated = false;
-   
-   $('#send').click(function() {
-       const to = $('#to').val();
-   
-       if (!to) {
-           alert('휴대전화 번호를 입력하세요.');
-           return;
-       }
-   
-       $.ajax({
-           url: '/sendSMS',
-           type: 'GET',
-           data: {
-               "to": to
-           },
-           success: function(data) {
-               // 서버에서 받은 데이터를 checkNum 변수에 할당
-               checkNum = data;
-               alert('인증번호가 전송되었습니다.');
-           },
-           error: function() {
-               alert('문자 전송에 실패하였습니다.');
-           }
-       });
-   });
-   
-   $('#enterBtn').click(function() {
-       const userNum = $('#userNum').val();
-   
-       if (checkNum === userNum) {
-           alert('인증 성공하였습니다.');
-           isAuthenticated = true;
-   
-   
-   
-           $.ajax({
-               url: '/signup_ok.action',
-               type: 'GET',
-               data: { isAuthenticated: isAuthenticated },
-               success: function(response) {
-                   
-                   
-               },
-               error: function(error) {
-                  
-                   console.error(error);
-               }
-           });
-   
-       } else {
-           alert('인증 실패하였습니다. 다시 입력해주세요.');
-           isAuthenticated = false;
-       }
-   });
-   
-     </script>
 </html>
