@@ -4,6 +4,13 @@
 
 <title>아티클</title>
 
+
+<style>
+footer{
+    position: static !important;
+}
+</style>
+
 <link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/index.css}"/>
 <link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/bbsYj/articleYj.css}"/>
 <link rel="icon" type="image/png" th:href="@{http://localhost:8080/image/Icon2-removebg.png}"/>
@@ -15,18 +22,20 @@
 
 <div layout:fragment="content">
 
-    <div class="d-flex justify-content-center" style="margin-bottom: -50px;">
-        <div class="btn-group" role="group" aria-label="Basic radio toggle button group" style="width: 800px;">
+    <div class="text-center">
+        <div class="btn-group" role="group" aria-label="Basic radio toggle button group" style="width: 800px; margin-bottom: 5px; margin-top: 20px;">
             <!-- 홈 버튼 -->
             <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
-            <label class="btn btn-link" for="btnradio1" onclick="showHomeContent()">
-                <span style="color: black; text-decoration: none;">홈</span>
+            <label class="btn btn-custom" for="btnradio1" onclick="showHomeContent()">
+                <span style="color: black;">홈</span>
+                <div class="underline"></div> <!-- 밑줄 요소 추가 -->
             </label>
-    
+        
             <!-- 리뷰 버튼 -->
             <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
-            <label class="btn btn-link" for="btnradio2" onclick="showReviewContent()">
-                <span style="color: black; text-decoration: none;">리뷰</span>
+            <label class="btn btn-custom" for="btnradio2" onclick="showReviewContent()">
+                <span style="color: black;">리뷰</span>
+                <div class="underline"></div> <!-- 밑줄 요소 추가 -->
             </label>
         </div>
     </div>
@@ -83,19 +92,26 @@
                 </div>
             </div>
         </div>
+        
+        
 </div>
 <script>
-    // 홈 내용 표시 함수
-    function showHomeContent() {
+   // 홈 내용 표시 함수
+   function showHomeContent() {
         document.querySelector('.yj-img').style.display = 'block';
         document.querySelector('.yj-img2').style.display = 'none';
+        
+        document.querySelector('#btnradio1 .underline').style.left = '50%';
     }
-    
+
     // 리뷰 내용 표시 함수
     function showReviewContent() {
         document.querySelector('.yj-img').style.display = 'none';
         document.querySelector('.yj-img2').style.display = 'block';
+
+        document.querySelector('#btnradio2 .underline').style.left = '50%';
     }
+
     </script>
 
 </body>
