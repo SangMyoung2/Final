@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.spring.boot.mapper.PaymentMapper">
+
+    <!-- 결제 정보를 데이터베이스에 추가하는 SQL -->
+    <insert id="insertPaymentInfo" parameterType="com.spring.boot.dto.PaymentInfoDTO">
+        INSERT INTO PAYMENT_INFO (paid_amount, paid_at, card_name, card_number, apply_num, name, status) VALUES (#{paid_amount}, #{paid_at}, #{card_name}, #{card_number}, #{apply_num}, #{name}, #{status})
+    </insert>
+
+    <!-- 추가적인 결제 관련 SQL 문장을 작성할 수 있습니다. -->
+
+</mapper>

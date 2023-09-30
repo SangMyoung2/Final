@@ -16,27 +16,26 @@ function requestPay() {
         console.log('결제 응답:', rsp);
         if (rsp.success) {
         // axios로 HTTP 요청
-        const {user_email,paid_amount,paid_at,card_name,card_number,apply_num,product_name,status} = rsp;
+        const {paid_amount,paid_at,card_name,card_number,apply_num,name,status} = rsp;
 
         axios({
-            url: "{서버의 결제 정보를 받는 endpoint}",
+            url: "/payment-info",
             method: "post",
             headers: {"Content-Type" : "application/json"},
             data: {
-                user_email,
                 paid_amount,
                 paid_at,
                 card_name,
                 card_number,
                 apply_num,
-                product_name,
+                name,
                 status
             }
         }).then((response) => {
             console.log("DB 저장 응답:", response);
             // 서버 결제 API 성공시 로직
             // 다른 추가 로직 (예: 사용자를 결제 성공 페이지로 리다이렉트)
-            window.location.assign("/paySuccessPage.html");
+            window.location.assign("../../../templates/pay/paySuccessPage.html");
             alert('결제를 성공했습니다.')
             
         }).catch(error => {
