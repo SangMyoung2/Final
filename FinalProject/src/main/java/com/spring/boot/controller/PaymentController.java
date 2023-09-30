@@ -42,4 +42,9 @@ public class PaymentController {
     public String paySuccessPage() {
         return "pay/paySuccessPage"; // "pay/paySuccessPage"는 뷰 템플릿의 경로입니다.
     }
+
+    @GetMapping("/payFailurePage")
+    public String payFailurePage() {
+        return "pay/payFailurePage"; 
+    }
 }

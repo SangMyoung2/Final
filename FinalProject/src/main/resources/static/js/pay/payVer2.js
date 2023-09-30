@@ -44,6 +44,7 @@ function requestPay() {
             alert('DB 저장 중 문제가 발생하였습니다.')
         });
     } else {
+        window.location.href = "/payFailurePage";
         alert('결제에 실패했습니다. 에러 내용: ${rsp.error_msg}');
     }
 });
