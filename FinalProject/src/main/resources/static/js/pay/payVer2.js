@@ -1,13 +1,13 @@
 
-function requestPay() {
+function requestPay(amount) {
     var IMP = window.IMP;
     IMP.init('imp27175164');
     IMP.request_pay({
         pg: "html5_inicis",
         pay_method: "card",
         merchant_uid: createOrderNum(),
-        name: "가치페이1000",
-        amount: 10,
+        name: "가치페이" + amount,
+        amount: amount,
         buyer_name: "배수지",
         buyer_email: "djwotjr5667@naver.com",
         buyer_tel: "010-1234-5678",
@@ -45,7 +45,7 @@ function requestPay() {
         });
     } else {
         window.location.href = "/payFailurePage";
-        alert('결제에 실패했습니다. 에러 내용: ${rsp.error_msg}');
+        alert("결제에 실패하였습니다. 에러 내용: " + rsp.error_msg);
     }
 });
 }
