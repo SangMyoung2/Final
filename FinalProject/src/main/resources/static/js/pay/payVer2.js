@@ -35,7 +35,8 @@ function requestPay() {
             console.log("DB 저장 응답:", response);
             // 서버 결제 API 성공시 로직
             // 다른 추가 로직 (예: 사용자를 결제 성공 페이지로 리다이렉트)
-            window.location.assign("../../../templates/pay/paySuccessPage.html");
+            window.location.href = "/paySuccessPage";
+
             alert('결제를 성공했습니다.')
             
         }).catch(error => {

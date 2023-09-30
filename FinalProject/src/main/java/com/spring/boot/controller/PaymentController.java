@@ -37,4 +37,9 @@ public class PaymentController {
             return new ResponseEntity<>("Error while processing payment data", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/paySuccessPage")
+    public String paySuccessPage() {
+        return "pay/paySuccessPage"; // "pay/paySuccessPage"는 뷰 템플릿의 경로입니다.
+    }
 }
