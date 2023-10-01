@@ -9,29 +9,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     select * from MEET_CATEGORY order by meet_ctgnum asc
 </select>
 
-<select id="getLists" parameterType="hashMap" resultType="com.spring.boot.dto.MeetDTOYj">
-	SELECT
-    m.meet_listnum,
-    m.meet_ctgnum,
-    c.meet_ctgname,
-    m.meet_master,
-    m.meet_title,
-    m.meet_content,
-    m.meet_place,
-    m.meet_memcnt,
-    m.meet_max_memcnt,
-    m.meet_hitcount,
-    m.meet_like,
-    m.meet_date,
-    m.meet_list_image
-FROM
-    MEET m
-INNER JOIN
-    MEET_CATEGORY c ON m.meet_ctgnum = c.meet_ctgnum
+<select id="getLists" parameterType="int" resultType="com.spring.boot.dto.MeetDTOYj">
+    select * from meet where meet_listnum = #{meet_listnum}
 </select>
 
 <select id="getReview" parameterType="hashMap" resultType="com.spring.boot.dto.MeetDTOYj">
     select * from MEET_REVIEW
+</select>
+
+<select id="getMeetMembers" parameterType="int">
+    select meet_memid from MEET_INFO where meet_listnum = #{meet_listnum} order by meet_memid desc
 </select>
 
 <!-- <insert id="insertData" parameterType="com.spring.boot.dto.MeetDTOYj">

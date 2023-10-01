@@ -11,9 +11,11 @@ public interface MeetMapperYj {
 
     public List<MeetDTOYj> getAllCategories() throws Exception;
 
-    public List<MeetDTOYj> getLists() throws Exception;
+    public List<MeetDTOYj> getLists(int meet_listnum) throws Exception;
 
     public List<MeetDTOYj> getReview() throws Exception;
+
+    public List<String> getMeetMembers(int meet_listnum) throws Exception;
 
     //public void insertData(MeetDTOYj dto) throws Exception;
 

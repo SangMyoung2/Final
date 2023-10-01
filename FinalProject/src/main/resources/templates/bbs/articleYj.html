@@ -16,11 +16,43 @@ footer{
 <link rel="icon" type="image/png" th:href="@{http://localhost:8080/image/Icon2-removebg.png}"/>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"> 
 
+<script>
+
+     // 홈 내용 표시 함수
+    function showHomeContent() {
+        document.querySelector('.yj-img').style.display = 'block';
+        document.querySelector('.yj-img2').style.display = 'none';
+
+        // 회원목록 표시
+        document.querySelector('.meet-members').style.display = 'block';
+
+        document.querySelector('#btnradio1 .underline').style.left = '50%';
+    }
+
+    // 리뷰 내용 표시 함수
+    function showReviewContent() {
+        document.querySelector('.yj-img').style.display = 'none';
+        document.querySelector('.yj-img2').style.display = 'block';
+        
+        // 회원목록 숨김
+        document.querySelector('.meet-members').style.display = 'none';
+    
+        document.querySelector('#btnradio2 .underline').style.left = '50%';
+    }
+
+</script>
 
 </head>
 <body>
 
 <div layout:fragment="content">
+
+
+
+
+
+
+    
 
     <div class="text-center">
         <div class="btn-group" role="group" aria-label="Basic radio toggle button group" style="width: 800px; margin-bottom: 5px; margin-top: 20px;">
@@ -30,7 +62,6 @@ footer{
                 <span style="color: black;">홈</span>
                 <div class="underline"></div> <!-- 밑줄 요소 추가 -->
             </label>
-        
             <!-- 리뷰 버튼 -->
             <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
             <label class="btn btn-custom" for="btnradio2" onclick="showReviewContent()">
@@ -39,38 +70,54 @@ footer{
             </label>
         </div>
     </div>
-    
-    
-    
 
-    <div class="yj-img">
-        <img th:src="@{/image/bbsYj/6666.png}"/>
-        <div class="Main_content" th:each="meet : ${meetList}">
-            <div class="round-image">
-                <img th:src="@{/image/bbsYj/1111.jpg}"/>
+    <div class="container">
+        <div class="row justify-content-end">
+            <div class="col-8 mx-2 fixed-width-col">
+    
+                <div class="yj-img">
+                    <img th:src="@{/image/bbsYj/6666.png}"/>
+                    <div class="Main_content" th:each="meet : ${meetList}">
+                        <div class="round-image">
+                            <img th:src="@{/image/bbsYj/1111.jpg}"/>
+                        </div>
+                        <p class="Yj-master" th:text="${meet.meet_master}"></p>
+                        <p class="Yj-title" th:text="${meet.meet_title}"></p>
+                    </div>
+                    <div class="main-text" th:each="meet : ${meetList}">
+                        <p class="Yj-text1" th:text="${meet.meet_content}"></p>
+
+                        <div class="yj-info">상세 정보</div>
+                        <p class="text-with-hyphen Yj-text2" th:text="${meet.meet_place}"></p>
+                        <p class="text-with-hyphen Yj-text2" th:text="${meet.meet_date}"></p>
+
+                        <div class="yj-inwon">모집 인원</div>
+                        <div class="text-container">
+                            <p class="Yj-text3" th:text="${meet.meet_memcnt}"></p>/
+                            <p class="Yj-text3" th:text="${meet.meet_max_memcnt}"></p>
+                        </div>
+                        <button class="join-button">
+                            <span class="icon">📝</span> 가입하기
+                        </button>
+
+                    </div>
+                </div>
             </div>
-            <p class="Yj-master" th:text="${meet.meet_master}"></p>
-            <p class="Yj-title" th:text="${meet.meet_title}"></p>
-        </div>
-        <div class="main-text" th:each="meet : ${meetList}">
-            <p class="Yj-text1" th:text="${meet.meet_content}"></p>
-
-            <div class="yj-info">상세 정보</div>
-            <p class="text-with-hyphen Yj-text2" th:text="${meet.meet_place}"></p>
-            <p class="text-with-hyphen Yj-text2" th:text="${meet.meet_date}"></p>
-
-            <div class="yj-inwon">모집 인원</div>
-            <div class="text-container">
-                <p class="Yj-text3" th:text="${meet.meet_memcnt}"></p>/
-                <p class="Yj-text3" th:text="${meet.meet_max_memcnt}"></p>
+            <div class="col-md-2">
+                <!-- 우측에 회원목록 -->
+                <div class="meet-members">
+                    <p>회원목록:</p>
+                    <ul>
+                        <th:block th:each="meetMember : ${meetMembers}">
+                            <li th:text="${meetMember}"></li>
+                        </th:block>
+                    </ul>
+                </div>
             </div>
-            <button class="join-button">
-                <span class="icon">📝</span> 가입하기
-            </button>
-
         </div>
+
+
     </div>
-
 
     <div class="yj-img2">
         <div class="review-title">REVIEW</div>
@@ -92,29 +139,15 @@ footer{
                 </div>
             </div>
         </div>
-        
+    </div>
+
+
+
+
+
+
         
 </div>
-<script>
-   // 홈 내용 표시 함수
-   function showHomeContent() {
-        document.querySelector('.yj-img').style.display = 'block';
-        document.querySelector('.yj-img2').style.display = 'none';
-        
-        document.querySelector('#btnradio1 .underline').style.left = '50%';
-    }
-
-    // 리뷰 내용 표시 함수
-    function showReviewContent() {
-        document.querySelector('.yj-img').style.display = 'none';
-        document.querySelector('.yj-img2').style.display = 'block';
-
-        document.querySelector('#btnradio2 .underline').style.left = '50%';
-    }
-
-    </script>
 
 </body>
-
-
 </html>

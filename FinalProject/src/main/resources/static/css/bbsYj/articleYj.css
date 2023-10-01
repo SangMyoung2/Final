@@ -10,6 +10,8 @@
     max-width: 800px;
     display: block;
     border: #E4EEF7 solid 1px;
+    margin-bottom: 50px;
+
 }
 
 .yj-img2 {
@@ -148,7 +150,7 @@
     height: auto;
     border-radius: 16px;
     z-index: 100;
-    padding: 50px 15px 100px;
+    padding: 50px 15px 50px;
     text-align: left;
 }
 
@@ -296,4 +298,21 @@
 }
 .btn-check:checked + .btn .underline {
     width: 100%; /* 밑줄 너비를 100%로 확장하여 표시 */
+}
+
+.meet-members {
+    position: fixed;
+    top: 50; /* 원하는 위치로 조정하세요 */
+    right: 50; /* 원하는 위치로 조정하세요 */
+    width: 15%; /* 원하는 너비로 조정하세요 */
+    height: 30%; /* 높이를 화면 높이로 설정합니다. */
+    background-color: #f9f9f9; /* 배경색을 설정하세요 */
+    overflow-y: auto; /* 스크롤이 필요한 경우만 스크롤바가 표시됩니다. */
+    padding: 10px; /* 내용과 가장자리 간격을 조정하세요 */
+    border-left: 1px solid #ccc; /* 좌우 경계선을 추가하세요 */
+}
+
+.fixed-width-col {
+    
+    width: 800px !important; /* 너비를 400px로 설정합니다. */
 }
