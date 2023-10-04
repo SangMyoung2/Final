@@ -8,6 +8,7 @@ import lombok.Setter;
 public class PaymentInfoDTO {
     private int paid_amount;
     private int paid_at;
+    private String pay_method;
     private String card_name;
     private String card_number;
     private String apply_num;

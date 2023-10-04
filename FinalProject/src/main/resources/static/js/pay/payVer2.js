@@ -4,7 +4,6 @@ function requestPay(amount) {
     IMP.init('imp27175164');
     IMP.request_pay({
         pg: "html5_inicis",
-        pay_method: "card",
         merchant_uid: createOrderNum(),
         name: "가치페이" + amount,
         amount: amount,
@@ -15,35 +14,41 @@ function requestPay(amount) {
     rsp => {
         console.log('결제 응답:', rsp);
         if (rsp.success) {
-        // axios로 HTTP 요청
-        const {paid_amount,paid_at,card_name,card_number,apply_num,name,status} = rsp;
-
-        axios({
-            url: "/payment-info",
-            method: "post",
-            headers: {"Content-Type" : "application/json"},
-            data: {
-                paid_amount,
-                paid_at,
-                card_name,
-                card_number,
-                apply_num,
-                name,
-                status
+            const payMethodUsed = rsp.pay_method; // 실제로 사용된 결제 수단을 가져옵니다.
+        
+            let dataToSend = {
+                paid_amount: rsp.paid_amount,
+                paid_at: rsp.paid_at,
+                name: rsp.name,
+                status: rsp.status,
+                pay_method: payMethodUsed
+            };
+        
+            // 카드로 결제한 경우만 해당 정보를 추출합니다.
+            if (payMethodUsed === 'card') {
+                dataToSend.card_name = rsp.card_name;
+                dataToSend.card_number = rsp.card_number;
+                dataToSend.apply_num = rsp.apply_num;
             }
-        }).then((response) => {
-            console.log("DB 저장 응답:", response);
-            // 서버 결제 API 성공시 로직
-            // 다른 추가 로직 (예: 사용자를 결제 성공 페이지로 리다이렉트)
-            window.location.href = "/paySuccessPage";
-
-            alert('결제를 성공했습니다.')
-            
-        }).catch(error => {
-            console.error("DB 저장 에러: ", error);
-            alert('DB 저장 중 문제가 발생하였습니다.')
-        });
-    } else {
+        
+            // 다른 결제 수단에 대한 정보 추출 로직도 여기에 추가할 수 있습니다.
+        
+            axios({
+                url: "/payment-info",
+                method: "post",
+                headers: {"Content-Type" : "application/json"},
+                data: dataToSend
+            })
+            .then((response) => {
+                console.log("DB 저장 응답:", response);
+                window.location.href = "/paySuccessPage";
+                alert('결제를 성공했습니다.')
+            })
+            .catch(error => {
+                console.error("DB 저장 에러: ", error);
+                alert('DB 저장 중 문제가 발생하였습니다.')
+            });
+        } else {
         window.location.href = "/payFailurePage";
         alert("결제에 실패하였습니다. 에러 내용: " + rsp.error_msg);
     }
