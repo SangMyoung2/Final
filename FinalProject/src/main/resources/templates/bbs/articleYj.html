@@ -6,16 +6,19 @@
 
 
 <style>
-footer{
-    position: static !important;
-}
+    footer{
+        position: static !important;
+    }
 </style>
 
 <link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/index.css}"/>
 <link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/bbsYj/articleYj.css}"/>
 <link rel="icon" type="image/png" th:href="@{http://localhost:8080/image/Icon2-removebg.png}"/>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"> 
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"/>
+<link rel="stylesheet" href="https://kit.fontawesome.com/1f0cefbb8e.css" crossorigin="anonymous">
+<script src="https://kit.fontawesome.com/1f0cefbb8e.js" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script>
 
      // 홈 내용 표시 함수
@@ -23,7 +26,7 @@ footer{
         document.querySelector('.yj-img').style.display = 'block';
         document.querySelector('.yj-img2').style.display = 'none';
 
-        // 회원목록 표시
+        // 멤버목록 표시
         document.querySelector('.meet-members').style.display = 'block';
 
         document.querySelector('#btnradio1 .underline').style.left = '50%';
@@ -34,7 +37,7 @@ footer{
         document.querySelector('.yj-img').style.display = 'none';
         document.querySelector('.yj-img2').style.display = 'block';
         
-        // 회원목록 숨김
+        // 멤버목록 숨김
         document.querySelector('.meet-members').style.display = 'none';
     
         document.querySelector('#btnradio2 .underline').style.left = '50%';
@@ -43,10 +46,18 @@ footer{
     document.addEventListener('DOMContentLoaded', function() {
     var joinButton = document.querySelector('.join-button');
     
-    joinButton.addEventListener('click', function() {
-        alert('가입이 완료되었습니다.');
+        joinButton.addEventListener('click', function() {
+          alert('가입이 완료되었습니다.');
+        });
     });
-});
+
+    $(document).ready(function(){
+        var currentPosition = parseInt($(".quickmenu").css("top"));
+        $(window).scroll(function() {
+            var position = $(window).scrollTop(); 
+            $(".quickmenu").stop().animate({"top":position+currentPosition+"px"},1000);
+        });
+    });
 
 </script>
 
@@ -112,12 +123,16 @@ footer{
                 </div>
             </div>
             <div class="col-md-2">
-                <!-- 우측에 회원목록 -->
-                <div class="meet-members scroll-delay">
-                    <p>회원목록:</p>
+                <div class="meet-members quickmenu">
+                    <p>
+                        <span style="margin-right: 5px;">멤버목록</span>
+                        <a th:href="@{'/managerYj.action?meet_listnum=' + ${meetList[0].meet_listnum}}">
+                            <i class="fa-solid fa-gear fa-sm" style="color: #adadad; vertical-align: 0px;"></i>
+                        </a>
+                    </p>
                     <ul>
                         <th:block th:each="meetMember : ${meetMembers}">
-                            <li th:text="${meetMember}"></li>
+                            <li class="custom-li" th:text="${meetMember}"></li>
                         </th:block>
                     </ul>
                 </div>

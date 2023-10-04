@@ -1,0 +1,117 @@
+<html layout:decorate="~{layout}">
+    <head>
+<meta charset="UTF-8">
+
+<title>멤버 관리</title>
+
+<style>
+    footer{
+        position: static !important;
+    }
+</style>
+
+<link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/index.css}"/>
+<link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/bbsYj/managerYj.css}"/>
+<link rel="icon" type="image/png" th:href="@{http://localhost:8080/image/Icon2-removebg.png}"/>
+
+<script>
+
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelector('.accept-action').addEventListener('click', function() {
+            if (confirm('수락하시겠습니까?')) {
+                // 수락 작업 수행
+            }
+        });
+        document.querySelector('.reject-action').addEventListener('click', function() {
+            if (confirm('거절하시겠습니까?')) {
+                // 거절 작업 수행
+            }
+        });
+        document.querySelector('.out-action').addEventListener('click', function() {
+            if (confirm('강퇴하시겠습니까?')) {
+                // 강퇴 작업 수행
+            }
+        });
+        document.querySelector('.release-action').addEventListener('click', function() {
+            if (confirm('해제하시겠습니까?')) {
+                // 해제 작업 수행
+            }
+        });
+    });
+
+</script>
+
+</head>
+<body>
+
+<div layout:fragment="content">
+    
+
+
+
+    <div class="manager-title">멤버 관리</div>
+    <div class="container-wrapper">
+    <div class="manager-container">
+        <div class="req-title">참여 대기 멤버</div>
+        <div class="req-background">
+            <div class="round-image">
+                <img th:src="@{/image/bbsYj/1111.jpg}"/>
+            </div>
+            <div class="mem-request">박명란</div>
+            <div class="actions">
+                <span class="accept-action">수락</span> |
+                <span class="reject-action">거절</span>
+            </div>
+        </div>
+        <div class="req-background">
+            <div class="round-image">
+                <img th:src="@{/image/bbsYj/1111.jpg}"/>
+            </div>
+            <div class="mem-request">박명란</div>
+            <div class="actions">
+                <span class="accept-action">수락</span> |
+                <span class="reject-action">거절</span>
+            </div>
+        </div>
+
+        <div class="mem-title">참여 멤버</div>
+        <div class="mem-background">
+            <div class="round-image">
+                <img th:src="@{/image/bbsYj/1111.jpg}"/>
+            </div>
+            <div class="mem-request">최명란</div>
+            <div class="actions">
+                <span class="out-action">강퇴</span>
+            </div>
+        </div>
+        <div class="mem-background">
+            <div class="round-image">
+                <img th:src="@{/image/bbsYj/1111.jpg}"/>
+            </div>
+            <div class="mem-request">최명란</div>
+            <div class="actions">
+                <span class="out-action">강퇴</span>
+            </div>
+        </div>
+    </div>
+        <div class="blacklist-container">
+            <div class="blacklist-title">블랙리스트</div>
+            <div class="black-background">
+                <div class="round-image">
+                    <img th:src="@{/image/bbsYj/1111.jpg}"/>
+                </div>
+                <div class="mem-request">최명란</div>
+                <div class="actions">
+                    <div class="release-action">해제</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+
+    
+</div>
+
+</body>
+</html>

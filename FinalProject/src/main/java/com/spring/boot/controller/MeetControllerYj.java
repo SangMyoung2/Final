@@ -45,5 +45,20 @@ public class MeetControllerYj {
 		return mav;
 		
 	}
+	
+	@GetMapping("/managerYj.action")
+		public ModelAndView manageYj(HttpServletRequest request) throws Exception {
+	
+			List<MeetDTOYj> meetList = meetServiceYj.getLists(Integer.parseInt(request.getParameter("meet_listnum")));
+			List<String> meetMembers = meetServiceYj.getMeetMembers(Integer.parseInt(request.getParameter("meet_listnum")));
+
+			ModelAndView mav = new ModelAndView();
+
+			mav.addObject("meetList", meetList);
+			mav.addObject("meetMembers", meetMembers);
+			mav.setViewName("bbs/managerYj");
+	
+			return mav;
+		}
 
 }
