@@ -27,28 +27,6 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css">
 
-
-<style>
-.layout .sidebar.collapsed .menu > ul > .table1 {
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-
-.table1 {
-    overflow: hidden;
-    padding: 10px 25px;
-}
-.table-hover.table-mc-light-blue > tbody > tr:hover > td,
-.table-hover.table-mc-light-blue > tbody > tr:hover > th {
-  background-color: #d0efff;
-  overflow: hidden;
-}
-
-
-
-</style>
-
-
 <style>
 
 .layout {
@@ -433,9 +411,10 @@
 .layout .sidebar .menu .menu-header {
   font-weight: 600;
   padding: 10px 25px;
-  font-size: 1.0em;
+  font-size: 0.8em;
   letter-spacing: 2px;
   transition: opacity 0.3s;
+
 }
 
 
@@ -470,7 +449,7 @@
   transition: color 0.3s;
 }
 .layout .sidebar .menu .menu-item a .menu-prefix,
-.layout .sidebar .menu .menu-item a .menu-suffix{
+.layout .sidebar .menu .menu-item a .menu-suffix {
   display: inline-block;
   padding: 5px;
   opacity: 1;
@@ -548,6 +527,7 @@
 .layout .sidebar.collapsed .menu > ul > .menu-image {
   opacity: 0;
   transition: opacity 0.3s;
+  
 }
 
 .layout .sidebar.collapsed .menu > ul > .menu-item > a .menu-prefix,
@@ -659,7 +639,7 @@ a {
   transition: left, right, 0.3s;
   position: fixed;
   left: 375px;
-  top: 45%;
+  top: 30%;
   width: 25px;
   height: 25px;
   border-radius: 50%;
@@ -677,31 +657,6 @@ a {
   color: white;
   box-shadow: 1px 1px 4px #0c1e35;
 }
-
-.layout .sidebar .sidebar-custom { 
-    transition: left, right, 0.3s;
-  position: fixed;
-  left: 405px;
-  top: 95%;
-  width: 25px;
-  height: 25px;
-  border-radius: 50%;
-  background-color: #5CA8B5;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-align: center;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.2em;
-  transform: translateX(50%);
-  z-index: 111;
-  cursor: pointer;
-  color: white;
-  box-shadow: 1px 1px 4px #0c1e35;
-}
-
-
 .layout .sidebar.collapsed .pro-sidebar-logo > h5 {
   opacity: 0;
 }
@@ -711,12 +666,6 @@ a {
 .layout .sidebar.collapsed .sidebar-collapser {
   left: 55px;
 }
-
-.layout .sidebar.collapsed .sidebar-custom {
-  left: 90px;
-}
-
-
 .layout .sidebar.collapsed .sidebar-collapser i {
   transform: rotate(180deg);
 }
@@ -770,11 +719,7 @@ a {
 
     <div class="layout has-sidebar fixed-sidebar fixed-header">
         <aside id="sidebar" class="sidebar break-point-sm has-bg-image">
-
-        <!-- 접이버튼 -->
           <a id="btn-collapse" class="sidebar-collapser"><i class="ri-arrow-left-s-line"></i></a>
-          <a id="now-location" class="sidebar-custom"><i class="ri-arrow-left-s-line"></i></a>
-
 
           <div class="sidebar-layout">
             <div class="sidebar-header">
@@ -786,14 +731,11 @@ a {
 
             <div class="sidebar-content">
                 <nav class="menu open-current-submenu">
-
                     <ul>
-                      <li class="menu-header"><span id="title"> Title </span> <span class="badge primary">Hot</span> <span class="badge secondary">Beta</span><hr/></li>
+                      <li class="menu-header"><span> Title <span class="badge primary">Hot</span> <span class="badge secondary">Beta</span></span><hr/></li>
 
                       <li class="menu-image">
-                          <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-                              
-                              <!-- 슬라이드 이미지 반복문으로 뿌리기 -->
+                        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
                             <div class="carousel-inner">
                               <div class="carousel-item active">
                                 <img src="/image/map/cluster-marker-1.png" class="d-block w-100" alt="...">
@@ -805,7 +747,6 @@ a {
                                 <img src="/image/map/cluster-marker-3.png" class="d-block w-100" alt="...">
                               </div>
                             </div>
-
                             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
                               <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                               <span class="visually-hidden">Previous</span>
@@ -814,117 +755,43 @@ a {
                               <span class="carousel-control-next-icon" aria-hidden="true"></span>
                               <span class="visually-hidden">Next</span>
                             </button>
-                        </div>
+                          </div>
                     </li>
 
  
 
                      
-                      <li class="menu-header" style="padding-top: 20px">
-                        <span> Info </span>
-                        <hr/>
+                      <li class="menu-header" style="padding-top: 20px"><span> EXTRA </span><hr/></li>
+                      <li class="menu-item">
+                        <a href="#">
+                          <span class="menu-icon">
+                            <i class="ri-book-2-fill"></i>
+                          </span>
+                          <span class="menu-title">Documentation</span>
+                          
+                          <span class="menu-suffix">
+                            <span class="badge secondary">Beta</span>
+                          </span>
+                        </a>
                       </li>
-                    
-
-                    
-                    <div class="table1">
-                        <table id="table" class="table1 table-hover table-mc-light-blue">
-                            <thead>
-                              <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Link</th>
-                                <th>Status</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <td data-title="ID">1</td>
-                                <td data-title="Name">Material Design Color Palette</td>
-                                <td data-title="Link">
-                                  <a href="https://github.com/zavoloklom/material-design-color-palette" target="_blank">GitHub</a>
-                                </td>
-                                <td data-title="Status">Completed</td>
-                              </tr>
-                              <tr>
-                                <td data-title="ID">2</td>
-                                <td data-title="Name">Material Design Iconic Font</td>
-                                <td data-title="Link">
-                                  <a href="https://codepen.io/zavoloklom/pen/uqCsB" target="_blank">Codepen</a>
-                                  <a href="https://github.com/zavoloklom/material-design-iconic-font" target="_blank">GitHub</a>
-                                </td>
-                                <td data-title="Status">Completed</td>
-                              </tr>
-                              <tr>
-                                <td data-title="ID">3</td>
-                                <td data-title="Name">Material Design Hierarchical Display</td>
-                                <td data-title="Link">
-                                  <a href="https://codepen.io/zavoloklom/pen/eNaEBM" target="_blank">Codepen</a>
-                                  <a href="https://github.com/zavoloklom/material-design-hierarchical-display" target="_blank">GitHub</a>
-                                </td>
-                                <td data-title="Status">Completed</td>
-                              </tr>
-                              <tr>
-                                <td data-title="ID">4</td>
-                                <td data-title="Name">Material Design Sidebar</td>
-                                <td data-title="Link"><a href="https://codepen.io/zavoloklom/pen/dIgco" target="_blank">Codepen</a></td>
-                                <td data-title="Status">Completed</td>
-                              </tr>
-                              <tr>
-                                <td data-title="ID">5</td>
-                                <td data-title="Name">Material Design Tiles</td>
-                                <td data-title="Link">
-                                  <a href="https://codepen.io/zavoloklom/pen/wtApI" target="_blank">Codepen</a>
-                                </td>
-                                <td data-title="Status">Completed</td>
-                              </tr>
-                              <tr>
-                                <td data-title="ID">6</td>
-                                <td data-title="Name">Material Design Typography</td>
-                                <td data-title="Link">
-                                  <a href="https://codepen.io/zavoloklom/pen/IkaFL" target="_blank">Codepen</a>
-                                  <a href="https://github.com/zavoloklom/material-design-typography" target="_blank">GitHub</a>
-                                </td>
-                                <td data-title="Status">Completed</td>
-                              </tr>
-                              <tr>
-                                <td data-title="ID">7</td>
-                                <td data-title="Name">Material Design Buttons</td>
-                                <td data-title="Link">
-                                  <a href="https://codepen.io/zavoloklom/pen/Gubja" target="_blank">Codepen</a>
-                                </td>
-                                <td data-title="Status">In progress</td>
-                              </tr>
-                              <tr>
-                                <td data-title="ID">8</td>
-                                <td data-title="Name">Material Design Form Elements</td>
-                                <td data-title="Link">
-                                  <a href="https://codepen.io/zavoloklom/pen/yaozl" target="_blank">Codepen</a>
-                                </td>
-                                <td data-title="Status">In progress</td>
-                              </tr>
-                              <tr>
-                                <td data-title="ID">9</td>
-                                <td data-title="Name">Material Design Email Template</td>
-                                <td data-title="Link">
-                                  <a href="https://codepen.io/zavoloklom/pen/qEVqzx" target="_blank">Codepen</a>
-                                </td>
-                                <td data-title="Status">Completed</td>
-                              </tr>
-                              <tr>
-                                <td data-title="ID">10</td>
-                                <td data-title="Name">Material Design Animation Timing (old one)</td>
-                                <td data-title="Link">
-                                  <a href="https://codepen.io/zavoloklom/pen/Jbrho" target="_blank">Codepen</a>
-                                </td>
-                                <td data-title="Status">Completed</td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </div>
+                      <li class="menu-item">
+                        <a href="#">
+                          <span class="menu-icon">
+                            <i class="ri-calendar-fill"></i>
+                          </span>
+                          <span class="menu-title">Calendar</span>
+                        </a>
+                      </li>
+                      <li class="menu-item">
+                        <a href="#">
+                          <span class="menu-icon">
+                            <i class="ri-service-fill"></i>
+                          </span>
+                          <span class="menu-title">Examples</span>
+                        </a>
+                      </li>
                     </ul>
                   </nav>
-
             </div>
             
           </div>
@@ -949,28 +816,11 @@ var map = new naver.maps.Map('map', {
     zoomControlOptions: { //줌 컨트롤의 옵션
         position: naver.maps.Position.TOP_RIGHT
     },
-    mapDataControl: false,
-    mapTypeControl: true
-
-});
-
-    //직접만든 버튼들
-    // var locationBtnHtml = '<br/><input id="now-location" type="button" value="현재위치로 setCenter" class="sidebar-custom" />';
-    var searchBtnHtml = '<br/><input id="search-location" type="button" value="현재위치 검색" class="control-btn" />';
     
-
-    naver.maps.Event.once(map, 'init', function() {
-    //customControl 객체 이용하기
-
-    // var customControl1 = new naver.maps.CustomControl(locationBtnHtml, {
-    //     position: naver.maps.Position.LEFT_BOTTOM
-    // });
-    var customControl2 = new naver.maps.CustomControl(searchBtnHtml, {
-        position: naver.maps.Position.TOP_CENTER
-    });
-    // customControl1.setMap(map);
-    customControl2.setMap(map);
+    mapTypeControl: true,
+    mapDataControl: false
 });
+
 
 
 
@@ -984,11 +834,10 @@ for (var key in jsonArray) {
     //넘어오는 데이터 확인
 
     console.log(key)
-    console.log('아이디'+jsonArray[key].id)
     console.log(jsonArray[key].lat)
     console.log(jsonArray[key].lng)
 
-    
+    getClickHandler(jsonArray[key])
 
     var position = new naver.maps.LatLng(
         jsonArray[key].lat, jsonArray[key].lng
@@ -997,71 +846,55 @@ for (var key in jsonArray) {
     var marker = new naver.maps.Marker({
         map: map,
         position: position,
-        title: jsonArray[key].id,
+        title: key,
         icon: {
-            url: HOME_PATH +'',
-            
+            url: HOME_PATH +'/image/map/logo_200x200.png',
+            size: new naver.maps.Size(50, 52),
             origin: new naver.maps.Point(jsonArray[key].lat, jsonArray[key].lng)
         },
         zIndex: 100
     });
-   
+
 
     var contentString = [
         '<div class="iw_inner">',
-        '   <h3>모임명'+ jsonArray[key].id +'</h3>',
+        '   <h3>모임명'+ key +'</h3>',
         '       <img src="'+ HOME_PATH +'/image/map/marker-default.png" width="55" height="55" alt="서울시청" class="thumb" /><br/>',
         jsonArray[key].lat+'</br>',
         jsonArray[key].lng+'</br>',
         '</div>'
     ].join('');
 
-    
-
 
     var infoWindow = new naver.maps.InfoWindow({
         content: contentString
     });
 
-
     markers.push(marker);
     infoWindows.push(infoWindow);
 };
 
-
-
 naver.maps.Event.addListener(map, 'idle', function() {
-    if (infowindow.getMap()) {
-        infowindow.close();
-    }
     updateMarkers(map, markers);
 });
 
-
 function updateMarkers(map, markers) {
+
     var mapBounds = map.getBounds();
-    
+    var marker, position;
+
     for (var i = 0; i < markers.length; i++) {
-        (function () { 
-            var marker = markers[i];
-            var position = marker.getPosition();
-            
-            console.log(marker)
 
-            // 현재 위치에서 다른 마커 검색
-            $("#search-location").on("click", function (e) {
-                infoWindow.close();
-                
-                showMarker(map, marker); 
-            });
-           
-           
-        })(); // 즉시 실행되는 함수
-    }  
+        marker = markers[i]
+        position = marker.getPosition();
 
-    
+        if (mapBounds.hasLatLng(position)) {
+            showMarker(map, marker);
+        } else {
+            hideMarker(map, marker);
+        }
+    }
 }
-
 
 function showMarker(map, marker) {
 
@@ -1078,38 +911,13 @@ function hideMarker(map, marker) {
 // 해당 마커의 인덱스를 seq라는 클로저 변수로 저장하는 이벤트 핸들러를 반환합니다.
 function getClickHandler(seq) {
     return function(e) {
-        var marker = markers[seq], infoWindow = infoWindows[seq];
-        // alert(marker.getTitle());
-        
-        var id = marker.getTitle();
+        var marker = markers[seq],
+            infoWindow = infoWindows[seq];
 
-        //서버에서 데이터 비동기방식으로 가져오기
-        $.ajax({
-        url: '/getDataFromDB', // 서버의 엔드포인트 URL
-        method: 'GET',
-        data: { listNum: id },
-        success: function(data) {
-            // 서버로부터 받은 데이터를 웹 페이지에 표시
-            // alert(data.listnum)
-            $('#listNum').html(data.listNum);
-            $('#ctgNum').html(data.ctgNum);
-            $('#title').html(data.title);
-            $('#content').html(data.content);
-            $('#place').html(data.place);
-            $('#memCnt').html(data.memCnt);
-            $('#hitcount').html(data.hitcount);
-            $('#meetLike').html(data.meetLike);
-            $('#meetDate').html(data.meetDate);
-            $('#list_Image').html(data.list_Image);
-            if(SIDEBAR_EL.classList.contains("collapsed")){ //실행되어있으면 실행하지 않음
-                SIDEBAR_EL.classList.toggle("collapsed");
-            }
-        },
-        error: function() {
-            alert('데이터를 불러오는 데 실패했습니다.');
-        }
-    });
-    
+        alert(seq)
+
+
+        
         if (infoWindow.getMap()) {
             infoWindow.close();
         } else {
@@ -1121,45 +929,42 @@ function getClickHandler(seq) {
 for (var i=0, ii=markers.length; i<ii; i++) {
     naver.maps.Event.addListener(markers[i], 'click', getClickHandler(i));
 }
-
-
-
-
 </script>
 
 
-<!-- 현재위치 -->
+
+
+
 <script>
 var infowindow = new naver.maps.InfoWindow({
     borderWidth: 0,
     disableAnchor: true,
     backgroundColor: 'transparent'
 });
+
 function onSuccessGeolocation(position) {//현재위치 가져오기 성공
     var location = new naver.maps.LatLng(position.coords.latitude,
                                          position.coords.longitude);
 
 
-                               
+
+
     map.setCenter(location); // 얻은 좌표를 지도의 중심으로 설정합니다.
     map.setZoom(15); // 지도의 줌 레벨을 변경합니다.
-  
+
+    
+
+
+
     var contentString = [
         
     ].join('');
 
 
-    infowindow.setContent('<img src="'+ HOME_PATH +'/image/map/LocationPin.gif"/>');
+    infowindow.setContent('<img src="'+ HOME_PATH +'/image/map/marker-default.png"/>');
 
     infowindow.open(map, location);
-
-
-    $("#now-location").on("click", function(e) {
-        infowindow.open(map, location); //현재위치 아이콘
-        map.setCenter(location); //현재위치 중심으로
-    });
-    
-    console.log('현재위치: ' + location.toString());
+    console.log('Coordinates: ' + location.toString());
 }
 
 function onErrorGeolocation() {
@@ -1183,14 +988,9 @@ $(window).on("load", function() {
 </script>
 
 
-<!-- 사이드바 -->
-<script>
-    function _defineProperty(obj, key, value) {
-        if (key in obj) {
-            Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });
-        } else {
-            obj[key] = value;}return obj;
-    }const ANIMATION_DURATION = 300;
+
+<script id="rendered-js">
+    function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}const ANIMATION_DURATION = 300;
     
     const SIDEBAR_EL = document.getElementById("sidebar");
     
@@ -1280,9 +1080,21 @@ $(window).on("load", function() {
       updatePoppersTimeout();
     });
 
-    
-    
+    document.getElementById("btn-collapse2").addEventListener("click", () => {
 
+
+      SIDEBAR_EL.classList.toggle("collapsed");
+    
+      updatePoppersTimeout();
+    });
+    
+    
+  
+    
+  
+    
+   
+    
   
   
 </script>

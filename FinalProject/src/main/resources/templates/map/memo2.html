@@ -2,13 +2,28 @@
     <meta charset="UTF-8">
     
   
+      <link rel="apple-touch-icon" type="image/png" href="https://cpwebassets.codepen.io/assets/favicon/apple-touch-icon-5ae1a0698dcc2402e9712f7d01ed509a57814f994c660df9f7a952f3060705ee.png">
+  
+      <meta name="apple-mobile-web-app-title" content="CodePen">
+  
+      <link rel="shortcut icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico">
+  
+      <link rel="mask-icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/logo-pin-b4b4269c16397ad2f0f7a01bcdf513a1994f4c94b8af2f191c09eb0d601762b1.svg" color="#111">
+  
+  
+  
+    
+      <script src="https://cpwebassets.codepen.io/assets/common/stopExecutionOnTimeout-2c7831bb44f98c1391d6a4ffda0e1fd302503391ca806e7fcc7b9b87197aec26.js"></script>
+  
+  
     <title>CodePen - Pro Sidebar template</title>
   
+      <link rel="canonical" href="https://codepen.io/azouaoui-med/pen/wpBadb">
     
     
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css">
   <link rel="stylesheet" href="https://unpkg.com/css-pro-layout@1.1.0/dist/css/css-pro-layout.css">
-
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&amp;display=swap">
     
   <style>
   .layout {
@@ -90,7 +105,18 @@
     flex-grow: 1;
     padding: 10px 0;
   }
-
+  .sidebar .sidebar-layout .sidebar-footer {
+    height: 230px;
+    min-height: 230px;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+  }
+  .sidebar .sidebar-layout .sidebar-footer > span {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
   
   @keyframes swing {
     0%, 30%, 50%, 70%, 100% {
@@ -437,32 +463,331 @@
     <div class="layout has-sidebar fixed-sidebar fixed-header">
         <aside id="sidebar" class="sidebar break-point-sm has-bg-image">
           <a id="btn-collapse" class="sidebar-collapser"><i class="ri-arrow-left-s-line"></i></a>
-
+          <div class="image-wrapper">
+            <img src="assets/images/sidebar-bg.jpg" alt="sidebar background">
+          </div>
           <div class="sidebar-layout">
             <div class="sidebar-header">
               <div class="pro-sidebar-logo">
-                <div>로</div>
-                <h5>GATCHI</h5>
+                <div>P</div>
+                <h5>Pro Sidebar</h5>
               </div>
             </div>
-
             <div class="sidebar-content">
-
+              <nav class="menu open-current-submenu">
+                <ul>
+                  <li class="menu-header"><span> GENERAL </span></li>
+                  <li class="menu-item sub-menu">
+                    <a href="#">
+                      <span class="menu-icon">
+                        <i class="ri-vip-diamond-fill"></i>
+                      </span>
+                      <span class="menu-title">Components</span>
+                      <span class="menu-suffix">
+                        <span class="badge primary">Hot</span>
+                      </span>
+                    </a>
+                    <div class="sub-menu-list" data-popper-escaped="" data-popper-placement="right" style="position: fixed; left: 0px; top: 0px; margin: 0px; visibility: hidden; transform: translate(274px, 172px); display: none; box-sizing: border-box;">
+                      <ul>
+                        <li class="menu-item">
+                          <a href="#">
+                            <span class="menu-title">Grid</span>
+                          </a>
+                        </li>
+                        <li class="menu-item">
+                          <a href="#">
+                            <span class="menu-title">Layout</span>
+                          </a>
+                        </li>
+                        <li class="menu-item sub-menu open">
+                          <a href="#">
+                            <span class="menu-title">Forms</span>
+                          </a>
+                          <div class="sub-menu-list" style="display: block; box-sizing: border-box;">
+                            <ul>
+                              <li class="menu-item">
+                                <a href="#">
+                                  <span class="menu-title">Input</span>
+                                </a>
+                              </li>
+                              <li class="menu-item">
+                                <a href="#">
+                                  <span class="menu-title">Select</span>
+                                </a>
+                              </li>
+                              <li class="menu-item sub-menu open">
+                                <a href="#">
+                                  <span class="menu-title">More</span>
+                                </a>
+                                <div class="sub-menu-list" style="display: block; box-sizing: border-box;">
+                                  <ul>
+                                    <li class="menu-item">
+                                      <a href="#">
+                                        <span class="menu-title">CheckBox</span>
+                                      </a>
+                                    </li>
+                                    <li class="menu-item">
+                                      <a href="#">
+                                        <span class="menu-title">Radio</span>
+                                      </a>
+                                    </li>
+                                    <li class="menu-item sub-menu">
+                                      <a href="#">
+                                        <span class="menu-title">Want more ?</span>
+                                        <span class="menu-suffix">🤔</span>
+                                      </a>
+                                      <div class="sub-menu-list">
+                                        <ul>
+                                          <li class="menu-item">
+                                            <a href="#">
+                                              <span class="menu-prefix">🎉</span>
+                                              <span class="menu-title">You made it </span>
+                                            </a>
+                                          </li>
+                                        </ul>
+                                      </div>
+                                    </li>
+                                  </ul>
+                                </div>
+                              </li>
+                            </ul>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </li>
+                  <li class="menu-item sub-menu">
+                    <a href="#">
+                      <span class="menu-icon">
+                        <i class="ri-bar-chart-2-fill"></i>
+                      </span>
+                      <span class="menu-title">Charts</span>
+                    </a>
+                    <div class="sub-menu-list" data-popper-escaped="" data-popper-placement="right" style="position: fixed; left: 0px; top: 0px; margin: 0px; visibility: hidden; transform: translate(274px, 222px); display: none; box-sizing: border-box;">
+                      <ul>
+                        <li class="menu-item">
+                          <a href="#">
+                            <span class="menu-title">Pie chart</span>
+                          </a>
+                        </li>
+                        <li class="menu-item">
+                          <a href="#">
+                            <span class="menu-title">Line chart</span>
+                          </a>
+                        </li>
+                        <li class="menu-item">
+                          <a href="#">
+                            <span class="menu-title">Bar chart</span>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </li>
+                  <li class="menu-item sub-menu">
+                    <a href="#">
+                      <span class="menu-icon">
+                        <i class="ri-shopping-cart-fill"></i>
+                      </span>
+                      <span class="menu-title">E-commerce</span>
+                    </a>
+                    <div class="sub-menu-list" data-popper-escaped="" data-popper-placement="right" style="position: fixed; left: 0px; top: 0px; margin: 0px; visibility: hidden; transform: translate(274px, 272px);">
+                      <ul>
+                        <li class="menu-item">
+                          <a href="#">
+                            <span class="menu-title">Products</span>
+                          </a>
+                        </li>
+                        <li class="menu-item">
+                          <a href="#">
+                            <span class="menu-title">Orders</span>
+                          </a>
+                        </li>
+                        <li class="menu-item">
+                          <a href="#">
+                            <span class="menu-title">credit card</span>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </li>
+                  <li class="menu-item sub-menu">
+                    <a href="#">
+                      <span class="menu-icon">
+                        <i class="ri-global-fill"></i>
+                      </span>
+                      <span class="menu-title">Maps</span>
+                    </a>
+                    <div class="sub-menu-list" data-popper-escaped="" data-popper-placement="right" style="position: fixed; left: 0px; top: 0px; margin: 0px; visibility: hidden; transform: translate(274px, 322px);">
+                      <ul>
+                        <li class="menu-item">
+                          <a href="#">
+                            <span class="menu-title">Google maps</span>
+                          </a>
+                        </li>
+                        <li class="menu-item">
+                          <a href="#">
+                            <span class="menu-title">Open street map</span>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </li>
+                  <li class="menu-item sub-menu open">
+                    <a href="#">
+                      <span class="menu-icon">
+                       <i class="ri-paint-brush-fill"></i>
+                      </span>
+                      <span class="menu-title">Theme</span>
+                    </a>
+                    <div class="sub-menu-list" data-popper-escaped="" data-popper-placement="right" style="position: fixed; left: 0px; top: 0px; margin: 0px; visibility: hidden; transform: translate(274px, 25px); display: block; box-sizing: border-box;">
+                      <ul>
+                        <li class="menu-item">
+                          <a href="#">
+                            <span class="menu-title">Dark</span>
+                          </a>
+                        </li>
+                        <li class="menu-item">
+                          <a href="#">
+                            <span class="menu-title">Light</span>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </li>
+                  <li class="menu-header" style="padding-top: 20px"><span> EXTRA </span></li>
+                  <li class="menu-item">
+                    <a href="#">
+                      <span class="menu-icon">
+                        <i class="ri-book-2-fill"></i>
+                      </span>
+                      <span class="menu-title">Documentation</span>
+                      <span class="menu-suffix">
+                        <span class="badge secondary">Beta</span>
+                      </span>
+                    </a>
+                  </li>
+                  <li class="menu-item">
+                    <a href="#">
+                      <span class="menu-icon">
+                        <i class="ri-calendar-fill"></i>
+                      </span>
+                      <span class="menu-title">Calendar</span>
+                    </a>
+                  </li>
+                  <li class="menu-item">
+                    <a href="#">
+                      <span class="menu-icon">
+                        <i class="ri-service-fill"></i>
+                      </span>
+                      <span class="menu-title">Examples</span>
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+            <div class="sidebar-footer">
+              <div class="footer-box">
+                <div>
+                  <img class="react-logo" src="https://user-images.githubusercontent.com/25878302/213938106-ca8f0485-3f30-4861-9188-2920ed7ab284.png" alt="react">
+                </div>
+                <div style="padding: 0 10px">
+                  <span style="display: block; margin-bottom: 10px">Pro sidebar is also available as a react package
+                  </span>
+                  <div style="margin-bottom: 15px">
+                    <img alt="preview badge" src="https://img.shields.io/github/stars/azouaoui-med/react-pro-sidebar?style=social">
+                  </div>
+                  <div>
+                    <a href="https://github.com/azouaoui-med/react-pro-sidebar" target="_blank">Check it out!</a>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </aside>
+        <div id="overlay" class="overlay"></div>
+        <div class="layout">
+          <main class="content">
+            <div>
+              <a id="btn-toggle" href="#" class="sidebar-toggler break-point-sm">
+                <i class="ri-menu-line ri-xl"></i>
+              </a>
+              <h1 style="margin-bottom: 0">Pro Sidebar</h1>
+              <span style="display: inline-block">
+                Responsive layout with advanced sidebar menu built with SCSS and vanilla Javascript
+              </span>
+              <br>
+              <span>
+                Full Code and documentation available on
+                <a href="https://github.com/azouaoui-med/pro-sidebar-template" target="_blank">Github</a>
+              </span>
+              <div style="margin-top: 10px">
+                <a href="https://github.com/azouaoui-med/pro-sidebar-template" target="_blank">
+                  <img alt="GitHub stars" src="https://img.shields.io/github/stars/azouaoui-med/pro-sidebar-template?style=social">
+                </a>
+                <a href="https://github.com/azouaoui-med/pro-sidebar-template" target="_blank">
+                  <img alt="GitHub forks" src="https://img.shields.io/github/forks/azouaoui-med/pro-sidebar-template?style=social">
+                </a>
+              </div>
+            </div>
+            <div>
+              <h2>Features</h2>
+              <ul>
+                <li>Fully responsive</li>
+                <li>Collapsable sidebar</li>
+                <li>Multi level menu</li>
+                <li>RTL support</li>
+                <li>Customizable</li>
+              </ul>
+            </div>
+            <div>
+              <h2>Resources</h2>
+              <ul>
+                <li>
+                  <a target="_blank" href="https://github.com/azouaoui-med/css-pro-layout">
+                    Css Pro Layout</a>
+                </li>
+                <li>
+                  <a target="_blank" href="https://github.com/popperjs/popper-core"> Popper Core</a>
+                </li>
+                <li>
+                  <a target="_blank" href="https://remixicon.com/"> Remix Icons</a>
+                </li>
+              </ul>
+            </div>
+            <footer class="footer">
+              <small style="margin-bottom: 20px; display: inline-block">
+                © 2023 made with
+                <span style="color: red; font-size: 18px">❤</span> by -
+                <a target="_blank" href="https://azouaoui.netlify.com"> Mohamed Azouaoui </a>
+              </small>
+              <br>
+              <div class="social-links">
+                <a href="https://github.com/azouaoui-med" target="_blank">
+                  <i class="ri-github-fill ri-xl"></i>
+                </a>
+                <a href="https://twitter.com/azouaoui_med" target="_blank">
+                  <i class="ri-twitter-fill ri-xl"></i>
+                </a>
+                <a href="https://codepen.io/azouaoui-med" target="_blank">
+                  <i class="ri-codepen-fill ri-xl"></i>
+                </a>
+                <a href="https://www.linkedin.com/in/mohamed-azouaoui/" target="_blank">
+                  <i class="ri-linkedin-box-fill ri-xl"></i>
+                </a>
+              </div>
+            </footer>
+          </main>
+          <div class="overlay"></div>
+        </div>
       </div>
-
-
-
-
-    
-<script id="rendered-js">
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+        <script id="rendered-js">
   function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}const ANIMATION_DURATION = 300;
   
   const SIDEBAR_EL = document.getElementById("sidebar");
   
-
+  const SUB_MENU_ELS = document.querySelectorAll(
+  ".menu > ul > .menu-item.sub-menu");
   
   
   const FIRST_SUB_MENUS_BTN = document.querySelectorAll(
@@ -534,10 +859,105 @@
     }}
   
   
-
-
-  class Poppers {}
-
+  class Poppers {
+  
+  
+    constructor() {_defineProperty(this, "subMenuPoppers", []);
+      this.init();
+    }
+  
+    init() {
+      SUB_MENU_ELS.forEach(element => {
+        this.subMenuPoppers.push(
+        new PopperObject(element, element.lastElementChild));
+  
+        this.closePoppers();
+      });
+    }
+  
+    togglePopper(target) {
+      if (window.getComputedStyle(target).visibility === "hidden")
+      target.style.visibility = "visible";else
+      target.style.visibility = "hidden";
+    }
+  
+    updatePoppers() {
+      this.subMenuPoppers.forEach(element => {
+        element.instance.state.elements.popper.style.display = "none";
+        element.instance.update();
+      });
+    }
+  
+    closePoppers() {
+      this.subMenuPoppers.forEach(element => {
+        element.hide();
+      });
+    }}
+  
+  
+  const slideUp = (target, duration = ANIMATION_DURATION) => {
+    const { parentElement } = target;
+    parentElement.classList.remove("open");
+    target.style.transitionProperty = "height, margin, padding";
+    target.style.transitionDuration = `${duration}ms`;
+    target.style.boxSizing = "border-box";
+    target.style.height = `${target.offsetHeight}px`;
+    target.offsetHeight;
+    target.style.overflow = "hidden";
+    target.style.height = 0;
+    target.style.paddingTop = 0;
+    target.style.paddingBottom = 0;
+    target.style.marginTop = 0;
+    target.style.marginBottom = 0;
+    window.setTimeout(() => {
+      target.style.display = "none";
+      target.style.removeProperty("height");
+      target.style.removeProperty("padding-top");
+      target.style.removeProperty("padding-bottom");
+      target.style.removeProperty("margin-top");
+      target.style.removeProperty("margin-bottom");
+      target.style.removeProperty("overflow");
+      target.style.removeProperty("transition-duration");
+      target.style.removeProperty("transition-property");
+    }, duration);
+  };
+  const slideDown = (target, duration = ANIMATION_DURATION) => {
+    const { parentElement } = target;
+    parentElement.classList.add("open");
+    target.style.removeProperty("display");
+    let { display } = window.getComputedStyle(target);
+    if (display === "none") display = "block";
+    target.style.display = display;
+    const height = target.offsetHeight;
+    target.style.overflow = "hidden";
+    target.style.height = 0;
+    target.style.paddingTop = 0;
+    target.style.paddingBottom = 0;
+    target.style.marginTop = 0;
+    target.style.marginBottom = 0;
+    target.offsetHeight;
+    target.style.boxSizing = "border-box";
+    target.style.transitionProperty = "height, margin, padding";
+    target.style.transitionDuration = `${duration}ms`;
+    target.style.height = `${height}px`;
+    target.style.removeProperty("padding-top");
+    target.style.removeProperty("padding-bottom");
+    target.style.removeProperty("margin-top");
+    target.style.removeProperty("margin-bottom");
+    window.setTimeout(() => {
+      target.style.removeProperty("height");
+      target.style.removeProperty("overflow");
+      target.style.removeProperty("transition-duration");
+      target.style.removeProperty("transition-property");
+    }, duration);
+  };
+  
+  const slideToggle = (target, duration = ANIMATION_DURATION) => {
+    if (window.getComputedStyle(target).display === "none")
+    return slideDown(target, duration);
+    return slideUp(target, duration);
+  };
+  
   const PoppersInstance = new Poppers();
   
   /**
@@ -545,6 +965,7 @@
    */
   const updatePoppersTimeout = () => {
     setTimeout(() => {
+      PoppersInstance.updatePoppers();
     }, ANIMATION_DURATION);
   };
   
@@ -553,7 +974,7 @@
    */
   document.getElementById("btn-collapse").addEventListener("click", () => {
     SIDEBAR_EL.classList.toggle("collapsed");
-    
+    PoppersInstance.closePoppers();
     if (SIDEBAR_EL.classList.contains("collapsed"))
     FIRST_SUB_MENUS_BTN.forEach(element => {
       element.parentElement.classList.remove("open");
@@ -562,15 +983,59 @@
     updatePoppersTimeout();
   });
   
+  /**
+   * sidebar toggle handler (on break point )
+   */
+  document.getElementById("btn-toggle").addEventListener("click", () => {
+    SIDEBAR_EL.classList.toggle("toggled");
   
-
+    updatePoppersTimeout();
+  });
   
-
+  /**
+   * toggle sidebar on overlay click
+   */
+  document.getElementById("overlay").addEventListener("click", () => {
+    SIDEBAR_EL.classList.toggle("toggled");
+  });
   
- 
+  const defaultOpenMenus = document.querySelectorAll(".menu-item.sub-menu.open");
   
-
-
+  defaultOpenMenus.forEach(element => {
+    element.lastElementChild.style.display = "block";
+  });
+  
+  /**
+   * handle top level submenu click
+   */
+  FIRST_SUB_MENUS_BTN.forEach(element => {
+    element.addEventListener("click", () => {
+      if (SIDEBAR_EL.classList.contains("collapsed"))
+      PoppersInstance.togglePopper(element.nextElementSibling);else
+      {
+        const parentMenu = element.closest(".menu.open-current-submenu");
+        if (parentMenu)
+        parentMenu.
+        querySelectorAll(":scope > ul > .menu-item.sub-menu > a").
+        forEach(
+        (el) =>
+        window.getComputedStyle(el.nextElementSibling).display !==
+        "none" && slideUp(el.nextElementSibling));
+  
+        slideToggle(element.nextElementSibling);
+      }
+    });
+  });
+  
+  /**
+   * handle inner submenu click
+   */
+  INNER_SUB_MENUS_BTN.forEach(element => {
+    element.addEventListener("click", () => {
+      slideToggle(element.nextElementSibling);
+    });
+  });
+  //# sourceURL=pen.js
       </script>
   
     

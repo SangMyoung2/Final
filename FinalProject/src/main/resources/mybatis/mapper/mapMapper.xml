@@ -10,8 +10,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	select * from (
 	select rownum rnum, data.* from (
 	select lat,lng,id from latlng
-	order by id desc) data)
+	order by id asc) data)
 </select>
 
+<select id="getOneData" parameterType="int" resultType="com.spring.boot.dto.TestBoardDTO">
+	select * from meet where listNum=#{listNum}
+</select>
 
 </mapper>
