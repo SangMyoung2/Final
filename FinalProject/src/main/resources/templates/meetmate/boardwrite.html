@@ -5,134 +5,230 @@
 <title>Meetmate 생성</title>
 
 <link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/meetmate/boardwrite.css}"/>
-<link rel="icon" type="image/png" th:href="@{http://localhost:8080/image/Icon2-removebg.png}"/>
+<link rel="icon" type="image/png" th:href="@{http://localhost:8080/image/로고.png}"/>
 
 </head>
 
 <body>
 
 <div layout:fragment="content">
+    <br/><br/>
+
+    <div class="container">
    
-    <h1>Meetmate 생성</h1>
-    <form action="#" method="POST">
-    유진이가 만든 카테고리 버튼 위치<br/><br/><br/>
-
-    <div>       
-        <label for="meetmate-title">Meetmate 소개 제목</label>
-        <input type="text" id="meetmate-title" required placeholder="Meetmate Title" class="t1"/>
-        
-        <label for="meetmate-name">Meetmate 모임명</label>
-        <input type="text" id="meetmate-name" required placeholder="Meetmate Name" class="t1"/>
-        
-        <label for="user-id">Meetmate 마스터</label>
-        <input type="text" id="meetmate-master" required placeholder="Meetmate Master" 
-            minlength="5" maxlength="12" class="t1"/>
-
-        <label for="meetmate-image">Meetmate Image</label>
-        <input type="file" id="meetmate-image" accept="image/*, audio/*, video/*"/>
-    </div>
-    <br/>
+    <h1>Meetmate 개설하기</h1>
+    <form method="POST" onsubmit="createMeetDate()">
     
-    <div>
-        <label>Meetmate 날짜</label>
-        <div style="width: 116%;">
-            <input type="text" name="meetmate-date-year" id="meetmate-date-year"
-            pattern="[0-9]*" value label="Meetmate-date" size="4" maxlength="4" placeholder="YYYY" class="t2"/>
-            <span>/</span>
-            <input type="text" name="meetmate-date-month" id="meetmate-date-month" 
-            pattern="[0-9]*" value label="Meetmate-date" size="2" maxlength="2" placeholder="MM" class="t2"/>
-            <span>/</span>
-                <input type="text" name="meetmate-date-day" id="meetmate-date-day" 
-                pattern="[0-9]*" value label="Meetmate-date" size="2" maxlength="2" placeholder="DD" class="t2"/>
-        </div>    
+        <div>
+            <label id="meetCtgNum">Meetmate 카테고리</label><br/>
+                <button1>문화 · 예술</button1>
+                <button1>푸드</button1>
+                <button1>취미</button1>
+                <button1>여행</button1>
+                <button1>운동 · 액티비티</button1>
+        </div> 
+        <br/><br/>
+        
+        <div>
+            <label>Meetmate 모임명</label>
+            <input type="text" id="meetName" required placeholder="Meetmate Name" class="t1"/>
             
-        <label>Meetmate 시간</label>
-        <div style="width: 113%;">
-            <select class="select1" style="width: 27%;">
-                <option value="AM/PM" selected disabled>AM / PM</option>
-                <option value="AM">AM</option>
-                <option  class="select1 option"  value="PM">PM</option>
-            </select>　
+            <label>Meetmate 마스터</label>
+            <input type="text" id="meetMemId" value=" meetMemId 세션에서 받아올거야"
+                minlength="5" maxlength="12" class="t1"/>
 
-            <select style="width: 27%;" name="hour" class="select1">
-                <option value="${num}" th:text= "시"></option>
-                <th:block th:each="num : ${#numbers.sequence(1,12)}">
-                    <option value="${num}" th:text= "|${num}|">시</option>
-                </th:block>
-            </select> 시　
+            <label>Meetmate 글제목</label>
+            <input type="text" id="meetTitle" required placeholder="Meetmate Title" class="t1"/>
+            
+            <label>Meetmate 소개</label>
+            <div class="flex_wrap">
+                <textarea id="meetContent" placeholder="Meetmate를 소개하는 글을 입력해주세요."></textarea>
+            </div>
 
-            <select style="width: 27%;" class="select1">
-                <option value="" selected disabled>분</option>
-                <option value="00">00</option>
-                <option value="05">05</option>
-                <option value="10">10</option>
-                <option value="15">15</option>
-                <option value="20">20</option>
-                <option value="25">25</option>
-                <option value="30">30</option>
-                <option value="35">35</option>
-                <option value="40">40</option>
-                <option value="45">45</option>
-                <option value="50">50</option>
-                <option value="55">55</option>
-            </select> 분
+            <label>Meetmate 메인사진</label>
+            <input type="file" id="meetImage" accept="image/*, audio/*"/>
+        </div>
+        <br/>
+    
+        <div>
+            <label>Meetmate 날짜</label>
+            <div style="width: 115%;">
+                <input type="text" name="mDate" id="meetmateDateYear"
+                pattern="[0-9]*" size="4" maxlength="4" placeholder="YYYY" class="t2"/>
+                <span>/</span>
+                <input type="text" name="mDate" id="meetmateDateMonth" 
+                pattern="[0-9]*" size="2" maxlength="2" placeholder="MM" class="t2" style="margin-left: 2px;"/>
+                <span>/</span>
+                    <input type="text" name="mDate" id="meetmateDateDay" 
+                    pattern="[0-9]*" size="2" maxlength="2" placeholder="DD" class="t2" style="margin-left: 2px;"/>
+            </div>    
+                
+            <label>Meetmate 시간</label>
+            <div style="width: 113%;">
+                <!-- <select class="select1" style="width: 25%;" name="meetDateAmpm">
+                    <option value="AM/PM" selected disabled>AM / PM</option>
+                    <option value="AM">AM</option>
+                    <option class="select1 option" value="PM">PM</option>
+                </select> -->
+
+                <select style="width: 25%; margin-left: 10px;" class="select1" name="mDate">
+                    <!-- <option value="none" th:text= "시"></option>
+                    <th:block th:each="num : ${#numbers.sequence(1,12)}">
+                        <option th:value="${num}" th:text="${num}">시</option>
+                    </th:block> -->
+                    <option value="" selected disabled>시</option>
+                    <option value="00">00</option>
+                    <option value="01">01</option>
+                    <option value="02">02</option>
+                    <option value="03">03</option>
+                    <option value="04">04</option>
+                    <option value="05">05</option>
+                    <option value="06">06</option>
+                    <option value="07">07</option>
+                    <option value="08">08</option>
+                    <option value="09">09</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                    <option value="13">13</option>
+                    <option value="14">14</option>
+                    <option value="15">15</option>
+                    <option value="16">16</option>
+                    <option value="17">17</option>
+                    <option value="18">18</option>
+                    <option value="19">19</option>
+                    <option value="20">20</option>
+                    <option value="21">21</option>
+                    <option value="22">22</option>
+                    <option value="23">23</option>
+                </select> 시
+
+                <select style="width: 25%; margin-left: 10px;" class="select1" name="mDate">
+                    <option value="" selected disabled>분</option>
+                    <option value="00">00</option>
+                    <option value="05">05</option>
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                    <option value="25">25</option>
+                    <option value="30">30</option>
+                    <option value="35">35</option>
+                    <option value="40">40</option>
+                    <option value="45">45</option>
+                    <option value="50">50</option>
+                    <option value="55">55</option>
+                </select> 분
+            </div>
+
+            <div> 
+                <label>Meetmate 최대인원수</label>
+                <input type="text" id="meetMaxMemCnt" required placeholder="Meetmate 모집인원" class="t1"/>
+            </div>    
+            
+            <label>Meetmate 모집방법</label>
+            <div id="wrap_type"> 
+                <span id="wrap_first_come" class="type">
+                    <input type="radio" id="meetHowFirstCome" name="type" onclick="type()">
+                    <label> 선착순 </label>
+                </span>
+                <span id="wrap_approve" class="type no_line">
+                    <input type="radio" id="meetHowApprove" name="type" onclick="type()">
+                    <label> 승인제 </label>
+                </span>
+            </div> 
+            
+            <label>Meetmate 기본참가비</label>
+            <div id="wrap_entry_fee"> 
+                <span id="wrap_yes" class="entry_fee">
+                    <input type="radio" id="yes" name="meetEntryfeeYes" onclick="entry_fee()">
+                    <label for="yes"> 있음 </label>
+                </span>
+                <span id="wrap_no" class="entry_fee no_line">
+                    <input type="radio" id="no" name="meetEntryfeeNo">
+                    <label for="no"> 없음 </label>
+                </span>
+            </div> 
+            
+            <div> 
+                <label>Meetmate 기본참가비 금액</label>
+                <label style="color: rgba(145, 142, 142, 0.808);">
+                    기본참가비 '있음'을 체크한 경우에만 입력해주세요.</label>
+                <input type="text" id="meetMoney" required placeholder="0" class="t3"/>
+            </div>       
+
         </div>
 
-        <div> 
-            <label for="meet_max_memcnt">Meetmate 최대인원수</label>
-            <input type="text" id="meet_max_memcnt" required placeholder="Meetmate 최대인원수" class="t1"/>
-        </div>    
-        
-        <label>Meetmate 기본참가비</label>
-        <div id="wrap_gender"> 
-            <span id="wrap_man" class="gender">
-                <input type="radio" id="man" name="gender" onclick="gender()">
-                <label for="man"> 있음 </label>
-            </span>
-            <span id="wrap_woman" class="gender no_line">
-                <input type="radio" id="woman" name="gender" onclick="gender()">
-                <label for="woman"> 없음 </label>
-            </span>
-        </div> 
-        
-        <div> 
-            <label>Meetmate 기본참가비 금액</label>
-            <label style="color: rgba(145, 142, 142, 0.808);">기본참가비가 있음을 체크한 경우에만 입력해주세요.</label>
-            <input type="text" id="meet_max_memcnt" required placeholder="0" class="t1"/>
-        </div>    
+        <input type="hidden" name="meetDate" value="">
 
-    </div>
-
-    <button type="submit">Meetmate 생성하기</button>     
+        <button type="submit" class="createBtn">Meetmate 생성하기</button>     
+        <script>
+            let meetDate = document.getElementById('meetDate')
+            let str = "";
+            let form = document.getElementById('myForm');    
             
-    </form>
+            function createMeetDate(){
+           
+            let d = document.getElementsByName('mDate');
 
+            for(i=0; i<d.length; i++){
+                str += d[i].value;
+                if(i == 2){
+                    str += " ";
+                }
+                else if(i != d.length-1){
+                    str += "-";
+                }
+            }
+            
+            meetDate.value = str;
+            // alert(str);
+            console.log(str);
+            console.log('meetDate 값 : ' + meetDate.value);
+            alert(meetDate.value)
+            // form.action = '/meetmateList.action';
+            // form.submit();
+    }
+        </script>          
+        </form>
+    </div>
 </div>
 
 
-</body>
-
-
 <script>
-
-    function gender(){
+/*
+    function entry_fee(){
         
-        var wrap_gender = document.getElementById("wrap_gender")
-        var man = document.getElementById("man")
-        var woman = document.getElementById("woman")
+        var wrap_gender = document.getElementById("wrap_entry_fee")
+        var man = document.getElementById("yes")
+        var woman = document.getElementById("no")
 
-        if(man.checked){
-            document.getElementById("wrap_man").className='gender_act';
-            document.getElementById("wrap_woman").className='gender';
+        if(yes.checked){
+            document.getElementById("wrap_yes").className='entry_fee_act';
+            document.getElementById("wrap_no").className='entry_fee';
         }
         
-        if(woman.checked){
-            document.getElementById("wrap_woman").className='gender_act';
-            document.getElementById("wrap_man").className='gender';
-        }
     }    
     
+
+    function type(){
+        
+        var wrap_gender = document.getElementById("wrap_type")
+        var man = document.getElementById("first_come")
+        var woman = document.getElementById("approve")
+
+        if(first_come.checked){
+            document.getElementById("wrap_first_come").className='type_act';
+            document.getElementById("wrap_approve").className='type';
+        }
+        
+        if(approve.checked){
+            document.getElementById("wrap_approve").className='type_act';
+            document.getElementById("wrap_first_come").className='type';
+        }
+    }    
+*/    
 </script>
 
 
+</body>
 </html>

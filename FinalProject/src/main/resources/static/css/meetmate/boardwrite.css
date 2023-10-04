@@ -108,7 +108,7 @@ button:hover {
   cursor: pointer;
 }
 
-button[type="submit"] {
+.createBtn {
   background: #5CA8B5;
   color: #fff;
 }
