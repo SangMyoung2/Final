@@ -8,6 +8,11 @@
         INSERT INTO PAYMENTINFO (paid_amount, paid_at, pay_method, card_name, card_number, apply_num, name, status) VALUES (#{paid_amount}, #{paid_at},#{pay_method,jdbcType=VARCHAR}, #{card_name,jdbcType=VARCHAR}, #{card_number,jdbcType=VARCHAR}, #{apply_num,jdbcType=VARCHAR}, #{name}, #{status})
     </insert>
 
+    <update id="updateUserPoints" parameterType="com.spring.boot.dto.PointDTO">
+        UPDATE "point" SET "point_balance" = "point_balance" + #{pointBalance} 
+        WHERE "user_email" = #{userEmail}
+    </update>
+
     <!-- 추가적인 결제 관련 SQL 문장을 작성할 수 있습니다. -->
 
 </mapper>

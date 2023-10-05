@@ -17,6 +17,7 @@ function requestPay(amount) {
             const payMethodUsed = rsp.pay_method; // 실제로 사용된 결제 수단을 가져옵니다.
         
             let dataToSend = {
+                user_email:"djwotjr5667@naver.com",
                 paid_amount: rsp.paid_amount,
                 paid_at: rsp.paid_at,
                 name: rsp.name,
