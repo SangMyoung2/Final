@@ -1,12 +1,21 @@
 package com.spring.boot.controller;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.boot.dto.MeetDTOYj;
@@ -46,6 +55,8 @@ public class MeetControllerYj {
 		
 	}
 	
+
+	
 	@GetMapping("/managerYj.action")
 		public ModelAndView manageYj(HttpServletRequest request) throws Exception {
 	
@@ -60,5 +71,7 @@ public class MeetControllerYj {
 	
 			return mav;
 		}
+
+		
 
 }

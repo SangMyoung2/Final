@@ -17,6 +17,5 @@ public interface MeetMapperYj {
 
     public List<String> getMeetMembers(int meet_listnum) throws Exception;
 
-    //public void insertData(MeetDTOYj dto) throws Exception;
-
+    public void insertMeetReview(MeetDTOYj dto) throws Exception;
 }

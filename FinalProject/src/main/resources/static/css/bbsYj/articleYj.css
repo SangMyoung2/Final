@@ -77,10 +77,8 @@
 
 .Yj-text2 {
     position: relative;
-    /* width: calc(100% - 28px); */
     height: auto;
     background-color: #fefefe;
-    /* padding: 30px 45px 10px; 위/양사이드/아래*/ 
     color: #383535;
     font-size: 18px;
     line-height: 20px;
@@ -100,10 +98,8 @@
 .text-with-hyphen::before {
     content: "- ";
     position: relative;
-    /* width: calc(100% - 28px); */
     height: auto;
     background-color: #fefefe;
-    /* padding: 1px 30px 10px; */
     padding-left: 35px;
     color: #383535;
     font-size: 16px;
@@ -157,17 +153,31 @@
 .review-title {
     text-align: center;
     padding-top: 70px;
-    padding-bottom: 10px;
-    font-size: 20px;
+    padding-bottom: 5px;
+    font-size: 23px;
     color: #171616;
     font-weight: bold;
 }
 
 .review-sub {
     text-align: center;
-    padding-bottom: 60px;
-    font-size: 15px;
+    padding-bottom: 20px;
+    font-size: 16px;
     color: #AAAAAA;
+}
+
+.review-write {
+    text-align: right;
+    color: #777777;
+    margin-right: 120px;
+    padding-bottom: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 17px;
+}
+.review-write:hover {
+    text-decoration: underline;
+    color: #505050;
 }
 
 .review-content {
@@ -181,14 +191,10 @@
     border-radius: 16px;
     z-index: 100;
     text-align: center;
-    padding-top: 50px;
-    padding-left: 30px;
-    padding-right: 30px;
-    padding-bottom: 30px;
+    padding: 50px 30px 30px; /*위/양사이드/아래*/
     margin-bottom: 40px;
     flex-wrap: wrap;
 }
-
 
 .memid {
     text-align: left;
@@ -198,15 +204,6 @@
     margin-left: 40px;
     font-size: 15px;
     display: inline-block;
-    float: left;
-}
-.date {
-    text-align: right;
-    color: #AAAAAA;
-    margin-left: 10px;
-    margin-top: -14px;
-    font-size: 15px;
-    float: right;
 }
 
 .yj-content {
@@ -223,7 +220,6 @@
     border-radius: 50%;
     overflow: hidden;
     display: inline-block;
-    float: left;
     margin-top: -30px;
 }
 
@@ -272,12 +268,10 @@
     margin-right: 8px;
 }
 
-
 .btn-custom {
     border: none !important;
     position: relative;
 }
-
 
 .underline {
     position: absolute;
@@ -302,14 +296,13 @@
     position: fixed;
     width: 15%;
     height: 30%;
-    background-color: #f9f9f9;
-    overflow-y: auto; /* 스크롤이 필요한 경우만 스크롤바가 표시됨 */
+    background-color: #f9f9f996;
+    overflow-y: auto;
     padding: 10px;
-    border-left: 1px solid #ccc;
+    border: 1px solid #E4EEF7;
 }
 
 .fixed-width-col {
-    
     width: 800px !important;
 }
 
@@ -317,3 +310,39 @@
     margin-top: 10px;
 }
 
+.review-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.review-input {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#review-content {
+    width: 71%;
+    margin-bottom: 10px;
+    height: 100px;
+}
+
+#submit-review {
+    width: 10%;
+    margin-left: 490px;
+    background-color: #fff;
+    color: #333;
+    border: 1px solid #333;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.1s ease, color 0.1s ease;
+}
+
+#submit-review:hover {
+    background-color: #333;
+    color: #fff;
+}
