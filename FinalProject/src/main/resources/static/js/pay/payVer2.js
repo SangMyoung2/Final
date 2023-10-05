@@ -42,7 +42,7 @@ function requestPay(amount) {
             .then((response) => {
                 console.log("DB 저장 응답:", response);
                 window.location.href = "/paySuccessPage";
-                alert('결제를 성공했습니다.')
+                // alert('결제를 성공했습니다.')
             })
             .catch(error => {
                 console.error("DB 저장 에러: ", error);
