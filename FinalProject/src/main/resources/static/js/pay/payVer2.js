@@ -5,7 +5,7 @@ function requestPay(amount) {
     IMP.request_pay({
         pg: "html5_inicis",
         merchant_uid: createOrderNum(),
-        name: "가치페이" + amount,
+        name: "가치페이 " + amount,
         amount: amount,
         buyer_name: "배수지",
         buyer_email: "djwotjr5667@naver.com",
