@@ -108,7 +108,7 @@ button:active {
 
 form {
   max-width: 768px;
-  margin: 0 auto;
+  margin-top: -80px;
   padding: 100px 5%;
 }
 

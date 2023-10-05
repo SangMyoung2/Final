@@ -40,6 +40,11 @@ dependencies {
 	//websocket , stomp
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 	implementation 'org.webjars:stomp-websocket:2.3.3-1'
+
+	// https://mvnrepository.com/artifact/com.google.code.gson/gson
+	implementation 'com.google.code.gson:gson'
+
+
 }
 
 tasks.named('test') {
