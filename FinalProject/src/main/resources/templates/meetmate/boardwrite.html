@@ -6,15 +6,15 @@
 
 <link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/meetmate/boardwrite.css}"/>
 <link rel="icon" type="image/png" th:href="@{http://localhost:8080/image/로고.png}"/>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 
 </head>
 
 <body>
 
 <div layout:fragment="content">
-    <br/><br/>
 
-    <div class="container">
+    <div class="container1">
    
     <h1>Meetmate 개설하기</h1>
     <form method="POST" onsubmit="createMeetDate()">
@@ -46,7 +46,7 @@
             </div>
 
             <label>Meetmate 메인사진</label>
-            <input type="file" id="meetImage" accept="image/*, audio/*"/>
+            <input type="file" id="meetImage" accept="image/*, audio/*" class="t1"/>
         </div>
         <br/>
     
@@ -129,22 +129,22 @@
             <div id="wrap_type"> 
                 <span id="wrap_first_come" class="type">
                     <input type="radio" id="meetHowFirstCome" name="type" onclick="type()">
-                    <label> 선착순 </label>
+                    <label for="FirstCome"> 선착순 </label>
                 </span>
                 <span id="wrap_approve" class="type no_line">
                     <input type="radio" id="meetHowApprove" name="type" onclick="type()">
-                    <label> 승인제 </label>
+                    <label for="Approve"> 승인제 </label>
                 </span>
             </div> 
             
             <label>Meetmate 기본참가비</label>
-            <div id="wrap_entry_fee"> 
-                <span id="wrap_yes" class="entry_fee">
-                    <input type="radio" id="yes" name="meetEntryfeeYes" onclick="entry_fee()">
+            <div id="wrap_entryfee"> 
+                <span id="wrap_yes" class="entryfee">
+                    <input type="radio" id="yes" name="meetEntryfee" onclick="entryfee();">
                     <label for="yes"> 있음 </label>
                 </span>
-                <span id="wrap_no" class="entry_fee no_line">
-                    <input type="radio" id="no" name="meetEntryfeeNo">
+                <span id="wrap_no" class="entryfee">
+                    <input type="radio" id="no" name="meetEntryfee" onclick="entryfee();">
                     <label for="no"> 없음 </label>
                 </span>
             </div> 
@@ -161,7 +161,7 @@
         <input type="hidden" name="meetDate" value="">
 
         <button type="submit" class="createBtn">Meetmate 생성하기</button>     
-        <script>
+ <!--       <script>
             let meetDate = document.getElementById('meetDate')
             let str = "";
             let form = document.getElementById('myForm');    
@@ -181,35 +181,39 @@
             }
             
             meetDate.value = str;
-            // alert(str);
+            //alert(str);
             console.log(str);
             console.log('meetDate 값 : ' + meetDate.value);
             alert(meetDate.value)
             // form.action = '/meetmateList.action';
             // form.submit();
     }
-        </script>          
+        </script>          -->
         </form>
     </div>
+    
 </div>
 
 
 <script>
-/*
-    function entry_fee(){
+
+
+    function entryfee(){
         
-        var wrap_gender = document.getElementById("wrap_entry_fee")
-        var man = document.getElementById("yes")
-        var woman = document.getElementById("no")
+        var wrap_entryfee = document.getElementById("wrap_entryfee")
+        var yes = document.getElementById("yes")
+        var no = document.getElementById("no")
 
         if(yes.checked){
             document.getElementById("wrap_yes").className='entry_fee_act';
             document.getElementById("wrap_no").className='entry_fee';
         }
+
+        console.log('선택됨?..');
         
     }    
     
-
+/*
     function type(){
         
         var wrap_gender = document.getElementById("wrap_type")
