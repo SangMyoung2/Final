@@ -5,33 +5,68 @@
 <title>MeetMate 모임목록</title>
 
 <link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/meetmate/list.css}"/>
-<link rel="icon" type="image/png" th:href="@{http://localhost:8080/image/Icon2-removebg.png}"/>
+<link rel="icon" type="image/png" th:href="@{http://localhost:8080/image/로고.png}"/>
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 
 </head>
 <body>
-
+  
 <div layout:fragment="content">    
+ 
   <ul class="cards">
+      
       <li>
         <div class="card">
+          <div id="heart" class="heart"></div>    
+        <div id="heart" class="button__like"></div>  
           <a href="#">
-          <img src="https://i.imgur.com/oYiTqum.jpg" class="card__image" alt="" />  
+            <img src="https://i.imgur.com/oYiTqum.jpg" class="card__image" alt="" />  
           </a>
           <div class="card__overlay">
             <div class="card__header">
               <svg class="card__arc" xmlns="http://www.w3.org/2000/svg"><path /></svg>                     
               <img class="card__thumb" src="https://i.imgur.com/7D7I6dI.png" alt="" />
-              <div class="card__header-text">
-                <h3 class="card__title">카테고리 위치</h3>            
-                <span class="card__status">날짜, 시간, 위치</span><br/>
-                <span class="card__status1">현재 참석인원 / 최대인원 위치</span>
-              </div>             
+              <div class="card__header-wrapper">
+                <div class="card__header-text">
+                  <h3 class="card__title">카테고리 위치</h3>            
+                  <span class="card__status">날짜, 시간, 위치</span><br/>
+                  <span class="card__status1">현재 참석인원 / 최대인원 위치</span>
+                </div>
+              </div>       
             </div>
             <p class="card__description">이번 주 토요일 같이 저녁 먹으면서 얘기나눠요!  </p>
           </div>
-        </div>      
+        </div>    
+
       </li>
+      
     </ul>
+    
+
+    <script>
+
+      var isLike = false
+      /* when a user clicks, toggle the 'is-animating' class */
+      $(".heart").on('click touchstart', function(){
+        
+        isLike = !isLike
+        if(isLike){
+              $(this).toggleClass('is_animating');
+              $(this).addClass('like')
+          }
+          else{
+              $(this).removeClass('like')
+          }
+      });
+    
+      /*when the animation is over, remove the class*/
+      $(".heart").on('animationend', function(){
+        $(this).toggleClass('is_animating');
+      });
+          
+    </script>
+
 </div>
 
 </body>

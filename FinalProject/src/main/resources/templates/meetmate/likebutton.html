@@ -1,7 +1,7 @@
 <html layout:decorate="~{layout}">
     <head>
 <meta charset="UTF-8">
-
+<!-- List랑 합쳐서 이제 필요없음 나중에 확인하고 삭제하기 -->
 <title>좋아요 버튼</title>
 
 <link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/index.css}"/>
@@ -11,7 +11,7 @@
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 
 <style>
- .heart {
+.heart {
   cursor: pointer;
   height: 50px;
   width: 50px;
@@ -33,6 +33,14 @@
   animation: heart-burst 0.8s steps(28) 1;
 }
 
+.button__like {
+  position: absolute;
+  top: 5%;
+  right: 5%;
+  z-index: 1;
+  cursor: pointer;
+}
+
 @keyframes heart-burst {
   from {background-position:left;}
   to { background-position:right;}
@@ -44,6 +52,7 @@
 <body>        
     <div layout:fragment="content">   
         <div id="heart" class="heart"></div>    
+        <div id="heart" class="button__like"></div>    
     </div>
 </body>
 
@@ -66,6 +75,8 @@
   $(".heart").on('animationend', function(){
     $(this).toggleClass('is_animating');
   });
+
+  
 </script>
 
 </html>
