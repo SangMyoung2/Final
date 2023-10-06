@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class PointDTO {
-    private String userEmail;
-    private int pointBalance;
+public class userPointDTO {
+    private String user_email;
+    private int point_balance;
 }

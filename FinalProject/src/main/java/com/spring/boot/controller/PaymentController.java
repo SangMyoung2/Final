@@ -33,6 +33,9 @@ public class PaymentController {
     // 요청 본문에 포함 된 결제 정보를 서비스 레이어에 전달하여 처리한다.
     // 처리가 성공하면 성공 메세지와 함께 HTTP 200 상태 코드를, 실패하면 에러 메세지와 함께 HTTP 500 상태 코드를 반환.
     public ResponseEntity<String> receivePaymentInfo(@RequestBody PaymentInfoDTO paymentInfoDTO) {
+        
+        System.out.println("Received PaymentInfoDTO: " + paymentInfoDTO);
+        
         try {
             paymentService.processPaymentInfo(paymentInfoDTO);
             return new ResponseEntity<>("Payment data received successfully!", HttpStatus.OK);
