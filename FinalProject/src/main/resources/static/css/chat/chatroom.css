@@ -33,6 +33,7 @@ html,body {
 
 .form-group {
     margin-bottom: 15px;
+    padding: 20px 30px 0px 20px;
 }
 
 input {
@@ -138,7 +139,6 @@ button.accent {
 }
 
 #chat-page #messageForm {
-    padding: 20px;
 }
 
 #chat-page ul li {
@@ -180,7 +180,7 @@ button.accent {
     align-items: center;
 }
 
-#chat-page .chat-message img {
+#chat-page .chat-message .profile {
     position: absolute;
     width: 42px;
     height: 42px;
@@ -365,5 +365,18 @@ button.accent {
     right: -15px;
     font-size: 1.5rem;
     color: var(--send-bg-color);
-   
+    }
+
+.chat-headerline{
+    height: 10px;
+    background-color: #5CA8B5;
+}
+
+.chat-bottomline{
+    height: 20px;
+    background-color: #5CA8B5;
+}
+
+.sendImage {
+    max-width: 300px;
 }

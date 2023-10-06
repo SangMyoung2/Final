@@ -86,10 +86,10 @@ public class ChatDAO {
 
         System.out.println("userName = " + tmp);
 
-        while(room.getUserlist().containsValue(tmp)){
-            int randomNum = (int)(Math.random() * 100) + 1;
-            tmp = userName + randomNum;
-        }
+        // while(room.getUserlist().containsValue(tmp)){
+        //     int randomNum = (int)(Math.random() * 100) + 1;
+        //     tmp = userName + randomNum;
+        // }
         return tmp;
     }
 

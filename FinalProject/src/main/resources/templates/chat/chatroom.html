@@ -9,10 +9,6 @@
     
 </head>
 <body>
-<noscript>
-    <h2>Sorry! Your browser doesn't support Javascript</h2>
-</noscript>
-
 <div id="username-page">
     <div class="username-page-container">
         <h1 class="title">Type your username</h1>
@@ -28,11 +24,10 @@
     </div>
 </div>
 
-
 <div id="chat-page" class="hidden">
-    
 
     <div class="chat-container">
+        <div class="chat-headerline"></div>
         <div class="chat-header">
             <h2>[[${room.roomName}]]</h2>
         </div>
@@ -42,16 +37,18 @@
         <ul id="messageArea">
 
         </ul>
-        <form id="messageForm" name="messageForm" nameForm="messageForm">
+        <form id="messageForm" name="messageForm" nameForm="messageForm" enctype="multipart/form-data">
             <div class="form-group"> 
                 <div class="input-group clearfix">
                     <!-- <img src="http://localhost:8080/image/chat/none.png" alt="이미지 없음"/> -->
+                    <input type="file" id="imageMessage" name="file">
                     <input type="text" id="message" placeholder="" autocomplete="off"
                            class="form-control"/>
                     <button type="submit" class="primary">Send</button>
                 </div>
             </div>
         </form>
+        <div class="chat-bottomline"></div>
 
 </div>
 
