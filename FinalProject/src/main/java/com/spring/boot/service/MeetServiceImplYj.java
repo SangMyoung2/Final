@@ -16,20 +16,17 @@ public class MeetServiceImplYj implements MeetServiceYj {
 
     @Override
     public List<MeetDTOYj> getAllCategories() throws Exception {
-    
         return meetMapperYj.getAllCategories();
     
     }
 
     @Override
     public List<MeetDTOYj> getLists(int meet_listnum) throws Exception {
-        
         return meetMapperYj.getLists(meet_listnum);
     }
 
     @Override
     public List<MeetDTOYj> getReview() throws Exception {
-        
         return meetMapperYj.getReview();
     }
 
@@ -41,6 +38,11 @@ public class MeetServiceImplYj implements MeetServiceYj {
     @Override
     public void insertMeetReview(MeetDTOYj dto) throws Exception {
         meetMapperYj.insertMeetReview(dto);
+    }
+
+    @Override
+    public int getReviewNum(int meet_listnum) throws Exception {
+        return meetMapperYj.getReviewNum(meet_listnum);
     }
 
 }

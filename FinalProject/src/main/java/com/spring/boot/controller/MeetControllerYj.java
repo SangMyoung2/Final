@@ -1,10 +1,9 @@
 package com.spring.boot.controller;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -25,7 +23,7 @@ import com.spring.boot.service.MeetServiceYj;
 public class MeetControllerYj {
     
 	@Autowired
-		private MeetServiceYj meetServiceYj;
+	private MeetServiceYj meetServiceYj;
 
 	@GetMapping("/listYj.action")
 	public ModelAndView listYj() throws Exception {
@@ -55,7 +53,39 @@ public class MeetControllerYj {
 		
 	}
 	
+	 @PostMapping("/upload-review")
+    public ModelAndView uploadReview(HttpServletRequest request,
+            @RequestParam("meet_listnum") int meet_listnum,
+            @RequestParam("meet_memid") String meet_memid,
+            @RequestParam("meet_review_content") String meet_review_content,
+            @RequestParam("meet_review_img") MultipartFile meet_review_img) throws IOException {
+        
+        // 이미지 업로드 처리
+        String uploadDir = "경로를_지정하세요"; // 이미지를 저장할 디렉토리 경로를 지정해야 합니다.
 
+        if (!meet_review_img.isEmpty()) {
+            String originalFilename = meet_review_img.getOriginalFilename();
+            String uniqueFilename = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date()) + originalFilename;
+
+            // 이미지 파일을 지정된 경로에 저장
+            File destFile = new File(uploadDir, uniqueFilename);
+            meet_review_img.transferTo(destFile);
+
+            // MEET_REVIEW 테이블에 리뷰 정보 저장
+            MeetDTOYj dto = new MeetDTOYj();
+            dto.setMeet_listnum(meet_listnum);
+            dto.setMeet_memid(meet_memid);
+            dto.setMeet_review_content(meet_review_content);
+            dto.setMeet_review_date(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+            dto.setMeet_review_img(uniqueFilename); // 저장된 이미지 파일 이름을 저장
+
+			meetServiceYj.insertMeetReview(dto);
+
+        }
+
+        // 기존 articleYj 화면으로 리다이렉트
+        return new ModelAndView("redirect:/articleYj.action?meet_listnum=" + meet_listnum);
+    }
 	
 	@GetMapping("/managerYj.action")
 		public ModelAndView manageYj(HttpServletRequest request) throws Exception {

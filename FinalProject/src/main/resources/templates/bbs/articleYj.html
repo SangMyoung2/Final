@@ -110,7 +110,6 @@ document.querySelector('#submit-review').addEventListener('click', function() {
             alert('리뷰가 게시되었습니다: ' + response.message);
             document.querySelector('#review-content').value = '';
             document.querySelector('#review-image').value = ''; // 이미지 파일 선택 초기화
-            document.querySelector('.review-form').style.display = 'none';
         },
         error: function(error) {
             alert('오류 발생: ' + error.statusText);

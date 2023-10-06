@@ -21,9 +21,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     select meet_memid from MEET_INFO where meet_listnum = #{meet_listnum} order by meet_memid desc
 </select>
 
+<select id="getReviewNum" parameterType="int" resultType="int">
+    select nvl(max(meet_review_num),0) + 1
+    from meet_review
+    where meet_listnum = #(meet_listnum)
+</select>
+
 <insert id="insertMeetReview" parameterType="com.spring.boot.dto.MeetDTOYj">
-    insert into MEET_REVIEW (meet_listnum, meet_memid, meet_review_content, meet_review_date, meet_review_img)
-    VALUES (#{meet_listnum}, #{meet_memid}, #{meet_review_content}, #{meet_review_date}, #{meet_review_img})
+    insert into MEET_REVIEW (meet_listnum, meet_review_num, meet_memid, meet_review_content, meet_review_date, meet_review_img)
+    values (#{meet_listnum}, #{meet_review_num}, #{meet_memid}, #{meet_review_content}, #{meet_review_date}, #{meet_review_img})
 </insert>
 
 
