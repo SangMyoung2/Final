@@ -1,6 +1,10 @@
 package com.spring.boot.controller;
 
 import java.lang.management.MemoryType;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -8,10 +12,16 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.event.EventListener;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -60,7 +70,6 @@ public class ChatController {
     private Map<String, ChatContentCollection> chatMaps = new ConcurrentHashMap<>();
 
     int cnt = 0;
-
 
     // MessageMapping 을 통해 webSocket 로 들어오는 메시지를 발신 처리한다.
     // 이때 클라이언트에서는 /pub/chat/message 로 요청하게 되고 이것을 controller 가 받아서 처리한다.
@@ -118,7 +127,7 @@ public class ChatController {
         c.setSender(chat.getSender());
         c.setMessage(chat.getMessage());
         c.setTime(formattedDateTime);
-
+        c.setType("TALK");
         // 채팅내역 추가
         chatMaps.get(chat.getRoomId()).addLists(c);
 
@@ -208,7 +217,7 @@ public class ChatController {
         LocalDateTime currentDateTime = LocalDateTime.now();
         
         // 어제 날짜
-        currentDateTime = currentDateTime.minusDays(1);
+        //currentDateTime = currentDateTime.minusDays(1);
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String formattedDateTime = currentDateTime.format(formatter);
@@ -249,16 +258,55 @@ public class ChatController {
     // @MessageMapping("/chat/sendImage")
     // @SendTo("/topic/receiveImage")
     @PostMapping("/chat/sendImage")
-    public String receiveImage(){
-        System.out.println("이미지ㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣ");
-        // String imageData = image.getImage().getOriginalFilename();
-        // System.out.println("오리지널 : " + imageData);
-        // image.setType(MessageType.IMAGE);
+    public int receiveImage(@RequestParam("file") MultipartFile file,
+    @RequestParam("roomId") String roomId, @RequestParam("sender") String sender,
+    HttpServletRequest req){
+       
+        System.out.println("file" + file.getOriginalFilename());
+        
+        try {
 
-        // System.out.println("이미지 룸 아이디 : " + image.getRoomId());
-        // template.convertAndSend("/sub/chat/room/" + image.getRoomId(), image);
+            String saveFileName = UUID.randomUUID() + file.getOriginalFilename();
 
-        return null;
+            Resource resource = new ClassPathResource("static");
+            String resourcePath = resource.getFile().getAbsolutePath() + "/uploadFile";
+            System.out.println(resourcePath);
+            Path filePath = Paths.get(resourcePath, saveFileName);
+            // 파일 저장
+            Files.write(filePath, file.getBytes());
+
+            LocalDateTime currentDateTime = LocalDateTime.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            String formattedDateTime = currentDateTime.format(formatter);
+            
+            String src = "http://localhost:8080/uploadFile/" + saveFileName;
+
+            ChatMessage c = new ChatMessage();
+            c.setSender(sender);
+            c.setMessage(src);
+            c.setTime(formattedDateTime);
+            c.setType("IMAGE");
+            // 채팅내역 추가
+
+            System.out.println("메세지 : " + c.getMessage());
+            System.out.println("보낸이 : " + c.getSender());
+
+            chatMaps.get(roomId).addLists(c);
+            cnt++;
+
+            ChatDTO chat = new ChatDTO();
+            
+            chat.setMessage(src);
+            chat.setRoomId(roomId);
+            chat.setSender(sender);
+            chat.setType(MessageType.IMAGE);
+
+            template.convertAndSend("/sub/chat/room/" + chat.getRoomId(), chat);
+
+        } catch (Exception e) {
+            System.out.println(e.toString() + "이미지 전송 실패");
+        }
+        return 1;
     }
 
 

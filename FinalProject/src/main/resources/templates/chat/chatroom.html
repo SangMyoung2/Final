@@ -37,11 +37,11 @@
         <ul id="messageArea">
 
         </ul>
-        <form id="messageForm" name="messageForm" nameForm="messageForm" enctype="multipart/form-data">
-            <div class="form-group"> 
+        <form id="messageForm" name="messageForm" nameForm="messageForm">
+            <div class="form-group">
                 <div class="input-group clearfix">
                     <!-- <img src="http://localhost:8080/image/chat/none.png" alt="이미지 없음"/> -->
-                    <input type="file" id="imageMessage" name="file">
+                    <input type="file" id="imageMessage" name="file" accept="image/*">
                     <input type="text" id="message" placeholder="" autocomplete="off"
                            class="form-control"/>
                     <button type="submit" class="primary">Send</button>

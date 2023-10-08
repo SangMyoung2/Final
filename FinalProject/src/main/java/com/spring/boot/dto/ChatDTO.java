@@ -22,5 +22,7 @@ public class ChatDTO {
     private String sender;
     private String message;
     private String time;
-    private MultipartFile image;
+    private String originalFileName;
+    private String saveFileName;
+
 }

@@ -192,52 +192,16 @@ function onError(error) {
 function sendMessage(event) {
     let messageContent = messageInput.value.trim();
     let imageContent = imageInput.files[0];
-    console.log("이미지 : " + imageContent);
-    console.log("이미지 이름 : " + imageContent.name);
-    console.log("이미지 ?? : " + JSON.stringify(imageContent));
-
 
     if(imageContent){
         const formData = new FormData();
 
         formData.append('file', imageContent);
-
-        fetch('/chat/sendImage', {
-            method: 'POST',
-            body: formData,
-        })
-        .then(response => {
-            if (response.ok) {
-                return response.json();
-            } else {
-                throw new Error('파일 업로드 실패');
-            }
-        })
-        .then(data => {
-            // 서버 응답 처리
-            console.log(data);
-        })
-        .catch(error => {
-            // 오류 처리
-            console.error(error);
-        });
+        formData.append('roomId', roomId);
+        formData.append('sender', username);
+        sendImageToServer(formData);
+        
     }
-
-    // if(imageContent){
-    //     console.log("이미지 들어옴");
-    //     let reader = new FileReader();
-    //     sendMessageWithImage(imageContent);
-
-    //     // reader.onload = function(e){
-    //     //     const imageData = e.target.result;
-    //     //     console.log("이미지데이터 : " + imageData);
-    //     //     sendMessageWithImage(imageData);
-    //     // }
-
-    //     reader.readAsDataURL(imageContent);
-
-    //     ImageReceived();
-    // }
 
     if (messageContent && stompClient) {
         var chatMessage = {
@@ -256,9 +220,9 @@ function sendMessage(event) {
 function sendImageToServer(fileContent){
     fetch('/chat/sendImage', {
         method: 'POST',
-        headers: {
-            'Content-Type': 'multipart/form-data',
-        },
+        // headers: {
+        //     'Content-Type': 'multipart/form-data',
+        // },
         body: fileContent,
     })
     .then(response => {
@@ -349,31 +313,54 @@ function onMessageReceived(payload) {
         }
         
     }
-    else{
-        if(chat.sender !== sendUser || isReciveChat===false){
-            sendUser = chat.sender;
+    else{// 내가 보낸게 아니라면
+
+        if(chat.type === 'IMAGE'){
             messageElement.classList.add('chat-message');
 
-            var avatarElement = document.createElement('img');
-            avatarElement.src="http://localhost:8080/image/chat/none.png"
-            avatarElement.classList.add('profile');
-            var avatarText = document.createTextNode(chat.sender);
-            avatarElement.appendChild(avatarText);
-            //avatarElement.style['background-color'] = getAvatarColor(chat.sender);
+            if(isReciveChat===false){
+                var avatarElement = document.createElement('img');
+                avatarElement.src="http://localhost:8080/image/chat/none.png"
+                
+                var avatarText = document.createTextNode(chat.sender[0]);
+                avatarElement.appendChild(avatarText);
+                avatarElement.classList.add('profile');
+                messageElement.appendChild(avatarElement);
+                isReciveChat = true;
+                isSendCaht = false;
+            }
 
-            messageElement.appendChild(avatarElement);
-
-            var usernameElement = document.createElement('span');
-            var usernameText = document.createTextNode(chat.sender);
-            usernameElement.appendChild(usernameText);
-            messageElement.appendChild(usernameElement);
-            textElement.classList.add('balloon_left')
-            isReciveChat = true;
-            isSendCaht = false;
+            let imageElement = document.createElement('img');
+            imageElement.classList.add('sendImage');
+            imageElement.src = chat.message;
+            textElement.appendChild(imageElement);
         }
         else{
-            messageElement.classList.add('chat-message');
-            textElement.classList.add('sendtext');
+            if(isReciveChat===false){
+                sendUser = chat.sender;
+                messageElement.classList.add('chat-message');
+
+                var avatarElement = document.createElement('img');
+                avatarElement.src="http://localhost:8080/image/chat/none.png"
+                avatarElement.classList.add('profile');
+                var avatarText = document.createTextNode(chat.sender);
+                avatarElement.appendChild(avatarText);
+                //avatarElement.style['background-color'] = getAvatarColor(chat.sender);
+
+                messageElement.appendChild(avatarElement);
+
+                var usernameElement = document.createElement('span');
+                var usernameText = document.createTextNode(chat.sender);
+                usernameElement.appendChild(usernameText);
+                messageElement.appendChild(usernameElement);
+                textElement.classList.add('balloon_left')
+                isReciveChat = true;
+                isSendCaht = false;
+            }
+            else{
+                messageElement.classList.add('chat-message');
+                textElement.classList.add('sendtext');
+            }
         }
     }
 
@@ -405,51 +392,86 @@ function messageDiv(chatMessages){
     let chat = chatMessages;
     let messageElement = document.createElement('li');
     let textElement = document.createElement('div');
+    if(chat.sender === username) { // 내가 보낸 메세지 라면
 
-    if(chat.sender === username && chat.type !== 'IMAGE') { // 내가 보낸 채팅 이라면
-
-        if(isSendCaht == false){
+        if(chat.type === 'IMAGE'){
             messageElement.classList.add('chat-myMessage');
-            textElement.classList.add('balloon_right')
-            isSendCaht = true
-            isReciveChat = false;
+            let imageElement = document.createElement('img');
+            imageElement.classList.add('sendImage');
+            imageElement.src = chat.message;
+            textElement.appendChild(imageElement);
+            
+        }
+        else {
+            if(isSendCaht == false){
+                messageElement.classList.add('chat-myMessage');
+                textElement.classList.add('balloon_right')
+                isSendCaht = true
+                isReciveChat = false;
+            }
+            else{
+                messageElement.classList.add('chat-myMessage');
+                textElement.classList.add('sendtext');
+            }
+        }
+    }
+    else{ //상대방이 보낸 메세지 라면
+
+        if(chat.type === 'IMAGE'){
+            messageElement.classList.add('chat-message');
+
+            if(isReciveChat===false){
+                var avatarElement = document.createElement('img');
+                avatarElement.src="http://localhost:8080/image/chat/none.png"
+                
+                var avatarText = document.createTextNode(chat.sender[0]);
+                avatarElement.appendChild(avatarText);
+                avatarElement.classList.add('profile');
+                messageElement.appendChild(avatarElement);
+                isReciveChat = true;
+                isSendCaht = false;
+            }
+
+            let imageElement = document.createElement('img');
+            imageElement.classList.add('sendImage');
+            imageElement.src = chat.message;
+            textElement.appendChild(imageElement);
         }
         else{
-            messageElement.classList.add('chat-myMessage');
-            textElement.classList.add('sendtext');
+            if(isReciveChat===false){
+                messageElement.classList.add('chat-message');
+
+                var avatarElement = document.createElement('img');
+                avatarElement.src="http://localhost:8080/image/chat/none.png"
+                
+                var avatarText = document.createTextNode(chat.sender[0]);
+                avatarElement.appendChild(avatarText);
+                //avatarElement.style['background-color'] = getAvatarColor(chat.sender);
+                avatarElement.classList.add('profile');
+                messageElement.appendChild(avatarElement);
+
+                var usernameElement = document.createElement('span');
+                var usernameText = document.createTextNode(chat.sender);
+                usernameElement.appendChild(usernameText);
+                messageElement.appendChild(usernameElement);
+                textElement.classList.add('balloon_left')
+                isReciveChat = true;
+                isSendCaht = false;
+            }
+            else{
+                messageElement.classList.add('chat-message');
+                textElement.classList.add('sendtext');
+            }
         }
-        
+    }
+    let messageText
+    if(chat.type == 'IMAGE'){
+        messageText = document.createTextNode("");
     }
     else{
-        if(chat.type !== 'IMAGE' || chat.sender !== sendUser || isReciveChat===false){
-            sendUser = chat.sender;
-            messageElement.classList.add('chat-message');
-
-            var avatarElement = document.createElement('img');
-            avatarElement.src="http://localhost:8080/image/chat/none.png"
-            
-            var avatarText = document.createTextNode(chat.sender[0]);
-            avatarElement.appendChild(avatarText);
-            //avatarElement.style['background-color'] = getAvatarColor(chat.sender);
-
-            messageElement.appendChild(avatarElement);
-
-            var usernameElement = document.createElement('span');
-            var usernameText = document.createTextNode(chat.sender);
-            usernameElement.appendChild(usernameText);
-            messageElement.appendChild(usernameElement);
-            textElement.classList.add('balloon_left')
-            isReciveChat = true;
-            isSendCaht = false;
-        }
-        else{
-            messageElement.classList.add('chat-message');
-            textElement.classList.add('sendtext');
-        }
+        messageText = document.createTextNode(chat.message);
     }
-
     
-    let messageText = document.createTextNode(chat.message);
     textElement.appendChild(messageText);
     
     messageElement.appendChild(textElement);

@@ -15,7 +15,7 @@ import lombok.Data;
 @Data
 @Document(collection = "chatcontent")
 public class ChatContentCollection {
-
+    
     @Id
     private String roomId;
     private List<ChatMessage> chats;
@@ -34,5 +34,6 @@ public class ChatContentCollection {
         private String sender;
         private String message;
         private String time;
+        private String type;
     }
 }
