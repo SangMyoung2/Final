@@ -481,6 +481,48 @@ function messageDiv(chatMessages){
     messageArea.scrollTop = messageArea.scrollHeight;
 }
 
+$(function(){
+
+    //드래그앤드랍
+    $("#messageArea").on("dragenter", function(e){
+        e.preventDefault();
+        e.stopPropagation();
+    }).on("dragover", function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        $(this).css("background-color", "#FFD8D8");
+    }).on("dragleave", function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        $(this).css("background-color", "#FFF");
+    }).on("drop", function(e){
+        e.preventDefault();
+
+        var files = e.originalEvent.dataTransfer.files;
+        if(files != null && files != undefined){
+            console.log("드래그 이미지 drop");
+            
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                console.log('파일 이름:', file.name);
+                console.log('파일 크기:', file.size, '바이트');
+                console.log('파일 타입:', file.type);
+                const formData = new FormData();
+
+                formData.append('file', files[i]);
+                formData.append('roomId', roomId);
+                formData.append('sender', username);
+                sendImageToServer(formData);
+            }
+        }
+
+        $(this).css("background-color", "#FFF");
+    });
+});
+
+
+
+
 
 function getAvatarColor(messageSender) {
     var hash = 0;
