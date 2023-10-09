@@ -8,9 +8,9 @@ public interface MeetServiceYj {
 
     public List<MeetDTOYj> getAllCategories() throws Exception;
 
-    public List<MeetDTOYj> getLists(int meet_listnum) throws Exception;
+    public MeetDTOYj getMeetInfo(int meet_listnum) throws Exception;
 
-    public List<MeetDTOYj> getReview() throws Exception;
+    public List<MeetDTOYj> getReview(int meet_listnum) throws Exception;
 
     public List<String> getMeetMembers(int meet_listnum) throws Exception;
 

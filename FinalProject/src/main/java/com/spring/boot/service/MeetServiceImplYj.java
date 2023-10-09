@@ -21,13 +21,13 @@ public class MeetServiceImplYj implements MeetServiceYj {
     }
 
     @Override
-    public List<MeetDTOYj> getLists(int meet_listnum) throws Exception {
-        return meetMapperYj.getLists(meet_listnum);
+    public MeetDTOYj getMeetInfo(int meet_listnum) throws Exception {
+        return meetMapperYj.getMeetInfo(meet_listnum);
     }
 
     @Override
-    public List<MeetDTOYj> getReview() throws Exception {
-        return meetMapperYj.getReview();
+    public List<MeetDTOYj> getReview(int meet_listnum) throws Exception {
+        return meetMapperYj.getReview(meet_listnum);
     }
 
     @Override

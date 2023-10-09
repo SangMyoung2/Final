@@ -64,13 +64,53 @@
         });
 
 
-        document.querySelector('#submit-review').addEventListener('click', function() {
-            var reviewContent = document.querySelector('#review-content').value;
-            // 리뷰 게시 로직
-            alert('리뷰가 게시되었습니다: ' + reviewContent);
+        // document.querySelector('#submit-review').addEventListener('click', function() {
+        //     var reviewContent = document.querySelector('#review-content').value;
+        //     // 리뷰 게시 로직
+        //     alert('리뷰가 게시되었습니다: ' + reviewContent);
+        //     document.querySelector('#review-content').value = '';
+        //     document.querySelector('.review-form').style.display = 'none';
+        // });
+        
+
+        document.querySelector('#submit-review').addEventListener('click', function(e) {
+    e.preventDefault(); // 기본 이벤트 동작 방지 (페이지 새로고침 방지)
+
+    var meetListNum = document.querySelector('#meet-listnum').value;
+    var reviewContent = document.querySelector('#review-content').value;
+    var reviewImage = document.querySelector('#review-image').files[0];
+
+    // 리뷰 내용과 이미지 중 적어도 하나는 필수로 입력되어야 함
+    if (reviewContent.trim() === '' && !reviewImage) {
+        alert('리뷰 내용 또는 이미지를 작성해주세요.');
+        return;
+    }
+
+    // 이미지 파일을 FormData에 추가 (이미지를 선택하지 않은 경우 무시)
+    var formData = new FormData();
+    formData.append('meet_listnum', meetListNum);
+    formData.append('meet_review_content', reviewContent);
+    if (reviewImage) {
+        formData.append('meet_review_img', reviewImage);
+    }
+
+    // 서버로 데이터 전송 (AJAX를 사용하여 서버로 POST 요청 보내기)
+    $.ajax({
+        url: '/upload-review',
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function(response) {
+            alert('리뷰가 게시되었습니다: ' + response.message);
             document.querySelector('#review-content').value = '';
-            document.querySelector('.review-form').style.display = 'none';
-        });
+            document.querySelector('#review-image').value = ''; // 이미지 파일 선택 초기화
+        },
+        error: function(xhr, status, error) {
+            alert('오류 발생: ' + status);
+        }
+    });
+});
 
         
     });
@@ -85,37 +125,7 @@
     });
 });
 
-document.querySelector('#submit-review').addEventListener('click', function() {
-    var reviewContent = document.querySelector('#review-content').value;
-    var reviewImage = document.querySelector('#review-image').files[0]; // 업로드한 이미지 파일 가져오기
 
-    if (reviewContent.trim() === '') {
-        alert('리뷰 내용을 작성해주세요.');
-        return;
-    }
-
-    // 이미지 파일을 FormData에 추가
-    var formData = new FormData();
-    formData.append('content', reviewContent);
-    formData.append('image', reviewImage);
-
-    // 서버로 데이터 전송 (AJAX를 사용하여 서버로 POST 요청 보내기)
-    $.ajax({
-        url: '/upload-review', // 서버의 업로드 처리 URL로 변경해야 함
-        type: 'POST',
-        data: formData,
-        processData: false,
-        contentType: false,
-        success: function(response) {
-            alert('리뷰가 게시되었습니다: ' + response.message);
-            document.querySelector('#review-content').value = '';
-            document.querySelector('#review-image').value = ''; // 이미지 파일 선택 초기화
-        },
-        error: function(error) {
-            alert('오류 발생: ' + error.statusText);
-        }
-    });
-});
 
     
 
@@ -156,24 +166,24 @@ document.querySelector('#submit-review').addEventListener('click', function() {
     
                 <div class="yj-img">
                     <img th:src="@{/image/bbsYj/6666.png}"/>
-                    <div class="Main_content" th:each="meet : ${meetList}">
+                    <div class="Main_content" >
                         <div class="round-image">
                             <img th:src="@{/image/bbsYj/1111.jpg}"/>
                         </div>
-                        <p class="Yj-master" th:text="${meet.meet_master}"></p>
-                        <p class="Yj-title" th:text="${meet.meet_title}"></p>
+                        <p class="Yj-master" th:text="${meetInfo.meet_master}"></p>
+                        <p class="Yj-title" th:text="${meetInfo.meet_title}"></p>
                     </div>
-                    <div class="main-text" th:each="meet : ${meetList}">
-                        <p class="Yj-text1" th:text="${meet.meet_content}"></p>
+                    <div class="main-text">
+                        <p class="Yj-text1" th:text="${meetInfo.meet_content}"></p>
 
                         <div class="yj-info">상세 정보</div>
-                        <p class="text-with-hyphen Yj-text2" th:text="${meet.meet_place}"></p>
-                        <p class="text-with-hyphen Yj-text2" th:text="${meet.meet_date}"></p>
+                        <p class="text-with-hyphen Yj-text2" th:text="${meetInfo.meet_place}"></p>
+                        <p class="text-with-hyphen Yj-text2" th:text="${meetInfo.meet_date}"></p>
 
                         <div class="yj-inwon">모집 인원</div>
                         <div class="text-container">
-                            <p class="Yj-text3" th:text="${meet.meet_memcnt}"></p>/
-                            <p class="Yj-text3" th:text="${meet.meet_max_memcnt}"></p>
+                            <p class="Yj-text3" th:text="${meetInfo.meet_memcnt}"></p>/
+                            <p class="Yj-text3" th:text="${meetInfo.meet_max_memcnt}"></p>
                         </div>
                         <button class="join-button">
                             <span class="icon">📝</span> 가입하기
@@ -186,7 +196,7 @@ document.querySelector('#submit-review').addEventListener('click', function() {
                 <div class="meet-members">
                     <p>
                         <span style="margin-right: 5px;">멤버목록</span>
-                        <a th:href="@{'/managerYj.action?meet_listnum=' + ${meetList[0].meet_listnum}}">
+                        <a th:href="@{'/managerYj.action?meet_listnum=' + ${meetInfo.meet_listnum}}">
                             <i class="fa-solid fa-gear fa-sm" style="color: #adadad; vertical-align: 0px;"></i>
                         </a>
                     </p>
@@ -206,13 +216,16 @@ document.querySelector('#submit-review').addEventListener('click', function() {
         <div class="review-title">REVIEW</div>
         <div class="review-sub">이 모임 유저의 생생한 후기를 만나보세요!</div>
         <div class="review-write">작성하기</div>
+        <form action="/upload-review" method="POST" enctype="multipart/form-data">
         <div class="review-form" style="display: none;">
             <div class="review-input">
-                <textarea id="review-content" placeholder=" 리뷰를 작성해주세요."></textarea>
-                <input type="file" id="review-image" accept="image/*">
+                <textarea name="meet_review_content" id="review-content" placeholder=" 리뷰를 작성해주세요."></textarea>
+                <input type="file" name="meet_review_img" id="review-image" accept="image/*">
+                <input type="hidden" id="meet-listnum" name="meet_listnum" th:value="${meetListNum}" />
                 <button id="submit-review">등록하기</button>
             </div>
         </div>
+        </form>
         <div class="d-flex justify-content-center mb-4" th:each="meetReview : ${meetReview}">
             <div class="card" style="width: 36rem; margin-bottom: 20px; border:none;">
                 <div class="card-body">
@@ -222,7 +235,8 @@ document.querySelector('#submit-review').addEventListener('click', function() {
                         </div>
                         <p class="memid" th:text="${meetReview.meet_memid}"></p>
                         <div class="col-md-4 mx-auto" style="width: 300px; height: 300px; overflow: hidden; border-radius: 5px; margin-bottom: 10px; margin-top: 10px;">
-                            <img th:src="@{/image/bbsYj/000.jpeg}" class="img-fluid rounded-start" alt="..." style="width: 100%; height: 100%; object-fit: cover;">
+                            <img th:src="${meetReview.meet_review_img}"  class="img-fluid rounded-start" alt="..." style="width: 100%; height: 100%; object-fit: cover;">
+                            <!-- <img th:src="@{/image/bbsYj/000.jpeg}" class="img-fluid rounded-start" alt="..." style="width: 100%; height: 100%; object-fit: cover;"> -->
                         </div>
                     </div>
                     <p class="card-text" th:text="${meetReview.meet_review_content}" style="padding-left: 10px; padding-right: 10px; text-align: justify; font-size: 18px; margin-bottom: 5px;"></p>

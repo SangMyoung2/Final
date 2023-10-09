@@ -22,6 +22,7 @@ public class MeetDTOYj {
     private String meet_memid;
     private int meet_memblack;
 
+    private int meet_review_num;
     private String meet_review_content;
     private String meet_review_date;
     private String meet_review_img;

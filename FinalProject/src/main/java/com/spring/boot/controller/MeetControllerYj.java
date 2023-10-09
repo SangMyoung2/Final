@@ -1,7 +1,6 @@
 package com.spring.boot.controller;
 
 import java.io.File;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -38,13 +37,14 @@ public class MeetControllerYj {
 
 	@GetMapping("/articleYj.action")
 	public ModelAndView articleYj(HttpServletRequest request) throws Exception {
-		
-		List<MeetDTOYj> meetList = meetServiceYj.getLists(Integer.parseInt(request.getParameter("meet_listnum")));
+
+		MeetDTOYj meetInfo = meetServiceYj.getMeetInfo(Integer.parseInt(request.getParameter("meet_listnum")));
 		List<String> meetMembers = meetServiceYj.getMeetMembers(Integer.parseInt(request.getParameter("meet_listnum")));
-		List<MeetDTOYj> meetReview = meetServiceYj.getReview();
+		List<MeetDTOYj> meetReview = meetServiceYj.getReview(Integer.parseInt(request.getParameter("meet_listnum")));
 		ModelAndView mav = new ModelAndView();
 
-		mav.addObject("meetList", meetList);
+		mav.addObject("meetListNum", request.getParameter("meet_listnum"));
+		mav.addObject("meetInfo", meetInfo);
 		mav.addObject("meetMembers", meetMembers);
 		mav.addObject("meetReview", meetReview);
 		mav.setViewName("bbs/articleYj");
@@ -53,35 +53,35 @@ public class MeetControllerYj {
 		
 	}
 	
-	 @PostMapping("/upload-review")
+	@PostMapping("/upload-review")
     public ModelAndView uploadReview(HttpServletRequest request,
             @RequestParam("meet_listnum") int meet_listnum,
-            @RequestParam("meet_memid") String meet_memid,
             @RequestParam("meet_review_content") String meet_review_content,
-            @RequestParam("meet_review_img") MultipartFile meet_review_img) throws IOException {
+            @RequestParam("meet_review_img") MultipartFile meet_review_img) throws Exception {
         
         // 이미지 업로드 처리
-        String uploadDir = "경로를_지정하세요"; // 이미지를 저장할 디렉토리 경로를 지정해야 합니다.
+        String uploadDir = "C:\\VSCode\\Final\\FinalProject\\src\\main\\resources\\static\\image\\bbsYj";
+
+        // MEET_REVIEW 테이블에 리뷰 정보 저장
+        MeetDTOYj dto = new MeetDTOYj();
 
         if (!meet_review_img.isEmpty()) {
             String originalFilename = meet_review_img.getOriginalFilename();
-            String uniqueFilename = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date()) + originalFilename;
 
             // 이미지 파일을 지정된 경로에 저장
-            File destFile = new File(uploadDir, uniqueFilename);
-            meet_review_img.transferTo(destFile);
-
-            // MEET_REVIEW 테이블에 리뷰 정보 저장
-            MeetDTOYj dto = new MeetDTOYj();
-            dto.setMeet_listnum(meet_listnum);
-            dto.setMeet_memid(meet_memid);
+			File destFile = new File(uploadDir, originalFilename);
+			meet_review_img.transferTo(destFile);
+			dto.setMeet_review_img(originalFilename); // 원본 이미지 파일 이름을 저장
+		}
+			dto.setMeet_listnum(meet_listnum);
+			dto.setMeet_memid("kim"); // TODO : 세션에서 memid 가져와야됨
             dto.setMeet_review_content(meet_review_content);
             dto.setMeet_review_date(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
-            dto.setMeet_review_img(uniqueFilename); // 저장된 이미지 파일 이름을 저장
+
+			int meet_review_num = meetServiceYj.getReviewNum(meet_listnum);
+			dto.setMeet_review_num(meet_review_num);
 
 			meetServiceYj.insertMeetReview(dto);
-
-        }
 
         // 기존 articleYj 화면으로 리다이렉트
         return new ModelAndView("redirect:/articleYj.action?meet_listnum=" + meet_listnum);
@@ -90,7 +90,7 @@ public class MeetControllerYj {
 	@GetMapping("/managerYj.action")
 		public ModelAndView manageYj(HttpServletRequest request) throws Exception {
 	
-			List<MeetDTOYj> meetList = meetServiceYj.getLists(Integer.parseInt(request.getParameter("meet_listnum")));
+			MeetDTOYj meetList = meetServiceYj.getMeetInfo(Integer.parseInt(request.getParameter("meet_listnum")));
 			List<String> meetMembers = meetServiceYj.getMeetMembers(Integer.parseInt(request.getParameter("meet_listnum")));
 
 			ModelAndView mav = new ModelAndView();
