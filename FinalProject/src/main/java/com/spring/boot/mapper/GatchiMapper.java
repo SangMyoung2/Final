@@ -16,6 +16,8 @@ public interface GatchiMapper {
 	public GatchiDTO getReadData(int meetListNum) throws Exception;
 
 	public List<GatchiDTO> getMeetLists() throws Exception;
+
+    public void meetLikes(int meetListNum) throws Exception;
 	
 	// public int getDataCount(String searchKey, String searchValue) throws Exception;
 	

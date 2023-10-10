@@ -27,13 +27,23 @@ public class GatchiServiceImpl implements GatchiService{
 	}
 	
 	@Override
-	
 	public List<GatchiDTO> getMeetLists() throws Exception{
 		return gatchiMapper.getMeetLists();
 	}
 
+	@Override
+	public void meetLikes(int meetListNum) throws Exception {
+		gatchiMapper.meetLikes(meetListNum);
+	}
+
 	/*
-	
+
+	@Override
+	public void updateHitCount(int num) throws Exception {
+		boardMapper.updateHitCount(num);
+	}
+
+
 
 	@Override
 	public void insertData(BoardDTO dto) throws Exception {
@@ -57,10 +67,6 @@ public class GatchiServiceImpl implements GatchiService{
 		return boardMapper.getReadData(num);
 	}
 
-	@Override
-	public void updateHitCount(int num) throws Exception {
-		boardMapper.updateHitCount(num);
-	}
 
 	@Override
 	public void updateData(BoardDTO dto) throws Exception {

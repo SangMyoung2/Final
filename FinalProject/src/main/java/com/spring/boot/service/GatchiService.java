@@ -13,6 +13,8 @@ public interface GatchiService {
 	public int maxNum() throws Exception;
 	
 	public List<GatchiDTO> getMeetLists() throws Exception;
+	public void meetLikes(int meetListNum) throws Exception;
+
 	// public void insertData(BoardDTO dto) throws Exception;
 	
 	// public int getDataCount(String searchKey,String searchValue) throws Exception;

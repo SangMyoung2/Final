@@ -349,7 +349,7 @@ public class MeetmateController {
 
 		meetLists = gatchiService.getMeetLists();
 
-		System.out.println("모임 DB 가져온 내용 : " + meetLists);
+		//System.out.println("모임 DB 가져온 내용 : " + meetLists);
 
 		mav.addObject("meetLists", meetLists);
 		mav.setViewName("/meetmate/list");
