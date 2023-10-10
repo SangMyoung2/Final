@@ -10,8 +10,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -42,11 +44,13 @@ import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 import com.spring.boot.chat.Chat;
 import com.spring.boot.chat.ChatDAO;
 import com.spring.boot.collection.ChatContentCollection;
+import com.spring.boot.collection.ChatRoomCollection;
 import com.spring.boot.collection.ChatContentCollection.ChatMessage;
 import com.spring.boot.dto.ChatDTO;
 import com.spring.boot.dto.ChatImageDTO;
 import com.spring.boot.dto.ChatDTO.MessageType;
 import com.spring.boot.service.ChatContentService;
+import com.spring.boot.service.ChatRoomService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -64,12 +68,17 @@ public class ChatController {
     @Autowired
     private final ChatContentService chatContentService;
 
+    @Autowired
+    private final ChatRoomService chatRoomService;
+
     private String userUUID;
 
     // 채팅방 별 데이터 저장할 공간
     private Map<String, ChatContentCollection> chatMaps = new ConcurrentHashMap<>();
 
-    int cnt = 0;
+    private int roomInUser = 0;
+    private int userCount = 0;
+    private int cnt = 0;
 
     // MessageMapping 을 통해 webSocket 로 들어오는 메시지를 발신 처리한다.
     // 이때 클라이언트에서는 /pub/chat/message 로 요청하게 되고 이것을 controller 가 받아서 처리한다.
@@ -86,14 +95,62 @@ public class ChatController {
         // 반환 결과를 socket session 에 userUUID 로 저장
         // headerAccessor.getSessionAttributes().put("userUUID", userUUID);
         // headerAccessor.getSessionAttributes().put("roomId", chat.getRoomId());
+
+        // 여기부터 읽었는지 확인 하는 코드
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String formattedCollection = currentDateTime.format(formatter);
+
+        Optional<ChatRoomCollection> room = chatRoomService.getReadDate(chat.getRoomId());
+        // System.out.println(room.isPresent());
+        // System.out.println("room.get()은 : " + room.get());
+        ChatRoomCollection rooms = (ChatRoomCollection)room.get();
+
+        // 여기는 신규유저 인지 아닌지 확인 하는곳
+        if(!rooms.getUsers().contains(chat.getSender())){
+            System.out.println("신규 유저 입장!");
+            rooms.getUsers().add(chat.getSender());
+            int userCnt = rooms.getUserCount();
+            rooms.setUserCount(userCnt + 1);
+            chat.setMessage(chat.getSender() + " 님 환영합니다!!");
+            chat.setType(MessageType.ENTER);
+            template.convertAndSend("/sub/chat/room/" + chat.getRoomId(), chat);
+        }
+        userCount = rooms.getUserCount();
+        //여기까지 신규유저 확인
         
-        chat.setMessage(chat.getSender() + " 님 환영합니다!! 메롱");
+        ChatContentCollection roomChat = chatContentService.findByRoomIdIn(chat.getRoomId() + formattedCollection);
+        if(roomChat != null){
+            List<ChatMessage> chatMessage = roomChat.getChats();
+            System.out.println("챗 메세지 : " + chatMessage);
+            if(!chatMessage.get(0).getReadUser().contains(chat.getSender())){
+                for(int i=0; i<chatMessage.size(); i++){
+                    System.out.println("카운트 내려주는 곳 " + i);
+                    List<String> readUserList = chatMessage.get(i).getReadUser();
+                    readUserList.add(chat.getSender());
+                    int rCnt = chatMessage.get(i).getReadCount();
+                    if(rCnt > 0){
+                        //c.setReadCount(c.getReadCount() - 1);
+                        chatMessage.get(i).setReadCount(rCnt - 1);
+                        chatMessage.get(i).setReadUser(readUserList);
+                    }
+                }
+            
+                roomChat.setChats(chatMessage);
+                chatContentService.updateChat(roomChat);
+            }
+        }
+        chatRoomService.updateChatRoom(rooms);
+        // 요까지 
+
+        roomInUser++;
+        System.out.println("현재 채팅치는 인원수(in) : " + roomInUser);
         
         System.out.println("chat.getRoomId : " + chat.getRoomId());
 
         // DB데이터 가져오던 줄
 
-        template.convertAndSend("/sub/chat/room/" + chat.getRoomId(), chat);
+        
 
     }
 
@@ -128,6 +185,15 @@ public class ChatController {
         c.setMessage(chat.getMessage());
         c.setTime(formattedDateTime);
         c.setType("TALK");
+        c.setReadCount(userCount - roomInUser);
+
+        List<String> readUserList = c.getReadUser();
+        readUserList.add(chat.getSender());
+
+        c.setReadUser(readUserList);
+
+        chat.setReadCount(c.getReadCount());
+        
         // 채팅내역 추가
         chatMaps.get(chat.getRoomId()).addLists(c);
 
@@ -137,15 +203,16 @@ public class ChatController {
         // chatMaps.replace(chat.getRoomId(), chatContentCollection);
 
         //System.out.println("chatMaps 데이터 : " + chatMaps.get(chat.getRoomId()));
-        
-        if(cnt >= 5){
-            System.out.println("DB 인서트");
-            chatContentService.insertChat(chatMaps.get(chat.getRoomId()));
-            cnt = 0;
-        }else{
-            System.out.println("cnt ++ -----------------------------------");
-            cnt++;
-        }
+        chatContentService.insertChat(chatMaps.get(chat.getRoomId()));
+
+        // if(cnt >= 5){
+        //     System.out.println("DB 인서트");
+        //     chatContentService.insertChat(chatMaps.get(chat.getRoomId()));
+        //     cnt = 0;
+        // }else{
+        //     System.out.println("cnt ++ -----------------------------------");
+        //     cnt++;
+        // }
 
         template.convertAndSend("/sub/chat/room/" + chat.getRoomId(), chat);
     }
@@ -182,6 +249,8 @@ public class ChatController {
 
         //     template.convertAndSend("/sub/chat/room/" + roomId, chat);
         // }
+        roomInUser--;
+        System.out.println("현재 채팅치는 인원수(out) : " + roomInUser);
     }
 
     // 채팅에 참여한 유저 리스트 반환
@@ -286,13 +355,13 @@ public class ChatController {
             c.setMessage(src);
             c.setTime(formattedDateTime);
             c.setType("IMAGE");
+            c.setReadCount(userCount - roomInUser);
             // 채팅내역 추가
-
             System.out.println("메세지 : " + c.getMessage());
             System.out.println("보낸이 : " + c.getSender());
 
             chatMaps.get(roomId).addLists(c);
-            cnt++;
+            chatContentService.insertChat(chatMaps.get(roomId));
 
             ChatDTO chat = new ChatDTO();
             
@@ -309,4 +378,21 @@ public class ChatController {
         return 1;
     }
 
+    @PostMapping("/chat/getReadCount")
+    public Map<String,Object> readCount(@RequestBody Map<String, String> requestMap){
+        //System.out.println("chat GetReaddCount에 들어옴");
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String formattedCollection = currentDateTime.format(formatter);
+
+        ChatContentCollection roomChat = chatContentService.getChatContentWithReadCountGreaterThanZero(requestMap.get("roomId") + formattedCollection);
+        System.out.println("채팅 : " + roomChat);
+        if(roomChat == null) return null;
+        List<ChatMessage> chatMessage = roomChat.getChats();
+
+        Map<String, Object> data = new HashMap<>();
+        data.put("data", chatMessage);
+
+        return data;
+    }
 }

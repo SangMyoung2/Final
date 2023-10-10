@@ -12,5 +12,6 @@ public interface ChatContentRepository extends MongoRepository<ChatContentCollec
     
     public ChatContentCollection findByRoomIdIn(String roomId);
     public List<ChatContentCollection> findAllByRoomIdIn(String roomId);
-    
+    public ChatContentCollection findByRoomIdAndChatsReadCountGreaterThan(String roomId, int readCount);
+
 }

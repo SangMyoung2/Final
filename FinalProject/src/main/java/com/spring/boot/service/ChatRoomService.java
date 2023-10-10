@@ -25,6 +25,10 @@ public class ChatRoomService {
         return chatRoomRepository.save(chatRoomCollection);
     }
 
+    public void updateChatRoom(ChatRoomCollection chatRoomCollection){
+        chatRoomRepository.save(chatRoomCollection);
+    }
+
     public List<ChatRoomCollection> getLists(){
         List<ChatRoomCollection> lists = chatRoomRepository.findAll();
         Collections.reverse(lists);
@@ -41,8 +45,7 @@ public class ChatRoomService {
         return chatRoomRepository.findById(roomId);
     }
 
-
-
+    
 
 
 

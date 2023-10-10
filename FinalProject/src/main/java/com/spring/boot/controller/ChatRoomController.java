@@ -53,10 +53,10 @@ public class ChatRoomController {
         System.out.println("ChatList 화면 입니다.");
         // ModelAndView mav = new ModelAndView();
         // mav.addObject("list", chatDAO.findAllChatRoom());
-
+        
         // 로그인 된 유저 방만 찾기
         // 세션에 로그인된 아이디 받아와서 찾아주고
-        List<ChatRoomCollection> lists = chatRoomService.getFindNameInUsers("123");
+        List<ChatRoomCollection> lists = chatRoomService.getFindNameInUsers("김밥");
         System.out.println("lists : " + lists);
 
         mav.addObject("list", lists);

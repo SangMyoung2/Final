@@ -65,9 +65,8 @@ function onConnected() {
             type: 'ENTER'
         })
     )
-
+    
     connectingElement.classList.add('hidden');
-
 }
 
 let chatMessage;
@@ -208,7 +207,8 @@ function sendMessage(event) {
             "roomId": roomId,
             sender: username,
             message: messageContent,
-            type: 'TALK'
+            type: 'TALK',
+            readCount: 0
         };
         console.log(messageContent)
         stompClient.send("/pub/chat/sendMessage", {}, JSON.stringify(chatMessage));
@@ -273,6 +273,9 @@ function onMessageReceived(payload) {
     console.log("playload : " + payload);
 
     var chat = JSON.parse(payload.body);
+    console.log("메세지 : " + chat.message);
+    console.log("읽음안읽음 카운트 : " + chat.readCount);
+
     console.log("메세지 타입 : " + chat.type);
 
     var messageElement = document.createElement('li');
@@ -334,6 +337,7 @@ function onMessageReceived(payload) {
             imageElement.classList.add('sendImage');
             imageElement.src = chat.message;
             textElement.appendChild(imageElement);
+            textElement.classList.add('sendImageDiv')
         }
         else{
             if(isReciveChat===false){
@@ -341,7 +345,7 @@ function onMessageReceived(payload) {
                 messageElement.classList.add('chat-message');
 
                 var avatarElement = document.createElement('img');
-                avatarElement.src="http://localhost:8080/image/chat/none.png"
+                avatarElement.src="http://localhost:8080/image/chat/none.png";
                 avatarElement.classList.add('profile');
                 var avatarText = document.createTextNode(chat.sender);
                 avatarElement.appendChild(avatarText);
@@ -353,7 +357,7 @@ function onMessageReceived(payload) {
                 var usernameText = document.createTextNode(chat.sender);
                 usernameElement.appendChild(usernameText);
                 messageElement.appendChild(usernameElement);
-                textElement.classList.add('balloon_left')
+                textElement.classList.add('balloon_left');
                 isReciveChat = true;
                 isSendCaht = false;
             }
@@ -376,13 +380,38 @@ function onMessageReceived(payload) {
         var messageText = document.createTextNode(chat.message);
         textElement.appendChild(messageText);
     }
-    
-    messageElement.appendChild(textElement);
+
+    if(chat.type != 'ENTER' && chat.type != 'LEAVE'){
+        // 읽음 count
+        if(chat.sender === username){
+            var readCountElement = document.createElement('p');
+            readCountElement.classList.add('readCount');
+            readCountElement.setAttribute('name', 'readCnt');
+            readCountElement.value = chat.readCount;
+            var readCountText = document.createTextNode(chat.readCount);
+            readCountElement.appendChild(readCountText);
+            messageElement.appendChild(readCountElement);
+            messageElement.appendChild(textElement);
+        }
+        else{
+            messageElement.appendChild(textElement);
+            var readCountElement = document.createElement('p');
+            readCountElement.classList.add('readCount');
+            readCountElement.setAttribute('name', 'readCnt');
+            readCountElement.value = chat.readCount;
+            var readCountText = document.createTextNode(chat.readCount);
+            readCountElement.appendChild(readCountText);
+            messageElement.appendChild(readCountElement);
+        }
+    }
     //messageElement.appendChild(messageText);
     
     messageArea.appendChild(messageElement);
     messageArea.scrollTop = messageArea.scrollHeight;
 }
+
+//var messageElement ('li');
+//var textElement ('div');
 
 function messageDiv(chatMessages){
     //var chat = JSON.parse(message.body);
@@ -471,9 +500,31 @@ function messageDiv(chatMessages){
     else{
         messageText = document.createTextNode(chat.message);
     }
-    
+
+    if(chat.type != 'ENTER' && chat.type != 'LEAVE'){
+        // 읽음 count
+        if(chat.sender === username){
+            var readCountElement = document.createElement('p');
+            readCountElement.classList.add('readCount');
+            readCountElement.setAttribute('name', 'readCnt');
+            readCountElement.value = chat.readCount;
+            var readCountText = document.createTextNode(chat.readCount);
+            readCountElement.appendChild(readCountText);
+            messageElement.appendChild(readCountElement);
+            messageElement.appendChild(textElement);
+        }
+        else{
+            messageElement.appendChild(textElement);
+            var readCountElement = document.createElement('p');
+            readCountElement.classList.add('readCount');
+            readCountElement.setAttribute('name', 'readCnt');
+            readCountElement.value = chat.readCount;
+            var readCountText = document.createTextNode(chat.readCount);
+            readCountElement.appendChild(readCountText);
+            messageElement.appendChild(readCountElement);
+        }
+    }
     textElement.appendChild(messageText);
-    
     messageElement.appendChild(textElement);
     //messageElement.appendChild(messageText);
     
@@ -481,6 +532,8 @@ function messageDiv(chatMessages){
     messageArea.scrollTop = messageArea.scrollHeight;
 }
 
+
+// 이미지 드래그 해서 넣기 ( 여러개 가능 )
 $(function(){
 
     //드래그앤드랍
@@ -523,6 +576,91 @@ $(function(){
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// 메세지 읽음 안읽음 표시
+function updateNumber() {
+    // AJAX 요청을 통해 서버에서 새로운 숫자 가져오기
+    console.log("updateNumber");
+    let rid = {'roomId': roomId};
+
+    let requestOption = {
+        method:'POST',
+        headers:{
+            'Content-Type':'application/json',
+        },
+        body:JSON.stringify(rid)
+    };
+
+    fetch('/chat/getReadCount', requestOption)
+      .then(response => response.json())
+      .then(data => {
+        // 가져온 숫자를 화면에 표시
+        //console.log("데이타 : " + JSON.stringify(data));
+        console.log("?? : " + data);
+        countReadData(data);
+      })
+      .catch(error => {
+        console.error('숫자 업데이트 중 오류 발생:', error);
+      });
+  }
+
+setInterval(updateNumber, 5000);
+
+function countReadData(data){
+    console.log("countReadData");
+    let readCnt = document.getElementsByName('readCnt');
+    console.log(" data : " + JSON.stringify(data));
+    console.log('몇개 : ' + readCnt.length);
+
+    if(readCnt.length <= 0) return;
+
+    for(let i=0; i<readCnt.length; i++){
+        console.log(i + "번째 실행");
+        if(readCnt[i].value <= 0){
+            readCnt[i].remove();
+        }
+        readCnt[i].textContent = data.data[i].readCount;
+        readCnt[i].value = data.data[i].readCount;
+        if(readCnt[i].value <= 0){
+            readCnt[i].remove();
+        }
+    }
+
+    // readCnt.forEach(element => {
+    //     element.textContent = data.data[cnt].readCount;
+    //     element.value = data.readCount;
+    //     if (element.value <= 0) {
+    //         element.removeAttribute('name');
+    //     }
+    // });
+
+    // for(i=0; i<readCnt.length; i++){
+    //     console.log("ㅋㅋ" + readCnt[i])
+    //     readCnt[i].textContent = data[i].readCount;
+    //     readCnt[i].value = data[i].readCount;
+    //     if(readCnt[i].value <= 0){
+    //         readCnt[i].setAttribute('name','');
+    //     }
+    // }
+}
 
 function getAvatarColor(messageSender) {
     var hash = 0;
