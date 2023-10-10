@@ -626,38 +626,64 @@ setInterval(updateNumber, 5000);
 
 function countReadData(data){
     console.log("countReadData");
-    let readCnt = document.getElementsByName('readCnt');
+    //let readCnt = document.getElementsByName('readCnt');
+    
     console.log(" data : " + JSON.stringify(data));
-    console.log('몇개 : ' + readCnt.length);
+    console.log("사이즈 : " + data.data.length);
 
-    if(readCnt.length <= 0) return;
+    let read = document.getElementsByClassName("chat-message");
+    let myRead = document.getElementsByClassName("chat-myMessage");
 
-    for(let i=0; i<readCnt.length; i++){
+    console.log("read 갯수 : " + read.length);
+    console.log("myRead 갯수 : " + myRead.length);
+    if(read.length <= 0 && myRead.length <= 0) return;
+
+    for(let i=0; i<data.data.length; i++){
         console.log(i + "번째 실행");
-        
-        readCnt[i].textContent = data.data[i].readCount;
-        readCnt[i].value = data.data[i].readCount;
-        if(readCnt[i].value <= 0){
-            readCnt[i].remove();
+        for(let j=0; j<read.length; j++){
+
+            let childDiv = read[j].querySelector("div")
+
+            if(data.data[i].message === childDiv.textContent){
+                let readcnt = read[j].querySelector("p");
+                console.log('받은 메세지 : ' + i)
+                if(data.data[i].readCount <= 0){
+                    if(readcnt != null){
+                        read[j].classList.add("chat-Message-ok")
+                        read[j].classList.remove("chat-Message")
+                        readcnt.remove();
+                    }
+                    continue
+                };
+                readcnt.textContent = data.data[i].readCount;
+                readcnt.value = data.data[i].readCount;
+                
+            }
         }
+
+        for(let j=0; j<myRead.length; j++){
+            console.log("myChat");
+            let childMyDiv = myRead[j].querySelector("div")
+            
+            if(data.data[i].message === childMyDiv.textContent){
+                let myreadcnt = myRead[j].querySelector("p");
+                console.log('내가보낸 메세지 : ' + i)    
+                if(data.data[i].readCount <= 0){
+                    if(myreadcnt != null){
+                        myRead[j].classList.add("chat-myMessage-ok")
+                        myRead[j].classList.remove("chat-myMessage")
+                        myreadcnt.remove();
+                    }
+                    continue
+                };
+                myreadcnt.textContent = data.data[i].readCount;
+                myreadcnt.value = data.data[i].readCount;
+                
+            }
+        }
+
     }
 
-    // readCnt.forEach(element => {
-    //     element.textContent = data.data[cnt].readCount;
-    //     element.value = data.readCount;
-    //     if (element.value <= 0) {
-    //         element.removeAttribute('name');
-    //     }
-    // });
-
-    // for(i=0; i<readCnt.length; i++){
-    //     console.log("ㅋㅋ" + readCnt[i])
-    //     readCnt[i].textContent = data[i].readCount;
-    //     readCnt[i].value = data[i].readCount;
-    //     if(readCnt[i].value <= 0){
-    //         readCnt[i].setAttribute('name','');
-    //     }
-    // }
 }
 
 function getAvatarColor(messageSender) {

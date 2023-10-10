@@ -41,21 +41,41 @@ public class ChatContentService {
 
     public ChatContentCollection getChatContentWithReadCountGreaterThanZero(String roomId) {
         ChatContentCollection chatContentCollection = chatContentRepository.findByRoomIdIn(roomId);
-
+        if(chatContentCollection == null){
+            return null;
+        }
         List<ChatMessage> chatMessage = chatContentCollection.getChats();
         List<ChatMessage> result = new ArrayList<>();
         for(ChatMessage c : chatMessage){
             System.out.println("ReadCount : " + c.getReadCount());
-            if(c.getReadCount() > 0){
+            if(c.getReadCount() > -1){
                 result.add(c);
             }
         }
 
         chatContentCollection.setChats(result);
 
-        System.out.println("Result 들어간 chatContent : " + chatContentCollection);
+        //System.out.println("Result 들어간 chatContent : " + chatContentCollection);
 
         return chatContentCollection;
     }
+
+    public void updateReadCount(String roomId){
+        ChatContentCollection chatContentCollection = chatContentRepository.findByRoomIdIn(roomId);
+        if(chatContentCollection == null){
+            return;
+        }
+        List<ChatMessage> chatMessage = chatContentCollection.getChats();
+        List<ChatMessage> result = new ArrayList<>();
+        for(ChatMessage c : chatMessage){
+            if(c.getReadCount() <= 0){
+                c.setReadCount(-1);
+                result.add(c);
+            }
+        }
+        chatContentCollection.setChats(result);
+        chatContentRepository.save(chatContentCollection);
+    }
+
 
 }

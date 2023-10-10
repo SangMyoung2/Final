@@ -18,6 +18,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -37,6 +38,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
@@ -51,6 +54,7 @@ import com.spring.boot.dto.ChatImageDTO;
 import com.spring.boot.dto.ChatDTO.MessageType;
 import com.spring.boot.service.ChatContentService;
 import com.spring.boot.service.ChatRoomService;
+import com.spring.boot.util.ChatUtil;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -71,11 +75,14 @@ public class ChatController {
     @Autowired
     private final ChatRoomService chatRoomService;
 
+    @Autowired
+    private ChatUtil chatUtil;
+
     private String userUUID;
 
     // 채팅방 별 데이터 저장할 공간
     private Map<String, ChatContentCollection> chatMaps = new ConcurrentHashMap<>();
-
+    private List<String> roomInUserId = new ArrayList<>();
     private int roomInUser = 0;
     private int userCount = 0;
     private int cnt = 0;
@@ -86,20 +93,15 @@ public class ChatController {
     @MessageMapping("/chat/enterUser")
     public void enterUser(@Payload ChatDTO chat, SimpMessageHeaderAccessor headerAccessor) {
         System.out.println("chat/enterUser 들어옴....");
-        // 채팅방 유저+1
-        // repository.plusUserRoom(chat.getRoomId());
+        
+        //TODO : MessageMapping 말고 PostMapping 이런거로 바꿔서 
+        // request 파라미터로 받아와서 세션에 아이디 올려주고 map에 넣고
+        // 연결 종료되면 map에서 나가지는거 만들어야 할듯
 
-        // 채팅방에 유저 추가 및 UserUUID 반환
-        //userUUID = repository.addUser(chat.getRoomId(), chat.getSender());
 
-        // 반환 결과를 socket session 에 userUUID 로 저장
-        // headerAccessor.getSessionAttributes().put("userUUID", userUUID);
-        // headerAccessor.getSessionAttributes().put("roomId", chat.getRoomId());
 
         // 여기부터 읽었는지 확인 하는 코드
-        LocalDateTime currentDateTime = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        String formattedCollection = currentDateTime.format(formatter);
+        String today = chatUtil.todayYearMonthDay();
 
         Optional<ChatRoomCollection> room = chatRoomService.getReadDate(chat.getRoomId());
         // System.out.println(room.isPresent());
@@ -119,39 +121,45 @@ public class ChatController {
         userCount = rooms.getUserCount();
         //여기까지 신규유저 확인
         
-        ChatContentCollection roomChat = chatContentService.findByRoomIdIn(chat.getRoomId() + formattedCollection);
+        //DB에 채팅내역 가져오기
+        ChatContentCollection roomChat = chatContentService.findByRoomIdIn(chat.getRoomId() + today);
+
         if(roomChat != null){
             List<ChatMessage> chatMessage = roomChat.getChats();
             System.out.println("챗 메세지 : " + chatMessage);
-            if(!chatMessage.get(0).getReadUser().contains(chat.getSender())){
-                for(int i=0; i<chatMessage.size(); i++){
-                    System.out.println("카운트 내려주는 곳 " + i);
-                    List<String> readUserList = chatMessage.get(i).getReadUser();
-                    readUserList.add(chat.getSender());
-                    int rCnt = chatMessage.get(i).getReadCount();
-                    if(rCnt > 0){
-                        //c.setReadCount(c.getReadCount() - 1);
-                        chatMessage.get(i).setReadCount(rCnt - 1);
-                        chatMessage.get(i).setReadUser(readUserList);
-                    }
-                }
             
-                roomChat.setChats(chatMessage);
-                chatContentService.updateChat(roomChat);
+                // 채팅 내역에 해당유저가 없으면 추가 해주면서 카운트 -1
+            for(int i=0; i<chatMessage.size(); i++){
+                if(!chatMessage.get(i).getReadUser().contains(chat.getSender())){
+                    System.out.println("유저 있나? : " + chatMessage.get(i).getReadUser());
+                    System.out.println("카운트 내려주는 곳 " + i);
+                    // List<String> readUserList = chatMessage.get(i).getReadUser();
+                    // readUserList.add(chat.getSender());
+                    System.out.println("메세지 : " + chatMessage.get(i));
+                    int rCnt = chatMessage.get(i).getReadCount();
+                    chatMessage.get(i).setReadCount(rCnt - 1);
+                    chatMessage.get(i).getReadUser().add(chat.getSender());
+                    // if(rCnt > 0){
+                    //     //c.setReadCount(c.getReadCount() - 1);
+                    //     chatMessage.get(i).setReadCount(rCnt - 1);
+                    //     chatMessage.get(i).getReadUser().add(chat.getSender());
+                    // }
+                }
+                System.out.println("chatMessage : " + chatMessage);
+            roomChat.setChats(chatMessage);
+            chatContentService.updateChat(roomChat);
             }
         }
-        chatRoomService.updateChatRoom(rooms);
-        // 요까지 
+        // 요까지 채팅방 들어오면 읽음 -1
 
+        // 채팅방 신규유저 업데이트
+        chatRoomService.updateChatRoom(rooms);
+
+        roomInUserId.add(chat.getSender());
         roomInUser++;
         System.out.println("현재 채팅치는 인원수(in) : " + roomInUser);
         
         System.out.println("chat.getRoomId : " + chat.getRoomId());
-
-        // DB데이터 가져오던 줄
-
-        
-
     }
 
     // 해당 유저
@@ -162,35 +170,34 @@ public class ChatController {
         chat.setMessage(chat.getMessage());
 
         // 현재시간 가져오기
-        LocalDateTime currentDateTime = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        String formattedDateTime = currentDateTime.format(formatter);
-        String formattedCollection = currentDateTime.format(formatter2);
+        String today = chatUtil.todayYearMonthDay();
+        String todayAndTime = chatUtil.todayYMDAndTime();
+
+
         if(!chatMaps.containsKey(chat.getRoomId())){
             // 채팅내역이 없으면(Map에 안만들어져 있으면)
             System.out.println("채팅방이 없으면 들어오는곳");
-            ChatContentCollection chatContentCollection = new ChatContentCollection(chat.getRoomId()+formattedCollection);
+            ChatContentCollection chatContentCollection = new ChatContentCollection(chat.getRoomId()+today);
             chatMaps.put(chat.getRoomId(),chatContentCollection);
         }
 
         System.out.println(chat.getRoomId());
         System.out.println(chat.getSender());
         System.out.println(chat.getMessage());
-        System.out.println(formattedDateTime);
+        System.out.println(todayAndTime);
         
         // 채팅내역 입력
         ChatMessage c = new ChatMessage();
         c.setSender(chat.getSender());
         c.setMessage(chat.getMessage());
-        c.setTime(formattedDateTime);
+        c.setTime(todayAndTime);
         c.setType("TALK");
         c.setReadCount(userCount - roomInUser);
+        System.out.println("현재 유저 (send) : " + roomInUserId);
+        // List<String> readUserList = c.getReadUser();
+        // readUserList.add(chat.getSender());
 
-        List<String> readUserList = c.getReadUser();
-        readUserList.add(chat.getSender());
-
-        c.setReadUser(readUserList);
+        c.setReadUser(roomInUserId);
 
         chat.setReadCount(c.getReadCount());
         
@@ -205,14 +212,6 @@ public class ChatController {
         //System.out.println("chatMaps 데이터 : " + chatMaps.get(chat.getRoomId()));
         chatContentService.insertChat(chatMaps.get(chat.getRoomId()));
 
-        // if(cnt >= 5){
-        //     System.out.println("DB 인서트");
-        //     chatContentService.insertChat(chatMaps.get(chat.getRoomId()));
-        //     cnt = 0;
-        // }else{
-        //     System.out.println("cnt ++ -----------------------------------");
-        //     cnt++;
-        // }
 
         template.convertAndSend("/sub/chat/room/" + chat.getRoomId(), chat);
     }
@@ -221,12 +220,13 @@ public class ChatController {
     @EventListener
     public void webSocketDisconnectListener(SessionDisconnectEvent event) {
         log.info("DisConnEvent {}", event);
-
         StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
+        
 
-        // stomp 세션에 있던 uuid 와 roomId 를 확인해서 채팅방 유저 리스트와 room 에서 해당 유저를 삭제
-        String userUUID = (String) headerAccessor.getSessionAttributes().get("userUUID");
-        String roomId = (String) headerAccessor.getSessionAttributes().get("roomId");
+
+        // // stomp 세션에 있던 uuid 와 roomId 를 확인해서 채팅방 유저 리스트와 room 에서 해당 유저를 삭제
+        // String userUUID = (String) headerAccessor.getSessionAttributes().get("userUUID");
+        // String roomId = (String) headerAccessor.getSessionAttributes().get("roomId");
 
         log.info("headAccessor {}", headerAccessor);
 
@@ -250,6 +250,7 @@ public class ChatController {
         //     template.convertAndSend("/sub/chat/room/" + roomId, chat);
         // }
         roomInUser--;
+        //roomInUserId.remove(chat.getsender());
         System.out.println("현재 채팅치는 인원수(out) : " + roomInUser);
     }
 
@@ -283,25 +284,24 @@ public class ChatController {
         System.out.println("sendData 들어옴~");
         System.out.println("chat Room Id : " + chat.getRoomId());
         ChatContentCollection chatContentCollection;
-        LocalDateTime currentDateTime = LocalDateTime.now();
         
         // 어제 날짜
-        //currentDateTime = currentDateTime.minusDays(1);
+        //chatUtil.todayMinusDay(1);
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        String formattedDateTime = currentDateTime.format(formatter);
+        String today = chatUtil.todayYearMonthDay();
+        
         if(!chatMaps.containsKey(chat.getRoomId())){
             // 채팅내역이 없으면(Map에 안만들어져 있으면)
             System.out.println("지효근 바보 채팅방이 없으면 들어오는곳");
             
-            chatContentCollection = new ChatContentCollection(chat.getRoomId()+formattedDateTime);
+            chatContentCollection = new ChatContentCollection(chat.getRoomId()+today);
 
             chatMaps.put(chat.getRoomId(),chatContentCollection);
         }
         
         // List<ChatMessage> chatLists = chatMaps.get(chat.getRoomId()).getChats();
         List<ChatMessage> chatLists = new ArrayList<>();
-        List<ChatContentCollection> ccc = chatContentService.findAllByRoomIdIn(chat.getRoomId()+formattedDateTime);
+        List<ChatContentCollection> ccc = chatContentService.findAllByRoomIdIn(chat.getRoomId()+today);
         
         if(chatMaps.get(chat.getRoomId()).getChats().isEmpty()){
             for(ChatContentCollection c : ccc){
@@ -343,17 +343,15 @@ public class ChatController {
             Path filePath = Paths.get(resourcePath, saveFileName);
             // 파일 저장
             Files.write(filePath, file.getBytes());
-
-            LocalDateTime currentDateTime = LocalDateTime.now();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            String formattedDateTime = currentDateTime.format(formatter);
             
+            String todayAndTime = chatUtil.todayYMDAndTime();
+
             String src = "http://localhost:8080/uploadFile/" + saveFileName;
 
             ChatMessage c = new ChatMessage();
             c.setSender(sender);
             c.setMessage(src);
-            c.setTime(formattedDateTime);
+            c.setTime(todayAndTime);
             c.setType("IMAGE");
             c.setReadCount(userCount - roomInUser);
             // 채팅내역 추가
@@ -381,18 +379,19 @@ public class ChatController {
     @PostMapping("/chat/getReadCount")
     public Map<String,Object> readCount(@RequestBody Map<String, String> requestMap){
         //System.out.println("chat GetReaddCount에 들어옴");
-        LocalDateTime currentDateTime = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        String formattedCollection = currentDateTime.format(formatter);
+        
+        String today = chatUtil.todayYearMonthDay();
+        System.out.println(today);
+        String roomId = requestMap.get("roomId") + today;
 
-        ChatContentCollection roomChat = chatContentService.getChatContentWithReadCountGreaterThanZero(requestMap.get("roomId") + formattedCollection);
-        System.out.println("채팅 : " + roomChat);
+        ChatContentCollection roomChat = chatContentService.getChatContentWithReadCountGreaterThanZero(roomId);
         if(roomChat == null) return null;
+        System.out.println("채팅 : " + roomChat);
         List<ChatMessage> chatMessage = roomChat.getChats();
 
         Map<String, Object> data = new HashMap<>();
         data.put("data", chatMessage);
-
+        //chatContentService.updateReadCount(roomId);
         return data;
     }
 }
