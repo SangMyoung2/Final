@@ -14,7 +14,6 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 @EnableMongoRepositories
 public class FinalProjectApplication {
 
-
 	//주석대신 사용하려면 의존성주입을 여기서 해줘야한다.
 	@Autowired
 	ApplicationContext applicationContext; //Context가 있으면 앞과 뒤에 뭐가 붙더라도 프로젝트의 전체로 본다.
