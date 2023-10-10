@@ -30,7 +30,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <insert id="insertMeetReview" parameterType="com.spring.boot.dto.MeetDTOYj">
     insert into MEET_REVIEW (meet_listnum, meet_review_num, meet_memid, meet_review_content, meet_review_date, meet_review_img)
-    values (#{meet_listnum}, #{meet_review_num}, #{meet_memid}, #{meet_review_content}, #{meet_review_date}, #{meet_review_img})
+    values (#{meet_listnum}, #{meet_review_num}, #{meet_memid}, #{meet_review_content}, TO_DATE(#{meet_review_date}, 'YYYY-MM-DD HH24:MI:SS'), #{meet_review_img})
 </insert>
 
 

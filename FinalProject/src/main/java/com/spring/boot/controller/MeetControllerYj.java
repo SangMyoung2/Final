@@ -76,7 +76,7 @@ public class MeetControllerYj {
 			dto.setMeet_listnum(meet_listnum);
 			dto.setMeet_memid("kim"); // TODO : 세션에서 memid 가져와야됨
             dto.setMeet_review_content(meet_review_content);
-            dto.setMeet_review_date(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+            dto.setMeet_review_date(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
 
 			int meet_review_num = meetServiceYj.getReviewNum(meet_listnum);
 			dto.setMeet_review_num(meet_review_num);
