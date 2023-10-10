@@ -25,6 +25,16 @@ public class MapServiceImpl implements MapService{
         return mapMapper.getOneData(listNum);
     }
 
+    @Override
+    public List<TestBoardDTO> getData() throws Exception {
+        return mapMapper.getData();
+    }
+
+    @Override
+    public List<TestBoardDTO> getTitleData(String title) throws Exception {
+        return mapMapper.getTitleData(title);
+    }
+
     
     
 }

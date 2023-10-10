@@ -13,8 +13,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	order by id asc) data)
 </select>
 
+<select id="getData" parameterType="hashMap" resultType="com.spring.boot.dto.TestBoardDTO">
+	select * from meet
+</select>
+
 <select id="getOneData" parameterType="int" resultType="com.spring.boot.dto.TestBoardDTO">
 	select * from meet where listNum=#{listNum}
+</select>
+
+<select id="getTitleData" parameterType="String" resultType="com.spring.boot.dto.TestBoardDTO">
+	select * from meet where title like '%' || #{title} || '%'
+</select>
+
+<select id="getOneLocation" parameterType="int" resultType="com.spring.boot.dto.MapDTO">
+	select * from latlng where id=#{id}
 </select>
 
 </mapper>

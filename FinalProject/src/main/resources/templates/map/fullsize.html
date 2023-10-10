@@ -4,53 +4,138 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>전체 화면 지도와 미니 맵 표시하기</title>
+    <title>GATCHI MAP</title>
     <script th:src="@{http://localhost:8080/js/map/jquery-1.9.1.js}"></script>
     <script type="text/javascript" th:src="@{http://localhost:8080/js/map/examples-base.js}"></script>
     <script type="text/javascript" th:src="@{http://localhost:8080/js/map/highlight.min.js}"></script>
     <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=83bfuniegk"></script>
-    <link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/map/examples-base.css}" />
-
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-
     <!-- 위도 경도 좌표가져오는 모듈 -->
     <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=YOUR_CLIENT_ID&submodules=geocoder"></script>
+    <!-- <link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/map/examples-base.css}" /> -->
 
-    <!-- @category Map -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css">
 
-    <style type="text/css">
-        html, body { height:100%; }
-    </style>
-
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css">
-
-
-<style>
-.layout .sidebar.collapsed .menu > ul > .table1 {
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-
-.table1 {
-    overflow: hidden;
-    padding: 10px 25px;
-}
-.table-hover.table-mc-light-blue > tbody > tr:hover > td,
-.table-hover.table-mc-light-blue > tbody > tr:hover > th {
-  background-color: #d0efff;
-  overflow: hidden;
-}
-
-
-
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    
+   
+<!-- @category Map -->
+<style type="text/css">
+    html, body { height:100%; }
 </style>
 
+<style>
+#sidebarContent {
+    /* 먼저보이기 */
+    display: block; 
+}
+#sidebarSearch {
+    /* 숨겨놓기 */
+    display: none;
+}
+</style>
 
 <style>
 
+    .searchCustom {
+        --rad: .7rem;
+        --dur: .3s;
+        --color-dark: black;
+        --color-light: #fff;
+        --color-brand: #5CA8B5;
+        --font-fam: "Lato", sans-serif;
+        --height: 3rem;
+        --btn-width: 3rem;
+        --bez: cubic-bezier(0, 0, 0.43, 1.49);
+    }
+
+    
+    *, *::before, *::after {
+      box-sizing: inherit;
+    }
+    
+    form {
+        
+      position: relative;
+      width: 300rem;
+      background: var(--color-brand);
+      border-radius: var(--rad);
+    }
+    
+    input, button {
+        
+      height: var(--height);
+      font-family: var(--font-fam);
+      border: 0;
+      color: var(--color-dark);
+      font-size: 0.9em;
+    }
+    
+    input[type=search] {
+      outline: 0;
+      width: 100%;
+      background: var(--color-light);
+      padding: 0 1.6rem;
+      border-radius: var(--rad);
+      -webkit-appearance: none;
+         -moz-appearance: none;
+              appearance: none;
+      transition: all var(--dur) var(--bez);
+      transition-property: width, border-radius;
+      z-index: 1;
+      position: relative;
+    }
+    
+    .button1 {
+        color: #fff;
+        display: none;
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: var(--btn-width);
+        font-weight: bold;
+        background: var(--color-brand);
+        border-radius: 0 var(--rad) var(--rad) 0;
+    }
+    
+    input:not(:-moz-placeholder-shown) {
+      border-radius: var(--rad) 0 0 var(--rad);
+      width: calc(100% - var(--btn-width));
+    }
+    
+    input:not(:-ms-input-placeholder) {
+      border-radius: var(--rad) 0 0 var(--rad);
+      width: calc(100% - var(--btn-width));
+    }
+    
+    input:not(:placeholder-shown) {
+      border-radius: var(--rad) 0 0 var(--rad);
+      width: calc(100% - var(--btn-width));
+    }
+    input:not(:-moz-placeholder-shown) + button {
+      display: block;
+    }
+    input:not(:-ms-input-placeholder) + button {
+      display: block;
+    }
+    input:not(:placeholder-shown) + button {
+      display: block;
+    }
+    
+    label {
+      position: absolute;
+      clip: rect(1px, 1px, 1px, 1px);
+      padding: 0;
+      border: 0;
+      height: 1px;
+      width: 1px;
+      overflow: hidden;
+    }
+</style>
+    
+
+<style>
 .layout {
   min-height: 100%;
   display: -webkit-box;
@@ -381,7 +466,7 @@
   min-height: 100px;
   display: flex;
   align-items: center;
-  padding: 0 20px;
+  padding: 0 15px;
 }
 
 
@@ -390,7 +475,7 @@
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-.sidebar .sidebar-layout .sidebar-content {
+.sidebar .sidebar-layout .sidebarContent {
   flex-grow: 1;
   padding: 10px 0;
 }
@@ -433,7 +518,7 @@
 .layout .sidebar .menu .menu-header {
   font-weight: 600;
   padding: 10px 25px;
-  font-size: 1.0em;
+  font-size: 1.1em;
   letter-spacing: 2px;
   transition: opacity 0.3s;
 }
@@ -447,20 +532,23 @@
   color: #7d84ab;
 }
 .layout .sidebar .menu .menu-item a .menu-icon {
-  font-size: 1.2rem;
+  font-size: 1.7rem;
   width: 35px;
   min-width: 35px;
   height: 35px;
   line-height: 35px;
   text-align: center;
   display: inline-block;
-  margin-right: 10px;
+  margin-right: 15px;
   border-radius: 2px;
   transition: color 0.3s;
+  color: #5CA8B5 !important;
 }
-.layout .sidebar .menu .menu-item a .menu-icon i {
+.layout .sidebar .menu .menu-item a .menu-icon i,
+.layout .sidebar .menu .menu-title  .menu-icon i {
   display: inline-block;
 }
+
 .layout .sidebar .menu .menu-item a .menu-title {
   font-size: 0.9em;
   overflow: hidden;
@@ -480,7 +568,7 @@
   color: #dee2ec;
 }
 .layout .sidebar .menu .menu-item a:hover .menu-icon {
-  color: #dee2ec;
+  color: black;
 }
 .layout .sidebar .menu .menu-item a:hover .menu-icon i {
   animation: swing ease-in-out 0.5s 1 alternate;
@@ -630,10 +718,10 @@ a {
   align-items: center;
 }
 .layout .sidebar .pro-sidebar-logo > div {
-  width: 45px;
-  min-width: 45px;
-  height: 45px;
-  min-height: 45px;
+  width: 50px;
+  min-width: 50px;
+  height: 50px;
+  min-height: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -642,7 +730,7 @@ a {
   font-size: 12px;
   font-weight: 700;
   background-color: #5CA8B5;
-  margin-right: 10px;
+  margin-right: 30px;
 }
 .layout .sidebar .pro-sidebar-logo > h5 {
   overflow: hidden;
@@ -683,8 +771,8 @@ a {
   position: fixed;
   left: 405px;
   top: 95%;
-  width: 25px;
-  height: 25px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   background-color: #5CA8B5;
   display: -webkit-box;
@@ -723,8 +811,8 @@ a {
 
 .badge {
   display: inline-block;
-  padding: 0.25em 0.4em;
-  font-size: 75%;
+  padding: 0.4em 0.5em;
+  font-size: 0.6em;
   font-weight: 700;
   line-height: 1;
   text-align: center;
@@ -735,10 +823,10 @@ a {
   background-color: #6c757d;
 }
 .badge.primary {
-  background-color: #ab2dff;
+  background-color: rgba(255, 62, 62, 0.836);
 }
 .badge.secondary {
-  background-color: #079b0b;
+  background-color: #fec364;
 }
 
 .sidebar-toggler {
@@ -751,11 +839,137 @@ a {
   margin: 0 10px;
   color: #3f4750;
 }
+#searchList {
+    position: absolute;
+    top: 100%; /* input 아래에 위치하도록 설정, 이 값은 조정 가능 */
+    left: 0;
+    z-index: 9999; /* 다른 요소 위에 띄우려면 z-index 값을 설정하세요 */
+    /* 다른 스타일을 추가하세요 */
+    border: 1px #ffffff00 solid;
+    width: 250px;
+
+}
 </style>
+
+<style>
+.container {  
+  display: flex;
+  flex-direction: column;
+}
+.button.-regular {
+  color: whitesmoke;
+  width: 160px;
+  cursor: pointer;
+  text-align: center;
+  background-color: #5CA8B5;
+  border-radius: 7px;
+  &:hover {
+    color: black;
+    background-color: #fff;
+    opacity: 1;
+  }
   
+  &:active {
+    background-color: #d5d6d6;
+    opacity: 1;
+  }
+}
+
+.button-container {
+    display: flex;
+    
+    flex-wrap: wrap;
+    justify-content: center;
+}
+</style>
+
+
 <script>
     window.console = window.console || function(t) {};
-  </script>
+</script>
+
+<style>
+
+.img1 {
+  
+  width: 100%;
+  
+  vertical-align: bottom;
+}
+.card_btn{
+    align-self: end;
+}
+.btn1 {
+  color: #ffffff;
+  padding: 0.8rem;
+  font-size: 14px;
+  text-transform: uppercase;
+  border-radius: 4px;
+  font-weight: 400;
+  display: block;
+  width: 100%;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: transparent;
+}
+
+.btn1:hover {
+  background-color: rgba(255, 255, 255, 0.12);
+}
+
+.cards {
+  width: 400px;
+  height: 350px;
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.cards_item {
+  display: flex;
+  padding: 1rem;
+}
+
+.card {
+  background-color: white;
+  border-radius: 1.55rem;
+  box-shadow: 0 20px 40px -14px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.card_image {
+  height: 140px;
+}
+
+.card_content {
+    height: 100%;
+  padding: 1.1rem;
+  background: linear-gradient(to bottom left, #6fcada 40%, #a3e7f3 100%);
+}
+
+.card_title {
+  color: #ffffff;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: capitalize;
+  margin: 0px;
+}
+
+.card_text {
+  color: #ffffff;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  margin-bottom: 0.9rem;
+  margin-top: 0.4rem;    
+  font-weight: 400;
+}
+
+</style>
 
 </head>
 
@@ -765,174 +979,144 @@ a {
 
 <!-- 맵출력 객체 -->
 <div id="map" style="width:100%;height:100%;">
+    
     <input type="hidden" id="hiddenData" th:value="${jsonArray}"/>
-
+    <input type="hidden" id="hiddenData1" th:value="${searchData}"/>
 
     <div class="layout has-sidebar fixed-sidebar fixed-header">
         <aside id="sidebar" class="sidebar break-point-sm has-bg-image">
 
         <!-- 접이버튼 -->
           <a id="btn-collapse" class="sidebar-collapser"><i class="ri-arrow-left-s-line"></i></a>
-          <a id="now-location" class="sidebar-custom"><i class="ri-arrow-left-s-line"></i></a>
-
+          <a id="now-location" class="sidebar-custom"><i class="ri-user-location-line"></i></a>
 
           <div class="sidebar-layout">
-            <div class="sidebar-header">
-              <div class="pro-sidebar-logo">
-                <div>GATCHI</div>
-                <h5>GATCHI</h5>
-              </div>
+            <div class="sidebar-header" style="background-color: #e2f1f3;">
+              
+                <div class="pro-sidebar-logo">
+                    <div>GATCHI</div>
+                </div>
+
+
+                <form role="search" class="searchCustom" onsubmit="searchItem2();">
+
+                    <input id="search" type="search" placeholder="Search..." onfocus="showSearchList();" onblur="hideSearchList();" oninput="searchItem(this);">
+                    
+                    <button class="button1" type="submit">Go</button>
+                    <div id="searchList"></div>
+                </form><br/>
+
             </div>
 
-            <div class="sidebar-content">
+            <!-- 사이드바 초기 제일 가까운 한개 데이터 -->
+            <div class="sidebarContent" id="sidebarContent">
                 <nav class="menu open-current-submenu">
 
                     <ul>
-                      <li class="menu-header"><span id="title"> Title </span> <span class="badge primary">Hot</span> <span class="badge secondary">Beta</span><hr/></li>
+                        <li class="menu-image">
+                            <img src="/image/map/cluster-marker-1.png" class="d-block w-100" alt="...">
+                            <hr/>
+                        </li>
 
-                      <li class="menu-image">
-                          <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-                              
-                              <!-- 슬라이드 이미지 반복문으로 뿌리기 -->
-                            <div class="carousel-inner">
-                              <div class="carousel-item active">
-                                <img src="/image/map/cluster-marker-1.png" class="d-block w-100" alt="...">
-                              </div>
-                              <div class="carousel-item">
-                                <img src="/image/map/cluster-marker-2.png" class="d-block w-100" alt="...">
-                              </div>
-                              <div class="carousel-item">
-                                <img src="/image/map/cluster-marker-3.png" class="d-block w-100" alt="...">
-                              </div>
-                            </div>
+                        <li class="menu-item">
+                            <a href="#">
+                                <span class="menu-icon">
+                                    <i class="ri-star-smile-line"></i>
+                                </span>
+                                <span class="menu-title">
+                                    <span id="title" style="font-weight: 600; font-size: 1.1em; letter-spacing: 2px;">Title</span>
+                                </span>
+                            </a>
+                        </li>
 
-                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-                              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                              <span class="visually-hidden">Previous</span>
-                            </button>
-                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-                              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                              <span class="visually-hidden">Next</span>
-                            </button>
-                        </div>
-                    </li>
+                        <li class="menu-header">
+                            
+                            <div class="badge primary">ctgNum <span id="ctgNum"></span></div>
+                            <div class="badge secondary">like <span id=""></span></div>
+                            <div class="badge secondary">member <span id=""></span></div>
+                        </li>
+                        
+                        <li class="menu-image">
+                            <hr/>
+                        </li>
+                        
+                        <li class="menu-item">
+                            <a href="#">
+                                <span class="menu-icon">
+                                    <i class="ri-map-pin-2-line"></i>
+                                </span>
+                                <span class="menu-title">장소
+                                    <span id="place"></span>
+                                </span>
+                            </a>
+                        </li>
+                        
 
- 
+                        <li class="menu-item">
+                            <a href="#">
+                                <span class="menu-icon">
+                                    <i class="ri-time-line"></i>
+                                </span>
+                                <span class="menu-title">약속시간
+                                    <span id="meetDate"></span>
+                                </span>
+                            </a>
+                        </li>
 
-                     
-                      <li class="menu-header" style="padding-top: 20px">
-                        <span> Info </span>
-                        <hr/>
-                      </li>
-                    
 
-                    
-                    <div class="table1">
-                        <table id="table" class="table1 table-hover table-mc-light-blue">
-                            <thead>
-                              <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Link</th>
-                                <th>Status</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <td data-title="ID">1</td>
-                                <td data-title="Name">Material Design Color Palette</td>
-                                <td data-title="Link">
-                                  <a href="https://github.com/zavoloklom/material-design-color-palette" target="_blank">GitHub</a>
-                                </td>
-                                <td data-title="Status">Completed</td>
-                              </tr>
-                              <tr>
-                                <td data-title="ID">2</td>
-                                <td data-title="Name">Material Design Iconic Font</td>
-                                <td data-title="Link">
-                                  <a href="https://codepen.io/zavoloklom/pen/uqCsB" target="_blank">Codepen</a>
-                                  <a href="https://github.com/zavoloklom/material-design-iconic-font" target="_blank">GitHub</a>
-                                </td>
-                                <td data-title="Status">Completed</td>
-                              </tr>
-                              <tr>
-                                <td data-title="ID">3</td>
-                                <td data-title="Name">Material Design Hierarchical Display</td>
-                                <td data-title="Link">
-                                  <a href="https://codepen.io/zavoloklom/pen/eNaEBM" target="_blank">Codepen</a>
-                                  <a href="https://github.com/zavoloklom/material-design-hierarchical-display" target="_blank">GitHub</a>
-                                </td>
-                                <td data-title="Status">Completed</td>
-                              </tr>
-                              <tr>
-                                <td data-title="ID">4</td>
-                                <td data-title="Name">Material Design Sidebar</td>
-                                <td data-title="Link"><a href="https://codepen.io/zavoloklom/pen/dIgco" target="_blank">Codepen</a></td>
-                                <td data-title="Status">Completed</td>
-                              </tr>
-                              <tr>
-                                <td data-title="ID">5</td>
-                                <td data-title="Name">Material Design Tiles</td>
-                                <td data-title="Link">
-                                  <a href="https://codepen.io/zavoloklom/pen/wtApI" target="_blank">Codepen</a>
-                                </td>
-                                <td data-title="Status">Completed</td>
-                              </tr>
-                              <tr>
-                                <td data-title="ID">6</td>
-                                <td data-title="Name">Material Design Typography</td>
-                                <td data-title="Link">
-                                  <a href="https://codepen.io/zavoloklom/pen/IkaFL" target="_blank">Codepen</a>
-                                  <a href="https://github.com/zavoloklom/material-design-typography" target="_blank">GitHub</a>
-                                </td>
-                                <td data-title="Status">Completed</td>
-                              </tr>
-                              <tr>
-                                <td data-title="ID">7</td>
-                                <td data-title="Name">Material Design Buttons</td>
-                                <td data-title="Link">
-                                  <a href="https://codepen.io/zavoloklom/pen/Gubja" target="_blank">Codepen</a>
-                                </td>
-                                <td data-title="Status">In progress</td>
-                              </tr>
-                              <tr>
-                                <td data-title="ID">8</td>
-                                <td data-title="Name">Material Design Form Elements</td>
-                                <td data-title="Link">
-                                  <a href="https://codepen.io/zavoloklom/pen/yaozl" target="_blank">Codepen</a>
-                                </td>
-                                <td data-title="Status">In progress</td>
-                              </tr>
-                              <tr>
-                                <td data-title="ID">9</td>
-                                <td data-title="Name">Material Design Email Template</td>
-                                <td data-title="Link">
-                                  <a href="https://codepen.io/zavoloklom/pen/qEVqzx" target="_blank">Codepen</a>
-                                </td>
-                                <td data-title="Status">Completed</td>
-                              </tr>
-                              <tr>
-                                <td data-title="ID">10</td>
-                                <td data-title="Name">Material Design Animation Timing (old one)</td>
-                                <td data-title="Link">
-                                  <a href="https://codepen.io/zavoloklom/pen/Jbrho" target="_blank">Codepen</a>
-                                </td>
-                                <td data-title="Status">Completed</td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </div>
+
+                        <li class="menu-item">
+                            <a href="#">
+                                <span class="menu-icon">
+                                    <i class="ri-user-3-line"></i>
+                                </span>
+                                <span class="menu-title">멤버
+                                    <span id="memCnt"></span>
+                                </span>
+                            </a>
+                        </li>
+
+                        <li class="menu-item">
+                            <a href="#">
+                                <span class="menu-icon">
+                                    <i class="ri-thumb-up-line"></i>
+                                </span>
+                                <span class="menu-title">좋아요
+                                    <span id="meetLike"></span>
+                                </span>
+                            </a>
+                        </li>
+                        
+                        <li class="menu-image">
+                            <hr/>
+                        </li>
+
+
+                        <!-- 관련게시물 띄우기 -->
+
+
+
                     </ul>
-                  </nav>
-
+                </nav>
             </div>
-            
+
+            <!-- 사이드바 검색결과 -->
+            <br/>
+
+            <div id="sidebarSearch">
+                <nav class="menu open-current-submenu">
+                    <ul>
+                        <li id="dataList" class="menu-image"></li>
+                    </ul>
+                </nav>
+            </div>
+
           </div>
         </aside>
       </div>
 </div>
 
-
+<!-- 네이버 맵 -->
 <script id="code">
 var HOME_PATH = window.HOME_PATH || '.';
 
@@ -953,10 +1137,8 @@ var map = new naver.maps.Map('map', {
     mapTypeControl: true
 
 });
-
-    //직접만든 버튼들
-    // var locationBtnHtml = '<br/><input id="now-location" type="button" value="현재위치로 setCenter" class="sidebar-custom" />';
-    var searchBtnHtml = '<br/><input id="search-location" type="button" value="현재위치 검색" class="control-btn" />';
+    //custom 버튼
+    var searchBtnHtml = '<br/><div class="container"><div class="button-container"><div class="button -regular center" id="search-location">현재위치 검색</div></div></div>';
     
 
     naver.maps.Event.once(map, 'init', function() {
@@ -988,7 +1170,6 @@ for (var key in jsonArray) {
     console.log(jsonArray[key].lat)
     console.log(jsonArray[key].lng)
 
-    
 
     var position = new naver.maps.LatLng(
         jsonArray[key].lat, jsonArray[key].lng
@@ -1005,22 +1186,47 @@ for (var key in jsonArray) {
         },
         zIndex: 100
     });
+
+    $.ajax({
+        url: '/getDataFromDB', // 서버의 엔드포인트 URL
+        method: 'GET',
+        data: { listNum: jsonArray[key].id },
+        success: function(data1) {
+            
+        
+            $('.card_title').html(data1.title);
    
 
+            },
+            error: function() {
+                alert('데이터를 불러오는 데 실패했습니다!!!!');
+            }
+        });
+
     var contentString = [
-        '<div class="iw_inner">',
-        '   <h3>모임명'+ jsonArray[key].id +'</h3>',
-        '       <img src="'+ HOME_PATH +'/image/map/marker-default.png" width="55" height="55" alt="서울시청" class="thumb" /><br/>',
-        jsonArray[key].lat+'</br>',
-        jsonArray[key].lng+'</br>',
-        '</div>'
+    '<ul class="cards">',
+        '<li class="cards_item">',
+            '<div class="card">',
+            '<div class="card_image"><img class="img1" src="https://picsum.photos/500/300/?image=10"></div>',
+                '<div class="card_content">',
+                    '<h2 class="card_title" id="title1">title</h2>',
+                    '<p class="card_text" id="content1">Demo of pixel perfect pure CSS simple responsive card grid layoutDemo of pixel perfect pure CSS simple responsive card grid layout</p>',
+                    '<button class="btn1 card_btn">Read More</button>',
+                '</div>',
+            '</div>',
+        '</li>',
+    '</ul>'
     ].join('');
 
-    
 
 
     var infoWindow = new naver.maps.InfoWindow({
-        content: contentString
+        content: contentString,
+        borderWidth: 0,
+        disableAnchor: true,
+        backgroundColor: 'transparent',
+
+        pixelOffset: new naver.maps.Point(0, -28)
     });
 
 
@@ -1031,11 +1237,10 @@ for (var key in jsonArray) {
 
 
 naver.maps.Event.addListener(map, 'idle', function() {
-    if (infowindow.getMap()) {
-        infowindow.close();
-    }
+    
     updateMarkers(map, markers);
 });
+
 
 
 function updateMarkers(map, markers) {
@@ -1044,22 +1249,21 @@ function updateMarkers(map, markers) {
     for (var i = 0; i < markers.length; i++) {
         (function () { 
             var marker = markers[i];
+            var infoWindow = infoWindows[i];
             var position = marker.getPosition();
             
-            console.log(marker)
-
             // 현재 위치에서 다른 마커 검색
             $("#search-location").on("click", function (e) {
-                infoWindow.close();
-                
+                hideInfoWindow(map, infoWindow);       
                 showMarker(map, marker); 
             });
-           
+            if (!mapBounds.hasLatLng(position)) {
+                hideInfoWindow(map, infoWindow);
+                hideMarker(map, marker);
+            }
            
         })(); // 즉시 실행되는 함수
     }  
-
-    
 }
 
 
@@ -1075,11 +1279,18 @@ function hideMarker(map, marker) {
     marker.setMap(null);
 }
 
+function hideInfoWindow(map, infoWindow) {
+
+    if (!infoWindow.setMap()) return;
+    infoWindow.setMap(null);
+}
+
 // 해당 마커의 인덱스를 seq라는 클로저 변수로 저장하는 이벤트 핸들러를 반환합니다.
 function getClickHandler(seq) {
     return function(e) {
+      
         var marker = markers[seq], infoWindow = infoWindows[seq];
-        // alert(marker.getTitle());
+        alert(marker.getTitle());
         
         var id = marker.getTitle();
 
@@ -1091,6 +1302,8 @@ function getClickHandler(seq) {
         success: function(data) {
             // 서버로부터 받은 데이터를 웹 페이지에 표시
             // alert(data.listnum)
+            document.getElementById("sidebarContent").style.display = "block";
+            document.getElementById("sidebarSearch").style.display = "none"; 
             $('#listNum').html(data.listNum);
             $('#ctgNum').html(data.ctgNum);
             $('#title').html(data.title);
@@ -1101,14 +1314,14 @@ function getClickHandler(seq) {
             $('#meetLike').html(data.meetLike);
             $('#meetDate').html(data.meetDate);
             $('#list_Image').html(data.list_Image);
-            if(SIDEBAR_EL.classList.contains("collapsed")){ //실행되어있으면 실행하지 않음
+            if(SIDEBAR_EL.classList.contains("collapsed")){ //사이드바 실행되어있으면 실행하지 않음
                 SIDEBAR_EL.classList.toggle("collapsed");
             }
-        },
-        error: function() {
-            alert('데이터를 불러오는 데 실패했습니다.');
-        }
-    });
+            },
+            error: function() {
+                alert('데이터를 불러오는 데 실패했습니다.');
+            }
+        });
     
         if (infoWindow.getMap()) {
             infoWindow.close();
@@ -1120,6 +1333,7 @@ function getClickHandler(seq) {
 
 for (var i=0, ii=markers.length; i<ii; i++) {
     naver.maps.Event.addListener(markers[i], 'click', getClickHandler(i));
+   
 }
 
 
@@ -1128,7 +1342,7 @@ for (var i=0, ii=markers.length; i<ii; i++) {
 </script>
 
 
-<!-- 현재위치 -->
+<!-- 네이버 현재위치 -->
 <script>
 var infowindow = new naver.maps.InfoWindow({
     borderWidth: 0,
@@ -1138,9 +1352,10 @@ var infowindow = new naver.maps.InfoWindow({
 function onSuccessGeolocation(position) {//현재위치 가져오기 성공
     var location = new naver.maps.LatLng(position.coords.latitude,
                                          position.coords.longitude);
+                    
+    var lat = position.coords.latitude;
+    var lng = position.coords.longitude;
 
-
-                               
     map.setCenter(location); // 얻은 좌표를 지도의 중심으로 설정합니다.
     map.setZoom(15); // 지도의 줌 레벨을 변경합니다.
   
@@ -1149,15 +1364,91 @@ function onSuccessGeolocation(position) {//현재위치 가져오기 성공
     ].join('');
 
 
-    infowindow.setContent('<img src="'+ HOME_PATH +'/image/map/LocationPin.gif"/>');
-
+    infowindow.setContent('<img src="/image/map/LocationPin.gif"/>');
     infowindow.open(map, location);
 
-
+    //현재위치 가져오기 클릭했을때만
     $("#now-location").on("click", function(e) {
         infowindow.open(map, location); //현재위치 아이콘
         map.setCenter(location); //현재위치 중심으로
+
+        for (var i = 0; i < markers.length; i++) {
+            (function () { 
+                var marker = markers[i];
+                var infoWindow = infoWindows[i];
+                var position = marker.getPosition();
+
+                hideInfoWindow(map, infoWindow);       
+                showMarker(map, marker); 
+
+
+            
+            })(); // 즉시 실행되는 함수
+        }  
     });
+    
+
+    for (var i = 0; i < markers.length; i++) {
+        (function () { 
+            var marker = markers[i];
+            var infoWindow = infoWindows[i];
+            var position = marker.getPosition();
+               
+                hideInfoWindow(map, infoWindow);       
+                showMarker(map, marker); 
+
+                //현재위치에서 가장 가까운 모임 찾아 열기       
+                var nearLocation = Number.MAX_VALUE; // 초기값을 최댓값으로 설정
+                var nearId = 0;
+
+                for (var key in jsonArray) {
+                    
+                    //직선거리 비교하여 가장 가까운위치 찾기
+                    var proj = map.getProjection()
+                    var distance = proj.getDistance(
+                        new naver.maps.LatLng(jsonArray[key].lat, jsonArray[key].lng),
+                        new naver.maps.LatLng(lat, lng)
+                    );
+
+                    if(distance < nearLocation) {
+                        nearLocation = distance;
+                        nearId = jsonArray[key].id;
+                    }
+
+                }
+
+                $.ajax({
+                    url: '/getDataFromDB', // 서버의 엔드포인트 URL
+                    method: 'GET',
+                    data: { listNum: nearId },
+                    success: function(data) {
+                        // 서버로부터 받은 데이터를 웹 페이지에 표시
+                        // alert(data.listnum)
+                        document.getElementById("sidebarContent").style.display = "block";
+                        document.getElementById("sidebarSearch").style.display = "none"; 
+                        $('#listNum').html(data.listNum);
+                        $('#ctgNum').html(data.ctgNum);
+                        $('#title').html(data.title);
+                        $('#content').html(data.content);
+                        $('#place').html(data.place);
+                        $('#memCnt').html(data.memCnt);
+                        $('#hitcount').html(data.hitcount);
+                        $('#meetLike').html(data.meetLike);
+                        $('#meetDate').html(data.meetDate);
+                        $('#list_Image').html(data.list_Image);
+                        if(SIDEBAR_EL.classList.contains("collapsed")){ //사이드바 실행되어있으면 실행하지 않음
+                            SIDEBAR_EL.classList.toggle("collapsed");
+                        }
+                        },
+                        error: function() {
+                            alert('데이터를 불러오는 데 실패했습니다.');
+                        }
+                    });
+                
+
+        })(); // 즉시 실행되는 함수
+    }
+
     
     console.log('현재위치: ' + location.toString());
 }
@@ -1182,7 +1473,6 @@ $(window).on("load", function() {
 });
 </script>
 
-
 <!-- 사이드바 -->
 <script>
     function _defineProperty(obj, key, value) {
@@ -1193,12 +1483,7 @@ $(window).on("load", function() {
     }const ANIMATION_DURATION = 300;
     
     const SIDEBAR_EL = document.getElementById("sidebar");
-    
-  
-    
-    
-    
-    
+
     class PopperObject {
     
       constructor(reference, popperTarget) {_defineProperty(this, "instance", null);_defineProperty(this, "reference", null);_defineProperty(this, "popperTarget", null);
@@ -1223,11 +1508,7 @@ $(window).on("load", function() {
             name: "flip",
             options: {
               fallbackPlacements: ["left", "right"] } }] });
-    
-    
-    
-    
-    
+ 
         document.addEventListener(
         "click",
         e => this.clicker(e, this.popperTarget, this.reference),
@@ -1255,10 +1536,7 @@ $(window).on("load", function() {
       hide() {
         this.instance.state.elements.popper.style.visibility = "hidden";
       }}
-    
-    
-  
-  
+
     class Poppers {}
   
     const PoppersInstance = new Poppers();
@@ -1280,12 +1558,261 @@ $(window).on("load", function() {
       updatePoppersTimeout();
     });
 
-    
-    
-
-  
-  
 </script>
+
+<!-- 검색창 -->
+<script>
+    function searchItem(target){
+           
+        var checkWord = $("#search").val();
+        var searchList = $("#searchList");
+       
+        // 검색어가 비어 있으면 아무 작업도 하지 않음
+        if (checkWord.trim() === "") {
+            searchList.empty();
+            return;
+        }
+
+    $.ajax({
+        url: '/getSearchDataFromDB', 
+        method: 'GET',
+        dataType: 'JSON',
+        error: function(err){
+            console.log(err);
+        },
+        success: function(data){
+            console.log(data);
+            
+            searchList.empty();
+
+            data.forEach((item)=>{
+                if(item['title'].includes(checkWord)){
+                    searchList.append(`<span style="cursor: pointer;" onclick="select(this);"> ${item['title']} </span> <br/>`);
+                
+                }
+            })
+        }
+    })
+}  
+</script>
+
+<script>
+    function select(target) {
+        var selectedValue = $(target).text().trim();
+        $("#search").val(selectedValue);
+        $("#searchList").empty(); // 선택된 후에 검색 결과 목록을 비웁니다.
+    }
+</script>
+
+<script>
+    function searchItem2() {
+
+        var searchTitle = document.getElementById("search").value;
+        var dataList = $("#dataList");
+
+
+        alert(searchTitle)
+        //ajax 사용해서 검색결과 뿌리기
+        //완전 동일한 데이터 1개만
+        $.ajax({
+        url: '/getSearchTitleDataFromDB',
+        method: 'GET',
+        data: { title: searchTitle },
+        success: function(data) {
+
+           
+
+            // data를 자바스크립트 형식으로 JSON 데이터 파싱
+            var jsonData = JSON.parse(data);
+
+            if (Array.isArray(jsonData) && jsonData.length === 0) { // 데이터가 배열이면서 비어있을 경우
+                alert('데이터 없다');
+                dataList.empty();
+                $('#dataList').html('<h2>검색 결과가 없습니다.</h2>');
+                document.getElementById("sidebarContent").style.display = "none"; // 숨기기
+                document.getElementById("sidebarSearch").style.display = "block"; // 보이기
+                return;
+            }
+
+            dataList.empty();
+
+            jsonData.forEach((item)=>{
+
+            if(item['title']===searchTitle){ //동일한 데이터 1개만 띄우기
+            
+                $.ajax({
+                    url: '/getDataFromDB', // 서버의 엔드포인트 URL
+                    method: 'GET',
+                    data: { listNum: item.listNum },
+                    success: function(data) {
+
+                        document.getElementById("sidebarContent").style.display = "block";
+                        document.getElementById("sidebarSearch").style.display = "none"; 
+                     
+                        
+                        $('#listNum').html(data.listNum);
+                        $('#ctgNum').html(data.ctgNum);
+                        $('#title').html(data.title);
+                        $('#content').html(data.content);
+                        $('#place').html(data.place);
+                        $('#memCnt').html(data.memCnt);
+                        $('#hitcount').html(data.hitcount);
+                        $('#meetLike').html(data.meetLike);
+                        $('#meetDate').html(data.meetDate);
+                        $('#list_Image').html(data.list_Image);
+                        
+                        
+                        for (var i = 0; i < markers.length; i++) {
+                            (function () { 
+                                var marker = markers[i];
+                                var infoWindow = infoWindows[i];
+                                var position = marker.getPosition();
+                                
+                                //열려있는 마커숨기기
+                                if (infoWindow.getMap()) {
+                                    alert('있다')
+                                    hideInfoWindow(map, infoWindow);
+
+                                }
+  
+                                //맵 센터로 옮기기
+                                if(marker.getTitle()==data.listNum){
+
+                                    alert(marker.getTitle() + '들어옴')
+                                    infoWindow.open(map, marker);
+                                    showMarker(map, marker);
+
+                                    map.setCenter(marker.getPosition()); // 얻은 좌표를 지도의 중심으로 설정합니다.
+                                    map.setZoom(18); 
+
+                                }
+
+                            })();    
+                        }            
+
+                        },
+                        error: function() {
+                            alert('데이터를 불러오는 데 실패했습니다.');
+                        }
+                    });
+   
+                return;
+
+
+            }else{ //유사한 데이터 여러개 띄우기
+
+                
+
+                dataList.append(`
+                <div class="menu-image">
+                <div onClick="getClickListHandler(${item.listNum});" style="cursor:pointer">
+                <div class="card mb-3" style="max-width: 540px;">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                        <img src="/image/map/drawingModule_normal.png" class="img-fluid rounded-start" style="height:100%;" alt="...">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+
+                                <h5 class="card-title">${item.title}</h5>
+                                <p class="card-text">내용</p>
+                                <p class="card-text"><small class="text-muted">${item.content}</small></p>
+
+                            </div>
+                        </div>
+                    </div>
+                </div></div></div>`);
+
+
+                // alert('유사 데이터 여러개 있다.')
+                document.getElementById("sidebarContent").style.display = "none"; // 숨기기
+                document.getElementById("sidebarSearch").style.display = "block"; // 보이기
+
+            }
+        })
+   
+   
+        },
+        error: function() {
+            alert('데이터를 불러오는 데 실패했습니다.');
+        }
+
+
+    });
+
+}
+</script>
+
+<script>
+    function showSearchList() {
+    $("#searchList").show();
+}
+
+function hideSearchList() {
+    setTimeout(function() {
+        $("#searchList").hide();
+    }, 1000);
+}
+
+function getClickListHandler(id) {
+    $.ajax({
+        url: '/getDataFromDB', // 서버의 엔드포인트 URL
+        method: 'GET',
+        data: { listNum: id },
+        success: function(data) {
+            // 서버로부터 받은 데이터를 웹 페이지에 표시
+            // alert(data.listnum)
+            document.getElementById("sidebarContent").style.display = "block";
+            document.getElementById("sidebarSearch").style.display = "none"; 
+            $('#listNum').html(data.listNum);
+            $('#ctgNum').html(data.ctgNum);
+            $('#title').html(data.title);
+            $('#content').html(data.content);
+            $('#place').html(data.place);
+            $('#memCnt').html(data.memCnt);
+            $('#hitcount').html(data.hitcount);
+            $('#meetLike').html(data.meetLike);
+            $('#meetDate').html(data.meetDate);
+            $('#list_Image').html(data.list_Image);
+
+            for (var i = 0; i < markers.length; i++) {
+                (function () { 
+                    var marker = markers[i];
+                    var infoWindow = infoWindows[i];
+                    var position = marker.getPosition();
+                    
+                    //열려있는 마커숨기기
+                    if (infoWindow.getMap()) {
+                        alert('있다')
+                        hideInfoWindow(map, infoWindow);
+
+                    }
+
+                    //맵 센터로 옮기기
+                    if(marker.getTitle()==data.listNum){
+
+                        alert(marker.getTitle() + '들어옴')
+                        infoWindow.open(map, marker);
+                        showMarker(map, marker);
+
+                        map.setCenter(marker.getPosition()); // 얻은 좌표를 지도의 중심으로 설정합니다.
+                        map.setZoom(18); 
+
+                    }
+
+                })();   
+            }
+        },
+        error: function() {
+            alert('데이터를 불러오는 데 실패했습니다.');
+        }
+    });
+}
+
+
+
+</script>
+
 
 </body>
 </html>

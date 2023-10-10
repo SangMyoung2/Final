@@ -19,8 +19,23 @@
 
 <title>가치</title>
 
-<link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/index.css}"/>
 
+'<ul class="cards">',
+  '<li class="cards_item">',
+      '<div class="card">',
+          '<div class="card_image"><img src="https://picsum.photos/500/300/?image=10"></div>',
+          '<div class="card_content">',
+              '<h2 class="card_title">'+ jsonArray[key].id +'</h2>',
+              '<p class="card_text">Demo of pixel perfect pure CSS simple responsive card grid layout</p>',
+              '<button class="btn card_btn">Read More</button>',
+              '</div>',
+              '</div>',
+              '</li>',
+              '</ul>'
+
+
+
+<link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/index.css}"/>
 <style>
 
 /* -- You can use this tables in Bootstrap (v3) projects. -- */

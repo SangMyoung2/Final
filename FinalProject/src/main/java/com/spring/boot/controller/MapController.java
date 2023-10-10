@@ -42,13 +42,41 @@ public class MapController {
     @RequestMapping("/getDataFromDB")
     public TestBoardDTO getDataFromDB(@RequestParam("listNum") int listNum) throws Exception {
 
-        System.out.println(listNum);
         
         TestBoardDTO data = mapService.getOneData(listNum);
-
-        System.out.println(data);
+        
+        // System.out.println(listNum);
+        // System.out.println(data);
 
         return data;
+    }
+
+
+
+    @RequestMapping("/getSearchDataFromDB")
+    public String getSearchDataFromDB() throws Exception {
+
+        List<TestBoardDTO> lists = mapService.getData();
+        
+        Gson gson = new Gson();
+        String searchData = gson.toJson(lists);
+
+        // System.out.println(searchData);
+
+        return searchData;
+    }
+
+    @RequestMapping("/getSearchTitleDataFromDB")
+    public String getSearchTitleDataFromDB(@RequestParam("title") String title) throws Exception {
+
+        List<TestBoardDTO> lists = mapService.getTitleData(title);
+        
+        Gson gson = new Gson();
+        String searchTitleData = gson.toJson(lists);
+
+        // System.out.println(searchTitleData);
+
+        return searchTitleData;
     }
 
 }
