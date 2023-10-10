@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.spring.boot.mapper.MeetMapperYj">
+
+<select id="getAllCategories" resultType="com.spring.boot.dto.MeetDTOYj">
+    select * from MEET_CATEGORY order by meet_ctgnum asc
+</select>
+
+<select id="getMeetInfo" parameterType="int" resultType="com.spring.boot.dto.MeetDTOYj">
+    select * from MEET where meet_listnum = #{meet_listnum}
+</select>
+
+<select id="getReview" parameterType="int" resultType="com.spring.boot.dto.MeetDTOYj">
+    select * from MEET_REVIEW where meet_listnum = #{meet_listnum}
+    order by meet_review_num desc
+</select>
+
+<select id="getMeetMembers" parameterType="int">
+    select meet_memid from MEET_INFO where meet_listnum = #{meet_listnum} order by meet_memid desc
+</select>
+
+<select id="getReviewNum" parameterType="int" resultType="int">
+    select nvl(max(meet_review_num),0) + 1
+    from meet_review
+    where meet_listnum = #{meet_listnum}
+</select>
+
+<insert id="insertMeetReview" parameterType="com.spring.boot.dto.MeetDTOYj">
+    insert into MEET_REVIEW (meet_listnum, meet_review_num, meet_memid, meet_review_content, meet_review_date, meet_review_img)
+    values (#{meet_listnum}, #{meet_review_num}, #{meet_memid}, #{meet_review_content}, TO_DATE(#{meet_review_date}, 'YYYY-MM-DD HH24:MI:SS'), #{meet_review_img})
+</insert>
+
+
+</mapper>

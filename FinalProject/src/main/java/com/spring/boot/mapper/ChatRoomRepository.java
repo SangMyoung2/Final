@@ -13,7 +13,7 @@ public interface ChatRoomRepository extends MongoRepository<ChatRoomCollection, 
     // A,B가 있을 때 In(A,B)는 A또는 B가 속한 리스트 뽑아오고
     // All은 A와 B 둘다 속한 리스트만 뽑아다줌
     public List<ChatRoomCollection> findByUsersIn(String users);
-    
+    public ChatRoomCollection findByRoomId(String roomId);
 
 
 }

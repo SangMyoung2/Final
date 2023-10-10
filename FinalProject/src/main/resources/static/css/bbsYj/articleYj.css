@@ -1,0 +1,368 @@
+.yj-img {
+    width: 100%;
+    height: auto;
+    display: flex;
+    margin: 0 auto;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
+    background-color: #fefefe;
+    max-width: 800px;
+    display: block;
+    border: #E4EEF7 solid 1px;
+    margin-bottom: 50px;
+
+}
+
+.yj-img2 {
+    width: 100%;
+    height: auto;
+    display: flex;
+    margin: 0 auto;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
+    background-color: #E4EEF7;
+    max-width: 800px;
+    display: none;
+}
+
+.yj-img img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    position: relative;
+}
+
+.Main_content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: #fefefe;
+    position: relative;
+    width: calc(100% - 28px);
+    top: -25px;
+    height: auto;
+    border-radius: 16px;
+    z-index: 100;
+    text-align: center;
+    padding: 20px;
+    margin: 0 auto;
+}
+
+.Yj-title {
+    font-size: 25px;
+    color: #171616;
+    font-weight: bold;
+    margin-top: -8px;
+    margin-bottom: -5px;
+}
+
+.Yj-master {
+    font-size: 15px;
+    color: #383535;
+}
+
+.Yj-text1 {
+    position: relative;
+    height: auto;
+    background-color: #fefefe;
+    padding: 0px 45px 10px; /*위/양사이드/아래*/ 
+    color: #383535;
+    font-size: 18px;
+    line-height: 20px;
+    letter-spacing: -.6px;
+}
+
+.Yj-text2 {
+    position: relative;
+    height: auto;
+    background-color: #fefefe;
+    color: #383535;
+    font-size: 18px;
+    line-height: 20px;
+    letter-spacing: -.6px;
+}
+
+.Yj-text3 {
+    position: relative;
+    height: auto;
+    background-color: #fefefe;
+    color: #383535;
+    font-size: 18px;
+    line-height: 20px;
+    letter-spacing: -.6px;
+}
+
+.text-with-hyphen::before {
+    content: "- ";
+    position: relative;
+    height: auto;
+    background-color: #fefefe;
+    padding-left: 35px;
+    color: #383535;
+    font-size: 16px;
+    line-height: 20px;
+    letter-spacing: -.6px;
+}
+
+.text-container {
+    display: flex;
+    gap: 5px;
+    padding-left: 40px;
+    padding-bottom: 30px;
+}
+
+.round-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.round-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.yj-info {
+    padding: 50px 30px 10px; /*위/양사이드/아래*/
+    color: #F43E42;
+}
+
+.yj-inwon {
+    padding: 35px 30px 10px; /*위/양사이드/아래*/
+    color: #F43E42;
+}
+
+.main-text {
+    display: flex;
+    justify-content: center;
+    align-items: first baseline;
+    flex-direction: column;
+    position: relative;
+    height: auto;
+    border-radius: 16px;
+    z-index: 100;
+    padding: 50px 15px 50px;
+    text-align: left;
+}
+
+.review-title {
+    text-align: center;
+    padding-top: 70px;
+    padding-bottom: 5px;
+    font-size: 23px;
+    color: #171616;
+    font-weight: bold;
+}
+
+.review-sub {
+    text-align: center;
+    padding-bottom: 20px;
+    font-size: 16px;
+    color: #AAAAAA;
+}
+
+.review-write {
+    text-align: right;
+    color: #777777;
+    margin-right: 120px;
+    padding-bottom: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 17px;
+}
+.review-write:hover {
+    text-decoration: underline;
+    color: #505050;
+}
+
+.review-content {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    background-color: #fefefe;
+    position: relative;
+    width: calc(65% - 8px);
+    height: auto;
+    border-radius: 16px;
+    z-index: 100;
+    text-align: center;
+    padding: 50px 30px 30px; /*위/양사이드/아래*/
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+}
+
+.memid {
+    text-align: left;
+    color: #383535;
+    font-weight: bold;
+    margin-top: -25px;
+    margin-left: 40px;
+    font-size: 15px;
+    display: inline-block;
+}
+
+.yj-content {
+    text-align: left;
+    color: #383535;
+    margin-top: 25px;
+    font-size: 17px;
+    width: calc(70% - 8px);
+}
+
+.round-image-rev {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: inline-block;
+    margin-top: -30px;
+}
+
+.round-image-rev img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.review-img {
+    display: flex;
+    flex-direction: row;
+    align-items: right;
+    justify-content: flex-end;
+    width: 100%;
+    height: auto;
+    margin-top: -35px;
+    z-index: 1;
+}
+
+.review-img img {
+    width: 130px;
+    height: auto;
+    display: inline-block;
+    margin-top: auto;
+}
+
+.join-button {
+    display: inline-block;
+    padding: 8px 18px;
+    font-size: 17px;
+    background-color: #F43E42;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+.join-button:hover {
+    background-color: #f85d60;
+}
+
+.icon {
+    margin-right: 8px;
+}
+
+.btn-custom {
+    border: none !important;
+    position: relative;
+}
+
+.underline {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background-color: #000;
+    transition: width 0.3s ease;
+    transform: translateX(-50%);
+}
+
+/* 밑줄 */
+.btn-check:checked + .btn::before {
+    border-radius: 0;
+}
+.btn-check:checked + .btn .underline {
+    width: 100%;
+}
+
+.meet-members {
+    position: fixed;
+    width: 15%;
+    height: 30%;
+    background-color: #f9f9f996;
+    overflow-y: auto;
+    padding: 10px;
+    border: 1px solid #E4EEF7;
+}
+
+.fixed-width-col {
+    width: 800px !important;
+}
+
+.custom-li {
+    margin-top: 10px;
+}
+
+.review-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.review-input {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#review-content {
+    width: 71%;
+    margin-bottom: 10px;
+    height: 100px;
+}
+
+#submit-review {
+    width: 10%;
+    margin-left: 490px;
+    background-color: #fff;
+    color: #333;
+    border: 1px solid #333;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.1s ease, color 0.1s ease;
+}
+
+#submit-review:hover {
+    background-color: #333;
+    color: #fff;
+}
+
+/* 모달 스타일 */
+.modal {
+    display: none; /* 초기에는 숨김 상태 */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+/* 모달 이미지 스타일 */
+.modal-content {
+    display: block;
+    max-width: 70%;
+    max-height: 70%;
+    object-fit: contain; /* 이미지 비율 유지 */
+    margin: 0 auto; /* 이미지를 수평 중앙에 정렬 */
+}
