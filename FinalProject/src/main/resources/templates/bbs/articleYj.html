@@ -1,0 +1,287 @@
+<html layout:decorate="~{layout}">
+<head>
+<meta charset="UTF-8">
+
+<title>아티클</title>
+
+
+<style>
+    footer{
+        position: static !important;
+    }
+</style>
+
+<link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/index.css}"/>
+<link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/bbsYj/articleYj.css}"/>
+<link rel="icon" type="image/png" th:href="@{http://localhost:8080/image/Icon2-removebg.png}"/>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"/>
+<link rel="stylesheet" href="https://kit.fontawesome.com/1f0cefbb8e.css" crossorigin="anonymous">
+<script src="https://kit.fontawesome.com/1f0cefbb8e.js" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+
+    // 페이지 로드 시 초기 버튼 상태 설정
+    document.addEventListener('DOMContentLoaded', function() {
+        var homeButton = document.querySelector('#btnradio1');
+        var reviewButton = document.querySelector('#btnradio2');
+
+        if (window.location.hash === '#review') {
+            // 리뷰 버튼이 선택된 상태로 초기화
+            reviewButton.checked = true;
+            showReviewContent();
+        } else {
+            // 홈 버튼이 선택된 상태로 초기화
+            homeButton.checked = true;
+            showHomeContent();
+        }
+
+        // 버튼 클릭 시 해시 변경
+        homeButton.addEventListener('click', function() {
+            window.location.hash = '#home';
+            showHomeContent();
+        });
+
+        reviewButton.addEventListener('click', function() {
+            window.location.hash = '#review';
+            showReviewContent();
+        });
+    });
+
+    // 홈 내용 표시 함수
+    function showHomeContent() {
+        document.querySelector('.yj-img').style.display = 'block';
+        document.querySelector('.yj-img2').style.display = 'none';
+        // 멤버 목록을 보이게 합니다.
+        document.querySelector('.meet-members').style.display = 'block';
+    }
+
+    // 리뷰 내용 표시 함수
+    function showReviewContent() {
+        document.querySelector('.yj-img').style.display = 'none';
+        document.querySelector('.yj-img2').style.display = 'block';
+        // 멤버 목록을 숨깁니다.
+        document.querySelector('.meet-members').style.display = 'none';
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+
+        var joinButton = document.querySelector('.join-button');
+        
+            joinButton.addEventListener('click', function() {
+            alert('가입이 완료되었습니다.');
+            });
+
+        var reviewForm = document.querySelector('.review-form');
+        var reviewWriteButton = document.querySelector('.review-write');
+        var cancelButton = document.querySelector('#cancel-review');
+
+        reviewWriteButton.addEventListener('click', function() {
+            if (reviewForm.style.display === 'block') {
+                reviewForm.style.display = 'none';
+            } else {
+                reviewForm.style.display = 'block';
+            }
+        });
+
+        document.querySelector('#submit-review').addEventListener('click', function(e) {
+        e.preventDefault(); // 기본 이벤트 동작 방지 (페이지 새로고침 방지)
+
+            var meetListNum = document.querySelector('#meet-listnum').value;
+            var reviewContent = document.querySelector('#review-content').value;
+            var reviewImage = document.querySelector('#review-image').files[0];
+
+            // 리뷰 내용과 이미지 모두 필수로 입력되어야 함
+            if (reviewContent.trim() === '' && !reviewImage) {
+                alert('내용과 이미지를 모두 작성해주세요.');
+            } else if (!reviewImage) {
+                alert('이미지를 첨부해주세요.');
+            } else if (reviewContent.trim() === '') {
+                alert('내용을 작성해주세요.');
+            } else {
+                // 이미지 파일을 FormData에 추가
+                var formData = new FormData();
+                formData.append('meet_listnum', meetListNum);
+                formData.append('meet_review_content', reviewContent);
+                formData.append('meet_review_img', reviewImage);
+
+                // 서버로 데이터 전송 (AJAX를 사용하여 서버로 POST 요청 보내기)
+                $.ajax({
+                    url: '/upload-review',
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        alert('리뷰가 게시되었습니다.');
+                        document.querySelector('#review-content').value = '';
+                        document.querySelector('#review-image').value = ''; // 이미지 파일 선택 초기화
+
+                        // 여기서 페이지를 새로고침할 수 있습니다.
+                        window.location.reload();
+                    },
+                    error: function(xhr, status, error) {
+                        alert('오류 발생: ' + status);
+                    }
+                });
+            }
+        });
+
+
+        
+    });
+
+// 모달 창 열기
+function openModal(imgElement) {
+        // 모달 창 엘리먼트 생성
+        var modal = document.createElement('div');
+        modal.className = 'modal';
+        
+        // 모달 이미지 엘리먼트 생성
+        var modalImg = document.createElement('img');
+        modalImg.className = 'modal-content';
+        modalImg.src = imgElement.src;
+        
+        // 모달 창에 이미지 추가
+        modal.appendChild(modalImg);
+        
+        // 모달 창 스타일 설정
+        modal.style.display = 'block';
+        
+        // 모달 창을 body에 추가
+        document.body.appendChild(modal);
+        
+        // 모달 창을 클릭하면 닫히도록 이벤트 핸들러 추가
+        modal.onclick = function() {
+            modal.style.display = 'none';
+            modal.remove(); // 모달 창 제거
+        };
+    }
+    
+
+</script>
+
+</head>
+<body>
+
+<div layout:fragment="content">
+
+
+
+
+
+
+    
+
+    <div class="text-center">
+        <div class="btn-group" role="group" aria-label="Basic radio toggle button group" style="width: 800px; margin-bottom: 5px; margin-top: 20px;">
+            <!-- 홈 버튼 -->
+            <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
+            <label class="btn btn-custom" for="btnradio1" onclick="showHomeContent()">
+                <span style="color: black;">홈</span>
+                <div class="underline"></div> <!-- 밑줄 요소 추가 -->
+            </label>
+            <!-- 리뷰 버튼 -->
+            <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
+            <label class="btn btn-custom" for="btnradio2" onclick="showReviewContent()">
+                <span style="color: black;">리뷰</span>
+                <div class="underline"></div> <!-- 밑줄 요소 추가 -->
+            </label>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row justify-content-end">
+            <div class="col-8 mx-2 fixed-width-col" th:each="meetInfo : ${meetInfo}">
+    
+                <div class="yj-img">
+                    <img th:src="@{${'/image/bbsYj/' + meetInfo.meet_list_image}}" alt="n번방의 대표사진">
+                    <div class="Main_content" >
+                        <div class="round-image">
+                            <img th:src="@{/image/bbsYj/1111.jpg}" alt="방장프사(임의)"/>
+                        </div>
+                        <p class="Yj-master" th:text="${meetInfo.meet_master}"></p>
+                        <p class="Yj-title" th:text="${meetInfo.meet_title}"></p>
+                    </div>
+                    <div class="main-text">
+                        <p class="Yj-text1" th:text="${meetInfo.meet_content}"></p>
+
+                        <div class="yj-info">상세 정보</div>
+                        <p class="text-with-hyphen Yj-text2" th:text="${meetInfo.meet_place}"></p>
+                        <p class="text-with-hyphen Yj-text2" th:text="${meetInfo.meet_date}"></p>
+
+                        <div class="yj-inwon">모집 인원</div>
+                        <div class="text-container">
+                            <p class="Yj-text3" th:text="${meetInfo.meet_memcnt}"></p>/
+                            <p class="Yj-text3" th:text="${meetInfo.meet_max_memcnt}"></p>
+                        </div>
+                        <button class="join-button">
+                            <span class="icon">📝</span> 가입하기
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="meet-members">
+                    <p>
+                        <span style="margin-right: 5px;">멤버목록</span>
+                        <a th:href="@{'/managerYj.action?meet_listnum=' + ${meetInfo.meet_listnum}}">
+                            <i class="fa-solid fa-gear fa-sm" style="color: #adadad; vertical-align: 0px;"></i>
+                        </a>
+                    </p>
+                    <ul>
+                        <th:block th:each="meetMember : ${meetMembers}">
+                            <li class="custom-li" th:text="${meetMember}"></li>
+                        </th:block>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <div class="yj-img2">
+        <div class="review-title">REVIEW</div>
+        <div class="review-sub">이 모임 유저의 생생한 후기를 만나보세요!</div>
+        <div class="review-write">작성하기</div>
+        <form action="/upload-review" method="POST" enctype="multipart/form-data">
+        <div class="review-form" style="display: none;">
+            <div class="review-input">
+                <textarea name="meet_review_content" id="review-content" placeholder=" 리뷰를 작성해주세요."></textarea>
+                <input type="file" name="meet_review_img" id="review-image" accept="image/*">
+                <input type="hidden" id="meet-listnum" name="meet_listnum" th:value="${meetListNum}" />
+                <button id="submit-review">등록하기</button>
+            </div>
+        </div>
+        </form>
+        <div class="d-flex justify-content-center mb-4" th:each="meetReview : ${meetReview}">
+            <div class="card" style="width: 36rem; margin-bottom: 20px; border:none;">
+                <div class="card-body">
+                    <div class="d-flex flex-column mb-2">
+                        <div class="round-image-rev mt-2">
+                            <img th:src="@{/image/bbsYj/1111.jpg}" alt="유저프사(임의)"/>
+                        </div>
+                        <p class="memid" th:text="${meetReview.meet_memid}"></p>
+                        <div class="col-md-4 mx-auto" style="width: 300px; height: 300px; overflow: hidden; border-radius: 5px; margin-bottom: 10px; margin-top: 10px;">
+                            <img th:src="@{${'/image/bbsYj/' + meetReview.meet_review_img}}" class="img-fluid rounded-start" alt="리뷰사진" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;" onclick="openModal(this);">
+                        </div>
+                    </div>
+                    <p class="card-text" th:text="${meetReview.meet_review_content}" style="padding-left: 10px; padding-right: 10px; text-align: justify; font-size: 18px; margin-bottom: 5px;"></p>
+                    <p class="card-text" th:text="${meetReview.meet_review_date}" style="color: #AAAAAA; font-size: 13px; position: absolute; top: 0; right: 0; margin-top: 31px; margin-right: 20px;"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+        
+</div>
+
+</body>
+</html>
