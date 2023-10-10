@@ -9,7 +9,7 @@ function requestPay(amount) {
         amount: amount,
         buyer_name: "배수지",
         buyer_email: "djwotjr5667@naver.com",
-        buyer_tel: "010-1234-5678",
+        buyer_tel: "010-1234-5678", // buyer 부분은 로그인 된 정보로 가능한가?
     },
     rsp => {
         console.log('결제 응답:', rsp);
