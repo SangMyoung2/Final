@@ -1,0 +1,309 @@
+<html layout:decorate="~{layout}">
+<head>
+<meta charset="UTF-8">
+
+<title>Meetmate 생성</title>
+
+<link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/meetmate/meetmateCreate.css}"/>
+<link rel="icon" type="image/png" th:href="@{http://localhost:8080/image/로고.png}"/>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+
+</head>
+
+<body>
+
+<div layout:fragment="content">
+
+    <div class="container1">
+   
+    <h1>Meetmate 개설하기</h1>
+
+    <form action="" method="POST" name="myForm">
+    <!-- 만날 위치 선택으로 넘어가도록 수정 또는 위치 찍고 이 화면으로 넘어오게 하기 -->
+    
+        <label>Meetmate 카테고리</label>
+            <div id="wrap_ctgNum"> 
+                <span id="wrap_culture" class="CtgNum">
+                    <input type="radio" id="culture" name="meetCtgNum" required value="1" onclick="ctgNum();">
+                    <label for="culture"> 문화 · 예술 </label>
+                </span>
+                <span id="wrap_food" class="CtgNum">
+                    <input type="radio" id="food" name="meetCtgNum" required value="2" onclick="ctgNum();">
+                    <label for="food"> 맛집 </label>
+                </span>
+                <span id="wrap_hobby" class="CtgNum">
+                    <input type="radio" id="hobby" name="meetCtgNum" required value="3" onclick="ctgNum();">
+                    <label for="hobby"> 취미 </label>
+                </span>
+                <span id="wrap_trip" class="CtgNum">
+                    <input type="radio" id="trip" name="meetCtgNum" required value="4" onclick="ctgNum();">
+                    <label for="trip"> 여행 </label>
+                </span>
+                <span id="wrap_sport" class="CtgNum" style="border: none;">
+                    <input type="radio" id="sport" name="meetCtgNum" required value="5" onclick="ctgNum();">
+                    <label for="sport"> 운동 · 액티비티 </label>
+                </span>
+            </div>
+
+
+        <br/><br/>
+        
+        <div>
+            <label>Meetmate 모임명</label>
+            <input type="text" id="meetName" name="meetName" required placeholder="Meetmate Name" class="t1"/>
+            
+            <label>Meetmate 마스터</label>
+            <input type="text" id="meetMemId" name="meetMemId" value="세션에서받기" class="t1" readonly/>
+
+            <label>Meetmate 글제목</label>
+            <input type="text" id="meetTitle" name="meetTitle" required placeholder="Meetmate Title" class="t1"/>
+            
+            <label>Meetmate 소개</label>
+            <div class="flex_wrap">
+                <textarea id="meetContent" name="meetContent" required 
+                placeholder="Meetmate를 소개하는 글을 입력해주세요."></textarea>
+            </div>
+
+            <label>Meetmate 메인사진</label>
+            <input type="file" id="meetImage" name="meetImage" accept="image/*, audio/*" class="t1"/>
+        </div>
+        <br/>
+    
+        <div>
+            <label>Meetmate 날짜</label>
+            <div style="width: 115%;">
+                <input type="text" name="mDate" id="meetmateDateYear"
+                pattern="202[3-9]|20[3-9][0-9]" size="4" maxlength="4" required placeholder="YYYY" class="t2"/>
+                <span>/</span>
+                <input type="text" name="mDate" id="meetmateDateMonth" pattern="0[1-9]|1[0-2]" 
+                size="2" maxlength="2" required placeholder="MM" class="t2" style="margin-left: 2px;"/>
+                <span>/</span>
+                <input type="text" name="mDate" id="meetmateDateDay" pattern="0[1-9]|[1-2][0-9]|3[0-1]" 
+                size="2" maxlength="2" required placeholder="DD" class="t2" style="margin-left: 2px;"/>
+            </div>    
+                
+            <label>Meetmate 시간</label>
+            <div style="width: 115%; margin-left: -10px;">
+
+                <select style="width: 38%; margin-left: 10px;" class="select1" name="mDate">                    
+                    <option value="" selected disabled>시</option>
+                    <option value="00">00</option>
+                    <option value="01">01</option>
+                    <option value="02">02</option>
+                    <option value="03">03</option>
+                    <option value="04">04</option>
+                    <option value="05">05</option>
+                    <option value="06">06</option>
+                    <option value="07">07</option>
+                    <option value="08">08</option>
+                    <option value="09">09</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                    <option value="13">13</option>
+                    <option value="14">14</option>
+                    <option value="15">15</option>
+                    <option value="16">16</option>
+                    <option value="17">17</option>
+                    <option value="18">18</option>
+                    <option value="19">19</option>
+                    <option value="20">20</option>
+                    <option value="21">21</option>
+                    <option value="22">22</option>
+                    <option value="23">23</option>
+                </select> 시
+
+                <select style="width: 38%; margin-left: 10px;" class="select1" name="mDate">
+                    <option value="" selected disabled>분</option>
+                    <option value="00">00</option>
+                    <option value="05">05</option>
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                    <option value="25">25</option>
+                    <option value="30">30</option>
+                    <option value="35">35</option>
+                    <option value="40">40</option>
+                    <option value="45">45</option>
+                    <option value="50">50</option>
+                    <option value="55">55</option>
+                </select> 분
+            </div>
+
+            <div> 
+                <label>Meetmate 최대인원수</label>
+                <input type="text" id="meetMaxMemCnt" name="meetMaxMemCnt" required placeholder="Meetmate 모집인원" class="t1"/>
+            </div>    
+            
+            <label>Meetmate 모집방법</label>
+            <div id="wrap_how"> 
+                <span id="wrap_firstCome" class="how">
+                    <input type="radio" id="firstCome" name="meetHow" value="1" required onclick="how();">
+                    <label for="firstCome"> 선착순 </label>
+                </span>
+                <span id="wrap_approve" class="how" style="border: none;">
+                    <input type="radio" id="approve" name="meetHow" value="2" required onclick="how();">
+                    <label for="approve"> 승인제 </label>
+                </span>
+            </div> 
+            
+            <label>Meetmate 기본참가비</label>
+            <div id="wrap_entryfee"> 
+                <span id="wrap_yes" class="entryfee">
+                    <input type="radio" id="yes" value="1" name="meetEntryfee" required onclick="entryfee();">
+                    <label for="yes"> 있음 </label>
+                </span>
+                <span id="wrap_no" class="entryfee" style="border: none;">
+                    <input type="radio" id="no" value="2" name="meetEntryfee" required onclick="entryfee();"> 
+                    <label for="no"> 없음 </label>
+                </span>
+            </div> 
+            
+            <div> 
+                <label>Meetmate 기본참가비 금액</label>
+                <label style="color: rgba(145, 142, 142, 0.808); font-weight: 150;">
+                    기본참가비 '있음'을 체크한 경우에만 입력해주세요.</label>
+                <input type="text" id="meetMoney" name="meetMoney" required placeholder="0" class="t3"/>
+            </div>       
+
+        </div>
+
+        <input type="hidden" id="meetDday" name="meetDday" value=""> 
+ 
+        <div class="Btn2">
+            <button type="submit" class="createBtn" onclick="sendIt();">생성</button>
+            <button type="button" class="cancelBtn" onclick="javascript:location.href='/meetmateList';">취소</button>
+        </div>
+       
+        </form>
+    </div>
+
+    <script>
+
+    window.onload = initCtgNum; 
+
+    // 카테고리 기본 CSS지정
+    function initCtgNum() {
+
+        var categories = ["culture", "food", "hobby", "trip", "sport"];
+
+        for (var i = 0; i < categories.length; i++) {
+            var category = categories[i];
+            var wrap_ctgNum = document.getElementById("wrap_" + category);
+            wrap_ctgNum.className = 'ctgNum';
+        }
+    }
+
+    
+    // 카테고리 선택(문화, 음식, 취미, 여행, 스포츠) 시 CSS변경
+    function ctgNum() {
+        
+        var f = document.myForm;
+        
+        var categories = ["culture", "food", "hobby", "trip", "sport"];
+        
+        for (var i = 0; i < categories.length; i++) {
+            var category = categories[i];
+            var wrap_ctgNum = document.getElementById("wrap_" + category);
+            var checkbox = document.getElementById(category);
+            
+            if (checkbox.checked) {
+                wrap_ctgNum.className = 'ctgNum_act';
+            } else {
+                wrap_ctgNum.className = 'ctgNum';
+            }
+        }
+    }    
+        
+        
+    //모집방법(선착순, 승인제) 
+    function how(){
+        
+        var wrap_how = document.getElementById("wrap_how")
+        var firstCome = document.getElementById("firstCome")
+        var approve = document.getElementById("approve")
+        
+        var meetHowInput = document.getElementsByName("meetHow");
+
+        if(firstCome.checked){
+            document.getElementById("wrap_firstCome").className='how_act';
+            document.getElementById("wrap_approve").className='how';
+        } else {
+            document.getElementById("wrap_approve").className='how_act';
+            document.getElementById("wrap_firstCome").className='how';
+        }
+    }        
+
+
+    //기본참가비(있음, 없음) & 기본참가비 
+    function entryfee(){   
+        
+        var yes = document.getElementById("yes");
+        var meetMoneyInput = document.getElementById("meetMoney");
+        meetMoneyInput.value = "0"; //기본 참가비 기본값 0 자동입력
+        
+        if (yes.checked) {        
+            meetMoneyInput.value = ""; //있음을 선택했을 경우 기본값 0을 지움
+            
+            if(meetMoneyInput.value == 0 || meetMoneyInput.value == "") {
+                document.getElementById("wrap_yes").className='entry_fee_act';
+                document.getElementById("wrap_no").className='entry_fee';
+
+                alert("기본참가비가 있음을 선택한 경우, 금액을 반드시 입력해주세요.");
+                meetMoneyInput.focus();
+                
+                return false; //입력 안되어 있으면 안넘어가게 
+            }                
+            
+        } else {
+            document.getElementById("wrap_no").className='entry_fee_act';
+            document.getElementById("wrap_yes").className='entry_fee';
+        }    
+    } 
+    
+
+    function createMeetDate(){
+
+        let meetDday = document.getElementById('meetDday')
+        let str = "";
+        let d = document.getElementsByName('mDate');
+        
+        for(i=0; i<d.length; i++){
+
+            str += d[i].value;
+
+            if(i == 2){
+                str += " ";
+            } else if(i == 3) {
+                str += ":";
+            } else if(i != d.length-1) {
+                str += "-";
+            }
+        }
+
+        meetDday.value = str;
+        
+        console.log(str);
+        console.log('meetDday 값 : ' + meetDday.value);
+    }
+
+    const sendIt = () => {
+
+        createMeetDate();
+        ctgNum();
+        how();
+        entryfee();
+        
+        f.action = "/meetmateList";
+		f.submit();
+    }
+    
+    </script>
+
+</body>
+</html>
+
+
+
+
+

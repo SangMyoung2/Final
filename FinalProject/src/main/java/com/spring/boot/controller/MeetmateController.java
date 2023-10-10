@@ -2,6 +2,7 @@ package com.spring.boot.controller;
 
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -14,20 +15,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.spring.boot.dto.BoardDTO;
-import com.spring.boot.service.BoardService;
+import com.spring.boot.dto.GatchiDTO;
+import com.spring.boot.service.GatchiService;
 import com.spring.boot.util.MyUtil;
 
 @RestController //는 return을 텍스트로 인식하지만 ModelAndView는 ResponseBody를 작성하지 않아도 주소로 인식한다. 
-public class BoardController {
-
-	@Resource
-	private BoardService boardService;
+public class MeetmateController {
 	
+	@Resource
+	private GatchiService gatchiService;
+
+/*	
 	@Autowired
 	MyUtil myUtil;
 	
-	
+
 	@RequestMapping(value = "/")
 	public ModelAndView index() throws Exception{ 
 		
@@ -302,45 +304,57 @@ public class BoardController {
 	
 	
 
-/* 
-	@GetMapping("/meetmateList.action")
+
+
+*/
+
+//여기서 호출 하면 BoardService -> BoardServiceImpl -> BoardMapper -> boardMapper.xml에서 데이터 반환을 BoardController로 해준다.
+
+
+
+	@GetMapping("/meetmateCreate")
+	public ModelAndView meetmateCreate() throws Exception{
+		
+		ModelAndView mav = new ModelAndView();
+		
+		mav.setViewName("/meetmate/meetmateCreate");
+		
+		return mav;		
+	}
+
+	@PostMapping("/meetmateCreate")
+	public ModelAndView meetmateCreate_ok(GatchiDTO dto) throws Exception{
+		System.out.println("모임 생성 완료");
+		ModelAndView mav = new ModelAndView();
+		
+		int maxNum = gatchiService.maxNum();
+		
+		dto.setMeetListNum(maxNum + 1);
+		
+		gatchiService.createMeetmate(dto);
+	
+		mav.setViewName("redirect:/meetmateList");
+		
+		return mav;
+
+	}
+		
+	
+	@GetMapping("/meetmateList")
 	public ModelAndView meetmateList() throws Exception{
 		
 		ModelAndView mav = new ModelAndView();
 		
+		List<GatchiDTO> meetLists = new ArrayList<>();
+
+		meetLists = gatchiService.getMeetLists();
+
+		System.out.println("모임 DB 가져온 내용 : " + meetLists);
+
+		mav.addObject("meetLists", meetLists);
 		mav.setViewName("/meetmate/list");
 		
 		return mav;
 		
 	}
-
-	@GetMapping("/meetmateWrite.action")
-	public ModelAndView meetmateWrite() throws Exception{
-		
-		ModelAndView mav = new ModelAndView();
-		
-		mav.setViewName("/meetmate/boardwrite");
-		
-		return mav;		
-	}
-
-	@PostMapping("/meetmateWrite.action")
-	public ModelAndView meetmateWrite_ok(BoardDTO dto, 
-			HttpServletRequest request) throws Exception{
-
-		ModelAndView mav = new ModelAndView();
-		
-		// int maxNum = boardService.maxNum();
-		
-		// dto.setNum(maxNum + 1);
-		// dto.setIpAddr(request.getRemoteAddr());
-		
-		//boardService.insertData(dto);
-	
-		mav.setViewName("redirect:/meetmate/list");
-		
-		return mav;
-
-	}
-*/		
 }

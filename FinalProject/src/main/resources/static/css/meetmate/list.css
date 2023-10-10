@@ -55,9 +55,10 @@
     position: relative;
     display: flex;
     align-items: center;
-    gap: 2em;
-    padding: 2em;
+    gap: 1em;
+    padding: 1em;
     border-radius: calc(var(--curve) * 1px) 0 0 0;    
+
     background-color: var(--surface-color);
     transform: translateY(-100%);
     transition: .2s ease-in-out;
@@ -83,8 +84,8 @@
   
   .card__thumb {
     flex-shrink: 0;
-    width: 50px;
-    height: 50px;      
+    width: 70px;
+    height: 70px;      
     border-radius: 50%;      
   }
   
@@ -92,6 +93,14 @@
     font-size: 1em;
     margin: 0 0 .3em;
     color: #6A515E;
+
+    overflow: hidden;
+    white-space: normal;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    word-break: break-all;
   }
   
   .card__tagline {
@@ -107,21 +116,32 @@
     color: #D7BDCA;
   }
   
-  .card__status1 {
-    font-size: .8em;
-    color: #D7BDCA;
-  }
-  
   .card__description {
-    padding: 0 2em 2em;
-    margin: 0;
+    /*padding: 0 2em 1em;
+    margin: 0;*/
     color: #D7BDCA;
-    font-family: "MockFlowFont";   
+    font-family: "omyu_pretty";   
+    font-size: 14px;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 3;
     overflow: hidden;
   }    
+/*
+  .card__description p {
+    color: #d7bdca;
+    font-family: "MockFlowFont";
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+  }
+*/  
+  .description1 {
+    margin: 0;
+    padding: 0 2em 1em;
+  }
+
 
 
   .heart {
