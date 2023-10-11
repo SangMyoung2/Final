@@ -41,12 +41,29 @@
             <div class="form-group">
                 <div class="input-group clearfix">
                     <!-- <img src="http://localhost:8080/image/chat/none.png" alt="이미지 없음"/> -->
+                    <input type="image" src="http://localhost:8080/image/chat/imoticon_Btn.png"
+                     id="emoticonMessage" name="emoticon"/>
                     <input type="file" id="imageMessage" name="file" accept="image/*">
                     <input type="text" id="message" placeholder="" autocomplete="off"
-                           class="form-control"/>
+                           class="form-control messageInput"/>
                     <button type="submit" class="primary">Send</button>
                 </div>
             </div>
+
+            <div class="hiddenEmoticon" id="emoticonBox" style="display: none;">
+                <div>
+                    <input type="image" src="http://localhost:8080/image/chat/emoticon/laion1.gif" class="sendEmoticonBtn" name="emoticonBtn" value="http://localhost:8080/image/chat/emoticon/laion1.gif">
+                    <input type="image" src="http://localhost:8080/image/chat/emoticon/wing.gif" class="sendEmoticonBtn" name="emoticonBtn" value="http://localhost:8080/image/chat/emoticon/wing.gif">
+                    <input type="image" src="http://localhost:8080/image/chat/emoticon/bird.gif" class="sendEmoticonBtn" name="emoticonBtn" value="http://localhost:8080/image/chat/emoticon/bird.gif">
+                    <input type="image" src="http://localhost:8080/image/chat/emoticon/cat.gif" class="sendEmoticonBtn" name="emoticonBtn" value="http://localhost:8080/image/chat/emoticon/cat.gif">
+                    <input type="image" src="http://localhost:8080/image/chat/emoticon/hi1.gif" class="sendEmoticonBtn" name="emoticonBtn" value="http://localhost:8080/image/chat/emoticon/hi1.gif">
+                    <input type="image" src="http://localhost:8080/image/chat/emoticon/none.png" class="sendEmoticonBtn" name="emoticonBtn" value="http://localhost:8080/image/chat/emoticon/none.png">
+                    <input type="image" src="http://localhost:8080/image/chat/emoticon/peng.gif" class="sendEmoticonBtn" name="emoticonBtn" value="http://localhost:8080/image/chat/emoticon/peng.gif">
+                    <input type="image" src="http://localhost:8080/image/chat/emoticon/peng2.gif" class="sendEmoticonBtn" name="emoticonBtn" value="http://localhost:8080/image/chat/emoticon/peng2.gif">
+                    <input type="image" src="http://localhost:8080/image/chat/emoticon/peng3.gif" class="sendEmoticonBtn" name="emoticonBtn" value="http://localhost:8080/image/chat/emoticon/peng3.gif">
+                </div>
+            </div>
+
         </form>
         <div class="chat-bottomline"></div>
 

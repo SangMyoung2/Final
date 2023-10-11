@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ChatDTO {
     public enum MessageType{
-        ENTER, TALK, MYTALK, LEAVE, IMAGE;
+        ENTER, TALK, MYTALK, LEAVE, IMAGE, EMOTICON;
     }
 
     private MessageType type;

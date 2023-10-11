@@ -67,6 +67,9 @@ function onConnected() {
     )
     
     connectingElement.classList.add('hidden');
+    // 여기
+    setInterval(updateNumber, 100000);
+
 }
 
 let chatMessage;
@@ -139,6 +142,15 @@ function isprevChatList(){
     })
 
 }
+
+window.addEventListener("beforeunload", function (event) {
+    stompClient.send("/pub/chat/logout",
+        {},
+        JSON.stringify({
+            "roomId": roomId,
+            sender: username,
+        }))
+});
 
 // 유저 닉네임 중복 확인
 function isDuplicateName() {
@@ -304,6 +316,15 @@ function onMessageReceived(payload) {
             textElement.appendChild(imageElement);
             imageInput.value="";
         }
+        else if(chat.type === 'EMOTICON'){
+            messageElement.classList.add('chat-myMessage');
+            var imageElement = document.createElement('img');
+            imageElement.classList.add('sendEmoticon');
+            console.log(chat.message);
+            imageElement.src = chat.message;
+            textElement.appendChild(imageElement);
+            imageInput.value="";
+        }
         else if(isSendCaht == false){
             messageElement.classList.add('chat-myMessage');
             textElement.classList.add('balloon_right')
@@ -335,6 +356,27 @@ function onMessageReceived(payload) {
 
             let imageElement = document.createElement('img');
             imageElement.classList.add('sendImage');
+            imageElement.src = chat.message;
+            textElement.appendChild(imageElement);
+            textElement.classList.add('sendImageDiv')
+        }
+        else if(chat.type === 'EMOTICON'){
+            messageElement.classList.add('chat-message');
+
+            if(isReciveChat===false){
+                var avatarElement = document.createElement('img');
+                avatarElement.src="http://localhost:8080/image/chat/none.png"
+                
+                var avatarText = document.createTextNode(chat.sender[0]);
+                avatarElement.appendChild(avatarText);
+                avatarElement.classList.add('profile');
+                messageElement.appendChild(avatarElement);
+                isReciveChat = true;
+                isSendCaht = false;
+            }
+
+            let imageElement = document.createElement('img');
+            imageElement.classList.add('sendEmoticon');
             imageElement.src = chat.message;
             textElement.appendChild(imageElement);
             textElement.classList.add('sendImageDiv')
@@ -376,7 +418,7 @@ function onMessageReceived(payload) {
     //     messageElement.appendChild(imageElement);
     //     imageInput.value="";
     // }
-    if(chat.type != 'IMAGE'){
+    if(chat.type != 'IMAGE' && chat.type != 'EMOTICON'){
         var messageText = document.createTextNode(chat.message);
         textElement.appendChild(messageText);
     }
@@ -431,6 +473,13 @@ function messageDiv(chatMessages){
             textElement.appendChild(imageElement);
             
         }
+        else if(chat.type === 'EMOTICON'){
+            messageElement.classList.add('chat-myMessage');
+            var imageElement = document.createElement('img');
+            imageElement.classList.add('sendEmoticon');
+            imageElement.src = chat.message;
+            textElement.appendChild(imageElement);
+        }
         else {
             if(isSendCaht == false){
                 messageElement.classList.add('chat-myMessage');
@@ -466,6 +515,26 @@ function messageDiv(chatMessages){
             imageElement.src = chat.message;
             textElement.appendChild(imageElement);
         }
+        else if(chat.type === 'EMOTICON'){
+            messageElement.classList.add('chat-message');
+
+            if(isReciveChat===false){
+                var avatarElement = document.createElement('img');
+                avatarElement.src="http://localhost:8080/image/chat/none.png"
+                
+                var avatarText = document.createTextNode(chat.sender[0]);
+                avatarElement.appendChild(avatarText);
+                avatarElement.classList.add('profile');
+                messageElement.appendChild(avatarElement);
+                isReciveChat = true;
+                isSendCaht = false;
+            }
+
+            let imageElement = document.createElement('img');
+            imageElement.classList.add('sendEmoticon');
+            imageElement.src = chat.message;
+            textElement.appendChild(imageElement);
+        }
         else{
             if(isReciveChat===false){
                 messageElement.classList.add('chat-message');
@@ -493,12 +562,10 @@ function messageDiv(chatMessages){
             }
         }
     }
-    let messageText
-    if(chat.type == 'IMAGE'){
-        messageText = document.createTextNode("");
-    }
-    else{
-        messageText = document.createTextNode(chat.message);
+
+    if(chat.type != 'IMAGE' && chat.type != 'EMOTICON'){
+        var messageText = document.createTextNode(chat.message);
+        textElement.appendChild(messageText);
     }
 
     if(chat.type != 'ENTER' && chat.type != 'LEAVE'){
@@ -524,12 +591,61 @@ function messageDiv(chatMessages){
             messageElement.appendChild(readCountElement);
         }
     }
-    textElement.appendChild(messageText);
-    messageElement.appendChild(textElement);
     //messageElement.appendChild(messageText);
     
     messageArea.appendChild(messageElement);
     messageArea.scrollTop = messageArea.scrollHeight;
+
+
+    // if(chat.type === 'IMAGE' && chat.type === 'EMOTICON'){
+    //     messageText = document.createTextNode("");
+    // }
+    // else{
+    //     messageText = document.createTextNode(chat.message);
+    // }
+
+    // if(chat.type != 'ENTER' && chat.type != 'LEAVE'){
+    //         if(chat.sender === username){
+    //             if(chat.readCount > 0){
+    //                 var readCountElement = document.createElement('p');
+    //                 readCountElement.classList.add('readCount');
+    //                 readCountElement.setAttribute('name', 'readCnt');
+                
+    //                 readCountElement.value = chat.readCount;
+    //                 var readCountText = document.createTextNode(chat.readCount);
+    //                 readCountElement.appendChild(readCountText);
+    //                 messageElement.appendChild(readCountElement);
+    //             }
+    //             else{
+    //                 messageElement.classList.add('chat-myMessage-ok');
+    //                 messageElement.classList.remove('chat-myMessage');
+    //             }
+    //             messageElement.appendChild(textElement);
+    //         }
+    //         else{
+    //             messageElement.appendChild(textElement);
+    //             if(chat.readCount > 0){
+    //                 var readCountElement = document.createElement('p');
+    //                 readCountElement.classList.add('readCount');
+    //                 readCountElement.setAttribute('name', 'readCnt');
+                
+    //                 readCountElement.value = chat.readCount;
+    //                 var readCountText = document.createTextNode(chat.readCount);
+    //                 readCountElement.appendChild(readCountText);
+    //                 messageElement.appendChild(readCountElement);
+    //             }
+    //             else{
+    //                 messageElement.classList.add('chat-Message-ok');
+    //                 messageElement.classList.remove('chat-message')
+    //             }
+    //         }
+    // }
+    // textElement.appendChild(messageText);
+    // messageElement.appendChild(textElement);
+    // //messageElement.appendChild(messageText);
+    
+    // messageArea.appendChild(messageElement);
+    // messageArea.scrollTop = messageArea.scrollHeight;
 }
 
 
@@ -622,21 +738,24 @@ function updateNumber() {
       });
   }
 
-setInterval(updateNumber, 5000);
 
 function countReadData(data){
     console.log("countReadData");
     //let readCnt = document.getElementsByName('readCnt');
     
     console.log(" data : " + JSON.stringify(data));
-    console.log("사이즈 : " + data.data.length);
+    if(data == null) return;
+    //console.log("사이즈 : " + data.data.length);
 
     let read = document.getElementsByClassName("chat-message");
     let myRead = document.getElementsByClassName("chat-myMessage");
 
     console.log("read 갯수 : " + read.length);
     console.log("myRead 갯수 : " + myRead.length);
-    if(read.length <= 0 && myRead.length <= 0) return;
+    if(read.length <= 0 && myRead.length <= 0) {
+        console.log("리턴리턴리턴리턴리턴리턴리턴리턴리턴리턴");
+        return;
+    }
 
     for(let i=0; i<data.data.length; i++){
         console.log(i + "번째 실행");
@@ -650,7 +769,7 @@ function countReadData(data){
                 if(data.data[i].readCount <= 0){
                     if(readcnt != null){
                         read[j].classList.add("chat-Message-ok")
-                        read[j].classList.remove("chat-Message")
+                        read[j].classList.remove("chat-message")
                         readcnt.remove();
                     }
                     continue
@@ -685,6 +804,91 @@ function countReadData(data){
     }
 
 }
+
+let emoticonBtns = document.getElementsByName("emoticonBtn");
+
+for(let i = 0; i< emoticonBtns.length; i++){
+    emoticonBtns[i].addEventListener("click", function(){
+        // 이모티콘 전송
+        let emoticonValue = emoticonBtns[i].value.trim();
+        if (emoticonValue && stompClient) {
+            var chatMessage = {
+                "roomId": roomId,
+                sender: username,
+                message: emoticonValue,
+                type: 'EMOTICON',
+                readCount: 0
+            };
+            stompClient.send("/pub/chat/sendMessage", {}, JSON.stringify(chatMessage));
+            messageInput.value = '';
+            // 보내고 난 뒤 행동
+        }
+        e.preventDefault();
+    });
+}
+
+function sendEmoticon(emoticon) {
+    //let emoticonContent = emoticon.src;
+
+    if (messageContent && stompClient) {
+        var chatMessage = {
+            "roomId": roomId,
+            sender: username,
+            message: emoticon,
+            type: 'EMOTICON',
+            readCount: 0
+        };
+        console.log(messageContent)
+        stompClient.send("/pub/chat/sendMessage", {}, JSON.stringify(chatMessage));
+        messageInput.value = '';
+    }
+    e.preventDefault();
+}
+
+let emoticonMessageBtn = document.getElementById('emoticonMessage');
+let hiddenEmoticon = document.getElementById('emoticonBox');
+emoticonMessageBtn.addEventListener('click', function(){
+    if(hiddenEmoticon.style.display === "none"){
+        hiddenEmoticon.style.display = "block";
+    }
+    else{
+        hiddenEmoticon.style.display = "none";
+    }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 function getAvatarColor(messageSender) {
     var hash = 0;

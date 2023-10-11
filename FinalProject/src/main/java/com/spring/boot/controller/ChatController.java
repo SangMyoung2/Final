@@ -126,7 +126,7 @@ public class ChatController {
 
         if(roomChat != null){
             List<ChatMessage> chatMessage = roomChat.getChats();
-            System.out.println("챗 메세지 : " + chatMessage);
+            //System.out.println("챗 메세지 : " + chatMessage);
             
                 // 채팅 내역에 해당유저가 없으면 추가 해주면서 카운트 -1
             for(int i=0; i<chatMessage.size(); i++){
@@ -136,19 +136,27 @@ public class ChatController {
                     // List<String> readUserList = chatMessage.get(i).getReadUser();
                     // readUserList.add(chat.getSender());
                     System.out.println("메세지 : " + chatMessage.get(i));
+
                     int rCnt = chatMessage.get(i).getReadCount();
+                    
+                    System.out.println("rCnt : " + rCnt);
+
                     chatMessage.get(i).setReadCount(rCnt - 1);
                     chatMessage.get(i).getReadUser().add(chat.getSender());
+
+                    System.out.println("변경된 값 : " + chatMessage.get(i).getReadCount());
+
                     // if(rCnt > 0){
                     //     //c.setReadCount(c.getReadCount() - 1);
                     //     chatMessage.get(i).setReadCount(rCnt - 1);
                     //     chatMessage.get(i).getReadUser().add(chat.getSender());
                     // }
                 }
-                System.out.println("chatMessage : " + chatMessage);
+            }
+            //System.out.println("chatMessage : " + chatMessage);
             roomChat.setChats(chatMessage);
             chatContentService.updateChat(roomChat);
-            }
+            chatMaps.put(chat.getRoomId(), roomChat);
         }
         // 요까지 채팅방 들어오면 읽음 -1
 
@@ -165,10 +173,11 @@ public class ChatController {
     // 해당 유저
     @MessageMapping("/chat/sendMessage")
     public void sendMessage(@Payload ChatDTO chat,SimpMessageHeaderAccessor headerAccessor) {
-        System.out.println("chat sendMessage 들어옴...");
-        log.info("CHAT {}", chat);
+        System.out.println("chat sendMessage 들어옴 ----------------------------------------- 구분선");
+        //log.info("CHAT {}", chat);
         chat.setMessage(chat.getMessage());
-
+        
+        //System.out.println("타입 : " + chat.getType().toString());
         // 현재시간 가져오기
         String today = chatUtil.todayYearMonthDay();
         String todayAndTime = chatUtil.todayYMDAndTime();
@@ -181,78 +190,81 @@ public class ChatController {
             chatMaps.put(chat.getRoomId(),chatContentCollection);
         }
 
-        System.out.println(chat.getRoomId());
-        System.out.println(chat.getSender());
+        //System.out.println(chat.getRoomId());
+        //System.out.println(chat.getSender());
         System.out.println(chat.getMessage());
-        System.out.println(todayAndTime);
+        //System.out.println(todayAndTime);
         
         // 채팅내역 입력
         ChatMessage c = new ChatMessage();
         c.setSender(chat.getSender());
         c.setMessage(chat.getMessage());
         c.setTime(todayAndTime);
-        c.setType("TALK");
+        c.setType(chat.getType().toString());
         c.setReadCount(userCount - roomInUser);
-        System.out.println("현재 유저 (send) : " + roomInUserId);
+        //System.out.println("현재 유저 (send) : " + roomInUserId);
         // List<String> readUserList = c.getReadUser();
         // readUserList.add(chat.getSender());
 
         c.setReadUser(roomInUserId);
-
+        
         chat.setReadCount(c.getReadCount());
         
         // 채팅내역 추가
         chatMaps.get(chat.getRoomId()).addLists(c);
-
         // 채팅내역 추가해서 새로고침
         // ChatContentCollection chatContentCollection = chatContentService.findList(chat.getRoomId());
         // chatContentCollection.addLists(c);
         // chatMaps.replace(chat.getRoomId(), chatContentCollection);
 
-        //System.out.println("chatMaps 데이터 : " + chatMaps.get(chat.getRoomId()));
-        chatContentService.insertChat(chatMaps.get(chat.getRoomId()));
+        System.out.println("chatMaps 데이터 : " + chatMaps.get(chat.getRoomId()));
 
+        for (ChatMessage c1 : chatMaps.get(chat.getRoomId()).getChats()) {
+            System.out.println("채팅 : " + c1.getMessage() + "  카운트 : " + c1.getReadCount());
+        }
+
+        chatContentService.insertChat(chatMaps.get(chat.getRoomId()));
 
         template.convertAndSend("/sub/chat/room/" + chat.getRoomId(), chat);
     }
 
     // 유저 퇴장 시에는 EventListener 을 통해서 유저 퇴장을 확인
-    @EventListener
-    public void webSocketDisconnectListener(SessionDisconnectEvent event) {
-        log.info("DisConnEvent {}", event);
-        StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
+    // @EventListener
+    // public void webSocketDisconnectListener(SessionDisconnectEvent event) {
+    //     log.info("DisConnEvent {}", event);
+    //     StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
         
 
 
-        // // stomp 세션에 있던 uuid 와 roomId 를 확인해서 채팅방 유저 리스트와 room 에서 해당 유저를 삭제
-        // String userUUID = (String) headerAccessor.getSessionAttributes().get("userUUID");
-        // String roomId = (String) headerAccessor.getSessionAttributes().get("roomId");
+    //     // // stomp 세션에 있던 uuid 와 roomId 를 확인해서 채팅방 유저 리스트와 room 에서 해당 유저를 삭제
+    //     // String userUUID = (String) headerAccessor.getSessionAttributes().get("userUUID");
+    //     // String roomId = (String) headerAccessor.getSessionAttributes().get("roomId");
 
-        log.info("headAccessor {}", headerAccessor);
+    //     log.info("headAccessor {}", headerAccessor);
 
-        // // 채팅방 유저 -1
-        // repository.minusUserRoom(roomId);
+    //     // // 채팅방 유저 -1
+    //     // repository.minusUserRoom(roomId);
 
-        // // 채팅방 유저 리스트에서 UUID 유저 닉네임 조회 및 리스트에서 유저 삭제
-        // String username = repository.getUserName(roomId, userUUID);
-        // repository.delUser(roomId, userUUID);
+    //     // // 채팅방 유저 리스트에서 UUID 유저 닉네임 조회 및 리스트에서 유저 삭제
+    //     // String username = repository.getUserName(roomId, userUUID);
+    //     // repository.delUser(roomId, userUUID);
 
-        // if (username != null) {
-        //     log.info("User Disconnected : " + username);
+    //     // if (username != null) {
+    //     //     log.info("User Disconnected : " + username);
 
-        //     // builder 어노테이션 활용
-        //     ChatDTO chat = ChatDTO.builder()
-        //             .type(ChatDTO.MessageType.LEAVE)
-        //             .sender(username)
-        //             .message(username + " 님 퇴장!!")
-        //             .build();
+    //     //     // builder 어노테이션 활용
+    //     //     ChatDTO chat = ChatDTO.builder()
+    //     //             .type(ChatDTO.MessageType.LEAVE)
+    //     //             .sender(username)
+    //     //             .message(username + " 님 퇴장!!")
+    //     //             .build();
 
-        //     template.convertAndSend("/sub/chat/room/" + roomId, chat);
-        // }
-        roomInUser--;
-        //roomInUserId.remove(chat.getsender());
-        System.out.println("현재 채팅치는 인원수(out) : " + roomInUser);
-    }
+    //     //     template.convertAndSend("/sub/chat/room/" + roomId, chat);
+    //     // }
+    //     roomInUser--;
+    //     //roomInUserId.remove(chat.getsender());
+    //     System.out.println("현재 채팅치는 인원수(out) : " + roomInUser);
+    // }
 
     // 채팅에 참여한 유저 리스트 반환
     // @GetMapping("/chat/userlist")
@@ -357,17 +369,18 @@ public class ChatController {
             // 채팅내역 추가
             System.out.println("메세지 : " + c.getMessage());
             System.out.println("보낸이 : " + c.getSender());
+            c.setReadUser(roomInUserId);
 
             chatMaps.get(roomId).addLists(c);
             chatContentService.insertChat(chatMaps.get(roomId));
 
             ChatDTO chat = new ChatDTO();
-            
+
             chat.setMessage(src);
             chat.setRoomId(roomId);
             chat.setSender(sender);
             chat.setType(MessageType.IMAGE);
-
+            chat.setReadCount(c.getReadCount());
             template.convertAndSend("/sub/chat/room/" + chat.getRoomId(), chat);
 
         } catch (Exception e) {
@@ -381,17 +394,28 @@ public class ChatController {
         //System.out.println("chat GetReaddCount에 들어옴");
         
         String today = chatUtil.todayYearMonthDay();
-        System.out.println(today);
+        //System.out.println(today);
         String roomId = requestMap.get("roomId") + today;
-
+        Map<String, Object> data = new HashMap<>();
         ChatContentCollection roomChat = chatContentService.getChatContentWithReadCountGreaterThanZero(roomId);
-        if(roomChat == null) return null;
-        System.out.println("채팅 : " + roomChat);
+        if(roomChat == null) return data;
+        //System.out.println("채팅 : " + roomChat);
         List<ChatMessage> chatMessage = roomChat.getChats();
 
-        Map<String, Object> data = new HashMap<>();
+        
         data.put("data", chatMessage);
         //chatContentService.updateReadCount(roomId);
         return data;
     }
+
+    @MessageMapping("/chat/logout")
+    public void logout(@Payload ChatDTO chat){
+        roomInUser--;
+        System.out.println("로그아웃");
+        System.out.println("chat user : " + chat.getSender());
+        roomInUserId.remove(chat.getSender());
+        System.out.println("방에 있는 사람 : " + roomInUserId);
+    }
+
+
 }

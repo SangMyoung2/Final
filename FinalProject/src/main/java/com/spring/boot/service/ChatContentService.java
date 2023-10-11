@@ -47,7 +47,7 @@ public class ChatContentService {
         List<ChatMessage> chatMessage = chatContentCollection.getChats();
         List<ChatMessage> result = new ArrayList<>();
         for(ChatMessage c : chatMessage){
-            System.out.println("ReadCount : " + c.getReadCount());
+            //System.out.println("ReadCount : " + c.getReadCount());
             if(c.getReadCount() > -1){
                 result.add(c);
             }
@@ -70,8 +70,8 @@ public class ChatContentService {
         for(ChatMessage c : chatMessage){
             if(c.getReadCount() <= 0){
                 c.setReadCount(-1);
-                result.add(c);
             }
+            result.add(c);
         }
         chatContentCollection.setChats(result);
         chatContentRepository.save(chatContentCollection);

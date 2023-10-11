@@ -135,7 +135,8 @@ button.accent {
     overflow: auto;
     overflow-y: scroll;
     padding: 0 20px 0px 20px;
-    height: calc(100% - 150px);
+    height: calc(100% - 200px);
+    border-bottom: 1px solid;
 }
 
 #chat-page #messageForm {
@@ -177,6 +178,7 @@ button.accent {
 .readCount{
     grid-area: readCount;
     padding: 8px;
+    color: #7ebbf2;
 }
 
 #chat-page .chat-myMessage{
@@ -184,7 +186,7 @@ button.accent {
     position: relative;
     display: flex;
     justify-content: right;
-    align-items: center;
+    align-items: self-end;
 }
 
 #chat-page .chat-Message-ok{
@@ -302,7 +304,7 @@ padding-left: 68px;
     background-color: var(--send-bg-color);
 }
 
-#messageForm .input-group input {
+#messageForm .input-group .messageInput {
     float: left;
     width: calc(100% - 85px);
 }
@@ -461,7 +463,23 @@ padding-left: 68px;
     max-width: 300px;
 }
 
-.sendImoticon {
-    max-width: 150px;
+.sendEmoticon {
+    max-width: 100px;
 }
 
+.sendEmoticonBtn{
+    max-width: 100px;
+}
+
+#emoticonMessage{
+    width: 50px;
+}
+
+.hiddenEmoticon{
+    display: none;
+    position: absolute;
+    top: 365px;
+    left: 20px;
+    background-color: rgb(213 213 213 / 40%);
+    width: calc(100% - 300px);
+}
