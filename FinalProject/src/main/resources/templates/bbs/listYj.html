@@ -1,0 +1,48 @@
+<html layout:decorate="~{layout}">
+<head>
+<meta charset="UTF-8">
+
+<title>리스트</title>
+
+<link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/index.css}"/>
+<link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/bbsYj/listYj.css}"/>
+<link rel="icon" type="image/png" th:href="@{http://localhost:8080/image/Icon2-removebg.png}"/>
+
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="yj-div">
+        <ul class="yj-ul">
+            <!-- 카테고리 목록 출력 -->
+            <th:block th:each="category : ${listYj}">
+                <li class="yj-li"
+                    th:text="${category.meet_ctgname}"
+                    th:data-category="${category.meet_ctgname}"></li>
+            </th:block>
+        </ul>
+    
+    <div id="category-list"></div>
+    </div>
+
+    <script>
+        // JavaScript 코드
+        document.querySelectorAll('.yj-li').forEach(function (element) {
+            element.addEventListener('click', function () {
+                var categoryName = element.getAttribute('data-category');
+                loadCategoryList(categoryName);
+            });
+        });
+    
+        // 카테고리별 리스트를 불러와 화면에 표시하는 함수
+        function loadCategoryList(categoryName) {
+            // Ajax 요청을 사용하여 서버에서 카테고리별 리스트를 가져온 후, 화면에 표시하는 코드를 추가
+            var content = "이 카테고리의 내용을 표시합니다: " + categoryName;
+            alert("이 카테고리의 내용: " + categoryName);
+            //document.getElementById('category-list').textContent = content;
+        }
+    </script>
+
+</div>
+</body>
+</html>
+
