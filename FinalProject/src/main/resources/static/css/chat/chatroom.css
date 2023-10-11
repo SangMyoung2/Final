@@ -166,10 +166,17 @@ button.accent {
 #chat-page .chat-message {
     padding-left: 40px;
     position: relative;
-    display: flex;
+    display: grid;
+    grid-template-areas: "profile ."
+                        "content readCount";
     justify-content: left;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: flex-end;
+}
+
+.readCount{
+    grid-area: readCount;
+    padding: 8px;
 }
 
 #chat-page .chat-myMessage{
@@ -180,7 +187,28 @@ button.accent {
     align-items: center;
 }
 
+#chat-page .chat-Message-ok{
+    padding-left: 40px;
+    position: relative;
+    display: grid;
+    grid-template-areas: "profile ."
+                        "content readCount";
+    justify-content: left;
+    flex-direction: column;
+    align-items: flex-end;
+
+}
+
+#chat-page .chat-myMessage-ok{
+padding-left: 68px;
+    position: relative;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+}
+
 #chat-page .chat-message .profile {
+    
     position: absolute;
     width: 42px;
     height: 42px;
@@ -195,9 +223,11 @@ button.accent {
     border-radius: 20%;
     font-style: normal;
     text-transform: uppercase;
+    align-self: self-start;
 }
 
 #chat-page .chat-message span {
+    grid-area: profile;
     color: #333;
     font-weight: 600;
 }
@@ -211,9 +241,58 @@ button.accent {
     text-align: left;
     background-color: var(--resv-bg-color);
     margin-left: 5px;
+    grid-area: content;
+}
+
+
+#chat-page .chat-Message-ok .profile {
+    
+    position: absolute;
+    width: 42px;
+    height: 42px;
+    overflow: hidden;
+    left: -15px;
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 18px;
+    line-height: 42px;
+    color: #fff;
+    text-align: center;
+    border-radius: 20%;
+    font-style: normal;
+    text-transform: uppercase;
+    align-self: self-start;
+}
+
+#chat-page .chat-Message-ok span {
+    grid-area: profile;
+    color: #333;
+    font-weight: 600;
+}
+
+#chat-page .chat-Message-ok .sendtext {
+    padding: 10px 15px;
+    width: auto;
+    max-width: 400px;
+    color: black;
+    border-radius: 10px;
+    text-align: left;
+    background-color: var(--resv-bg-color);
+    margin-left: 5px;
+    grid-area: content;
 }
 
 .chat-myMessage .sendtext {
+    padding: 10px 15px;
+    width: auto;
+    max-width: 400px;
+    color: black;
+    border-radius: 10px;
+    text-align: left;
+    background-color: var(--send-bg-color);
+}
+
+.chat-myMessage-ok .sendtext {
     padding: 10px 15px;
     width: auto;
     max-width: 400px;
@@ -329,9 +408,10 @@ button.accent {
 }
 
 .balloon_left {
+    grid-area: content;
     position: relative;
     display: inline-block;
-    max-width: calc(100% - 70px);
+    max-width: 400px;
     padding: 10px;
     border-radius: 10px;
     background-color: var(--resv-bg-color);
@@ -350,10 +430,10 @@ button.accent {
 .balloon_right{
     position: relative;
     display: inline-block;
-    max-width: calc(100% - 70px);
+    max-width: 400px;
     padding: 10px;
-    margin-top: 7px;
-    margin-left: 20px;
+    /* margin-top: 7px;
+    margin-left: 20px; */
     border-radius: 10px;
     background-color: var(--send-bg-color);
    }
@@ -380,3 +460,8 @@ button.accent {
 .sendImage {
     max-width: 300px;
 }
+
+.sendImoticon {
+    max-width: 150px;
+}
+
