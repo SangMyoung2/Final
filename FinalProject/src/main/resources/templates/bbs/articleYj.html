@@ -225,16 +225,21 @@ function openModal(imgElement) {
             <div class="col-md-2">
                 <div class="meet-members">
                     <p>
-                        <span style="margin-right: 5px;">멤버목록</span>
-                        <a th:href="@{'/managerYj.action?meetListNum=' + ${meetListInfo.meetListNum}}">
+                        <span style="margin-right: 60px;">멤버목록</span>
+                        <a th:href="@{'/managerYj.action?meetListNum=' + ${meetListInfo.meetListNum}}" style="text-decoration: none;">
+                            <span style="color: #adadad;">관리</span>
                             <i class="fa-solid fa-gear fa-sm" style="color: #adadad; vertical-align: 0px;"></i>
                         </a>
                     </p>
-                    <ul>
+                    <ul style="display: flex; list-style-type: none; align-items: center;">
+                        <li class="round-image-rev mt-2" style="margin-right: 10px; margin-left: -10px;">
+                            <img th:src="@{/image/bbsYj/1111.jpg}" alt="유저프사(임의)"/>
+                        </li>
                         <th:block th:each="meetMember : ${meetMembers}">
                             <li class="custom-li" th:text="${meetMember}"></li>
                         </th:block>
                     </ul>
+                    
                 </div>
             </div>
         </div>
