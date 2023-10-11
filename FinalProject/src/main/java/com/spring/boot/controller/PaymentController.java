@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.boot.dto.PaymentInfoDTO;
+import com.spring.boot.dto.userPointDTO;
 import com.spring.boot.service.PaymentService;
 
 @Controller
@@ -53,4 +54,19 @@ public class PaymentController {
     public String payFailurePage() {
         return "pay/payFailurePage"; 
     }
+
+    @PostMapping("/joinGroup/{meetListNum}")
+    public ResponseEntity<String> joinGroup(@PathVariable int meetListNum, @RequestBody String userEmail) {
+        
+        
+
+        try {
+            paymentService.joinGroupAndDeductPoint(userEmail, meetListNum);
+            return new ResponseEntity<>("Successfully joined and deducted points!", HttpStatus.OK);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>("Error: " + e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+
 }

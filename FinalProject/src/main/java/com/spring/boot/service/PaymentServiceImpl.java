@@ -42,6 +42,39 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public void updateUserPoint(userPointDTO userPointDTO) {
         paymentMapper.updateUserPoint(userPointDTO);
-}
+    }
+
+    public void joinGroupAndDeductPoint(String userEmail, int meetListNum) {
+
+        System.out.println("joinGroupAndDeductPoint 메서드가 호출되었습니다.");
+        
+        int meetMoney = paymentMapper.getMeetMoney(meetListNum);
+        int currentUserPoint = paymentMapper.getUserPoint(userEmail);
+
+        System.out.println("Mapper에서 반환된 meetMoney 값: " + meetMoney);
+        System.out.println("Mapper에서 반환된 currentUserPoint 값: " + currentUserPoint);
+
+        if(currentUserPoint < meetMoney) {
+            throw new RuntimeException("Insufficient points!"); // 혹은 다른 적절한 예외 처리 방식을 사용
+        }
+
+        System.out.println("포인트 확인: " + (currentUserPoint < meetMoney ? "포인트 부족" : "포인트 충분"));
+
+        userPointDTO userPointDTO = new userPointDTO();
+        userPointDTO.setUser_email(userEmail);
+        userPointDTO.setPoint_balance(currentUserPoint - meetMoney);
+
+        updateUserPoint(userPointDTO);
+
+        System.out.println("updateUserPoint 메서드 호출 후");
+
+        // 여기서 모임에 가입시키는 로직을 추가하면 됩니다.
+        // 예: groupService.joinGroup(userEmail, meetListNum);
+
+
+
+    }
+
+
 
 }
