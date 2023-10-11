@@ -21,18 +21,18 @@ public class MeetServiceImplYj implements MeetServiceYj {
     }
 
     @Override
-    public MeetDTOYj getMeetInfo(int meet_listnum) throws Exception {
-        return meetMapperYj.getMeetInfo(meet_listnum);
+    public MeetDTOYj getMeetListInfo(int meetListNum) throws Exception {
+        return meetMapperYj.getMeetListInfo(meetListNum);
     }
 
     @Override
-    public List<MeetDTOYj> getReview(int meet_listnum) throws Exception {
-        return meetMapperYj.getReview(meet_listnum);
+    public List<MeetDTOYj> getReview(int meetListNum) throws Exception {
+        return meetMapperYj.getReview(meetListNum);
     }
 
     @Override
-    public List<String> getMeetMembers(int meet_listnum) throws Exception {
-        return meetMapperYj.getMeetMembers(meet_listnum);
+    public List<String> getMeetMembers(int meetListNum) throws Exception {
+        return meetMapperYj.getMeetMembers(meetListNum);
     }
 
     @Override
@@ -41,8 +41,36 @@ public class MeetServiceImplYj implements MeetServiceYj {
     }
 
     @Override
-    public int getReviewNum(int meet_listnum) throws Exception {
-        return meetMapperYj.getReviewNum(meet_listnum);
+    public int getReviewNum(int meetListNum) throws Exception {
+        return meetMapperYj.getReviewNum(meetListNum);
+    }
+    
+    @Override
+    public void insertMeetJoin(MeetDTOYj dto) throws Exception {
+        meetMapperYj.insertMeetJoin(dto);
+    }
+
+    @Override
+    public List<String> getMeetBlack(int meetListNum) throws Exception {
+        return meetMapperYj.getMeetBlack(meetListNum);
+    }
+
+    @Override
+    public void addToBlacklist(int meetListNum, String email) throws Exception {
+        // 블랙리스트 추가 작업
+        MeetDTOYj dto = new MeetDTOYj();
+        dto.setMeetListNum(meetListNum);
+        dto.setEmail(email);
+        meetMapperYj.addToBlacklist(dto);
+    }
+
+    @Override
+    public void releaseFromBlacklist(int meetListNum, String email) throws Exception {
+        // 블랙리스트 해제 작업
+        MeetDTOYj dto = new MeetDTOYj();
+        dto.setMeetListNum(meetListNum);
+        dto.setEmail(email);
+        meetMapperYj.releaseFromBlacklist(dto);
     }
 
 }

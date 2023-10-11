@@ -101,9 +101,9 @@
             } else {
                 // 이미지 파일을 FormData에 추가
                 var formData = new FormData();
-                formData.append('meet_listnum', meetListNum);
-                formData.append('meet_review_content', reviewContent);
-                formData.append('meet_review_img', reviewImage);
+                formData.append('meetListNum', meetListNum);
+                formData.append('meetReviewContent', reviewContent);
+                formData.append('meetReviewImg', reviewImage);
 
                 // 서버로 데이터 전송 (AJAX를 사용하여 서버로 POST 요청 보내기)
                 $.ajax({
@@ -192,28 +192,28 @@ function openModal(imgElement) {
 
     <div class="container">
         <div class="row justify-content-end">
-            <div class="col-8 mx-2 fixed-width-col" th:each="meetInfo : ${meetInfo}">
+            <div class="col-8 mx-2 fixed-width-col" th:each="meetListInfo : ${meetListInfo}">
     
                 <div class="yj-img">
-                    <img th:src="@{${'/image/bbsYj/' + meetInfo.meet_list_image}}" alt="n번방의 대표사진">
+                    <img th:src="@{${'/image/bbsYj/' + meetListInfo.meetImage}}" alt="n번방의 대표사진">
                     <div class="Main_content" >
                         <div class="round-image">
                             <img th:src="@{/image/bbsYj/1111.jpg}" alt="방장프사(임의)"/>
                         </div>
-                        <p class="Yj-master" th:text="${meetInfo.meet_master}"></p>
-                        <p class="Yj-title" th:text="${meetInfo.meet_title}"></p>
+                        <p class="Yj-master">김명란</p>
+                        <p class="Yj-title" th:text="${meetListInfo.meetTitle}"></p>
                     </div>
                     <div class="main-text">
-                        <p class="Yj-text1" th:text="${meetInfo.meet_content}"></p>
+                        <p class="Yj-text1" th:text="${meetListInfo.meetContent}"></p>
 
                         <div class="yj-info">상세 정보</div>
-                        <p class="text-with-hyphen Yj-text2" th:text="${meetInfo.meet_place}"></p>
-                        <p class="text-with-hyphen Yj-text2" th:text="${meetInfo.meet_date}"></p>
+                        <p class="text-with-hyphen Yj-text2" th:text="${meetListInfo.meetPlace}"></p>
+                        <p class="text-with-hyphen Yj-text2" th:text="${meetListInfo.meetDday}"></p>
 
                         <div class="yj-inwon">모집 인원</div>
                         <div class="text-container">
-                            <p class="Yj-text3" th:text="${meetInfo.meet_memcnt}"></p>/
-                            <p class="Yj-text3" th:text="${meetInfo.meet_max_memcnt}"></p>
+                            <p class="Yj-text3" th:text="${meetListInfo.meetMemCnt}"></p>/
+                            <p class="Yj-text3" th:text="${meetListInfo.meetMaxMemCnt}"></p>
                         </div>
                         <button class="join-button">
                             <span class="icon">📝</span> 가입하기
@@ -226,7 +226,7 @@ function openModal(imgElement) {
                 <div class="meet-members">
                     <p>
                         <span style="margin-right: 5px;">멤버목록</span>
-                        <a th:href="@{'/managerYj.action?meet_listnum=' + ${meetInfo.meet_listnum}}">
+                        <a th:href="@{'/managerYj.action?meetListNum=' + ${meetListInfo.meetListNum}}">
                             <i class="fa-solid fa-gear fa-sm" style="color: #adadad; vertical-align: 0px;"></i>
                         </a>
                     </p>
@@ -249,9 +249,9 @@ function openModal(imgElement) {
         <form action="/upload-review" method="POST" enctype="multipart/form-data">
         <div class="review-form" style="display: none;">
             <div class="review-input">
-                <textarea name="meet_review_content" id="review-content" placeholder=" 리뷰를 작성해주세요."></textarea>
-                <input type="file" name="meet_review_img" id="review-image" accept="image/*">
-                <input type="hidden" id="meet-listnum" name="meet_listnum" th:value="${meetListNum}" />
+                <textarea name="meetReviewContent" id="review-content" placeholder=" 리뷰를 작성해주세요."></textarea>
+                <input type="file" name="meetReviewImg" id="review-image" accept="image/*">
+                <input type="hidden" id="meet-listnum" name="meetListNum" th:value="${meetListNum}" />
                 <button id="submit-review">등록하기</button>
             </div>
         </div>
@@ -263,13 +263,13 @@ function openModal(imgElement) {
                         <div class="round-image-rev mt-2">
                             <img th:src="@{/image/bbsYj/1111.jpg}" alt="유저프사(임의)"/>
                         </div>
-                        <p class="memid" th:text="${meetReview.meet_memid}"></p>
+                        <p class="memid" th:text="${meetReview.email}"></p>
                         <div class="col-md-4 mx-auto" style="width: 300px; height: 300px; overflow: hidden; border-radius: 5px; margin-bottom: 10px; margin-top: 10px;">
-                            <img th:src="@{${'/image/bbsYj/' + meetReview.meet_review_img}}" class="img-fluid rounded-start" alt="리뷰사진" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;" onclick="openModal(this);">
+                            <img th:src="@{${'/image/bbsYj/' + meetReview.meetReviewImg}}" class="img-fluid rounded-start" alt="리뷰사진" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;" onclick="openModal(this);">
                         </div>
                     </div>
-                    <p class="card-text" th:text="${meetReview.meet_review_content}" style="padding-left: 10px; padding-right: 10px; text-align: justify; font-size: 18px; margin-bottom: 5px;"></p>
-                    <p class="card-text" th:text="${meetReview.meet_review_date}" style="color: #AAAAAA; font-size: 13px; position: absolute; top: 0; right: 0; margin-top: 31px; margin-right: 20px;"></p>
+                    <p class="card-text" th:text="${meetReview.meetReviewContent}" style="padding-left: 10px; padding-right: 10px; text-align: justify; font-size: 18px; margin-bottom: 5px;"></p>
+                    <p class="card-text" th:text="${meetReview.meetReviewDate}" style="color: #AAAAAA; font-size: 13px; position: absolute; top: 0; right: 0; margin-top: 31px; margin-right: 20px;"></p>
                 </div>
             </div>
         </div>

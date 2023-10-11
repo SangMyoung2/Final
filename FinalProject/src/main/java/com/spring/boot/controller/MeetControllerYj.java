@@ -38,13 +38,13 @@ public class MeetControllerYj {
 	@GetMapping("/articleYj.action")
 	public ModelAndView articleYj(HttpServletRequest request) throws Exception {
 
-		MeetDTOYj meetInfo = meetServiceYj.getMeetInfo(Integer.parseInt(request.getParameter("meet_listnum")));
-		List<String> meetMembers = meetServiceYj.getMeetMembers(Integer.parseInt(request.getParameter("meet_listnum")));
-		List<MeetDTOYj> meetReview = meetServiceYj.getReview(Integer.parseInt(request.getParameter("meet_listnum")));
+		MeetDTOYj meetListInfo = meetServiceYj.getMeetListInfo(Integer.parseInt(request.getParameter("meetListNum")));
+		List<String> meetMembers = meetServiceYj.getMeetMembers(Integer.parseInt(request.getParameter("meetListNum")));
+		List<MeetDTOYj> meetReview = meetServiceYj.getReview(Integer.parseInt(request.getParameter("meetListNum")));
 		ModelAndView mav = new ModelAndView();
 
-		mav.addObject("meetListNum", request.getParameter("meet_listnum"));
-		mav.addObject("meetInfo", meetInfo);
+		mav.addObject("meetListNum", request.getParameter("meetListNum"));
+		mav.addObject("meetListInfo", meetListInfo);
 		mav.addObject("meetMembers", meetMembers);
 		mav.addObject("meetReview", meetReview);
 		mav.setViewName("bbs/articleYj");
@@ -53,55 +53,111 @@ public class MeetControllerYj {
 		
 	}
 	
+	//리뷰 올리기
 	@PostMapping("/upload-review")
     public ModelAndView uploadReview(HttpServletRequest request,
-            @RequestParam("meet_listnum") int meet_listnum,
-            @RequestParam("meet_review_content") String meet_review_content,
-            @RequestParam("meet_review_img") MultipartFile meet_review_img) throws Exception {
+            @RequestParam("meetListNum") int meetListNum,
+            @RequestParam("meetReviewContent") String meetReviewContent,
+            @RequestParam("meetReviewImg") MultipartFile meetReviewImg) throws Exception {
         
-        // 이미지 업로드 처리
         String uploadDir = "C:\\VSCode\\Final\\FinalProject\\src\\main\\resources\\static\\image\\bbsYj";
 
-        // MEET_REVIEW 테이블에 리뷰 정보 저장
         MeetDTOYj dto = new MeetDTOYj();
 
-        if (!meet_review_img.isEmpty()) {
-            String originalFilename = meet_review_img.getOriginalFilename();
-
-            // 이미지 파일을 지정된 경로에 저장
+        if (!meetReviewImg.isEmpty()) {
+            String originalFilename = meetReviewImg.getOriginalFilename();
 			File destFile = new File(uploadDir, originalFilename);
-			meet_review_img.transferTo(destFile);
-			dto.setMeet_review_img(originalFilename); // 원본 이미지 파일 이름을 저장
-		}
-			dto.setMeet_listnum(meet_listnum);
-			dto.setMeet_memid("kim"); // TODO : 세션에서 memid 가져와야됨
-            dto.setMeet_review_content(meet_review_content);
-            dto.setMeet_review_date(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+			meetReviewImg.transferTo(destFile);
 
-			int meet_review_num = meetServiceYj.getReviewNum(meet_listnum);
-			dto.setMeet_review_num(meet_review_num);
+			dto.setMeetReviewImg(originalFilename); // 원본 이미지 파일 이름을 저장
+			dto.setMeetListNum(meetListNum);
+			dto.setEmail("kim"); // TODO : 세션에서 memid 가져와야됨
+            dto.setMeetReviewContent(meetReviewContent);
+            dto.setMeetReviewDate(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+
+			int meetReviewNum = meetServiceYj.getReviewNum(meetListNum);
+			dto.setMeetReviewNum(meetReviewNum);
 
 			meetServiceYj.insertMeetReview(dto);
-
+		}
         // 기존 articleYj 화면으로 리다이렉트
-        return new ModelAndView("redirect:/articleYj.action?meet_listnum=" + meet_listnum);
+        return new ModelAndView("redirect:/articleYj.action?meetListNum=" + meetListNum);
     }
 	
+	
+	// 방장이 관리할 수 있는 곳
 	@GetMapping("/managerYj.action")
-		public ModelAndView manageYj(HttpServletRequest request) throws Exception {
-	
-			MeetDTOYj meetList = meetServiceYj.getMeetInfo(Integer.parseInt(request.getParameter("meet_listnum")));
-			List<String> meetMembers = meetServiceYj.getMeetMembers(Integer.parseInt(request.getParameter("meet_listnum")));
+	public ModelAndView manageYj(HttpServletRequest request) throws Exception {
 
-			ModelAndView mav = new ModelAndView();
+		int meetListNum = Integer.parseInt(request.getParameter("meetListNum"));
 
-			mav.addObject("meetList", meetList);
-			mav.addObject("meetMembers", meetMembers);
-			mav.setViewName("bbs/managerYj");
-	
-			return mav;
-		}
+		MeetDTOYj meetListInfo = meetServiceYj.getMeetListInfo(meetListNum);
+		List<String> meetMembers = meetServiceYj.getMeetMembers(meetListNum);
+		List<String> meetBlack = meetServiceYj.getMeetBlack(meetListNum);
 
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("meetListInfo", meetListInfo);
+		mav.addObject("meetMembers", meetMembers);
+		mav.addObject("meetBlack", meetBlack);
+		mav.setViewName("bbs/managerYj");
+
+		return mav;
 		
+	}
+
+	// 방 가입
+	@PostMapping("/join-meet")
+	public ModelAndView  joinMeet(@RequestParam("meetListNum") int meetListNum, HttpServletRequest request) throws Exception {
+
+		ModelAndView mav = new ModelAndView();
+
+		//String email = (String) request.getSession().getAttribute("email"); //세션
+	
+		MeetDTOYj dto = new MeetDTOYj();
+		dto.setMeetListNum(meetListNum);
+		dto.setEmail("kim"); // TODO : 세션에서 email 가져와야됨
+		dto.setMeetMemStatus(2); //회원
+	
+		meetServiceYj.insertMeetJoin(dto);
+	
+		mav.addObject("message", "가입이 완료되었습니다.");
+		mav.setViewName("joinSuccessPage"); // 가입 완료 페이지 뷰로 이동
+
+		return new ModelAndView("redirect:/articleYj.action?meetListNum=" + meetListNum);
+	}
+
+	// // 블랙리스트에 추가 또는 해제
+    // @PostMapping("/update-meet-blacklist")
+    // public ModelAndView updateMeetBlacklist(
+    //         @RequestParam("meetListNum") int meetListNum,
+    //         @RequestParam("email") String email,
+    //         @RequestParam("action") String action) throws Exception {
+
+    //     if ("add".equals(action)) {
+    //         meetServiceYj.addToBlacklist(meetListNum, email);
+    //     } else if ("release".equals(action)) {
+    //         meetServiceYj.releaseFromBlacklist(meetListNum, email);
+    //     }
+
+    //     return new ModelAndView("redirect:/managerYj.action?meetListNum=" + meetListNum);
+    // }
+		
+	// 블랙리스트에 추가
+	@PostMapping("/add-to-blacklist")
+	public ModelAndView addToBlacklist(@RequestParam("meetListNum") int meetListNum, @RequestParam("email") String email) throws Exception {
+
+		meetServiceYj.addToBlacklist(meetListNum, email);
+
+		return new ModelAndView("redirect:/managerYj.action?meetListNum=" + meetListNum);
+	}
+
+	// 블랙리스트 해제
+	@PostMapping("/release-from-blacklist")
+	public ModelAndView releaseFromBlacklist(@RequestParam("meetListNum") int meetListNum, @RequestParam("email") String email) throws Exception {
+
+		meetServiceYj.releaseFromBlacklist(meetListNum, email);
+
+		return new ModelAndView("redirect:/managerYj.action?meetListNum=" + meetListNum);
+	}
 
 }
