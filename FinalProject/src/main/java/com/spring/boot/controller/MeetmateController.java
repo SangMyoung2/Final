@@ -63,14 +63,13 @@ public class MeetmateController {
 
 		ModelAndView mav = new ModelAndView();
 		
+		String uploadDirectory = "/your/dynamic/upload/directory/";
+
 		// 업로드된 이미지 처리
 		if (!meetImage.isEmpty()) {
-			try {
-				byte[] bytes = meetImage.getBytes();
-				// 여기서 이미지를 저장하거나 다른 처리를 수행할 수 있습니다.
-			} catch (IOException e) {
-				// 파일 처리 중 예외 발생 시 예외 처리 로직 추가
-			}
+			String originalFileName = meetImage.getOriginalFileName();
+			File destFile = new File(uploadDir, originalFileName);
+			meetImage.transferTo(destFile);
 		}
 
 		
