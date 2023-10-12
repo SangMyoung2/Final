@@ -3,6 +3,7 @@ package com.spring.boot.service;
 import java.util.List;
 
 import com.spring.boot.dto.GatchiDTO;
+import com.spring.boot.dto.GatchiLikeDTO;
 
 public interface GatchiService {
 
@@ -13,7 +14,10 @@ public interface GatchiService {
 	public int maxNum() throws Exception;
 	
 	public List<GatchiDTO> getMeetLists() throws Exception;
-	public void meetLikes(int meetListNum) throws Exception;
+	
+	//public void meetLikes(int meetListNum) throws Exception;
+    //public GatchiLikeDTO meetLikes(String userEmail, int meetListNum);
+
 
 	// public void insertData(BoardDTO dto) throws Exception;
 	

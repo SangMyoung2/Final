@@ -30,13 +30,13 @@ public class GatchiServiceImpl implements GatchiService{
 	public List<GatchiDTO> getMeetLists() throws Exception{
 		return gatchiMapper.getMeetLists();
 	}
-
+/*
 	@Override
 	public void meetLikes(int meetListNum) throws Exception {
 		gatchiMapper.meetLikes(meetListNum);
 	}
 
-	/*
+	
 
 	@Override
 	public void updateHitCount(int num) throws Exception {

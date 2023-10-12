@@ -10,10 +10,37 @@
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 
 </head>
+
 <body>
   
+  <!-- ★★★★★★ 슬라이드 CSS 수정, 슬라이드 노출 이미지 수정, like DB에 담기는거 추가해야돼 ★★★★★★ -->
 <div layout:fragment="content">    
+
+  <div class="c1">
+    <input type="radio" id="trigger1" class="in1" name="slider">
+      <label for="trigger1" class="label2"><span class="sr-only">Slide 1 of 5. A photo of a mountain pass with a winding path along the river and a view of distant mountains hiding in the mist.</span></label>
+      <div class="slide bg1"></div>
+  
+      <input type="radio" id="trigger2" class="in1" name="slider" checked autofocus>
+      <label for="trigger2" class="label2"><span class="sr-only">Slide 2 of 5. A photo of a bird eating sunflower seeds from an open hand.</span></label>
+      <div class="slide bg2"></div>
+  
+      <input type="radio" id="trigger3" class="in1" name="slider">
+      <label for="trigger3" class="label2"><span class="sr-only">Slide 3 of 5. A photo of a concrete bridge over the river with high voltage power lines on both banks.</span></label>
+      <div class="slide bg3"></div>
+  
+      <input type="radio" id="trigger4" class="in1" name="slider">
+      <label for="trigger4" class="label2"><span class="sr-only">Slide 4 of 5. A photo of a lake surrounded by the forest with mountains in the background.</span></label>
+      <div class="slide bg4"></div>
+  
+      <input type="radio" id="trigger5" class="in1" name="slider">
+      <label for="trigger5" class="label2"><span class="sr-only">Slide 5 of 5. A photo of a forest.</span></label>
+      <div class="slide bg5"></div>
+    </div>
+<br/><br/><br/><br/>
  
+
+<div class="2">
   <ul class="cards">
     
     <li th:each="items : ${meetLists}">
@@ -44,26 +71,25 @@
       </li>
       
     </ul>
-    
+</div>
 
     <script>
 
+      //좋아요버튼 애니메이션
       var isLike = false
 
-      /* when a user clicks, toggle the 'is-animating' class */
       $(".heart").on('click touchstart', function(){
         
         isLike = !isLike;
 
         if(isLike){
-              $(this).toggleClass('is_animating');
-              $(this).addClass('like')
-        } else{
-            $(this).removeClass('like')
+          $(this).toggleClass('is_animating');
+          $(this).addClass('like')
+        } else {
+          $(this).removeClass('like')
         }
       });
     
-      /*when the animation is over, remove the class*/
       $(".heart").on('animationend', function(){
         $(this).toggleClass('is_animating');
       });

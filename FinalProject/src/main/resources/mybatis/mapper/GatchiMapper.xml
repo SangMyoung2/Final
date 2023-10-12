@@ -7,13 +7,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.spring.boot.mapper.GatchiMapper">
 
 <insert id="createMeetmate" parameterType="com.spring.boot.dto.GatchiDTO">
-    insert into gatchi(meetListNum,meetCheck,meetCtgNum,meetName,meetMaster,meetMemId,
+    insert into gatchi(
+	meetListNum,meetCheck,meetCtgNum,meetName,
     meetTitle,meetContent,meetImage,meetDate,meetDday,
     meetMemCnt,meetMaxMemCnt,meetHitCount,meetLike,
-    meetHow,meetEntryfee,meetMoney,meetPlace) values (#{meetListNum},#{meetCheck},
-    #{meetCtgNum},#{meetName},#{meetMaster},#{meetMemId},
-    #{meetTitle},#{meetContent},#{meetImage},sysdate,#{meetDday},
-    1,#{meetMaxMemCnt},0,0,#{meetHow},#{meetEntryfee},#{meetMoney},0)
+    meetHow,meetEntryfee,meetMoney,meetPlace) values (
+	#{meetListNum},#{meetCheck},#{meetCtgNum},#{meetName},
+	#{meetTitle},#{meetContent},#{meetImage},sysdate,#{meetDday},
+    1,#{meetMaxMemCnt},0,0,
+	#{meetHow},#{meetEntryfee},#{meetMoney},0)
 </insert>
 
 <select id="maxNum" resultType="int">
@@ -29,11 +31,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	select * from gatchi
 </select>
 
-<update id="meetLikes" parameterType="int">
-	update gatchiLike set likeCount = likeCount+1
-	where meetListNum = ${meetListNum}
-</update>
 
+<!--
+<select id="meetLikes" parameterType="int">
+	select count(*) from gatchiLike 
+	where meetListNum = ${meetListNum} and userEmail = ${userEmail}
+</select>
+
+<insert id="meetLikeUp">
+	insert into gatchiLike (meetListNum,likeCount,userEmail)
+	values (#{meetListNum}, #{likecount}=#{likecount}+1, #{userEmail})
+</insert>
+-->
 
 <!--
 public void createMeetmate(MeetmateDTO dto) throws Exception;
