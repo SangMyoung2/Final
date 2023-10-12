@@ -9,9 +9,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <select id="getLists" parameterType="hashMap" resultType="com.spring.boot.dto.MapDTO">
 	select * from (
 	select rownum rnum, data.* from (
-	select lat,lng,id from latlng
-	order by id desc) data)
+	select lat,lng,meetListNum from latlng
+	order by meetListNum asc) data)
 </select>
+
+<select id="getData" parameterType="hashMap" resultType="com.spring.boot.dto.GatchiDTO">
+	select * from gatchi
+</select>
+
+<select id="getOneData" parameterType="int" resultType="com.spring.boot.dto.GatchiDTO">
+	select * from gatchi where meetListNum=#{meetListNum}
+</select>
+
+<select id="getTitleData" parameterType="String" resultType="com.spring.boot.dto.GatchiDTO">
+	select * from gatchi where meetTitle like '%' || #{meetTitle} || '%'
+</select>
+
+<select id="getCategory" parameterType="int" resultType="com.spring.boot.dto.MeetCategoryDTO">
+	select * from meetcategory where meetCtgNum=#{meetCtgNum}
+</select>
+
 
 
 </mapper>
