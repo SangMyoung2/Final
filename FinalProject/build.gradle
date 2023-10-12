@@ -46,6 +46,8 @@ dependencies {
 	implementation 'com.google.code.gson:gson:2.9.0'
 
 
+	implementation group: 'commons-fileupload', name: 'commons-fileupload', version: '1.4'//이미지업로드
+	implementation group: 'commons-io', name: 'commons-io', version: '2.8.0'//이미지업로드
 
 }
 
