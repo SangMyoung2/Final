@@ -74,15 +74,14 @@
 
 
 
-        // var joinForm = document.getElementById('joinForm');
-        // var meetListNumInput = document.getElementById(meetListNum);
-        // var joinButton = document.getElementById('joinButton');
+        var joinForm = document.getElementById('joinForm');
+        var joinButton = document.getElementById('joinButton');
         
-        // joinButton.addEventListener('click', function(event) {
-        //     event.preventDefault(); // 기본 이벤트 동작 방지 (페이지 새로고침 방지)
+        joinButton.addEventListener('click', function(event) {
+            event.preventDefault(); // 기본 이벤트 동작 방지 (페이지 새로고침 방지)
 
-        //     joinForm.submit(); // 폼을 서버로 제출
-        // });
+            joinForm.submit(); // 폼을 서버로 제출
+        });
 
         var reviewForm = document.querySelector('.review-form');
         var reviewWriteButton = document.querySelector('.review-write');
@@ -227,15 +226,15 @@ function openModal(imgElement) {
                             <p class="Yj-text3" th:text="${meetListInfo.meetMemCnt}"></p>/
                             <p class="Yj-text3" th:text="${meetListInfo.meetMaxMemCnt}"></p>
                         </div>
-                        <button class="join-button">
+                        <!-- <button class="join-button">
                             <span class="icon" id="joinButton">📝</span> 가입하기
-                        </button>
-                        <!-- <form id="joinForm" method="post" action="/join-meet">
-                            <input type="hidden" name="meetListNum" id="meetListNum">
+                        </button> -->
+                        <form id="joinForm" method="post" action="/join-meet">
+                            <input type="hidden" name="meetListNum" id="meetListNum" th:value="${meetListNum}"/>
                             <button class="join-button" type="submit" id="joinButton">
                                 <span class="icon" id="joinButton">📝</span>가입하기
                             </button>
-                        </form> -->
+                        </form>
                         
                     </div>
                 </div>

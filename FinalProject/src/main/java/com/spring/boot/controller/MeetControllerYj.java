@@ -105,9 +105,8 @@ public class MeetControllerYj {
 
 	// 방 가입
 	@PostMapping("/join-meet")
-	public ModelAndView  joinMeet(HttpServletRequest request) throws Exception {
+	public ModelAndView  joinMeet(HttpServletRequest request,@RequestParam("meetListNum") int meetListNum) throws Exception {
 
-		int meetListNum = Integer.parseInt(request.getParameter("meetListNum"));
 		ModelAndView mav = new ModelAndView();
 
 		//String email = (String) request.getSession().getAttribute("email"); //세션
@@ -115,7 +114,7 @@ public class MeetControllerYj {
 		MeetDTOYj dto = new MeetDTOYj();
 		dto.setMeetListNum(meetListNum);
 		dto.setEmail("kim"); // TODO : 세션에서 email 가져와야됨
-		dto.setMeetMemStatus(2); //회원
+		dto.setMeetMemStatus(0); //승인대기
 	
 		meetServiceYj.insertMeetJoinOk(dto);
 	

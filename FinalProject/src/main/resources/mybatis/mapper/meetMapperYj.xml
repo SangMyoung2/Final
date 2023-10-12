@@ -35,7 +35,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <insert id="insertMeetJoinOk" parameterType="com.spring.boot.dto.MeetDTOYj">
     insert into meetInfo (meetListNum, email, meetMemStatus)
-    values (#{meetListNum}, #{email}, 0);
+    values (#{meetListNum}, #{email}, #{meetMemStatus});
 </insert>
 
 <update id="updateMeetBlack" parameterType="com.spring.boot.dto.MeetDTOYj">
