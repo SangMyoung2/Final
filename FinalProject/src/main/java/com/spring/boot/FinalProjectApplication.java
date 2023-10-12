@@ -1,7 +1,10 @@
 package com.spring.boot;
 
+
+
 import javax.sql.DataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
+
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -9,15 +12,22 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 
+
+import net.nurigo.java_sdk.exceptions.CoolsmsException;
+
 @SpringBootApplication
 public class FinalProjectApplication {
+
+	
+
 
 	//주석대신 사용하려면 의존성주입을 여기서 해줘야한다.
 	@Autowired
 	ApplicationContext applicationContext; //Context가 있으면 앞과 뒤에 뭐가 붙더라도 프로젝트의 전체로 본다.
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws CoolsmsException {
 		SpringApplication.run(FinalProjectApplication.class, args);
+		
 	}
 	
 	@Bean //객체를 생성
