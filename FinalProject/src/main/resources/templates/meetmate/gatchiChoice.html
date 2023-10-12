@@ -1,0 +1,127 @@
+<html layout:decorate="~{layout}">
+<head>
+<meta charset="UTF-8">
+
+<title>GATCHI 종류선택</title>
+
+<link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/meetmate/gatchiChoice.css}"/>
+<link rel="icon" type="image/png" th:href="@{http://localhost:8080/image/로고.png}"/>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+
+</head>
+
+
+<body>
+
+    <div layout:fragment="content">
+        
+        <div class="container1">
+            
+        <h1>GATCHI 개설하기</h1>
+    
+        <form action="" method="POST" name="myForm">
+        <!-- 여기 하단에서 상명이 맵 받아도 괜찮을 것 같음 -->
+        
+
+        <label>GATCHI 유형 선택</label>
+        <div id="wrap_gatchiCheck"> 
+            <span id="wrap_meetMate" class="gatchiCheck">
+                <input type="radio" id="meetMate" name="meetcheck" value="1" required onclick="gatchiCheck();">
+                <label for="meetMate"> MeetMate </label>
+            </span>
+            <span id="wrap_communiFind" class="gatchiCheck" style="border: none;">
+                <input type="radio" id="communiFind" name="meetcheck" value="2" required onclick="gatchiCheck();">
+                <label for="communiFind"> CommuniFind </label>
+            </span>
+        </div> <br/><br/> 
+   
+        <div id="meetCheckDiv">
+            <label>communiFind 모임명</label>
+            <label style="color: rgba(145, 142, 142, 0.808); font-weight: 150;">
+                모임명은 변경이 불가하오니, 충분히 고민 후 입력해주세요.</label>
+                <input type="text" id="meetName" name="meetName" placeholder="Meetmate 모임명" class="t1" required disabled/>
+        </div>
+
+        <div class="Btn2">
+            <button type="submit" class="createBtn" onclick="sendIt();">확인</button>
+            <button type="button" class="cancelBtn" onclick="javascript:location.href='/meetmateList';">취소</button>
+        </div>
+        </div>
+
+    </form>
+
+
+    <script>
+
+        //모집방법(meetMate, communiFind) 
+        function gatchiCheck(){
+        
+            var meetMate = document.getElementById("meetMate")
+            var communiFind = document.getElementById("communiFind")
+            
+            var meetcheckInput = document.getElementsByName("meetcheck");
+            var selectedValue = "";
+
+            if(meetMate.checked){
+                //var selectedValue = meetMate.value;
+                //alert(selectedValue);
+                document.getElementById("wrap_meetMate").className='gatchiCheck_act';
+                document.getElementById("wrap_communiFind").className='gatchiCheck';
+
+            } else if (communiFind.checked) {    
+                //var selectedValue = communiFind.value;
+                //alert(selectedValue);
+
+                document.getElementById("wrap_communiFind").className='gatchiCheck_act';
+                document.getElementById("wrap_meetMate").className='gatchiCheck';
+            }
+        }       
+
+
+        function divCheck() {
+
+            var wrap_gatchiCheck = document.getElementById("wrap_gatchiCheck");
+            var meetMate = document.getElementById("meetMate");
+            var communiFind = document.getElementById("communiFind");
+            var meetCheckDiv = document.getElementById("meetCheckDiv");
+
+            if (meetMate.checked) {
+                meetCheckDiv.style.display = 'none';
+                document.getElementById("meetCheck").disabled = true;
+
+            } else if (communiFind.checked) {
+                //CommuniFind가 선택된 경우, div를 보이고 모임명 입력란을 활성화
+                meetCheckDiv.style.display = 'block';
+                document.getElementById("meetName").disabled = false;
+
+                //meetMate로 변경되었을 때
+                meetMate.onchange = function() {
+                    if (meetMate.checked) {//div 다시 비활성화
+                        meetCheckDiv.style.display = 'none';
+                        document.getElementById("meetCheck").disabled = true;                        
+                    }
+                };
+            }
+        }
+
+
+        const sendIt = () => {
+    
+            divCheck();
+            setMeetCheck(document.querySelector('input[name="meetcheck"]:checked'));
+       
+            myForm.action = "/meetmateCreate";
+            myForm.submit();
+        }
+    
+        </script>
+
+    </div>
+
+</body>
+
+</html>
+
+
+
+
