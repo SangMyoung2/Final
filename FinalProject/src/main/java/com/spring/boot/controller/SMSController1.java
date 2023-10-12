@@ -26,8 +26,8 @@ public class SMSController1 {
     
 // coolSMS 구현 로직 연결  
 @GetMapping("/sendSMS")
-public @ResponseBody String sendSMS(@RequestParam(value="to") String to) throws CoolsmsException {  	
-    System.out.println(to);
-	return smsService.PhoneNumberCheck(to);
+public @ResponseBody String sendSMS(@RequestParam(value="tel") String tel) throws CoolsmsException {  	
+    System.out.println(tel);
+	return smsService.PhoneNumberCheck(tel);
 }
 }

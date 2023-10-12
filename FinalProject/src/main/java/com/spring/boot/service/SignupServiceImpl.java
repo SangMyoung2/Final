@@ -34,4 +34,19 @@ public class SignupServiceImpl implements SignupService {
         
     }
 
+    @Override
+    public SignupDTO findID(SignupDTO dto) throws Exception {
+        return signupMapper.findID(dto);
+       
+    }
+
+    @Override
+    public SignupDTO findPWD(SignupDTO dto) throws Exception {
+        return signupMapper.findPWD(dto);
+       
+    }
+
+
+    
+
 }

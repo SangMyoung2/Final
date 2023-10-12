@@ -8,18 +8,29 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 
 <insert id="insertData" parameterType="com.spring.boot.dto.SignupDTO">
-	insert into sigup(name,password,password2,email,created)
-	 values (#{name},#{pwd},#{pwd2},#{email},sysdate)
+	insert into signup(name,password,password2,email,tel,created)
+	 values (#{name},#{password},#{password2},#{email},#{tel},sysdate)
 </insert>
 
 
 <update id="updateData" parameterType="com.spring.boot.dto.SignupDTO">
-	update sigup set name=#{name},password=#{password},email=#{email},
+	update signup set name=#{name},password=#{password},email=#{email},
 	where num=#{num}
 </update>
 
 <delete id="deleteData" parameterType="int">
-	delete sigup where email=#{email}
+	delete signup where email=#{email}
 </delete>
+
+
+<select id="findID" parameterType="map" resultType="java.lang.String">
+    SELECT email,name FROM signup WHERE tel = #{tel} AND name = #{name}
+</select>
+
+<select id="findPWD" parameterType="map" resultType="java.lang.String">
+    SELECT password,name FROM signup WHERE tel = #{tel} AND email = #{email} AND name = #{name}
+</select>
+
+
 
 </mapper>

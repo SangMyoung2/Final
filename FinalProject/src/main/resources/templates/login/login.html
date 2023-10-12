@@ -5,58 +5,78 @@
 <title>가치</title>
 
 
+
+
 <link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/login/login.css}"/>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" integrity="sha512-10/jx2EXwxxWqCLX/hHth/vu2KY3jCF70dCQB8TSgNjbCVAC/8vai53GfMDrO2Emgwccf2pJqxct9ehpzG+MTw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<script type="text/javascript" src="http://localhost:8080/js/signup/signup.js"></script>
 
 </head>
 <body>
 
 <div layout:fragment="content" >
+  <br/><br/><br/>
     <form th:action="@{/login.action}" method="post"  id="login-form">
+
+    
         <div class="heading" style="font-size: 20px;">L O G I N</div>
         <div class="left">
-          <label for="email">이 메 일</label> <br />
-          <input type="email" name="email" id="email" /> <br />
+          <label for="userName">아 이 디</label> <br />
+          <input  type="text" name="username" id="username" /> <br />
           <label for="password">비 밀 번 호</label> <br />
-          <input type="password" name="password" id="pass" /> <br />
+          <input type="password" name="password" id="password" /> <br />
+
+          <div th:if="${param.error}">
+            <div class="alert alert-danger" id="error-message">사용자 이메일 또는 비밀번호를 확인해 주세요.</div>
+        </div>
+
+        
+      
+
           <input style="width: 230px;" type="submit" value="로 그 인" />
           <div style="width: 277px;">
             <a style="color:#0070ff; margin-right: 10px; margin-left: 12px; font-size: 18px;" href="/signup.action">회원가입</a>
-            <a style="color:#0070ff; margin-right: 10px; font-size: 18px;" href="#">아이디 찾기</a>
-            <a style="color:#0070ff; font-size: 18px;" href="/#">비밀번호 찾기</a>
+            <a style="color:#0070ff; margin-right: 10px; font-size: 18px;" href="/findID.action">아이디 찾기</a>
+            <a style="color:#0070ff; font-size: 18px;" href="/findPWD.action">비밀번호 찾기</a>
+
+            <h3 style="margin-left: 80px; margin-top: 40px; margin-bottom: 30px; font-size: 25px; color: gray;">소셜 로그인</h3>
+            
         </div>
           
         </div>
         <div class="right">
-      
-          <h3 style="margin-left: 100px; font-size: 25px; color: gray;">소셜 로그인</h3>
-          <a href="/oauth2/authorization/naver" class="naver">
-      
-           <i class="fa-solid fa-n"> 네이버</i>
-          </a> <br />
-          <a href="/oauth2/authorization/kakao" class="kakao">
-      
-            <i class="fa-solid fa-k"> 카카오</i>
-          </a> <br />
           
-          <a href="/oauth2/authorization/google" class="google">
+          <a href="/oauth2/authorization/naver">
+            <img style="width: 50px;  margin-left: 40px;" src="http://localhost:8080/image/login/naver.png" >
+        </a>
+
+        <a href="/oauth2/authorization/kakao">
+          <img style="width: 50px;  margin-left: 30px;" src="http://localhost:8080/image/login/kakao.png" >
+      </a>
+
+      <a href="/oauth2/authorization/google">
+        <img style="width: 50px; margin-left: 30px;" src="http://localhost:8080/image/login/google.png" >
+    </a>
+
+        
          
-            <i class="fab fa-google"> 구글</i>
-          </a>
-          <br/><br/>
-          
+         
+      <br/><br/><br/><br/><br/> 
         </div>
       </form>  
       
-      
+     
 </div>
 
       <button style="width: 230px; position: fixed; top: 77%; left: 50%; transform: translate(-50%, -50%);" onclick="window.location.href='/join.action'">
           회원가입
       </button>
+      <br/><br/>
+      <br/><br/>
 
+     
 </body>
 </html>

@@ -2,12 +2,6 @@ let checkNum;
 let isAuthenticated = false;
 
 
-setTimeout(function() {
-    var errorMessageDiv = document.getElementById("error-message");
-    if (errorMessageDiv) {
-        errorMessageDiv.style.display = "none";
-    }
-}, 5000); 
 
 
 $('#send').click(function() {
@@ -15,7 +9,7 @@ $('#send').click(function() {
 
    if (!tel) {
     const ErrorMessageDiv = document.getElementById("pErrorMessage");
-    ErrorMessageDiv.style.display = "block"; 
+    ErrorMessageDiv.style.display = "block"; // 메시지를 나타내도록 스타일 변경
        f.tel.focus();
        setTimeout(function() {
         ErrorMessageDiv.style.display = "none"; 
@@ -30,10 +24,10 @@ $('#send').click(function() {
            "tel": tel
        },
        success: function(data) {
-         
+           // 서버에서 받은 데이터를 checkNum 변수에 할당
            checkNum = data;
            const ErrorMessageDiv = document.getElementById("okMessage");
-           ErrorMessageDiv.style.display = "block"; 
+           ErrorMessageDiv.style.display = "block"; // 메시지를 나타내도록 스타일 변경
              
               setTimeout(function() {
                ErrorMessageDiv.style.display = "none"; 
@@ -75,26 +69,24 @@ $('#enterBtn').click(function() {
 
 
 
-const join = () => {
+const find = () => {
        
        f = document.myForm;
-   
-       
-       str = f.userName.value;
+
+
+       str = f.name.value;
        str = str.trim(); 
        if(!str){
         const ErrorMessageDiv = document.getElementById("nameErrorMessage");
-        ErrorMessageDiv.style.display = "block"; 
-           f.userName.focus();
+        ErrorMessageDiv.style.display = "block"; // 메시지를 나타내도록 스타일 변경
+           f.name.focus();
            setTimeout(function() {
             ErrorMessageDiv.style.display = "none"; 
         }, 5000); 
-
-        return false;
        }
 
 
-   str = f.email.value;
+       str = f.email.value;
        str = str.trim(); 
        if(!str){
         const ErrorMessageDiv = document.getElementById("emailErrorMessage");
@@ -103,7 +95,6 @@ const join = () => {
            setTimeout(function() {
             ErrorMessageDiv.style.display = "none"; 
         }, 5000); 
-        return false;
        }
   
    
@@ -115,70 +106,25 @@ const join = () => {
                setTimeout(function() {
                 mailErrorMessageDiv.style.display = "none"; 
             }, 5000); 
-            return false;
            }
 
        }
-       
-       str = f.password.value;
-       str = str.trim(); 
-       if(!str || str.length < 6){
-        const ErrorMessageDiv = document.getElementById("ErrorMessage");
+
+
+       if (!isAuthenticated) {
+        const ErrorMessageDiv = document.getElementById("telErrorMessage");
         ErrorMessageDiv.style.display = "block"; 
-           f.password.focus();
-           setTimeout(function() {
-            ErrorMessageDiv.style.display = "none"; 
-        }, 5000); 
-        return false;
-       }
-       f.password.value = str;
-       
+        f.tel.focus();
+        setTimeout(function() {
+         ErrorMessageDiv.style.display = "none"; 
+     }, 5000); 
+     return;
+    }
 
-       str = f.password2.value;
-       str = str.trim(); 
-       if(!str){
-        const ErrorMessageDiv = document.getElementById("pwdErrorMessage");
-        ErrorMessageDiv.style.display = "block"; 
-           f.password2.focus();
-           setTimeout(function() {
-            ErrorMessageDiv.style.display = "none"; 
-        }, 5000); 
-        return false;
-       }
-       f.password2.value = str;
-
-
-   if (f.password.value !== f.password2.value) {
-    const ErrorMessageDiv = document.getElementById("pwdErrorMessage2");
-    ErrorMessageDiv.style.display = "block"; 
-    f.password2.focus();
-    setTimeout(function() {
-     ErrorMessageDiv.style.display = "none"; 
- }, 5000); 
- return false;
-   }
-
-  
-   
-
-    //    if (!isAuthenticated) {
-    //     const ErrorMessageDiv = document.getElementById("telErrorMessage");
-    //     ErrorMessageDiv.style.display = "block"; 
-    //     f.tel.focus();
-    //     setTimeout(function() {
-    //      ErrorMessageDiv.style.display = "none"; 
-    //  }, 5000); 
-    //  return;
-    // }
-
-   f.action = "/signup.action";
- f.submit();
-
-
-
+   f.action = "/findID.action";
+   f.submit();
 
 };
-
 
 
 

@@ -4,6 +4,8 @@
 
 <title>가치</title>
 
+
+
 <link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/index.css}"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 <link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/login/signup.css}"/>
@@ -19,61 +21,26 @@
   
   <div class="container">
     <div class="row">
-        <form  name="myForm">
-          <div class="row" >
-             <div class="input-field col s12" >
-              <input id="name" type="text" class="validate" required>
-              <label style="font-size: 23px;" for="name" >이름</label>
-              <div id="nameErrorMessage" style="display: none;">
-                <p style='color: red; font-size: 18px;'>이름을 입력하세요</p>
+        <form action="" name="myForm" method="post">
+         
+            <h3>아이디 찾기</h3>
+
+            <div class="row" >
+              <div class="input-field col s12" >
+               <input id="name" name="name" type="text" class="validate" required>
+               <label style="font-size: 23px;" for="name" >이름</label>
+               <div id="nameErrorMessage" style="display: none;">
+                 <p style='color: red; font-size: 18px;'>이름을 입력하세요</p>
+              </div>
              </div>
-            </div>
+           </div>
+
             
-           
-          </div>
+
           <div class="row">
             <div class="input-field col s12">
-              <input id="email" type="email" class="validate" required>
-              <label style="font-size: 23px;" for="email">이메일</label>
-              <div id="emailErrorMessage" style="display: none;">
-                <p style='color: red; font-size: 18px;'>이메일을 입력하세요</p>
-             </div>
-             <div id="mailErrorMessage" style="display: none;">
-              <p style='color: red; font-size: 18px;'>정상적인 이메일을 입력하세요</p>
-           </div>
-            </div>
-          </div>
-          
-          
-          
-          
-          <div class="row">
-            <div class="input-field col s12">
-              <input id="password" type="password" class="validate" minlength="6" required>
-              <label style="font-size: 23px;" for="password">비밀번호(6자리 이상)</label>
-              <div id="ErrorMessage" style="display: none;">
-                <p style='color: red; font-size: 18px;'>비밀번호를 6자리 이상 입력 하세요</p>
-             </div>
-            </div>
-          </div>
-          
-          <div class="row">
-            <div class="input-field col s12">
-              <input id="password2" type="password" class="validate" minlength="6" required>
-              <label style="font-size: 23px;" for="password2">비밀번호 확인</label>
-              <div id="pwdErrorMessage" style="display: none;">
-                <p style='color: red; font-size: 18px;'>비밀번호 확인 칸을 입력 하세요</p>
-             </div>
-             <div id="pwdErrorMessage2" style="display: none;">
-              <p style='color: red; font-size: 18px;'>비밀번호와 비밀번호 확인이 일치하지 않습니다.</p>
-           </div>
-            </div>
-          </div>
-          
-          <div class="row">
-            <div class="input-field col s12">
-              <input  id="to" name="to" type="text" >
-              <label style="font-size: 23px;" for="to" >휴대전화 번호</label>
+              <input  id="tel" name="tel" type="text" >
+              <label style="font-size: 23px;" for="tel" >가입 시 입력한 휴대전화 번호</label>
               <div id="pErrorMessage" style="display: none;">
                 <p style='color: red; font-size: 18px;' >휴대전화 번호를 입력해 주세요</p>
              </div>
@@ -107,17 +74,29 @@
           
         </div>
 
+
+        <div th:if="${dto != null}">
+          <p style='color: blue; font-size: 18px;' th:text="'${dto.name} 님의 아이디는 ' + ${dto.email} + ' 입니다'"></p>
+      </div>
+      <div th:if="${error != null}">
+          <p style='color: red; font-size: 18px;' th:text="${error}"></p>
+      </div>
+      
+      </form>
+
+      
+
             <div class="row">
       <div class="input-field col s6">
-        <button class="btn btn-large btn-register waves-effect waves-light" type="button" onclick="join();">회원가입</button>
+        <button class="btn btn-large btn-register waves-effect waves-light" type="button" onclick="find();">아이디 찾기</button>
       </div>
       <div class="input-field col s6">
 
-        <button class="btn btn-large btn-register waves-effect waves-light" type="button" onclick="window.location.href='/login.action'">가입취소</button>
+        <button class="btn btn-large btn-register waves-effect waves-light" type="button" onclick="window.location.href='/login.action'">로그인</button>
         
       </div>
     </div>
-     </form>
+     
             </div>
            
           </div>
@@ -125,7 +104,7 @@
          
           <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
           <script type="text/javascript" src="js/util.js"></script>
-          <script type="text/javascript" src="http://localhost:8080/js/signup/signup.js"></script>
+          <script type="text/javascript" src="http://localhost:8080/js/signup/findID.js"></script>
 </div>
 
 <br/><br/><br/><br/><br/><br/><br/>
