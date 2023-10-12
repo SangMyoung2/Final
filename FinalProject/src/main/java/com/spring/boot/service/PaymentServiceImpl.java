@@ -3,7 +3,7 @@ package com.spring.boot.service;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.h2.util.json.JSONObject;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -67,7 +67,7 @@ public class PaymentServiceImpl implements PaymentService {
 
             if(currentUserPoint < meetMoney) {
                 
-                alert('포인트가 부족해 소셜링 가입에 실패했습니다.');
+                
                 throw new RuntimeException("Insufficient points!"); // 혹은 다른 적절한 예외 처리 방식을 사용
                 
             }
