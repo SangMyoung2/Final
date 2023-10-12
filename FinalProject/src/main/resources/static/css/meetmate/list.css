@@ -31,8 +31,15 @@
   }
   
   .card__image {      
-    width: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    min-width: 400px; /* 최소 가로 크기 지정 */
+    min-height: 500px; /* 최소 세로 크기 지정 */
+    width: auto;
     height: auto;
+    object-fit: contain; /* 이미지 비율 유지 최대한 맞춤 */
+    object-position: center; /* 이미지 가운데 정렬 */
+    background-color: floralwhite; /*사진크기 작을 경우 대비 배경색깔아줌*/
   }
   
   .card__overlay {

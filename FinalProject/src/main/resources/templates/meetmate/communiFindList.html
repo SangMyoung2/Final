@@ -2,7 +2,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>MeetMate 모임목록</title>
+<title>CommuniFind 모임목록</title>
 
 <link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/meetmate/list.css}"/>
 <link rel="icon" type="image/png" th:href="@{http://localhost:8080/image/로고.png}"/>
@@ -48,7 +48,7 @@
           <div id="heart" class="heart" name="likeCount"></div>    
         <div id="heart" class="button__like"></div>  
           <a href="#">
-            <img src="https://i.imgur.com/oYiTqum.jpg" class="card__image" alt="" />  
+            <img th:src="@{|/image/gatchiImage/${items.meetImage}|}" class="card__image" alt="" />  
           </a>
           <div class="card__overlay">
             <div class="card__header">
@@ -76,26 +76,55 @@
     <script>
 
       //좋아요버튼 애니메이션
-      var isLike = false
+      var isLike = false;
 
       $(".heart").on('click touchstart', function(){
         
         isLike = !isLike;
 
         if(isLike){
-          $(this).toggleClass('is_animating');
-          $(this).addClass('like')
+            $(this).toggleClass('is_animating');
+            $(this).addClass('like')
+
         } else {
-          $(this).removeClass('like')
+            $(this).removeClass('like')
         }
       });
     
       $(".heart").on('animationend', function(){
-        $(this).toggleClass('is_animating');
+          $(this).toggleClass('is_animating');
       });
 
+/*
+      //좋아요 Ajax
+      var isLike = false;
 
-          
+
+
+      $(".heart").on('click touchstart', function(){
+        isLike = !isLike;
+        var meetListNum =  1;// 모임 목록 번호를 가져오는 코드 (어떻게 가져올지는 구현에 따라 다름)
+        String userEmail = "kim";   // 사용자 이메일을 가져오는 코드
+        var likeClick = isLike ? 1 : 0; // 클릭 상태에 따라 1 또는 0으로 설정
+
+        // Ajax 요청을 보냅니다.
+        $.ajax({
+            type: 'POST', // 또는 'GET'에 따라 서버 요청 방식 선택
+            url: '/your-server-endpoint', // 서버 측 엔드포인트 URL을 지정합니다.
+            data: {
+                likeClick: likeClick,
+                meetListNum: meetListNum,
+                userEmail: userEmail
+            },
+            success: function(data) {
+                // 서버로부터 성공적인 응답을 받았을 때 실행할 코드
+            },
+            error: function() {
+                // 오류가 발생했을 때 실행할 코드
+            }
+        });
+    });
+*/          
     </script>
 
 </div>

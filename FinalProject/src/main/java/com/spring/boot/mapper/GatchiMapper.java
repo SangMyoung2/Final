@@ -9,7 +9,7 @@ import com.spring.boot.dto.GatchiDTO;
 @Mapper
 public interface GatchiMapper {
 	
-	public void createMeetmate(GatchiDTO dto) throws Exception;
+	public void createGatchi(GatchiDTO dto) throws Exception;
 
 	public int maxNum() throws Exception;
 	

@@ -9,7 +9,7 @@ public interface GatchiService {
 
 	//BoardMapper로 연결된다.
 	
-	public void createMeetmate(GatchiDTO dto) throws Exception;
+	public void createGatchi(GatchiDTO dto) throws Exception;
 
 	public int maxNum() throws Exception;
 	
