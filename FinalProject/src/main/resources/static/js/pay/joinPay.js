@@ -6,6 +6,6 @@ function joinGroup() {
         alert('모임에 성공적으로 가입하였습니다!');
     })
     .catch(function (error) {
-        alert('모임 가입 중 오류가 발생했습니다: ' + error.message);
+        alert('모임 가입 중 오류가 발생했습니다 (포인트 잔액을 다시 확인해주세요): ' + error.message);
     });
 }

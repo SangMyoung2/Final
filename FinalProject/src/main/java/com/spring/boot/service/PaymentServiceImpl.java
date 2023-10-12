@@ -66,7 +66,10 @@ public class PaymentServiceImpl implements PaymentService {
             System.out.println("Mapper에서 반환된 currentUserPoint 값: " + currentUserPoint);
 
             if(currentUserPoint < meetMoney) {
+                
+                alert('포인트가 부족해 소셜링 가입에 실패했습니다.');
                 throw new RuntimeException("Insufficient points!"); // 혹은 다른 적절한 예외 처리 방식을 사용
+                
             }
 
             System.out.println("포인트 확인: " + (currentUserPoint < meetMoney ? "포인트 부족" : "포인트 충분"));
@@ -77,7 +80,6 @@ public class PaymentServiceImpl implements PaymentService {
 
             updateUserPoint(userPointDTO);
 
-            System.out.println("updateUserPoint 메서드 호출 후");
 
             // 여기서 모임에 가입시키는 로직을 추가하면 됩니다.
             // 예: groupService.joinGroup(userEmail, meetListNum);
