@@ -65,12 +65,12 @@ public class MeetmateController {
 		
 		String uploadDirectory = "/your/dynamic/upload/directory/";
 
-		// 업로드된 이미지 처리
-		if (!meetImage.isEmpty()) {
-			String originalFileName = meetImage.getOriginalFileName();
-			File destFile = new File(uploadDir, originalFileName);
-			meetImage.transferTo(destFile);
-		}
+		// // 업로드된 이미지 처리
+		// if (!meetImage.isEmpty()) {
+		// 	String originalFileName = meetImage.getOriginalFileName();
+		// 	File destFile = new File(uploadDir, originalFileName);
+		// 	meetImage.transferTo(destFile);
+		// }
 
 		
 		int maxNum = gatchiService.maxNum();
