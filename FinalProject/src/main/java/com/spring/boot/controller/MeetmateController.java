@@ -59,11 +59,14 @@ public class MeetmateController {
 
 
 	@PostMapping("/meetmateCreate")
-	public ModelAndView meetmateCreate_ok(@RequestParam("meetImage") MultipartFile meetImage, GatchiDTO dto) throws Exception{
+	public ModelAndView meetmateCreate_ok(GatchiDTO dto) throws Exception{
+	// public ModelAndView meetmateCreate_ok(@RequestParam("meetImage") MultipartFile meetImage, GatchiDTO dto) throws Exception{
 
 		ModelAndView mav = new ModelAndView();
 		
-		String uploadDirectory = "/your/dynamic/upload/directory/";
+		// String uploadDir = "C:\\VSCode\\work\\Final\\FinalProject\\src\\main\\resources\\static\\image\\gatchiImage";
+
+		// GatchiDTO dto = new GatchiDTO();
 
 		// // 업로드된 이미지 처리
 		// if (!meetImage.isEmpty()) {
@@ -72,7 +75,7 @@ public class MeetmateController {
 		// 	meetImage.transferTo(destFile);
 		// }
 
-		
+
 		int maxNum = gatchiService.maxNum();
 		
 		//System.out.println("설정이름 : "+ dto.getMeetName());
