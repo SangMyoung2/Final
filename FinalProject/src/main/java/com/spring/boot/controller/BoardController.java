@@ -301,6 +301,46 @@ public class BoardController {
 	}
 	
 	
+
+/* 
+	@GetMapping("/meetmateList.action")
+	public ModelAndView meetmateList() throws Exception{
+		
+		ModelAndView mav = new ModelAndView();
+		
+		mav.setViewName("/meetmate/list");
+		
+		return mav;
+		
+	}
+
+	@GetMapping("/meetmateWrite.action")
+	public ModelAndView meetmateWrite() throws Exception{
+		
+		ModelAndView mav = new ModelAndView();
+		
+		mav.setViewName("/meetmate/boardwrite");
+		
+		return mav;		
+	}
+
+	@PostMapping("/meetmateWrite.action")
+	public ModelAndView meetmateWrite_ok(BoardDTO dto, 
+			HttpServletRequest request) throws Exception{
+
+		ModelAndView mav = new ModelAndView();
+		
+		// int maxNum = boardService.maxNum();
+		
+		// dto.setNum(maxNum + 1);
+		// dto.setIpAddr(request.getRemoteAddr());
+		
+		//boardService.insertData(dto);
 	
-	
+		mav.setViewName("redirect:/meetmate/list");
+		
+		return mav;
+
+	}
+*/		
 }
