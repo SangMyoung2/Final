@@ -4,31 +4,1017 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>전체 화면 지도와 미니 맵 표시하기</title>
+    <title>GATCHI MAP</title>
+    <link rel="icon" type="image/png" th:href="@{http://localhost:8080/image/로고.png}"/>
+
     <script th:src="@{http://localhost:8080/js/map/jquery-1.9.1.js}"></script>
     <script type="text/javascript" th:src="@{http://localhost:8080/js/map/examples-base.js}"></script>
     <script type="text/javascript" th:src="@{http://localhost:8080/js/map/highlight.min.js}"></script>
     <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=83bfuniegk"></script>
-    <link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/map/examples-base.css}" />
-
     <!-- 위도 경도 좌표가져오는 모듈 -->
     <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=YOUR_CLIENT_ID&submodules=geocoder"></script>
+    <!-- <link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/map/examples-base.css}" /> -->
 
-    <!-- @category Map -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css">
+    <script src="https://kit.fontawesome.com/171f74c68f.js" crossorigin="anonymous"></script>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 
-    <style type="text/css">
-        html, body { height:100%; }
-        #back-link { margin-top:-10px;color:#333;font-weight:bold;color:#fff;pointer-events:auto; }
-        #code-folder { margin-top:-10px;color:#333;font-weight:bold;color:#fff;pointer-events:auto; }
-        #origin-marker { position:absolute;top:50%;left:50%;z-index:1000;background-color:#f00; width:10px;height:10px;border-radius:5px;pointer-events:none; }
-        #snippet { width:700px;height:600px;overflow:hidden;overflow-y:auto;pointer-events:auto; }
-        .buttons { position:absolute;top:0;left:100px;padding:5px; }
-        .buttons .control-btn { pointer-events:auto; }
-    </style>
+    
+    
+   
+<!-- @category Map -->
+<style type="text/css">
+    html, body { height:100%; }
+</style>
+
+<style>
+#sidebarContent {
+    /* 먼저보이기 */
+    display: block; 
+}
+#sidebarSearch {
+    /* 숨겨놓기 */
+    display: none;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+</style>
+
+<style>
+
+    .searchCustom {
+        --rad: .7rem;
+        --dur: .3s;
+        --color-dark: black;
+        --color-light: #fff;
+        --color-brand: #5CA8B5;
+        --font-fam: "Lato", sans-serif;
+        --height: 3rem;
+        --btn-width: 3rem;
+        --bez: cubic-bezier(0, 0, 0.43, 1.49);
+    }
+
+    
+    *, *::before, *::after {
+      box-sizing: inherit;
+    }
+    
+    form {
+        
+      position: relative;
+      width: 300rem;
+      background: var(--color-brand);
+      border-radius: var(--rad);
+    }
+    
+    input, button {
+        
+      height: var(--height);
+      font-family: var(--font-fam);
+      border: 0;
+      color: var(--color-dark);
+      font-size: 0.9em;
+    }
+    
+    input[type=search] {
+      outline: 0;
+      width: 100%;
+      background: var(--color-light);
+      padding: 0 1.6rem;
+      border-radius: var(--rad);
+      -webkit-appearance: none;
+         -moz-appearance: none;
+              appearance: none;
+      transition: all var(--dur) var(--bez);
+      transition-property: width, border-radius;
+      z-index: 1;
+      position: relative;
+    }
+    
+    .button1 {
+        color: #fff;
+        display: none;
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: var(--btn-width);
+        font-weight: bold;
+        background: var(--color-brand);
+        border-radius: 0 var(--rad) var(--rad) 0;
+    }
+    
+    input:not(:-moz-placeholder-shown) {
+      border-radius: var(--rad) 0 0 var(--rad);
+      width: calc(100% - var(--btn-width));
+    }
+    
+    input:not(:-ms-input-placeholder) {
+      border-radius: var(--rad) 0 0 var(--rad);
+      width: calc(100% - var(--btn-width));
+    }
+    
+    input:not(:placeholder-shown) {
+      border-radius: var(--rad) 0 0 var(--rad);
+      width: calc(100% - var(--btn-width));
+    }
+    input:not(:-moz-placeholder-shown) + button {
+      display: block;
+    }
+    input:not(:-ms-input-placeholder) + button {
+      display: block;
+    }
+    input:not(:placeholder-shown) + button {
+      display: block;
+    }
+    
+    label {
+      position: absolute;
+      clip: rect(1px, 1px, 1px, 1px);
+      padding: 0;
+      border: 0;
+      height: 1px;
+      width: 1px;
+      overflow: hidden;
+    }
+</style>
+    
+
+<style>
+.layout {
+  min-height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  position: relative;
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1; }
+  .layout.has-sidebar {
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row; }
+  .layout .header {
+    -webkit-transition: width, 0.3s;
+    transition: width, 0.3s;
+    height: 64px;
+    min-height: 64px;
+    position: relative; }
+  .layout .sidebar {
+    width: 400px;
+    min-width: 400px;
+    -webkit-transition: width, left, right, 0.3s;
+    transition: width, left, right, 0.3s; }
+    .layout .sidebar.collapsed {
+      width: 80px;
+      min-width: 80px; }
+    @media (max-width: 480px) {
+      .layout .sidebar.break-point-xs {
+        position: fixed;
+        left: -280px;
+        height: 100%;
+        top: 0;
+        z-index: 100; }
+        .layout .sidebar.break-point-xs.collapsed {
+          left: -80px; }
+        .layout .sidebar.break-point-xs.toggled {
+          left: 0; }
+          .layout .sidebar.break-point-xs.toggled ~ .overlay {
+            display: block; }
+        .layout .sidebar.break-point-xs ~ .layout .header {
+          width: 100% !important;
+          -webkit-transition: none;
+          transition: none; } }
+    @media (max-width: 576px) {
+      .layout .sidebar.break-point-sm {
+        position: fixed;
+        left: -280px;
+        height: 100%;
+        top: 0;
+        z-index: 100; }
+        .layout .sidebar.break-point-sm.collapsed {
+          left: -80px; }
+        .layout .sidebar.break-point-sm.toggled {
+          left: 0; }
+          .layout .sidebar.break-point-sm.toggled ~ .overlay {
+            display: block; }
+        .layout .sidebar.break-point-sm ~ .layout .header {
+          width: 100% !important;
+          -webkit-transition: none;
+          transition: none; } }
+    @media (max-width: 768px) {
+      .layout .sidebar.break-point-md {
+        position: fixed;
+        left: -280px;
+        height: 100%;
+        top: 0;
+        z-index: 100; }
+        .layout .sidebar.break-point-md.collapsed {
+          left: -80px; }
+        .layout .sidebar.break-point-md.toggled {
+          left: 0; }
+          .layout .sidebar.break-point-md.toggled ~ .overlay {
+            display: block; }
+        .layout .sidebar.break-point-md ~ .layout .header {
+          width: 100% !important;
+          -webkit-transition: none;
+          transition: none; } }
+    @media (max-width: 992px) {
+      .layout .sidebar.break-point-lg {
+        position: fixed;
+        left: -280px;
+        height: 100%;
+        top: 0;
+        z-index: 100; }
+        .layout .sidebar.break-point-lg.collapsed {
+          left: -80px; }
+        .layout .sidebar.break-point-lg.toggled {
+          left: 0; }
+          .layout .sidebar.break-point-lg.toggled ~ .overlay {
+            display: block; }
+        .layout .sidebar.break-point-lg ~ .layout .header {
+          width: 100% !important;
+          -webkit-transition: none;
+          transition: none; } }
+    @media (max-width: 1200px) {
+      .layout .sidebar.break-point-xl {
+        position: fixed;
+        left: -280px;
+        height: 100%;
+        top: 0;
+        z-index: 100; }
+        .layout .sidebar.break-point-xl.collapsed {
+          left: -80px; }
+        .layout .sidebar.break-point-xl.toggled {
+          left: 0; }
+          .layout .sidebar.break-point-xl.toggled ~ .overlay {
+            display: block; }
+        .layout .sidebar.break-point-xl ~ .layout .header {
+          width: 100% !important;
+          -webkit-transition: none;
+          transition: none; } }
+    @media (max-width: 1600px) {
+      .layout .sidebar.break-point-xxl {
+        position: fixed;
+        left: -280px;
+        height: 100%;
+        top: 0;
+        z-index: 100; }
+        .layout .sidebar.break-point-xxl.collapsed {
+          left: -80px; }
+        .layout .sidebar.break-point-xxl.toggled {
+          left: 0; }
+          .layout .sidebar.break-point-xxl.toggled ~ .overlay {
+            display: block; }
+        .layout .sidebar.break-point-xxl ~ .layout .header {
+          width: 100% !important;
+          -webkit-transition: none;
+          transition: none; } }
+  .layout .footer {
+    height: 64px;
+    min-height: 64px; }
+  .layout .content {
+    -webkit-box-flex: 1;
+        -ms-flex-positive: 1;
+            flex-grow: 1; }
+  .layout .overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: 99;
+    display: none; }
+  .layout .sidebar-toggler {
+    display: none; }
+    @media (max-width: 480px) {
+      .layout .sidebar-toggler.break-point-xs {
+        display: initial; } }
+    @media (max-width: 576px) {
+      .layout .sidebar-toggler.break-point-sm {
+        display: initial; } }
+    @media (max-width: 768px) {
+      .layout .sidebar-toggler.break-point-md {
+        display: initial; } }
+    @media (max-width: 992px) {
+      .layout .sidebar-toggler.break-point-lg {
+        display: initial; } }
+    @media (max-width: 1200px) {
+      .layout .sidebar-toggler.break-point-xl {
+        display: initial; } }
+    @media (max-width: 1600px) {
+      .layout .sidebar-toggler.break-point-xxl {
+        display: initial; } }
+  .layout.fixed-sidebar {
+    height: 100%; }
+    .layout.fixed-sidebar .sidebar {
+      height: 100%;
+      overflow: auto; }
+      .layout.fixed-sidebar .sidebar ~ .layout {
+        height: 100%;
+        overflow: auto; }
+  .layout.fixed-header .header {
+    position: fixed;
+    width: 100%;
+    z-index: 2; }
+    .layout.fixed-header .header ~ .layout,
+    .layout.fixed-header .header ~ .content {
+      margin-top: 64px; }
+  .layout.fixed-header.fixed-sidebar .header {
+    width: calc(100% - 280px); }
+  .layout.fixed-header.fixed-sidebar .sidebar.collapsed ~ .layout .header {
+    width: calc(100% - 80px); }
+  .layout.rtl {
+    direction: rtl; }
+    @media (max-width: 480px) {
+      .layout.rtl .sidebar.break-point-xs {
+        left: auto;
+        right: -280px; }
+        .layout.rtl .sidebar.break-point-xs.collapsed {
+          left: auto;
+          right: -80px; }
+        .layout.rtl .sidebar.break-point-xs.toggled {
+          left: auto;
+          right: 0; } }
+    @media (max-width: 576px) {
+      .layout.rtl .sidebar.break-point-sm {
+        left: auto;
+        right: -280px; }
+        .layout.rtl .sidebar.break-point-sm.collapsed {
+          left: auto;
+          right: -80px; }
+        .layout.rtl .sidebar.break-point-sm.toggled {
+          left: auto;
+          right: 0; } }
+    @media (max-width: 768px) {
+      .layout.rtl .sidebar.break-point-md {
+        left: auto;
+        right: -280px; }
+        .layout.rtl .sidebar.break-point-md.collapsed {
+          left: auto;
+          right: -80px; }
+        .layout.rtl .sidebar.break-point-md.toggled {
+          left: auto;
+          right: 0; } }
+    @media (max-width: 992px) {
+      .layout.rtl .sidebar.break-point-lg {
+        left: auto;
+        right: -280px; }
+        .layout.rtl .sidebar.break-point-lg.collapsed {
+          left: auto;
+          right: -80px; }
+        .layout.rtl .sidebar.break-point-lg.toggled {
+          left: auto;
+          right: 0; } }
+    @media (max-width: 1200px) {
+      .layout.rtl .sidebar.break-point-xl {
+        left: auto;
+        right: -280px; }
+        .layout.rtl .sidebar.break-point-xl.collapsed {
+          left: auto;
+          right: -80px; }
+        .layout.rtl .sidebar.break-point-xl.toggled {
+          left: auto;
+          right: 0; } }
+    @media (max-width: 1600px) {
+      .layout.rtl .sidebar.break-point-xxl {
+        left: auto;
+        right: -280px; }
+        .layout.rtl .sidebar.break-point-xxl.collapsed {
+          left: auto;
+          right: -80px; }
+        .layout.rtl .sidebar.break-point-xxl.toggled {
+          left: auto;
+          right: 0; } }
+
+</style>
+
+<style>
+  .layout {
+    z-index: 1;
+    width: 10px;
+  }
+  .layout .header {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+  }
+  .layout .content {
+    padding: 12px 50px;
+    display: flex;
+    flex-direction: column;
+  }
+  .layout .footer {
+    text-align: center;
+    margin-top: auto;
+    margin-bottom: 20px;
+    padding: 20px;
+  }
+  
+  .sidebar {
+    color: #7d84ab;
+    overflow-x: hidden !important;
+    position: relative;
+  }
+  .sidebar::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+  }
+  .sidebar:hover::-webkit-scrollbar-thumb {
+    background-color: #5CA8B5;
+  }
+  .sidebar::-webkit-scrollbar {
+    width: 5px;
+    background-color: #FFFFFF;
+  }
+  .sidebar .image-wrapper {
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    display: none;
+  }
+  .sidebar .image-wrapper > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+  .sidebar.has-bg-image .image-wrapper {
+    display: block;
+  }
 
 
 
+  
+.sidebar .sidebar-layout {
+  height: auto;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background-color: #ffffff; 
+  z-index: 2;
+}
 
+
+.sidebar .sidebar-layout .sidebar-header {
+  height: 100px;
+  min-height: 100px;
+  display: flex;
+  align-items: center;
+  padding: 0 15px;
+}
+
+
+.sidebar .sidebar-layout .sidebar-header > span {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.sidebar .sidebar-layout .sidebarContent {
+  flex-grow: 1;
+  padding: 10px 0;
+}
+.sidebar .sidebar-layout .sidebar-footer {
+    height: 230px;
+    min-height: 230px;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+  }
+  .sidebar .sidebar-layout .sidebar-footer > span {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+
+@keyframes swing {
+  0%, 30%, 50%, 70%, 100% {
+    transform: rotate(0deg);
+  }
+  10% {
+    transform: rotate(10deg);
+  }
+  40% {
+    transform: rotate(-10deg);
+  }
+  60% {
+    transform: rotate(5deg);
+  }
+  80% {
+    transform: rotate(-5deg);
+  }
+}
+.layout .sidebar .menu ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+.layout .sidebar .menu .menu-header {
+  font-weight: 600;
+  padding: 10px 25px;
+  font-size: 1.1em;
+  letter-spacing: 2px;
+  transition: opacity 0.3s;
+}
+
+
+.layout .sidebar .menu .menu-item a {
+  display: flex;
+  align-items: center;
+  height: 50px;
+  padding: 0 20px;
+  color: #7d84ab;
+}
+.layout .sidebar .menu .menu-item a .menu-icon {
+  font-size: 1.7rem;
+  width: 35px;
+  min-width: 35px;
+  height: 35px;
+  line-height: 35px;
+  text-align: center;
+  display: inline-block;
+  margin-right: 15px;
+  border-radius: 2px;
+  transition: color 0.3s;
+  color: #5CA8B5 !important;
+}
+.layout .sidebar .menu .menu-item a .menu-icon i,
+.layout .sidebar .menu .menu-title  .menu-icon i {
+  display: inline-block;
+}
+
+.layout .sidebar .menu .menu-item a .menu-title {
+  font-size: 0.9em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex-grow: 1;
+  transition: color 0.3s;
+}
+.layout .sidebar .menu .menu-item a .menu-prefix,
+.layout .sidebar .menu .menu-item a .menu-suffix{
+  display: inline-block;
+  padding: 5px;
+  opacity: 1;
+  transition: opacity 0.3s;
+}
+.layout .sidebar .menu .menu-item a:hover .menu-title {
+  color: #dee2ec;
+}
+.layout .sidebar .menu .menu-item a:hover .menu-icon {
+  color: black;
+}
+.layout .sidebar .menu .menu-item a:hover .menu-icon i {
+  animation: swing ease-in-out 0.5s 1 alternate;
+}
+.layout .sidebar .menu .menu-item a:hover::after {
+  border-color: #dee2ec !important;
+}
+.layout .sidebar .menu .menu-item.sub-menu {
+  position: relative;
+}
+.layout .sidebar .menu .menu-item.sub-menu > a::after {
+  content: "";
+  transition: transform 0.3s;
+  border-right: 2px solid currentcolor;
+  border-bottom: 2px solid currentcolor;
+  width: 5px;
+  height: 5px;
+  transform: rotate(-45deg);
+}
+.layout .sidebar .menu .menu-item.sub-menu > .sub-menu-list {
+  padding-left: 20px;
+  display: none;
+  overflow: hidden;
+  z-index: 999;
+}
+.layout .sidebar .menu .menu-item.sub-menu.open > a {
+  color: #dee2ec;
+}
+.layout .sidebar .menu .menu-item.sub-menu.open > a::after {
+  transform: rotate(45deg);
+}
+.layout .sidebar .menu .menu-item.active > a .menu-title {
+  color: #dee2ec;
+}
+.layout .sidebar .menu .menu-item.active > a::after {
+  border-color: #dee2ec;
+}
+.layout .sidebar .menu .menu-item.active > a .menu-icon {
+  color: #dee2ec;
+}
+.layout .sidebar .menu > ul > .sub-menu > .sub-menu-list {
+  background-color: #0b1a2c;
+}
+.layout .sidebar .menu.icon-shape-circle .menu-item a .menu-icon, .layout .sidebar .menu.icon-shape-rounded .menu-item a .menu-icon, .layout .sidebar .menu.icon-shape-square .menu-item a .menu-icon {
+  background-color: #0b1a2c;
+}
+.layout .sidebar .menu.icon-shape-circle .menu-item a .menu-icon {
+  border-radius: 50%;
+}
+.layout .sidebar .menu.icon-shape-rounded .menu-item a .menu-icon {
+  border-radius: 4px;
+}
+.layout .sidebar .menu.icon-shape-square .menu-item a .menu-icon {
+  border-radius: 0;
+}
+.layout .sidebar:not(.collapsed) .menu > ul > .menu-item.sub-menu > .sub-menu-list {
+  visibility: visible !important;
+  position: static !important;
+  transform: translate(0, 0) !important;
+}
+.layout .sidebar.collapsed .menu > ul > .menu-header {
+  opacity: 0;
+}
+
+.layout .sidebar.collapsed .menu > ul > .menu-image {
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.layout .sidebar.collapsed .menu > ul > .menu-item > a .menu-prefix,
+.layout .sidebar.collapsed .menu > ul > .menu-item > a .menu-suffix {
+  opacity: 0;
+}
+.layout .sidebar.collapsed .menu > ul > .menu-item.sub-menu > a::after {
+  content: "";
+  width: 5px;
+  height: 5px;
+  background-color: currentcolor;
+  border-radius: 50%;
+  display: inline-block;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  border: none;
+  transform: translateY(-50%);
+}
+.layout .sidebar.collapsed .menu > ul > .menu-item.sub-menu > a:hover::after {
+  background-color: #dee2ec;
+}
+.layout .sidebar.collapsed .menu > ul > .menu-item.sub-menu > .sub-menu-list {
+  transition: none !important;
+  width: 200px;
+  margin-left: 3px !important;
+  border-radius: 4px;
+  display: block !important;
+}
+.layout .sidebar.collapsed .menu > ul > .menu-item.active > a::after {
+  background-color: #dee2ec;
+}
+
+
+.layout.rtl .sidebar .menu .menu-item a .menu-icon {
+  margin-left: 10px;
+  margin-right: 0;
+}
+.layout.rtl .sidebar .menu .menu-item.sub-menu > a::after {
+  transform: rotate(135deg);
+}
+.layout.rtl .sidebar .menu .menu-item.sub-menu > .sub-menu-list {
+  padding-left: 0;
+  padding-right: 20px;
+}
+.layout.rtl .sidebar .menu .menu-item.sub-menu.open > a::after {
+  transform: rotate(45deg);
+}
+.layout.rtl .sidebar.collapsed .menu > ul > .menu-item.sub-menu a::after {
+  right: auto;
+  left: 10px;
+}
+.layout.rtl .sidebar.collapsed .menu > ul > .menu-item.sub-menu > .sub-menu-list {
+  margin-left: -3px !important;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  height: 100vh;
+  font-family: "Poppins", sans-serif;
+  color: #3f4750;
+  font-size: 1.2rem;
+}
+
+a {
+  text-decoration: none;
+}
+
+@media (max-width: 576px) {
+  #btn-collapse {
+    display: none;
+  }
+}
+.layout .sidebar .pro-sidebar-logo {
+  display: flex;
+  align-items: center;
+}
+.layout .sidebar .pro-sidebar-logo > div {
+  width: 50px;
+  min-width: 50px;
+  height: 50px;
+  min-height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  color: white;
+  font-size: 12px;
+  font-weight: 700;
+  background-color: #5CA8B5;
+  margin-right: 30px;
+}
+.layout .sidebar .pro-sidebar-logo > h5 {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 20px;
+  line-height: 30px;
+  transition: opacity 0.3s;
+  opacity: 1;
+}
+
+/* 접이 버튼  */
+.layout .sidebar .sidebar-collapser { 
+  transition: left, right, 0.3s;
+  position: fixed;
+  left: 375px;
+  top: 45%;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background-color: #5CA8B5;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2em;
+  transform: translateX(50%);
+  z-index: 111;
+  cursor: pointer;
+  color: white;
+  box-shadow: 1px 1px 4px #0c1e35;
+}
+
+.layout .sidebar .sidebar-custom { 
+    transition: left, right, 0.3s;
+  position: fixed;
+  left: 405px;
+  top: 95%;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #5CA8B5;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2em;
+  transform: translateX(50%);
+  z-index: 111;
+  cursor: pointer;
+  color: white;
+  box-shadow: 1px 1px 4px #0c1e35;
+}
+
+
+.layout .sidebar.collapsed .pro-sidebar-logo > h5 {
+  opacity: 0;
+}
+.layout .sidebar.collapsed .footer-box {
+  display: none;
+}
+.layout .sidebar.collapsed .sidebar-collapser {
+  left: 55px;
+}
+
+.layout .sidebar.collapsed .sidebar-custom {
+  left: 90px;
+}
+
+
+.layout .sidebar.collapsed .sidebar-collapser i {
+  transform: rotate(180deg);
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.4em 0.5em;
+  font-size: 0.6em;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 0.25rem;
+  color: #fff;
+  background-color: #6c757d;
+}
+.badge.primary {
+  background-color: #807373;
+}
+.badge.meetMate {
+  background-color: #1d65b2;
+}
+.badge.communiFind {
+  background-color: #00824a;
+}
+
+.sidebar-toggler {
+  position: fixed;
+  right: 20px;
+  top: 20px;
+}
+
+.social-links a {
+  margin: 0 10px;
+  color: #3f4750;
+}
+#searchList {
+    position: absolute;
+    top: 150%; 
+    left: -100px;
+    z-index: 9999; 
+    width: 250px;
+}
+</style>
+
+<style>
+.container {  
+  display: flex;
+  flex-direction: column;
+}
+.button.-regular {
+  color: whitesmoke;
+  width: 160px;
+  cursor: pointer;
+  text-align: center;
+  background-color: #5CA8B5;
+  border-radius: 7px;
+  &:hover {
+    color: black;
+    background-color: #fff;
+    opacity: 1;
+  }
+  
+  &:active {
+    background-color: #d5d6d6;
+    opacity: 1;
+  }
+}
+
+.button-container {
+    display: flex;
+    
+    flex-wrap: wrap;
+    justify-content: center;
+}
+</style>
+
+
+<script>
+    window.console = window.console || function(t) {};
+</script>
+
+<style>
+
+.img1 {
+  
+  width: 100%;
+  
+  vertical-align: bottom;
+}
+.card_btn{
+    align-self: end;
+}
+.btn1 {
+  color: #a9a9a9;
+  padding: 0.8rem;
+  font-size: 17px;
+  text-transform: uppercase;
+  border-radius: 5px;
+  font-weight: 400;
+  display: block;
+  width: 100%;
+  cursor: pointer;
+  border: 2px solid rgba(235, 235, 235, 0.718);
+  background: transparent;
+}
+
+.btn1:hover {
+  background-color: rgb(241, 241, 241);
+}
+
+.cards {
+  width: 400px;
+  height: 350px;
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.cards_item {
+  display: flex;
+  padding: 1rem;
+}
+
+.card {
+  background-color: rgb(255, 255, 255);
+  border-radius: 0.5rem;
+  box-shadow: 0 20px 40px -14px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.card_image {
+  height: 150px;
+}
+
+.card_content {
+  
+  padding: 1.1rem;
+  background: linear-gradient(to bottom left, #ffffff 40%, #ffffff 100%);
+}
+
+.card_title {
+  color: #000000;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: capitalize;
+  margin: 0px;
+}
+
+.card_text {
+  color: #ababab;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  margin-bottom: 0.9rem;
+  margin-top: 0.4rem;    
+  font-weight: 400;
+  width: 350px;
+  text-overflow: ellipsis;
+  height: 72px;
+  overflow: hidden;
+  white-space: normal;
+}
+.sideMeetImage {
+  height: 300px; /* 이미지의 높이를 150px로 고정, 필요에 따라 조절 */
+  object-fit: cover; /* 이미지가 요소에 맞게 크기 조절 */
+}
+</style>
+
+<style>
+#recommend {
+	background: whitesmoke;
+	padding: 0 10px;
+}
+
+.item1 {
+	height: 70px;
+	width: 405px;
+	outline: none;
+  background-color: rgb(250, 250, 250);
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  margin: auto;
+  padding-top: 20px;
+  padding-left: 20px;
+  padding-bottom: 20px;
+  padding-right: 20px;
+
+
+}
+
+.item1:hover:hover {
+  background-color: #5CA8B5;
+  color: rgb(255, 255, 255);
+  cursor: pointer;
+}
+
+</style>
 
 </head>
 
@@ -38,72 +1024,206 @@
 
 <!-- 맵출력 객체 -->
 <div id="map" style="width:100%;height:100%;">
-
+    
     <input type="hidden" id="hiddenData" th:value="${jsonArray}"/>
+    
+    <div class="layout has-sidebar fixed-sidebar fixed-header">
+        <aside id="sidebar" class="sidebar break-point-sm has-bg-image">
+
+        <!-- 접이버튼 -->
+          <a id="btn-collapse" class="sidebar-collapser"><i class="ri-arrow-left-s-line"></i></a>
+          <a id="now-location" class="sidebar-custom"><i class="ri-user-location-line"></i></a>
+
+          <div class="sidebar-layout">
+            <div class="sidebar-header" style="background-color: #e2f1f3;">
+              
+                <a href="/">
+                  <div class="pro-sidebar-logo">
+                      <div>GATCHI</div>
+                  </div>
+                </a>
+
+                <form role="search" class="searchCustom" id="searchForm">
+
+                    <input id="search" type="search" placeholder="Search..." onfocus="showSearchList();" onblur="hideSearchList();" oninput="searchItem(this);">
+                    
+                    <button class="button1" type="submit">Go</button>
+                    <div id="recommend" class="">
+                      <div id="searchList"></div>
+                    </div>
+                  </form><br/>
+
+            </div>
+
+            <!-- 사이드바 초기 제일 가까운 한개 데이터 -->
+            <div class="sidebarContent" id="sidebarContent">
+                <nav class="menu open-current-submenu">
+                    <ul>
+                        <li class="menu-image">
+                            <img id="meetImage" src="" class="d-block w-100 sideMeetImage" alt="...">
+                            <hr/>
+                        </li>
+
+                        
+                        <li class="menu-header">
+                            
+                          <span id="meetCheck"></span>
+                          <div class="badge primary"><span id="meetCtgName"></span></div>
+
+                          <span id="crown"></span>
+                          <span id="hot"></span>
+                          <span id="stars"></span>
+                          
+
+
+                        </li>
+
+
+                        <li class="menu-item">
+                            <a href="#">
+                                <span class="menu-icon">
+                                    <i class="ri-star-smile-line"></i>
+                                </span>
+                                <span class="menu-title">
+                                    <span id="meetTitle" style="font-weight: 600; font-size: 1.1em; letter-spacing: 2px;">Title</span>
+                                </span>
+                            </a>
+                        </li>
+
+                        
+                        <li class="menu-image">
+                            <hr/>
+                        </li>
+                        
+                        <li class="menu-item">
+                            <a href="#">
+                                <span class="menu-icon">
+                                    <i class="ri-map-pin-2-line"></i>
+                                </span>
+                                <span class="menu-title">장소
+                                    <span id="meetPlace"></span>
+                                </span>
+                            </a>
+                        </li>
+                        
+
+                        <li class="menu-item">
+                            <a href="#">
+                                <span class="menu-icon">
+                                    <i class="ri-time-line"></i>
+                                </span>
+                                <span class="menu-title">약속시간
+                                    <span id="meetDday"></span>
+                                </span>
+                            </a>
+                        </li>
+
+
+
+                        <li class="menu-item">
+                            <a href="#">
+                                <span class="menu-icon">
+                                    <i class="ri-user-3-line"></i>
+                                </span>
+                                <span class="menu-title">멤버
+                                    <span id="meetMemCnt"></span>
+                                </span>
+                            </a>
+                        </li>
+
+                        <li class="menu-item">
+                            <a href="#">
+                                <span class="menu-icon">
+                                    <i class="ri-thumb-up-line"></i>
+                                </span>
+                                <span class="menu-title">좋아요
+                                    <span id="meetLike"></span>
+                                </span>
+                            </a>
+                        </li>
+                        
+                        <li class="menu-image">
+                            <hr/>
+                        </li>
+
+
+                        <!-- 관련게시물 띄우기 -->
+
+
+
+                    </ul>
+                </nav>
+            </div>
+
+            <!-- 사이드바 검색결과 -->
+            <br/>
+
+            <div id="sidebarSearch">
+                <nav class="menu open-current-submenu">
+                    <ul>
+                        <li id="dataList" class="menu-image"></li>
+                    </ul>
+                </nav>
+            </div>
+
+          </div>
+        </aside>
+      </div>
 </div>
 
+<!-- 네이버 맵 -->
 <script id="code">
 var HOME_PATH = window.HOME_PATH || '.';
 
-// var MARKER_SPRITE_X_OFFSET = 29,
-//     MARKER_SPRITE_Y_OFFSET = 50,
-//     MARKER_SPRITE_POSITION = {
-//         "A0": [0, 0],
-//         "B0": [MARKER_SPRITE_X_OFFSET, 0],
-//         "C0": [MARKER_SPRITE_X_OFFSET*2, 0],
-//         "D0": [MARKER_SPRITE_X_OFFSET*3, 0],
-//         "E0": [MARKER_SPRITE_X_OFFSET*4, 0],
-//         "F0": [MARKER_SPRITE_X_OFFSET*5, 0],
-//         "G0": [MARKER_SPRITE_X_OFFSET*6, 0],
-//         "H0": [MARKER_SPRITE_X_OFFSET*7, 0],
-//         "I0": [MARKER_SPRITE_X_OFFSET*8, 0],
-
-//         "A1": [0, MARKER_SPRITE_Y_OFFSET],
-//         "B1": [MARKER_SPRITE_X_OFFSET, MARKER_SPRITE_Y_OFFSET],
-//         "C1": [MARKER_SPRITE_X_OFFSET*2, MARKER_SPRITE_Y_OFFSET],
-//         "D1": [MARKER_SPRITE_X_OFFSET*3, MARKER_SPRITE_Y_OFFSET],
-//         "E1": [MARKER_SPRITE_X_OFFSET*4, MARKER_SPRITE_Y_OFFSET],
-//         "F1": [MARKER_SPRITE_X_OFFSET*5, MARKER_SPRITE_Y_OFFSET],
-//         "G1": [MARKER_SPRITE_X_OFFSET*6, MARKER_SPRITE_Y_OFFSET],
-//         "H1": [MARKER_SPRITE_X_OFFSET*7, MARKER_SPRITE_Y_OFFSET],
-//         "I1": [MARKER_SPRITE_X_OFFSET*8, MARKER_SPRITE_Y_OFFSET],
-
-//         "A2": [0, MARKER_SPRITE_Y_OFFSET*2],
-//         "B2": [MARKER_SPRITE_X_OFFSET, MARKER_SPRITE_Y_OFFSET*2],
-//         "C2": [MARKER_SPRITE_X_OFFSET*2, MARKER_SPRITE_Y_OFFSET*2],
-//         "D2": [MARKER_SPRITE_X_OFFSET*3, MARKER_SPRITE_Y_OFFSET*2],
-//         "E2": [MARKER_SPRITE_X_OFFSET*4, MARKER_SPRITE_Y_OFFSET*2],
-//         "F2": [MARKER_SPRITE_X_OFFSET*5, MARKER_SPRITE_Y_OFFSET*2],
-//         "G2": [MARKER_SPRITE_X_OFFSET*6, MARKER_SPRITE_Y_OFFSET*2],
-//         "H2": [MARKER_SPRITE_X_OFFSET*7, MARKER_SPRITE_Y_OFFSET*2],
-//         "I2": [MARKER_SPRITE_X_OFFSET*8, MARKER_SPRITE_Y_OFFSET*2]
-//     };
-
-
-    var hiddenData = document.getElementById("hiddenData").value;
-
-    var jsonArray = JSON.parse(hiddenData);
-
+// 데이터 받기
+var hiddenData = document.getElementById("hiddenData").value;
+var jsonArray = JSON.parse(hiddenData);
 
 
 
 var map = new naver.maps.Map('map', {
-    center: new naver.maps.LatLng(37.3595704, 127.105399),
-    zoom: 10
+    zoom: 15,
+    minZoom: 8, //지도의 최소 줌 레벨
+    zoomControl: true, //줌 컨트롤의 표시 여부
+    zoomControlOptions: { //줌 컨트롤의 옵션
+        position: naver.maps.Position.TOP_RIGHT
+    },
+    mapDataControl: false,
+    mapTypeControl: true
+
 });
 
-var bounds = map.getBounds(),
-    southWest = bounds.getSW(),
-    northEast = bounds.getNE(),
-    lngSpan = northEast.lng() - southWest.lng(),
-    latSpan = northEast.lat() - southWest.lat();
+
+    //custom 버튼
+    var searchBtnHtml = '<br/><div class="container"><div class="button-container"><div class="button -regular center" id="search-location">현재위치 검색</div></div></div>';
+    
+
+    naver.maps.Event.once(map, 'init', function() {
+    //customControl 객체 이용하기
+
+    // var customControl1 = new naver.maps.CustomControl(locationBtnHtml, {
+    //     position: naver.maps.Position.LEFT_BOTTOM
+    // });
+    var customControl2 = new naver.maps.CustomControl(searchBtnHtml, {
+        position: naver.maps.Position.TOP_CENTER
+    });
+    // customControl1.setMap(map);
+    customControl2.setMap(map);
+});
+
+
 
 var markers = [],
     infoWindows = [];
 
 
+    //반복문으로 데이터 하나씩 꺼내기
 for (var key in jsonArray) {
 
+    //넘어오는 데이터 확인
+
+    console.log(key)
+    console.log('아이디'+jsonArray[key].meetListNum)
     console.log(jsonArray[key].lat)
     console.log(jsonArray[key].lng)
 
@@ -115,45 +1235,101 @@ for (var key in jsonArray) {
     var marker = new naver.maps.Marker({
         map: map,
         position: position,
-        title: key,
+        title: jsonArray[key].meetListNum,
         icon: {
-            url: HOME_PATH +'',
-            size: new naver.maps.Size(24, 37),
-            anchor: new naver.maps.Point(12, 37),
-            origin: new naver.maps.Point(jsonArray[key].lat, jsonArray[key].lng)
+            url: '/image/map/marker-default.png'
         },
         zIndex: 100
     });
 
+
+    var contentString = [
+    `<ul class="cards">
+      <li class="cards_item">
+        <div class="card">
+          <div class="card_image"><img class="img1" id="meetImage1" src="" alt="..."></div>
+          <div class="card_content">
+            <h2 class="card_title" id="meetTitle1">title</h2>
+            <p class="card_text" id="meetContent1">content</p>
+              <div>
+                <a href="http://localhost:8080/articleYj.action?meetListNum=${jsonArray[key].meetListNum}">
+                  <button class="btn1 card_btn"><b>참 여 하 기</b>&nbsp;&nbsp;<i class="fa-solid fa-right-to-bracket" style="color: #c7c7c7;"></i></button>
+                </a>
+              </div>
+            </div>
+        </div>
+      </li>
+    </ul>`
+    ].join('');
+
+
+
     var infoWindow = new naver.maps.InfoWindow({
-        content: '<div style="width:150px;text-align:center;padding:10px;">The Letter is <b>"'+ key.substr(0, 1) +'"</b>.</div>'
+        content: contentString,
+        borderWidth: 0,
+        disableAnchor: true,
+        backgroundColor: 'transparent',
+
+        pixelOffset: new naver.maps.Point(0, -50)
     });
 
     markers.push(marker);
     infoWindows.push(infoWindow);
+
+    marker.addListener('mouseover', onMouseOver);
+    marker.addListener('mouseout', onMouseOut);
+
+
 };
 
+
+
 naver.maps.Event.addListener(map, 'idle', function() {
+    
     updateMarkers(map, markers);
 });
 
-function updateMarkers(map, markers) {
+function onMouseOver(e) {
+    var marker = e.overlay,
+        seq = marker.get('seq');
 
-    var mapBounds = map.getBounds();
-    var marker, position;
-
-    for (var i = 0; i < markers.length; i++) {
-
-        marker = markers[i]
-        position = marker.getPosition();
-
-        if (mapBounds.hasLatLng(position)) {
-            showMarker(map, marker);
-        } else {
-            hideMarker(map, marker);
-        }
-    }
+    marker.setIcon({
+        url: '/image/map/marker-hover.png'
+    });
 }
+
+function onMouseOut(e) {
+    var marker = e.overlay,
+        seq = marker.get('seq');
+
+    marker.setIcon({
+      url: '/image/map/marker-default.png'
+    });
+}
+
+function updateMarkers(map, markers) {
+    var mapBounds = map.getBounds();
+    
+    for (var i = 0; i < markers.length; i++) {
+        (function () { 
+            var marker = markers[i];
+            var infoWindow = infoWindows[i];
+            var position = marker.getPosition();
+            
+            // 현재 위치에서 다른 마커 검색
+            $("#search-location").on("click", function (e) {
+                hideInfoWindow(map, infoWindow);       
+                showMarker(map, marker); 
+            });
+            if (!mapBounds.hasLatLng(position)) {
+                hideInfoWindow(map, infoWindow);
+                hideMarker(map, marker);
+            }
+           
+        })(); // 즉시 실행되는 함수
+    }  
+}
+
 
 function showMarker(map, marker) {
 
@@ -167,12 +1343,155 @@ function hideMarker(map, marker) {
     marker.setMap(null);
 }
 
+function hideInfoWindow(map, infoWindow) {
+
+    if (!infoWindow.setMap()) return;
+    infoWindow.setMap(null);
+}
+
 // 해당 마커의 인덱스를 seq라는 클로저 변수로 저장하는 이벤트 핸들러를 반환합니다.
 function getClickHandler(seq) {
     return function(e) {
-        var marker = markers[seq],
-            infoWindow = infoWindows[seq];
+      
+        document.getElementById("sidebarContent").style.display = "block";
+        document.getElementById("sidebarSearch").style.display = "none";
 
+        var marker = markers[seq], infoWindow = infoWindows[seq];
+        // alert(marker.getTitle());
+        
+        //마커의 아이디 가져오기
+        var id = marker.getTitle();
+
+        //아이콘 초기화
+        var crown = $("#crown");
+        var hot = $("#hot");
+        var stars = $("#stars");
+        var meetCheck = $("#meetCheck");
+        var meetCtgName = $("#meetCtgName");
+        
+        crown.empty();
+        hot.empty();
+        stars.empty();
+        meetCheck.empty();
+        meetCtgName.empty();
+
+        //서버에서 데이터 비동기방식으로 가져오기
+        $.ajax({
+        url: '/getDataFromDB', // 서버의 엔드포인트 URL
+        method: 'GET',
+        data: { meetListNum: id },
+        success: function(data) {
+          // 서버로부터 받은 데이터를 웹 페이지에 표시
+          var CtgNum;
+          $('#meetListNum').html(data.meetListNum);
+
+          if(data.meetCheck===1){
+            $('#meetCheck').attr('class', 'badge meetMate');
+            $('#meetCheck').html('Meet');
+          }else if(data.meetCheck===2){
+            $('#meetCheck').attr('class', 'badge communiFind');
+            $('#meetCheck').html('Communi');
+          }
+          
+          $('#meetCtgNum').html(data.meetCtgNum);
+          if(data.meetCtgNum===1){
+            CtgNum = 1
+          }else if(data.meetCtgNum===2){
+            CtgNum = 2
+          }else if(data.meetCtgNum===3){
+            CtgNum = 3
+          }else if(data.meetCtgNum===4){
+            CtgNum = 4
+          }else if(data.meetCtgNum===5){
+            CtgNum = 5
+          }
+              $.ajax({
+                url: '/getCategoryFromDB', //주제가져오기
+                method: 'GET',
+                data: { meetCtgNum: CtgNum },
+                success: function(data) {              
+                  $('#meetCtgName').html(data.meetCtgName);
+                  },
+                  error: function() {
+                      alert('데이터를 불러오는 데 실패했습니다. 0번');
+                  }
+                });
+          $('#meetName').html(data.meetName);
+          $('#meetTitle').html(data.meetTitle);
+          $('#meetContent').html(data.meetContent);
+          $('#meetImage').attr('src', '/image/map/' + data.meetImage);
+          $('#meetDate').html(data.meetDate);
+          $('#meetDday').html(data.meetDday);
+          $('#meetMemCnt').html(data.meetMemCnt);
+          if(data.meetCheck==2){
+            if(data.meetMemCnt<=10){
+              //10명이하는 없음
+            }else if(data.meetMemCnt>=11 && data.meetMemCnt<=20){
+              crown.append('<i class="fa-solid fa-crown" style="color: #c4c4c4;"></i>');
+            }else {
+              crown.append('<i class="fa-solid fa-crown" style="color: #fbff00;"></i>');
+            }
+          }
+          $('#meetMaxMemCnt').html(data.meetMaxMemCnt);
+          $('#meetHitCount').html(data.meetHitCount);
+          if(data.meetHitCount>=100){
+            hot.append('<i class="fa-solid fa-fire" style="color: #ff0000;"></i>');
+          }
+          $('#meetLike').html(data.meetLike);
+          if(data.meetLike<=100){
+            stars.append('<i class="fa-solid fa-star" style="color: #fff700;"></i>');
+          }else if(data.meetLike>=101 && data.meetLike<=200){
+            stars.append('<i class="fa-solid fa-star" style="color: #fff700;"></i>');
+            stars.append('<i class="fa-solid fa-star" style="color: #fff700;"></i>');
+          }else {
+            stars.append('<i class="fa-solid fa-star" style="color: #fff700;"></i>');
+            stars.append('<i class="fa-solid fa-star" style="color: #fff700;"></i>');
+            stars.append('<i class="fa-solid fa-star" style="color: #fff700;"></i>');
+          }
+          $('#meetHow').html(data.meetHow);
+          $('#meetEntryFee').html(data.meetEntryFee);
+          $('#meetMoney').html(data.meetMoney);
+          $('#meetPlace').html(data.meetPlace);
+
+          },
+          error: function() {
+              alert('데이터를 불러오는 데 실패했습니다. 1번');
+          }
+        });
+
+
+        $.ajax({
+        url: '/getDataFromDB1',
+        method: 'GET',
+        data: { meetListNum: id },
+        success: function(data1) {
+          $('#meetListNum1').html(data1.meetListNum);
+          $('#meetCheck1').html(data1.meetCheck);
+          $('#meetCtgNum1').html(data1.meetCtgNum);
+          $('#meetName1').html(data1.meetName);
+          $('#meetTitle1').html(data1.meetTitle);
+          $('#meetContent1').html(data1.meetContent);
+          $('#meetImage1').attr('src', '/image/map/' + data1.meetImage);
+          $('#meetDate1').html(data1.meetDate);
+          $('#meetDday1').html(data1.meetDday);
+          $('#meetMemCnt1').html(data1.meetMemCnt);
+          $('#meetMaxMemCnt1').html(data1.meetMaxMemCnt);
+          $('#meetHitCount1').html(data1.meetHitCount);
+          $('#meetLike1').html(data1.meetLike);
+          $('#meetHow1').html(data1.meetHow);
+          $('#meetEntryFee1').html(data1.meetEntryFee);
+          $('#meetMoney1').html(data1.meetMoney);
+          $('#meetPlace1').html(data1.meetPlace);
+
+          },
+          error: function() {
+              alert('데이터를 불러오는 데 실패했습니다!!!!');
+          }
+        });
+    
+        if(SIDEBAR_EL.classList.contains("collapsed")){ //사이드바 실행되어있으면 실행하지 않음
+              SIDEBAR_EL.classList.toggle("collapsed");
+          }
         if (infoWindow.getMap()) {
             infoWindow.close();
         } else {
@@ -183,9 +1502,765 @@ function getClickHandler(seq) {
 
 for (var i=0, ii=markers.length; i<ii; i++) {
     naver.maps.Event.addListener(markers[i], 'click', getClickHandler(i));
+   
+}
+
+
+
+
+</script>
+
+
+<!-- 네이버 현재위치 -->
+<script>
+var infowindow = new naver.maps.InfoWindow({
+    borderWidth: 0,
+    disableAnchor: true,
+    backgroundColor: 'transparent'
+});
+function onSuccessGeolocation(position) {//현재위치 가져오기 성공
+    var location = new naver.maps.LatLng(position.coords.latitude,
+                                         position.coords.longitude);
+                    
+    var lat = position.coords.latitude;
+    var lng = position.coords.longitude;
+
+    map.setCenter(location); // 얻은 좌표를 지도의 중심으로 설정합니다.
+    map.setZoom(15); // 지도의 줌 레벨을 변경합니다.
+  
+    var contentString = [
+        
+    ].join('');
+
+
+    infowindow.setContent('<img src="/image/map/marker-nowLocation.png"/>');
+    infowindow.open(map, location);
+
+    //현재위치 가져오기 클릭했을때만
+    $("#now-location").on("click", function(e) {
+        infowindow.open(map, location); //현재위치 아이콘
+        map.setCenter(location); //현재위치 중심으로
+        for (var i = 0; i < markers.length; i++) {
+            (function () { 
+                var marker = markers[i];
+                var infoWindow = infoWindows[i];
+                var position = marker.getPosition();
+                hideInfoWindow(map, infoWindow);       
+                showMarker(map, marker); 
+            })(); // 즉시 실행되는 함수
+        }  
+    });
+            //아이콘 초기화
+        var crown = $("#crown");
+        var hot = $("#hot");
+        var stars = $("#stars");
+        var meetCheck = $("#meetCheck");
+        var meetCtgName = $("#meetCtgName");
+        
+        crown.empty();
+        hot.empty();
+        stars.empty();
+        meetCheck.empty();
+        meetCtgName.empty();
+
+
+    for (var i = 0; i < markers.length; i++) {
+        (function () { 
+            var marker = markers[i];
+            var infoWindow = infoWindows[i];
+            var position = marker.getPosition();
+               
+                hideInfoWindow(map, infoWindow);       
+                showMarker(map, marker); 
+
+                //현재위치에서 가장 가까운 모임 찾아 열기       
+                var nearLocation = Number.MAX_VALUE; // 초기값을 최댓값으로 설정
+                var nearId = 0;
+
+                for (var key in jsonArray) {
+                    
+                  
+                    //직선거리 비교하여 가장 가까운위치 찾기
+                    var proj = map.getProjection()
+                    var distance = proj.getDistance(
+                        new naver.maps.LatLng(jsonArray[key].lat, jsonArray[key].lng),
+                        new naver.maps.LatLng(lat, lng)
+                    );
+                    
+                    if(distance < nearLocation) {
+                        nearLocation = distance;
+                        nearId = jsonArray[key].meetListNum;
+                    }
+
+                }
+
+
+
+        //서버에서 데이터 비동기방식으로 가져오기
+        $.ajax({
+        url: '/getDataFromDB', // 서버의 엔드포인트 URL
+        method: 'GET',
+        data: { meetListNum: nearId },
+        success: function(data) {
+          // 서버로부터 받은 데이터를 웹 페이지에 표시
+          var CtgNum;
+          crown.empty();
+          hot.empty();
+          stars.empty();
+          meetCheck.empty();
+          meetCtgName.empty();
+          $('#meetListNum').html(data.meetListNum);
+
+          if(data.meetCheck===1){
+            $('#meetCheck').attr('class', 'badge meetMate');
+            $('#meetCheck').html('Meet');
+          }else if(data.meetCheck===2){
+            $('#meetCheck').attr('class', 'badge communiFind');
+            $('#meetCheck').html('Communi');
+          }
+          
+          $('#meetCtgNum').html(data.meetCtgNum);
+          if(data.meetCtgNum===1){
+            CtgNum = 1
+          }else if(data.meetCtgNum===2){
+            CtgNum = 2
+          }else if(data.meetCtgNum===3){
+            CtgNum = 3
+          }else if(data.meetCtgNum===4){
+            CtgNum = 4
+          }else if(data.meetCtgNum===5){
+            CtgNum = 5
+          }
+              $.ajax({
+                url: '/getCategoryFromDB', //주제가져오기
+                method: 'GET',
+                data: { meetCtgNum: CtgNum },
+                success: function(data) {              
+                  $('#meetCtgName').html(data.meetCtgName);
+                  },
+                  error: function() {
+                      alert('데이터를 불러오는 데 실패했습니다. 0번');
+                  }
+                });
+          $('#meetName').html(data.meetName);
+          $('#meetTitle').html(data.meetTitle);
+          $('#meetContent').html(data.meetContent);
+          $('#meetImage').attr('src', '/image/map/' + data.meetImage);
+          $('#meetDate').html(data.meetDate);
+          $('#meetDday').html(data.meetDday);
+          $('#meetMemCnt').html(data.meetMemCnt);
+          if(data.meetCheck==2){
+            if(data.meetMemCnt<=10){
+              //10명이하는 없음
+            }else if(data.meetMemCnt>=11 && data.meetMemCnt<=20){
+              crown.append('<i class="fa-solid fa-crown" style="color: #c4c4c4;"></i>');
+            }else {
+              crown.append('<i class="fa-solid fa-crown" style="color: #fbff00;"></i>');
+            }
+          }
+          $('#meetMaxMemCnt').html(data.meetMaxMemCnt);
+          $('#meetHitCount').html(data.meetHitCount);
+          if(data.meetHitCount>=100){
+            hot.append('<i class="fa-solid fa-fire" style="color: #ff0000;"></i>');
+          }
+          $('#meetLike').html(data.meetLike);
+          if(data.meetLike<=100){
+            stars.append('<i class="fa-solid fa-star" style="color: #fff700;"></i>');
+          }else if(data.meetLike>=101 && data.meetLike<=200){
+            stars.append('<i class="fa-solid fa-star" style="color: #fff700;"></i>');
+            stars.append('<i class="fa-solid fa-star" style="color: #fff700;"></i>');
+          }else {
+            stars.append('<i class="fa-solid fa-star" style="color: #fff700;"></i>');
+            stars.append('<i class="fa-solid fa-star" style="color: #fff700;"></i>');
+            stars.append('<i class="fa-solid fa-star" style="color: #fff700;"></i>');
+          }
+          $('#meetHow').html(data.meetHow);
+          $('#meetEntryFee').html(data.meetEntryFee);
+          $('#meetMoney').html(data.meetMoney);
+          $('#meetPlace').html(data.meetPlace);
+
+          },
+          error: function() {
+              alert('데이터를 불러오는 데 실패했습니다. 1번');
+          }
+        });
+                
+
+        })(); // 즉시 실행되는 함수
+    }
+
+    
+    console.log('현재위치: ' + location.toString());
+    
+}
+
+function onErrorGeolocation() {
+    var center = map.getCenter();
+
+    infowindow.setContent('<div style="padding:20px;">' +
+        '<h5 style="margin-bottom:5px;color:#f00;">위치정보를 불러올 수 없습니다.</h5>'+ "latitude: "+ center.lat() +"<br />longitude: "+ center.lng() +'</div>');
+
+    infowindow.open(map, center);
+}
+
+$(window).on("load", function() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(onSuccessGeolocation, onErrorGeolocation);
+    } else {
+        var center = map.getCenter();
+        infowindow.setContent('<div style="padding:20px;"><h5 style="margin-bottom:5px;color:#f00;">Geolocation not supported</h5></div>');
+        infowindow.open(map, center);
+    }
+});
+</script>
+
+<!-- 사이드바 -->
+<script>
+    function _defineProperty(obj, key, value) {
+        if (key in obj) {
+            Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });
+        } else {
+            obj[key] = value;}return obj;
+    }const ANIMATION_DURATION = 300;
+    
+    const SIDEBAR_EL = document.getElementById("sidebar");
+
+    class PopperObject {
+    
+      constructor(reference, popperTarget) {_defineProperty(this, "instance", null);_defineProperty(this, "reference", null);_defineProperty(this, "popperTarget", null);
+        this.init(reference, popperTarget);
+      }
+    
+      init(reference, popperTarget) {
+        this.reference = reference;
+        this.popperTarget = popperTarget;
+        this.instance = Popper.createPopper(this.reference, this.popperTarget, {
+          placement: "right",
+          strategy: "fixed",
+          resize: true,
+          modifiers: [
+          {
+            name: "computeStyles",
+            options: {
+              adaptive: false } },
+    
+    
+          {
+            name: "flip",
+            options: {
+              fallbackPlacements: ["left", "right"] } }] });
+ 
+        document.addEventListener(
+        "click",
+        e => this.clicker(e, this.popperTarget, this.reference),
+        false);
+    
+    
+        const ro = new ResizeObserver(() => {
+          this.instance.update();
+        });
+    
+        ro.observe(this.popperTarget);
+        ro.observe(this.reference);
+      }
+    
+      clicker(event, popperTarget, reference) {
+        if (
+        SIDEBAR_EL.classList.contains("collapsed") &&
+        !popperTarget.contains(event.target) &&
+        !reference.contains(event.target))
+        {
+          this.hide();
+        }
+      }
+    
+      hide() {
+        this.instance.state.elements.popper.style.visibility = "hidden";
+      }}
+
+    class Poppers {}
+  
+    const PoppersInstance = new Poppers();
+    
+    /**
+     * wait for the current animation to finish and update poppers position
+     */
+    const updatePoppersTimeout = () => {
+      setTimeout(() => {
+      }, ANIMATION_DURATION);
+    };
+    
+    /**
+     * sidebar collapse handler
+     */
+    document.getElementById("btn-collapse").addEventListener("click", () => {
+      SIDEBAR_EL.classList.toggle("collapsed");
+    
+      updatePoppersTimeout();
+    });
+
+</script>
+
+<!-- 검색창 -->
+<script>
+    function searchItem(target){
+           
+        var checkWord = $("#search").val();
+        var searchList = $("#searchList");
+       
+        // 검색어가 비어 있으면 아무 작업도 하지 않음
+        if (checkWord.trim() === "") {
+            searchList.empty();
+            return;
+        }
+
+    $.ajax({
+        url: '/getSearchDataFromDB', 
+        method: 'GET',
+        dataType: 'JSON',
+        error: function(err){
+            console.log(err);
+        },
+        success: function(data){
+            console.log(data);
+            
+            searchList.empty();
+
+            data.forEach((item)=>{
+                if(item['meetTitle'].includes(checkWord)){
+                    searchList.append(`<div class="item1" onclick="select(this);"> ${item['meetTitle']}</div>`);
+                
+                }
+            })
+        }
+    })
+}  
+</script>
+
+<script>
+    function select(target) {
+        var selectedValue = $(target).text().trim();
+        $("#search").val(selectedValue);
+        $("#searchList").empty(); // 선택된 후에 검색 결과 목록을 비웁니다.
+    }
+</script>
+
+
+<script>
+  document.getElementById("searchForm").addEventListener("submit", function(event) {
+    event.preventDefault(); // 제출 이벤트 중지
+    searchItem2(); // 원하는 동작 수행
+});
+function searchItem2() {
+
+    var searchTitle = document.getElementById("search").value;
+    var dataList = $("#dataList");
+
+    // alert(searchTitle)
+    //ajax 사용해서 검색결과 뿌리기
+    //완전 동일한 데이터 1개만
+    $.ajax({
+    url: '/getSearchTitleDataFromDB',
+    method: 'GET',
+    data: { meetTitle: searchTitle },
+    success: function(data) {
+
+        
+
+        // data를 자바스크립트 형식으로 JSON 데이터 파싱
+        var jsonData = JSON.parse(data);
+
+        if (Array.isArray(jsonData) && jsonData.length === 0) { // 1번 데이터가 배열이면서 비어있을 경우
+            
+            dataList.empty();
+            $('#dataList').html('<h2>검색 결과가 없습니다.</h2>');
+            document.getElementById("sidebarContent").style.display = "none"; // 숨기기
+            document.getElementById("sidebarSearch").style.display = "block"; // 보이기
+            return;
+        }
+
+        dataList.empty();
+
+        jsonData.forEach((item)=>{
+          
+          //사용자 검색어와 비교
+          if(item['meetTitle']===searchTitle){ //2번 완전 동일한 제목 1개만 띄우기
+            
+            var crown = $("#crown");
+            var hot = $("#hot");
+            var stars = $("#stars");
+            var meetCheck = $("#meetCheck");
+            var meetCtgName = $("#meetCtgName");
+            
+            crown.empty();
+            hot.empty();
+            stars.empty();
+            meetCheck.empty();
+            meetCtgName.empty();
+
+            $.ajax({
+                url: '/getDataFromDB', // 서버의 엔드포인트 URL
+                method: 'GET',
+                data: { meetListNum: item.meetListNum },
+                success: function(data) {
+                    
+                    document.getElementById("sidebarContent").style.display = "block";
+                    document.getElementById("sidebarSearch").style.display = "none"; 
+                    // 서버로부터 받은 데이터를 웹 페이지에 표시
+                    var CtgNum;
+                    $('#meetListNum').html(data.meetListNum);
+
+                    if(data.meetCheck===1){
+                      $('#meetCheck').attr('class', 'badge meetMate');
+                      $('#meetCheck').html('Meet');
+                    }else if(data.meetCheck===2){
+                      $('#meetCheck').attr('class', 'badge communiFind');
+                      $('#meetCheck').html('Communi');
+                    }
+                    
+                    $('#meetCtgNum').html(data.meetCtgNum);
+                    if(data.meetCtgNum===1){
+                      CtgNum = 1
+                    }else if(data.meetCtgNum===2){
+                      CtgNum = 2
+                    }else if(data.meetCtgNum===3){
+                      CtgNum = 3
+                    }else if(data.meetCtgNum===4){
+                      CtgNum = 4
+                    }else if(data.meetCtgNum===5){
+                      CtgNum = 5
+                    }
+                        $.ajax({
+                          url: '/getCategoryFromDB', //주제가져오기
+                          method: 'GET',
+                          data: { meetCtgNum: CtgNum },
+                          success: function(data) {              
+                            $('#meetCtgName').html(data.meetCtgName);
+                            },
+                            error: function() {
+                                alert('데이터를 불러오는 데 실패했습니다. 0번');
+                            }
+                          });
+                    $('#meetName').html(data.meetName);
+                    $('#meetTitle').html(data.meetTitle);
+                    $('#meetContent').html(data.meetContent);
+                    $('#meetImage').attr('src', '/image/map/' + data.meetImage);
+                    $('#meetDate').html(data.meetDate);
+                    $('#meetDday').html(data.meetDday);
+                    $('#meetMemCnt').html(data.meetMemCnt);
+                    if(data.meetCheck==2){
+                      if(data.meetMemCnt<=10){
+                        //10명이하는 없음
+                      }else if(data.meetMemCnt>=11 && data.meetMemCnt<=20){
+                        crown.append('<i class="fa-solid fa-crown" style="color: #c4c4c4;"></i>');
+                      }else {
+                        crown.append('<i class="fa-solid fa-crown" style="color: #fbff00;"></i>');
+                      }
+                    }
+                    $('#meetMaxMemCnt').html(data.meetMaxMemCnt);
+                    $('#meetHitCount').html(data.meetHitCount);
+                    if(data.meetHitCount>=100){
+                      hot.append('<i class="fa-solid fa-fire" style="color: #ff0000;"></i>');
+                    }
+                    $('#meetLike').html(data.meetLike);
+                    if(data.meetLike<=100){
+                      stars.append('<i class="fa-solid fa-star" style="color: #fff700;"></i>');
+                    }else if(data.meetLike>=101 && data.meetLike<=200){
+                      stars.append('<i class="fa-solid fa-star" style="color: #fff700;"></i>');
+                      stars.append('<i class="fa-solid fa-star" style="color: #fff700;"></i>');
+                    }else {
+                      stars.append('<i class="fa-solid fa-star" style="color: #fff700;"></i>');
+                      stars.append('<i class="fa-solid fa-star" style="color: #fff700;"></i>');
+                      stars.append('<i class="fa-solid fa-star" style="color: #fff700;"></i>');
+                    }
+                    $('#meetHow').html(data.meetHow);
+                    $('#meetEntryFee').html(data.meetEntryFee);
+                    $('#meetMoney').html(data.meetMoney);
+                    $('#meetPlace').html(data.meetPlace);
+                    
+                    
+                    for (var i = 0; i < markers.length; i++) {
+                        (function () { 
+                            var marker = markers[i];
+                            var infoWindow = infoWindows[i];
+                            var position = marker.getPosition();
+                            
+                            //열려있는 info정보숨기기
+                            if (infoWindow.getMap()) {
+                                
+                                hideInfoWindow(map, infoWindow);
+
+                            }
+
+                            //맵 센터로 옮기기
+                            if(marker.getTitle()==data.meetListNum){
+
+                                infoWindow.open(map, marker);
+                                showMarker(map, marker);
+
+                                map.setCenter(marker.getPosition()); // 얻은 좌표를 지도의 중심으로 설정합니다.
+                                map.setZoom(17); 
+
+                            }
+
+                        })();    
+                    }            
+
+                    },
+                    error: function() {
+                        alert('데이터를 불러오는 데 실패했습니다. 3번');
+                    }
+                });
+            
+                $.ajax({
+                    url: '/getDataFromDB1', // 서버의 엔드포인트 URL
+                    method: 'GET',
+                    data: { meetListNum: item.meetListNum },
+                    success: function(data1) {
+                        
+                        $('#meetListNum1').html(data1.meetListNum);
+                        $('#meetCheck1').html(data1.meetCheck);
+                        $('#meetCtgNum1').html(data1.meetCtgNum);
+                        $('#meetName1').html(data1.meetName);
+                        $('#meetTitle1').html(data1.meetTitle);
+                        $('#meetContent1').html(data1.meetContent);
+                        $('#meetImage1').attr('src', '/image/map/' + data1.meetImage);
+                        $('#meetDate1').html(data1.meetDate);
+                        $('#meetDday1').html(data1.meetDday);
+                        $('#meetMemCnt1').html(data1.meetMemCnt);
+                        $('#meetMaxMemCnt1').html(data1.meetMaxMemCnt);
+                        $('#meetHitCount1').html(data1.meetHitCount);
+                        $('#meetLike1').html(data1.meetLike);
+                        $('#meetHow1').html(data1.meetHow);
+                        $('#meetEntryFee1').html(data1.meetEntryFee);
+                        $('#meetMoney1').html(data1.meetMoney);
+                        $('#meetPlace1').html(data1.meetPlace);
+                        
+
+                        },
+                        error: function() {
+                            alert('데이터를 불러오는 데 실패했습니다!!!!');
+                        }
+                });
+
+            return;
+
+
+        }else{ //3번 유사한 데이터 여러개 띄우기
+
+            dataList.append(`
+            <div class="menu-image">
+            <div onClick="getClickListHandler(${item.meetListNum});" style="cursor:pointer">
+            <div class="card mb-3" style="width:370px; max-height:150px; height:150px">
+                <div class="row g-0" style="overflow: hidden; height:100%;">
+                    <div class="col-md-4" >
+                      <img src="/image/map/${item.meetImage}" class="img-fluid rounded-start" style="height:100%;" alt="...">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+
+                            <p class="card-title">${item.meetTitle}</p>
+                            
+
+                        </div>
+                    </div>
+                </div>
+            </div></div></div>`);
+
+
+            // alert('유사 데이터 여러개 있다.')
+            document.getElementById("sidebarContent").style.display = "none"; // 숨기기
+            document.getElementById("sidebarSearch").style.display = "block"; // 보이기
+
+        }
+    })
+
+
+    },
+    error: function() {
+        alert('데이터를 불러오는 데 실패했습니다. 4번');
+    }
+
+
+});
+
 }
 </script>
 
+<script>
+    function showSearchList() {
+    $("#searchList").show();
+}
+
+function hideSearchList() {
+    setTimeout(function() {
+        $("#searchList").hide();
+    }, 1000);
+}
+
+function getClickListHandler(id) {
+
+    var crown = $("#crown");
+    var hot = $("#hot");
+    var stars = $("#stars");
+    var meetCheck = $("#meetCheck");
+    var meetCtgName = $("#meetCtgName");
+    
+    crown.empty();
+    hot.empty();
+    stars.empty();
+    meetCheck.empty();
+    meetCtgName.empty();
+
+    $.ajax({
+        url: '/getDataFromDB', // 서버의 엔드포인트 URL
+        method: 'GET',
+        data: { meetListNum: id },
+        success: function(data) {
+            // 서버로부터 받은 데이터를 웹 페이지에 표시
+            // alert(data.meetListNum)
+            document.getElementById("sidebarContent").style.display = "block";
+            document.getElementById("sidebarSearch").style.display = "none"; 
+            // 서버로부터 받은 데이터를 웹 페이지에 표시
+            var CtgNum;
+            $('#meetListNum').html(data.meetListNum);
+
+            if(data.meetCheck===1){
+              $('#meetCheck').attr('class', 'badge meetMate');
+              $('#meetCheck').html('Meet');
+            }else if(data.meetCheck===2){
+              $('#meetCheck').attr('class', 'badge communiFind');
+              $('#meetCheck').html('Communi');
+            }
+            
+            $('#meetCtgNum').html(data.meetCtgNum);
+            if(data.meetCtgNum===1){
+              CtgNum = 1
+            }else if(data.meetCtgNum===2){
+              CtgNum = 2
+            }else if(data.meetCtgNum===3){
+              CtgNum = 3
+            }else if(data.meetCtgNum===4){
+              CtgNum = 4
+            }else if(data.meetCtgNum===5){
+              CtgNum = 5
+            }
+                $.ajax({
+                  url: '/getCategoryFromDB', //주제가져오기
+                  method: 'GET',
+                  data: { meetCtgNum: CtgNum },
+                  success: function(data) {              
+                    $('#meetCtgName').html(data.meetCtgName);
+                    },
+                    error: function() {
+                        alert('데이터를 불러오는 데 실패했습니다. 0번');
+                    }
+                  });
+            $('#meetName').html(data.meetName);
+            $('#meetTitle').html(data.meetTitle);
+            $('#meetContent').html(data.meetContent);
+            $('#meetImage').attr('src', '/image/map/' + data.meetImage);
+            $('#meetDate').html(data.meetDate);
+            $('#meetDday').html(data.meetDday);
+            $('#meetMemCnt').html(data.meetMemCnt);
+            if(data.meetCheck==2){
+              if(data.meetMemCnt<=10){
+                //10명이하는 없음
+              }else if(data.meetMemCnt>=11 && data.meetMemCnt<=20){
+                crown.append('<i class="fa-solid fa-crown" style="color: #c4c4c4;"></i>');
+              }else {
+                crown.append('<i class="fa-solid fa-crown" style="color: #fbff00;"></i>');
+              }
+            }
+            $('#meetMaxMemCnt').html(data.meetMaxMemCnt);
+            $('#meetHitCount').html(data.meetHitCount);
+            if(data.meetHitCount>=100){
+              hot.append('<i class="fa-solid fa-fire" style="color: #ff0000;"></i>');
+            }
+            $('#meetLike').html(data.meetLike);
+            if(data.meetLike<=100){
+              stars.append('<i class="fa-solid fa-star" style="color: #fff700;"></i>');
+            }else if(data.meetLike>=101 && data.meetLike<=200){
+              stars.append('<i class="fa-solid fa-star" style="color: #fff700;"></i>');
+              stars.append('<i class="fa-solid fa-star" style="color: #fff700;"></i>');
+            }else {
+              stars.append('<i class="fa-solid fa-star" style="color: #fff700;"></i>');
+              stars.append('<i class="fa-solid fa-star" style="color: #fff700;"></i>');
+              stars.append('<i class="fa-solid fa-star" style="color: #fff700;"></i>');
+            }
+            $('#meetHow').html(data.meetHow);
+            $('#meetEntryFee').html(data.meetEntryFee);
+            $('#meetMoney').html(data.meetMoney);
+            $('#meetPlace').html(data.meetPlace);
+
+            for (var i = 0; i < markers.length; i++) {
+                (function () { 
+                  var marker = markers[i];
+                  var infoWindow = infoWindows[i];
+                  var position = marker.getPosition();
+                  
+                  //열려있는 마커숨기기
+                  if (infoWindow.getMap()) {
+                      //alert('있다')
+                      hideInfoWindow(map, infoWindow);
+
+                  }
+
+                  //맵 센터로 옮기기
+                  if(marker.getTitle()==data.meetListNum){
+                    
+                    $.ajax({
+                      url: '/getDataFromDB1', // 서버의 엔드포인트 URL
+                      method: 'GET',
+                      data: { meetListNum: id },
+                      success: function(data1) {
+                          
+                          $('#meetListNum1').html(data1.meetListNum);
+                          $('#meetCheck1').html(data1.meetCheck);
+                          $('#meetCtgNum1').html(data1.meetCtgNum);
+                          $('#meetName1').html(data1.meetName);
+                          $('#meetTitle1').html(data1.meetTitle);
+                          $('#meetContent1').html(data1.meetContent);
+                          $('#meetImage1').attr('src', '/image/map/' + data1.meetImage);
+                          $('#meetDate1').html(data1.meetDate);
+                          $('#meetDday1').html(data1.meetDday);
+                          $('#meetMemCnt1').html(data1.meetMemCnt);
+                          $('#meetMaxMemCnt1').html(data1.meetMaxMemCnt);
+                          $('#meetHitCount1').html(data1.meetHitCount);
+                          $('#meetLike1').html(data1.meetLike);
+                          $('#meetHow1').html(data1.meetHow);
+                          $('#meetEntryFee1').html(data1.meetEntryFee);
+                          $('#meetMoney1').html(data1.meetMoney);
+                          $('#meetPlace1').html(data1.meetPlace);
+                          
+
+                          },
+                          error: function() {
+                              alert('데이터를 불러오는 데 실패했습니다!!!!');
+                          }
+                  });
+
+                      //alert(marker.getTitle() + '들어옴1')
+                      infoWindow.open(map, marker);
+                      showMarker(map, marker);
+
+                      map.setCenter(marker.getPosition()); // 얻은 좌표를 지도의 중심으로 설정합니다.
+                      map.setZoom(18); 
+                      return;
+                  }
+
+              })();   
+            }
+        },
+        error: function() {
+            alert('데이터를 불러오는 데 실패했습니다. 5번');
+        }
+    });
+}
+
+
+
+</script>
 
 
 </body>

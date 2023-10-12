@@ -9,6 +9,6 @@ public class MapDTO {
     
     private double lat;
     private double lng;
-    private String id;
+    private String meetListNum;
 
 }

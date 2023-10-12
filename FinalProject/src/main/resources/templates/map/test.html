@@ -1,260 +1,239 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
     <head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-        <title>전체 화면 지도와 미니 맵 표시하기</title>
+        
+        <title>메인 지도</title>
+        
         <script th:src="@{http://localhost:8080/js/map/jquery-1.9.1.js}"></script>
         <script type="text/javascript" th:src="@{http://localhost:8080/js/map/examples-base.js}"></script>
         <script type="text/javascript" th:src="@{http://localhost:8080/js/map/highlight.min.js}"></script>
         <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=83bfuniegk"></script>
+        <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=83bfuniegk&submodules=geocoder"></script>
         <link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/map/examples-base.css}" />
-    
+
         <!-- 위도 경도 좌표가져오는 모듈 -->
-        <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=YOUR_CLIENT_ID&submodules=geocoder"></script>
-    
-        <!-- @category Map -->
-    
-        <style type="text/css">
-            html, body { height:100%; }
-            #back-link { margin-top:-10px;color:#333;font-weight:bold;color:#fff;pointer-events:auto; }
-            #code-folder { margin-top:-10px;color:#333;font-weight:bold;color:#fff;pointer-events:auto; }
-            #origin-marker { position:absolute;top:50%;left:50%;z-index:1000;background-color:#f00; width:10px;height:10px;border-radius:5px;pointer-events:none; }
-            #snippet { width:700px;height:600px;overflow:hidden;overflow-y:auto;pointer-events:auto; }
-            .buttons { position:absolute;top:0;left:100px;padding:5px; }
-            .buttons .control-btn { pointer-events:auto; }
-        </style>
-    
-    
-    
-    
-    
-    </head>
+
+
+<title>가치</title>
+
+<link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/index.css}"/>
+</head>
 <body>
     
-<!-- 맵출력 객체 -->
-<div id="map" style="width:100%;height:100%;">
+<!-- @category Geocoder -->
 
-    <input type="hidden" id="hiddenData" th:value="${jsonArray}"/>
-</div>
+<style type="text/css">
+    .search { position:absolute;z-index:1000;top:20px;left:20px; }
+    .search #address { width:150px;height:20px;line-height:20px;border:solid 1px #555;padding:5px;font-size:12px;box-sizing:content-box; }
+    .search #submit { height:30px;line-height:30px;padding:0 10px;font-size:12px;border:solid 1px #555;border-radius:3px;cursor:pointer;box-sizing:content-box; }
+    </style>
     
-
-<script id="code">
-
-    var semaphore = false;
+    <div id="wrap" class="section">
+        <h2>주소와 좌표 검색 API 사용하기</h2>
+        <p>Geocoder 서브 모듈의 Service 객체를 사용하여 주소로 좌표를 검색하거나(Geocode) 좌표로 주소를 검색하는(Reversegeocode) 예제입니다.<br />
+        입력 창에 주소를 입력하여 검색하면 해당 주소의 좌표로 이동하며, 지도를 클릭하면 해당 지점의 경위도 좌표로 주소를 검색합니다.</p>
+        <div id="map" style="width:100%;height:600px;">
+            <div class="search" >
+                <input id="address" type="text" placeholder="검색할 주소" value="불정로 6" />
+                <input id="submit" type="button" value="주소 검색" />
+            </div>
+        </div>
+        <code id="snippet" class="snippet"></code>
+    </div>
     
-    naver.maps.Event.once(map, 'init', function() {
-        map.setOptions({
-            mapTypeControl: true,
-            scaleControl: false,
-            logoControl: false
-        });
+    <script id="code">
+    var map = new naver.maps.Map("map", {
+        center: new naver.maps.LatLng(37.3595316, 127.1052133),
+        zoom: 15,
+        mapTypeControl: true
+    });
     
-        naver.maps.Event.addListener(map, 'mapTypeId_changed', function(mapTypeId) {
-            var toTypes = {
-                "normal": "hybrid",
-                "terrain": "satellite",
-                "satellite": "terrain",
-                "hybrid": "normal"
-            };
+    var infoWindow = new naver.maps.InfoWindow({
+        anchorSkew: true
+    });
     
-            if (!toTypes[mapTypeId]) {
-                return;
+    map.setCursor('pointer');
+    
+    function searchCoordinateToAddress(latlng) {
+    
+        infoWindow.close();
+    
+        naver.maps.Service.reverseGeocode({
+            coords: latlng,
+            orders: [
+                naver.maps.Service.OrderType.ADDR,
+                naver.maps.Service.OrderType.ROAD_ADDR
+            ].join(',')
+        }, function(status, response) {
+            if (status === naver.maps.Service.Status.ERROR) {
+                return alert('Something Wrong!');
             }
     
+            var items = response.v2.results,
+                address = '',
+                htmlAddresses = [];
+    
+            for (var i=0, ii=items.length, item, addrType; i<ii; i++) {
+                item = items[i];
+                address = makeAddress(item) || '';
+                addrType = item.name === 'roadaddr' ? '[도로명 주소]' : '[지번 주소]';
+    
+                htmlAddresses.push((i+1) +'. '+ addrType +' '+ address);
+            }
+    
+            infoWindow.setContent([
+                '<div style="padding:10px;min-width:200px;line-height:150%;">',
+                '<h4 style="margin-top:5px;">검색 좌표 '+ ' lng : ' + latlng.x + ' lat : ' + latlng.y +'</h4><br />',
+                htmlAddresses.join('<br />'),
+                '</div>'
+            ].join('\n'));
+            console.log(latlng)
+            infoWindow.open(map, latlng);
+        });
+    }
+    
+    function searchAddressToCoordinate(address) {
+        naver.maps.Service.geocode({
+            query: address
+        }, function(status, response) {
+            if (status === naver.maps.Service.Status.ERROR) {
+                return alert('Something Wrong!');
+            }
+    
+            if (response.v2.meta.totalCount === 0) {
+                return alert('totalCount' + response.v2.meta.totalCount);
+            }
+    
+            var htmlAddresses = [],
+                item = response.v2.addresses[0],
+                point = new naver.maps.Point(item.x, item.y);
+    
+            if (item.roadAddress) {
+                htmlAddresses.push('[도로명 주소] ' + item.roadAddress);
+            }
+    
+            if (item.jibunAddress) {
+                htmlAddresses.push('[지번 주소] ' + item.jibunAddress);
+            }
+    
+            if (item.englishAddress) {
+                htmlAddresses.push('[영문명 주소] ' + item.englishAddress);
+            }
+    
+            infoWindow.setContent([
+                '<div style="padding:10px;min-width:200px;line-height:150%;">',
+                '<h4 style="margin-top:5px;">검색 주소 : '+ address +'</h4><br />',
+                htmlAddresses.join('<br />'),
+                '</div>'
+            ].join('\n'));
+    
+            map.setCenter(point);
+            infoWindow.open(map, point);
+        });
+    }
+    
+    function initGeocoder() {
+        map.addListener('click', function(e) {
+            searchCoordinateToAddress(e.coord);
         });
     
-    });
-    </script>
-
-
-
-<script id="code">
-    var map = new naver.maps.Map('map', {
-    zoom: 18,
-    minZoom: 9,
-    zoomControl: true,
-    zoomControlOptions: {
-        position: naver.maps.Position.TOP_RIGHT
-    },
-    mapDataControl: true,
-    logoControlOptions: {
-        position: naver.maps.Position.LEFT_BOTTOM
-    },
-    disableKineticPan: false
-    });
-
-
-    map.setOptions("mapTypeControl", true);
-
+        $('#address').on('keydown', function(e) {
+            var keyCode = e.which;
     
-    var infowindow = new naver.maps.InfoWindow(); //info 객체
+            if (keyCode === 13) { // Enter Key
+                searchAddressToCoordinate($('#address').val());
+            }
+        });
     
-    //현재위치를 가져오는 함수
-    function onSuccessGeolocation(position) {
-        var location = new naver.maps.LatLng(position.coords.latitude,
-                                             position.coords.longitude);
+        $('#submit').on('click', function(e) {
+            e.preventDefault();
     
-        map.setCenter(location); // 얻은 좌표를 지도의 중심으로 설정합니다.
-        map.setZoom(11); // 지도의 줌 레벨을 변경합니다.
+            searchAddressToCoordinate($('#address').val());
+        });
     
-        //이미지로 마커 변경해야함
-        infowindow.setContent('<div style="padding:20px;">' + 'geolocation.getCurrentPosition() 위치' + '</div>');
-    
-        infowindow.open(map, location);
-        // console.log('Coordinates: ' + location.toString());
+        searchAddressToCoordinate('정자동 178-1');
     }
     
-
-    //현재위치를 가져오지 못했을 경우 
-    function onErrorGeolocation() {
-        var center = map.getCenter();
-    
-        infowindow.setContent('<div style="padding:20px;">' +
-            '<h5 style="margin-bottom:5px;color:#f00;">Geolocation failed!</h5>'+ "latitude: "+ center.lat() +"<br />longitude: "+ center.lng() +'</div>');
-    
-        infowindow.open(map, center);
-    }
-    
-    $(window).on("load", function() {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(onSuccessGeolocation, onErrorGeolocation);
-        } else {
-            var center = map.getCenter();
-            infowindow.setContent('<div style="padding:20px;"><h5 style="margin-bottom:5px;color:#f00;">Geolocation not supported</h5></div>');
-            infowindow.open(map, center);
+    function makeAddress(item) {
+        if (!item) {
+            return;
         }
-    });
-    </script>
-
-
-<!-- 데이터 뿌리는 함수 -->
-<script id="code">
-    var HOME_PATH = window.HOME_PATH || '.';
-
-    var hiddenData = document.getElementById("hiddenData").value;
-
-    console.log(hiddenData)
-
-    var jsonArray = JSON.parse(hiddenData);
-
-    // 파싱된 객체를 순회하면서 데이터를 추출
     
-
-
-    var bounds = map.getBounds(),
-    southWest = bounds.getSW(),
-    northEast = bounds.getNE(),
-    lngSpan = northEast.lng() - southWest.lng(),
-    latSpan = northEast.lat() - southWest.lat();
-
-        
-    //마커 및 인포 담을 배열 변수
-    var markers = [],
-    infoWindows = [];
-
-
-    var position = new naver.maps.LatLng(
-            southWest.lat() + latSpan,
-            southWest.lng() + lngSpan
-        );
-
-    for (let i = 0; i < jsonArray.length; i++) {
-        var data = jsonArray[i];
-        var lat = data.lat;
-        var lng = data.lng;
-        var id = data.id;
-
-        // 데이터 사용 예시:
-        console.log("lat:", lat);
-        console.log("lng:", lng);
-        console.log("id:", id);
-
-
-        var marker = new naver.maps.Marker({
-            map: map,
-            position: position,
-            title: jsonArray,
-            icon: {
-                url: HOME_PATH +'',
-                size: new naver.maps.Size(24, 37),
-                anchor: new naver.maps.Point(12, 37),
-                origin: new naver.maps.Point(lat, lng)
-            },
-            zIndex: 100
-        });
-
-        var infoWindow = new naver.maps.InfoWindow({
-            content: '<div style="width:150px;text-align:center;padding:10px;">좌표 <b>"'+ 'lat : ' + lat + ' lng : ' + lng +'"</b>.</div>'
-        });
+        var name = item.name,
+            region = item.region,
+            land = item.land,
+            isRoadAddress = name === 'roadaddr';
     
-        markers.push(marker);
-        infoWindows.push(infoWindow);
-
-
-    }
-
-
-
-    //마커 감시
-    naver.maps.Event.addListener(map, 'idle', function() {
-        updateMarkers(map, markers);
-    });
+        var sido = '', sigugun = '', dongmyun = '', ri = '', rest = '';
     
-    //마커 새로고침 업데이트
-    function updateMarkers(map, markers) {
+        if (hasArea(region.area1)) {
+            sido = region.area1.name;
+        }
     
-        var mapBounds = map.getBounds();
-        var marker, position;
+        if (hasArea(region.area2)) {
+            sigugun = region.area2.name;
+        }
     
-        for (var i = 0; i < markers.length; i++) {
+        if (hasArea(region.area3)) {
+            dongmyun = region.area3.name;
+        }
     
-            marker = markers[i]
-            position = marker.getPosition();
+        if (hasArea(region.area4)) {
+            ri = region.area4.name;
+        }
     
-            if (mapBounds.hasLatLng(position)) {
-                showMarker(map, marker);
-            } else {
-                hideMarker(map, marker);
+        if (land) {
+            if (hasData(land.number1)) {
+                if (hasData(land.type) && land.type === '2') {
+                    rest += '산';
+                }
+    
+                rest += land.number1;
+    
+                if (hasData(land.number2)) {
+                    rest += ('-' + land.number2);
+                }
+            }
+    
+            if (isRoadAddress === true) {
+                if (checkLastString(dongmyun, '면')) {
+                    ri = land.name;
+                } else {
+                    dongmyun = land.name;
+                    ri = '';
+                }
+    
+                if (hasAddition(land.addition0)) {
+                    rest += ' ' + land.addition0.value;
+                }
             }
         }
-    }
-
-    //마커 보여주기
-    function showMarker(map, marker) {
     
-        if (marker.setMap()) return;
-        marker.setMap(map);
+        return [sido, sigugun, dongmyun, ri, rest].join(' ');
     }
     
-    //마커 숨기기
-    function hideMarker(map, marker) {
-    
-        if (!marker.setMap()) return;
-        marker.setMap(null);
+    function hasArea(area) {
+        return !!(area && area.name && area.name !== '');
     }
     
-    // 해당 마커의 인덱스를 seq라는 클로저 변수로 저장하는 이벤트 핸들러를 반환합니다.
-    function getClickHandler(seq) {
-        return function(e) {
-            var marker = markers[seq],
-                infoWindow = infoWindows[seq];
-    
-            if (infoWindow.getMap()) {
-                infoWindow.close();
-            } else {
-                infoWindow.open(map, marker);
-            }
-        }
+    function hasData(data) {
+        return !!(data && data !== '');
     }
     
-    for (var i=0, ii=markers.length; i<ii; i++) {
-        naver.maps.Event.addListener(markers[i], 'click', getClickHandler(i));
+    function checkLastString (word, lastString) {
+        return new RegExp(lastString + '$').test(word);
     }
+    
+    function hasAddition (addition) {
+        return !!(addition && addition.value);
+    }
+    
+    naver.maps.onJSContentLoaded = initGeocoder;
     </script>
     
-
 
 </body>
 </html>
