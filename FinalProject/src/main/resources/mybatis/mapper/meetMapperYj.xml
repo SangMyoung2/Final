@@ -18,8 +18,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     order by meetReviewNum desc
 </select>
 
-<select id="getMeetMembers" parameterType="int">
-    select email,meetMemStatus from meetInfo where meetListNum = #{meetListNum} and meetMemStatus = 2 order by email desc
+<select id="getMeetMembers" parameterType="int" resultType="String">
+    select email from meetInfo where meetListNum = #{meetListNum} and meetMemStatus = 2 order by email asc
 </select>
 
 <select id="getReviewNum" parameterType="int" resultType="int">
@@ -33,10 +33,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     values (#{meetListNum}, #{meetReviewNum}, #{email}, #{meetReviewContent}, TO_DATE(#{meetReviewDate}, 'YYYY-MM-DD HH24:MI:SS'), #{meetReviewImg})
 </insert>
 
-<insert id="insertMeetJoin" parameterType="com.spring.boot.dto.MeetDTOYj">
+<insert id="insertMeetJoinOk" parameterType="com.spring.boot.dto.MeetDTOYj">
     insert into meetInfo (meetListNum, email, meetMemStatus)
     values (#{meetListNum}, #{email}, 0);
 </insert>
+
+<update id="updateMeetBlack" parameterType="com.spring.boot.dto.MeetDTOYj">
+    update meetInfo set meetMemStatus = #{meetMemStatus}
+    where meetListNum = #{meetListNum} and email = #{email};
+</update>
 
 <update id="addToBlacklist" parameterType="com.spring.boot.dto.MeetDTOYj">
     update meetInfo set meetMemStatus = 3
@@ -48,7 +53,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     where meetListNum = #{meetListNum} and email = #{email};
 </update>
 
-<select id="getMeetBlack" parameterType="int">
+<select id="getMeetBlack" parameterType="int" resultType="String">
     select email from meetInfo where meetListNum = #{meetListNum} and meetMemStatus = 3 order by email desc
 </select>
 

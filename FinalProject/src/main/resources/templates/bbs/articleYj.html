@@ -13,7 +13,7 @@
 
 <link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/index.css}"/>
 <link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/bbsYj/articleYj.css}"/>
-<link rel="icon" type="image/png" th:href="@{http://localhost:8080/image/Icon2-removebg.png}"/>
+<link rel="icon" type="image/png" th:href="@{http://localhost:8080/image/로고.png}"/>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"/>
 <link rel="stylesheet" href="https://kit.fontawesome.com/1f0cefbb8e.css" crossorigin="anonymous">
 <script src="https://kit.fontawesome.com/1f0cefbb8e.js" crossorigin="anonymous"></script>
@@ -66,11 +66,23 @@
 
     document.addEventListener('DOMContentLoaded', function() {
 
-        var joinButton = document.querySelector('.join-button');
+        // var joinButton = document.querySelector('.join-button');
         
-            joinButton.addEventListener('click', function() {
-            alert('가입이 완료되었습니다.');
-            });
+        //     joinButton.addEventListener('click', function() {
+        //     alert('가입 신청이 완료되었습니다.');
+        //     });
+
+
+
+        // var joinForm = document.getElementById('joinForm');
+        // var meetListNumInput = document.getElementById(meetListNum);
+        // var joinButton = document.getElementById('joinButton');
+        
+        // joinButton.addEventListener('click', function(event) {
+        //     event.preventDefault(); // 기본 이벤트 동작 방지 (페이지 새로고침 방지)
+
+        //     joinForm.submit(); // 폼을 서버로 제출
+        // });
 
         var reviewForm = document.querySelector('.review-form');
         var reviewWriteButton = document.querySelector('.review-write');
@@ -195,10 +207,10 @@ function openModal(imgElement) {
             <div class="col-8 mx-2 fixed-width-col" th:each="meetListInfo : ${meetListInfo}">
     
                 <div class="yj-img">
-                    <img th:src="@{${'/image/bbsYj/' + meetListInfo.meetImage}}" alt="n번방의 대표사진">
+                    <img th:src="@{${'/image/gatchiImage/' + meetListInfo.meetImage}}" alt="n번방의 대표사진">
                     <div class="Main_content" >
                         <div class="round-image">
-                            <img th:src="@{/image/bbsYj/1111.jpg}" alt="방장프사(임의)"/>
+                            <img th:src="@{/image/gatchiImage/1111.jpg}" alt="방장프사(임의)"/>
                         </div>
                         <p class="Yj-master">김명란</p>
                         <p class="Yj-title" th:text="${meetListInfo.meetTitle}"></p>
@@ -216,30 +228,33 @@ function openModal(imgElement) {
                             <p class="Yj-text3" th:text="${meetListInfo.meetMaxMemCnt}"></p>
                         </div>
                         <button class="join-button">
-                            <span class="icon">📝</span> 가입하기
+                            <span class="icon" id="joinButton">📝</span> 가입하기
                         </button>
-
+                        <!-- <form id="joinForm" method="post" action="/join-meet">
+                            <input type="hidden" name="meetListNum" id="meetListNum">
+                            <button class="join-button" type="submit" id="joinButton">
+                                <span class="icon" id="joinButton">📝</span>가입하기
+                            </button>
+                        </form> -->
+                        
                     </div>
                 </div>
             </div>
             <div class="col-md-2">
                 <div class="meet-members">
-                    <p>
-                        <span style="margin-right: 60px;">멤버목록</span>
+                    <p style=" text-align: center;">
+                        <span style="margin-right: 30px;">멤버목록</span>
                         <a th:href="@{'/managerYj.action?meetListNum=' + ${meetListInfo.meetListNum}}" style="text-decoration: none;">
                             <span style="color: #adadad;">관리</span>
                             <i class="fa-solid fa-gear fa-sm" style="color: #adadad; vertical-align: 0px;"></i>
                         </a>
                     </p>
-                    <ul style="display: flex; list-style-type: none; align-items: center;">
+                    <div class="meet-mem-list" th:each="meetMember : ${meetMembers}">
                         <li class="round-image-rev mt-2" style="margin-right: 10px; margin-left: -10px;">
-                            <img th:src="@{/image/bbsYj/1111.jpg}" alt="유저프사(임의)"/>
+                            <img th:src="@{/image/gatchiImage/1111.jpg}" alt="유저프사(임의)"/>
                         </li>
-                        <th:block th:each="meetMember : ${meetMembers}">
                             <li class="custom-li" th:text="${meetMember}"></li>
-                        </th:block>
-                    </ul>
-                    
+                    </div>
                 </div>
             </div>
         </div>
@@ -266,11 +281,11 @@ function openModal(imgElement) {
                 <div class="card-body">
                     <div class="d-flex flex-column mb-2">
                         <div class="round-image-rev mt-2">
-                            <img th:src="@{/image/bbsYj/1111.jpg}" alt="유저프사(임의)"/>
+                            <img th:src="@{/image/gatchiImage/1111.jpg}" alt="유저프사(임의)"/>
                         </div>
                         <p class="memid" th:text="${meetReview.email}"></p>
                         <div class="col-md-4 mx-auto" style="width: 300px; height: 300px; overflow: hidden; border-radius: 5px; margin-bottom: 10px; margin-top: 10px;">
-                            <img th:src="@{${'/image/bbsYj/' + meetReview.meetReviewImg}}" class="img-fluid rounded-start" alt="리뷰사진" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;" onclick="openModal(this);">
+                            <img th:src="@{${'/image/reviewImage/' + meetReview.meetReviewImg}}" class="img-fluid rounded-start" alt="리뷰사진" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;" onclick="openModal(this);">
                         </div>
                     </div>
                     <p class="card-text" th:text="${meetReview.meetReviewContent}" style="padding-left: 10px; padding-right: 10px; text-align: justify; font-size: 18px; margin-bottom: 5px;"></p>

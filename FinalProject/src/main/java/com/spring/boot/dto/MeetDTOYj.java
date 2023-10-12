@@ -26,7 +26,7 @@ public class MeetDTOYj {
     private String meetPlace; //모임장소
 
     private String email; //회원 이메일
-    private int meetMemStatus; //1방장 2회원 3블랙
+    private int meetMemStatus; //0승인대기중 1방장 2회원 3블랙
 
     private int meetReviewNum; //리뷰 넘
     private String meetReviewContent; //리뷰 내용

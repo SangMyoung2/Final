@@ -21,12 +21,15 @@ public interface MeetMapperYj {
 
     public int getReviewNum(int meetListNum) throws Exception;
     
-    public void insertMeetJoin(MeetDTOYj dto) throws Exception;
+    public void insertMeetJoinOk(MeetDTOYj dto) throws Exception;
 
     public List<String> getMeetBlack(int meetListNum) throws Exception;
 
     public void addToBlacklist(MeetDTOYj dto) throws Exception;
 
     public void releaseFromBlacklist(MeetDTOYj dto) throws Exception;
+
+    public void updateMeetBlack(MeetDTOYj dto) throws Exception;
+
 
 }

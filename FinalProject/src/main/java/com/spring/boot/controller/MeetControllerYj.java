@@ -60,7 +60,7 @@ public class MeetControllerYj {
             @RequestParam("meetReviewContent") String meetReviewContent,
             @RequestParam("meetReviewImg") MultipartFile meetReviewImg) throws Exception {
         
-        String uploadDir = "C:\\VSCode\\Final\\FinalProject\\src\\main\\resources\\static\\image\\bbsYj";
+        String uploadDir = "C:\\VSCode\\Final\\FinalProject\\src\\main\\resources\\static\\image\\reviewImage";
 
         MeetDTOYj dto = new MeetDTOYj();
 
@@ -91,24 +91,23 @@ public class MeetControllerYj {
 
 		int meetListNum = Integer.parseInt(request.getParameter("meetListNum"));
 
-		MeetDTOYj meetListInfo = meetServiceYj.getMeetListInfo(meetListNum);
 		List<String> meetMembers = meetServiceYj.getMeetMembers(meetListNum);
 		List<String> meetBlack = meetServiceYj.getMeetBlack(meetListNum);
 
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("meetListInfo", meetListInfo);
 		mav.addObject("meetMembers", meetMembers);
 		mav.addObject("meetBlack", meetBlack);
 		mav.setViewName("bbs/managerYj");
-
+		
 		return mav;
 		
 	}
 
 	// 방 가입
 	@PostMapping("/join-meet")
-	public ModelAndView  joinMeet(@RequestParam("meetListNum") int meetListNum, HttpServletRequest request) throws Exception {
+	public ModelAndView  joinMeet(HttpServletRequest request) throws Exception {
 
+		int meetListNum = Integer.parseInt(request.getParameter("meetListNum"));
 		ModelAndView mav = new ModelAndView();
 
 		//String email = (String) request.getSession().getAttribute("email"); //세션
@@ -118,46 +117,46 @@ public class MeetControllerYj {
 		dto.setEmail("kim"); // TODO : 세션에서 email 가져와야됨
 		dto.setMeetMemStatus(2); //회원
 	
-		meetServiceYj.insertMeetJoin(dto);
+		meetServiceYj.insertMeetJoinOk(dto);
 	
-		mav.addObject("message", "가입이 완료되었습니다.");
-		mav.setViewName("joinSuccessPage"); // 가입 완료 페이지 뷰로 이동
+		mav.addObject("message", "가입 신청이 완료되었습니다.");
+		// mav.setViewName("joinSuccessPage"); // 가입 완료 페이지 뷰로 이동
 
 		return new ModelAndView("redirect:/articleYj.action?meetListNum=" + meetListNum);
 	}
 
-	// // 블랙리스트에 추가 또는 해제
-    // @PostMapping("/update-meet-blacklist")
-    // public ModelAndView updateMeetBlacklist(
-    //         @RequestParam("meetListNum") int meetListNum,
-    //         @RequestParam("email") String email,
-    //         @RequestParam("action") String action) throws Exception {
+	// 블랙리스트에 추가 또는 해제
+	@PostMapping("/update-meet-blacklist")
+	public ModelAndView updateMeetBlacklist(
+			@RequestParam("meetListNum") int meetListNum,
+			@RequestParam("email") String email,
+			@RequestParam("action") String action) throws Exception {
 
-    //     if ("add".equals(action)) {
-    //         meetServiceYj.addToBlacklist(meetListNum, email);
-    //     } else if ("release".equals(action)) {
-    //         meetServiceYj.releaseFromBlacklist(meetListNum, email);
-    //     }
+		if ("add".equals(action)) {
+			meetServiceYj.addToBlacklist(meetListNum, email);
+		} else if ("release".equals(action)) {
+			meetServiceYj.releaseFromBlacklist(meetListNum, email);
+		}
 
-    //     return new ModelAndView("redirect:/managerYj.action?meetListNum=" + meetListNum);
-    // }
+		return new ModelAndView("redirect:/managerYj.action?meetListNum=" + meetListNum);
+	}
 		
-	// 블랙리스트에 추가
-	@PostMapping("/add-to-blacklist")
-	public ModelAndView addToBlacklist(@RequestParam("meetListNum") int meetListNum, @RequestParam("email") String email) throws Exception {
+	// // 블랙리스트에 추가
+	// @PostMapping("/add-to-blacklist")
+	// public ModelAndView addToBlacklist(@RequestParam("meetListNum") int meetListNum, @RequestParam("email") String email) throws Exception {
 
-		meetServiceYj.addToBlacklist(meetListNum, email);
+	// 	meetServiceYj.addToBlacklist(meetListNum, email);
 
-		return new ModelAndView("redirect:/managerYj.action?meetListNum=" + meetListNum);
-	}
+	// 	return new ModelAndView("redirect:/managerYj.action?meetListNum=" + meetListNum);
+	// }
 
-	// 블랙리스트 해제
-	@PostMapping("/release-from-blacklist")
-	public ModelAndView releaseFromBlacklist(@RequestParam("meetListNum") int meetListNum, @RequestParam("email") String email) throws Exception {
+	// // 블랙리스트 해제
+	// @PostMapping("/release-from-blacklist")
+	// public ModelAndView releaseFromBlacklist(@RequestParam("meetListNum") int meetListNum, @RequestParam("email") String email) throws Exception {
 
-		meetServiceYj.releaseFromBlacklist(meetListNum, email);
+	// 	meetServiceYj.releaseFromBlacklist(meetListNum, email);
 
-		return new ModelAndView("redirect:/managerYj.action?meetListNum=" + meetListNum);
-	}
+	// 	return new ModelAndView("redirect:/managerYj.action?meetListNum=" + meetListNum);
+	// }
 
 }

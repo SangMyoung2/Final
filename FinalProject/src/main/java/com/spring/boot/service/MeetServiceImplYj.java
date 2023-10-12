@@ -46,8 +46,8 @@ public class MeetServiceImplYj implements MeetServiceYj {
     }
     
     @Override
-    public void insertMeetJoin(MeetDTOYj dto) throws Exception {
-        meetMapperYj.insertMeetJoin(dto);
+    public void insertMeetJoinOk(MeetDTOYj dto) throws Exception {
+        meetMapperYj.insertMeetJoinOk(dto);
     }
 
     @Override
@@ -56,21 +56,28 @@ public class MeetServiceImplYj implements MeetServiceYj {
     }
 
     @Override
+    public void updateMeetBlack(MeetDTOYj dto) throws Exception {
+        meetMapperYj.updateMeetBlack(dto);
+    }
+
+    @Override
     public void addToBlacklist(int meetListNum, String email) throws Exception {
-        // 블랙리스트 추가 작업
         MeetDTOYj dto = new MeetDTOYj();
         dto.setMeetListNum(meetListNum);
         dto.setEmail(email);
-        meetMapperYj.addToBlacklist(dto);
+        dto.setMeetMemStatus(3); // 블랙리스트 상태로 설정
+
+        meetMapperYj.updateMeetBlack(dto);
     }
 
     @Override
     public void releaseFromBlacklist(int meetListNum, String email) throws Exception {
-        // 블랙리스트 해제 작업
         MeetDTOYj dto = new MeetDTOYj();
         dto.setMeetListNum(meetListNum);
         dto.setEmail(email);
-        meetMapperYj.releaseFromBlacklist(dto);
+        dto.setMeetMemStatus(2); // 회원 상태로 설정
+
+        meetMapperYj.updateMeetBlack(dto);
     }
 
 }
