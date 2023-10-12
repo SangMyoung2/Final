@@ -4,17 +4,22 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.spring.boot.dto.MeetCategoryDTO;
+import com.spring.boot.dto.GatchiDTO;
 import com.spring.boot.dto.MapDTO;
-import com.spring.boot.dto.TestBoardDTO;
+
 
 @Mapper
 public interface MapMapper {
 
     public List<MapDTO> getLists() throws Exception;
 
-    public TestBoardDTO getOneData(int listNum) throws Exception;
+    public GatchiDTO getOneData(int meetListNum) throws Exception;
 
-    public List<TestBoardDTO> getData() throws Exception;
+    public List<GatchiDTO> getData() throws Exception;
 
-    public List<TestBoardDTO> getTitleData(String title) throws Exception;
+    public List<GatchiDTO> getTitleData(String meetTitle) throws Exception;
+
+    public MeetCategoryDTO getCategory(int meetCtgNum) throws Exception;
+
 }

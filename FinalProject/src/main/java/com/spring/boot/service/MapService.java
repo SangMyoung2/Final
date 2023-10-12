@@ -2,16 +2,20 @@ package com.spring.boot.service;
 
 import java.util.List;
 
+import com.spring.boot.dto.MeetCategoryDTO;
+import com.spring.boot.dto.GatchiDTO;
 import com.spring.boot.dto.MapDTO;
-import com.spring.boot.dto.TestBoardDTO;
+
 
 public interface MapService {
     
     public List<MapDTO> getLists() throws Exception;
 
-    public TestBoardDTO getOneData(int listNum) throws Exception;
+    public GatchiDTO getOneData(int meetListNum) throws Exception;
 
-    public List<TestBoardDTO> getData() throws Exception;
+    public List<GatchiDTO> getData() throws Exception;
     
-    public List<TestBoardDTO> getTitleData(String title) throws Exception;
+    public List<GatchiDTO> getTitleData(String meetTitle) throws Exception;
+
+    public MeetCategoryDTO getCategory(int meetCtgNum) throws Exception;
 }

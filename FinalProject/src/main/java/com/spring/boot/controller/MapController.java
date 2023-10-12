@@ -10,8 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
+import com.spring.boot.dto.MeetCategoryDTO;
+import com.spring.boot.dto.GatchiDTO;
 import com.spring.boot.dto.MapDTO;
-import com.spring.boot.dto.TestBoardDTO;
 import com.spring.boot.service.MapService;
 
 @RestController
@@ -40,10 +41,10 @@ public class MapController {
     }
 
     @RequestMapping("/getDataFromDB")
-    public TestBoardDTO getDataFromDB(@RequestParam("listNum") int listNum) throws Exception {
+    public GatchiDTO getDataFromDB(@RequestParam("meetListNum") int meetListNum) throws Exception {
 
         
-        TestBoardDTO data = mapService.getOneData(listNum);
+        GatchiDTO data = mapService.getOneData(meetListNum);
         
         // System.out.println(listNum);
         // System.out.println(data);
@@ -51,12 +52,25 @@ public class MapController {
         return data;
     }
 
+    
+    @RequestMapping("/getDataFromDB1")
+    public GatchiDTO getDataFromDB1(@RequestParam("meetListNum") int meetListNum) throws Exception {
+
+        
+        GatchiDTO data1 = mapService.getOneData(meetListNum);
+        
+        // System.out.println(listNum);
+        // System.out.println(data);
+
+        return data1;
+    }
+
 
 
     @RequestMapping("/getSearchDataFromDB")
     public String getSearchDataFromDB() throws Exception {
 
-        List<TestBoardDTO> lists = mapService.getData();
+        List<GatchiDTO> lists = mapService.getData();
         
         Gson gson = new Gson();
         String searchData = gson.toJson(lists);
@@ -67,9 +81,9 @@ public class MapController {
     }
 
     @RequestMapping("/getSearchTitleDataFromDB")
-    public String getSearchTitleDataFromDB(@RequestParam("title") String title) throws Exception {
+    public String getSearchTitleDataFromDB(@RequestParam("meetTitle") String meetTitle) throws Exception {
 
-        List<TestBoardDTO> lists = mapService.getTitleData(title);
+        List<GatchiDTO> lists = mapService.getTitleData(meetTitle);
         
         Gson gson = new Gson();
         String searchTitleData = gson.toJson(lists);
@@ -77,6 +91,15 @@ public class MapController {
         // System.out.println(searchTitleData);
 
         return searchTitleData;
+    }
+
+    @RequestMapping("/getCategoryFromDB")
+    public MeetCategoryDTO getCategoryFromDB(@RequestParam("meetCtgNum") int meetCtgNum) throws Exception {
+
+        MeetCategoryDTO data = mapService.getCategory(meetCtgNum);
+        System.out.println(meetCtgNum);
+        System.out.println(data.getMeetCtgName());
+        return data;
     }
 
 }

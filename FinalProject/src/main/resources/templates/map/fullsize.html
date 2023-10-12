@@ -5,6 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>GATCHI MAP</title>
+    <link rel="icon" type="image/png" th:href="@{http://localhost:8080/image/로고.png}"/>
+
     <script th:src="@{http://localhost:8080/js/map/jquery-1.9.1.js}"></script>
     <script type="text/javascript" th:src="@{http://localhost:8080/js/map/examples-base.js}"></script>
     <script type="text/javascript" th:src="@{http://localhost:8080/js/map/highlight.min.js}"></script>
@@ -14,10 +16,12 @@
     <!-- <link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/map/examples-base.css}" /> -->
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css">
-
+    <script src="https://kit.fontawesome.com/171f74c68f.js" crossorigin="anonymous"></script>
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+    
     
    
 <!-- @category Map -->
@@ -33,6 +37,8 @@
 #sidebarSearch {
     /* 숨겨놓기 */
     display: none;
+    padding-left: 15px;
+    padding-right: 15px;
 }
 </style>
 
@@ -823,10 +829,13 @@ a {
   background-color: #6c757d;
 }
 .badge.primary {
-  background-color: rgba(255, 62, 62, 0.836);
+  background-color: #807373;
 }
-.badge.secondary {
-  background-color: #fec364;
+.badge.meetMate {
+  background-color: #1d65b2;
+}
+.badge.communiFind {
+  background-color: #00824a;
 }
 
 .sidebar-toggler {
@@ -841,13 +850,10 @@ a {
 }
 #searchList {
     position: absolute;
-    top: 100%; /* input 아래에 위치하도록 설정, 이 값은 조정 가능 */
-    left: 0;
-    z-index: 9999; /* 다른 요소 위에 띄우려면 z-index 값을 설정하세요 */
-    /* 다른 스타일을 추가하세요 */
-    border: 1px #ffffff00 solid;
+    top: 150%; 
+    left: -100px;
+    z-index: 9999; 
     width: 250px;
-
 }
 </style>
 
@@ -900,21 +906,21 @@ a {
     align-self: end;
 }
 .btn1 {
-  color: #ffffff;
+  color: #a9a9a9;
   padding: 0.8rem;
-  font-size: 14px;
+  font-size: 17px;
   text-transform: uppercase;
-  border-radius: 4px;
+  border-radius: 5px;
   font-weight: 400;
   display: block;
   width: 100%;
   cursor: pointer;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(235, 235, 235, 0.718);
   background: transparent;
 }
 
 .btn1:hover {
-  background-color: rgba(255, 255, 255, 0.12);
+  background-color: rgb(241, 241, 241);
 }
 
 .cards {
@@ -933,8 +939,8 @@ a {
 }
 
 .card {
-  background-color: white;
-  border-radius: 1.55rem;
+  background-color: rgb(255, 255, 255);
+  border-radius: 0.5rem;
   box-shadow: 0 20px 40px -14px rgba(0, 0, 0, 0.25);
   display: flex;
   flex-direction: column;
@@ -942,17 +948,17 @@ a {
 }
 
 .card_image {
-  height: 140px;
+  height: 150px;
 }
 
 .card_content {
-    height: 100%;
+  
   padding: 1.1rem;
-  background: linear-gradient(to bottom left, #6fcada 40%, #a3e7f3 100%);
+  background: linear-gradient(to bottom left, #ffffff 40%, #ffffff 100%);
 }
 
 .card_title {
-  color: #ffffff;
+  color: #000000;
   font-size: 1.1rem;
   font-weight: 700;
   letter-spacing: 1px;
@@ -961,12 +967,51 @@ a {
 }
 
 .card_text {
-  color: #ffffff;
+  color: #ababab;
   font-size: 0.875rem;
   line-height: 1.5;
   margin-bottom: 0.9rem;
   margin-top: 0.4rem;    
   font-weight: 400;
+  width: 350px;
+  text-overflow: ellipsis;
+  height: 72px;
+  overflow: hidden;
+  white-space: normal;
+}
+.sideMeetImage {
+  height: 300px; /* 이미지의 높이를 150px로 고정, 필요에 따라 조절 */
+  object-fit: cover; /* 이미지가 요소에 맞게 크기 조절 */
+}
+</style>
+
+<style>
+#recommend {
+	background: whitesmoke;
+	padding: 0 10px;
+}
+
+.item1 {
+	height: 70px;
+	width: 405px;
+	outline: none;
+  background-color: rgb(250, 250, 250);
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  margin: auto;
+  padding-top: 20px;
+  padding-left: 20px;
+  padding-bottom: 20px;
+  padding-right: 20px;
+
+
+}
+
+.item1:hover:hover {
+  background-color: #5CA8B5;
+  color: rgb(255, 255, 255);
+  cursor: pointer;
 }
 
 </style>
@@ -981,8 +1026,7 @@ a {
 <div id="map" style="width:100%;height:100%;">
     
     <input type="hidden" id="hiddenData" th:value="${jsonArray}"/>
-    <input type="hidden" id="hiddenData1" th:value="${searchData}"/>
-
+    
     <div class="layout has-sidebar fixed-sidebar fixed-header">
         <aside id="sidebar" class="sidebar break-point-sm has-bg-image">
 
@@ -993,30 +1037,47 @@ a {
           <div class="sidebar-layout">
             <div class="sidebar-header" style="background-color: #e2f1f3;">
               
-                <div class="pro-sidebar-logo">
-                    <div>GATCHI</div>
-                </div>
+                <a href="/">
+                  <div class="pro-sidebar-logo">
+                      <div>GATCHI</div>
+                  </div>
+                </a>
 
-
-                <form role="search" class="searchCustom" onsubmit="searchItem2();">
+                <form role="search" class="searchCustom" id="searchForm">
 
                     <input id="search" type="search" placeholder="Search..." onfocus="showSearchList();" onblur="hideSearchList();" oninput="searchItem(this);">
                     
                     <button class="button1" type="submit">Go</button>
-                    <div id="searchList"></div>
-                </form><br/>
+                    <div id="recommend" class="">
+                      <div id="searchList"></div>
+                    </div>
+                  </form><br/>
 
             </div>
 
             <!-- 사이드바 초기 제일 가까운 한개 데이터 -->
             <div class="sidebarContent" id="sidebarContent">
                 <nav class="menu open-current-submenu">
-
                     <ul>
                         <li class="menu-image">
-                            <img src="/image/map/cluster-marker-1.png" class="d-block w-100" alt="...">
+                            <img id="meetImage" src="" class="d-block w-100 sideMeetImage" alt="...">
                             <hr/>
                         </li>
+
+                        
+                        <li class="menu-header">
+                            
+                          <span id="meetCheck"></span>
+                          <div class="badge primary"><span id="meetCtgName"></span></div>
+
+                          <span id="crown"></span>
+                          <span id="hot"></span>
+                          <span id="stars"></span>
+                          
+
+
+                        </li>
+
 
                         <li class="menu-item">
                             <a href="#">
@@ -1024,17 +1085,11 @@ a {
                                     <i class="ri-star-smile-line"></i>
                                 </span>
                                 <span class="menu-title">
-                                    <span id="title" style="font-weight: 600; font-size: 1.1em; letter-spacing: 2px;">Title</span>
+                                    <span id="meetTitle" style="font-weight: 600; font-size: 1.1em; letter-spacing: 2px;">Title</span>
                                 </span>
                             </a>
                         </li>
 
-                        <li class="menu-header">
-                            
-                            <div class="badge primary">ctgNum <span id="ctgNum"></span></div>
-                            <div class="badge secondary">like <span id=""></span></div>
-                            <div class="badge secondary">member <span id=""></span></div>
-                        </li>
                         
                         <li class="menu-image">
                             <hr/>
@@ -1046,7 +1101,7 @@ a {
                                     <i class="ri-map-pin-2-line"></i>
                                 </span>
                                 <span class="menu-title">장소
-                                    <span id="place"></span>
+                                    <span id="meetPlace"></span>
                                 </span>
                             </a>
                         </li>
@@ -1058,7 +1113,7 @@ a {
                                     <i class="ri-time-line"></i>
                                 </span>
                                 <span class="menu-title">약속시간
-                                    <span id="meetDate"></span>
+                                    <span id="meetDday"></span>
                                 </span>
                             </a>
                         </li>
@@ -1071,7 +1126,7 @@ a {
                                     <i class="ri-user-3-line"></i>
                                 </span>
                                 <span class="menu-title">멤버
-                                    <span id="memCnt"></span>
+                                    <span id="meetMemCnt"></span>
                                 </span>
                             </a>
                         </li>
@@ -1137,6 +1192,8 @@ var map = new naver.maps.Map('map', {
     mapTypeControl: true
 
 });
+
+
     //custom 버튼
     var searchBtnHtml = '<br/><div class="container"><div class="button-container"><div class="button -regular center" id="search-location">현재위치 검색</div></div></div>';
     
@@ -1166,7 +1223,7 @@ for (var key in jsonArray) {
     //넘어오는 데이터 확인
 
     console.log(key)
-    console.log('아이디'+jsonArray[key].id)
+    console.log('아이디'+jsonArray[key].meetListNum)
     console.log(jsonArray[key].lat)
     console.log(jsonArray[key].lng)
 
@@ -1178,44 +1235,31 @@ for (var key in jsonArray) {
     var marker = new naver.maps.Marker({
         map: map,
         position: position,
-        title: jsonArray[key].id,
+        title: jsonArray[key].meetListNum,
         icon: {
-            url: HOME_PATH +'',
-            
-            origin: new naver.maps.Point(jsonArray[key].lat, jsonArray[key].lng)
+            url: '/image/map/marker-default.png'
         },
         zIndex: 100
     });
 
-    $.ajax({
-        url: '/getDataFromDB', // 서버의 엔드포인트 URL
-        method: 'GET',
-        data: { listNum: jsonArray[key].id },
-        success: function(data1) {
-            
-        
-            $('.card_title').html(data1.title);
-   
-
-            },
-            error: function() {
-                alert('데이터를 불러오는 데 실패했습니다!!!!');
-            }
-        });
 
     var contentString = [
-    '<ul class="cards">',
-        '<li class="cards_item">',
-            '<div class="card">',
-            '<div class="card_image"><img class="img1" src="https://picsum.photos/500/300/?image=10"></div>',
-                '<div class="card_content">',
-                    '<h2 class="card_title" id="title1">title</h2>',
-                    '<p class="card_text" id="content1">Demo of pixel perfect pure CSS simple responsive card grid layoutDemo of pixel perfect pure CSS simple responsive card grid layout</p>',
-                    '<button class="btn1 card_btn">Read More</button>',
-                '</div>',
-            '</div>',
-        '</li>',
-    '</ul>'
+    `<ul class="cards">
+      <li class="cards_item">
+        <div class="card">
+          <div class="card_image"><img class="img1" id="meetImage1" src="" alt="..."></div>
+          <div class="card_content">
+            <h2 class="card_title" id="meetTitle1">title</h2>
+            <p class="card_text" id="meetContent1">content</p>
+              <div>
+                <a href="http://localhost:8080/articleYj.action?meetListNum=${jsonArray[key].meetListNum}">
+                  <button class="btn1 card_btn"><b>참 여 하 기</b>&nbsp;&nbsp;<i class="fa-solid fa-right-to-bracket" style="color: #c7c7c7;"></i></button>
+                </a>
+              </div>
+            </div>
+        </div>
+      </li>
+    </ul>`
     ].join('');
 
 
@@ -1226,12 +1270,16 @@ for (var key in jsonArray) {
         disableAnchor: true,
         backgroundColor: 'transparent',
 
-        pixelOffset: new naver.maps.Point(0, -28)
+        pixelOffset: new naver.maps.Point(0, -50)
     });
-
 
     markers.push(marker);
     infoWindows.push(infoWindow);
+
+    marker.addListener('mouseover', onMouseOver);
+    marker.addListener('mouseout', onMouseOut);
+
+
 };
 
 
@@ -1241,7 +1289,23 @@ naver.maps.Event.addListener(map, 'idle', function() {
     updateMarkers(map, markers);
 });
 
+function onMouseOver(e) {
+    var marker = e.overlay,
+        seq = marker.get('seq');
 
+    marker.setIcon({
+        url: '/image/map/marker-hover.png'
+    });
+}
+
+function onMouseOut(e) {
+    var marker = e.overlay,
+        seq = marker.get('seq');
+
+    marker.setIcon({
+      url: '/image/map/marker-default.png'
+    });
+}
 
 function updateMarkers(map, markers) {
     var mapBounds = map.getBounds();
@@ -1289,40 +1353,145 @@ function hideInfoWindow(map, infoWindow) {
 function getClickHandler(seq) {
     return function(e) {
       
+        document.getElementById("sidebarContent").style.display = "block";
+        document.getElementById("sidebarSearch").style.display = "none";
+
         var marker = markers[seq], infoWindow = infoWindows[seq];
-        alert(marker.getTitle());
+        // alert(marker.getTitle());
         
+        //마커의 아이디 가져오기
         var id = marker.getTitle();
+
+        //아이콘 초기화
+        var crown = $("#crown");
+        var hot = $("#hot");
+        var stars = $("#stars");
+        var meetCheck = $("#meetCheck");
+        var meetCtgName = $("#meetCtgName");
+        
+        crown.empty();
+        hot.empty();
+        stars.empty();
+        meetCheck.empty();
+        meetCtgName.empty();
 
         //서버에서 데이터 비동기방식으로 가져오기
         $.ajax({
         url: '/getDataFromDB', // 서버의 엔드포인트 URL
         method: 'GET',
-        data: { listNum: id },
+        data: { meetListNum: id },
         success: function(data) {
-            // 서버로부터 받은 데이터를 웹 페이지에 표시
-            // alert(data.listnum)
-            document.getElementById("sidebarContent").style.display = "block";
-            document.getElementById("sidebarSearch").style.display = "none"; 
-            $('#listNum').html(data.listNum);
-            $('#ctgNum').html(data.ctgNum);
-            $('#title').html(data.title);
-            $('#content').html(data.content);
-            $('#place').html(data.place);
-            $('#memCnt').html(data.memCnt);
-            $('#hitcount').html(data.hitcount);
-            $('#meetLike').html(data.meetLike);
-            $('#meetDate').html(data.meetDate);
-            $('#list_Image').html(data.list_Image);
-            if(SIDEBAR_EL.classList.contains("collapsed")){ //사이드바 실행되어있으면 실행하지 않음
-                SIDEBAR_EL.classList.toggle("collapsed");
+          // 서버로부터 받은 데이터를 웹 페이지에 표시
+          var CtgNum;
+          $('#meetListNum').html(data.meetListNum);
+
+          if(data.meetCheck===1){
+            $('#meetCheck').attr('class', 'badge meetMate');
+            $('#meetCheck').html('Meet');
+          }else if(data.meetCheck===2){
+            $('#meetCheck').attr('class', 'badge communiFind');
+            $('#meetCheck').html('Communi');
+          }
+          
+          $('#meetCtgNum').html(data.meetCtgNum);
+          if(data.meetCtgNum===1){
+            CtgNum = 1
+          }else if(data.meetCtgNum===2){
+            CtgNum = 2
+          }else if(data.meetCtgNum===3){
+            CtgNum = 3
+          }else if(data.meetCtgNum===4){
+            CtgNum = 4
+          }else if(data.meetCtgNum===5){
+            CtgNum = 5
+          }
+              $.ajax({
+                url: '/getCategoryFromDB', //주제가져오기
+                method: 'GET',
+                data: { meetCtgNum: CtgNum },
+                success: function(data) {              
+                  $('#meetCtgName').html(data.meetCtgName);
+                  },
+                  error: function() {
+                      alert('데이터를 불러오는 데 실패했습니다. 0번');
+                  }
+                });
+          $('#meetName').html(data.meetName);
+          $('#meetTitle').html(data.meetTitle);
+          $('#meetContent').html(data.meetContent);
+          $('#meetImage').attr('src', '/image/map/' + data.meetImage);
+          $('#meetDate').html(data.meetDate);
+          $('#meetDday').html(data.meetDday);
+          $('#meetMemCnt').html(data.meetMemCnt);
+          if(data.meetCheck==2){
+            if(data.meetMemCnt<=10){
+              //10명이하는 없음
+            }else if(data.meetMemCnt>=11 && data.meetMemCnt<=20){
+              crown.append('<i class="fa-solid fa-crown" style="color: #c4c4c4;"></i>');
+            }else {
+              crown.append('<i class="fa-solid fa-crown" style="color: #fbff00;"></i>');
             }
-            },
-            error: function() {
-                alert('데이터를 불러오는 데 실패했습니다.');
-            }
+          }
+          $('#meetMaxMemCnt').html(data.meetMaxMemCnt);
+          $('#meetHitCount').html(data.meetHitCount);
+          if(data.meetHitCount>=100){
+            hot.append('<i class="fa-solid fa-fire" style="color: #ff0000;"></i>');
+          }
+          $('#meetLike').html(data.meetLike);
+          if(data.meetLike<=100){
+            stars.append('<i class="fa-solid fa-star" style="color: #fff700;"></i>');
+          }else if(data.meetLike>=101 && data.meetLike<=200){
+            stars.append('<i class="fa-solid fa-star" style="color: #fff700;"></i>');
+            stars.append('<i class="fa-solid fa-star" style="color: #fff700;"></i>');
+          }else {
+            stars.append('<i class="fa-solid fa-star" style="color: #fff700;"></i>');
+            stars.append('<i class="fa-solid fa-star" style="color: #fff700;"></i>');
+            stars.append('<i class="fa-solid fa-star" style="color: #fff700;"></i>');
+          }
+          $('#meetHow').html(data.meetHow);
+          $('#meetEntryFee').html(data.meetEntryFee);
+          $('#meetMoney').html(data.meetMoney);
+          $('#meetPlace').html(data.meetPlace);
+
+          },
+          error: function() {
+              alert('데이터를 불러오는 데 실패했습니다. 1번');
+          }
+        });
+
+
+        $.ajax({
+        url: '/getDataFromDB1',
+        method: 'GET',
+        data: { meetListNum: id },
+        success: function(data1) {
+          $('#meetListNum1').html(data1.meetListNum);
+          $('#meetCheck1').html(data1.meetCheck);
+          $('#meetCtgNum1').html(data1.meetCtgNum);
+          $('#meetName1').html(data1.meetName);
+          $('#meetTitle1').html(data1.meetTitle);
+          $('#meetContent1').html(data1.meetContent);
+          $('#meetImage1').attr('src', '/image/map/' + data1.meetImage);
+          $('#meetDate1').html(data1.meetDate);
+          $('#meetDday1').html(data1.meetDday);
+          $('#meetMemCnt1').html(data1.meetMemCnt);
+          $('#meetMaxMemCnt1').html(data1.meetMaxMemCnt);
+          $('#meetHitCount1').html(data1.meetHitCount);
+          $('#meetLike1').html(data1.meetLike);
+          $('#meetHow1').html(data1.meetHow);
+          $('#meetEntryFee1').html(data1.meetEntryFee);
+          $('#meetMoney1').html(data1.meetMoney);
+          $('#meetPlace1').html(data1.meetPlace);
+
+          },
+          error: function() {
+              alert('데이터를 불러오는 데 실패했습니다!!!!');
+          }
         });
     
+        if(SIDEBAR_EL.classList.contains("collapsed")){ //사이드바 실행되어있으면 실행하지 않음
+              SIDEBAR_EL.classList.toggle("collapsed");
+          }
         if (infoWindow.getMap()) {
             infoWindow.close();
         } else {
@@ -1364,29 +1533,36 @@ function onSuccessGeolocation(position) {//현재위치 가져오기 성공
     ].join('');
 
 
-    infowindow.setContent('<img src="/image/map/LocationPin.gif"/>');
+    infowindow.setContent('<img src="/image/map/marker-nowLocation.png"/>');
     infowindow.open(map, location);
 
     //현재위치 가져오기 클릭했을때만
     $("#now-location").on("click", function(e) {
         infowindow.open(map, location); //현재위치 아이콘
         map.setCenter(location); //현재위치 중심으로
-
         for (var i = 0; i < markers.length; i++) {
             (function () { 
                 var marker = markers[i];
                 var infoWindow = infoWindows[i];
                 var position = marker.getPosition();
-
                 hideInfoWindow(map, infoWindow);       
                 showMarker(map, marker); 
-
-
-            
             })(); // 즉시 실행되는 함수
         }  
     });
-    
+            //아이콘 초기화
+        var crown = $("#crown");
+        var hot = $("#hot");
+        var stars = $("#stars");
+        var meetCheck = $("#meetCheck");
+        var meetCtgName = $("#meetCtgName");
+        
+        crown.empty();
+        hot.empty();
+        stars.empty();
+        meetCheck.empty();
+        meetCtgName.empty();
+
 
     for (var i = 0; i < markers.length; i++) {
         (function () { 
@@ -1403,47 +1579,111 @@ function onSuccessGeolocation(position) {//현재위치 가져오기 성공
 
                 for (var key in jsonArray) {
                     
+                  
                     //직선거리 비교하여 가장 가까운위치 찾기
                     var proj = map.getProjection()
                     var distance = proj.getDistance(
                         new naver.maps.LatLng(jsonArray[key].lat, jsonArray[key].lng),
                         new naver.maps.LatLng(lat, lng)
                     );
-
+                    
                     if(distance < nearLocation) {
                         nearLocation = distance;
-                        nearId = jsonArray[key].id;
+                        nearId = jsonArray[key].meetListNum;
                     }
 
                 }
 
-                $.ajax({
-                    url: '/getDataFromDB', // 서버의 엔드포인트 URL
-                    method: 'GET',
-                    data: { listNum: nearId },
-                    success: function(data) {
-                        // 서버로부터 받은 데이터를 웹 페이지에 표시
-                        // alert(data.listnum)
-                        document.getElementById("sidebarContent").style.display = "block";
-                        document.getElementById("sidebarSearch").style.display = "none"; 
-                        $('#listNum').html(data.listNum);
-                        $('#ctgNum').html(data.ctgNum);
-                        $('#title').html(data.title);
-                        $('#content').html(data.content);
-                        $('#place').html(data.place);
-                        $('#memCnt').html(data.memCnt);
-                        $('#hitcount').html(data.hitcount);
-                        $('#meetLike').html(data.meetLike);
-                        $('#meetDate').html(data.meetDate);
-                        $('#list_Image').html(data.list_Image);
-                        if(SIDEBAR_EL.classList.contains("collapsed")){ //사이드바 실행되어있으면 실행하지 않음
-                            SIDEBAR_EL.classList.toggle("collapsed");
-                        }
-                        },
-                        error: function() {
-                            alert('데이터를 불러오는 데 실패했습니다.');
-                        }
-                    });
+
+
+        //서버에서 데이터 비동기방식으로 가져오기
+        $.ajax({
+        url: '/getDataFromDB', // 서버의 엔드포인트 URL
+        method: 'GET',
+        data: { meetListNum: nearId },
+        success: function(data) {
+          // 서버로부터 받은 데이터를 웹 페이지에 표시
+          var CtgNum;
+          crown.empty();
+          hot.empty();
+          stars.empty();
+          meetCheck.empty();
+          meetCtgName.empty();
+          $('#meetListNum').html(data.meetListNum);
+
+          if(data.meetCheck===1){
+            $('#meetCheck').attr('class', 'badge meetMate');
+            $('#meetCheck').html('Meet');
+          }else if(data.meetCheck===2){
+            $('#meetCheck').attr('class', 'badge communiFind');
+            $('#meetCheck').html('Communi');
+          }
+          
+          $('#meetCtgNum').html(data.meetCtgNum);
+          if(data.meetCtgNum===1){
+            CtgNum = 1
+          }else if(data.meetCtgNum===2){
+            CtgNum = 2
+          }else if(data.meetCtgNum===3){
+            CtgNum = 3
+          }else if(data.meetCtgNum===4){
+            CtgNum = 4
+          }else if(data.meetCtgNum===5){
+            CtgNum = 5
+          }
+              $.ajax({
+                url: '/getCategoryFromDB', //주제가져오기
+                method: 'GET',
+                data: { meetCtgNum: CtgNum },
+                success: function(data) {              
+                  $('#meetCtgName').html(data.meetCtgName);
+                  },
+                  error: function() {
+                      alert('데이터를 불러오는 데 실패했습니다. 0번');
+                  }
+                });
+          $('#meetName').html(data.meetName);
+          $('#meetTitle').html(data.meetTitle);
+          $('#meetContent').html(data.meetContent);
+          $('#meetImage').attr('src', '/image/map/' + data.meetImage);
+          $('#meetDate').html(data.meetDate);
+          $('#meetDday').html(data.meetDday);
+          $('#meetMemCnt').html(data.meetMemCnt);
+          if(data.meetCheck==2){
+            if(data.meetMemCnt<=10){
+              //10명이하는 없음
+            }else if(data.meetMemCnt>=11 && data.meetMemCnt<=20){
+              crown.append('<i class="fa-solid fa-crown" style="color: #c4c4c4;"></i>');
+            }else {
+              crown.append('<i class="fa-solid fa-crown" style="color: #fbff00;"></i>');
+            }
+          }
+          $('#meetMaxMemCnt').html(data.meetMaxMemCnt);
+          $('#meetHitCount').html(data.meetHitCount);
+          if(data.meetHitCount>=100){
+            hot.append('<i class="fa-solid fa-fire" style="color: #ff0000;"></i>');
+          }
+          $('#meetLike').html(data.meetLike);
+          if(data.meetLike<=100){
+            stars.append('<i class="fa-solid fa-star" style="color: #fff700;"></i>');
+          }else if(data.meetLike>=101 && data.meetLike<=200){
+            stars.append('<i class="fa-solid fa-star" style="color: #fff700;"></i>');
+            stars.append('<i class="fa-solid fa-star" style="color: #fff700;"></i>');
+          }else {
+            stars.append('<i class="fa-solid fa-star" style="color: #fff700;"></i>');
+            stars.append('<i class="fa-solid fa-star" style="color: #fff700;"></i>');
+            stars.append('<i class="fa-solid fa-star" style="color: #fff700;"></i>');
+          }
+          $('#meetHow').html(data.meetHow);
+          $('#meetEntryFee').html(data.meetEntryFee);
+          $('#meetMoney').html(data.meetMoney);
+          $('#meetPlace').html(data.meetPlace);
+
+          },
+          error: function() {
+              alert('데이터를 불러오는 데 실패했습니다. 1번');
+          }
+        });
                 
 
         })(); // 즉시 실행되는 함수
@@ -1451,6 +1691,7 @@ function onSuccessGeolocation(position) {//현재위치 가져오기 성공
 
     
     console.log('현재위치: ' + location.toString());
+    
 }
 
 function onErrorGeolocation() {
@@ -1586,8 +1827,8 @@ $(window).on("load", function() {
             searchList.empty();
 
             data.forEach((item)=>{
-                if(item['title'].includes(checkWord)){
-                    searchList.append(`<span style="cursor: pointer;" onclick="select(this);"> ${item['title']} </span> <br/>`);
+                if(item['meetTitle'].includes(checkWord)){
+                    searchList.append(`<div class="item1" onclick="select(this);"> ${item['meetTitle']}</div>`);
                 
                 }
             })
@@ -1604,141 +1845,244 @@ $(window).on("load", function() {
     }
 </script>
 
+
 <script>
-    function searchItem2() {
+  document.getElementById("searchForm").addEventListener("submit", function(event) {
+    event.preventDefault(); // 제출 이벤트 중지
+    searchItem2(); // 원하는 동작 수행
+});
+function searchItem2() {
 
-        var searchTitle = document.getElementById("search").value;
-        var dataList = $("#dataList");
+    var searchTitle = document.getElementById("search").value;
+    var dataList = $("#dataList");
 
+    // alert(searchTitle)
+    //ajax 사용해서 검색결과 뿌리기
+    //완전 동일한 데이터 1개만
+    $.ajax({
+    url: '/getSearchTitleDataFromDB',
+    method: 'GET',
+    data: { meetTitle: searchTitle },
+    success: function(data) {
 
-        alert(searchTitle)
-        //ajax 사용해서 검색결과 뿌리기
-        //완전 동일한 데이터 1개만
-        $.ajax({
-        url: '/getSearchTitleDataFromDB',
-        method: 'GET',
-        data: { title: searchTitle },
-        success: function(data) {
+        
 
-           
+        // data를 자바스크립트 형식으로 JSON 데이터 파싱
+        var jsonData = JSON.parse(data);
 
-            // data를 자바스크립트 형식으로 JSON 데이터 파싱
-            var jsonData = JSON.parse(data);
-
-            if (Array.isArray(jsonData) && jsonData.length === 0) { // 데이터가 배열이면서 비어있을 경우
-                alert('데이터 없다');
-                dataList.empty();
-                $('#dataList').html('<h2>검색 결과가 없습니다.</h2>');
-                document.getElementById("sidebarContent").style.display = "none"; // 숨기기
-                document.getElementById("sidebarSearch").style.display = "block"; // 보이기
-                return;
-            }
-
+        if (Array.isArray(jsonData) && jsonData.length === 0) { // 1번 데이터가 배열이면서 비어있을 경우
+            
             dataList.empty();
+            $('#dataList').html('<h2>검색 결과가 없습니다.</h2>');
+            document.getElementById("sidebarContent").style.display = "none"; // 숨기기
+            document.getElementById("sidebarSearch").style.display = "block"; // 보이기
+            return;
+        }
 
-            jsonData.forEach((item)=>{
+        dataList.empty();
 
-            if(item['title']===searchTitle){ //동일한 데이터 1개만 띄우기
+        jsonData.forEach((item)=>{
+          
+          //사용자 검색어와 비교
+          if(item['meetTitle']===searchTitle){ //2번 완전 동일한 제목 1개만 띄우기
+            
+            var crown = $("#crown");
+            var hot = $("#hot");
+            var stars = $("#stars");
+            var meetCheck = $("#meetCheck");
+            var meetCtgName = $("#meetCtgName");
+            
+            crown.empty();
+            hot.empty();
+            stars.empty();
+            meetCheck.empty();
+            meetCtgName.empty();
+
+            $.ajax({
+                url: '/getDataFromDB', // 서버의 엔드포인트 URL
+                method: 'GET',
+                data: { meetListNum: item.meetListNum },
+                success: function(data) {
+                    
+                    document.getElementById("sidebarContent").style.display = "block";
+                    document.getElementById("sidebarSearch").style.display = "none"; 
+                    // 서버로부터 받은 데이터를 웹 페이지에 표시
+                    var CtgNum;
+                    $('#meetListNum').html(data.meetListNum);
+
+                    if(data.meetCheck===1){
+                      $('#meetCheck').attr('class', 'badge meetMate');
+                      $('#meetCheck').html('Meet');
+                    }else if(data.meetCheck===2){
+                      $('#meetCheck').attr('class', 'badge communiFind');
+                      $('#meetCheck').html('Communi');
+                    }
+                    
+                    $('#meetCtgNum').html(data.meetCtgNum);
+                    if(data.meetCtgNum===1){
+                      CtgNum = 1
+                    }else if(data.meetCtgNum===2){
+                      CtgNum = 2
+                    }else if(data.meetCtgNum===3){
+                      CtgNum = 3
+                    }else if(data.meetCtgNum===4){
+                      CtgNum = 4
+                    }else if(data.meetCtgNum===5){
+                      CtgNum = 5
+                    }
+                        $.ajax({
+                          url: '/getCategoryFromDB', //주제가져오기
+                          method: 'GET',
+                          data: { meetCtgNum: CtgNum },
+                          success: function(data) {              
+                            $('#meetCtgName').html(data.meetCtgName);
+                            },
+                            error: function() {
+                                alert('데이터를 불러오는 데 실패했습니다. 0번');
+                            }
+                          });
+                    $('#meetName').html(data.meetName);
+                    $('#meetTitle').html(data.meetTitle);
+                    $('#meetContent').html(data.meetContent);
+                    $('#meetImage').attr('src', '/image/map/' + data.meetImage);
+                    $('#meetDate').html(data.meetDate);
+                    $('#meetDday').html(data.meetDday);
+                    $('#meetMemCnt').html(data.meetMemCnt);
+                    if(data.meetCheck==2){
+                      if(data.meetMemCnt<=10){
+                        //10명이하는 없음
+                      }else if(data.meetMemCnt>=11 && data.meetMemCnt<=20){
+                        crown.append('<i class="fa-solid fa-crown" style="color: #c4c4c4;"></i>');
+                      }else {
+                        crown.append('<i class="fa-solid fa-crown" style="color: #fbff00;"></i>');
+                      }
+                    }
+                    $('#meetMaxMemCnt').html(data.meetMaxMemCnt);
+                    $('#meetHitCount').html(data.meetHitCount);
+                    if(data.meetHitCount>=100){
+                      hot.append('<i class="fa-solid fa-fire" style="color: #ff0000;"></i>');
+                    }
+                    $('#meetLike').html(data.meetLike);
+                    if(data.meetLike<=100){
+                      stars.append('<i class="fa-solid fa-star" style="color: #fff700;"></i>');
+                    }else if(data.meetLike>=101 && data.meetLike<=200){
+                      stars.append('<i class="fa-solid fa-star" style="color: #fff700;"></i>');
+                      stars.append('<i class="fa-solid fa-star" style="color: #fff700;"></i>');
+                    }else {
+                      stars.append('<i class="fa-solid fa-star" style="color: #fff700;"></i>');
+                      stars.append('<i class="fa-solid fa-star" style="color: #fff700;"></i>');
+                      stars.append('<i class="fa-solid fa-star" style="color: #fff700;"></i>');
+                    }
+                    $('#meetHow').html(data.meetHow);
+                    $('#meetEntryFee').html(data.meetEntryFee);
+                    $('#meetMoney').html(data.meetMoney);
+                    $('#meetPlace').html(data.meetPlace);
+                    
+                    
+                    for (var i = 0; i < markers.length; i++) {
+                        (function () { 
+                            var marker = markers[i];
+                            var infoWindow = infoWindows[i];
+                            var position = marker.getPosition();
+                            
+                            //열려있는 info정보숨기기
+                            if (infoWindow.getMap()) {
+                                
+                                hideInfoWindow(map, infoWindow);
+
+                            }
+
+                            //맵 센터로 옮기기
+                            if(marker.getTitle()==data.meetListNum){
+
+                                infoWindow.open(map, marker);
+                                showMarker(map, marker);
+
+                                map.setCenter(marker.getPosition()); // 얻은 좌표를 지도의 중심으로 설정합니다.
+                                map.setZoom(17); 
+
+                            }
+
+                        })();    
+                    }            
+
+                    },
+                    error: function() {
+                        alert('데이터를 불러오는 데 실패했습니다. 3번');
+                    }
+                });
             
                 $.ajax({
-                    url: '/getDataFromDB', // 서버의 엔드포인트 URL
+                    url: '/getDataFromDB1', // 서버의 엔드포인트 URL
                     method: 'GET',
-                    data: { listNum: item.listNum },
-                    success: function(data) {
-
-                        document.getElementById("sidebarContent").style.display = "block";
-                        document.getElementById("sidebarSearch").style.display = "none"; 
-                     
+                    data: { meetListNum: item.meetListNum },
+                    success: function(data1) {
                         
-                        $('#listNum').html(data.listNum);
-                        $('#ctgNum').html(data.ctgNum);
-                        $('#title').html(data.title);
-                        $('#content').html(data.content);
-                        $('#place').html(data.place);
-                        $('#memCnt').html(data.memCnt);
-                        $('#hitcount').html(data.hitcount);
-                        $('#meetLike').html(data.meetLike);
-                        $('#meetDate').html(data.meetDate);
-                        $('#list_Image').html(data.list_Image);
+                        $('#meetListNum1').html(data1.meetListNum);
+                        $('#meetCheck1').html(data1.meetCheck);
+                        $('#meetCtgNum1').html(data1.meetCtgNum);
+                        $('#meetName1').html(data1.meetName);
+                        $('#meetTitle1').html(data1.meetTitle);
+                        $('#meetContent1').html(data1.meetContent);
+                        $('#meetImage1').attr('src', '/image/map/' + data1.meetImage);
+                        $('#meetDate1').html(data1.meetDate);
+                        $('#meetDday1').html(data1.meetDday);
+                        $('#meetMemCnt1').html(data1.meetMemCnt);
+                        $('#meetMaxMemCnt1').html(data1.meetMaxMemCnt);
+                        $('#meetHitCount1').html(data1.meetHitCount);
+                        $('#meetLike1').html(data1.meetLike);
+                        $('#meetHow1').html(data1.meetHow);
+                        $('#meetEntryFee1').html(data1.meetEntryFee);
+                        $('#meetMoney1').html(data1.meetMoney);
+                        $('#meetPlace1').html(data1.meetPlace);
                         
-                        
-                        for (var i = 0; i < markers.length; i++) {
-                            (function () { 
-                                var marker = markers[i];
-                                var infoWindow = infoWindows[i];
-                                var position = marker.getPosition();
-                                
-                                //열려있는 마커숨기기
-                                if (infoWindow.getMap()) {
-                                    alert('있다')
-                                    hideInfoWindow(map, infoWindow);
-
-                                }
-  
-                                //맵 센터로 옮기기
-                                if(marker.getTitle()==data.listNum){
-
-                                    alert(marker.getTitle() + '들어옴')
-                                    infoWindow.open(map, marker);
-                                    showMarker(map, marker);
-
-                                    map.setCenter(marker.getPosition()); // 얻은 좌표를 지도의 중심으로 설정합니다.
-                                    map.setZoom(18); 
-
-                                }
-
-                            })();    
-                        }            
 
                         },
                         error: function() {
-                            alert('데이터를 불러오는 데 실패했습니다.');
+                            alert('데이터를 불러오는 데 실패했습니다!!!!');
                         }
-                    });
-   
-                return;
+                });
+
+            return;
 
 
-            }else{ //유사한 데이터 여러개 띄우기
+        }else{ //3번 유사한 데이터 여러개 띄우기
 
-                
+            dataList.append(`
+            <div class="menu-image">
+            <div onClick="getClickListHandler(${item.meetListNum});" style="cursor:pointer">
+            <div class="card mb-3" style="width:370px; max-height:150px; height:150px">
+                <div class="row g-0" style="overflow: hidden; height:100%;">
+                    <div class="col-md-4" >
+                      <img src="/image/map/${item.meetImage}" class="img-fluid rounded-start" style="height:100%;" alt="...">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
 
-                dataList.append(`
-                <div class="menu-image">
-                <div onClick="getClickListHandler(${item.listNum});" style="cursor:pointer">
-                <div class="card mb-3" style="max-width: 540px;">
-                    <div class="row g-0">
-                        <div class="col-md-4">
-                        <img src="/image/map/drawingModule_normal.png" class="img-fluid rounded-start" style="height:100%;" alt="...">
-                        </div>
-                        <div class="col-md-8">
-                            <div class="card-body">
+                            <p class="card-title">${item.meetTitle}</p>
+                            
 
-                                <h5 class="card-title">${item.title}</h5>
-                                <p class="card-text">내용</p>
-                                <p class="card-text"><small class="text-muted">${item.content}</small></p>
-
-                            </div>
                         </div>
                     </div>
-                </div></div></div>`);
+                </div>
+            </div></div></div>`);
 
 
-                // alert('유사 데이터 여러개 있다.')
-                document.getElementById("sidebarContent").style.display = "none"; // 숨기기
-                document.getElementById("sidebarSearch").style.display = "block"; // 보이기
+            // alert('유사 데이터 여러개 있다.')
+            document.getElementById("sidebarContent").style.display = "none"; // 숨기기
+            document.getElementById("sidebarSearch").style.display = "block"; // 보이기
 
-            }
-        })
-   
-   
-        },
-        error: function() {
-            alert('데이터를 불러오는 데 실패했습니다.');
         }
+    })
 
 
-    });
+    },
+    error: function() {
+        alert('데이터를 불러오는 데 실패했습니다. 4번');
+    }
+
+
+});
 
 }
 </script>
@@ -1755,56 +2099,161 @@ function hideSearchList() {
 }
 
 function getClickListHandler(id) {
+
+    var crown = $("#crown");
+    var hot = $("#hot");
+    var stars = $("#stars");
+    var meetCheck = $("#meetCheck");
+    var meetCtgName = $("#meetCtgName");
+    
+    crown.empty();
+    hot.empty();
+    stars.empty();
+    meetCheck.empty();
+    meetCtgName.empty();
+
     $.ajax({
         url: '/getDataFromDB', // 서버의 엔드포인트 URL
         method: 'GET',
-        data: { listNum: id },
+        data: { meetListNum: id },
         success: function(data) {
             // 서버로부터 받은 데이터를 웹 페이지에 표시
-            // alert(data.listnum)
+            // alert(data.meetListNum)
             document.getElementById("sidebarContent").style.display = "block";
             document.getElementById("sidebarSearch").style.display = "none"; 
-            $('#listNum').html(data.listNum);
-            $('#ctgNum').html(data.ctgNum);
-            $('#title').html(data.title);
-            $('#content').html(data.content);
-            $('#place').html(data.place);
-            $('#memCnt').html(data.memCnt);
-            $('#hitcount').html(data.hitcount);
-            $('#meetLike').html(data.meetLike);
+            // 서버로부터 받은 데이터를 웹 페이지에 표시
+            var CtgNum;
+            $('#meetListNum').html(data.meetListNum);
+
+            if(data.meetCheck===1){
+              $('#meetCheck').attr('class', 'badge meetMate');
+              $('#meetCheck').html('Meet');
+            }else if(data.meetCheck===2){
+              $('#meetCheck').attr('class', 'badge communiFind');
+              $('#meetCheck').html('Communi');
+            }
+            
+            $('#meetCtgNum').html(data.meetCtgNum);
+            if(data.meetCtgNum===1){
+              CtgNum = 1
+            }else if(data.meetCtgNum===2){
+              CtgNum = 2
+            }else if(data.meetCtgNum===3){
+              CtgNum = 3
+            }else if(data.meetCtgNum===4){
+              CtgNum = 4
+            }else if(data.meetCtgNum===5){
+              CtgNum = 5
+            }
+                $.ajax({
+                  url: '/getCategoryFromDB', //주제가져오기
+                  method: 'GET',
+                  data: { meetCtgNum: CtgNum },
+                  success: function(data) {              
+                    $('#meetCtgName').html(data.meetCtgName);
+                    },
+                    error: function() {
+                        alert('데이터를 불러오는 데 실패했습니다. 0번');
+                    }
+                  });
+            $('#meetName').html(data.meetName);
+            $('#meetTitle').html(data.meetTitle);
+            $('#meetContent').html(data.meetContent);
+            $('#meetImage').attr('src', '/image/map/' + data.meetImage);
             $('#meetDate').html(data.meetDate);
-            $('#list_Image').html(data.list_Image);
+            $('#meetDday').html(data.meetDday);
+            $('#meetMemCnt').html(data.meetMemCnt);
+            if(data.meetCheck==2){
+              if(data.meetMemCnt<=10){
+                //10명이하는 없음
+              }else if(data.meetMemCnt>=11 && data.meetMemCnt<=20){
+                crown.append('<i class="fa-solid fa-crown" style="color: #c4c4c4;"></i>');
+              }else {
+                crown.append('<i class="fa-solid fa-crown" style="color: #fbff00;"></i>');
+              }
+            }
+            $('#meetMaxMemCnt').html(data.meetMaxMemCnt);
+            $('#meetHitCount').html(data.meetHitCount);
+            if(data.meetHitCount>=100){
+              hot.append('<i class="fa-solid fa-fire" style="color: #ff0000;"></i>');
+            }
+            $('#meetLike').html(data.meetLike);
+            if(data.meetLike<=100){
+              stars.append('<i class="fa-solid fa-star" style="color: #fff700;"></i>');
+            }else if(data.meetLike>=101 && data.meetLike<=200){
+              stars.append('<i class="fa-solid fa-star" style="color: #fff700;"></i>');
+              stars.append('<i class="fa-solid fa-star" style="color: #fff700;"></i>');
+            }else {
+              stars.append('<i class="fa-solid fa-star" style="color: #fff700;"></i>');
+              stars.append('<i class="fa-solid fa-star" style="color: #fff700;"></i>');
+              stars.append('<i class="fa-solid fa-star" style="color: #fff700;"></i>');
+            }
+            $('#meetHow').html(data.meetHow);
+            $('#meetEntryFee').html(data.meetEntryFee);
+            $('#meetMoney').html(data.meetMoney);
+            $('#meetPlace').html(data.meetPlace);
 
             for (var i = 0; i < markers.length; i++) {
                 (function () { 
-                    var marker = markers[i];
-                    var infoWindow = infoWindows[i];
-                    var position = marker.getPosition();
+                  var marker = markers[i];
+                  var infoWindow = infoWindows[i];
+                  var position = marker.getPosition();
+                  
+                  //열려있는 마커숨기기
+                  if (infoWindow.getMap()) {
+                      //alert('있다')
+                      hideInfoWindow(map, infoWindow);
+
+                  }
+
+                  //맵 센터로 옮기기
+                  if(marker.getTitle()==data.meetListNum){
                     
-                    //열려있는 마커숨기기
-                    if (infoWindow.getMap()) {
-                        alert('있다')
-                        hideInfoWindow(map, infoWindow);
+                    $.ajax({
+                      url: '/getDataFromDB1', // 서버의 엔드포인트 URL
+                      method: 'GET',
+                      data: { meetListNum: id },
+                      success: function(data1) {
+                          
+                          $('#meetListNum1').html(data1.meetListNum);
+                          $('#meetCheck1').html(data1.meetCheck);
+                          $('#meetCtgNum1').html(data1.meetCtgNum);
+                          $('#meetName1').html(data1.meetName);
+                          $('#meetTitle1').html(data1.meetTitle);
+                          $('#meetContent1').html(data1.meetContent);
+                          $('#meetImage1').attr('src', '/image/map/' + data1.meetImage);
+                          $('#meetDate1').html(data1.meetDate);
+                          $('#meetDday1').html(data1.meetDday);
+                          $('#meetMemCnt1').html(data1.meetMemCnt);
+                          $('#meetMaxMemCnt1').html(data1.meetMaxMemCnt);
+                          $('#meetHitCount1').html(data1.meetHitCount);
+                          $('#meetLike1').html(data1.meetLike);
+                          $('#meetHow1').html(data1.meetHow);
+                          $('#meetEntryFee1').html(data1.meetEntryFee);
+                          $('#meetMoney1').html(data1.meetMoney);
+                          $('#meetPlace1').html(data1.meetPlace);
+                          
 
-                    }
+                          },
+                          error: function() {
+                              alert('데이터를 불러오는 데 실패했습니다!!!!');
+                          }
+                  });
 
-                    //맵 센터로 옮기기
-                    if(marker.getTitle()==data.listNum){
+                      //alert(marker.getTitle() + '들어옴1')
+                      infoWindow.open(map, marker);
+                      showMarker(map, marker);
 
-                        alert(marker.getTitle() + '들어옴')
-                        infoWindow.open(map, marker);
-                        showMarker(map, marker);
+                      map.setCenter(marker.getPosition()); // 얻은 좌표를 지도의 중심으로 설정합니다.
+                      map.setZoom(18); 
+                      return;
+                  }
 
-                        map.setCenter(marker.getPosition()); // 얻은 좌표를 지도의 중심으로 설정합니다.
-                        map.setZoom(18); 
-
-                    }
-
-                })();   
+              })();   
             }
         },
         error: function() {
-            alert('데이터를 불러오는 데 실패했습니다.');
+            alert('데이터를 불러오는 데 실패했습니다. 5번');
         }
     });
 }
