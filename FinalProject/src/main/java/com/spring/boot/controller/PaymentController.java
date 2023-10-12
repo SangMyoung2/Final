@@ -58,8 +58,6 @@ public class PaymentController {
     @PostMapping("/joinGroup/{meetListNum}")
     public ResponseEntity<String> joinGroup(@PathVariable int meetListNum, @RequestBody String userEmail) {
         
-        
-
         try {
             paymentService.joinGroupAndDeductPoint(userEmail, meetListNum);
             return new ResponseEntity<>("Successfully joined and deducted points!", HttpStatus.OK);
