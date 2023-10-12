@@ -29,7 +29,7 @@ public class UserService {
 		
 		SiteUser user = new SiteUser();
 		user.setUserName(userName);
-		user.setEmail(email);
+		
 		user.setTel(tel);
 		// 패스워드 암호화(BCrypt해싱함수)
 		//BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();

@@ -22,7 +22,7 @@
   <div class="container">
     <div class="row">
         <form action="" name="myForm" th:object="${UserDTO}" method="post">
-          <div class="row" >
+          <!-- <div class="row" >
              <div class="input-field col s12" >
               <input id="userName" name="userName"  type="text" class="validate" required>
               <label style="font-size: 23px;" for="userName" >아이디</label>
@@ -32,15 +32,15 @@
             </div>
             
            
-          </div>
+          </div> -->
           <div class="row">
             <div class="input-field col s12">
-              <input id="email" name="email" type="email" class="validate" required>
-              <label style="font-size: 23px;" for="email">이메일</label>
-              <div id="emailErrorMessage" style="display: none;">
+              <input id="userName" name="userName" type="email" class="validate" required>
+              <label style="font-size: 23px;" for="userName">이메일</label>
+              <div id="nameErrorMessage" style="display: none;">
                 <p style='color: red; font-size: 18px;'>이메일을 입력하세요</p>
              </div>
-             <div id="mailErrorMessage" style="display: none;">
+             <div id="userNameErrorMessage" style="display: none;">
               <p style='color: red; font-size: 18px;'>정상적인 이메일을 입력하세요</p>
            </div>
             </div>
