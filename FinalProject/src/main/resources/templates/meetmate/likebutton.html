@@ -1,0 +1,82 @@
+<html layout:decorate="~{layout}">
+    <head>
+<meta charset="UTF-8">
+<!-- List랑 합쳐서 이제 필요없음 나중에 확인하고 삭제하기 -->
+<title>좋아요 버튼</title>
+
+<link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/index.css}"/>
+<link rel="icon" type="image/png" th:href="@{http://localhost:8080/image/Icon2-removebg.png}"/>
+
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+
+<style>
+.heart {
+  cursor: pointer;
+  height: 50px;
+  width: 50px;
+  background-image:url( 'https://abs.twimg.com/a/1446542199/img/t1/web_heart_animation.png');
+  background-position: left;
+  background-repeat:no-repeat;
+  background-size:2900%;
+}
+
+.heart:hover {
+  background-position: right;
+}
+
+.like{
+  background-position: right;
+}
+
+.is_animating {
+  animation: heart-burst 0.8s steps(28) 1;
+}
+
+.button__like {
+  position: absolute;
+  top: 5%;
+  right: 5%;
+  z-index: 1;
+  cursor: pointer;
+}
+
+@keyframes heart-burst {
+  from {background-position:left;}
+  to { background-position:right;}
+}   
+</style>
+
+</head>
+
+<body>        
+    <div layout:fragment="content">   
+        <div id="heart" class="heart"></div>    
+        <div id="heart" class="button__like"></div>    
+    </div>
+</body>
+
+<script>
+  var isLike = false
+  /* when a user clicks, toggle the 'is-animating' class */
+  $(".heart").on('click touchstart', function(){
+    
+    isLike = !isLike
+    if(isLike){
+          $(this).toggleClass('is_animating');
+          $(this).addClass('like')
+      }
+      else{
+          $(this).removeClass('like')
+      }
+  });
+
+  /*when the animation is over, remove the class*/
+  $(".heart").on('animationend', function(){
+    $(this).toggleClass('is_animating');
+  });
+
+  
+</script>
+
+</html>

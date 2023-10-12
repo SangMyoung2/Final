@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>검색버튼, 정렬버튼</title>
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+</head>
+<style>
+
+
+/*검색창*/
+header > .search-input-box {
+  flex-grow: 1;
+}
+
+header > .search-input-box > form {
+  margin: 0 auto;
+  height: 100%;
+  position: relative;
+  width: 400px;
+}
+
+header > .search-input-box > form > input {
+  width: 400px;
+  outline: none;
+  border: 1px solid #5CA8B5;
+  height: 100%;
+  box-sizing: border-box;
+  border-radius: 5px;
+  padding: 0 8px;
+}
+
+header > .search-input-box > form > button {
+  position: absolute;
+  right: 0;
+  top: 0;
+  border: none;
+  height: 100%;
+  background-color: transparent;
+}
+
+
+/*아이콘*/
+header > .icon-box {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  width: 266px;
+}
+header > .icon-box > svg {
+  margin: 0 10px;
+}
+
+</style>
+
+<body>
+
+<div class="search-input-box">
+  <form action="">
+  <input type="text" placeholder="검색어를 입력해주세요.">
+    <button>      
+      <svg width="15" height="12" viewBox="0 0 34 30" xmlns="http://www.w3.org/2000/svg">
+        <g fill="none" fill-rule="evenodd">
+          <path fill="none" d="M0 0h36v36H0z"/>
+            <g stroke="#5F0080" stroke-linecap="round" stroke-width="2">
+            <path d="m26.081 26.081-4.12-4.12M16.467 23.334a6.867 6.867 0 1 0 0-13.734 6.867 6.867 0 0 0 0 13.734z"/>
+          </g>
+        </g>
+      </svg>
+    </button>
+  </form>
+</div>
+
+</body>
+
+<script>
+
+$(document).ready(function(){
+    var select = $("select.select-cus");
+    select.change(function(){
+        var select_name = $(this).children("option:selected").text();
+        $(this).siblings("label").text(select_name);
+    });
+ });
+
+</script>
+
+</html>
