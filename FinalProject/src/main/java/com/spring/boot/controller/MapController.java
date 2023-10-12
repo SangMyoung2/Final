@@ -97,8 +97,8 @@ public class MapController {
     public MeetCategoryDTO getCategoryFromDB(@RequestParam("meetCtgNum") int meetCtgNum) throws Exception {
 
         MeetCategoryDTO data = mapService.getCategory(meetCtgNum);
-        System.out.println(meetCtgNum);
-        System.out.println(data.getMeetCtgName());
+        // System.out.println(meetCtgNum);
+        // System.out.println(data.getMeetCtgName());
         return data;
     }
 
