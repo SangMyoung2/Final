@@ -13,7 +13,9 @@ public interface GatchiService {
 
 	public int maxNum() throws Exception;
 	
-	public List<GatchiDTO> getMeetLists() throws Exception;
+	public List<GatchiDTO> getMeetMateLists() throws Exception;
+	
+	public List<GatchiDTO> getCommuniFindLists() throws Exception;
 	
 	//public void meetLikes(int meetListNum) throws Exception;
     //public GatchiLikeDTO meetLikes(String userEmail, int meetListNum);

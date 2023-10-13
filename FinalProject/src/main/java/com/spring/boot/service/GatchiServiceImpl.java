@@ -27,9 +27,15 @@ public class GatchiServiceImpl implements GatchiService{
 	}
 	
 	@Override
-	public List<GatchiDTO> getMeetLists() throws Exception{
-		return gatchiMapper.getMeetLists();
+	public List<GatchiDTO> getMeetMateLists() throws Exception{
+		return gatchiMapper.getMeetMateLists();
 	}
+
+	@Override
+	public List<GatchiDTO> getCommuniFindLists() throws Exception{
+		return gatchiMapper.getCommuniFindLists();
+	}
+
 /*
 	@Override
 	public void meetLikes(int meetListNum) throws Exception {

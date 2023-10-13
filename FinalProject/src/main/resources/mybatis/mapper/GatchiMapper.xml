@@ -27,8 +27,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	where meetListNum=#{meetListNum}
 </select>
 
-<select id="getMeetLists" resultType="com.spring.boot.dto.GatchiDTO">
-	select * from gatchi
+<select id="getMeetMateLists" resultType="com.spring.boot.dto.GatchiDTO">
+	select * from gatchi where meetCheck = 1
+</select>
+
+<select id="getCommuniFindLists" resultType="com.spring.boot.dto.GatchiDTO">
+	select * from gatchi where meetCheck = 2
 </select>
 
 <select id=""></select>
