@@ -4,11 +4,11 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.spring.boot.model.BaseAuthUser;
+import com.spring.boot.model.Users;
 
-public interface BaseAuthUserRepository extends JpaRepository<BaseAuthUser, Long>{
+public interface BaseAuthUserRepository extends JpaRepository<Users, Long>{
 	
-	Optional<BaseAuthUser> findByEmail(String email);
+	Optional<Users> findByEmail(String email);
 	
 	
 }

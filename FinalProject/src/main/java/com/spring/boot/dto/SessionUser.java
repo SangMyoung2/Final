@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.spring.boot.model.BaseAuthUser;
+import com.spring.boot.model.Users;
 
 import org.springframework.security.core.GrantedAuthority;
 
@@ -14,13 +14,13 @@ import lombok.Getter;
 
 @Getter
 
-public class SessionUser implements UserDetails, Serializable {
+public class SessionUser implements UserDetails{
 
     private String name;
     private String email;
     private String picture;
 
-    public SessionUser(BaseAuthUser user) {
+    public SessionUser(Users user) {
         this.name = user.getName();
         this.email = user.getEmail();
         this.picture = user.getPicture();
