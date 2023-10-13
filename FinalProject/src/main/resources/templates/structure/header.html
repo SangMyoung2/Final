@@ -21,8 +21,8 @@
 			<b style="color: black;" th:text="${session.user.name}"></b>
 			</li>
 
-			<li style="width: 152px" class="menu_item" th:if="${#httpSession.getAttribute('user1') != null}">
-				<b style="color: black;" th:text="${session.user1.username}"></b>
+			<li class="menu_item" th:if="${#httpSession.getAttribute('user1') != null}">
+				<b style="color: black;" th:text="${session.user1.name}"></b>
 				</li>
 
 			<li class="menu_item" th:if="${#httpSession.getAttribute('user') != null} or ${#httpSession.getAttribute('user1') != null}">

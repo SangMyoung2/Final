@@ -78,6 +78,20 @@ $('#enterBtn').click(function() {
 const join = () => {
        
        f = document.myForm;
+
+
+       str = f.name.value;
+       str = str.trim(); 
+       if(!str){
+        const ErrorMessageDiv = document.getElementById("ErrorMessage");
+        ErrorMessageDiv.style.display = "block"; 
+           f.name.focus();
+           setTimeout(function() {
+            ErrorMessageDiv.style.display = "none"; 
+        }, 5000); 
+
+        return false;
+       }
    
        
        str = f.userName.value;

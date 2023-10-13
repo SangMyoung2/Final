@@ -4,10 +4,11 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.spring.boot.dto.SiteUser;
 
-public interface UserRepository extends JpaRepository<SiteUser, Long>{
+import com.spring.boot.model.Users;
+
+public interface UserRepository extends JpaRepository<Users, Long>{
 	
-	Optional<SiteUser> findByUserName(String username);
+	Optional<Users> findByUserName(String username);
 	
 }
