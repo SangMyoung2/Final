@@ -105,7 +105,8 @@ public class MeetControllerYj {
 
 	// 방 가입
 	@PostMapping("/join-meet")
-	public ModelAndView  joinMeet(HttpServletRequest request,@RequestParam("meetListNum") int meetListNum) throws Exception {
+	public ModelAndView  joinMeet(HttpServletRequest request,
+			@RequestParam("meetListNum") int meetListNum) throws Exception {
 
 		ModelAndView mav = new ModelAndView();
 

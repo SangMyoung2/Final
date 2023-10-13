@@ -66,22 +66,22 @@
 
     document.addEventListener('DOMContentLoaded', function() {
 
-        // var joinButton = document.querySelector('.join-button');
+        var joinButton = document.querySelector('.join-button');
         
-        //     joinButton.addEventListener('click', function() {
-        //     alert('가입 신청이 완료되었습니다.');
-        //     });
+            joinButton.addEventListener('click', function() {
+            alert('가입 신청이 완료되었습니다.');
+            });
 
 
 
-        var joinForm = document.getElementById('joinForm');
-        var joinButton = document.getElementById('joinButton');
+        // var joinForm = document.getElementById('joinForm');
+        // var joinButton = document.getElementById('joinButton');
         
-        joinButton.addEventListener('click', function(event) {
-            event.preventDefault(); // 기본 이벤트 동작 방지 (페이지 새로고침 방지)
+        // joinButton.addEventListener('click', function(event) {
+        //     event.preventDefault(); // 기본 이벤트 동작 방지 (페이지 새로고침 방지)
 
-            joinForm.submit(); // 폼을 서버로 제출
-        });
+        //     joinForm.submit(); // 폼을 서버로 제출
+        // });
 
         var reviewForm = document.querySelector('.review-form');
         var reviewWriteButton = document.querySelector('.review-write');
@@ -229,9 +229,15 @@ function openModal(imgElement) {
                         <!-- <button class="join-button">
                             <span class="icon" id="joinButton">📝</span> 가입하기
                         </button> -->
-                        <form id="joinForm" method="post" action="/join-meet">
+                        <!-- <form id="joinForm" method="post" action="/join-meet">
                             <input type="hidden" name="meetListNum" id="meetListNum" th:value="${meetListNum}"/>
                             <button class="join-button" type="submit" id="joinButton">
+                                <span class="icon" id="joinButton">📝</span>가입하기
+                            </button>
+                        </form> -->
+                        <form action="/join-meet" method="post">
+                            <input type="hidden" name="meetListNum" th:value="${meetListNum}"/>
+                            <button type="submit" class="join-button">
                                 <span class="icon" id="joinButton">📝</span>가입하기
                             </button>
                         </form>
