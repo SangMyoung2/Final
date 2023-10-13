@@ -71,7 +71,7 @@ public class MeetControllerYj {
 
 			dto.setMeetReviewImg(originalFilename); // 원본 이미지 파일 이름을 저장
 			dto.setMeetListNum(meetListNum);
-			dto.setEmail("kim"); // TODO : 세션에서 memid 가져와야됨
+			dto.setEmail("ejs"); // TODO : 세션에서 memid 가져와야됨
             dto.setMeetReviewContent(meetReviewContent);
             dto.setMeetReviewDate(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
 
@@ -108,21 +108,17 @@ public class MeetControllerYj {
 	public ModelAndView  joinMeet(HttpServletRequest request,
 			@RequestParam("meetListNum") int meetListNum) throws Exception {
 
-		ModelAndView mav = new ModelAndView();
+		ModelAndView mav = new ModelAndView("redirect:/articleYj.action?meetListNum=" + meetListNum);
 
 		//String email = (String) request.getSession().getAttribute("email"); //세션
 	
 		MeetDTOYj dto = new MeetDTOYj();
 		dto.setMeetListNum(meetListNum);
-		dto.setEmail("kim"); // TODO : 세션에서 email 가져와야됨
+		dto.setEmail("ejs"); // TODO : 세션에서 email 가져와야됨
 		dto.setMeetMemStatus(0); //승인대기
-	
 		meetServiceYj.insertMeetJoinOk(dto);
 	
-		mav.addObject("message", "가입 신청이 완료되었습니다.");
-		// mav.setViewName("joinSuccessPage"); // 가입 완료 페이지 뷰로 이동
-
-		return new ModelAndView("redirect:/articleYj.action?meetListNum=" + meetListNum);
+		return mav;
 	}
 
 	// 블랙리스트에 추가 또는 해제

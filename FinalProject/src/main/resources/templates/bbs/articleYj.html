@@ -72,17 +72,6 @@
             alert('가입 신청이 완료되었습니다.');
             });
 
-
-
-        // var joinForm = document.getElementById('joinForm');
-        // var joinButton = document.getElementById('joinButton');
-        
-        // joinButton.addEventListener('click', function(event) {
-        //     event.preventDefault(); // 기본 이벤트 동작 방지 (페이지 새로고침 방지)
-
-        //     joinForm.submit(); // 폼을 서버로 제출
-        // });
-
         var reviewForm = document.querySelector('.review-form');
         var reviewWriteButton = document.querySelector('.review-write');
         var cancelButton = document.querySelector('#cancel-review');
@@ -226,30 +215,29 @@ function openModal(imgElement) {
                             <p class="Yj-text3" th:text="${meetListInfo.meetMemCnt}"></p>/
                             <p class="Yj-text3" th:text="${meetListInfo.meetMaxMemCnt}"></p>
                         </div>
-                        <!-- <button class="join-button">
-                            <span class="icon" id="joinButton">📝</span> 가입하기
-                        </button> -->
-                        <!-- <form id="joinForm" method="post" action="/join-meet">
-                            <input type="hidden" name="meetListNum" id="meetListNum" th:value="${meetListNum}"/>
-                            <button class="join-button" type="submit" id="joinButton">
-                                <span class="icon" id="joinButton">📝</span>가입하기
-                            </button>
-                        </form> -->
-                        <form action="/join-meet" method="post">
-                            <input type="hidden" name="meetListNum" th:value="${meetListNum}"/>
-                            <button type="submit" class="join-button">
+                        
+                        <form th:with="meetMemStatus=${meetMemStatus}" th:unless="${meetMemStatus == 1 or meetMemStatus == 2}">
+                            <button form="joinForm" type="submit" class="join-button">
                                 <span class="icon" id="joinButton">📝</span>가입하기
                             </button>
                         </form>
+                        <form id="joinForm" action="/join-meet" method="post">
+                            <input type="hidden" name="meetListNum" th:value="${meetListNum}"/>
+                        </form>
+                        
                         
                     </div>
                 </div>
             </div>
             <div class="col-md-2">
                 <div class="meet-members">
-                    <p style=" text-align: center;">
-                        <span style="margin-right: 30px;">멤버목록</span>
-                        <a th:href="@{'/managerYj.action?meetListNum=' + ${meetListInfo.meetListNum}}" style="text-decoration: none;">
+                    <p>
+                        <span style="margin-right: 37px; margin-left: 12px;">멤버목록</span>
+                        <!-- <a th:href="@{'/managerYj.action?meetListNum=' + ${meetListInfo.meetListNum}}" style="text-decoration: none;">
+                            <span style="color: #adadad;">관리</span>
+                            <i class="fa-solid fa-gear fa-sm" style="color: #adadad; vertical-align: 0px;"></i>
+                        </a> -->
+                        <a th:if="${meetMemStatus == 1}" th:href="@{'/managerYj.action?meetListNum=' + ${meetListInfo.meetListNum}}" style="text-decoration: none;">
                             <span style="color: #adadad;">관리</span>
                             <i class="fa-solid fa-gear fa-sm" style="color: #adadad; vertical-align: 0px;"></i>
                         </a>
