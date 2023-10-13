@@ -1,5 +1,9 @@
 package com.spring.boot.model;
 
+import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -7,6 +11,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -17,28 +22,37 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-public class BaseAuthUser {
+public class Users  implements Serializable{
 	
 	@Id
-@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqname")
-private Long id;
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqname")
+	private Long id;
 	
-	@Column(nullable = false)
-	private String name;
-	
-	@Column(nullable = false)
+	@Column(unique = true)
 	private String email;
-	
-	@Column
 	private String picture;
+	@Column(unique = true)
+	private String userName;
+	private String password;
+	private String tel;
+	private String created;
+	private String name;
+
+	@PrePersist
+	protected void onCreate() {
+		if (created == null || created.isEmpty()) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yy/MM/dd HH:mm:ss");
+            created = LocalDateTime.now().format(formatter);
+}
+}
 	
 	// JPA로 DB에 저장할 때 enum 자료형 설정(기본값은 int (안써주면))
 	@Enumerated(EnumType.STRING)
-	@Column(nullable = false)
+	
 	private BaseAuthRole role;
 	
 	@Builder
-	public BaseAuthUser(String name, String email, String picture, BaseAuthRole role) {
+	public Users(String name, String email, String picture, BaseAuthRole role) {
 		this.name = name;
 		this.email = email;
 		this.picture = picture;
@@ -46,7 +60,7 @@ private Long id;
 	}
 	
 	//회원정보 수정
-	public BaseAuthUser update(String name, String picture) {
+	public Users update(String name, String picture) {
 		this.name = name;
 		this.picture = picture;
 		

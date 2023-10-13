@@ -3,6 +3,7 @@ package com.spring.boot.service;
 import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
+import javax.transaction.Transactional;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,7 +14,8 @@ import org.springframework.stereotype.Service;
 
 import com.spring.boot.dao.UserRepository;
 import com.spring.boot.dto.SessionUser;
-import com.spring.boot.dto.SiteUser;
+
+import com.spring.boot.model.Users;
 
 import lombok.RequiredArgsConstructor;
 
@@ -22,31 +24,32 @@ import lombok.RequiredArgsConstructor;
 public class UserService {
 	
 	private final UserRepository userRepository;
+
+	private final SaveData saveData;
 	
 	private final PasswordEncoder passwordEncoder;
-	
-	public SiteUser create(String userName, String email, String password,String tel) {
+	@Transactional
+	public Users create(String userName,String name, String password,String tel) {
 		
-		SiteUser user = new SiteUser();
+		Users user = new Users();
 		user.setUserName(userName);
-		user.setEmail(email);
+		user.setName(name);
 		user.setTel(tel);
-		// 패스워드 암호화(BCrypt해싱함수)
-		//BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		
 		user.setPassword(passwordEncoder.encode(password));
 		
 		userRepository.save(user);
+		saveData.saveData(userName);
 		
 		return user;
 	}
 	
-	public SiteUser getUser(String userName) {
+	public Users getUser(String userName) {
 		
-		Optional<SiteUser> siteUser = userRepository.findByUserName(userName);
+		Optional<Users> BaseAuthUser = userRepository.findByUserName(userName);
 		
-		if(siteUser.isPresent()) {
-			return siteUser.get();
+		if(BaseAuthUser.isPresent()) {
+			return BaseAuthUser.get();
 		}
 		else {
 			throw new DataNotFoundException("User Not Found");
