@@ -2,8 +2,10 @@ package com.spring.boot.controller;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
-import org.springframework.security.core.Authentication;
+import javax.transaction.Transactional;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,8 +22,10 @@ import org.springframework.web.servlet.ModelAndView;
 import com.spring.boot.dto.SessionUser;
 
 import com.spring.boot.dto.SignupDTO;
-import com.spring.boot.dto.UserDTO;
+
+import com.spring.boot.model.Users;
 import com.spring.boot.service.LoginUser;
+import com.spring.boot.service.SaveData;
 import com.spring.boot.service.SignupService;
 import com.spring.boot.service.UserService;
 
@@ -31,7 +35,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class BaseAuthController {
 
-
+    
 	
 
 	@Resource
@@ -77,15 +81,17 @@ public class BaseAuthController {
 		return mav;
 		
 	}
-
+	
 	@PostMapping("/signup.action")
-	public String signup(UserDTO dto, BindingResult bindResult,Model model) {
+	public String signup(Users dto, BindingResult bindResult,Model model,@RequestParam("userName") String userName) {
 		
 
 		try {
 			
-			userService.create(dto.getUserName(), dto.getEmail(),
+			userService.create(dto.getUserName(), dto.getName(),
 					dto.getPassword(),dto.getTel());
+
+					
 			return "login/signup_ok";
 
 		} catch (DataIntegrityViolationException e) {
@@ -98,6 +104,8 @@ public class BaseAuthController {
 			model.addAttribute("error", e.getMessage());
 			return "login/signup";
 		}
+
+		
 	}
 
 

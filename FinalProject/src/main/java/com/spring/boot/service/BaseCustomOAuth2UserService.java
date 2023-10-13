@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 import com.spring.boot.dao.BaseAuthUserRepository;
 import com.spring.boot.dto.OAuthAttributes;
 import com.spring.boot.dto.SessionUser;
-import com.spring.boot.model.BaseAuthUser;
+import com.spring.boot.model.Users;
 
 import lombok.RequiredArgsConstructor;
 
@@ -59,7 +59,7 @@ public class BaseCustomOAuth2UserService implements OAuth2UserService<OAuth2User
 		System.out.println(attributes.getAttributes()); //JSON형태
 		
 		//응답받은 속성을 authUser 객체에 넣음
-		BaseAuthUser authUser = saveOrUpdate(attributes);
+		Users authUser = saveOrUpdate(attributes);
 		
 		System.out.println(authUser.getName() + "1111");
 		
@@ -74,9 +74,9 @@ public class BaseCustomOAuth2UserService implements OAuth2UserService<OAuth2User
 	}
 	
 	//구글 사용자 정보가 업데이트 되었을 때 반영하는 메서드
-	private BaseAuthUser saveOrUpdate(OAuthAttributes attributes) {
+	private Users saveOrUpdate(OAuthAttributes attributes) {
 		
-		BaseAuthUser authUser = 
+		Users authUser = 
 				baseAuthUserRepository.findByEmail(attributes.getEmail())
 				.map(entity -> entity.update(attributes.getName(), attributes.getPicture()))
 				.orElse(attributes.toEntity());
