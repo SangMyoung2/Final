@@ -3,14 +3,15 @@ package com.spring.boot.service;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.spring.boot.mapper.PaymentMapper;
-import com.google.gson.JsonObject;
 import com.spring.boot.dto.PaymentInfoDTO;
+import com.spring.boot.dto.SessionUser;
 import com.spring.boot.dto.userPointDTO;
 
 
@@ -18,6 +19,9 @@ import com.spring.boot.dto.userPointDTO;
 @Transactional
 public class PaymentServiceImpl implements PaymentService {
     
+    @Autowired
+    private HttpSession httpSession;
+
     @Autowired
     private PaymentMapper paymentMapper;
 
@@ -27,20 +31,27 @@ public class PaymentServiceImpl implements PaymentService {
         System.out.println("Paid Amount: " + paymentInfoDTO.getPaid_amount());
 
         try {
-            paymentMapper.insertPaymentInfo(paymentInfoDTO);
-            
-            // 결제 정보 처리 후, UserPoint 업데이트
-            // 임의의 이메일 주소 가져오기 (이 부분은 단순화된 예시입니다. 실제로는 이메일 주소를 DB에서 조회해야 합니다.)
-            String userEmail = "test@email.com"; 
-            userPointDTO userPointDTO = new userPointDTO();
-            userPointDTO.setUser_email(userEmail); 
-            userPointDTO.setPoint_balance(paymentInfoDTO.getPaid_amount());
-            updateUserPoint(userPointDTO);
-            
-        } catch (Exception e) {
-            e.printStackTrace(); // 이렇게 해서 로그에 어떤 예외가 출력 되는지 확인
-            throw e;
+        paymentMapper.insertPaymentInfo(paymentInfoDTO);
+        
+        // 세션에서 로그인된 사용자의 이메일 주소 가져오기
+        SessionUser user = (SessionUser) httpSession.getAttribute("user");
+        if (user == null) {
+            throw new RuntimeException("User is not logged in or session has expired.");
         }
+        String userEmail = user.getEmail(); 
+        
+        // 해당 이메일 주소를 사용하여 userPointDTO를 업데이트하기
+        int currentBalance = paymentMapper.getUserPoint(userEmail);
+        userPointDTO userPoint = new userPointDTO();
+        userPoint.setUser_email(userEmail);
+        userPoint.setPoint_balance(currentBalance + paymentInfoDTO.getPaid_amount());
+        
+        paymentMapper.updateUserPoint(userPoint);
+        
+    } catch (Exception e) {
+        e.printStackTrace(); // 이렇게 해서 로그에 어떤 예외가 출력 되는지 확인
+        throw e;
+    }
     }
 
     @Override
