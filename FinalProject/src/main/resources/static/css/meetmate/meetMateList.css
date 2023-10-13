@@ -1,4 +1,5 @@
 
+  /* 슬라이드 CSS */
   /* @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap'); */
   
   * {
@@ -134,6 +135,7 @@
     position: relative;
   }
   
+  /* 사진 3개 뜨는데 5개로 바꿔보려고 잠시 주석처리함 에러뜨면 이거 살리면 돼
   main .panel>li:nth-of-type(1) {
     background: url('https://images.ctfassets.net/8cd2csgvqd3m/491YJNhkZ60sVK96uDCrlS/1009defbb0bee787645fe9b0ccf609e2/Natale_1.jpg?q=90&fm=webp&w=1440&h=808&fit=fill');
     background-size: cover;
@@ -154,6 +156,44 @@
     background-position: 30%;
     cursor: pointer;
   }
+  */
+
+  main .panel>li:nth-of-type(1) {
+    background: url('/image/gatchiImage/${imageFileNames[0]}');/* Thymeleaf 변수 사용 */
+    background-size: cover;
+    background-position: 80% 50%;
+    cursor: pointer;
+  }
+  
+  main .panel>li:nth-of-type(2) {
+    background: url('/image/gatchiImage/${imageFileNames[1]}') no-repeat;/* Thymeleaf 변수 사용 */
+    background-size: cover;
+    background-position: top center;
+    cursor: pointer;
+  }
+  
+  main .panel>li:nth-of-type(3) {
+    background: url('/image/gatchiImage/${imageFileNames[2]}') no-repeat;/* Thymeleaf 변수 사용 */
+    background-size: cover;
+    background-position: 30%;
+    cursor: pointer;
+  }
+  main .panel>li:nth-of-type(4) {
+    background: url('/image/gatchiImage/${imageFileNames[3]}') no-repeat;/* Thymeleaf 변수 사용 */
+    background-size: cover;
+    background-position: 30%;
+    cursor: pointer;
+  }
+  main .panel>li:nth-of-type(5) {
+    background: url('/image/gatchiImage/${imageFileNames[4]}') no-repeat;/* Thymeleaf 변수 사용 */
+    background-size: cover;
+    background-position: 30%;
+    cursor: pointer;
+  }
+  
+/*여기까지가 테스트야*/
+
+
   
   main .opa {
     position: relative;
@@ -202,7 +242,7 @@
   
   main .dot>li {
     float: left;
-    background: #ebd3b0;
+    background: #FFFFFF;
     width: 15px;
     height: 15px;
     border-radius: 50%;
@@ -212,7 +252,7 @@
   }
   
   main .dot>li.on {
-    background: #fff;
+    background: #5ca8b5;
     width: 15px;
     height: 15px;
   }
@@ -241,13 +281,39 @@
     }
   }
 
+  
+ 
+  
+/* 될지 모르겠는데 카테고리를 div에 버튼형식으로 눈에 띄게 하고싶어서 해봄 */
+  .ctgButton {
+    background: none;
+    border: 2px solid #6A515E;
+    border-radius: 5px;
+    padding: 0.2rem 0.5rem;
+    /* font-size: 1.1rem; */
+    color: #6A515E;
+    cursor: pointer;
+
+    cursor: default;/* 마우스호버해도 커서모양 변경되지 않게 */
+    display: inline;
+    white-space: nowrap; /*줄변경방지*/
+
+
+    margin-right: 0.5rem; /* 버튼과 제목 사이의 간격을 조절할 수 있음 */
+  }
+
+  .category-button {
+    display: inline-block;
+    white-space: nowrap;
+    margin-right: 1px; /* 버튼과 제목 사이에 간격 조정 */
+}
+
+/* 될지 모르겠는데 카테고리를 div에 버튼형식으로 눈에 띄게 하고싶어서 해봄 */
 
 
 
 
-
-
-/* card css*/
+/* 게시글 뿌려주는 card css*/
   :root {
     --surface-color: #fff;
     --curve: 40;
@@ -279,11 +345,12 @@
     width: auto;
     height: auto;
     object-fit: contain; /* 이미지 비율 유지 최대한 맞춤 */
-    object-position: center; /* 이미지 가운데 정렬 */
+    object-position: center 40%; /* 이미지 가운데의 40%위치 */
     background-color: floralwhite; /*사진크기 작을 경우 대비 배경색깔아줌*/
     
     border-bottom-left-radius: 50px;
     border-bottom-right-radius: 50px;
+    border-bottom: 90px; /*아래 사진이 너무 짤려서 기본 공간 넣어줌*/
   }
   
   .card__overlay {
@@ -305,7 +372,8 @@
   .card__header {
     position: relative;
     display: flex;
-    align-items: center;
+    /* align-items: center; 원래이거였는데 한줄 더 넣어보려고 아래껄로 바꿨음. 에러나면 아래꺼 써*/
+    align-items: stretch; 
     gap: 1em;
     padding: 1em;
     border-radius: calc(var(--curve) * 1px) 0 0 0;    
@@ -342,16 +410,22 @@
   
   .card__title {
     font-size: 1em;
-    margin: 0 0 .3em;
+    /* margin: 0 0 -0.3em;         //margin: 0 0 .3em;이었는데 여백조정하려고 바꿔봄 */
     color: #6A515E;
   
     overflow: hidden;
     white-space: normal;
     text-overflow: ellipsis;
-    display: -webkit-box;
+    /* display: -webkit-box; */
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     word-break: break-all;
+
+    margin: 0;
+
+
+    display: inline;
+    white-space: nowrap;
   }
   
   .card__tagline {
@@ -395,6 +469,12 @@
   
   
   
+
+
+
+
+
+  /* 좋아요 버튼 */
   .heart {
     cursor: pointer;
     height: 30%;
@@ -405,6 +485,8 @@
     background-size: 2900%;
     position: absolute;
     right: 0px;
+
+    top: -20px; /* 간격 조금 늘림 */
   }
   
   .heart:hover {

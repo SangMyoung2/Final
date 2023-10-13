@@ -35,24 +35,7 @@ public class MeetmateController {
 		
 		return mav;		
 	}
-	@GetMapping("/slide2")
-	public ModelAndView slide2() throws Exception{
-		
-		ModelAndView mav = new ModelAndView();
 
-		mav.setViewName("/meetmate/slide2");
-		
-		return mav;		
-	}
-	@GetMapping("/slide3")
-	public ModelAndView slide3() throws Exception{
-		
-		ModelAndView mav = new ModelAndView();
-
-		mav.setViewName("/meetmate/slide3");
-		
-		return mav;		
-	}
 	@GetMapping("/giormeet")
 	public ModelAndView giormeet() throws Exception{
 		
