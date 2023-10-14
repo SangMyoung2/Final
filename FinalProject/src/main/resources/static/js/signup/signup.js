@@ -78,6 +78,20 @@ $('#enterBtn').click(function() {
 const join = () => {
        
        f = document.myForm;
+
+
+       str = f.name.value;
+       str = str.trim(); 
+       if(!str){
+        const ErrorMessageDiv = document.getElementById("ErrorMessage");
+        ErrorMessageDiv.style.display = "block"; 
+           f.name.focus();
+           setTimeout(function() {
+            ErrorMessageDiv.style.display = "none"; 
+        }, 5000); 
+
+        return false;
+       }
    
        
        str = f.userName.value;
@@ -94,26 +108,14 @@ const join = () => {
        }
 
 
-   str = f.email.value;
-       str = str.trim(); 
-       if(!str){
-        const ErrorMessageDiv = document.getElementById("emailErrorMessage");
-        ErrorMessageDiv.style.display = "block"; 
-           f.email.focus();
-           setTimeout(function() {
-            ErrorMessageDiv.style.display = "none"; 
-        }, 5000); 
-        return false;
-       }
-  
    
-       if(f.email.value){
-           if(!isValidEmail(f.email.value)){
-            const mailErrorMessageDiv = document.getElementById("mailErrorMessage");
-            mailErrorMessageDiv.style.display = "block"; 
-               f.email.focus();
+       if(f.userName.value){
+           if(!isValidEmail(f.userName.value)){
+            const userNameErrorMessageDiv = document.getElementById("userNameErrorMessage");
+            userNameErrorMessageDiv.style.display = "block"; 
+               f.userName.focus();
                setTimeout(function() {
-                mailErrorMessageDiv.style.display = "none"; 
+                userNameErrorMessageDiv.style.display = "none"; 
             }, 5000); 
             return false;
            }
