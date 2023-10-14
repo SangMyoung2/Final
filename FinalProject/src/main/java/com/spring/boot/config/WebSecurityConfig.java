@@ -30,6 +30,7 @@ public class WebSecurityConfig {
 	private final BaseCustomOAuth2UserService baseCustomOAuth2UserService;
 	
 	
+	
 	private final UserSecurityService userSecurityService;
 	
 
@@ -48,16 +49,21 @@ public class WebSecurityConfig {
 		
 			http
 			.csrf().disable().headers().frameOptions().disable()
+		
 			.and()
 			.authorizeRequests()
 			.antMatchers
-			("/","/image/**","/sendSMS","/css/**","/images/**","/js/**","/signup.action","/signup_ok.action","/login_ok.action","/findID.action","/findPWD.action","/login.action").permitAll()
+			("/","/rePWD.action","/image/**","/sendSMS","/css/**","/js/**","/signup.action","/signup_ok.action","/login_ok.action","/findID.action","/findPWD.action","/login.action")
+			.permitAll()
 			
-			//"/api/vi/**"변경 불가 구글꺼 풀어주는 거
+		
 			.antMatchers("/api/vi/**")
 			.hasRole(BaseAuthRole.USER.name())
 			.anyRequest().authenticated()
 			.and()
+			
+			
+			
 
 			.formLogin()
 			.loginPage("/login.action")

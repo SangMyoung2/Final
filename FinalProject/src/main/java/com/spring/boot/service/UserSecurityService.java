@@ -46,7 +46,7 @@ public class UserSecurityService implements UserDetailsService{
         List<GrantedAuthority> authorities = new ArrayList<>();
 
         // 사용자명이 "admin"인 경우 사용자 권한을 부여
-        if ("admin".equals(username)) {
+        if ("admin@qqq.com".equals(username)) {
             authorities.add(new SimpleGrantedAuthority(UserRole.ADMIN.getValue()));
         } else { // 일반 사용자
             authorities.add(new SimpleGrantedAuthority(UserRole.USER.getValue()));
