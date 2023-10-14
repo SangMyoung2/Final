@@ -38,7 +38,7 @@ public class GatchiServiceImpl implements GatchiService{
 
 	@Override
 	public List<GatchiDTO> getMeetMateRandomList(int count) throws Exception {
-		return gatchiMapper.getCommuniFindLists();
+		return gatchiMapper.getMeetMateRandomList(count);
 	}
 
 

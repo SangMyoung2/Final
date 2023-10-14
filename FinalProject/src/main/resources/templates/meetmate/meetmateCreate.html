@@ -49,7 +49,8 @@
         
         <div>
             <label th:text="|${dto.meetCheck == 1 ? 'MeetMate' : 'CommuniFind'} 마스터|"></label>
-            <input type="text" id="meetMemId" name="meetMemId" value="세션에서받기" class="t1" readonly/>
+            <!-- <input type="text" id="meetMemId" name="meetMemId" value="세션에서받기" class="t1" readonly/> -->
+            <input type="text" id="meetMemId" name="meetMemId" th:value="${session.user1.name}" class="t1" readonly/>
 
             <label th:text="|${dto.meetCheck == 1 ? 'MeetMate' : 'CommuniFind'} 제목|"></label>
             <input type="text" id="meetTitle" name="meetTitle" required placeholder="Title" class="t1"/>

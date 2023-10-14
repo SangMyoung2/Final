@@ -35,8 +35,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	select * from gatchi where meetCheck = 2
 </select>
 
-<select id="getMeetMateRandomList" resultType="com.spring.boot.dto.GatchiDTO">
-	SELECT * FROM gatchi where meetCheck = 1 ORDER BY RAND();
+<select id="getMeetMateRandomList" parameterType="int" resultType="com.spring.boot.dto.GatchiDTO">
+<![CDATA[
+	SELECT * FROM (
+    	SELECT * FROM gatchi WHERE meetCheck = 1 ORDER BY DBMS_RANDOM.VALUE
+	) WHERE ROWNUM <= 5
+]]>
 </select>
 <!--
 <select id="meetLikes" parameterType="int">

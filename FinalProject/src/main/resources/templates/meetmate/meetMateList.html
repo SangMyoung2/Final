@@ -29,29 +29,21 @@
     <article class="slide">
       
         <ul class="panel">
- <!--         
-          <li class="li2">
-            <div class="opa">
-              <section>
-              <h3>NEW 21 F/W<br>캐시미어 블렌드 립 클루넥 가디건</h3>
-              <h4>뉴트럴 톤 컬러에 고급자개단추를 사용하여<br>디테일마저 고급스러운,</h4>
-              <button>more ⇁</button>
-              </section>
-            </div>
-          </li> 
-  -->  
+
           <ul class="panel">
-            <li class="li2" th:each="meet : ${meetMateSlideLists}">
-                <div class="opa">
-                    <section>
-                        <h3 th:text="${meet.meetTitle}"></h3>
-                        <h4 th:text="${meet.meetContent}"></h4>
-                        <img th:src="@{|/image/gatchiImage/${meet.meetImage}|}" class="card__image" alt=""/>
-                        <button>more ⇁</button>
-                    </section>
-                </div>
+            <th:block th:each="meet, iterStat : ${meetMateSlideLists}">
+            <li class="li2" th:style="'background-image: url(' + '/image/gatchiImage/' + ${meet.meetImage} + ');'">
+              <div class="opa">
+                <section>
+                  <!-- <img th:src="@{|/image/gatchiImage/${meet.meetImage}|}" class="card__image" alt=""/> -->
+                  <h3 th:text="${meet.meetTitle}"></h3>
+                  <h4 th:text="${meet.meetContent}"></h4>
+                  <button>more ⇁</button>
+                </section>
+              </div>
             </li>
-          </ul>
+          </th:block>
+        </ul>
 
           <!-- <li class="li2">
             <div class="opa">
@@ -72,15 +64,15 @@
             </div>
           </li> -->
           
-        </ul>
-  
-        <ul class="dot">
-          <li class="on li2"></li>
-          <li class="li2"></li>
-          <li class="li2"></li>
-          <li class="li2"></li>
-          <li class="li2"></li>
-        </ul>       
+
+          <ul class="dot">
+            <li class="on li2"></li>
+            <li class="li2"></li>
+            <li class="li2"></li>
+            <li class="li2"></li>
+            <li class="li2"></li>
+          </ul> 
+        </ul>      
       </article>
 
     </main>  
