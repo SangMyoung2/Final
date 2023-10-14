@@ -1,7 +1,9 @@
 package com.spring.boot.collection;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
@@ -24,10 +26,19 @@ public class ChatRoomCollection {
 
     private List<String> users;
 
+    private Map<String, String> entryDate;
+
     public void setLists(String user){
         if(users == null || users.isEmpty()){
             users = new ArrayList<String>();
         }
         users.add(user);
+    }
+    
+    public void setEntryDate(String user, String date){
+        if(entryDate == null){
+            entryDate = new HashMap<>();
+        }
+        entryDate.put(user, date);
     }
 }

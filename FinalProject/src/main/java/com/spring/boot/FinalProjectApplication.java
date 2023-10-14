@@ -14,7 +14,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @EnableMongoRepositories
-//@EnableScheduling
+@EnableScheduling
 public class FinalProjectApplication {
 
 	//주석대신 사용하려면 의존성주입을 여기서 해줘야한다.

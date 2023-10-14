@@ -8,37 +8,32 @@ document.write("<script\n" +
     "  integrity=\"sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=\"\n" +
     "  crossorigin=\"anonymous\"></script>")
 
+let usernamePage = document.querySelector('#username-page');
+let chatPage = document.querySelector('#chat-page');
+let usernameForm = document.querySelector('#usernameForm');
+let messageForm = document.querySelector('#messageForm');
+let messageInput = document.querySelector('#message');
+let imageInput = document.querySelector('#imageMessage');
+let messageArea = document.querySelector('#messageArea');
+let connectingElement = document.querySelector('.connecting');
 
-var usernamePage = document.querySelector('#username-page');
-var chatPage = document.querySelector('#chat-page');
-var usernameForm = document.querySelector('#usernameForm');
-var messageForm = document.querySelector('#messageForm');
-var messageInput = document.querySelector('#message');
-var imageInput = document.querySelector('#imageMessage');
-var messageArea = document.querySelector('#messageArea');
-var connectingElement = document.querySelector('.connecting');
-
-var stompClient = null;
-var username = null;
-
-var colors = [
-    '#2196F3', '#32c787', '#00BCD4', '#ff5652',
-    '#ffc107', '#ff85af', '#FF9800', '#39bbb0'
-];
+let stompClient = null;
+let username = null;
 
 // roomId 파라미터 가져오기
 const url = new URL(location.href).searchParams
 const roomId = url.get('roomId');
 
 function connect(event) {
-    username = document.querySelector('#name').value.trim();
+    username = document.getElementById("userName").value.trim();
+    // console.log(username);
     // username 중복 확인
     isDuplicateName();
     console.log('isDuplicateName 완료');
     // usernamePage 에 hidden 속성 추가해서 가리고
     // chatPage 를 등장시킴
-    usernamePage.classList.add('hidden');
-    chatPage.classList.remove('hidden');
+    // usernamePage.classList.add('hidden');
+    // chatPage.classList.remove('hidden');
 
     // 연결하고자하는 Socket 의 endPoint
     let socket = new SockJS('/ws-stomp');
@@ -66,10 +61,8 @@ function onConnected() {
         })
     )
     
-    connectingElement.classList.add('hidden');
-    // 여기
-    setInterval(updateNumber, 100000);
-
+    // connectingElement.classList.add('hidden');
+    setInterval(updateNumber, 500);
 }
 
 let chatMessage;
@@ -80,23 +73,11 @@ function onConnectedChat() {
 
     stompClient.subscribe('/sub/chat/room/' + roomId, (message)=> {
         let receivedData = JSON.parse(message.body);
-        //console.log("서버에서 받은 데이터 : ", receivedData);
-        //console.log(receivedData.message[0].message);
 
         chatMessage = receivedData.message;
         console.log(chatMessage);
-        // receivedData.message.forEach(element => {
-        //     console.log(element.message);
-        //     messageDiv(element);
-        // });
+        
     });
-
-    // stompClient.subscribe('/sub/chat/room/' + roomId, (message)=> {
-    //     let receivedData = JSON.parse(message.body);
-    //     console.log("서버에서 받은 데이터 : ", receivedData);
-    //     console.log(receivedData.length);
-    //     //console.log(receivedData[0].chats.message);
-    // });
 
     // 서버에 username 을 가진 유저가 들어왔다는 것을 알림
     // /pub/chat/enterUser 로 메시지를 보냄
@@ -287,7 +268,6 @@ function onMessageReceived(payload) {
     var chat = JSON.parse(payload.body);
     console.log("메세지 : " + chat.message);
     console.log("읽음안읽음 카운트 : " + chat.readCount);
-
     console.log("메세지 타입 : " + chat.type);
 
     var messageElement = document.createElement('li');
@@ -344,7 +324,7 @@ function onMessageReceived(payload) {
 
             if(isReciveChat===false){
                 var avatarElement = document.createElement('img');
-                avatarElement.src="http://localhost:8080/image/chat/none.png"
+                avatarElement.src="/image/chat/none.png"
                 
                 var avatarText = document.createTextNode(chat.sender[0]);
                 avatarElement.appendChild(avatarText);
@@ -365,7 +345,7 @@ function onMessageReceived(payload) {
 
             if(isReciveChat===false){
                 var avatarElement = document.createElement('img');
-                avatarElement.src="http://localhost:8080/image/chat/none.png"
+                avatarElement.src="/image/chat/none.png"
                 
                 var avatarText = document.createTextNode(chat.sender[0]);
                 avatarElement.appendChild(avatarText);
@@ -382,12 +362,12 @@ function onMessageReceived(payload) {
             textElement.classList.add('sendImageDiv')
         }
         else{
-            if(isReciveChat===false){
+            if(isReciveChat===false || sendUser != chat.sender){
                 sendUser = chat.sender;
                 messageElement.classList.add('chat-message');
 
                 var avatarElement = document.createElement('img');
-                avatarElement.src="http://localhost:8080/image/chat/none.png";
+                avatarElement.src="/image/chat/none.png";
                 avatarElement.classList.add('profile');
                 var avatarText = document.createTextNode(chat.sender);
                 avatarElement.appendChild(avatarText);
@@ -409,15 +389,6 @@ function onMessageReceived(payload) {
             }
         }
     }
-
-    // if(chat.type === 'IMAGE'){
-    //     messageElement.classList.add('chat-message');
-    //     var imageElement = document.createElement('img');
-    //     console.log(chat.message);
-    //     imageElement.src = chat.message;
-    //     messageElement.appendChild(imageElement);
-    //     imageInput.value="";
-    // }
     if(chat.type != 'IMAGE' && chat.type != 'EMOTICON'){
         var messageText = document.createTextNode(chat.message);
         textElement.appendChild(messageText);
@@ -451,9 +422,6 @@ function onMessageReceived(payload) {
     messageArea.appendChild(messageElement);
     messageArea.scrollTop = messageArea.scrollHeight;
 }
-
-//var messageElement ('li');
-//var textElement ('div');
 
 function messageDiv(chatMessages){
     //var chat = JSON.parse(message.body);
@@ -500,7 +468,7 @@ function messageDiv(chatMessages){
 
             if(isReciveChat===false){
                 var avatarElement = document.createElement('img');
-                avatarElement.src="http://localhost:8080/image/chat/none.png"
+                avatarElement.src="/image/chat/none.png"
                 
                 var avatarText = document.createTextNode(chat.sender[0]);
                 avatarElement.appendChild(avatarText);
@@ -520,7 +488,7 @@ function messageDiv(chatMessages){
 
             if(isReciveChat===false){
                 var avatarElement = document.createElement('img');
-                avatarElement.src="http://localhost:8080/image/chat/none.png"
+                avatarElement.src="/image/chat/none.png"
                 
                 var avatarText = document.createTextNode(chat.sender[0]);
                 avatarElement.appendChild(avatarText);
@@ -540,7 +508,7 @@ function messageDiv(chatMessages){
                 messageElement.classList.add('chat-message');
 
                 var avatarElement = document.createElement('img');
-                avatarElement.src="http://localhost:8080/image/chat/none.png"
+                avatarElement.src="/image/chat/none.png"
                 
                 var avatarText = document.createTextNode(chat.sender[0]);
                 avatarElement.appendChild(avatarText);
@@ -596,58 +564,7 @@ function messageDiv(chatMessages){
     messageArea.appendChild(messageElement);
     messageArea.scrollTop = messageArea.scrollHeight;
 
-
-    // if(chat.type === 'IMAGE' && chat.type === 'EMOTICON'){
-    //     messageText = document.createTextNode("");
-    // }
-    // else{
-    //     messageText = document.createTextNode(chat.message);
-    // }
-
-    // if(chat.type != 'ENTER' && chat.type != 'LEAVE'){
-    //         if(chat.sender === username){
-    //             if(chat.readCount > 0){
-    //                 var readCountElement = document.createElement('p');
-    //                 readCountElement.classList.add('readCount');
-    //                 readCountElement.setAttribute('name', 'readCnt');
-                
-    //                 readCountElement.value = chat.readCount;
-    //                 var readCountText = document.createTextNode(chat.readCount);
-    //                 readCountElement.appendChild(readCountText);
-    //                 messageElement.appendChild(readCountElement);
-    //             }
-    //             else{
-    //                 messageElement.classList.add('chat-myMessage-ok');
-    //                 messageElement.classList.remove('chat-myMessage');
-    //             }
-    //             messageElement.appendChild(textElement);
-    //         }
-    //         else{
-    //             messageElement.appendChild(textElement);
-    //             if(chat.readCount > 0){
-    //                 var readCountElement = document.createElement('p');
-    //                 readCountElement.classList.add('readCount');
-    //                 readCountElement.setAttribute('name', 'readCnt');
-                
-    //                 readCountElement.value = chat.readCount;
-    //                 var readCountText = document.createTextNode(chat.readCount);
-    //                 readCountElement.appendChild(readCountText);
-    //                 messageElement.appendChild(readCountElement);
-    //             }
-    //             else{
-    //                 messageElement.classList.add('chat-Message-ok');
-    //                 messageElement.classList.remove('chat-message')
-    //             }
-    //         }
-    // }
-    // textElement.appendChild(messageText);
-    // messageElement.appendChild(textElement);
-    // //messageElement.appendChild(messageText);
-    
-    // messageArea.appendChild(messageElement);
-    // messageArea.scrollTop = messageArea.scrollHeight;
 }
-
 
 // 이미지 드래그 해서 넣기 ( 여러개 가능 )
 $(function(){
@@ -689,28 +606,6 @@ $(function(){
     });
 });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // 메세지 읽음 안읽음 표시
 function updateNumber() {
     // AJAX 요청을 통해 서버에서 새로운 숫자 가져오기
@@ -749,7 +644,7 @@ function countReadData(data){
 
     let read = document.getElementsByClassName("chat-message");
     let myRead = document.getElementsByClassName("chat-myMessage");
-
+    console.log("유저 이름 : " + username);
     console.log("read 갯수 : " + read.length);
     console.log("myRead 갯수 : " + myRead.length);
     if(read.length <= 0 && myRead.length <= 0) {
@@ -821,15 +716,12 @@ for(let i = 0; i< emoticonBtns.length; i++){
             };
             stompClient.send("/pub/chat/sendMessage", {}, JSON.stringify(chatMessage));
             messageInput.value = '';
-            // 보내고 난 뒤 행동
         }
         e.preventDefault();
     });
 }
 
 function sendEmoticon(emoticon) {
-    //let emoticonContent = emoticon.src;
-
     if (messageContent && stompClient) {
         var chatMessage = {
             "roomId": roomId,
@@ -846,59 +738,45 @@ function sendEmoticon(emoticon) {
 }
 
 let emoticonMessageBtn = document.getElementById('emoticonMessage');
+let sendMessageBtn = document.getElementById('sendMessageBtn');
 let hiddenEmoticon = document.getElementById('emoticonBox');
+
+let isHidden = true;
 emoticonMessageBtn.addEventListener('click', function(){
-    if(hiddenEmoticon.style.display === "none"){
-        hiddenEmoticon.style.display = "block";
+    if(isHidden){
+        // hiddenEmoticon.style.display = "block";
+        hiddenEmoticon.classList.remove('hidden');
+        sendMessageBtn.classList.add('hidden');
+        messageArea.classList.add('emoticonArea');
+        isHidden = false;
     }
     else{
-        hiddenEmoticon.style.display = "none";
+        sendMessageBtn.classList.remove('hidden');
+        hiddenEmoticon.classList.add('hidden');
+        messageArea.classList.remove('emoticonArea');
+        isHidden = true;
     }
 });
 
+// emoticonMessageBtn.addEventListener('keydown', function (e) {
+//     console.log("key == " + e);
+//     if (e.key === 'Enter') {
+//         e.preventDefault(); // 엔터 키 이벤트의 기본 동작을 막음
+//         if (hiddenEmoticon.style.display === 'none') {
+//             hiddenEmoticon.style.display = 'block';
+//         } else {
+//             hiddenEmoticon.style.display = 'none';
+//         }
+//     }
+// });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function getAvatarColor(messageSender) {
-    var hash = 0;
-    for (var i = 0; i < messageSender.length; i++) {
-        hash = 31 * hash + messageSender.charCodeAt(i);
-    }
-
-    var index = Math.abs(hash % colors.length);
-    return colors[index];
+window.onload = function() {
+    connect();
 }
 
-usernameForm.addEventListener('submit', connect, true)
+setInterval(function(){
+    console.log("유저네임 : " + username);
+},1000);
+
+// usernameForm.addEventListener('submit', connect, true)
 messageForm.addEventListener('submit', sendMessage, true)

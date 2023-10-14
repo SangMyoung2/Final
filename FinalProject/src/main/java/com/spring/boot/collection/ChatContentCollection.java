@@ -37,9 +37,5 @@ public class ChatContentCollection {
         private String type;
         private int readCount;
         private List<String> readUser;
-
-        public ChatMessage(){
-            readUser = new ArrayList<>();
-        }
     }
 }

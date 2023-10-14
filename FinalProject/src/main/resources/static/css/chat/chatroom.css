@@ -35,12 +35,12 @@ html,body {
     margin-bottom: 15px;
     padding: 20px 30px 0px 20px;
 }
-
+/* 
 input {
     padding-left: 10px;
     outline: none;
-}
-
+} */
+/* 
 h1, h2, h3, h4, h5, h6 {
     margin-top: 20px;
     margin-bottom: 20px;
@@ -52,9 +52,13 @@ h1 {
 
 a {
     color: #128ff2;
-}
+} */
 
-button {
+/* 메세지 영역 스크롤바 제거 */
+#messageArea{-ms-overflow-style:none; }
+#messageArea::-webkit-scrollbar { display:none; }
+
+.primary {
     box-shadow: none;
     border: 1px solid transparent;
     font-size: 14px;
@@ -68,24 +72,24 @@ button {
     cursor: pointer;
     min-height: 38px;
 }
-
+/* 
 button.default {
     background-color: #e8e8e8;
     color: #333;
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.12);
-}
+} */
 
-button.primary {
+.primary {
     background-color: #128ff2;
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.12);
     color: #fff;
 }
-
+/* 
 button.accent {
     background-color: #ff4743;
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.12);
     color: #fff;
-}
+} */
 
 #username-page {
     text-align: center;
@@ -122,33 +126,34 @@ button.accent {
 }
 
 .chat-container {
-    background-color: #fff;
+    background-color: #eaeef1;
     box-shadow: 0 1px 11px rgba(0, 0, 0, 0.27);
     height: 100%;
     position: relative;
 }
 
-#chat-page ul {
+#chat-page #messageArea {
     list-style-type: none;
-    background-color: #FFF;
+    background-color: #eaeef1;
     margin: 0;
     overflow: auto;
     overflow-y: scroll;
-    padding: 0 20px 0px 20px;
-    height: calc(100% - 200px);
-    border-bottom: 1px solid;
+    padding: 0 0px 0px 30px;
+    height: calc(100% - 165px);
+    border-bottom: 1px solid #b7b7b7;
 }
 
-#chat-page #messageForm {
+.emoticonArea {
+    height: calc(100% - 300px) !important;
 }
 
-#chat-page ul li {
+#chat-page #messageArea li {
     line-height: 1.5rem;
     padding: 5px 20px;
     margin: 0;
 }
 
-#chat-page ul li .sendtext {
+#chat-page #messageArea li .sendtext {
     margin: 0;
 }
 
@@ -319,7 +324,7 @@ padding-left: 68px;
 .chat-header {
     text-align: center;
     padding: 15px;
-    border-bottom: 1px solid #ececec;
+    border-bottom: 1px solid #b7b7b7;
 }
 
 .chat-header h2 {
@@ -358,7 +363,7 @@ padding-left: 68px;
         padding: 25px;
     }
 
-    #chat-page ul {
+    #chat-page #messageArea {
         height: calc(100% - 120px);
     }
 
@@ -469,17 +474,46 @@ padding-left: 68px;
 
 .sendEmoticonBtn{
     max-width: 100px;
+    margin: 10px;
 }
 
 #emoticonMessage{
-    width: 50px;
+    width: 35px;
+    margin: 10px 10px 0px 15px;
 }
 
 .hiddenEmoticon{
-    display: none;
+    /* display: none;
     position: absolute;
+    max-width: 650px;
     top: 365px;
     left: 20px;
     background-color: rgb(213 213 213 / 40%);
-    width: calc(100% - 300px);
+    width: calc(100% - 300px); */
+    margin-top: 25px;
+    overflow-y: scroll;
+    height: 200px;
+}
+
+.hiddenEmoticon{-ms-overflow-style:none; }
+.hiddenEmoticon::-webkit-scrollbar { display:none; }
+
+#imageMessage{
+    display: none;
+}
+
+.imageMessageLabel{
+    background-image: url(/image/chat/image_Btn.png);
+    background-size: contain;
+    width: 35px;
+    height: 35px;
+    background-repeat: no-repeat;
+    margin: 10px 0px 0px 0;
+}
+
+#imageContainer{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 50px;
 }

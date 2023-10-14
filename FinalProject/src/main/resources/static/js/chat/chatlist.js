@@ -1,4 +1,5 @@
 
+
 let roomId;
 
 $(function(){
@@ -28,8 +29,6 @@ $(function(){
         }
     })
 })
-
-
 
 // 채팅방 설정 시 비밀번호 확인 - keyup 펑션 활용
 function confirmPWD(){
@@ -195,4 +194,59 @@ function chkRoomUserCnt(roomId){
         }
     })
     return chk;
+}
+
+
+setInterval(checkNotReadMessage, 700);
+let username;
+function checkNotReadMessage(){
+
+    username = document.getElementById("userName").value;
+
+    
+
+    console.log("유저 이름 : " + username);
+    let user = {'username': username};
+
+    let requestOption = {
+        method:'POST',
+        headers:{
+            'Content-Type':'application/json',
+        },
+        body:JSON.stringify(user)
+    };
+
+    fetch('/chat/checkNotReadMessage', requestOption)
+      .then(response => response.json())
+      .then(data => {
+        // 가져온 숫자를 화면에 표시
+        //console.log("데이타 : " + JSON.stringify(data));
+        console.log("checkNotReadMessage : " + JSON.stringify(data));
+        roomsNotReadMessage(data);
+      })
+      .catch(error => {
+        console.error('숫자 업데이트 중 오류 발생:', error);
+      });
+}
+
+function roomsNotReadMessage(data){
+    let rooms = document.getElementsByName("room");
+    let notReadCountObject = data.notReadCount;
+    let notReadCountKeys = Object.keys(notReadCountObject);
+    let notReadCountSize = notReadCountKeys.length;
+
+    console.log("크기 : " + notReadCountSize);
+    console.log(rooms[0].getAttribute('data-value'));
+    console.log("위잉 : " + notReadCountKeys);
+
+    for(let i=0; i<notReadCountSize; i++){
+        for(let j=0; j<rooms.length; j++){
+            let roomId = rooms[j].getAttribute('data-value');
+            let notReadCountValue = notReadCountObject[roomId];
+            if(notReadCountValue <= 0){
+                continue;
+            }
+            rooms[j].textContent = notReadCountValue;
+        }
+    }
 }
