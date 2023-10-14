@@ -107,6 +107,8 @@
     position: relative;
     min-width: 360px;
     background: #e8dcca;
+
+    max-height: 500px;
   }
   
   main .slide {
@@ -117,7 +119,9 @@
   
   main .panel {
     width: 300%;
-    height: 800px;
+    height: 100%;
+    
+    max-height: 500px;
   }
   
   main .panel:after {
@@ -200,6 +204,9 @@
     background: rgba(0, 0, 0, 0.1);
     width: 100%;
     height: 100%;
+
+    max-height: 500px; /* 사진이 자꾸 아래로 쏠려서 최대높이 지정함*/
+    object-position: center center; /* 이미지를 가로 및 세로축 중앙으로 정렬 */
   }
   
   main .opa section {
@@ -207,7 +214,25 @@
     top: 20%;
     left: 10%;
     color: #fff;
+    max-height: 500px;
   }
+
+
+
+
+
+  /* 슬라이드 div안의 image크기를 고정시키기 위해 추가 */
+  main .opa img.card__image {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+    max-height: 100%;
+  }
+
+
+
+
+
   
   main .opa section h3, main .opa section h4 {
     color: #fff;
@@ -283,7 +308,16 @@
 
   
  
+
+
   
+  
+
+
+
+
+
+/* 게시글 뿌려주는 card css*/
 /* 될지 모르겠는데 카테고리를 div에 버튼형식으로 눈에 띄게 하고싶어서 해봄 */
   .ctgButton {
     background: none;
@@ -313,7 +347,7 @@
 
 
 
-/* 게시글 뿌려주는 card css*/
+
   :root {
     --surface-color: #fff;
     --curve: 40;

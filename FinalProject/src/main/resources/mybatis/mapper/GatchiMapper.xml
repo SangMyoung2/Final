@@ -35,7 +35,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	select * from gatchi where meetCheck = 2
 </select>
 
-<select id=""></select>
+<select id="getMeetMateRandomList" resultType="com.spring.boot.dto.GatchiDTO">
+	SELECT * FROM gatchi where meetCheck = 1 ORDER BY RAND();
+</select>
 <!--
 <select id="meetLikes" parameterType="int">
 	select count(*) from gatchiLike 

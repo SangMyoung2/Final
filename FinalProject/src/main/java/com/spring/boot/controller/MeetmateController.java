@@ -139,7 +139,7 @@ public class MeetmateController {
 			String originalFileName = meetImage.getOriginalFilename();
 			File destFile = new File(uploadDir, originalFileName);
 			
-			System.out.print("이거야 이름 이거이거거거ㅓ"+ originalFileName);
+			//System.out.print("이거야 이름 이거이거거거ㅓ"+ originalFileName);
 
 			meetImage.transferTo(destFile);
 			int maxNum = gatchiService.maxNum();
@@ -158,11 +158,15 @@ public class MeetmateController {
 		ModelAndView mav = new ModelAndView();
 		
 		List<GatchiDTO> meetMateLists = new ArrayList<>();
+		List<GatchiDTO> meetMateSlideLists = new ArrayList<>();
 
 		meetMateLists = gatchiService.getMeetMateLists();
+		meetMateSlideLists = gatchiService.getMeetMateRandomList(5); // 5개의 랜덤 모임을 가져옴
 
 		//System.out.println("모임 DB 가져온 내용 : " + meetLists);
 
+		mav.addObject("meetMateSlideLists", meetMateSlideLists);
+		
 		mav.addObject("meetLists", meetMateLists);
 		mav.setViewName("/meetmate/meetMateList");
 		

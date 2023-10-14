@@ -36,6 +36,15 @@ public class GatchiServiceImpl implements GatchiService{
 		return gatchiMapper.getCommuniFindLists();
 	}
 
+	@Override
+	public List<GatchiDTO> getMeetMateRandomList(int count) throws Exception {
+		return gatchiMapper.getCommuniFindLists();
+	}
+
+
+
+
+
 /*
 	@Override
 	public void meetLikes(int meetListNum) throws Exception {
@@ -83,6 +92,7 @@ public class GatchiServiceImpl implements GatchiService{
 	public void deleteData(int num) throws Exception {
 		boardMapper.deleteData(num);
 	}
-	*/
-
+*/
 }
+
+

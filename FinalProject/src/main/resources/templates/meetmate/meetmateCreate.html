@@ -67,7 +67,7 @@
     
         <div>
             <label th:text="|${dto.meetCheck == 1 ? 'MeetMate' : 'CommuniFind'} 날짜|"></label>
-            <div style="width: 115%;">
+            <div style="width: 118%;">
                 <input type="text" name="mDate" id="meetmateDateYear"
                 pattern="202[3-9]|20[3-9][0-9]" size="4" maxlength="4" required placeholder="YYYY" class="t2"/>
                 <span>/</span>
@@ -79,9 +79,9 @@
             </div>    
                 
             <label th:text="|${dto.meetCheck == 1 ? 'MeetMate' : 'CommuniFind'} 시간|"></label>
-            <div style="width: 115%; margin-left: -10px;">
+            <div style="width: 119%; margin-left: -10px;">
 
-                <select style="width: 38%; margin-left: 10px;" class="select1" name="mDate">                    
+                <select style="width: 39%; margin-left: 10px;" class="select1" name="mDate">                    
                     <option value="" selected disabled>시</option>
                     <option value="00">00</option>
                     <option value="01">01</option>
@@ -109,7 +109,7 @@
                     <option value="23">23</option>
                 </select> 시
 
-                <select style="width: 38%; margin-left: 10px;" class="select1" name="mDate">
+                <select style="width: 39%; margin-left: 10px;" class="select1" name="mDate">
                     <option value="" selected disabled>분</option>
                     <option value="00">00</option>
                     <option value="05">05</option>
@@ -156,9 +156,9 @@
             </div> 
             
             <div> 
-                <label th:text="|${dto.meetCheck == 1 ? 'MeetMate' : 'CommuniFind'} 참가비 금액|"></label>
+                <label th:text="|${dto.meetCheck == 1 ? 'MeetMate' : 'CommuniFind'} 기본참가비 ('있음'을 체크한 경우에만 입력해주세요.)|"></label>
                 <label style="color: rgba(145, 142, 142, 0.808); font-weight: 150;">
-                    기본참가비 '있음'을 체크한 경우에만 입력해주세요.</label>
+                    참가비가 있는 경우, 마스터에게 환급되어 추후 모임액으로 사용하실 수 있습니다.</label>
                 <input type="text" id="meetMoney" name="meetMoney" required placeholder="0" class="t3"/>
             </div>       
 
@@ -167,12 +167,12 @@
         <input type="hidden" id="meetDday" name="meetDday" value=""> 
         <input type="hidden" th:name="meetCheck" th:value="${dto.meetCheck}">
         <input type="hidden" id="meetName" name="meetName" th:value="${dto.meetName}">
- 
+
         <div class="Btn2">
             <button type="submit" class="createBtn" onclick="sendIt();">생성</button>
             <button type="button" class="cancelBtn" onclick="javascript:location.href='/meetMateList';">취소</button>
         </div>
-       
+
         </form>
     </div>
 
@@ -212,13 +212,13 @@
             }
         }
     }    
-       
+
     //이미지 선택여부 확인
     function imageCheck() {
         var meetImage = document.getElementById("meetImage");
         return meetImage.files.length > 0;
     }
-      
+
     function validateForm() {
         var meetImage = document.getElementById("meetImage");
         if (meetImage.files.length === 0) {

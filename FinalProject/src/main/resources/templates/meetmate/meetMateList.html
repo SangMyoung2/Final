@@ -29,7 +29,7 @@
     <article class="slide">
       
         <ul class="panel">
-          
+ <!--         
           <li class="li2">
             <div class="opa">
               <section>
@@ -38,9 +38,22 @@
               <button>more ⇁</button>
               </section>
             </div>
-          </li>
-          
-          <li class="li2">
+          </li> 
+  -->  
+          <ul class="panel">
+            <li class="li2" th:each="meet : ${meetMateSlideLists}">
+                <div class="opa">
+                    <section>
+                        <h3 th:text="${meet.meetTitle}"></h3>
+                        <h4 th:text="${meet.meetContent}"></h4>
+                        <img th:src="@{|/image/gatchiImage/${meet.meetImage}|}" class="card__image" alt=""/>
+                        <button>more ⇁</button>
+                    </section>
+                </div>
+            </li>
+          </ul>
+
+          <!-- <li class="li2">
             <div class="opa">
               <section>
               <h3>Summer<br>Essentiols</h3>
@@ -57,7 +70,7 @@
               <h4>SUMMER 전품목 해당<br>최대 50%까지</h4>
               </section>
             </div>
-          </li>
+          </li> -->
           
         </ul>
   

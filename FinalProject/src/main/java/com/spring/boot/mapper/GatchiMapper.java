@@ -19,7 +19,9 @@ public interface GatchiMapper {
 
 	public List<GatchiDTO> getCommuniFindLists() throws Exception;
 
-    public void meetLikes(int meetListNum) throws Exception;
+	public List<GatchiDTO> getMeetMateRandomList(int count) throws Exception;
+	
+    //public void meetLikes(int meetListNum) throws Exception;
 
 	
 	// public int getDataCount(String searchKey, String searchValue) throws Exception;
