@@ -38,12 +38,12 @@ public class PaymentServiceImpl implements PaymentService {
         if (user == null) {
             throw new RuntimeException("User is not logged in or session has expired.");
         }
-        String userEmail = user.getEmail(); 
+        String email = user.getEmail(); 
         
         // 해당 이메일 주소를 사용하여 userPointDTO를 업데이트하기
-        int currentBalance = paymentMapper.getUserPoint(userEmail);
+        int currentBalance = paymentMapper.getUserPoint(email);
         userPointDTO userPoint = new userPointDTO();
-        userPoint.setUser_email(userEmail);
+        userPoint.setEmail(email);
         userPoint.setPoint_balance(currentBalance + paymentInfoDTO.getPaid_amount());
         
         paymentMapper.updateUserPoint(userPoint);
@@ -59,19 +59,20 @@ public class PaymentServiceImpl implements PaymentService {
         paymentMapper.updateUserPoint(userPointDTO);
     }
 
-    public void joinGroupAndDeductPoint(String userEmail, int meetListNum) {
+    public void joinGroupAndDeductPoint(int meetListNum) {
 
         
-        String actualEmail = extractEmail(userEmail);
-        System.out.println("Extracted User email: " + actualEmail);
-
-        System.out.println("Parsed User email: " + actualEmail);
+        // 세션에서 로그인된 사용자의 이메일 주소 가져오기
+        SessionUser user = (SessionUser) httpSession.getAttribute("user");
+        if (user == null) {
+            throw new RuntimeException("User is not logged in or session has expired.");
+        }
+        String email = user.getEmail();
 
 
         try {
-
             int meetMoney = paymentMapper.getMeetMoney(meetListNum);
-            int currentUserPoint = paymentMapper.getUserPoint(actualEmail);
+            int currentUserPoint = paymentMapper.getUserPoint(email);
 
             System.out.println("Mapper에서 반환된 meetMoney 값: " + meetMoney);
             System.out.println("Mapper에서 반환된 currentUserPoint 값: " + currentUserPoint);
@@ -86,7 +87,7 @@ public class PaymentServiceImpl implements PaymentService {
             System.out.println("포인트 확인: " + (currentUserPoint < meetMoney ? "포인트 부족" : "포인트 충분"));
 
             userPointDTO userPointDTO = new userPointDTO();
-            userPointDTO.setUser_email(actualEmail);
+            userPointDTO.setEmail(email);
             userPointDTO.setPoint_balance(-meetMoney);
 
             updateUserPoint(userPointDTO);

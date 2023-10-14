@@ -12,7 +12,7 @@
     <update id="updateUserPoint" parameterType="com.spring.boot.dto.userPointDTO">
         UPDATE userPoint
         SET point_balance = point_balance + #{point_balance}
-        WHERE user_email = #{user_email}
+        WHERE email = #{user_email}
     </update>
 
     <!-- 모임의 meetMoney 조회 -->
@@ -22,7 +22,7 @@
 
     <!-- 사용자의 포인트 잔액 조회 -->
     <select id="getUserPoint" resultType="int" parameterType="String">
-        SELECT point_balance FROM userPoint WHERE user_email = #{user_email}
+        SELECT point_balance FROM userPoint WHERE email = #{user_email}
     </select>
 
 
