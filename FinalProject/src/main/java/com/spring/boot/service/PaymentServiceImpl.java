@@ -1,8 +1,5 @@
 package com.spring.boot.service;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +22,14 @@ public class PaymentServiceImpl implements PaymentService {
     @Autowired
     private PaymentMapper paymentMapper;
 
+    private String getCurrentUserEmail() {
+        SessionUser user = (SessionUser) httpSession.getAttribute("user");
+        if (user == null) {
+            throw new RuntimeException("User is not logged in or session has expired.");
+        }
+        return user.getEmail();
+    }
+
     @Override
     public void processPaymentInfo(PaymentInfoDTO paymentInfoDTO){
 
@@ -38,7 +43,7 @@ public class PaymentServiceImpl implements PaymentService {
         if (user == null) {
             throw new RuntimeException("User is not logged in or session has expired.");
         }
-        String email = user.getEmail(); 
+        String email = getCurrentUserEmail(); 
         
         // 해당 이메일 주소를 사용하여 userPointDTO를 업데이트하기
         int currentBalance = paymentMapper.getUserPoint(email);
@@ -59,7 +64,7 @@ public class PaymentServiceImpl implements PaymentService {
         paymentMapper.updateUserPoint(userPointDTO);
     }
 
-    public void joinGroupAndDeductPoint(int meetListNum) {
+    public void joinGroupAndDeductPoint(String email, int meetListNum) {
 
         
         // 세션에서 로그인된 사용자의 이메일 주소 가져오기
@@ -67,12 +72,12 @@ public class PaymentServiceImpl implements PaymentService {
         if (user == null) {
             throw new RuntimeException("User is not logged in or session has expired.");
         }
-        String email = user.getEmail();
+        String emailFromSession = getCurrentUserEmail();
 
 
         try {
             int meetMoney = paymentMapper.getMeetMoney(meetListNum);
-            int currentUserPoint = paymentMapper.getUserPoint(email);
+            int currentUserPoint = paymentMapper.getUserPoint(emailFromSession);
 
             System.out.println("Mapper에서 반환된 meetMoney 값: " + meetMoney);
             System.out.println("Mapper에서 반환된 currentUserPoint 값: " + currentUserPoint);
@@ -87,7 +92,7 @@ public class PaymentServiceImpl implements PaymentService {
             System.out.println("포인트 확인: " + (currentUserPoint < meetMoney ? "포인트 부족" : "포인트 충분"));
 
             userPointDTO userPointDTO = new userPointDTO();
-            userPointDTO.setEmail(email);
+            userPointDTO.setEmail(emailFromSession);
             userPointDTO.setPoint_balance(-meetMoney);
 
             updateUserPoint(userPointDTO);
@@ -100,18 +105,6 @@ public class PaymentServiceImpl implements PaymentService {
             e.printStackTrace();
         }
 
-    }
-
-
-        public String extractEmail(String input) {
-        String emailRegex = "\"userEmail\":\"([^\"]+)\"";
-        Pattern pattern = Pattern.compile(emailRegex);
-        Matcher matcher = pattern.matcher(input);
-
-        if (matcher.find()) {
-            return matcher.group(1);
-        }
-        return null;
     }
 
 
