@@ -28,5 +28,6 @@ public interface MeetServiceYj {
 
     public void updateMeetBlack(MeetDTOYj dto) throws Exception;
 
+    public Integer getMemberStatus(MeetDTOYj dto) throws Exception;
 
 }

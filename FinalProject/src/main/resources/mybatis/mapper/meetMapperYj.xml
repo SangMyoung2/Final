@@ -33,9 +33,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     values (#{meetListNum}, #{meetReviewNum}, #{email}, #{meetReviewContent}, TO_DATE(#{meetReviewDate}, 'YYYY-MM-DD HH24:MI:SS'), #{meetReviewImg})
 </insert>
 
-<!-- <select id="getMemberStatus" parameterType="com.spring.boot.dto.MeetDTOYj" resultType="int">
-    select meetMemStatus from meetInfo where meetListNum = #{meetListNum} and mail = #{mail}
-</select> -->
+<select id="getMemberStatus" parameterType="com.spring.boot.dto.MeetDTOYj" resultType="Integer">
+    select meetMemStatus from meetInfo where meetListNum = #{meetListNum} and email = #{email}
+</select>
 
 <insert id="insertMeetJoinOk" parameterType="com.spring.boot.dto.MeetDTOYj">
     insert into meetInfo (meetListNum, email, meetMemStatus)

@@ -216,7 +216,7 @@ function openModal(imgElement) {
                             <p class="Yj-text3" th:text="${meetListInfo.meetMaxMemCnt}"></p>
                         </div>
                         
-                        <form th:with="meetMemStatus=${meetMemStatus}" th:unless="${meetMemStatus == 1 or meetMemStatus == 2}">
+                        <form th:with="meetMemStatus=${meetMemStatus}" th:if="${meetMemStatus < 0}">
                             <button form="joinForm" type="submit" class="join-button">
                                 <span class="icon" id="joinButton">📝</span>가입하기
                             </button>

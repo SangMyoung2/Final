@@ -80,4 +80,9 @@ public class MeetServiceImplYj implements MeetServiceYj {
         meetMapperYj.updateMeetBlack(dto);
     }
 
+    @Override
+    public Integer getMemberStatus(MeetDTOYj dto) throws Exception {
+        return meetMapperYj.getMemberStatus(dto);
+    }
+
 }

@@ -41,12 +41,22 @@ public class MeetControllerYj {
 		MeetDTOYj meetListInfo = meetServiceYj.getMeetListInfo(Integer.parseInt(request.getParameter("meetListNum")));
 		List<String> meetMembers = meetServiceYj.getMeetMembers(Integer.parseInt(request.getParameter("meetListNum")));
 		List<MeetDTOYj> meetReview = meetServiceYj.getReview(Integer.parseInt(request.getParameter("meetListNum")));
-		ModelAndView mav = new ModelAndView();
 
+		ModelAndView mav = new ModelAndView();
+		MeetDTOYj dto = new MeetDTOYj();
+
+		dto.setMeetListNum(Integer.parseInt(request.getParameter("meetListNum")));
+		dto.setEmail("kim"); // TODO : 세션에서 memid 가져와야됨
+
+		int memberStatus = -1;
+		Integer ret = meetServiceYj.getMemberStatus(dto);
+		if (ret != null) memberStatus = ret.intValue();
+System.out.println(">>>>>>>>>>>>>" + memberStatus);
 		mav.addObject("meetListNum", request.getParameter("meetListNum"));
 		mav.addObject("meetListInfo", meetListInfo);
 		mav.addObject("meetMembers", meetMembers);
 		mav.addObject("meetReview", meetReview);
+		mav.addObject("meetMemStatus", memberStatus);
 		mav.setViewName("bbs/articleYj");
 		
 		return mav;
@@ -71,7 +81,7 @@ public class MeetControllerYj {
 
 			dto.setMeetReviewImg(originalFilename); // 원본 이미지 파일 이름을 저장
 			dto.setMeetListNum(meetListNum);
-			dto.setEmail("ejs"); // TODO : 세션에서 memid 가져와야됨
+			dto.setEmail("suzi"); // TODO : 세션에서 memid 가져와야됨
             dto.setMeetReviewContent(meetReviewContent);
             dto.setMeetReviewDate(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
 
@@ -114,7 +124,7 @@ public class MeetControllerYj {
 	
 		MeetDTOYj dto = new MeetDTOYj();
 		dto.setMeetListNum(meetListNum);
-		dto.setEmail("ejs"); // TODO : 세션에서 email 가져와야됨
+		dto.setEmail("suzi"); // TODO : 세션에서 email 가져와야됨
 		dto.setMeetMemStatus(0); //승인대기
 		meetServiceYj.insertMeetJoinOk(dto);
 	
