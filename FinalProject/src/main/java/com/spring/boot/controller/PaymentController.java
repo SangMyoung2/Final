@@ -56,10 +56,10 @@ public class PaymentController {
     }
 
     @PostMapping("/joinGroup/{meetListNum}")
-    public ResponseEntity<String> joinGroup(@PathVariable int meetListNum, @RequestBody String userEmail) {
+    public ResponseEntity<String> joinGroup(@PathVariable int meetListNum, @RequestBody String email) {
         
         try {
-            paymentService.joinGroupAndDeductPoint(userEmail, meetListNum);
+            paymentService.joinGroupAndDeductPoint(email, meetListNum);
             return new ResponseEntity<>("Successfully joined and deducted points!", HttpStatus.OK);
         } catch (RuntimeException e) {
             return new ResponseEntity<>("Error: " + e.getMessage(), HttpStatus.BAD_REQUEST);
