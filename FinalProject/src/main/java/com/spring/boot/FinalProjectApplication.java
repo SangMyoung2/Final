@@ -11,11 +11,16 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
+import org.springframework.scheduling.annotation.EnableScheduling;
+
 
 
 import net.nurigo.java_sdk.exceptions.CoolsmsException;
 
 @SpringBootApplication
+@EnableMongoRepositories
+@EnableScheduling
 public class FinalProjectApplication {
 
 	
@@ -49,4 +54,5 @@ public class FinalProjectApplication {
 		return sessionFactory.getObject();
 		
 	}
+
 }
