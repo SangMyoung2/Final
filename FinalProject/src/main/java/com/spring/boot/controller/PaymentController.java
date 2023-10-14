@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.boot.dto.PaymentInfoDTO;
-import com.spring.boot.dto.userPointDTO;
 import com.spring.boot.service.PaymentService;
 
 @Controller
