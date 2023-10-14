@@ -36,7 +36,7 @@ public class SuccessHandler implements AuthenticationSuccessHandler {
                
           session.setAttribute("user1", user);
 
-          System.out.println("여기 보세요 "+user.getName());
+          
         
         // if (principal instanceof UserDetails) {
         //     UserDetails userDetails = (UserDetails) principal;

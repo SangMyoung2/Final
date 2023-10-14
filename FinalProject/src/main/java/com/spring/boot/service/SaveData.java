@@ -27,11 +27,11 @@ public class SaveData {
             user.setEmail(userName);
 
             userRepository.save(user);
-    
-      
-    
+
+            }
+        }
+
+   
     }
-}
-}
     
 
