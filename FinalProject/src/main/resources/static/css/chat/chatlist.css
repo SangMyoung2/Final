@@ -31,6 +31,7 @@ a {
     width: 30%;
     height: 50px;
     padding: 15px 0;
+    font-size: 15pt;
 }
 
 
@@ -42,4 +43,18 @@ a {
     height: 80px;
     font-size: 50px;
     padding: 15px;
+}
+
+.hidden{
+    display: none;
+}
+
+.notreadcount{
+    color: #f29393;
+    border: 1px solid yellow;
+    background-color: yellow;
+    border-radius: 10px;
+    position: relative;
+    top: -10px;
+    font-size: 13pt;
 }

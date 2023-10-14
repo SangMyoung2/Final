@@ -8,10 +8,13 @@
 			<li class="menu_item_logo"><a href="/" class="link"><p class="textLogo">GATCHI</p></a></li>
 		<div id="subbody" class="sbody">
 			<div class="subbody1">
-			<li class="menu_item"><a href="#" class="link">소셜링</a></li>
-			<li class="menu_item"><a href="#" class="link">클럽</a></li>
-			<li class="menu_item"><a href="#" class="link">챌린지</a></li>
+			<li class="menu_item"><a href="#" class="link">Meet Mate</a></li>
+			<li class="menu_item"><a href="#" class="link">Communi Find</a></li>
+			<li class="menu_item"><a href="#" class="link">Challenge</a></li>
+			<li class="menu_item"><a href="#" class="link">Together World</a></li>
 			<li class="menu_item"><a href="#" class="link">고객센터</a></li>
+			<li class="menu_item"><a href="#" class="link">Map</a></li>
+			<li class="menu_item"><a href="#" class="link">공동 구매</a></li>
 		</div>
 		<div class="subbody2">
 
@@ -22,7 +25,7 @@
 			</li>
 
 			<li class="menu_item" th:if="${#httpSession.getAttribute('user1') != null}">
-				<b style="color: black;" th:text="${session.user1.username}"></b>
+				<b style="color: black;" th:text="${session.user1.name}"></b>
 				</li>
 
 			<li class="menu_item" th:if="${#httpSession.getAttribute('user') != null} or ${#httpSession.getAttribute('user1') != null}">

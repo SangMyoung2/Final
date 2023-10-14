@@ -3,7 +3,7 @@ package com.spring.boot.dto;
 import java.util.Map;
 
 import com.spring.boot.model.BaseAuthRole;
-import com.spring.boot.model.BaseAuthUser;
+import com.spring.boot.model.Users;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -148,8 +148,8 @@ public class OAuthAttributes {
 }
 	
 	
-	public BaseAuthUser toEntity() {
-		return BaseAuthUser.builder()
+	public Users toEntity() {
+		return Users.builder()
 				.name(name)
 				.email(email)
 				.picture(picture)
