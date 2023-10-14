@@ -106,6 +106,7 @@ public class MeetControllerYj {
 		List<String> meetWait = meetServiceYj.getMeetWait(meetListNum);
 
 		ModelAndView mav = new ModelAndView();
+		mav.addObject("meetListNum", meetListNum);
 		mav.addObject("meetMembers", meetMembers);
 		mav.addObject("meetWait", meetWait);
 		mav.addObject("meetBlack", meetBlack);
