@@ -8,6 +8,22 @@
 <link rel="icon" type="image/png" th:href="@{http://localhost:8080/image/로고.png}"/>
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 
+
+    <script type="text/javascript" th:src="@{http://localhost:8080/js/map/examples-base.js}"></script>
+    <script type="text/javascript" th:src="@{http://localhost:8080/js/map/highlight.min.js}"></script>
+    <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=83bfuniegk"></script>
+    <!-- 위도 경도 좌표가져오는 모듈 -->
+    <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=YOUR_CLIENT_ID&submodules=geocoder"></script>
+
+    <style type="text/css">
+        .search { position:absolute;z-index:1000;top:20px;left:20px; }
+        .search #address { width:150px;height:20px;line-height:20px;border:solid 1px #555;padding:5px;font-size:12px;box-sizing:content-box; }
+        .search #submit { height:30px;line-height:30px;padding:0 10px;font-size:12px;border:solid 1px #555;border-radius:3px;cursor:pointer;box-sizing:content-box; }
+
+        .bg-gray-100{--tw-bg-opacity:1;background-color:rgb(243 244 246 / var(--tw-bg-opacity))}
+        .outline-none{outline:2px solid transparent;outline-offset:2px}
+    </style>
+
 </head>
 
 
@@ -42,6 +58,16 @@
                 <input type="text" id="meetName" name="meetName" placeholder="Meetmate 모임명" class="t1" required disabled/>
         </div>
 
+
+        <div id="map" style="width:100%;height:500px;">
+            <div class="search" style="">
+                <input id="address" type="text" placeholder="검색할 주소" value="불정로 6" />
+                <input id="submit" type="button" value="주소 검색" />
+            </div>
+        </div>
+
+
+
         <div class="Btn2">
             <button type="submit" class="createBtn" onclick="sendIt();">확인</button>
             <button type="button" class="cancelBtn" onclick="javascript:location.href='/meetmateList';">취소</button>
@@ -49,6 +75,60 @@
         </div>
 
     </form>
+
+
+    <script id="code">
+        var map = new naver.maps.Map('map', {
+            center: new naver.maps.LatLng(37.5666805, 126.9784147),
+            zoom: 10,
+            mapTypeId: naver.maps.MapTypeId.NORMAL
+        });
+        
+        
+        
+        var infowindow = new naver.maps.InfoWindow({
+            borderWidth: 0,
+            disableAnchor: true,
+            backgroundColor: 'transparent'
+        });
+
+        function onSuccessGeolocation(position) {
+            var location = new naver.maps.LatLng(position.coords.latitude,
+                                                 position.coords.longitude);
+        
+            map.setCenter(location); // 얻은 좌표를 지도의 중심으로 설정합니다.
+            map.setZoom(15); // 지도의 줌 레벨을 변경합니다.
+        
+            infowindow.setContent('<img src="/image/map/marker-nowLocation.png"/>');
+        
+            infowindow.open(map, location);
+            console.log('Coordinates: ' + location.toString());
+        }
+        
+        function onErrorGeolocation() {
+            var center = map.getCenter();
+        
+            infowindow.setContent('<div style="padding:20px;">' +
+                '<h5 style="margin-bottom:5px;color:#f00;">Geolocation failed!</h5>'+ "latitude: "+ center.lat() +"<br />longitude: "+ center.lng() +'</div>');
+        
+            infowindow.open(map, center);
+        }
+        
+        $(window).on("load", function() {
+            if (navigator.geolocation) {
+                /**
+                 * navigator.geolocation 은 Chrome 50 버젼 이후로 HTTP 환경에서 사용이 Deprecate 되어 HTTPS 환경에서만 사용 가능 합니다.
+                 * http://localhost 에서는 사용이 가능하며, 테스트 목적으로, Chrome 의 바로가기를 만들어서 아래와 같이 설정하면 접속은 가능합니다.
+                 * chrome.exe --unsafely-treat-insecure-origin-as-secure="http://example.com"
+                 */
+                navigator.geolocation.getCurrentPosition(onSuccessGeolocation, onErrorGeolocation);
+            } else {
+                var center = map.getCenter();
+                infowindow.setContent('<div style="padding:20px;"><h5 style="margin-bottom:5px;color:#f00;">Geolocation not supported</h5></div>');
+                infowindow.open(map, center);
+            }
+        });
+        </script>
 
 
     <script>

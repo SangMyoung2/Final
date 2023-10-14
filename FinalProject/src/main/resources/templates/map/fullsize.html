@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>GATCHI MAP</title>
-    <link rel="icon" type="image/png" th:href="@{http://localhost:8080/image/로고.png}"/>
+    <link rel="icon" type="image/png" href="/image/로고.png"/>
 
     <script th:src="@{http://localhost:8080/js/map/jquery-1.9.1.js}"></script>
     <script type="text/javascript" th:src="@{http://localhost:8080/js/map/examples-base.js}"></script>
@@ -1269,7 +1269,6 @@ for (var key in jsonArray) {
         borderWidth: 0,
         disableAnchor: true,
         backgroundColor: 'transparent',
-
         pixelOffset: new naver.maps.Point(0, -50)
     });
 
