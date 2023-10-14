@@ -74,16 +74,17 @@ const find = () => {
        f = document.myForm;
 
 
-       str = f.name.value;
-       str = str.trim(); 
-       if(!str){
-        const ErrorMessageDiv = document.getElementById("nameErrorMessage");
-        ErrorMessageDiv.style.display = "block"; // 메시지를 나타내도록 스타일 변경
-           f.name.focus();
-           setTimeout(function() {
-            ErrorMessageDiv.style.display = "none"; 
-        }, 5000); 
-       }
+    //    str = f.name.value;
+    //    str = str.trim(); 
+    //    if(!str){
+    //     const ErrorMessageDiv = document.getElementById("nameErrorMessage");
+    //     ErrorMessageDiv.style.display = "block"; // 메시지를 나타내도록 스타일 변경
+    //        f.name.focus();
+    //        setTimeout(function() {
+    //         ErrorMessageDiv.style.display = "none"; 
+    //     }, 5000); 
+    //     return;
+    //    }
 
 
        str = f.email.value;
@@ -95,6 +96,7 @@ const find = () => {
            setTimeout(function() {
             ErrorMessageDiv.style.display = "none"; 
         }, 5000); 
+        return;
        }
   
    
@@ -111,17 +113,17 @@ const find = () => {
        }
 
 
-       if (!isAuthenticated) {
-        const ErrorMessageDiv = document.getElementById("telErrorMessage");
-        ErrorMessageDiv.style.display = "block"; 
-        f.tel.focus();
-        setTimeout(function() {
-         ErrorMessageDiv.style.display = "none"; 
-     }, 5000); 
-     return;
-    }
+    //    if (!isAuthenticated) {
+    //     const ErrorMessageDiv = document.getElementById("telErrorMessage");
+    //     ErrorMessageDiv.style.display = "block"; 
+    //     f.tel.focus();
+    //     setTimeout(function() {
+    //      ErrorMessageDiv.style.display = "none"; 
+    //  }, 5000); 
+    //  return;
+    // }
 
-   f.action = "/findID.action";
+   f.action = "/findPWD.action";
    f.submit();
 
 };

@@ -1,5 +1,7 @@
 <meta charset="UTF-8">
 
+
+
 <div th:fragment="headerFragment">
 <div class="top_header"></div>
 <header class="header">
@@ -20,12 +22,16 @@
 
 			
 			<!-- 사용자 정보가 있는 경우 (로그인된 상태) -->
-			<li class="menu_item" th:if="${#httpSession.getAttribute('user') != null}">
-			<b style="color: black;" th:text="${session.user.name}"></b>
+			<li style="width: 145px;" class="menu_item" th:if="${#httpSession.getAttribute('user') != null}">
+			<b style="color: black;" th:text="${session.user.name}+ ' 님 안녕하세요!'"></b>
 			</li>
 
-			<li class="menu_item" th:if="${#httpSession.getAttribute('user1') != null}">
-				<b style="color: black;" th:text="${session.user1.name}"></b>
+			<li style="width: 240px;" class="menu_item" th:if="${#httpSession.getAttribute('user1') != null}">
+				<b style="color: black;" th:text="${session.user1.name}+ ' 님 안녕하세요!'"></b>
+				</li>
+
+				<li class="menu_item" th:if="${#httpSession.getAttribute('user') != null} or ${#httpSession.getAttribute('user1') != null}">
+					<a href="/mypage.action" class="link">마이페이지</a>
 				</li>
 
 			<li class="menu_item" th:if="${#httpSession.getAttribute('user') != null} or ${#httpSession.getAttribute('user1') != null}">
