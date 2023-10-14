@@ -56,7 +56,15 @@ public class UserService {
 		}
 	}
 
+	public void changePassword(String email, String password) {
 
+        Optional<Users> userOptional = userRepository.findByEmail(email);
+        if (userOptional.isPresent()) {
+            Users user = userOptional.get();
+            user.setPassword(passwordEncoder.encode(password));
+            userRepository.save(user); 
+        } 
+    }
 	
     
    
