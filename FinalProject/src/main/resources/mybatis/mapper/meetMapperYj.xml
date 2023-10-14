@@ -42,24 +42,41 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     values (#{meetListNum}, #{email}, #{meetMemStatus})
 </insert>
 
-<update id="updateMeetBlack" parameterType="com.spring.boot.dto.MeetDTOYj">
+<select id="getMeetWait" parameterType="int" resultType="String">
+    select email from meetInfo where meetListNum = #{meetListNum} and meetMemStatus = 0 order by email desc
+</select>
+
+<!-- <update id="updateMeetWait" parameterType="com.spring.boot.dto.MeetDTOYj">
     update meetInfo set meetMemStatus = #{meetMemStatus}
     where meetListNum = #{meetListNum} and email = #{email}
+</update> -->
+
+<update id="acceptToWaitlist" parameterType="com.spring.boot.dto.MeetDTOYj">
+    update meetInfo set meetMemStatus = 2
+    where meetListNum = #{meetListNum} and email = #{email}
 </update>
+
+<delete id="rejectFromWaitlist" parameterType="com.spring.boot.dto.MeetDTOYj">
+    delete from meetInfo where meetListNum = #{meetListNum} and email = #{email}
+</delete>
+
+<select id="getMeetBlack" parameterType="int" resultType="String">
+    select email from meetInfo where meetListNum = #{meetListNum} and meetMemStatus = 3 order by email desc
+</select>
+
+<!-- <update id="updateMeetBlack" parameterType="com.spring.boot.dto.MeetDTOYj">
+    update meetInfo set meetMemStatus = #{meetMemStatus}
+    where meetListNum = #{meetListNum} and email = #{email}
+</update> -->
 
 <update id="addToBlacklist" parameterType="com.spring.boot.dto.MeetDTOYj">
     update meetInfo set meetMemStatus = 3
     where meetListNum = #{meetListNum} and email = #{email}
 </update>
 
-<update id="releaseFromBlacklist" parameterType="com.spring.boot.dto.MeetDTOYj">
-    update meetInfo set meetMemStatus = 2
-    where meetListNum = #{meetListNum} and email = #{email}
-</update>
-
-<select id="getMeetBlack" parameterType="int" resultType="String">
-    select email from meetInfo where meetListNum = #{meetListNum} and meetMemStatus = 3 order by email desc
-</select>
+<delete id="releaseFromBlacklist" parameterType="com.spring.boot.dto.MeetDTOYj">
+    delete from meetInfo where meetListNum = #{meetListNum} and email = #{email}
+</delete>
 
 
 </mapper>

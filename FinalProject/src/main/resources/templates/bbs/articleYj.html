@@ -217,8 +217,8 @@ function openModal(imgElement) {
                         </div>
                         
                         <form th:with="meetMemStatus=${meetMemStatus}" th:if="${meetMemStatus < 0}">
-                            <button form="joinForm" type="submit" class="join-button">
-                                <span class="icon" id="joinButton">📝</span>가입하기
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button form="joinForm" type="submit" class="join-button">
+                               가입하기
                             </button>
                         </form>
                         <form id="joinForm" action="/join-meet" method="post">

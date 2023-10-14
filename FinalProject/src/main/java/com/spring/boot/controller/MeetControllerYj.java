@@ -51,7 +51,7 @@ public class MeetControllerYj {
 		int memberStatus = -1;
 		Integer ret = meetServiceYj.getMemberStatus(dto);
 		if (ret != null) memberStatus = ret.intValue();
-System.out.println(">>>>>>>>>>>>>" + memberStatus);
+// System.out.println(">>>>>>>>>>>>>" + memberStatus);
 		mav.addObject("meetListNum", request.getParameter("meetListNum"));
 		mav.addObject("meetListInfo", meetListInfo);
 		mav.addObject("meetMembers", meetMembers);
@@ -81,7 +81,7 @@ System.out.println(">>>>>>>>>>>>>" + memberStatus);
 
 			dto.setMeetReviewImg(originalFilename); // 원본 이미지 파일 이름을 저장
 			dto.setMeetListNum(meetListNum);
-			dto.setEmail("suzi"); // TODO : 세션에서 memid 가져와야됨
+			dto.setEmail("kim"); // TODO : 세션에서 memid 가져와야됨
             dto.setMeetReviewContent(meetReviewContent);
             dto.setMeetReviewDate(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
 
@@ -103,9 +103,11 @@ System.out.println(">>>>>>>>>>>>>" + memberStatus);
 
 		List<String> meetMembers = meetServiceYj.getMeetMembers(meetListNum);
 		List<String> meetBlack = meetServiceYj.getMeetBlack(meetListNum);
+		List<String> meetWait = meetServiceYj.getMeetWait(meetListNum);
 
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("meetMembers", meetMembers);
+		mav.addObject("meetWait", meetWait);
 		mav.addObject("meetBlack", meetBlack);
 		mav.setViewName("bbs/managerYj");
 		
@@ -124,45 +126,97 @@ System.out.println(">>>>>>>>>>>>>" + memberStatus);
 	
 		MeetDTOYj dto = new MeetDTOYj();
 		dto.setMeetListNum(meetListNum);
-		dto.setEmail("suzi"); // TODO : 세션에서 email 가져와야됨
+		dto.setEmail("kim"); // TODO : 세션에서 email 가져와야됨
 		dto.setMeetMemStatus(0); //승인대기
 		meetServiceYj.insertMeetJoinOk(dto);
 	
 		return mav;
 	}
 
-	// 블랙리스트에 추가 또는 해제
-	@PostMapping("/update-meet-blacklist")
-	public ModelAndView updateMeetBlacklist(
-			@RequestParam("meetListNum") int meetListNum,
-			@RequestParam("email") String email,
-			@RequestParam("action") String action) throws Exception {
+	// // 승인대기 수락 또는 거절
+	// @PostMapping("/update-meet-waitlist")
+    // public ModelAndView updateMeetWaitlist(
+	// 		@RequestParam("meetListNum") int meetListNum,
+	// 		@RequestParam("email") String email,
+	// 		@RequestParam("meetMemStatus") int meetMemStatus,
+	// 		@RequestParam("action") String action) throws Exception {
 
-		if ("add".equals(action)) {
-			meetServiceYj.addToBlacklist(meetListNum, email);
-		} else if ("release".equals(action)) {
-			meetServiceYj.releaseFromBlacklist(meetListNum, email);
-		}
+	// 	if ("accept".equals(action)) {
+	// 		meetServiceYj.acceptToWaitlist(meetListNum, email);
+	// 	} else if ("reject".equals(action)) {
+	// 		meetServiceYj.rejectFromWaitlist(meetListNum, email);
+	// 	}
+
+	// 	return new ModelAndView("redirect:/managerYj.action?meetListNum=" + meetListNum);
+    // }
+
+	// 승인대기 수락
+	@PostMapping("/accept-to-waitlist")
+	public ModelAndView acceptToWaitlist(
+			@RequestParam("meetListNum") int meetListNum,
+			@RequestParam("email") String email) throws Exception {
+
+		MeetDTOYj dto = new MeetDTOYj();
+		dto.setMeetListNum(meetListNum);
+		dto.setEmail(email);
+		meetServiceYj.acceptToWaitlist(dto);
+		System.out.println(dto + "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+		
+		return new ModelAndView("redirect:/managerYj.action?meetListNum=" + meetListNum);
+	}
+
+
+	// 승인대기 거절
+	@PostMapping("/reject-from-waitlist")
+	public ModelAndView rejectFromWaitlist(
+			@RequestParam("meetListNum") int meetListNum,
+			@RequestParam("email") String email) throws Exception {
+		MeetDTOYj dto = new MeetDTOYj();
+		dto.setMeetListNum(meetListNum);
+		dto.setEmail(email);
+		meetServiceYj.rejectFromWaitlist(dto);
 
 		return new ModelAndView("redirect:/managerYj.action?meetListNum=" + meetListNum);
 	}
+
+
+	// // 블랙리스트에 추가 또는 해제
+	// @PostMapping("/update-meet-blacklist")
+	// public ModelAndView updateMeetBlacklist(
+	// 		@RequestParam("meetListNum") int meetListNum,
+	// 		@RequestParam("email") String email,
+	// 		@RequestParam("action") String action) throws Exception {
+
+	// 	if ("add".equals(action)) {
+	// 		meetServiceYj.addToBlacklist(meetListNum, email);
+	// 	} else if ("release".equals(action)) {
+	// 		meetServiceYj.releaseFromBlacklist(meetListNum, email);
+	// 	}
+
+	// 	return new ModelAndView("redirect:/managerYj.action?meetListNum=" + meetListNum);
+	// }
 		
-	// // 블랙리스트에 추가
-	// @PostMapping("/add-to-blacklist")
-	// public ModelAndView addToBlacklist(@RequestParam("meetListNum") int meetListNum, @RequestParam("email") String email) throws Exception {
+	// 블랙리스트에 추가
+	@PostMapping("/add-to-blacklist")
+	public ModelAndView addToBlacklist(@RequestParam("meetListNum") int meetListNum, @RequestParam("email") String email) throws Exception {
+		MeetDTOYj dto = new MeetDTOYj();
+		dto.setMeetListNum(meetListNum);
+		dto.setEmail(email);
+		meetServiceYj.addToBlacklist(dto);
 
-	// 	meetServiceYj.addToBlacklist(meetListNum, email);
+		return new ModelAndView("redirect:/managerYj.action?meetListNum=" + meetListNum);
+	}
 
-	// 	return new ModelAndView("redirect:/managerYj.action?meetListNum=" + meetListNum);
-	// }
 
-	// // 블랙리스트 해제
-	// @PostMapping("/release-from-blacklist")
-	// public ModelAndView releaseFromBlacklist(@RequestParam("meetListNum") int meetListNum, @RequestParam("email") String email) throws Exception {
+	// 블랙리스트 해제
+	@PostMapping("/release-from-blacklist")
+	public ModelAndView releaseFromBlacklist(@RequestParam("meetListNum") int meetListNum, @RequestParam("email") String email) throws Exception {
+		MeetDTOYj dto = new MeetDTOYj();
+		dto.setMeetListNum(meetListNum);
+		dto.setEmail(email);
+		meetServiceYj.releaseFromBlacklist(dto);
 
-	// 	meetServiceYj.releaseFromBlacklist(meetListNum, email);
-
-	// 	return new ModelAndView("redirect:/managerYj.action?meetListNum=" + meetListNum);
-	// }
+		return new ModelAndView("redirect:/managerYj.action?meetListNum=" + meetListNum);
+	}
 
 }

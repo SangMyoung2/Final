@@ -49,40 +49,55 @@ public class MeetServiceImplYj implements MeetServiceYj {
     public void insertMeetJoinOk(MeetDTOYj dto) throws Exception {
         meetMapperYj.insertMeetJoinOk(dto);
     }
+    
+        @Override
+        public Integer getMemberStatus(MeetDTOYj dto) throws Exception {
+            return meetMapperYj.getMemberStatus(dto);
+        }
+
+    @Override
+    public List<String> getMeetWait(int meetListNum) throws Exception {
+        return meetMapperYj.getMeetWait(meetListNum);
+    }
+
+    // @Override
+    // public void updateMeetWait(MeetDTOYj dto) throws Exception {
+    //     meetMapperYj.updateMeetWait(dto);
+    // }
+
+    @Override
+    public void acceptToWaitlist(MeetDTOYj dto) throws Exception {
+       
+        meetMapperYj.acceptToWaitlist(dto);
+    }
+
+    @Override
+    public void rejectFromWaitlist(MeetDTOYj dto) throws Exception {
+
+        meetMapperYj.rejectFromWaitlist(dto);
+    }
+
 
     @Override
     public List<String> getMeetBlack(int meetListNum) throws Exception {
         return meetMapperYj.getMeetBlack(meetListNum);
     }
 
+    // @Override
+    // public void updateMeetBlack(MeetDTOYj dto) throws Exception {
+    //     meetMapperYj.updateMeetBlack(dto);
+    // }
+
     @Override
-    public void updateMeetBlack(MeetDTOYj dto) throws Exception {
-        meetMapperYj.updateMeetBlack(dto);
+    public void addToBlacklist(MeetDTOYj dto) throws Exception {
+       
+        meetMapperYj.addToBlacklist(dto);
     }
 
     @Override
-    public void addToBlacklist(int meetListNum, String email) throws Exception {
-        MeetDTOYj dto = new MeetDTOYj();
-        dto.setMeetListNum(meetListNum);
-        dto.setEmail(email);
-        dto.setMeetMemStatus(3); // 블랙리스트 상태로 설정
+    public void releaseFromBlacklist(MeetDTOYj dto) throws Exception {
 
-        meetMapperYj.updateMeetBlack(dto);
-    }
-
-    @Override
-    public void releaseFromBlacklist(int meetListNum, String email) throws Exception {
-        MeetDTOYj dto = new MeetDTOYj();
-        dto.setMeetListNum(meetListNum);
-        dto.setEmail(email);
-        dto.setMeetMemStatus(2); // 회원 상태로 설정
-
-        meetMapperYj.updateMeetBlack(dto);
-    }
-
-    @Override
-    public Integer getMemberStatus(MeetDTOYj dto) throws Exception {
-        return meetMapperYj.getMemberStatus(dto);
+        meetMapperYj.releaseFromBlacklist(dto);
     }
 
 }
