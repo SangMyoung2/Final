@@ -2,6 +2,7 @@ package com.spring.boot.controller;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -29,6 +30,9 @@ public class MeetControllerYj {
 		List<MeetDTOYj> listYj = meetServiceYj.getAllCategories();
 
 		ModelAndView mav = new ModelAndView();
+		if(listYj != null){
+			listYj = new ArrayList<>();
+		}
 		mav.addObject("listYj", listYj);
 		mav.setViewName("bbs/listYj");
 

@@ -26,7 +26,7 @@
 			<b style="color: black;" th:text="${session.user.name}+ ' 님 안녕하세요!'"></b>
 			</li>
 
-			<li style="width: 240px;" class="menu_item" th:if="${#httpSession.getAttribute('user1') != null}">
+			<li style="width: 100px;" class="menu_item" th:if="${#httpSession.getAttribute('user1') != null}">
 				<b style="color: black;" th:text="${session.user1.name}+ ' 님 안녕하세요!'"></b>
 				</li>
 

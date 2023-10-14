@@ -10,7 +10,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     insert into gatchi(
 	meetListNum,meetCheck,meetCtgNum,meetName,
     meetTitle,meetContent,meetImage,meetDate,meetDday,
-    meetMemCnt,meetMaxMemCnt,meetHitCount,meetLike,
+    meetMemCnt,meetMaxMemCnt,meetHitCount,meetLikeCount,
     meetHow,meetEntryfee,meetMoney,meetPlace) values (
 	#{meetListNum},#{meetCheck},#{meetCtgNum},#{meetName},
 	#{meetTitle},#{meetContent},#{meetImage},sysdate,#{meetDday},
@@ -23,7 +23,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </select>
 
 <select id="getReadData" parameterType="int" resultType="com.spring.boot.dto.GatchiDTO">
-	select meetCtgNum,meetName,meetMemId,meetTitle,meetContent,meetImage,meetDate,meetDday,meetMemCnt,meetMaxMemCnt,meetHitCount,meetLike,meetHow,meetEntryfee,meetMoney,meetPlace from gatchi 
+	select meetCtgNum,meetName,meetMemId,meetTitle,meetContent,meetImage,meetDate,meetDday,meetMemCnt,meetMaxMemCnt,meetHitCount,meetLikeCount,meetHow,meetEntryfee,meetMoney,meetPlace from gatchi 
 	where meetListNum=#{meetListNum}
 </select>
 
