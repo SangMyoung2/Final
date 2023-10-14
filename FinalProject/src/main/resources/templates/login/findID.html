@@ -28,7 +28,7 @@
             <div class="row" >
               <div class="input-field col s12" >
                <input id="name" name="name" type="text" class="validate" required>
-               <label style="font-size: 23px;" for="name" >이름</label>
+               <label style="font-size: 23px;" for="name" >가입시 입력한 이름 혹은 닉네임</label>
                <div id="nameErrorMessage" style="display: none;">
                  <p style='color: red; font-size: 18px;'>이름을 입력하세요</p>
               </div>
@@ -75,8 +75,8 @@
         </div>
 
 
-        <div th:if="${dto != null}">
-          <p style='color: blue; font-size: 18px;' th:text="'${dto.name} 님의 아이디는 ' + ${dto.email} + ' 입니다'"></p>
+        <div th:if="${email != null}">
+          <p style="color: blue; font-size: 18px;" th:text="${name1} + ' 님의 아이디는 ' + ${email} + ' 입니다'"></p>
       </div>
       <div th:if="${error != null}">
           <p style='color: red; font-size: 18px;' th:text="${error}"></p>
