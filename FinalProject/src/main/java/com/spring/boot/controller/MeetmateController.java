@@ -35,23 +35,6 @@ public class MeetmateController {
 		
 		return mav;		
 	}
-
-	@GetMapping("/giormeet")
-	public ModelAndView giormeet() throws Exception{
-		
-		ModelAndView mav = new ModelAndView();
-		
-		List<GatchiDTO> meetMateLists = new ArrayList<>();
-
-		meetMateLists = gatchiService.getMeetMateLists();
-
-		//System.out.println("모임 DB 가져온 내용 : " + meetLists);
-
-		mav.addObject("meetLists", meetMateLists);
-		mav.setViewName("/meetmate/giormeet");
-		
-		return mav;		
-	}
 */
 
 
@@ -78,23 +61,23 @@ public class MeetmateController {
 		//meetCheck 값을 int로 파싱
 		dto.setMeetCheck(Integer.parseInt(meetCheck));
 
-		if (dto.getMeetCheck() == 1) {
-			dto.setMeetName(""); // 모임명을 ""로 설정
-		}
+		// if (dto.getMeetCheck() == 1) {
+		// 	dto.setMeetName(""); // 모임명을 ""로 설정
+		// }             ///////이거 주석처리돼있으면 아래에서 설정하는게 먹힌다는거니까 지우기
 				
 		//System.out.println("설정한 meetCheck 1: " + dto.getMeetCheck());
 		//System.out.println("설정한 meetName 2: " + dto.getMeetName());
 
 		mav.setViewName("/meetmate/meetMateCreate");
 		
-		// 이거 왜 안되냐구........................
-		// if (dto.getMeetCheck() == 1) {
-		// 	dto.setMeetName(""); // 모임명을 ""로 설정
-		// 	mav.setViewName("/meetmate/meetMateCreate");
+		//이거 왜 안되냐구........................
+		if (dto.getMeetCheck() == 1) {
+			dto.setMeetName(""); // 모임명을 ""로 설정
+			mav.setViewName("/meetmate/meetMateCreate");
 
-		// } else if (dto.getMeetCheck() == 2) {
-		// 	mav.setViewName("/meetmate/communiFindCreate");
-		// }	
+		} else if (dto.getMeetCheck() == 2) {
+			mav.setViewName("/meetmate/communiFindCreate");
+		}	
 
 		return mav;
 	}
@@ -113,8 +96,7 @@ public class MeetmateController {
 			String originalFileName = meetImage.getOriginalFilename();
 			File destFile = new File(uploadDir, originalFileName);
 			
-			System.out.print("이거야 이름 이거이거거거ㅓ"+ originalFileName);
-
+			//System.out.print("이거야 이름 이거이거거거ㅓ"+ originalFileName);
 			meetImage.transferTo(destFile);
 			int maxNum = gatchiService.maxNum();
 			dto.setMeetListNum(maxNum + 1);
@@ -173,8 +155,29 @@ public class MeetmateController {
 		return mav;		
 	}
 
+	@GetMapping("/communiFindList")
+	public ModelAndView communiFindList() throws Exception{
+		
+		ModelAndView mav = new ModelAndView();
+		
+		List<GatchiDTO> communiFindLists = new ArrayList<>();
+		List<GatchiDTO> communiFindSlideLists = new ArrayList<>();
+
+		communiFindLists = gatchiService.getCommuniFindLists();
+		communiFindSlideLists = gatchiService.getCommuniFindRandomList(5); // 5개의 랜덤 모임을 가져옴
+
+		//System.out.println("모임 DB 가져온 내용 : " + meetLists);
+
+		mav.addObject("communiFindSlideLists", communiFindSlideLists);
+		
+		mav.addObject("communiLists", communiFindLists);
+		mav.setViewName("/meetmate/communiFindList");
+		
+		return mav;		
+	}
 
 
+/*
 	@GetMapping("/communiFindList")
 	public ModelAndView communiFindList() throws Exception{
 		
@@ -191,6 +194,6 @@ public class MeetmateController {
 		
 		return mav;		
 	}
-
+*/
 
 }

@@ -15,7 +15,7 @@
 <div layout:fragment="content">
 
     <div class="container1">
-   
+
     <h1 th:text="|${dto.meetCheck == 1 ? 'MeetMate' : 'CommuniFind'} 개설하기|"></h1>
 
     <form action="meetMateCreate" method="POST" name="myForm" enctype="multipart/form-data" onsubmit="return validateForm();">
@@ -53,7 +53,7 @@
             <input type="text" id="meetMemId" name="meetMemId" th:value="${session.user1.name}" class="t1" readonly/>
 
             <label th:text="|${dto.meetCheck == 1 ? 'MeetMate' : 'CommuniFind'} 제목|"></label>
-            <input type="text" id="meetTitle" name="meetTitle" required placeholder="Title" class="t1"/>
+            <input type="text" id="meetTitle" name="meetTitle" required placeholder="Title" class="t1" size="24" maxlength="24"/>
             
             <label th:text="|${dto.meetCheck == 1 ? 'MeetMate' : 'CommuniFind'} 내용|"></label>
             <div class="flex_wrap">

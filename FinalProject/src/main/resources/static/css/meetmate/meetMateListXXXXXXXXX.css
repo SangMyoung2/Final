@@ -522,8 +522,8 @@
   /* 좋아요 버튼 */
   .heart {
     cursor: pointer;
-    height: 30%;
-    width: 30%;
+    height: 40%;
+    width: 40%;
     background-image:url( 'https://abs.twimg.com/a/1446542199/img/t1/web_heart_animation.png');
     background-position: left;
     background-repeat:no-repeat;
@@ -531,7 +531,7 @@
     position: absolute;
     right: 0px;
 
-    top: -20px; /* 간격 조금 늘림 */
+    top: -30px; /* 간격 조금 늘림 */
   }
   
   .heart:hover {
@@ -560,3 +560,23 @@
   }  
   
   
+
+
+
+
+
+
+
+
+
+
+
+/* AUTO SCROLL */
+
+.fadein {
+	-webkit-animation: fadein 2s; /* Safari, Chrome and Opera > 12.1 */
+	-moz-animation: fadein 2s; /* Firefox < 16 */
+	-ms-animation: fadein 2s; /* Internet Explorer */
+	-o-animation: fadein 2s; /* Opera < 12.1 */
+	animation: fadein 2s;
+}

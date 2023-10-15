@@ -1,140 +1,151 @@
-<!-- 
-
-
 <html layout:decorate="~{layout}">
 <head>
 <meta charset="UTF-8">
 
 <title>CommuniFind 모임목록</title>
 
-<link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/meetmate/list.css}"/>
-<link rel="icon" type="image/png" th:href="@{http://localhost:8080/image/로고.png}"/>
-
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/meetmate/list.css}"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/css/swiper.min.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/js/swiper.min.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+<link rel="icon" type="image/png" th:href="@{http://localhost:8080/image/로고.png}"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="http://localhost:8080/js/gatchi/meetMateList.js"></script>
 
 </head>
 
 <body>
   
- ★★★★★★ 슬라이드 CSS 수정, 슬라이드 노출 이미지 수정, like DB에 담기는거 추가해야돼 ★★★★★★
-<div layout:fragment="content">    
-
-  <div class="c1">
-    <input type="radio" id="trigger1" class="in1" name="slider">
-      <label for="trigger1" class="label2"><span class="sr-only">Slide 1 of 5. A photo of a mountain pass with a winding path along the river and a view of distant mountains hiding in the mist.</span></label>
-      <div class="slide bg1"></div>
+  <!-- ★★★★★★ like DB에 담기는거 추가해야돼 ★★★★★★ -->
+  <div layout:fragment="content">    
   
-      <input type="radio" id="trigger2" class="in1" name="slider" checked autofocus>
-      <label for="trigger2" class="label2"><span class="sr-only">Slide 2 of 5. A photo of a bird eating sunflower seeds from an open hand.</span></label>
-      <div class="slide bg2"></div>
+    <div class="body7">
   
-      <input type="radio" id="trigger3" class="in1" name="slider">
-      <label for="trigger3" class="label2"><span class="sr-only">Slide 3 of 5. A photo of a concrete bridge over the river with high voltage power lines on both banks.</span></label>
-      <div class="slide bg3"></div>
+      <main>
   
-      <input type="radio" id="trigger4" class="in1" name="slider">
-      <label for="trigger4" class="label2"><span class="sr-only">Slide 4 of 5. A photo of a lake surrounded by the forest with mountains in the background.</span></label>
-      <div class="slide bg4"></div>
-  
-      <input type="radio" id="trigger5" class="in1" name="slider">
-      <label for="trigger5" class="label2"><span class="sr-only">Slide 5 of 5. A photo of a forest.</span></label>
-      <div class="slide bg5"></div>
-    </div>
-<br/><br/><br/><br/>
- 
-
-<div class="2">
-  <ul class="cards">
-    
-    <li th:each="items : ${meetLists}">
-        <div class="card">
-          <div id="heart" class="heart" name="likeCount"></div>    
-        <div id="heart" class="button__like"></div>  
-          <a href="#">
-            <img th:src="@{|/image/gatchiImage/${items.meetImage}|}" class="card__image" alt="" />  
-          </a>
-          <div class="card__overlay">
-            <div class="card__header">
-              <svg class="card__arc" xmlns="http://www.w3.org/2000/svg"><path /></svg>                     
-              <img class="card__thumb" src="https://i.imgur.com/7D7I6dI.png" alt="" />
-              <div class="card__header-wrapper">
-                <div class="card__header-text">
-                  <h3 class="card__title" th:text="${items.meetName}">카테고리</h3>            
-                  <span class="card__status" th:text="'약속일 : ' + ${items.meetDday} + ', 장소 : '">날짜, 시간,  장소</span><br/>
-                  <span class="card__status" th:text="' 참여인원 : ' + ${items.meetMemCnt} + ' / ' + ${items.meetMaxMemCnt}">현재 참석인원 / 최대인원</span>
-                </div>
-              </div>       
-            </div>
-            <div class="description1">
-             <p class="card__description" th:text="${items.meetContent}">글 내용</p>
-            </div>
-          </div>
-        </div>    
-
-      </li>
-      
-    </ul>
-</div>
-
-    <script>
-
-      //좋아요버튼 애니메이션
-      var isLike = false;
-
-      $(".heart").on('click touchstart', function(){
+      <article class="slide">
         
-        isLike = !isLike;
-
-        if(isLike){
-            $(this).toggleClass('is_animating');
-            $(this).addClass('like')
-
-        } else {
-            $(this).removeClass('like')
-        }
-      });
-    
-      $(".heart").on('animationend', function(){
-          $(this).toggleClass('is_animating');
-      });
-
-/*
-      //좋아요 Ajax
-      var isLike = false;
-
-
-
-      $(".heart").on('click touchstart', function(){
-        isLike = !isLike;
-        var meetListNum =  1;// 모임 목록 번호를 가져오는 코드 (어떻게 가져올지는 구현에 따라 다름)
-        String userEmail = "kim";   // 사용자 이메일을 가져오는 코드
-        var likeClick = isLike ? 1 : 0; // 클릭 상태에 따라 1 또는 0으로 설정
-
-        // Ajax 요청을 보냅니다.
-        $.ajax({
-            type: 'POST', // 또는 'GET'에 따라 서버 요청 방식 선택
-            url: '/your-server-endpoint', // 서버 측 엔드포인트 URL을 지정합니다.
-            data: {
-                likeClick: likeClick,
-                meetListNum: meetListNum,
-                userEmail: userEmail
-            },
-            success: function(data) {
-                // 서버로부터 성공적인 응답을 받았을 때 실행할 코드
-            },
-            error: function() {
-                // 오류가 발생했을 때 실행할 코드
-            }
-        });
-    });
-*/          
-    </script>
-
-</div>
-
-</body>
-
-</html>
-
-
--->
+          <ul class="panel">
+  
+            <ul class="panel">
+              <th:block th:each="communi, iterStat : ${communiFindSlideLists}">
+              <li class="li2" th:style="'background-image: url(' + '/image/gatchiImage/' + ${communi.meetImage} + ');'">
+                <div class="opa">
+                  <section>
+                    <!-- <img th:src="@{|/image/gatchiImage/${meet.meetImage}|}" class="card__image" alt=""/> -->
+                    <h3 th:text="${communi.meetTitle}"></h3>
+                    <h4 th:text="${communi.meetContent}"></h4>
+                    <button>more ⇁</button>
+                  </section>
+                </div>
+              </li>
+            </th:block>
+          </ul>
+  
+            <!-- <li class="li2">
+              <div class="opa">
+                <section>
+                <h3>Summer<br>Essentiols</h3>
+                <h4>기본에 충실한 Heavy cotten T-shirts</h4>
+                <button>more ⇁</button>
+                </section>
+              </div>
+            </li>
+            
+            <li class="li2">
+              <div class="opa">
+                <section>
+                <h3>21 S/S Clearnce Sale</h3>
+                <h4>SUMMER 전품목 해당<br>최대 50%까지</h4>
+                </section>
+              </div>
+            </li> -->
+            
+  
+            <ul class="dot">
+              <li class="on li2"></li>
+              <li class="li2"></li>
+              <li class="li2"></li>
+              <li class="li2"></li>
+              <li class="li2"></li>
+            </ul> 
+          </ul>      
+        </article>
+  
+      </main>  
+    </div>
+  
+  
+    <div class="c2">
+      <ul class="cards">
+        
+        <li th:each="items : ${communiLists}">
+            <div class="card">
+              <div id="heart" class="heart" name="likeCount"></div>    
+            <div id="heart" class="button__like"></div>  
+              <a href="#">
+                <img th:src="@{|/image/gatchiImage/${items.meetImage}|}" class="card__image" alt="" />  
+              </a>
+              <div class="card__overlay">
+                <div class="card__header">
+                  <svg class="card__arc" xmlns="http://www.w3.org/2000/svg"><path /></svg>                     
+                  <img class="card__thumb" src="https://i.imgur.com/7D7I6dI.png" alt="" /><!--여기 회원 프로필사진-->
+                  <div class="card__header-wrapper">
+                    <div class="card__header-text">
+                      <!-- <h3 class="card__title" th:text="${items.meetTitle}">글제목</h3>             -->
+                      <span class="card__status" >
+                        <span th:switch="${items.meetCtgNum}">
+                          <span th:case="1" class="category-button">
+                            <button class="ctgButton" disabled="disabled">문화·예술</button>
+                            <h3 class="card__title" th:text="${items.meetTitle}">글제목</h3>    
+                          </span>
+                          <span th:case="2" class="category-button">
+                            <button class="ctgButton" disabled="disabled">맛집</button>
+                            <h3 class="card__title" th:text="${items.meetTitle}">글제목</h3>    
+                          </span>
+                          <span th:case="3" class="category-button">
+                            <button class="ctgButton" disabled="disabled">취미</button>
+                            <h3 class="card__title" th:text="${items.meetTitle}">글제목</h3>    
+                          </span>
+                          <span th:case="4" class="category-button">
+                            <button class="ctgButton" disabled="disabled">여행</button>
+                            <h3 class="card__title" th:text="${items.meetTitle}">글제목</h3>    
+                          </span>
+                          <span th:case="5" class="category-button">
+                            <button class="ctgButton" disabled="disabled">운동·액티비티</button>
+                            <h3 class="card__title" th:text="${items.meetTitle}">글제목</h3>    
+                          </span>
+                      </span><br/>
+                      <span class="card__status" th:text="'만남일 : ' + ${items.meetDday} + ', 장소 : '">날짜, 시간,  장소</span><br/>
+                      <span class="card__status" th:text="' 참여인원 : ' + ${items.meetMemCnt} + ' / ' + ${items.meetMaxMemCnt}">현재 참석인원 / 최대인원</span>
+                    </div>
+                  </div>       
+                </div>
+                <div class="description1">
+                <p class="card__description" th:text="${items.meetContent}">글 내용</p>
+                </div>
+              </div>
+            </div>    
+          </li>
+        </div>
+        </ul>
+    </div>
+  </div>
+  
+  
+  
+  <?php
+      $page = $_GET['page'];
+      if($page)
+      {
+          echo 'success';
+      }
+  ?>
+  
+  
+  </body>
+  
+  </html>
+  

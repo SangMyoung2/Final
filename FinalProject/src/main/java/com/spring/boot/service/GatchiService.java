@@ -19,6 +19,8 @@ public interface GatchiService {
 	
 	public List<GatchiDTO> getMeetMateRandomList(int count) throws Exception;
 	
+	public List<GatchiDTO> getCommuniFindRandomList(int count) throws Exception;
+	
 	//public void meetLikes(int meetListNum) throws Exception;
     //public GatchiLikeDTO meetLikes(String userEmail, int meetListNum);
 

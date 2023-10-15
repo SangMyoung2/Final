@@ -20,6 +20,8 @@ public interface GatchiMapper {
 	public List<GatchiDTO> getCommuniFindLists() throws Exception;
 
 	public List<GatchiDTO> getMeetMateRandomList(int count) throws Exception;
+
+	public List<GatchiDTO> getCommuniFindRandomList(int count) throws Exception;
 	
     //public void meetLikes(int meetListNum) throws Exception;
 
