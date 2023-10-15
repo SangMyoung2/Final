@@ -177,23 +177,5 @@ public class MeetmateController {
 	}
 
 
-/*
-	@GetMapping("/communiFindList")
-	public ModelAndView communiFindList() throws Exception{
-		
-		ModelAndView mav = new ModelAndView();
-		
-		List<GatchiDTO> communiFindLists = new ArrayList<>();
-
-		communiFindLists = gatchiService.getCommuniFindLists();
-
-		//System.out.println("모임 DB 가져온 내용 : " + meetLists);
-
-		mav.addObject("communiFindLists", communiFindLists);
-		mav.setViewName("/meetmate/communiFindList");
-		
-		return mav;		
-	}
-*/
 
 }
