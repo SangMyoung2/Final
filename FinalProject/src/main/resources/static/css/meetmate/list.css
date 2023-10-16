@@ -166,6 +166,48 @@
   }
   */
 
+
+  
+/*
+  main .panel>li:nth-of-type(1) {
+    background: url('/image/gatchiImage/${imageFileNames[0]}');/* Thymeleaf 변수 사용 
+    background-size: cover;
+    background-position: 80% 50%;
+    cursor: pointer;
+  }
+  
+  main .panel>li:nth-of-type(2) {
+    background: url('/image/gatchiImage/${imageFileNames[1]}') no-repeat;/* Thymeleaf 변수 사용 
+    background-size: cover;
+    background-position: top center;
+    cursor: pointer;
+  }
+  
+  main .panel>li:nth-of-type(3) {
+    background: url('/image/gatchiImage/${imageFileNames[2]}') no-repeat;/* Thymeleaf 변수 사용 
+    background-size: cover;
+    background-position: 20%;
+    cursor: pointer;
+  }
+  main .panel>li:nth-of-type(4) {
+    background: url('/image/gatchiImage/${imageFileNames[3]}') no-repeat;/* Thymeleaf 변수 사용
+    background-size: cover;
+    background-position: 20%;
+    cursor: pointer;
+  }
+  main .panel>li:nth-of-type(5) {
+    background: url('/image/gatchiImage/${imageFileNames[4]}') no-repeat;/* Thymeleaf 변수 사용 
+    background-size: cover;
+    background-position: 20%;
+    cursor: pointer;
+  }
+  */
+
+
+
+
+  
+
 /*여기까지가 테스트야*/
 
 .li2_img{
@@ -289,6 +331,25 @@
       margin: 2rem 0;
     }
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
