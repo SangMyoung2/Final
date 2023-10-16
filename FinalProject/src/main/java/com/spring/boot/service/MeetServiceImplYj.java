@@ -46,57 +46,62 @@ public class MeetServiceImplYj implements MeetServiceYj {
     }
     
     @Override
+    public int hasUserReviewed(MeetDTOYj dto) throws Exception {
+        return meetMapperYj.hasUserReviewed(dto);
+    }
+    
+    @Override
+    public void deleteMeetReview(MeetDTOYj dto) throws Exception {
+        meetMapperYj.deleteMeetReview(dto);
+    }
+
+    @Override
+    public Integer getMemberStatus(MeetDTOYj dto) throws Exception {
+        return meetMapperYj.getMemberStatus(dto);
+    }
+    
+    @Override
     public void insertMeetJoinOk(MeetDTOYj dto) throws Exception {
         meetMapperYj.insertMeetJoinOk(dto);
     }
-    
-        @Override
-        public Integer getMemberStatus(MeetDTOYj dto) throws Exception {
-            return meetMapperYj.getMemberStatus(dto);
-        }
 
     @Override
     public List<String> getMeetWait(int meetListNum) throws Exception {
         return meetMapperYj.getMeetWait(meetListNum);
     }
 
-    // @Override
-    // public void updateMeetWait(MeetDTOYj dto) throws Exception {
-    //     meetMapperYj.updateMeetWait(dto);
-    // }
+    @Override
+    public int acceptToWaitlist(MeetDTOYj dto) throws Exception {
+        return meetMapperYj.acceptToWaitlist(dto);
+    }
 
     @Override
-    public void acceptToWaitlist(MeetDTOYj dto) throws Exception {
-       
-        meetMapperYj.acceptToWaitlist(dto);
+    public void incrementMeetMemCnt(int meetListNum) throws Exception {
+        meetMapperYj.incrementMeetMemCnt(meetListNum);
     }
 
     @Override
     public void rejectFromWaitlist(MeetDTOYj dto) throws Exception {
-
         meetMapperYj.rejectFromWaitlist(dto);
     }
-
 
     @Override
     public List<String> getMeetBlack(int meetListNum) throws Exception {
         return meetMapperYj.getMeetBlack(meetListNum);
     }
 
-    // @Override
-    // public void updateMeetBlack(MeetDTOYj dto) throws Exception {
-    //     meetMapperYj.updateMeetBlack(dto);
-    // }
-
     @Override
     public void addToBlacklist(MeetDTOYj dto) throws Exception {
-       
         meetMapperYj.addToBlacklist(dto);
     }
 
     @Override
-    public void releaseFromBlacklist(MeetDTOYj dto) throws Exception {
+    public void decrementMeetMemCnt(int meetListNum) throws Exception {
+        meetMapperYj.decrementMeetMemCnt(meetListNum);
+    }
 
+    @Override
+    public void releaseFromBlacklist(MeetDTOYj dto) throws Exception {
         meetMapperYj.releaseFromBlacklist(dto);
     }
 

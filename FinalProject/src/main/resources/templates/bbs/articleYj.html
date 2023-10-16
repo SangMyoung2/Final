@@ -52,7 +52,6 @@
     function showHomeContent() {
         document.querySelector('.yj-img').style.display = 'block';
         document.querySelector('.yj-img2').style.display = 'none';
-        // 멤버 목록을 보이게 합니다.
         document.querySelector('.meet-members').style.display = 'block';
     }
 
@@ -60,7 +59,6 @@
     function showReviewContent() {
         document.querySelector('.yj-img').style.display = 'none';
         document.querySelector('.yj-img2').style.display = 'block';
-        // 멤버 목록을 숨깁니다.
         document.querySelector('.meet-members').style.display = 'none';
     }
 
@@ -73,11 +71,10 @@
             });
         });
 
-             document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function() {
 
         var reviewForm = document.querySelector('.review-form');
         var reviewWriteButton = document.querySelector('.review-write');
-        var cancelButton = document.querySelector('#cancel-review');
 
         reviewWriteButton.addEventListener('click', function() {
             if (reviewForm.style.display === 'block') {
@@ -85,6 +82,7 @@
             } else {
                 reviewForm.style.display = 'block';
             }
+            
         });
 
         document.querySelector('#submit-review').addEventListener('click', function(e) {
@@ -108,7 +106,6 @@
                 formData.append('meetReviewContent', reviewContent);
                 formData.append('meetReviewImg', reviewImage);
 
-                // 서버로 데이터 전송 (AJAX를 사용하여 서버로 POST 요청 보내기)
                 $.ajax({
                     url: '/upload-review',
                     type: 'POST',
@@ -116,17 +113,20 @@
                     processData: false,
                     contentType: false,
                     success: function(response) {
-                        alert('리뷰가 게시되었습니다.');
-                        document.querySelector('#review-content').value = '';
-                        document.querySelector('#review-image').value = ''; // 이미지 파일 선택 초기화
-
-                        // 여기서 페이지를 새로고침할 수 있습니다.
-                        window.location.reload();
+                        if (response === 'success') {
+                            alert('리뷰가 게시되었습니다.');
+                            document.querySelector('#review-content').value = '';
+                            document.querySelector('#review-image').value = ''; // 이미지 파일 선택 초기화
+                            window.location.reload();
+                        } else if (response === 'already-reviewed') {
+                            alert('이미 리뷰를 작성하셨습니다.');
+                        }
                     },
                     error: function(xhr, status, error) {
                         alert('오류 발생: ' + status);
                     }
                 });
+
             }
         });
 
@@ -160,7 +160,28 @@ function openModal(imgElement) {
             modal.remove(); // 모달 창 제거
         };
     }
-    
+
+function deleteReview(email, meetListNum, meetReviewNum) {
+        if (confirm('리뷰를 삭제하시겠습니까?')) {
+            $.ajax({
+                type: "POST",
+                url: "/delete-review",
+                data: {
+                    meetListNum: meetListNum,
+                    meetReviewNum: meetReviewNum,
+                    email: email
+                },
+                success: function (response) {
+                    alert('삭제되었습니다.');
+                    location.reload();
+                },
+                error: function () {
+                    alert('삭제에 실패했습니다.');
+                }
+            });
+        }
+    }
+
 
 </script>
 
@@ -203,7 +224,9 @@ function openModal(imgElement) {
                         <div class="round-image">
                             <img th:src="@{/image/gatchiImage/1111.jpg}" alt="방장프사(임의)"/>
                         </div>
-                        <p class="Yj-master">김명란</p>
+                        <!-- <p class="Yj-master">김명란</p> -->
+                        <!-- 방장이름 띄우기!!!!!!!!!!!!! -->
+                        <p class="Yj-master" th:if="${meetMemStatus == 1}" th:text="${meetListInfo.email}"></p>
                         <p class="Yj-title" th:text="${meetListInfo.meetTitle}"></p>
                     </div>
                     <div class="main-text">
@@ -236,10 +259,6 @@ function openModal(imgElement) {
                 <div class="meet-members">
                     <p>
                         <span style="margin-right: 37px; margin-left: 12px;">멤버목록</span>
-                        <!-- <a th:href="@{'/managerYj.action?meetListNum=' + ${meetListInfo.meetListNum}}" style="text-decoration: none;">
-                            <span style="color: #adadad;">관리</span>
-                            <i class="fa-solid fa-gear fa-sm" style="color: #adadad; vertical-align: 0px;"></i>
-                        </a> -->
                         <a th:if="${meetMemStatus == 1}" th:href="@{'/managerYj.action?meetListNum=' + ${meetListInfo.meetListNum}}" style="text-decoration: none;">
                             <span style="color: #adadad;">관리</span>
                             <i class="fa-solid fa-gear fa-sm" style="color: #adadad; vertical-align: 0px;"></i>
@@ -261,34 +280,47 @@ function openModal(imgElement) {
     <div class="yj-img2">
         <div class="review-title">REVIEW</div>
         <div class="review-sub">이 모임 유저의 생생한 후기를 만나보세요!</div>
-        <div class="review-write">작성하기</div>
+        <div class="review-write" th:if="${meetMemStatus == 1 or meetMemStatus == 2}">작성하기</div>
         <form action="/upload-review" method="POST" enctype="multipart/form-data">
-        <div class="review-form" style="display: none;">
-            <div class="review-input">
-                <textarea name="meetReviewContent" id="review-content" placeholder=" 리뷰를 작성해주세요."></textarea>
-                <input type="file" name="meetReviewImg" id="review-image" accept="image/*">
-                <input type="hidden" id="meet-listnum" name="meetListNum" th:value="${meetListNum}" />
-                <button id="submit-review">등록하기</button>
-            </div>
-        </div>
-        </form>
-        <div class="d-flex justify-content-center mb-4" th:each="meetReview : ${meetReview}">
-            <div class="card" style="width: 36rem; margin-bottom: 20px; border:none;">
-                <div class="card-body">
-                    <div class="d-flex flex-column mb-2">
-                        <div class="round-image-rev mt-2">
-                            <img th:src="@{/image/gatchiImage/1111.jpg}" alt="유저프사(임의)"/>
-                        </div>
-                        <p class="memid" th:text="${meetReview.email}"></p>
-                        <div class="col-md-4 mx-auto" style="width: 300px; height: 300px; overflow: hidden; border-radius: 5px; margin-bottom: 10px; margin-top: 10px;">
-                            <img th:src="@{${'/image/reviewImage/' + meetReview.meetReviewImg}}" class="img-fluid rounded-start" alt="리뷰사진" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;" onclick="openModal(this);">
-                        </div>
-                    </div>
-                    <p class="card-text" th:text="${meetReview.meetReviewContent}" style="padding-left: 10px; padding-right: 10px; text-align: justify; font-size: 18px; margin-bottom: 5px;"></p>
-                    <p class="card-text" th:text="${meetReview.meetReviewDate}" style="color: #AAAAAA; font-size: 13px; position: absolute; top: 0; right: 0; margin-top: 31px; margin-right: 20px;"></p>
+            <div class="review-form" style="display: none;">
+                <div class="review-input">
+                    <textarea name="meetReviewContent" id="review-content" placeholder=" 리뷰를 작성해주세요."></textarea>
+                    <input type="file" name="meetReviewImg" id="review-image" accept="image/*">
+                    <input type="hidden" id="meet-listnum" name="meetListNum" th:value="${meetListNum}" />
+                    <button id="submit-review">등록하기</button>
                 </div>
             </div>
-        </div>
+        </form>
+
+        <th:block th:if="${#lists.isEmpty(meetReview)}">
+            <div class="no-review">
+                등록된 리뷰가 없습니다.
+            </div>
+        </th:block>
+
+        <th:block th:unless="${#lists.isEmpty(meetReview)}">
+            <div class="d-flex justify-content-center mb-4" th:each="meetReview : ${meetReview}">
+                <div class="card" style="width: 36rem; margin-bottom: 20px; border:none;">
+                    <div class="card-body">
+                        <div class="d-flex flex-column mb-2">
+                            <div class="round-image-rev mt-2">
+                                <img th:src="@{/image/gatchiImage/1111.jpg}" alt="유저프사(임의)"/>
+                            </div>
+                            <p class="memid" th:text="${meetReview.email}"></p>
+                            <div class="col-md-4 mx-auto" style="width: 300px; height: 300px; overflow: hidden; border-radius: 5px; margin-bottom: 10px; margin-top: 10px;">
+                                <img th:src="@{${'/image/reviewImage/' + meetReview.meetReviewImg}}" class="img-fluid rounded-start" alt="리뷰사진" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;" onclick="openModal(this);">
+                            </div>
+                        </div>
+                        <p class="card-text" th:text="${meetReview.meetReviewContent}" style="padding-left: 10px; padding-right: 10px; text-align: justify; font-size: 18px; margin-bottom: 5px;"></p>
+                        <p class="card-text d-flex" th:text="${meetReview.meetReviewDate}" style="color: #AAAAAA; font-size: 13px; position: absolute; top: 0; right: 0; margin-top: 31px; margin-right: 20px;"></p>
+
+                        <span class="card-text d-flex delete-review" style="color: #AAAAAA; font-size: 13px; position: absolute; top: 0; right: 0; margin-top: 50px; margin-right: 20px;" th:if="${loginEmail == meetReview.email}" th:data-email="${meetReview.email}" th:data-meetListNum="${meetListNum}" th:data-meetReviewNum="${meetReview.meetReviewNum}" onclick="deleteReview(this.getAttribute('data-email'), this.getAttribute('data-meetListNum'), this.getAttribute('data-meetReviewNum'))">삭제</span>
+
+                    </div>
+                </div>
+            </div>
+        </th:block>
+
     </div>
 
 

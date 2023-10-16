@@ -18,7 +18,7 @@
     <script>
 
     function accept(email, meetListNum) {
-        if (confirm('수락하시겠습니까?')) {
+        if (confirm(email + '님을 수락하시겠습니까?')) {
             $.ajax({
                 type: "POST",
                 url: "/accept-to-waitlist",
@@ -38,7 +38,7 @@
     }
 
     function reject(email, meetListNum) {
-        if (confirm('거절하시겠습니까?')) {
+        if (confirm(email + '님을 거절하시겠습니까?')) {
             $.ajax({
                 type: "POST",
                 url: "/reject-from-waitlist",
@@ -59,7 +59,7 @@
 
 
     function kickOut(email, meetListNum) {
-        if (confirm('강퇴하시겠습니까?')) {
+        if (confirm(email + '님을 강퇴하시겠습니까?')) {
             $.ajax({
                 type: "POST",
                 url: "/add-to-blacklist",
@@ -81,7 +81,7 @@
 
 
     function release(email, meetListNum) {
-        if (confirm('블랙리스트에서 해제하시겠습니까?')) {
+        if (confirm(email + '님을 블랙리스트에서 해제하시겠습니까?')) {
             $.ajax({
                 type: "POST",
                 url: "/release-from-blacklist",
@@ -136,7 +136,8 @@
                 </div>
                 <div class="mem-request" th:text="${meetMember}"></div>
                 <div class="actions">
-                    <span class="out-action" th:data-email="${meetMember}" th:data-meetListNum="${meetListNum}" onclick="kickOut(this.getAttribute('data-email'), this.getAttribute('data-meetListNum'))">강퇴</span>
+                    <!-- 방장은 강퇴버튼 안보이게 하기!!!!!!!!!!!!! -->
+                    <span class="out-action" th:if="${meetMemStatus != 1}" th:data-email="${meetMember}" th:data-meetListNum="${meetListNum}" onclick="kickOut(this.getAttribute('data-email'), this.getAttribute('data-meetListNum'))">강퇴</span>
                 </div>
             </div>
             <div th:if="${meetMembers.size() == 0}">
