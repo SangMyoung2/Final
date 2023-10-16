@@ -21,18 +21,18 @@ public class MeetServiceImplYj implements MeetServiceYj {
     }
 
     @Override
-    public MeetDTOYj getMeetInfo(int meet_listnum) throws Exception {
-        return meetMapperYj.getMeetInfo(meet_listnum);
+    public MeetDTOYj getMeetListInfo(int meetListNum) throws Exception {
+        return meetMapperYj.getMeetListInfo(meetListNum);
     }
 
     @Override
-    public List<MeetDTOYj> getReview(int meet_listnum) throws Exception {
-        return meetMapperYj.getReview(meet_listnum);
+    public List<MeetDTOYj> getReview(int meetListNum) throws Exception {
+        return meetMapperYj.getReview(meetListNum);
     }
 
     @Override
-    public List<String> getMeetMembers(int meet_listnum) throws Exception {
-        return meetMapperYj.getMeetMembers(meet_listnum);
+    public List<String> getMeetMembers(int meetListNum) throws Exception {
+        return meetMapperYj.getMeetMembers(meetListNum);
     }
 
     @Override
@@ -41,8 +41,63 @@ public class MeetServiceImplYj implements MeetServiceYj {
     }
 
     @Override
-    public int getReviewNum(int meet_listnum) throws Exception {
-        return meetMapperYj.getReviewNum(meet_listnum);
+    public int getReviewNum(int meetListNum) throws Exception {
+        return meetMapperYj.getReviewNum(meetListNum);
+    }
+    
+    @Override
+    public void insertMeetJoinOk(MeetDTOYj dto) throws Exception {
+        meetMapperYj.insertMeetJoinOk(dto);
+    }
+    
+        @Override
+        public Integer getMemberStatus(MeetDTOYj dto) throws Exception {
+            return meetMapperYj.getMemberStatus(dto);
+        }
+
+    @Override
+    public List<String> getMeetWait(int meetListNum) throws Exception {
+        return meetMapperYj.getMeetWait(meetListNum);
+    }
+
+    // @Override
+    // public void updateMeetWait(MeetDTOYj dto) throws Exception {
+    //     meetMapperYj.updateMeetWait(dto);
+    // }
+
+    @Override
+    public void acceptToWaitlist(MeetDTOYj dto) throws Exception {
+       
+        meetMapperYj.acceptToWaitlist(dto);
+    }
+
+    @Override
+    public void rejectFromWaitlist(MeetDTOYj dto) throws Exception {
+
+        meetMapperYj.rejectFromWaitlist(dto);
+    }
+
+
+    @Override
+    public List<String> getMeetBlack(int meetListNum) throws Exception {
+        return meetMapperYj.getMeetBlack(meetListNum);
+    }
+
+    // @Override
+    // public void updateMeetBlack(MeetDTOYj dto) throws Exception {
+    //     meetMapperYj.updateMeetBlack(dto);
+    // }
+
+    @Override
+    public void addToBlacklist(MeetDTOYj dto) throws Exception {
+       
+        meetMapperYj.addToBlacklist(dto);
+    }
+
+    @Override
+    public void releaseFromBlacklist(MeetDTOYj dto) throws Exception {
+
+        meetMapperYj.releaseFromBlacklist(dto);
     }
 
 }

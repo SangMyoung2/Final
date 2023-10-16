@@ -1,17 +1,341 @@
-:root {
+
+  /* 슬라이드 CSS */
+  /* @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap'); */
+  
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    border: 0px solid silver;
+    outline: none;
+  }
+  
+  ::-webkit-scrollbar {width: 10px; height: 10px; border: 3px solid #fff; }
+  ::-webkit-scrollbar-button:start:decrement, ::-webkit-scrollbar-button:end:increment {display: block; height: 10px; background: url('./images/bg.png') #fff}
+  ::-webkit-scrollbar-track {background: #efefef; -webkit-border-radius: 10px; border-radius:10px; -webkit-box-shadow: inset 0 0 4px rgba(0,0,0,.0)}
+  ::-webkit-scrollbar-thumb {height: 50px; width: 50px; background: rgba(0,0,0,.2); -webkit-border-radius: 8px; border-radius: 8px; -webkit-box-shadow: inset 0 0 4px rgba(0,0,0,.1)}
+  
+  img {
+    width: 100px;
+  }
+  
+  .body7 {
+    font-size: 0.9rem;
+    letter-spacing: 0.1px;
+    height: 500px;
+    max-height: 500px;
+  }
+  
+  h1 {
+    font-size: 2.8rem;
+    line-height: 2.8rem;
+    font-weight: bolder;
+    color: #fff;
+  }
+  
+  h2 {
+    font-size: 2.3rem;
+    line-height: 2.3rem;
+    font-weight: bold;
+  }
+  
+  h3 {
+    font-size: 1.8rem;
+    line-height: 1.8rem;
+    font-weight: bolder;
+    color: #333;
+  }
+  
+  h4 {
+    font-size: 1.3rem;
+    font-size: 1.3em;
+    text-transform: uppercase;
+    font-weight: bolder;
+    color: #333;
+  }
+  
+  h5 {
+    font-size: 1rem;
+    line-height: 1.4rem;
+    text-transform: uppercase;
+  }
+  
+  h6 {
+    font-size: 0.85rem;
+    color: black;
+    line-height: 1.5rem;
+    text-transform: uppercase;
+  }
+  
+  /* .span2 {
+    font-size: 0.9rem;
+  } */
+  
+  /* a:link {
+    color: white;
+    text-transform: uppercase;
+    text-decoration: none;
+  } */
+/*   
+  a:visited {
+    color: white;
+    text-transform: uppercase;
+  }
+  
+  a:active {
+    color: white;
+    text-transform: uppercase;
+  }
+  
+  a:hover {
+    color: white;
+    text-transform: uppercase;
+  }
+   */
+  small {
+    font-size: 0.7rem;
+    line-height: 0.9rem;
+    color: #999;
+  }
+  
+  .li2 {
+    list-style: none;
+
+    object-fit: contain; /* 이미지 비율 유지 최대한 맞춤 */
+  }
+  
+  /*~~~~mobile start~~~~*/
+  
+  /* main */
+  main {
+    position: relative;
+    min-width: 360px;
+    /* background: #e8dcca; */
+
+    max-height: 500px;
+  }
+  
+  main .slide {
+    position: relative;
+    overflow: hidden;
+    max-height: 500px;
+  }
+  
+  main .panel {
+    width: 300%;
+    height: 100%;
+    
+    max-height: 500px;
+  }
+  
+  main .panel:after {
+    content: "";
+    display: block;
+    clear: both;
+  }
+  
+  main .panel>li {
+    width: 33.333%;
+    height: 800px;
+    float: left;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    position: relative;
+  }
+  
+  /* 사진 3개 뜨는데 5개로 바꿔보려고 잠시 주석처리함 에러뜨면 이거 살리면 돼
+  main .panel>li:nth-of-type(1) {
+    background: url('https://images.ctfassets.net/8cd2csgvqd3m/491YJNhkZ60sVK96uDCrlS/1009defbb0bee787645fe9b0ccf609e2/Natale_1.jpg?q=90&fm=webp&w=1440&h=808&fit=fill');
+    background-size: cover;
+    background-position: 80% 50%;
+    cursor: pointer;
+  }
+  
+  main .panel>li:nth-of-type(2) {
+    background: url('https://images.ctfassets.net/8cd2csgvqd3m/7icYc8IH1iTeaSxL4u9T0n/03b6ea278c2fa57dacaf37669ceca593/BH_landscape.jpg?q=90&fm=webp&w=1440&h=808&fit=fill') no-repeat;
+    background-size: cover;
+    background-position: top center;
+    cursor: pointer;
+  }
+  
+  main .panel>li:nth-of-type(3) {
+    background: url('https://images.ctfassets.net/8cd2csgvqd3m/0S2AMQsUvECSym8Vxy5XZ/b82d4a1c0f6d5cc51f31836673e87f3d/Hero_Hero.jpg?q=90&fm=webp&w=1440&h=808&fit=fill') no-repeat;
+    background-size: cover;
+    background-position: 30%;
+    cursor: pointer;
+  }
+  */
+
+/*여기까지가 테스트야*/
+
+.li2_img{
+  max-height: 500px;
+  background-size: 800px 100%;
+    height: 500px;
+    background-position: center;
+}
+  
+  main .opa {
+    position: relative;
+    /* background: rgba(0, 0, 0, 0.1); */
+    width: 33.333%;
+    height: 100%;
+
+    max-height: 500px; /* 사진이 자꾸 아래로 쏠려서 최대높이 지정함*/
+    object-position: center center; /* 이미지를 가로 및 세로축 중앙으로 정렬 */
+  }
+  
+  main .opa section {
+    position: absolute;
+    top: 20%;
+    left: 10%;
+    color: #fff;
+    max-height: 500px;
+  }
+
+
+
+
+
+  /* 슬라이드 div안의 image크기를 고정시키기 위해 추가 */
+  main .opa img.card__image {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+    max-height: 100%;
+
+    height: 500px;
+
+    object-fit: contain; /* 이미지 비율 유지 최대한 맞춤 */
+    object-position: center 40%; /* 이미지 가운데의 40%위치 */
+
+    top: 0;
+    left: 0;
+  }
+
+
+
+
+
+  
+  main .opa section h3, main .opa section h4 {
+    color: #fff;
+  }
+  
+  main .opa section h4 {
+    margin: 1rem 0;
+  }
+  
+  main .opa section button {
+    background: none;
+    border: 2px solid #fff;
+    border-radius: 5px;
+    padding: 0.2rem 0.5rem;
+    font-size: 1.1rem;
+    color: #fff;
+    cursor: pointer;
+  }
+  
+  main .dot:after {
+    content: "";
+    display: block;
+    clear: both;
+  }
+  
+  main .dot {
+    position: absolute;
+    left: 50%;
+    bottom: 10%;
+    transform: translateX(-50%);
+  }
+  
+  main .dot>li {
+    float: left;
+    background: #FFFFFF;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    margin-right: 8px;
+    text-indent: -9999px;
+    cursor: pointer;
+  }
+  
+  main .dot>li.on {
+    background: #5ca8b5;
+    width: 15px;
+    height: 15px;
+  }
+  
+  
+  /*~~~~labtop start~~~~*/
+  @media screen and (min-width: 1000px) {
+  
+      main .opa section {
+      position: absolute;
+      top: 20%;
+      left: 50%;
+      transform: translate(-50%, 0);
+      width: 800px;
+      color: #fff;
+    }
+      
+    main .opa section h3{
+      font-size: 2.4rem;
+      line-height: 3rem;
+    }
+    
+    main .opa section h4 {
+      font-size: 1.5rem;
+      margin: 2rem 0;
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+
+/* 게시글 뿌려주는 card css*/
+/* 될지 모르겠는데 카테고리를 div에 버튼형식으로 눈에 띄게 하고싶어서 해봄 */
+  .ctgButton {
+    background: none;
+    border: 2px solid #6A515E;
+    border-radius: 5px;
+    padding: 0.2rem 0.5rem;
+    /* font-size: 1.1rem; */
+    color: #6A515E;
+    cursor: pointer;
+
+    cursor: default;/* 마우스호버해도 커서모양 변경되지 않게 */
+    display: inline;
+    white-space: nowrap; /*줄변경방지*/
+
+
+    margin-right: 0.5rem; /* 버튼과 제목 사이의 간격을 조절할 수 있음 */
+  }
+
+  .category-button {
+    display: inline-block;
+    white-space: nowrap;
+    margin-right: 1px; /* 버튼과 제목 사이에 간격 조정 */
+}
+
+/* 될지 모르겠는데 카테고리를 div에 버튼형식으로 눈에 띄게 하고싶어서 해봄 */
+
+
+
+
+
+  :root {
     --surface-color: #fff;
     --curve: 40;
   }
-  
-  * {
-    box-sizing: border-box;
-  }
-  
-  body {
-    font-family: 'Noto Sans JP', sans-serif;
-    background-color: #fef8f8;
-  }
-  
+
   .cards {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -31,8 +355,19 @@
   }
   
   .card__image {      
-    width: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    min-width: 400px; /* 최소 가로 크기 지정 */
+    min-height: 500px; /* 최소 세로 크기 지정 */
+    width: auto;
     height: auto;
+    object-fit: contain; /* 이미지 비율 유지 최대한 맞춤 */
+    object-position: center 40%; /* 이미지 가운데의 40%위치 */
+    background-color: floralwhite; /*사진크기 작을 경우 대비 배경색깔아줌*/
+    
+    border-bottom-left-radius: 50px;
+    border-bottom-right-radius: 50px;
+    border-bottom: 90px; /*아래 사진이 너무 짤려서 기본 공간 넣어줌*/
   }
   
   .card__overlay {
@@ -54,11 +389,12 @@
   .card__header {
     position: relative;
     display: flex;
-    align-items: center;
+    /* align-items: center; 원래이거였는데 한줄 더 넣어보려고 아래껄로 바꿨음. 에러나면 아래꺼 써*/
+    align-items: stretch; 
     gap: 1em;
     padding: 1em;
     border-radius: calc(var(--curve) * 1px) 0 0 0;    
-
+  
     background-color: var(--surface-color);
     transform: translateY(-100%);
     transition: .2s ease-in-out;
@@ -91,16 +427,22 @@
   
   .card__title {
     font-size: 1em;
-    margin: 0 0 .3em;
+    /* margin: 0 0 -0.3em;         //margin: 0 0 .3em;이었는데 여백조정하려고 바꿔봄 */
     color: #6A515E;
-
+  
     overflow: hidden;
     white-space: normal;
     text-overflow: ellipsis;
-    display: -webkit-box;
+    /* display: -webkit-box; */
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     word-break: break-all;
+
+    margin: 0;
+
+
+    display: inline;
+    white-space: nowrap;
   }
   
   .card__tagline {
@@ -127,7 +469,7 @@
     -webkit-line-clamp: 3;
     overflow: hidden;
   }    
-/*
+  
   .card__description p {
     color: #d7bdca;
     font-family: "MockFlowFont";
@@ -136,24 +478,32 @@
     -webkit-line-clamp: 1;
     overflow: hidden;
   }
-*/  
+  
   .description1 {
     margin: 0;
     padding: 0 2em 1em;
   }
+  
+  
+  
 
 
 
+
+
+  /* 좋아요 버튼 */
   .heart {
     cursor: pointer;
-    height: 30%;
-    width: 30%;
+    height: 40%;
+    width: 40%;
     background-image:url( 'https://abs.twimg.com/a/1446542199/img/t1/web_heart_animation.png');
     background-position: left;
     background-repeat:no-repeat;
     background-size: 2900%;
     position: absolute;
     right: 0px;
+
+    top: -30px; /* 간격 조금 늘림 */
   }
   
   .heart:hover {
@@ -180,173 +530,86 @@
     from {background-position:left;}
     to { background-position:right;}
   }  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* 슬라이드 */
-
-div > .c1 {
-  position: relative;
-}
-
-.sr-only {
-  position: absolute;
-  pointer-events: none;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  color: transparent;
-}
-
-.in1 {
-  /* position: absolute;   */
-  opacity: 0;
-  margin-top: 45vh;
-  cursor: pointer;
-}
-
-.label2 {
-  display: inline-block;
-  width: 12px;
-  height: 12px;
-  border: solid 2px white;
-  border-radius: 999px;
-  background-color: transparent;
-  margin: 45vh 6px 0 6px;
-  z-index: 2;
-  cursor: pointer;
-  transition-duration: .4s;
-  box-shadow: 0 0 20px 0 #000;
   
-}
-
-.in1:checked + .label2{
-  background-color: white;
-  margin-left: 50%;
-}
+  
 
 
-.in1 + .label2::after{
-  content: '';
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 512' width='100' style='fill:white'%3E%3Cpath d='M31.7 239l136-136c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9L127.9 256l96.4 96.4c9.4 9.4 9.4 24.6 0 33.9L201.7 409c-9.4 9.4-24.6 9.4-33.9 0l-136-136c-9.5-9.4-9.5-24.6-.1-34z' /%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: center 55%;
-  background-size: 80px 80px;
-  line-height: 100vh;
-  transition: background-size 200ms;
-  position: absolute;
-  color: white;
-  height: calc(48vh - 15px);
-  width: 80px;
-  top: 0;
-  left: 0;
-  z-index: 20;
-}
 
-.in1 + .label2:hover::after {
-  background-size: 90px 90px;
-}
 
-.in1:checked + label2::after {
-  background-image: none;
-  width: 100vw;
-  left: 0;
-  z-index: 10;
-}
 
-.in1:checked + .label2 + .slide ~ .in1 + .label2::after {
+
+
+/* 검색창 */
+.suggest {
   display: none;
-}
-
-.in1:checked + .label2 + .slide + .in1 + .label2::after {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 512' width='100' fill='white'%3E%3Cpath d='M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z' /%3E%3C/svg%3E");
-  display: block;
-  width: 80px;
-  right: 0;
-  left: auto;
-}
-
-.in1:focus + .label2{
-  box-shadow: 0 0 0 2px teal, 0 0 18px white;
-}
-
-.slide {
   position: absolute;
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  width: 100%;
-  height: 50%;
-  top: 0;
-  left: 0;
-  z-index: -1;
-  transform: translateX(-100%);
-  transition-duration: .4s;
-  opacity: 1;
-}
-
-.in1:checked ~ .slide {
-  transform: translateX(100%);
-}
-
-.in1:checked + .label2 + .slide {
-  transform: translateX(0);
-  opacity: 1;
-}
-
-.bg1{
-  background-image: url(https://images.unsplash.com/photo-1422806310414-91469fe4977e?ixlib=rb-0.3.5&q=85&fm=jpg&crop=entropy&cs=srgb&ixid=eyJhcHBfaWQiOjE0NTg5fQ&s=114e7a73b2385128045a5555b981e939);
-  height: 50vh; /* 컨테이너 높이 설정 */
-  background-position: center; /* 이미지를 수직, 수평 중앙에 위치시킵니다. */
-  width: 100%; /* 컨테이너 너비에 맞게 조절 */
-}
-.bg2{
-  background-image: url(https://images.unsplash.com/photo-1490020641477-3b0e96306b9a?ixlib=rb-0.3.5&q=85&fm=jpg&crop=entropy&cs=srgb&ixid=eyJhcHBfaWQiOjE0NTg5fQ&s=d8358f021c68f49335fe44b10f70b700);
-  height: 50vh; /* 컨테이너 높이 설정 */
-  background-position: center; /* 이미지를 수직, 수평 중앙에 위치시킵니다. */
-  width: 100%; /* 컨테이너 너비에 맞게 조절 */
-}
-.bg3{
-  background-image: url(https://images.unsplash.com/photo-1512529111457-3e8a595ef8e9?ixlib=rb-0.3.5&q=85&fm=jpg&crop=entropy&cs=srgb&ixid=eyJhcHBfaWQiOjE0NTg5fQ&s=9b3ab76b65a358830d60ca43be76f2e1);
-  height: 50vh; /* 컨테이너 높이 설정 */
-  background-position: center; /* 이미지를 수직, 수평 중앙에 위치시킵니다. */
-  width: 100%; /* 컨테이너 너비에 맞게 조절 */
-}
-.bg4{
-  background-image: url(https://images.unsplash.com/photo-1504700610630-ac6aba3536d3?ixlib=rb-0.3.5&q=85&fm=jpg&crop=entropy&cs=srgb&ixid=eyJhcHBfaWQiOjE0NTg5fQ&s=92d2cae094fb24e5266221828ee251e2);
-  height: 50vh; /* 컨테이너 높이 설정 */
-  background-position: center; /* 이미지를 수직, 수평 중앙에 위치시킵니다. */
-  width: 100%; /* 컨테이너 너비에 맞게 조절 */
-}
-.bg5{
-  background-image: url(https://images.unsplash.com/reserve/wPCyys8TPCHY3GXm2N2D_ssp_inthewoods_1.jpg?ixlib=rb-0.3.5&q=85&fm=jpg&crop=entropy&cs=srgb&ixid=eyJhcHBfaWQiOjE0NTg5fQ&s=654d988a19f43ca9ac27f2eacbe2a554);
-  height: 50vh; /* 컨테이너 높이 설정 */
-  background-position: center; /* 이미지를 수직, 수평 중앙에 위치시킵니다. */
-  width: 100%; /* 컨테이너 너비에 맞게 조절 */
+  left: 11px;
+  top: 141px;
 }
 
 
-  
+/* header > .search-input-box {
+  flex-grow: 1;
+  height: 150px;
+} */
+.search-input-box {
+  flex-grow: 1;
+  height: 30px;
+}
+/* 
+.search-input-box > form {
+margin: 0 auto;
+height: 100%;
+position: relative;
+}
+
+.search-input-box > form > input {
+width: 400px;
+outline: none;
+border: 1px solid #5CA8B5;
+height: 100%;
+box-sizing: border-box;
+border-radius: 5px;
+padding: 0 8px;
+}
+
+.search-input-box > form > button {
+position: absolute;
+right: 0;
+top: 0;
+border: none;
+height: 100%;
+background-color: transparent;
+} */
+
+/*아이콘*/
+/* .icon-box {
+display: flex;
+align-items: center;
+justify-content: end;
+width: 266px;
+} */
+
+.icon-box > svg {
+margin: 0 10px;
+}
 
 
+
+
+
+
+
+
+
+
+
+/* AUTO SCROLL */
+
+.fadein {
+	-webkit-animation: fadein 2s; /* Safari, Chrome and Opera > 12.1 */
+	-moz-animation: fadein 2s; /* Firefox < 16 */
+	-ms-animation: fadein 2s; /* Internet Explorer */
+	-o-animation: fadein 2s; /* Opera < 12.1 */
+	animation: fadein 2s;
+}

@@ -152,6 +152,8 @@ h1 {
   margin-bottom: 1em;
   color: #101010;
   letter-spacing: -.05em;
+
+  text-align: center; /*중앙*/
 }
 
 label {

@@ -9,15 +9,22 @@ import com.spring.boot.dto.GatchiDTO;
 @Mapper
 public interface GatchiMapper {
 	
-	public void createMeetmate(GatchiDTO dto) throws Exception;
+	public void createGatchi(GatchiDTO dto) throws Exception;
 
 	public int maxNum() throws Exception;
 	
 	public GatchiDTO getReadData(int meetListNum) throws Exception;
 
-	public List<GatchiDTO> getMeetLists() throws Exception;
+	public List<GatchiDTO> getMeetMateLists() throws Exception;
 
-    public void meetLikes(int meetListNum) throws Exception;
+	public List<GatchiDTO> getCommuniFindLists() throws Exception;
+
+	public List<GatchiDTO> getMeetMateRandomList(int count) throws Exception;
+
+	public List<GatchiDTO> getCommuniFindRandomList(int count) throws Exception;
+	
+    //public void meetLikes(int meetListNum) throws Exception;
+
 	
 	// public int getDataCount(String searchKey, String searchValue) throws Exception;
 	
