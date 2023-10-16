@@ -1,0 +1,95 @@
+/* 프로필 컨테이너의 상단 마진 설정 */
+.container.profile {
+    margin-top: 50px;
+  }
+  
+  /* 프로필 헤딩 스타일 */
+  .profile-heading {
+    margin: 20px 0;
+    padding-bottom: 30px;
+  }
+  
+  /* 프로필 이름 스타일 */
+  .profile-heading .name {
+    border-right: 1px solid #f1f1f1;
+    margin-top: -30px;
+    padding: 40px 30px 0 30px;
+  }
+  
+  /* 팔로워 및 팔로잉 수 스타일 */
+  .profile-heading .followers, .profile-heading .following {
+    border-right: 1px solid #f1f1f1;
+    margin-top: -30px;
+    padding: 70px 30px;
+  }
+  
+  /* 좋아요 수 스타일 */
+  .profile-heading .likes {
+    margin-top: -30px;
+    padding: 70px 30px;
+  }
+  
+  /* 통계 키 스타일 */
+  .profile-heading .stat-key {
+    font-size: 20px;
+    font-weight: 200;
+  }
+  
+  /* 통계 값 스타일 */
+  .profile-heading .stat-val {
+    font-size: 35px;
+    font-weight: bold;
+  }
+  
+  /* 프로필 옵션 스타일 */
+  .profile-options {
+    background-color: #f1f1f1;
+    margin-top: -20px;
+    margin-bottom: 20px;
+  }
+  
+  /* 프로필 옵션 링크 스타일 */
+  .profile-options .link a {
+    padding: 18px;
+    font-size: 18px;
+  }
+  
+  /* 프로필 옵션 링크 아이콘 스타일 */
+  .profile-options .link .icon {
+    font-size: 16px;
+    padding-top: 2px;
+  }
+  
+  /* 태그 라인 스타일 */
+  .tagline {
+    padding: 20px 0;
+    font-size: 16px;
+    line-height: 1.4;
+  }
+  
+  /* 아바타 이미지 스타일 */
+  .avatar {
+    float: right;
+  }
+  
+  /* 팔로우 버튼 스타일 */
+  .follow {
+    float: right;
+  }
+  
+  /* 아바타 이미지의 둥근 테두리 스타일 */
+  .avatar img {
+    border-radius: 200px;
+  }
+  
+  /* 굵은 글꼴을 가진 제목 스타일 */
+  p.title.is-bold {
+    font-weight: bold;
+  }
+  
+  /* 카드의 타임스탬프 스타일 */
+  .card .timestamp {
+    float: right;
+    color: #bbb;
+  }
+  
