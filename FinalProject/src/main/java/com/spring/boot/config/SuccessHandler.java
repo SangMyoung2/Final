@@ -33,7 +33,7 @@ public class SuccessHandler implements AuthenticationSuccessHandler {
 
           String userName = authentication.getName();
          Users user = userService.getUser(userName);
-               
+              
           session.setAttribute("user1", user);
 
           
