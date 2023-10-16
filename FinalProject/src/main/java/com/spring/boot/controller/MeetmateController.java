@@ -83,7 +83,7 @@ public class MeetmateController {
 		dto.setMeetListNum(maxNum + 1);
 		
 		gatchiService.createMeetmate(dto);
-	
+		
 		mav.setViewName("redirect:/meetmateList");
 		
 		return mav;
@@ -105,7 +105,7 @@ public class MeetmateController {
 		mav.addObject("meetLists", meetLists);
 		mav.setViewName("/meetmate/list");
 		
-		return mav;		
+		return mav;
 	}
 
 
