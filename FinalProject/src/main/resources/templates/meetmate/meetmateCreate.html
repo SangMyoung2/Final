@@ -173,6 +173,8 @@
         <div class="Btn2">
             <button type="submit" class="createBtn" onclick="sendIt();">생성</button>
             <button type="button" class="cancelBtn" onclick="javascript:location.href='/meetmateList';">취소</button>
+            <input type="hidden" th:value="${lat}" id="lat" name="lat"/>
+            <input type="hidden" th:value="${lng}" id="lng" name="lng"/>
         </div>
        
         </form>

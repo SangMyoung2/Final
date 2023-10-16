@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.boot.dto.GatchiDTO;
+import com.spring.boot.dto.MapDTO;
 import com.spring.boot.service.GatchiService;
 
 
@@ -37,20 +39,23 @@ public class MeetmateController {
 
 
 	@PostMapping("/gatchiChoice")
-	public ModelAndView gatchiChoice_ok(@RequestParam("meetcheck") String meetCheck, GatchiDTO dto) throws Exception{
+	public ModelAndView gatchiChoice_ok(HttpServletRequest request, GatchiDTO dto) throws Exception{
 
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("dto", dto);
-		
-		//meetCheck 값을 int로 파싱
-		dto.setMeetCheck(Integer.parseInt(meetCheck));
+
+		System.out.println(request.getParameter("lat") + "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+		System.out.println(request.getParameter("meetCheck"));
 
 		if (dto.getMeetCheck() == 1) {
 			dto.setMeetName(""); // 모임명을 ""로 설정
 		}
+		mav.addObject("dto", dto);
 				
 		//System.out.println("설정한 meetCheck 1: " + dto.getMeetCheck());
 		//System.out.println("설정한 meetName 2: " + dto.getMeetName());
+
+		mav.addObject("lat", request.getParameter("lat"));
+		mav.addObject("lng", request.getParameter("lng"));
 
 		mav.setViewName("/meetmate/meetmateCreate");
 		
@@ -59,7 +64,7 @@ public class MeetmateController {
 
 
 	@PostMapping("/meetmateCreate")
-	public ModelAndView meetmateCreate_ok(GatchiDTO dto) throws Exception{
+	public ModelAndView meetmateCreate_ok(GatchiDTO dto,HttpServletRequest request) throws Exception{
 	// public ModelAndView meetmateCreate_ok(@RequestParam("meetImage") MultipartFile meetImage, GatchiDTO dto) throws Exception{
 
 		ModelAndView mav = new ModelAndView();
@@ -74,14 +79,20 @@ public class MeetmateController {
 		// 	File destFile = new File(uploadDir, originalFileName);
 		// 	meetImage.transferTo(destFile);
 		// }
-
-
+		
 		int maxNum = gatchiService.maxNum();
 		
 		//System.out.println("설정이름 : "+ dto.getMeetName());
 		//System.out.println("설정한 meetCheck : "+ dto.getMeetCheck());
 		dto.setMeetListNum(maxNum + 1);
 		
+		
+		System.out.println(request.getParameter("lat"));
+		MapDTO mapDTO = new MapDTO();
+		mapDTO.setLat(Double.parseDouble(request.getParameter("lat")));
+		mapDTO.setLng(Double.parseDouble(request.getParameter("lng")));
+		mapDTO.setMeetListNum(maxNum);
+
 		gatchiService.createMeetmate(dto);
 	
 		mav.setViewName("redirect:/meetmateList");

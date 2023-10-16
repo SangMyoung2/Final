@@ -18,4 +18,6 @@ public interface MapService {
     public List<GatchiDTO> getTitleData(String meetTitle) throws Exception;
 
     public MeetCategoryDTO getCategory(int meetCtgNum) throws Exception;
+
+    public void insertMapData(MapDTO dto) throws Exception;
 }

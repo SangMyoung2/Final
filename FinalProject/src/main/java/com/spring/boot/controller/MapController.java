@@ -35,7 +35,7 @@ public class MapController {
         
         mav.addObject("jsonArray", jsonArray);
         
-        mav.setViewName("map/memo");
+        mav.setViewName("map/fullsize");
 
         return mav;
     }
