@@ -156,7 +156,7 @@ public class MeetmateController {
 		//GatchiDTO readData = gatchiService.getReadData(meetListNum);//추가한거
 
 		meetMateLists = gatchiService.getMeetMateLists();
-		meetMateSlideLists = gatchiService.getMeetMateRandomList(3); // 5개의 랜덤 모임을 가져옴
+		meetMateSlideLists = gatchiService.getMeetMateRandomList(9); // 5개의 랜덤 모임을 가져옴
 
 		//System.out.println("모임 DB 가져온 내용 : " + meetLists);
 
@@ -206,7 +206,7 @@ public class MeetmateController {
 		List<GatchiDTO> communiFindSlideLists = new ArrayList<>();
 
 		communiFindLists = gatchiService.getCommuniFindLists();
-		communiFindSlideLists = gatchiService.getCommuniFindRandomList(5); // 5개의 랜덤 모임을 가져옴
+		communiFindSlideLists = gatchiService.getCommuniFindRandomList(9); // 5개의 랜덤 모임을 가져옴
 
 		//System.out.println("모임 DB 가져온 내용 : " + meetLists);
 

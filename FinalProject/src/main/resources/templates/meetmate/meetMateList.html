@@ -30,10 +30,10 @@
 
     <article class="slide">
       
-        <ul class="panel">
+        <div class="panel">
 
             <th:block th:each="meet, iterStat : ${meetMateSlideLists}">
-              <li class="li2 li2_img" th:style="'background-image: url(' + '/image/gatchiImage/' + ${meet.meetImage} + ');'">
+              <div class="li2 li2_img" th:style="'background-image: url(' + '/image/gatchiImage/' + ${meet.meetImage} + ');'">
                 <div class="opa">
                   <section>
                     <!-- <img th:src="@{|/image/gatchiImage/${meet.meetImage}|}" class="card__image" alt=""/> -->
@@ -42,7 +42,7 @@
                     <button>more ⇁</button>
                   </section>
                 </div>
-              </li>
+              </div>
             </th:block>
 
           <ul class="dot">
@@ -51,7 +51,7 @@
             <li class="li2"></li>
             
           </ul> 
-        </ul>      
+        </d>      
       </article>
     </main>  
   </div>

@@ -79,7 +79,7 @@ function slide() {
   function autoPlay() {
     auto = setInterval(function() {
       nextChkPlay();
-    }, 2000);
+    }, 20000000);
   }
 
   // 자동실행 멈춤
@@ -95,7 +95,7 @@ function slide() {
     $panelLi.mouseleave(function() {
       auto = setInterval(function() {
         nextChkPlay();
-      }, 2000);
+      }, 20000000);
     });
   }
 
