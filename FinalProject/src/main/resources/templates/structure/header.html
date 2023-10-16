@@ -13,42 +13,36 @@
 			<li class="menu_item"><a href="#" class="link">Meet Mate</a></li>
 			<li class="menu_item"><a href="#" class="link">Communi Find</a></li>
 			<li class="menu_item"><a href="#" class="link">Challenge</a></li>
-			<li class="menu_item"><a href="#" class="link">Together World</a></li>
-			<li class="menu_item"><a href="#" class="link">고객센터</a></li>
-			<li class="menu_item"><a href="#" class="link">Map</a></li>
-			<li class="menu_item"><a href="#" class="link">공동 구매</a></li>
+			<li class="menu_item"><a href="#" class="link">Review</a></li>
+			<li class="menu_item"><a href="#" class="link">Discovery</a></li>
+			<li class="menu_item"><a href="#" class="link">Service</a></li>
+			
 		</div>
 		<div class="subbody2">
 
 			
 			<!-- 사용자 정보가 있는 경우 (로그인된 상태) -->
-			<li style="width: 145px;" class="menu_item" th:if="${#httpSession.getAttribute('user') != null}">
+			<li style="width: 245px; margin-left: 40px;" class="menu_item" th:if="${#httpSession.getAttribute('user') != null}">
 			<b style="color: black;" th:text="${session.user.name}+ ' 님 안녕하세요!'"></b>
 			</li>
 
-			<li style="width: 100px;" class="menu_item" th:if="${#httpSession.getAttribute('user1') != null}">
+			<li style="width: 245px; margin-left: 40px;" class="menu_item" th:if="${#httpSession.getAttribute('user1') != null}">
 				<b style="color: black;" th:text="${session.user1.name}+ ' 님 안녕하세요!'"></b>
 				</li>
 
-				<li class="menu_item" th:if="${#httpSession.getAttribute('user') != null} or ${#httpSession.getAttribute('user1') != null}">
+				<li style="margin-right: -60px;" class="menu_item" th:if="${#httpSession.getAttribute('user') != null} or ${#httpSession.getAttribute('user1') != null}">
 					<a href="/mypage.action" class="link">마이페이지</a>
 				</li>
 
-			<li class="menu_item" th:if="${#httpSession.getAttribute('user') != null} or ${#httpSession.getAttribute('user1') != null}">
+			<li style="margin-right: -40px; margin-left: 20px;" class="menu_item" th:if="${#httpSession.getAttribute('user') != null} or ${#httpSession.getAttribute('user1') != null}">
 				<a href="/logout" class="link">로그아웃</a>
 			</li>
 
-
-			
-
-			
-			
-
 			<!-- 사용자 정보가 없는 경우 (비로그인 상태) -->
-			<li class="menu_item" th:unless="${#httpSession.getAttribute('user') != null} or ${#httpSession.getAttribute('user1') != null}">
+			<li style="width: 110px; margin-left: 225px;" class="menu_item" th:unless="${#httpSession.getAttribute('user') != null} or ${#httpSession.getAttribute('user1') != null}">
 				<a href="/signup.action" class="link">회원가입</a>
 			</li>
-			<li class="menu_item" th:unless="${#httpSession.getAttribute('user') != null} or ${#httpSession.getAttribute('user1') != null}">
+			<li style="width: 44px" class="menu_item" th:unless="${#httpSession.getAttribute('user') != null} or ${#httpSession.getAttribute('user1') != null}">
 				<a href="/login.action" class="link">로그인</a>
 			</li>
 		</div>
