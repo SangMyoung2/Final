@@ -6,11 +6,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <!-- 여기있는 sql을 호출할 인터페이스 패키지 위치를 정확하게 입력해야 사용이 가능하다. -->
 <mapper namespace="com.spring.boot.mapper.GatchiMapper">
 
-<insert id="createMeetmate" parameterType="com.spring.boot.dto.GatchiDTO">
+<insert id="createGatchi" parameterType="com.spring.boot.dto.GatchiDTO">
     insert into gatchi(
 	meetListNum,meetCheck,meetCtgNum,meetName,
     meetTitle,meetContent,meetImage,meetDate,meetDday,
-    meetMemCnt,meetMaxMemCnt,meetHitCount,meetLike,
+    meetMemCnt,meetMaxMemCnt,meetHitCount,meetLikeCount,
     meetHow,meetEntryfee,meetMoney,meetPlace) values (
 	#{meetListNum},#{meetCheck},#{meetCtgNum},#{meetName},
 	#{meetTitle},#{meetContent},#{meetImage},sysdate,#{meetDday},
@@ -23,12 +23,34 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </select>
 
 <select id="getReadData" parameterType="int" resultType="com.spring.boot.dto.GatchiDTO">
-	select meetCtgNum,meetName,meetMemId,meetTitle,meetContent,meetImage,meetDate,meetDday,meetMemCnt,meetMaxMemCnt,meetHitCount,meetLike,meetHow,meetEntryfee,meetMoney,meetPlace from gatchi 
+	select * from gatchi 
 	where meetListNum=#{meetListNum}
 </select>
 
-<select id="getMeetLists" resultType="com.spring.boot.dto.GatchiDTO">
-	select * from gatchi
+<select id="getMeetMateLists" resultType="com.spring.boot.dto.GatchiDTO">
+	select * from gatchi where meetCheck = 1
+</select>
+
+<select id="getCommuniFindLists" resultType="com.spring.boot.dto.GatchiDTO">
+	select * from gatchi where meetCheck = 2
+</select>
+
+<select id="getMeetMateRandomList" parameterType="int" 
+	resultType="com.spring.boot.dto.GatchiDTO">
+<![CDATA[
+	SELECT * FROM (
+    	SELECT * FROM gatchi WHERE meetCheck = 1 ORDER BY DBMS_RANDOM.VALUE
+	) WHERE ROWNUM <= 5
+]]>
+</select>
+
+<select id="getCommuniFindRandomList" parameterType="int" 
+	resultType="com.spring.boot.dto.GatchiDTO">
+<![CDATA[
+	SELECT * FROM (
+    	SELECT * FROM gatchi WHERE meetCheck = 2 ORDER BY DBMS_RANDOM.VALUE
+	) WHERE ROWNUM <= 5
+]]>
 </select>
 
 

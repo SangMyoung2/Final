@@ -17,8 +17,8 @@ public class GatchiServiceImpl implements GatchiService{
 	private GatchiMapper gatchiMapper;
 
 	@Override
-	public void createMeetmate(GatchiDTO dto) throws Exception {		
-		gatchiMapper.createMeetmate(dto);
+	public void createGatchi(GatchiDTO dto) throws Exception {		
+		gatchiMapper.createGatchi(dto);
 	}
 
 	@Override
@@ -27,9 +27,35 @@ public class GatchiServiceImpl implements GatchiService{
 	}
 	
 	@Override
-	public List<GatchiDTO> getMeetLists() throws Exception{
-		return gatchiMapper.getMeetLists();
+	public GatchiDTO getReadData(int meetListNum) throws Exception {
+		return gatchiMapper.getReadData(meetListNum);	
 	}
+
+	@Override
+	public List<GatchiDTO> getMeetMateLists() throws Exception{
+		return gatchiMapper.getMeetMateLists();
+	}
+
+	@Override
+	public List<GatchiDTO> getCommuniFindLists() throws Exception{
+		return gatchiMapper.getCommuniFindLists();
+	}
+
+	@Override
+	public List<GatchiDTO> getMeetMateRandomList(int count) throws Exception {
+		return gatchiMapper.getMeetMateRandomList(count);
+	}
+
+	@Override
+	public List<GatchiDTO> getCommuniFindRandomList(int count) throws Exception {
+		return gatchiMapper.getCommuniFindRandomList(count);
+	}
+
+
+
+
+
+
 /*
 	@Override
 	public void meetLikes(int meetListNum) throws Exception {
@@ -77,6 +103,7 @@ public class GatchiServiceImpl implements GatchiService{
 	public void deleteData(int num) throws Exception {
 		boardMapper.deleteData(num);
 	}
-	*/
-
+*/
 }
+
+

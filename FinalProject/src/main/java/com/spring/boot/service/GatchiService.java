@@ -9,15 +9,28 @@ public interface GatchiService {
 
 	//BoardMapper로 연결된다.
 	
-	public void createMeetmate(GatchiDTO dto) throws Exception;
+	public void createGatchi(GatchiDTO dto) throws Exception;
 
 	public int maxNum() throws Exception;
 	
-	public List<GatchiDTO> getMeetLists() throws Exception;
+	public GatchiDTO getReadData(int meetListNum) throws Exception;
+
+	public List<GatchiDTO> getMeetMateLists() throws Exception;
+	
+	public List<GatchiDTO> getCommuniFindLists() throws Exception;
+	
+	public List<GatchiDTO> getMeetMateRandomList(int count) throws Exception;
+	
+	public List<GatchiDTO> getCommuniFindRandomList(int count) throws Exception;
 	
 	//public void meetLikes(int meetListNum) throws Exception;
     //public GatchiLikeDTO meetLikes(String userEmail, int meetListNum);
 
+    // public interface GatchiService {
+	// 	List<GatchiDTO> getMeetMateRandomList(int count);
+	// }
+
+	// public List<GatchiDTO> getMeetMateRandomList(int i);
 
 	// public void insertData(BoardDTO dto) throws Exception;
 	
