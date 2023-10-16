@@ -23,7 +23,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </select>
 
 <select id="getReadData" parameterType="int" resultType="com.spring.boot.dto.GatchiDTO">
-	select meetCtgNum,meetName,meetMemId,meetTitle,meetContent,meetImage,meetDate,meetDday,meetMemCnt,meetMaxMemCnt,meetHitCount,meetLikeCount,meetHow,meetEntryfee,meetMoney,meetPlace from gatchi 
+	select * from gatchi 
 	where meetListNum=#{meetListNum}
 </select>
 

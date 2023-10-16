@@ -14,8 +14,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="http://localhost:8080/js/gatchi/meetMateList.js"></script>
 
-<script src="js/includeHTML.js"></script>
-
 
 </head>
 
@@ -32,8 +30,9 @@
       
         <ul class="panel">
 
+          <ul class="panel">
             <th:block th:each="meet, iterStat : ${meetMateSlideLists}">
-              <li class="li2 li2_img" th:style="'background-image: url(' + '/image/gatchiImage/' + ${meet.meetImage} + ');'">
+              <li class="li2" th:style="'background-image: url(' + '/image/gatchiImage/' + ${meet.meetImage} + ');'">
                 <div class="opa">
                   <section>
                     <!-- <img th:src="@{|/image/gatchiImage/${meet.meetImage}|}" class="card__image" alt=""/> -->
@@ -44,50 +43,20 @@
                 </div>
               </li>
             </th:block>
+          </ul>
 
           <ul class="dot">
             <li class="on li2"></li>
             <li class="li2"></li>
             <li class="li2"></li>
-            
+            <li class="li2"></li>
+            <li class="li2"></li>
           </ul> 
         </ul>      
       </article>
     </main>  
-  </div>
-  <h2 th:text="|${session.user1.name}님의 참여를 기다리는 MeetMate List|" style="text-align: center; font-weight: normal; margin-top: 100px;"></h2>
-
-  <div class="search-input-box" style="display: flex;">
-
-    <form action="" method="get" name="searchForm" style="margin-left: 72%;">
-      <select name="searchKey" class="selectFiled">
-        <option value="meetTitle">제목</option>
-        <option value="meetDday">모임일</option>
-        <option value="meetPlace">장소</option>			
-      </select>
-
-      <input type="text" name="searchValue" placeholder="search.." onkeyup="sendKeyword();"/>
-          <input type="button" onclick=""/>      
-              <svg width="15" height="12" viewBox="0 0 34 30" xmlns="http://www.w3.org/2000/svg">
-              <g fill="none" fill-rule="evenodd">
-                  <path fill="none" d="M0 0h36v36H0z"/>
-                  <g stroke="#5F0080" stroke-linecap="round" stroke-width="2">
-                  <path d="m26.081 26.081-4.12-4.12M16.467 23.334a6.867 6.867 0 1 0 0-13.734 6.867 6.867 0 0 0 0 13.734z"/>
-                  </g>
-              </g>
-              </svg>
-        </input>
-      
-        <div id="suggestDiv" class="suggest">
-            <div id="suggestListDiv"></div>
-        </div>
-    </form>
-  </div>
-
-
-
-
-
+  </div><br/><br/><br/><br/><br/><br/><br/>
+  <h2 th:text="|${session.user1.name}님의 참여를 기다리는 MeetMate List|" style="text-align: center; font-weight: normal;"></h2>
 
   <div class="c2">
     <ul class="cards">
@@ -109,7 +78,7 @@
                       <span th:switch="${items.meetCtgNum}">
                         <span th:case="1" class="category-button">
                           <button class="ctgButton" disabled="disabled">문화·예술</button>
-                          <h3 class="card__title" th:text="${items.meetTitle}">글제목</h3>
+                          <h3 class="card__title" th:text="${items.meetTitle}">글제목</h3>    
                         </span>
                         <span th:case="2" class="category-button">
                           <button class="ctgButton" disabled="disabled">맛집</button>

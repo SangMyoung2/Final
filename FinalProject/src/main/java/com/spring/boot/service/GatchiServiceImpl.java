@@ -27,6 +27,11 @@ public class GatchiServiceImpl implements GatchiService{
 	}
 	
 	@Override
+	public GatchiDTO getReadData(int meetListNum) throws Exception {
+		return gatchiMapper.getReadData(meetListNum);	
+	}
+
+	@Override
 	public List<GatchiDTO> getMeetMateLists() throws Exception{
 		return gatchiMapper.getMeetMateLists();
 	}
@@ -45,6 +50,7 @@ public class GatchiServiceImpl implements GatchiService{
 	public List<GatchiDTO> getCommuniFindRandomList(int count) throws Exception {
 		return gatchiMapper.getCommuniFindRandomList(count);
 	}
+
 
 
 

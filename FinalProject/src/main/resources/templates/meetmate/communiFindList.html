@@ -31,39 +31,19 @@
   
             <ul class="panel">
               <th:block th:each="communi, iterStat : ${communiFindSlideLists}">
-              <li class="li2" th:style="'background-image: url(' + '/image/gatchiImage/' + ${communi.meetImage} + ');'">
-                <div class="opa">
-                  <section>
-                    <!-- <img th:src="@{|/image/gatchiImage/${meet.meetImage}|}" class="card__image" alt=""/> -->
-                    <h3 th:text="${communi.meetTitle}"></h3>
-                    <h4 th:text="${communi.meetContent}"></h4>
-                    <button>more ⇁</button>
-                  </section>
-                </div>
-              </li>
-            </th:block>
-          </ul>
-  
-            <!-- <li class="li2">
-              <div class="opa">
-                <section>
-                <h3>Summer<br>Essentiols</h3>
-                <h4>기본에 충실한 Heavy cotten T-shirts</h4>
-                <button>more ⇁</button>
-                </section>
-              </div>
-            </li>
-            
-            <li class="li2">
-              <div class="opa">
-                <section>
-                <h3>21 S/S Clearnce Sale</h3>
-                <h4>SUMMER 전품목 해당<br>최대 50%까지</h4>
-                </section>
-              </div>
-            </li> -->
-            
-  
+                <li class="li2" th:style="'background-image: url(' + '/image/gatchiImage/' + ${communi.meetImage} + ');'">
+                  <div class="opa">
+                    <section>
+                      <!-- <img th:src="@{|/image/gatchiImage/${meet.meetImage}|}" class="card__image" alt=""/> -->
+                      <h3 th:text="${communi.meetTitle}"></h3>
+                      <h4 th:text="${communi.meetContent}"></h4>
+                      <button>more ⇁</button>
+                    </section>
+                  </div>
+                </li>
+              </th:block>
+            </ul>
+    
             <ul class="dot">
               <li class="on li2"></li>
               <li class="li2"></li>
@@ -75,7 +55,8 @@
         </article>
   
       </main>  
-    </div>
+    </div><br/><br/><br/><br/><br/><br/><br/>
+    <h2 th:text="|${session.user1.name}님의 참여를 기다리는 CommuniFind List|" style="text-align: center; font-weight: normal;"></h2>
   
   
     <div class="c2">
@@ -86,7 +67,7 @@
               <div id="heart" class="heart" name="likeCount"></div>    
             <div id="heart" class="button__like"></div>  
               <a href="#">
-                <img th:src="@{|/image/gatchiImage/${items.meetImage}|}" class="card__image" alt="" />  
+                <img th:src="@{|/image/gatchiImage/${items.meetImage}|}" class="card__image" alt="" />  <!-- 클릭하면 article로 넘어가게 -->
               </a>
               <div class="card__overlay">
                 <div class="card__header">
@@ -94,7 +75,6 @@
                   <img class="card__thumb" src="https://i.imgur.com/7D7I6dI.png" alt="" /><!--여기 회원 프로필사진-->
                   <div class="card__header-wrapper">
                     <div class="card__header-text">
-                      <!-- <h3 class="card__title" th:text="${items.meetTitle}">글제목</h3>             -->
                       <span class="card__status" >
                         <span th:switch="${items.meetCtgNum}">
                           <span th:case="1" class="category-button">

@@ -13,6 +13,8 @@ public interface GatchiService {
 
 	public int maxNum() throws Exception;
 	
+	public GatchiDTO getReadData(int meetListNum) throws Exception;
+
 	public List<GatchiDTO> getMeetMateLists() throws Exception;
 	
 	public List<GatchiDTO> getCommuniFindLists() throws Exception;

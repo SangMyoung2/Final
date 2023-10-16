@@ -25,6 +25,16 @@ public class MeetmateController {
 	private GatchiService gatchiService;
 
 	//여기서 호출 하면 BoardService -> BoardServiceImpl -> BoardMapper -> boardMapper.xml에서 데이터 반환을 BoardController로 해준다.
+
+	@GetMapping("/search3")
+	public ModelAndView search3() throws Exception{
+		
+		ModelAndView mav = new ModelAndView();
+
+		mav.setViewName("/meetmate/search3");
+		
+		return mav;		
+	}
 /*
 	@GetMapping("/slide")
 	public ModelAndView slide() throws Exception{
@@ -135,25 +145,57 @@ public class MeetmateController {
 		
 
 	@GetMapping("/meetMateList")
-	public ModelAndView meetMateList() throws Exception{
+	public ModelAndView meetMateList(HttpServletRequest request) throws Exception{
 		
 		ModelAndView mav = new ModelAndView();
 		
 		List<GatchiDTO> meetMateLists = new ArrayList<>();
 		List<GatchiDTO> meetMateSlideLists = new ArrayList<>();
+		
+		//int meetListNum = Integer.parseInt(request.getParameter("meetListNum"));//추가한거
+		//GatchiDTO readData = gatchiService.getReadData(meetListNum);//추가한거
 
 		meetMateLists = gatchiService.getMeetMateLists();
-		meetMateSlideLists = gatchiService.getMeetMateRandomList(5); // 5개의 랜덤 모임을 가져옴
+		meetMateSlideLists = gatchiService.getMeetMateRandomList(3); // 5개의 랜덤 모임을 가져옴
 
 		//System.out.println("모임 DB 가져온 내용 : " + meetLists);
 
 		mav.addObject("meetMateSlideLists", meetMateSlideLists);
 		
 		mav.addObject("meetLists", meetMateLists);
+		//mav.addObject("readData", readData);//추가한거
 		mav.setViewName("/meetmate/meetMateList");
 		
 		return mav;		
 	}
+
+
+/* 페이징처리 폭망하면 이거 살리고 하던거 지워
+
+	@GetMapping("/meetMateList")
+	public ModelAndView meetMateList() throws Exception{
+		
+		ModelAndView mav = new ModelAndView();
+		
+		List<GatchiDTO> meetMateLists = new ArrayList<>();
+		List<GatchiDTO> meetMateSlideLists = new ArrayList<>();
+		
+		//int meetListNum = Integer.parseInt(request.getParameter("meetListNum"));//추가한거
+		//GatchiDTO readData = gatchiService.getReadData(meetListNum);//추가한거
+		
+		meetMateLists = gatchiService.getMeetMateLists();
+		meetMateSlideLists = gatchiService.getMeetMateRandomList(5); // 5개의 랜덤 모임을 가져옴
+
+		//System.out.println("모임 DB 가져온 내용 : " + meetLists);
+
+		mav.addObject("meetLists", meetMateLists);
+		mav.addObject("meetMateSlideLists", meetMateSlideLists);
+		//mav.addObject("readData", readData);//추가한거
+		mav.setViewName("/meetmate/meetMateList");
+		
+		return mav;		
+	}
+ */
 
 	@GetMapping("/communiFindList")
 	public ModelAndView communiFindList() throws Exception{
