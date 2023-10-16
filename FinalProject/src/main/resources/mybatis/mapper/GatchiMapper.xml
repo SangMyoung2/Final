@@ -22,10 +22,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	select nvl(max(meetListNum),0) from gatchi
 </select>
 
-<select id="getReadData" parameterType="int" resultType="com.spring.boot.dto.GatchiDTO">
+<!-- <select id="getReadData" parameterType="int" resultType="com.spring.boot.dto.GatchiDTO">
 	select * from gatchi 
 	where meetListNum=#{meetListNum}
-</select>
+</select> -->
 
 <select id="getMeetMateLists" resultType="com.spring.boot.dto.GatchiDTO">
 	select * from gatchi where meetCheck = 1
@@ -51,6 +51,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     	SELECT * FROM gatchi WHERE meetCheck = 2 ORDER BY DBMS_RANDOM.VALUE
 	) WHERE ROWNUM <= 5
 ]]>
+</select>
+
+
+
+
+<select id="getMeetMateListsPaging" parameterType="map" resultType="com.spring.boot.dto.GatchiDTO">
+    select *
+    from (
+        select rownum rnum, data.*
+        from (
+            select *
+            from gatchi
+            where meetCheck = 1
+            order by meetListNum desc
+        ) data
+    )
+    where rnum between #{start} and #{itemsPerPage}
 </select>
 
 

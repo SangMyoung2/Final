@@ -235,10 +235,6 @@
     max-height: 500px;
   }
 
-
-
-
-
   /* 슬라이드 div안의 image크기를 고정시키기 위해 추가 */
   main .opa img.card__image {
     display: block;
@@ -255,11 +251,6 @@
     left: 0;
   }
 
-
-
-
-
-  
   main .opa section h3, main .opa section h4 {
     color: #fff;
   }
@@ -376,7 +367,7 @@
     display: inline;
     white-space: nowrap; /*줄변경방지*/
 
-
+    -webkit-text-stroke: medium; /* 카테고리 텍스트두께 */
     margin-right: 0.5rem; /* 버튼과 제목 사이의 간격을 조절할 수 있음 */
   }
 

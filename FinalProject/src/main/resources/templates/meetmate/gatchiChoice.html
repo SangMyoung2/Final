@@ -26,11 +26,11 @@
         <label>GATCHI 유형 선택</label>
         <div id="wrap_gatchiCheck"> 
             <span id="wrap_meetMate" class="gatchiCheck">
-                <input type="radio" id="meetMate" name="meetcheck" value="1" required onclick="gatchiCheck();">
+                <input type="radio" id="meetMate" name="meetCheck" value="1" required onclick="gatchiCheck();">
                 <label for="meetMate"> MeetMate </label>
             </span>
             <span id="wrap_communiFind" class="gatchiCheck" style="border: none;">
-                <input type="radio" id="communiFind" name="meetcheck" value="2" required onclick="gatchiCheck();">
+                <input type="radio" id="communiFind" name="meetCheck" value="2" required onclick="gatchiCheck();">
                 <label for="communiFind"> CommuniFind </label>
             </span>
         </div> <br/><br/> 
@@ -65,7 +65,7 @@
             var meetMate = document.getElementById("meetMate")
             var communiFind = document.getElementById("communiFind")
             
-            var meetcheckInput = document.getElementsByName("meetcheck");
+            var meetCheckInput = document.getElementsByName("meetCheck");
             var selectedValue = "";
 
             if(meetMate.checked){
@@ -84,6 +84,7 @@
         }       
 
 
+        
         function divCheck() {
 
             var wrap_gatchiCheck = document.getElementById("wrap_gatchiCheck");
@@ -114,9 +115,9 @@
         const sendIt = () => {
     
             divCheck();
-            setMeetCheck(document.querySelector('input[name="meetcheck"]:checked'));
-       
-            myForm.action = "/meetMateCreate";
+            // setMeetCheck(document.querySelector('input[name="meetCheck"]:checked'));
+
+            myForm.action = "/gatchiChoice";
             myForm.submit();
         }
     

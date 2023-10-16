@@ -55,6 +55,15 @@ public class GatchiServiceImpl implements GatchiService{
 
 
 
+	@Override
+	public List<GatchiDTO> getMeetMateListsPaging(int start, int itemsPerPage) throws Exception {
+		return gatchiMapper.getMeetMateListsPaging(start, itemsPerPage);
+	}
+
+
+
+
+
 
 /*
 	@Override

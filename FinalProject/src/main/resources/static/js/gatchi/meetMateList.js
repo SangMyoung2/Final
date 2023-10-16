@@ -255,50 +255,46 @@ function heartClickBtn(){
 
 
 
-// //AUTO SCROLL 
-// var page = 1;   //불러올 페이지
-// var isLoading = false;    //중복실행여부 확인 변수
+//AUTO SCROLL 
+var page = 1;   // 불러올 페이지
+var isLoading = false;    // 중복 실행 여부 확인 변수
 
-// /*nextpageload function*/
-// function loadCards() {
-//   if (isLoading) {
-//       return;
-//   }
-//   isLoading = true;
+function loadCards() {
+  if (isLoading) {
+    return;
+  }
+  isLoading = true;
 
-//     $.ajax({
-//         type:"GET",
-//         url:"/test.php",
-//         data : {'page':page},
-//         dataType : "json",
-//         success: function (data) {
-//           if (data.length > 0) {
-//               // 데이터를 받아와서 카드를 생성하는 로직
-//               var cardContainer = $('#card-container');
-//               data.forEach(function (item) {
-//                   var cardHTML = '<div class="card">Card Content</div>';
-//                   cardContainer.append(cardHTML);
-//               });
+  $.ajax({
+    type: "GET",
+    url: "meetMateList?page=" + page, // 수정: 서버 측 URL로 변경
+    dataType: "json",
+    success: function (data) {
+      if (data.length > 0) {
+        // 데이터를 받아와서 카드를 생성하는 로직
+        var cardContainer = $('#card-container');
+        data.forEach(function (item) {
+          var cardHTML = '<div class="card">' + item.meetListNum + ' - ' + item.someOtherField + '</div>';
+          cardContainer.append(cardHTML);
+        });
 
-//               // 페이지 증가
-//               page++;
-//               isLoading = false;
-//           }
-//       },
-//       error: function () {
-//           isLoading = false;
-//       }
-//   });
-// }
+        // 페이지 증가
+        page++;
+        isLoading = false;
+      }
+    },
+    error: function () {
+      isLoading = false;
+    }
+  });
+}
 
-// // 초기 페이지 로드
-// loadCards();
+// 초기 페이지 로드
+loadCards();
 
-// // 스크롤 이벤트 처리
-// $(window).scroll(function () {
-//   if ($(window).scrollTop() + $(window).height() >= $(document).height() - 200) {
-//       loadCards();
-//   }
-// });
-
-
+// 스크롤 이벤트 처리
+$(window).scroll(function () {
+  if ($(window).scrollTop() + $(window).height() >= $(document).height() - 200) {
+    loadCards();
+  }
+});

@@ -1,6 +1,7 @@
 package com.spring.boot.controller;
 
 import java.io.File;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,7 +64,7 @@ public class MeetmateController {
 
 
 	@PostMapping("/gatchiChoice")
-	public ModelAndView gatchiChoice_ok(@RequestParam("meetcheck") String meetCheck, GatchiDTO dto) throws Exception{
+	public ModelAndView gatchiChoice_ok(@RequestParam("meetCheck") String meetCheck, GatchiDTO dto) throws Exception{
 
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("dto", dto);
@@ -75,8 +76,8 @@ public class MeetmateController {
 		// 	dto.setMeetName(""); // 모임명을 ""로 설정
 		// }             ///////이거 주석처리돼있으면 아래에서 설정하는게 먹힌다는거니까 지우기
 				
-		//System.out.println("설정한 meetCheck 1: " + dto.getMeetCheck());
-		//System.out.println("설정한 meetName 2: " + dto.getMeetName());
+		System.out.println("설정한 meetCheck 1: " + dto.getMeetCheck());
+		System.out.println("설정한 meetName 2: " + dto.getMeetName());
 
 		mav.setViewName("/meetmate/meetMateCreate");
 		
@@ -106,7 +107,7 @@ public class MeetmateController {
 			String originalFileName = meetImage.getOriginalFilename();
 			File destFile = new File(uploadDir, originalFileName);
 			
-			//System.out.print("이거야 이름 이거이거거거ㅓ"+ originalFileName);
+			System.out.print("이거야 이름 이거이거거거ㅓ"+ originalFileName);
 			meetImage.transferTo(destFile);
 			int maxNum = gatchiService.maxNum();
 			dto.setMeetListNum(maxNum + 1);
@@ -152,10 +153,32 @@ public class MeetmateController {
 		List<GatchiDTO> meetMateLists = new ArrayList<>();
 		List<GatchiDTO> meetMateSlideLists = new ArrayList<>();
 		
+		String searchKey = request.getParameter("searchKey");
+		String searchValue = request.getParameter("searchValue");
+
+		if (searchValue == null) {
+			searchKey = "meetTitle";
+			searchValue = "";
+
+		} else {
+			if (request.getMethod().equalsIgnoreCase("GET")) {
+				searchValue = URLDecoder.decode(searchValue, "UTF-8");
+			}
+		}
+
+		
+
+		//int itemsPerPage = 10; // 페이지당 표시할 항목 수를 설정*****************
+
+		// 페이징을 위한 시작 인덱스 계산
+		//int start = (page - 1) * itemsPerPage;//*******************************
+
 		//int meetListNum = Integer.parseInt(request.getParameter("meetListNum"));//추가한거
 		//GatchiDTO readData = gatchiService.getReadData(meetListNum);//추가한거
 
-		meetMateLists = gatchiService.getMeetMateLists();
+		//meetMateLists = gatchiService.getMeetMateListsPaging(start, itemsPerPage);//*****
+
+		meetMateLists = gatchiService.getMeetMateLists(); //***************
 		meetMateSlideLists = gatchiService.getMeetMateRandomList(3); // 5개의 랜덤 모임을 가져옴
 
 		//System.out.println("모임 DB 가져온 내용 : " + meetLists);
