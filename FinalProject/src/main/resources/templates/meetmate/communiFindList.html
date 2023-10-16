@@ -1,0 +1,131 @@
+<html layout:decorate="~{layout}">
+<head>
+<meta charset="UTF-8">
+
+<title>CommuniFind 모임목록</title>
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/meetmate/list.css}"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/css/swiper.min.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/js/swiper.min.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+<link rel="icon" type="image/png" th:href="@{http://localhost:8080/image/로고.png}"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="http://localhost:8080/js/gatchi/meetMateList.js"></script>
+
+</head>
+
+<body>
+  
+  <!-- ★★★★★★ like DB에 담기는거 추가해야돼 ★★★★★★ -->
+  <div layout:fragment="content">    
+  
+    <div class="body7">
+  
+      <main>
+  
+      <article class="slide">
+        
+          <ul class="panel">
+  
+            <ul class="panel">
+              <th:block th:each="communi, iterStat : ${communiFindSlideLists}">
+                <li class="li2" th:style="'background-image: url(' + '/image/gatchiImage/' + ${communi.meetImage} + ');'">
+                  <div class="opa">
+                    <section>
+                      <!-- <img th:src="@{|/image/gatchiImage/${meet.meetImage}|}" class="card__image" alt=""/> -->
+                      <h3 th:text="${communi.meetTitle}"></h3>
+                      <h4 th:text="${communi.meetContent}"></h4>
+                      <button>more ⇁</button>
+                    </section>
+                  </div>
+                </li>
+              </th:block>
+            </ul>
+    
+            <ul class="dot">
+              <li class="on li2"></li>
+              <li class="li2"></li>
+              <li class="li2"></li>
+              <li class="li2"></li>
+              <li class="li2"></li>
+            </ul> 
+          </ul>      
+        </article>
+  
+      </main>  
+    </div><br/><br/><br/><br/><br/><br/><br/>
+    <h2 th:text="|${session.user1.name}님의 참여를 기다리는 CommuniFind List|" style="text-align: center; font-weight: normal;"></h2>
+  
+  
+    <div class="c2">
+      <ul class="cards">
+        
+        <li th:each="items : ${communiLists}">
+            <div class="card">
+              <div id="heart" class="heart" name="likeCount"></div>    
+            <div id="heart" class="button__like"></div>  
+              <a href="#">
+                <img th:src="@{|/image/gatchiImage/${items.meetImage}|}" class="card__image" alt="" />  <!-- 클릭하면 article로 넘어가게 -->
+              </a>
+              <div class="card__overlay">
+                <div class="card__header">
+                  <svg class="card__arc" xmlns="http://www.w3.org/2000/svg"><path /></svg>                     
+                  <img class="card__thumb" src="https://i.imgur.com/7D7I6dI.png" alt="" /><!--여기 회원 프로필사진-->
+                  <div class="card__header-wrapper">
+                    <div class="card__header-text">
+                      <span class="card__status" >
+                        <span th:switch="${items.meetCtgNum}">
+                          <span th:case="1" class="category-button">
+                            <button class="ctgButton" disabled="disabled">문화·예술</button>
+                            <h3 class="card__title" th:text="${items.meetTitle}">글제목</h3>    
+                          </span>
+                          <span th:case="2" class="category-button">
+                            <button class="ctgButton" disabled="disabled">맛집</button>
+                            <h3 class="card__title" th:text="${items.meetTitle}">글제목</h3>    
+                          </span>
+                          <span th:case="3" class="category-button">
+                            <button class="ctgButton" disabled="disabled">취미</button>
+                            <h3 class="card__title" th:text="${items.meetTitle}">글제목</h3>    
+                          </span>
+                          <span th:case="4" class="category-button">
+                            <button class="ctgButton" disabled="disabled">여행</button>
+                            <h3 class="card__title" th:text="${items.meetTitle}">글제목</h3>    
+                          </span>
+                          <span th:case="5" class="category-button">
+                            <button class="ctgButton" disabled="disabled">운동·액티비티</button>
+                            <h3 class="card__title" th:text="${items.meetTitle}">글제목</h3>    
+                          </span>
+                      </span><br/>
+                      <span class="card__status" th:text="'만남일 : ' + ${items.meetDday} + ', 장소 : '">날짜, 시간,  장소</span><br/>
+                      <span class="card__status" th:text="' 참여인원 : ' + ${items.meetMemCnt} + ' / ' + ${items.meetMaxMemCnt}">현재 참석인원 / 최대인원</span>
+                    </div>
+                  </div>       
+                </div>
+                <div class="description1">
+                <p class="card__description" th:text="${items.meetContent}">글 내용</p>
+                </div>
+              </div>
+            </div>    
+          </li>
+        </div>
+        </ul>
+    </div>
+  </div>
+  
+  
+  
+  <?php
+      $page = $_GET['page'];
+      if($page)
+      {
+          echo 'success';
+      }
+  ?>
+  
+  
+  </body>
+  
+  </html>
+  

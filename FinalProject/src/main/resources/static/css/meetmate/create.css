@@ -20,6 +20,8 @@ h1 {
   margin-bottom: 1em;
   color: #101010;
   letter-spacing: -.05em;
+
+  text-align: center; /*중앙*/
 }
 
 label {
@@ -32,7 +34,7 @@ label {
 
 .t1 {
   display: block;
-  width: 360px;
+  width: 600px;
   height: 36px;
   padding: 0 12px;
   border-radius: 7px;
@@ -162,17 +164,7 @@ label {
   line-height: 22px;
 }
 
-.t1 {
-  display: block;
-  width: 360px;
-  height: 36px;
-  padding: 0 12px;
-  border-radius: 7px;
-  margin-bottom: 12px;
-  font-size: 14px;
-  border: 1px solid #d3dce6;
-  transition: border-color 200ms ease-in-out;
-}
+
 
 input:focus,
 input:hover,
@@ -349,7 +341,7 @@ input[type=radio]{
 
 
 #wrap_how {
-  width: 360px;
+  width: 600px;
   display: flex;
   border-radius: 7px;
   border: 1px solid #d3dce6;  
@@ -391,7 +383,7 @@ input[type=radio]{
 
 
 #wrap_ctgNum {
-  width: 360px;
+  width: 600px;
   display: flex;
   border-radius: 7px;
   border: 1px solid #d3dce6;  
@@ -482,7 +474,7 @@ textarea:active {
 
 .t3 {
   display: block;
-  width: 360px;
+  width: 600px;
   height: 36px;
   padding: 0 12px;
   border-radius: 7px;
@@ -541,7 +533,7 @@ form .terms :nth-child(6) div img {
 
 
 #wrap_entryfee{
-  width: 360px;
+  width: 600px;
   display: flex;
   border-radius: 7px;
   border: 1px solid #d3dce6;  

@@ -2,7 +2,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>GATCHI 종류선택</title>
+<title>함께 GATCHI</title>
 
 <link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/meetmate/gatchiChoice.css}"/>
 <link rel="icon" type="image/png" th:href="@{http://localhost:8080/image/로고.png}"/>
@@ -39,12 +39,18 @@
             <label>communiFind 모임명</label>
             <label style="color: rgba(145, 142, 142, 0.808); font-weight: 150;">
                 모임명은 변경이 불가하오니, 충분히 고민 후 입력해주세요.</label>
-                <input type="text" id="meetName" name="meetName" placeholder="Meetmate 모임명" class="t1" required disabled/>
+                <input type="text" id="meetName" name="meetName" placeholder="communiFind 모임명" class="t1"  size="24" maxlength="24" required disabled/>
         </div>
 
         <div class="Btn2">
-            <button type="submit" class="createBtn" onclick="sendIt();">확인</button>
-            <button type="button" class="cancelBtn" onclick="javascript:location.href='/meetmateList';">취소</button>
+            <button type="submit" class="createBtn" onclick="sendIt();">확인</button>        
+            <button type="button" class="cancelBtn" onclick="cancelAction();">취소</button>
+            <!-- <button type="button" class="cancelBtn" onclick="javascript:location.href='/meetMateList';">취소</button> -->
+            <!-- <button type="button" class="cancelBtn" 
+                th:text="${dto.meetCheck == 1 ? 'MeetMateList' : 'CommuniFindList'}" 
+                onclick="javascript:location.href='/' + 
+                (dto.meetCheck == 1 ? 'meetMateList' : 'CommuniFindList');">취소</button> -->
+
         </div>
         </div>
 
@@ -110,10 +116,24 @@
             divCheck();
             setMeetCheck(document.querySelector('input[name="meetcheck"]:checked'));
        
-            myForm.action = "/meetmateCreate";
+            myForm.action = "/meetMateCreate";
             myForm.submit();
         }
     
+
+        function cancelAction() {//모임 생성을 했다가 취소 버튼을 눌렀을 경우 이동경로
+            var meetMate = document.getElementById("meetMate");
+            var communiFind = document.getElementById("communiFind");
+
+            if (meetMate.checked) {
+                location.href = '/meetMateList';
+            } else if (communiFind.checked) {
+                location.href = '/CommuniFindList';
+            } else {
+                location.href = '/';
+            }
+        }
+
         </script>
 
     </div>

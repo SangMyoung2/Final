@@ -18,7 +18,7 @@
 
     <h1 th:text="|${dto.meetCheck == 1 ? 'MeetMate' : 'CommuniFind'} 개설하기|"></h1>
 
-    <form action="meetMateCreate" method="POST" name="myForm" enctype="multipart/form-data" onsubmit="return validateForm();">
+    <form action="communiFindCreate" method="POST" name="myForm" enctype="multipart/form-data" onsubmit="return validateForm();">
     
         <label th:text="|${dto.meetCheck == 1 ? 'MeetMate' : 'CommuniFind'} 카테고리|"></label>
             <div id="wrap_ctgNum"> 
@@ -171,7 +171,7 @@
 
         <div class="Btn2">
             <button type="submit" class="createBtn" onclick="sendIt();">생성</button>
-            <button type="button" class="cancelBtn" onclick="javascript:location.href='/meetMateList';">취소</button>
+            <button type="button" class="cancelBtn" onclick="javascript:location.href='/communiFindList';">취소</button>
         </div>
 
         </form>
@@ -213,6 +213,7 @@
             }
         }
     }    
+
 
     //이미지 선택여부 확인
     function imageCheck() {
@@ -343,7 +344,7 @@
         
             var meetCheck = parseInt(document.getElementById("meetCheck").value);
 
-            myForm.action = "/meetMateList";
+            myForm.action = "/communiFindList";
             myForm.submit();
         }
     }
