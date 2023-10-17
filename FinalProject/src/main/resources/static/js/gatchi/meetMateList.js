@@ -79,7 +79,7 @@ function slide() {
   function autoPlay() {
     auto = setInterval(function() {
       nextChkPlay();
-    }, 2000);
+    }, 20000000);
   }
 
   // 자동실행 멈춤
@@ -95,7 +95,7 @@ function slide() {
     $panelLi.mouseleave(function() {
       auto = setInterval(function() {
         nextChkPlay();
-      }, 2000);
+      }, 20000000);
     });
   }
 
@@ -241,10 +241,37 @@ function heartClickBtn(){
 }
 
 
+let endList = 8;
+let scrollY = 1200;
+//1850;
+// 1200
+function handleScroll() {
+
+  if(window.scrollY >= scrollY){
+    scrollY += scrollY;
+    endList += endList;
+
+    let cards = document.getElementsByName('meetLists');
+  
+    for(let i=0; i<endList; i++){
+      cards[i].classList.remove('meetList_hidden');
+    }
+
+  }
+
+}
 
 
+window.addEventListener('scroll', handleScroll);
 
+window.onload = function() {
 
+  let cards = document.getElementsByName('meetLists');
+  
+  for(let i=0; i<endList; i++){
+    cards[i].classList.remove('meetList_hidden');
+  }
+}
 
 // //ajax 검색
 // function sendKeyword() {

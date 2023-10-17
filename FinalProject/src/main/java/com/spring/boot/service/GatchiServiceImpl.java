@@ -51,6 +51,10 @@ public class GatchiServiceImpl implements GatchiService{
 		return gatchiMapper.getCommuniFindRandomList(count);
 	}
 
+	@Override
+	public List<GatchiDTO> getRownumList(int end) throws Exception {
+		return gatchiMapper.getRownumList(end);
+	}
 
 
 

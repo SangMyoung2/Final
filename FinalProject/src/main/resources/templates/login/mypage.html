@@ -4,10 +4,8 @@
         <meta charset="UTF-8">
         <title>My Page</title>
       
-        <meta name="robots" content="noindex">
-      
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
-      <link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/index.css}"/> 
+        <link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/structure/reset.css}"/>
+     
       <link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/login/mypage.css}"/>
       <link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/login/mypage2.css}"/> 
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
@@ -16,31 +14,42 @@
     <body>
 
     
-  
-    <nav class="nav has-shadow" id="top">
-        <div class="container">
-          <div class="nav-left">
-            <a class="nav-item" href="../index.html">
-              <img src="https://dansup.github.io/bulma-templates/images/bulma.png" alt="Description">
-            </a>
+    <div style="height: 15px; background-color: #5CA8B5;"> </div>
+    <nav  class="nav has-shadow" id="top">
+        
+        <div  class="container">
+           
+          <div  class="nav-left">
+            <a href="/"><p  style=" color: #5CA8B5; font-size: 30px; margin-top: 12px;">GATCHI</p></a>
           </div>
-          <span class="nav-toggle">
-            <span></span>
-            <span></span>
-            <span></span>
-          </span>
-          <div class="nav-right nav-menu">
-            <a class="nav-item is-tab is-active">
-              Home
-            </a>
+          
+          <div style="display: flex; width: 875px; font-size: 20px; margin-top: 20px; ">
+           
+            <p style="width: 160px; font-weight: 100;" class="menu_item"><a href="#" class="link">MeetMate</a></p>
+			<b style="width: 160px; font-weight: 100;" class="menu_item"><a href="#" class="link">CommuniFind</a></b>
+			<b style="width: 160px; font-weight: 100;" class="menu_item"><a href="#" class="link">Challenge</a></b>
+			<b style="width: 160px; font-weight: 100;" class="menu_item"><a href="#" class="link">Review</a></b>
+			<b style="width: 160px; font-weight: 100;" class="menu_item"><a href="#" class="link">Discovery</a></b>
+			<b style="width: 160px; font-weight: 100;" class="menu_item"><a href="#" class="link">Service</a></b>
+             
+              
+              </div>
            
             <span class="nav-item">
-              <a class="button">
-                Log in
-              </a>
-              <a class="button is-info">
-                Sign up
-              </a>
+                <p style="width: 180px;" th:if="${#httpSession.getAttribute('user') != null}">
+                    <a style="color: black;" th:text="${session.user.name}+ ' 님 안녕하세요!'"></a>
+                    
+                    </p>
+        
+                    <p style="width: 180px;" th:if="${#httpSession.getAttribute('user1') != null}">
+                        <a style="color: black;" th:text="${session.user1.name}+ ' 님 안녕하세요!'"></a>
+                        </p>
+        
+                     
+        
+                    <p  class="menu_item" th:if="${#httpSession.getAttribute('user') != null} or ${#httpSession.getAttribute('user1') != null}">
+                        <a href="/logout" class="link">로그아웃</a>
+                    </p>
             </span>
           </div>
         </div>
@@ -50,27 +59,72 @@
       <div class="section profile-heading">
         <div  class="columns">
           <div class="column is-2">
-            <div class="image is-128x128 avatar">
-              <img src="https://placehold.it/256x256">
+
+            <div th:if="${#httpSession.getAttribute('user') != null}" class="image is-128x128 avatar">
+                <img style="margin-bottom: 30px;" th:src="@{${session.user.picture}}">
+                <a  style=" color: #00d1b2; margin-left: -3px; font-size: 23px;" href="">포인트 상세 조회</a>
+              </div>
+
+            <div th:if="${#httpSession.getAttribute('user1') != null}"  class="image is-128x128 avatar">
+              <img style="margin-bottom: 30px;" src="https://placehold.it/256x256">
+              <a th:if="${#httpSession.getAttribute('user1') != null}" style=" color: #00d1b2; margin-left: 15px; font-size: 23px;" href="">회원정보 수정 </a>
+              <a  style=" color: #00d1b2; margin-left: -3px; font-size: 23px;" href="">포인트 상세 조회</a>
             </div>
+           
           </div>
+         
+           
+        
+        
           <div class="column is-4 name">
             <p style="margin-top: 45px;">
-              <span class="title is-bold" th:text="${session.user1.name}+ ' 님 안녕하세요!'"></span>
+              <span class="title is-bold" th:if="${#httpSession.getAttribute('user1') != null}" th:text="${session.user1.name}+ ' 님 안녕하세요!'"></span>
+              <span class="title is-bold" th:if="${#httpSession.getAttribute('user') != null}" th:text="${session.user.name}+ ' 님 안녕하세요!'"></span>
+             
+             <br/><br/><br/>
+              <div class="box">
+                <!-- Main container -->
+                <nav class="level">
+                  <!-- Left side -->
+                  <div class="level-left">
+                    <div class="level-item">
+                      <p class="subtitle is-5">
+                       포인트
+                      </p>
+                      <br/>
+                    </div>
+                    <br/>
+                    <div class="level-item">
+                        <div>
+                        <p style="border: 1px;" >
+                            포인트
+                           </p>
+                        </div>
+                    </div>
+                  </div>
+          
+                
+              </div>
+
+
+              <br/><br/><br/>
+             
             </p>
+
+            
           
           </div>
           <div style="display: flex; flex-direction: column;" class="column is-2 followers has-text-centered">
-            <p style="color: #00d1b2; font-size: 20px;">MeetMate</p><br/>
+            <p style="color: #00d1b2; font-size: 30px;">MeetMate</p><br/>
             <p class="stat-val">2</p>
             
           </div>
-          <div style="display: flex; flex-direction: column;" class="column is-2 following has-text-centered">
-            <p style="color: #00d1b2; font-size: 20px;">CommuniFind</p><br/>
+          <div style="display: flex; flex-direction: column; width: 210px;" class="column is-2 following has-text-centered">
+            <p style="color: #00d1b2; font-size: 30px; ">CommuniFind</p><br/>
             <p class="stat-val">5</p>
           </div>
           <div style="display: flex; flex-direction: column;" class="column is-2 likes has-text-centered">
-            <p style="color: #00d1b2; font-size: 20px;">Challenge</p><br/>
+            <p style="color: #00d1b2; font-size: 30px;">Challenge</p><br/>
             <p class="stat-val">3</p>
           </div>
         </div>
@@ -118,6 +172,8 @@
           </div>
         </nav>
       </div>
+
+      <br/><br/>
   
       <div class="spacer"></div>
   
@@ -290,6 +346,8 @@
             </div>
            
             </div>
+
+            <br/><br/><br/><br/>
         </div>
 
 

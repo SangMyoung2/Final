@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.spring.boot.mapper.PaymentMapper">
+
+    <!-- 결제 정보를 데이터베이스에 추가하는 SQL -->
+    <insert id="insertPaymentInfo" parameterType="com.spring.boot.dto.PaymentInfoDTO">
+        INSERT INTO PAYMENTINFO (paid_amount, paid_at, pay_method, card_name, card_number, apply_num, name, status) VALUES (#{paid_amount}, #{paid_at},#{pay_method,jdbcType=VARCHAR}, #{card_name,jdbcType=VARCHAR}, #{card_number,jdbcType=VARCHAR}, #{apply_num,jdbcType=VARCHAR}, #{name}, #{status})
+    </insert>
+
+    <!-- 결제 성공 후 결제 금액에 맞게 User의 Point가 증가 -->
+    <update id="updateUserPoint" parameterType="com.spring.boot.dto.userPointDTO">
+        UPDATE userPoint
+        SET point_balance = point_balance + #{point_balance}
+        WHERE email = #{email}
+    </update>
+
+    <!-- 모임의 meetMoney 조회 -->
+    <select id="getMeetMoney" resultType="int" parameterType="int">
+        SELECT meetMoney FROM GATCHI WHERE meetListNum = #{meetListNum}
+    </select>
+
+    <!-- 사용자의 포인트 잔액 조회 -->
+    <select id="getUserPoint" resultType="int" parameterType="String">
+        SELECT point_balance FROM userPoint WHERE email = #{email}
+    </select>
+
+
+    <!-- 추가적인 결제 관련 SQL 문장을 작성할 수 있습니다. -->
+
+</mapper>

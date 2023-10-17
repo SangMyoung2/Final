@@ -14,11 +14,27 @@
   ::-webkit-scrollbar-button:start:decrement, ::-webkit-scrollbar-button:end:increment {display: block; height: 10px; background: url('./images/bg.png') #fff}
   ::-webkit-scrollbar-track {background: #efefef; -webkit-border-radius: 10px; border-radius:10px; -webkit-box-shadow: inset 0 0 4px rgba(0,0,0,.0)}
   ::-webkit-scrollbar-thumb {height: 50px; width: 50px; background: rgba(0,0,0,.2); -webkit-border-radius: 8px; border-radius: 8px; -webkit-box-shadow: inset 0 0 4px rgba(0,0,0,.1)}
-  
+  body{-ms-overflow-style:none; }
+  body::-webkit-scrollbar { display:none; }
   img {
     width: 100px;
   }
   
+  .meetTitle{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin: 25px 0px 0px 50px;
+    height: 80px;
+  }
+
+  .meetTitle_Sub{
+    margin-left: 175px;
+    font-size: 20pt;
+    margin-bottom: 30px;
+  }
+
+
   .body7 {
     font-size: 0.9rem;
     letter-spacing: 0.1px;
@@ -30,7 +46,7 @@
     font-size: 2.8rem;
     line-height: 2.8rem;
     font-weight: bolder;
-    color: #fff;
+    color: #000000;
   }
   
   h2 {
@@ -124,8 +140,11 @@
   main .panel {
     width: 300%;
     height: 100%;
-    
     max-height: 500px;
+    display: flex;
+    justify-content: space-around;
+    background-color: white;
+    
   }
   
   main .panel:after {
@@ -211,20 +230,43 @@
 /*여기까지가 테스트야*/
 
 .li2_img{
-  max-height: 500px;
-  background-size: 800px 100%;
-    height: 500px;
-    background-position: center;
+    max-height: 500px;
+    width: 11.111%;
+    height: 800px;
+    /* float: left; */
+    /* border: 1px solid red; */
+    margin: 0 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
-  
+ 
+.li2_img .randomcard{
+  width: 90%;
+  align-self: center;
+  height: 80%;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-color: #efefef;
+  border: 1px solid #ffffff;
+  border-radius: 20px;
+  text-shadow: #000000;
+}
+
+.randomcard:hover{
+  border: 1px solid #adadad;
+  transform: translateY(-20px);
+}
+
   main .opa {
     position: relative;
     /* background: rgba(0, 0, 0, 0.1); */
-    width: 33.333%;
+    width: 100%;
     height: 100%;
-
+    max-width: 300px;
     max-height: 500px; /* 사진이 자꾸 아래로 쏠려서 최대높이 지정함*/
-    object-position: center center; /* 이미지를 가로 및 세로축 중앙으로 정렬 */
+    /* object-position: center center; 이미지를 가로 및 세로축 중앙으로 정렬 */
   }
   
   main .opa section {
@@ -257,6 +299,10 @@
   
   main .opa section h4 {
     margin: 1rem 0;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;
+    overflow: hidden;
   }
   
   main .opa section button {
@@ -278,13 +324,13 @@
   main .dot {
     position: absolute;
     left: 50%;
-    bottom: 10%;
+    bottom: 5%;
     transform: translateX(-50%);
   }
   
   main .dot>li {
     float: left;
-    background: #FFFFFF;
+    background: #c3c3c3;
     width: 15px;
     height: 15px;
     border-radius: 50%;
@@ -301,7 +347,7 @@
   
   
   /*~~~~labtop start~~~~*/
-  @media screen and (min-width: 1000px) {
+  /* @media screen and (min-width: 1000px) {
   
       main .opa section {
       position: absolute;
@@ -321,7 +367,7 @@
       font-size: 1.5rem;
       margin: 2rem 0;
     }
-  }
+  } */
 
 
 
@@ -397,6 +443,10 @@
     list-style-type: none;
   }
   
+  .meetList_hidden{
+    display: none;
+  }
+
   .card {
     position: relative;
     display: block;

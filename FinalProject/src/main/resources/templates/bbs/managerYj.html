@@ -18,15 +18,13 @@
     <script>
 
     function accept(email, meetListNum) {
-        alert(email)
-        alert(meetListNum)
-        if (confirm('수락하시겠습니까?')) {
+        if (confirm(email + '님을 수락하시겠습니까?')) {
             $.ajax({
                 type: "POST",
                 url: "/accept-to-waitlist",
                 data: {
-                    email: email,
-                    meetListNum: meetListNum // meetListNum을 추가
+                    meetListNum: meetListNum,
+                    email: email
                 },
                 success: function (response) {
                     alert('수락되었습니다.');
@@ -39,13 +37,13 @@
         }
     }
 
-    function reject(email) {
-        alert(email)
-        if (confirm('거절하시겠습니까?')) {
+    function reject(email, meetListNum) {
+        if (confirm(email + '님을 거절하시겠습니까?')) {
             $.ajax({
                 type: "POST",
                 url: "/reject-from-waitlist",
                 data: {
+                    meetListNum: meetListNum,
                     email: email
                 },
                 success: function (response) {
@@ -60,9 +58,8 @@
     }
 
 
-    function kickOut(email,meetListNum) {
-        alert(email)
-        if (confirm('강퇴하시겠습니까?')) {
+    function kickOut(email, meetListNum) {
+        if (confirm(email + '님을 강퇴하시겠습니까?')) {
             $.ajax({
                 type: "POST",
                 url: "/add-to-blacklist",
@@ -83,13 +80,13 @@
 
 
 
-    function release(email) {
-        alert(email)
-        if (confirm('블랙리스트에서 해제하시겠습니까?')) {
+    function release(email, meetListNum) {
+        if (confirm(email + '님을 블랙리스트에서 해제하시겠습니까?')) {
             $.ajax({
                 type: "POST",
                 url: "/release-from-blacklist",
                 data: {
+                    meetListNum: meetListNum,
                     email: email
                 },
                 success: function (response) {
@@ -103,30 +100,6 @@
         }
     }
 
-
-        // document.addEventListener('DOMContentLoaded', function () {
-
-        //     document.querySelector('.release-action').addEventListener('click', function () {
-        //         if (confirm('해제하시겠습니까?')) {
-        //             $.ajax({
-        //                 type: "POST",
-        //                 url: "/update-meet-blacklist", // 수정된 URL
-        //                 data: {
-        //                     meetListNum: meetListNum,
-        //                     email: email,
-        //                     action: "release" // 블랙리스트에서 해제 동작
-        //                 },
-        //                 success: function (response) {
-        //                     alert('해제되었습니다.');
-        //                     location.reload();
-        //                 },
-        //                 error: function () {
-        //                     alert('해제에 실패했습니다.');
-        //                 }
-        //             });
-        //         }
-        //     });
-        // });
     </script>
 
 </head>
@@ -148,9 +121,12 @@
                 </div>
                 <div class="mem-request" th:text="${meetWait}"></div>
                 <div class="actions">
-                    <span class="accept-action" th:data-email="${meetWait}" onclick="accept(this.getAttribute('data-email'))">수락</span> |
-                    <span class="reject-action" th:data-email="${meetWait}" onclick="reject(this.getAttribute('data-email'))">거절</span>
+                    <span class="accept-action" th:data-email="${meetWait}" th:data-meetListNum="${meetListNum}" onclick="accept(this.getAttribute('data-email'), this.getAttribute('data-meetListNum'))">수락</span> |
+                    <span class="reject-action" th:data-email="${meetWait}" th:data-meetListNum="${meetListNum}" onclick="reject(this.getAttribute('data-email'), this.getAttribute('data-meetListNum'))">거절</span>
                 </div>
+            </div>
+            <div th:if="${meetWait.size() == 0}">
+                <p class="no-members-message">대기 중인 멤버가 없습니다</p>
             </div>
 
             <div class="mem-title">참여 멤버</div>
@@ -160,8 +136,13 @@
                 </div>
                 <div class="mem-request" th:text="${meetMember}"></div>
                 <div class="actions">
-                    <span class="out-action" th:data-email="${meetMember}" onclick="kickOut(this.getAttribute('data-email'))">강퇴</span>
+                    <!-- 방장은 강퇴버튼 안보이게 하기!!!!!!!!!!!!! -->
+                    <!-- <span class="out-action" th:data-email="${meetMember}" th:data-meetListNum="${meetListNum}" onclick="kickOut(this.getAttribute('data-email'), this.getAttribute('data-meetListNum'))">강퇴</span> -->
+                    <span th:unless="${meetMember == masterEmail}" class="out-action" th:data-email="${meetMember}" th:data-meetListNum="${meetListNum}" onclick="kickOut(this.getAttribute('data-email'), this.getAttribute('data-meetListNum'))">강퇴</span>
                 </div>
+            </div>
+            <div th:if="${meetMembers.size() == 0}">
+                <p class="no-members-message">참여 중인 멤버가 없습니다</p>
             </div>
             
         </div>
@@ -173,7 +154,7 @@
                     </div>
                     <div class="black-request" th:text="${meetBlack}"></div>
                     <div class="actions">
-                        <span class="release-action" th:data-email="${meetBlack}" onclick="release(this.getAttribute('data-email'))">해제</span>
+                        <span class="release-action" th:data-email="${meetBlack}" th:data-meetListNum="${meetListNum}" onclick="release(this.getAttribute('data-email'), this.getAttribute('data-meetListNum'))">해제</span>
                     </div>
                 </div>
             </div>

@@ -40,7 +40,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <![CDATA[
 	SELECT * FROM (
     	SELECT * FROM gatchi WHERE meetCheck = 1 ORDER BY DBMS_RANDOM.VALUE
-	) WHERE ROWNUM <= 5
+	) WHERE ROWNUM <= ${count}
 ]]>
 </select>
 
@@ -49,10 +49,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <![CDATA[
 	SELECT * FROM (
     	SELECT * FROM gatchi WHERE meetCheck = 2 ORDER BY DBMS_RANDOM.VALUE
-	) WHERE ROWNUM <= 5
+	) WHERE ROWNUM <= ${count}
 ]]>
 </select>
 
+<select id="getRownumList" parameterType="int" resultType="com.spring.boot.dto.GatchiDTO">
+	select * from
+	<![CDATA[
+	(select ROWNUM rnum, data.* from (
+	select * from GATCHI
+	where MEETTITLE like '%%') data)
+	where rnum >= 1 and rnum <= ${end}
+	]]>
+</select>
 
 
 <select id="searchMeetMateList" parameterType="map" resultType="com.spring.boot.dto.GatchiDTO">
