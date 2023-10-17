@@ -4,9 +4,11 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,13 +19,17 @@ import org.springframework.web.servlet.ModelAndView;
 import com.spring.boot.dto.GatchiDTO;
 import com.spring.boot.dto.MapDTO;
 import com.spring.boot.service.GatchiService;
+import com.spring.boot.service.MapService;
 
 
 @RestController //는 return을 텍스트로 인식하지만 ModelAndView는 ResponseBody를 작성하지 않아도 주소로 인식한다. 
 public class MeetmateController {
 	
-	@Resource
+	@Autowired
 	private GatchiService gatchiService;
+
+	@Autowired
+	private MapService mapService;
 
 	//여기서 호출 하면 BoardService -> BoardServiceImpl -> BoardMapper -> boardMapper.xml에서 데이터 반환을 BoardController로 해준다.
 
@@ -64,12 +70,11 @@ public class MeetmateController {
 
 
 	@PostMapping("/gatchiChoice")
-	public ModelAndView gatchiChoice_ok(HttpServletRequest request, GatchiDTO dto) throws Exception{
+	public ModelAndView gatchiChoice_ok(@RequestParam("meetCheck") String meetCheck, HttpServletRequest request, GatchiDTO dto) throws Exception{
 
 		ModelAndView mav = new ModelAndView();
 
-		System.out.println(request.getParameter("lat") + "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-		System.out.println(request.getParameter("meetCheck"));
+
 
 		// if (dto.getMeetCheck() == 1) {
 		// 	dto.setMeetName(""); // 모임명을 ""로 설정
@@ -77,19 +82,21 @@ public class MeetmateController {
 				
 		//System.out.println("설정한 meetCheck 1: " + dto.getMeetCheck());
 		//System.out.println("설정한 meetName 2: " + dto.getMeetName());
-
+		mav.addObject("dto", dto);
 		mav.addObject("lat", request.getParameter("lat"));
 		mav.addObject("lng", request.getParameter("lng"));
-
-		mav.setViewName("/meetmate/meetmateCreate");
 		
+
 		//이거 왜 안되냐구........................
 		if (dto.getMeetCheck() == 1) {
+			System.out.println("들어옴");
 			dto.setMeetName(""); // 모임명을 ""로 설정
-			mav.setViewName("/meetmate/meetMateCreate");
+			mav.setViewName("meetmate/meetMateCreate");
+			return mav;
 
 		} else if (dto.getMeetCheck() == 2) {
-			mav.setViewName("/meetmate/communiFindCreate");
+			mav.setViewName("meetmate/communiFindCreate");
+			return mav;
 		}	
 
 		return mav;
@@ -103,12 +110,13 @@ public class MeetmateController {
 
 		ModelAndView mav = new ModelAndView();
 		
-		String uploadDir = "C:\\VSCode\\work\\Final\\FinalProject\\src\\main\\resources\\static\\image\\gatchiImage";
+		Resource resource = new ClassPathResource("static");
+        String resourcePath = resource.getFile().getAbsolutePath() + "/image/gatchiImage";
 
 		if (!meetImage.isEmpty()) {
 			String originalFileName = meetImage.getOriginalFilename();
-			File destFile = new File(uploadDir, originalFileName);
-			
+			File destFile = new File(resourcePath, originalFileName);
+
 			//System.out.print("이거야 이름 이거이거거거ㅓ"+ originalFileName);
 			meetImage.transferTo(destFile);
 			int maxNum = gatchiService.maxNum();
@@ -116,11 +124,13 @@ public class MeetmateController {
 			dto.setMeetImage(originalFileName);
 			gatchiService.createGatchi(dto);
 
-			System.out.println(request.getParameter("lat"));
+			
 			MapDTO mapDTO = new MapDTO();
 			mapDTO.setLat(Double.parseDouble(request.getParameter("lat")));
 			mapDTO.setLng(Double.parseDouble(request.getParameter("lng")));
 			mapDTO.setMeetListNum(maxNum);
+
+			mapService.insertMapData(mapDTO);
 
 		}
 		mav.setViewName("redirect:/meetMateList");
@@ -135,11 +145,12 @@ public class MeetmateController {
 
 		ModelAndView mav = new ModelAndView();
 		
-		String uploadDir = "C:\\VSCode\\work\\Final\\FinalProject\\src\\main\\resources\\static\\image\\gatchiImage";
+		Resource resource = new ClassPathResource("static");
+        String resourcePath = resource.getFile().getAbsolutePath() + "/image/gatchiImage";
 
 		if (!meetImage.isEmpty()) {
 			String originalFileName = meetImage.getOriginalFilename();
-			File destFile = new File(uploadDir, originalFileName);
+			File destFile = new File(resourcePath, originalFileName);
 			
 			//System.out.print("이거야 이름 이거이거거거ㅓ"+ originalFileName);
 
@@ -148,6 +159,13 @@ public class MeetmateController {
 			dto.setMeetListNum(maxNum + 1);
 			dto.setMeetImage(originalFileName);
 			gatchiService.createGatchi(dto);
+
+			MapDTO mapDTO = new MapDTO();
+			mapDTO.setLat(Double.parseDouble(request.getParameter("lat")));
+			mapDTO.setLng(Double.parseDouble(request.getParameter("lng")));
+			mapDTO.setMeetListNum(maxNum);
+
+			mapService.insertMapData(mapDTO);
 		}
 		mav.setViewName("redirect:/communiFindList");
 		return mav;

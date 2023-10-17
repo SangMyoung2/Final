@@ -101,6 +101,7 @@
         </div>
         <input type="hidden" value="" id="lat" name="lat"/>
         <input type="hidden" value="" id="lng" name="lng"/>
+        <input type="hidden" value="" id="meetPlace" name="meetPlace"/>
     </form>
 
 <!-- map세팅 -->
@@ -208,6 +209,11 @@
             addrType = item.name === 'roadaddr' ? '[도로명 주소]' : '[지번 주소]';
 
             htmlAddresses.push((i+1) +'. '+ addrType +' '+ address);
+
+            if(addrType==='[지번 주소]'){
+                
+                document.getElementById("meetPlace").value = address;
+            }
         }
 
         infoWindow.setContent([
@@ -248,7 +254,9 @@
         }
 
         if (item.jibunAddress) {
+            
             htmlAddresses.push('[지번 주소] ' + item.jibunAddress);
+            document.getElementById("meetPlace").value = item.jibunAddress;
         }
 
         if (item.englishAddress) {
@@ -426,7 +434,7 @@
         
         return;
     }else{
-        
+        // setMeetCheck(document.querySelector('input[name="meetcheck"]:checked'));
         f.action = "/gatchiChoice";
         f.submit();
         

@@ -30,7 +30,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </select>
 
 <insert id="insertMapData" parameterType="com.spring.boot.dto.MapDTO">
-	insert into latlng(lat,lng,id) values (#{lat},#{lng},#{meetListNum})
+	insert into latlng(lat,lng,meetListNum) values (#{lat},#{lng},#{meetListNum})
 </insert>
 
 
