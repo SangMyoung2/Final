@@ -1,5 +1,7 @@
 package com.spring.boot.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.boot.dto.PaymentInfoDTO;
+import com.spring.boot.dto.userPointDTO;
+import com.spring.boot.dto.SessionUser;
 import com.spring.boot.service.PaymentService;
 
 @Controller
@@ -16,6 +20,9 @@ public class PaymentController {
 
     @Autowired
     private PaymentService paymentService;
+
+    @Autowired
+    private HttpSession httpSession;
 
     @GetMapping("/pay.action")
 	public ModelAndView pay(){
@@ -34,15 +41,22 @@ public class PaymentController {
     // 처리가 성공하면 성공 메세지와 함께 HTTP 200 상태 코드를, 실패하면 에러 메세지와 함께 HTTP 500 상태 코드를 반환.
     public ResponseEntity<String> receivePaymentInfo(@RequestBody PaymentInfoDTO paymentInfoDTO) {
         
-        // System.out.println("Received PaymentInfoDTO: " + paymentInfoDTO);
-        
+        SessionUser sessionUser = (SessionUser) httpSession.getAttribute("user");
+
         try {
-            paymentService.processPaymentInfo(paymentInfoDTO);
-            return new ResponseEntity<>("Payment data received successfully!", HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>("Error while processing payment data", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        paymentService.processPaymentInfo(paymentInfoDTO);
+        
+        // 결제가 완료되었으면, 해당 사용자의 포인트를 증가시킨다.
+        userPointDTO userPoint = new userPointDTO();
+        userPoint.setEmail(sessionUser.getEmail());
+        userPoint.setPoint_balance(paymentInfoDTO.getPaid_amount()); // 결제금액만큼 포인트 증가
+        paymentService.updateUserPoint(userPoint);
+        
+        return new ResponseEntity<>("Payment data received successfully!", HttpStatus.OK);
+    } catch (Exception e) {
+        return new ResponseEntity<>("Error while processing payment data", HttpStatus.INTERNAL_SERVER_ERROR);
     }
+}
 
     @GetMapping("/paySuccessPage")
     public String paySuccessPage() {
