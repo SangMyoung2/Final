@@ -215,7 +215,7 @@ function deleteReview(email, meetListNum, meetReviewNum) {
     </div>
 
     <div class="container">
-        <div class="row justify-content-end">
+        <div class="row justify-content-end homeaticle">
             <div class="col-8 mx-2 fixed-width-col" th:each="meetListInfo : ${meetListInfo}">
     
                 <div class="yj-img">
@@ -224,9 +224,11 @@ function deleteReview(email, meetListNum, meetReviewNum) {
                         <div class="round-image">
                             <img th:src="@{/image/gatchiImage/1111.jpg}" alt="방장프사(임의)"/>
                         </div>
+                        <p class="Yj-master" th:text="${masterEmail}"></p>
                         <!-- <p class="Yj-master">김명란</p> -->
-                        <!-- 방장이름 띄우기!!!!!!!!!!!!! -->
-                        <p class="Yj-master" th:if="${meetMemStatus == 1}" th:text="${meetListInfo.email}"></p>
+                        <!-- <div class="Yj-master" th:each="meetMember : ${meetMembers}">
+                            <p th:if="${meetMemStatus == 1}" th:text="${meetMember}"></p>
+                        </div> -->
                         <p class="Yj-title" th:text="${meetListInfo.meetTitle}"></p>
                     </div>
                     <div class="main-text">
@@ -237,6 +239,12 @@ function deleteReview(email, meetListNum, meetReviewNum) {
                         <p class="text-with-hyphen Yj-text2" th:text="${meetListInfo.meetDday}"></p>
 
                         <div class="yj-inwon">모집 인원</div>
+                        <div class="text-container">
+                            <p class="Yj-text3" th:text="${meetListInfo.meetMemCnt}"></p>/
+                            <p class="Yj-text3" th:text="${meetListInfo.meetMaxMemCnt}"></p>
+                        </div>
+
+                        <div class="yj-inwon">가입비(회비)</div>
                         <div class="text-container">
                             <p class="Yj-text3" th:text="${meetListInfo.meetMemCnt}"></p>/
                             <p class="Yj-text3" th:text="${meetListInfo.meetMaxMemCnt}"></p>

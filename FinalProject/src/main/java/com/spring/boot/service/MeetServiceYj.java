@@ -12,6 +12,8 @@ public interface MeetServiceYj {
 
     public List<MeetDTOYj> getReview(int meetListNum) throws Exception;
 
+    public String getMeetMasterEmail(int meetListNum) throws Exception;
+
     public List<String> getMeetMembers(int meetListNum) throws Exception;
 
     public void insertMeetReview(MeetDTOYj dto) throws Exception;

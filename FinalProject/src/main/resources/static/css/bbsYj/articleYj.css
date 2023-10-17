@@ -140,6 +140,11 @@
     color: #1d65b2;
 }
 
+.yj-money {
+    padding: 35px 30px 10px; /*위/양사이드/아래*/
+    color: #1d65b2;
+}
+
 .main-text {
     display: flex;
     justify-content: center;
@@ -393,3 +398,32 @@
     object-fit: contain; /* 이미지 비율 유지 */
     margin: 0 auto;
 }
+
+.homeaticle{
+    min-width: 800px;
+    width: 100%;
+    position: relative;
+    right: 25px;
+}
+
+@media screen and (max-width: 1400px) {
+    .homeaticle{
+        min-width: 800px;
+    width: 100%;
+    position: relative;
+    right: -35px;
+    }
+}
+
+@media screen and (max-width: 1200px){
+    .homeaticle{
+        min-width: 800px;
+    width: 100%;
+    position: relative;
+    right: 60px;
+    }
+}
+
+
+
+

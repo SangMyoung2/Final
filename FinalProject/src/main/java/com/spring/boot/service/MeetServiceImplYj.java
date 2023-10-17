@@ -17,7 +17,6 @@ public class MeetServiceImplYj implements MeetServiceYj {
     @Override
     public List<MeetDTOYj> getAllCategories() throws Exception {
         return meetMapperYj.getAllCategories();
-    
     }
 
     @Override
@@ -28,6 +27,11 @@ public class MeetServiceImplYj implements MeetServiceYj {
     @Override
     public List<MeetDTOYj> getReview(int meetListNum) throws Exception {
         return meetMapperYj.getReview(meetListNum);
+    }
+
+    @Override
+    public String getMeetMasterEmail(int meetListNum) throws Exception {
+        return meetMapperYj.getMeetMasterEmail(meetListNum);
     }
 
     @Override

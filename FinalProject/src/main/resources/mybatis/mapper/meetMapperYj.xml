@@ -13,6 +13,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     select * from gatchi where meetListNum = #{meetListNum}
 </select>
 
+<select id="getMeetMasterEmail" parameterType="int" resultType="string">
+    select email from meetInfo
+    where meetListNum = #{meetListNum} and meetMemStatus = 1
+</select>
+
 <select id="getMeetMembers" parameterType="int" resultType="String">
     select email from meetInfo where meetListNum = #{meetListNum} and meetMemStatus = 2 or meetMemStatus = 1 order by email asc
 </select>

@@ -1,9 +1,13 @@
 package com.spring.boot.controller;
 
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -56,6 +60,11 @@ public class MeetControllerYj {
 		Integer ret = meetServiceYj.getMemberStatus(dto);
 		if (ret != null) memberStatus = ret.intValue();
 
+		if (memberStatus == 1) {
+			String masterEmail = meetServiceYj.getMeetMasterEmail(Integer.parseInt(request.getParameter("meetListNum")));
+			mav.addObject("masterEmail", masterEmail);
+		}
+
 		mav.addObject("meetListNum", request.getParameter("meetListNum"));
 		mav.addObject("meetListInfo", meetListInfo);
 		mav.addObject("meetMembers", meetMembers);
@@ -90,10 +99,15 @@ public class MeetControllerYj {
 
 			if (!meetReviewImg.isEmpty()) {
 				String originalFilename = meetReviewImg.getOriginalFilename();
-				File destFile = new File(resourcePath, originalFilename);
-				meetReviewImg.transferTo(destFile);
+				String saveFileName = originalFilename + UUID.randomUUID();
+				System.out.println(saveFileName);
+				Path filePath = Paths.get(resourcePath, saveFileName);
+            	// 파일 저장
+            	Files.write(filePath, meetReviewImg.getBytes());
+				// File destFile = new File(resourcePath, saveFileName);
+				// meetReviewImg.transferTo(destFile);
 
-				dto.setMeetReviewImg(originalFilename); // 원본 이미지 파일 이름을 저장
+				dto.setMeetReviewImg(saveFileName); // 원본 이미지 파일 이름을 저장
 				dto.setMeetReviewContent(meetReviewContent);
 				dto.setMeetReviewDate(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
 
@@ -147,6 +161,11 @@ public class MeetControllerYj {
 		mav.addObject("meetMembers", meetMembers);
 		mav.addObject("meetWait", meetWait);
 		mav.addObject("meetBlack", meetBlack);
+
+		// 방장의 이메일을 모델에 추가
+		String masterEmail = meetServiceYj.getMeetMasterEmail(meetListNum);
+		mav.addObject("masterEmail", masterEmail);
+
 		mav.setViewName("bbs/managerYj");
 		
 		return mav;
