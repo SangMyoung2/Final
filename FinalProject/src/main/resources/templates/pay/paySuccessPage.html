@@ -1,0 +1,27 @@
+<html layout:decorate="~{layout}">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>결제 성공</title>
+<link rel="stylesheet" type="text/css" href="css/pay/paybutton.css"/>
+<link rel="stylesheet" type="text/css" href="css/pay/paytext.css"/>
+<link rel="stylesheet" href="https://kit.fontawesome.com/23ff144261.css" crossorigin="anonymous">
+<link rel="icon" type="image/png" th:href="@{http://localhost:8080/image/로고.png}"/>
+<script src="https://kit.fontawesome.com/23ff144261.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<div layout:fragment="content">
+    <br/><br/>
+    <p class="paytitle">결제 성공✔️</p>
+    <br/>
+    <h3 class="paycontent3">가치와 함께하는 모임에서 특별한 추억을 만드세요 !</h3>
+
+    <div style="text-align: center; padding-top: 30px;">
+        <button onclick="" class="snip1535">마이 페이지 <i class="fa-solid fa-user"></i></button>
+        <button onclick="window.location.href='/'" class="snip1535">홈으로 <i class="fa-solid fa-house"></i></button>
+    </div>
+
+</div>
+</body>
+</html>
