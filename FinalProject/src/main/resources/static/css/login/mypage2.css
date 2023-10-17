@@ -1,14 +1,10 @@
-/*! bulma.io v0.3.1 | MIT License | github.com/jgthms/bulma */
-@keyframes spinAround {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(359deg);
-    }
-  }
-  
-  /*! minireset.css v0.0.2 | MIT License | github.com/jgthms/minireset.css */
+@font-face {
+  font-family: 'omyu_pretty';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-01@1.0/omyu_pretty.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
   html,
   body,
   p,
@@ -101,7 +97,7 @@
     min-width: 300px;
     overflow-x: hidden;
     overflow-y: scroll;
-    text-rendering: optimizeLegibility;
+
   }
   
   article,
@@ -119,14 +115,14 @@
   input,
   select,
   textarea {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+    font-family: 'omyu_pretty';
   }
   
   code,
   pre {
     -moz-osx-font-smoothing: auto;
     -webkit-font-smoothing: auto;
-    font-family: "Inconsolata", "Consolas", "Monaco", monospace;
+    font-family: 'omyu_pretty';
   }
   
   body {
@@ -134,10 +130,11 @@
     font-size: 1rem;
     font-weight: 400;
     line-height: 1.5;
+    font-family: 'omyu_pretty';
   }
   
   a {
-    color: #00d1b2;
+    color: rgb(95, 95, 95);
     cursor: pointer;
     text-decoration: none;
     transition: none 86ms ease-out;
@@ -1944,7 +1941,7 @@
   .label {
     color: #363636;
     display: block;
-    font-weight: bold;
+   
   }
   
   .label:not(:last-child) {
@@ -3644,7 +3641,7 @@
     display: flex;
     flex-grow: 0;
     flex-shrink: 0;
-    font-size: 1rem;
+    font-size: 20px;
     justify-content: center;
     padding: 0.5rem 0.75rem;
   }
@@ -3755,6 +3752,7 @@
   }
   
   .nav-left {
+    margin-left: -114px;
     display: flex;
     justify-content: flex-start;
     overflow: hidden;
@@ -3784,9 +3782,9 @@
   
   .nav {
     align-items: stretch;
-    background-color: white;
+    font-family: 'omyu_pretty';
     display: flex;
-    min-height: 3.5rem;
+    min-height: 66px;
     position: relative;
     text-align: center;
     z-index: 2;
@@ -4623,7 +4621,8 @@
       margin-left: 25%;
     }
     .column.is-4, .column.is-4-tablet {
-      flex: none;
+      display: flex;
+      flex-direction: column;
       width: 33.33333%;
     }
     .column.is-offset-4, .column.is-offset-4-tablet {
@@ -5229,7 +5228,7 @@
   
   @media screen and (max-width: 768px) {
     .hero.is-white .nav-menu {
-      background-color: white;
+ 
     }
   }
   
@@ -6057,4 +6056,4 @@
     padding: 3rem 1.5rem 6rem;
   }
   
-  /*# sourceMappingURL=bulma.css.map */
+ 

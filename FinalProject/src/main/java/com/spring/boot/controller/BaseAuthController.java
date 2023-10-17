@@ -177,6 +177,10 @@ public class BaseAuthController {
 	return mav;
 	}
 
+
+
+	
+
  @GetMapping("/test.action")
  public ModelAndView test() {
 	ModelAndView mav = new ModelAndView();
