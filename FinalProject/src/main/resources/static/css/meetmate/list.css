@@ -706,7 +706,7 @@ margin: 0 10px;
 
 
 
-/* AUTO SCROLL */
+ AUTO SCROLL 
 
 .fadein {
 	-webkit-animation: fadein 2s; /* Safari, Chrome and Opera > 12.1 */
@@ -714,4 +714,4 @@ margin: 0 10px;
 	-ms-animation: fadein 2s; /* Internet Explorer */
 	-o-animation: fadein 2s; /* Opera < 12.1 */
 	animation: fadein 2s;
-}
+} 
