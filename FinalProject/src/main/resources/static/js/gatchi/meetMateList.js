@@ -246,78 +246,78 @@ function heartClickBtn(){
 
 
 
-//ajax 검색
-function sendKeyword() {
-  var searchForm = document.forms.searchForm;
-  var searchKey = searchForm.searchKey.value;
-  var searchValue = searchForm.searchValue.value;
+// //ajax 검색
+// function sendKeyword() {
+//   var searchForm = document.forms.searchForm;
+//   var searchKey = searchForm.searchKey.value;
+//   var searchValue = searchForm.searchValue.value;
 
-  if (searchValue === "") {
-      hide();
-      return;
-  }
+//   if (searchValue === "") {
+//       hide();
+//       return;
+//   }
 
-  var params = "searchKey=" + searchKey + "&searchValue=" + searchValue;
+//   var params = "searchKey=" + searchKey + "&searchValue=" + searchValue;
 
-  sendRequest("meetMateList.html", params, displaySuggest, "GET");
-}
+//   sendRequest("meetMateList.html", params, displaySuggest, "GET");
+// }
 
-function displaySuggest() {
-  if (httpRequest.readyState == 4) {
-      if (httpRequest.status == 200) {
-          var resultText = httpRequest.responseText;
+// function displaySuggest() {
+//   if (httpRequest.readyState == 4) {
+//       if (httpRequest.status == 200) {
+//           var resultText = httpRequest.responseText;
 
-          var resultArray = resultText.split("|");
+//           var resultArray = resultText.split("|");
 
-          var count = parseInt(resultArray[0]);
+//           var count = parseInt(resultArray[0]);
 
-          var keywordList = "";
+//           var keywordList = "";
 
-          if (count > 0) {
+//           if (count > 0) {
 
-              keywordList = resultArray[1].split(",");
+//               keywordList = resultArray[1].split(",");
 
-              var html = "";
+//               var html = "";
 
-              for (var i = 0; i < keywordList.length; i++) {
-                  html += "<a href=\"javascript:select('"
-                          + keywordList[i] + "');\">"
-                          + keywordList[i] + "</a><br/>";
-              }
+//               for (var i = 0; i < keywordList.length; i++) {
+//                   html += "<a href=\"javascript:select('"
+//                           + keywordList[i] + "');\">"
+//                           + keywordList[i] + "</a><br/>";
+//               }
 
-              var suggestListDiv = document.getElementById("suggestListDiv");
-              suggestListDiv.innerHTML = html;
+//               var suggestListDiv = document.getElementById("suggestListDiv");
+//               suggestListDiv.innerHTML = html;
 
-              show();
-          } else {
-              hide();
-          }
-      } else {
-          hide();
-      }
-  } else {
-      hide();
-  }
-}
+//               show();
+//           } else {
+//               hide();
+//           }
+//       } else {
+//           hide();
+//       }
+//   } else {
+//       hide();
+//   }
+// }
 
-function select(selectKeyword) {
-  document.forms.myForm.userKeyword.value = selectKeyword;
-  hide();
-}
+// function select(selectKeyword) {
+//   document.forms.myForm.userKeyword.value = selectKeyword;
+//   hide();
+// }
 
-function show() {
-  var suggestDiv = document.getElementById("suggestDiv");
-  suggestDiv.style.display = "block";
-}
+// function show() {
+//   var suggestDiv = document.getElementById("suggestDiv");
+//   suggestDiv.style.display = "block";
+// }
 
-function hide() {
-  var suggestDiv = document.getElementById("suggestDiv");
-  suggestDiv.style.display = "none";
-}
+// function hide() {
+//   var suggestDiv = document.getElementById("suggestDiv");
+//   suggestDiv.style.display = "none";
+// }
 
-window.onload = function () {
-  hide();
-}
+// window.onload = function () {
+//   hide();
+// }
 
 
 
