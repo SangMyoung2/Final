@@ -70,6 +70,16 @@ public class MeetServiceImplYj implements MeetServiceYj {
     }
 
     @Override
+    public void deleteMeetOut(MeetDTOYj dto) throws Exception {
+        meetMapperYj.deleteMeetOut(dto);
+    }
+
+    @Override
+    public void updateMeetStatus(MeetDTOYj dto) throws Exception {
+        meetMapperYj.updateMeetStatus(dto);
+    }
+
+    @Override
     public List<String> getMeetWait(int meetListNum) throws Exception {
         return meetMapperYj.getMeetWait(meetListNum);
     }

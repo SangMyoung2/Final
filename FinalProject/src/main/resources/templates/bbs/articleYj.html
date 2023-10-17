@@ -69,7 +69,25 @@
             joinButton.addEventListener('click', function() {
             alert('가입 신청이 완료되었습니다.');
             });
-        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+
+        var outButton = document.querySelector('.out-button');
+        
+        outButton.addEventListener('click', function() {
+            alert('모임을 나가시겠습니까?');
+            });
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+
+        var deleteButton = document.querySelector('.delete-button');
+        
+        deleteButton.addEventListener('click', function() {
+            alert('모임을 삭제하시겠습니까?');
+            });
+    });
 
     document.addEventListener('DOMContentLoaded', function() {
 
@@ -182,6 +200,18 @@ function deleteReview(email, meetListNum, meetReviewNum) {
         }
     }
 
+    function inputNumberWithComma(str) {
+        str = String(str);
+        return str.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var meetMoneyElement = document.querySelector('.meet-money');
+        var meetMoneyValue = meetMoneyElement.textContent;
+        var formattedMeetMoney = inputNumberWithComma(meetMoneyValue);
+
+        meetMoneyElement.textContent = formattedMeetMoney;
+    });
 
 </script>
 
@@ -224,11 +254,7 @@ function deleteReview(email, meetListNum, meetReviewNum) {
                         <div class="round-image">
                             <img th:src="@{/image/gatchiImage/1111.jpg}" alt="방장프사(임의)"/>
                         </div>
-                        <p class="Yj-master" th:text="${masterEmail}"></p>
-                        <!-- <p class="Yj-master">김명란</p> -->
-                        <!-- <div class="Yj-master" th:each="meetMember : ${meetMembers}">
-                            <p th:if="${meetMemStatus == 1}" th:text="${meetMember}"></p>
-                        </div> -->
+                        <p class="Yj-master" th:text="${masterEmail2}"></p>
                         <p class="Yj-title" th:text="${meetListInfo.meetTitle}"></p>
                     </div>
                     <div class="main-text">
@@ -244,10 +270,9 @@ function deleteReview(email, meetListNum, meetReviewNum) {
                             <p class="Yj-text3" th:text="${meetListInfo.meetMaxMemCnt}"></p>
                         </div>
 
-                        <div class="yj-inwon">가입비(회비)</div>
+                        <div class="yj-money">가입비 (회비)</div>
                         <div class="text-container">
-                            <p class="Yj-text3" th:text="${meetListInfo.meetMemCnt}"></p>/
-                            <p class="Yj-text3" th:text="${meetListInfo.meetMaxMemCnt}"></p>
+                            <p class="Yj-text4 meet-money" th:text="${meetListInfo.meetMoney}"></p>원
                         </div>
                         
                         <form th:with="meetMemStatus=${meetMemStatus}" th:if="${meetMemStatus < 0}">
@@ -258,7 +283,25 @@ function deleteReview(email, meetListNum, meetReviewNum) {
                         <form id="joinForm" action="/join-meet" method="post">
                             <input type="hidden" name="meetListNum" th:value="${meetListNum}"/>
                         </form>
+
+                        <form th:with="meetMemStatus=${meetMemStatus}" th:if="${meetMemStatus == 2}">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button form="outForm" type="submit" class="out-button">
+                                모임 나가기
+                            </button>
+                        </form>
+                        <form id="outForm" action="/out-meet" method="post">
+                            <input type="hidden" name="meetListNum" th:value="${meetListNum}"/>
+                            <input type="hidden" name="email" th:value="${dto.email}"/>
+                        </form>
                         
+                        <form th:with="meetMemStatus=${meetMemStatus}" th:if="${meetMemStatus == 1}">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button form="deleteForm" type="submit" class="delete-button">
+                                모임 삭제
+                            </button>
+                        </form>
+                        <form id="deleteForm" action="/delete-meet" method="post">
+                            <input type="hidden" name="meetListNum" th:value="${meetListNum}"/>
+                        </form>
                         
                     </div>
                 </div>

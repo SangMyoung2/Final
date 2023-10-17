@@ -31,6 +31,10 @@ public interface MeetMapperYj {
     
     public void insertMeetJoinOk(MeetDTOYj dto) throws Exception;
 
+    public void deleteMeetOut(MeetDTOYj dto) throws Exception;
+
+    public void updateMeetStatus(MeetDTOYj dto) throws Exception;
+
     public List<String> getMeetWait(int meetListNum) throws Exception;
 
     public int acceptToWaitlist(MeetDTOYj dto) throws Exception;

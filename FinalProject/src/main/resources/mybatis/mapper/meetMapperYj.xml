@@ -59,6 +59,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     values (#{meetListNum}, #{email}, #{meetMemStatus})
 </insert>
 
+<delete id="deleteMeetOut" parameterType="com.spring.boot.dto.MeetDTOYj">
+    delete from meetInfo where meetListNum = #{meetListNum} and email = #{email}
+</delete>
+
+<update id="updateMeetStatus" parameterType="com.spring.boot.dto.MeetDTOYj">
+    update gatchi set meetStatus = 0 where meetListNum = #{meetListNum}
+</update>
+
 <select id="getMeetWait" parameterType="int" resultType="String">
     select email from meetInfo where meetListNum = #{meetListNum} and meetMemStatus = 0 order by email desc
 </select>

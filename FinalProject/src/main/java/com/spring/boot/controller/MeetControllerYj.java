@@ -69,11 +69,15 @@ public class MeetControllerYj {
 			mav.addObject("masterEmail", masterEmail);
 		}
 
+		String masterEmail2 = meetServiceYj.getMeetMasterEmail(Integer.parseInt(request.getParameter("meetListNum")));
+		mav.addObject("masterEmail2", masterEmail2);
+
 		mav.addObject("meetListNum", request.getParameter("meetListNum"));
 		mav.addObject("meetListInfo", meetListInfo);
 		mav.addObject("meetMembers", meetMembers);
 		mav.addObject("meetReview", meetReview);
 		mav.addObject("meetMemStatus", memberStatus);
+		mav.addObject("dto", dto);
 		mav.setViewName("bbs/articleYj");
 		
 		return mav;
@@ -121,6 +125,7 @@ public class MeetControllerYj {
 				meetServiceYj.insertMeetReview(dto);
 				response = "success";
 				return response; // 리뷰 작성 성공 시 success 페이지로 리다이렉트
+
         } 
 
 		}else{
@@ -144,7 +149,6 @@ public class MeetControllerYj {
 		dto.setMeetReviewNum(meetReviewNum);
 
 		meetServiceYj.deleteMeetReview(dto);		
-
 
 		return new ModelAndView("redirect:/articleYj.action?meetListNum=" + meetListNum);
 	}
@@ -190,6 +194,41 @@ public class MeetControllerYj {
 		dto.setEmail("kim"); // TODO : 세션에서 email 가져와야됨
 		dto.setMeetMemStatus(0); //승인대기
 		meetServiceYj.insertMeetJoinOk(dto);
+	
+		return mav;
+	}
+
+	// 방 나가기
+	@PostMapping("/out-meet")
+	public ModelAndView outMeet(HttpServletRequest request,
+			@RequestParam("meetListNum") int meetListNum,
+			@RequestParam("email") String email) throws Exception {
+
+		ModelAndView mav = new ModelAndView("redirect:/articleYj.action?meetListNum=" + meetListNum);
+
+		//String email = (String) request.getSession().getAttribute("email"); //세션
+	
+		MeetDTOYj dto = new MeetDTOYj();
+		dto.setMeetListNum(meetListNum);
+		dto.setEmail(email);
+
+		meetServiceYj.deleteMeetOut(dto);
+		meetServiceYj.decrementMeetMemCnt(meetListNum);
+	
+		return mav;
+	}
+
+	// 방 삭제( 1 => 0으로 변경 )
+	@PostMapping("/delete-meet")
+	public ModelAndView deleteMeet(HttpServletRequest request,
+			@RequestParam("meetListNum") int meetListNum) throws Exception {
+
+		ModelAndView mav = new ModelAndView("redirect:/meetMateList");
+
+		MeetDTOYj dto = new MeetDTOYj();
+		dto.setMeetListNum(meetListNum);
+
+		meetServiceYj.updateMeetStatus(dto);
 	
 		return mav;
 	}

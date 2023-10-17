@@ -98,6 +98,16 @@
     letter-spacing: -.6px;
 }
 
+.Yj-text4 {
+    position: relative;
+    height: auto;
+    background-color: #fefefe;
+    color: #383535;
+    font-size: 18px;
+    line-height: 25px;
+    letter-spacing: -.6px;
+}
+
 .text-with-hyphen::before {
     content: "- ";
     position: relative;
@@ -141,7 +151,7 @@
 }
 
 .yj-money {
-    padding: 35px 30px 10px; /*위/양사이드/아래*/
+    padding: 5px 30px 10px; /*위/양사이드/아래*/
     color: #1d65b2;
 }
 
@@ -261,7 +271,7 @@
     margin-top: auto;
 }
 
-.join-button {
+.join-button,.out-button,.delete-button {
     display: inline-block;
     padding: 8px 18px;
     font-size: 18px;
@@ -275,7 +285,7 @@
     margin-right: 10px;
 }
 
-.join-button:hover {
+.join-button,.out-button,.delete-button:hover {
     background-color: #4992df;
 }
 
