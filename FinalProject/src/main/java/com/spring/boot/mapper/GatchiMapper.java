@@ -27,6 +27,8 @@ public interface GatchiMapper {
 	
     //public List<GatchiDTO> getMeetMateListsPaging(int start, int itemsPerPage);
 	
+	public List<GatchiDTO> getRownumList(int end) throws Exception;
+	
     //public void meetLikes(int meetListNum) throws Exception;
 
 	

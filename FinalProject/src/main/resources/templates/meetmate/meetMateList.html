@@ -13,7 +13,6 @@
 <link rel="icon" type="image/png" th:href="@{http://localhost:8080/image/로고.png}"/>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="http://localhost:8080/js/gatchi/meetMateList.js"></script>
-
 <script src="js/includeHTML.js"></script>
 
 
@@ -24,16 +23,24 @@
 <!-- ★★★★★★ like DB에 담기는거 추가해야돼 ★★★★★★ -->
 <div layout:fragment="content">    
 
+  <div class="meetTitle">
+    <img src="/image/gatchiImage/meetmateList.png"/>
+    <h1>Meet Mate에 오신걸 환영 합니다.</h1>
+  </div>
+  <div class="meetTitle_Sub">
+    <p>똑같은 일상을 다채롭게 만들어 줄 원데이 취향 모임</p>
+  </div>
+
   <div class="body7">
 
     <main>
-
     <article class="slide">
       
-        <ul class="panel">
+        <div class="panel">
 
             <th:block th:each="meet, iterStat : ${meetMateSlideLists}">
-              <li class="li2 li2_img" th:style="'background-image: url(' + '/image/gatchiImage/' + ${meet.meetImage} + ');'">
+              <div  class="li2 li2_img">
+                <div class="randomcard" th:style="'background-image: url(' + '/image/gatchiImage/' + ${meet.meetImage} + ');'">
                 <div class="opa">
                   <section>
                     <!-- <img th:src="@{|/image/gatchiImage/${meet.meetImage}|}" class="card__image" alt=""/> -->
@@ -42,16 +49,17 @@
                     <button>more ⇁</button>
                   </section>
                 </div>
-              </li>
+              </div>
+              </div>
             </th:block>
-
-          <ul class="dot">
-            <li class="on li2"></li>
-            <li class="li2"></li>
-            <li class="li2"></li>
-            
-          </ul> 
-        </ul>      
+          
+        </div>
+        <ul class="dot">
+          <li class="on li2"></li>
+          <li class="li2"></li>
+          <li class="li2"></li>
+          
+        </ul>       
       </article>
     </main>  
   </div>
@@ -98,7 +106,7 @@
   <div class="c2">
     <ul class="cards">
       
-      <li th:each="items : ${meetLists}">
+      <li name="meetLists" class="meetList_hidden" th:each="items : ${meetLists}">
           <div class="card">
             <div id="heart" class="heart" name="likeCount"></div>    
           <div id="heart" class="button__like"></div>  
@@ -107,7 +115,7 @@
             </a>
             <div class="card__overlay">
               <div class="card__header">
-                <svg class="card__arc" xmlns="http://www.w3.org/2000/svg"><path /></svg>                     
+                <svg class="card__arc" xmlns="http://www.w3.org/2000/svg"><path /></svg>
                 <img class="card__thumb" src="https://i.imgur.com/7D7I6dI.png" alt="" /><!--여기 회원 프로필사진-->
                 <div class="card__header-wrapper">
                   <div class="card__header-text">
@@ -137,17 +145,18 @@
                     <span class="card__status" th:text="'만남일 : ' + ${items.meetDday} + ', 장소 : '">날짜, 시간,  장소</span><br/>
                     <span class="card__status" th:text="' 참여인원 : ' + ${items.meetMemCnt} + ' / ' + ${items.meetMaxMemCnt}">현재 참석인원 / 최대인원</span>
                   </div>
-                </div>       
+                </div>
               </div>
               <div class="description1">
               <p class="card__description" th:text="${items.meetContent}">글 내용</p>
               </div>
             </div>
-          </div>    
+          </div>
         </li>
       </div>
       </ul>
   </div>
+
 </div>
 
 

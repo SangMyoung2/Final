@@ -23,6 +23,7 @@ public interface GatchiService {
 	
 	public List<GatchiDTO> getCommuniFindRandomList(int count) throws Exception;
 	
+	public List<GatchiDTO> getRownumList(int endList) throws Exception;
 	public List<GatchiDTO> searchMeetMateList(String searchKey, String searchValue) throws Exception;
 
 

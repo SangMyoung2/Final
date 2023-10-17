@@ -27,6 +27,7 @@ import com.spring.boot.chat.ChatDAO;
 import com.spring.boot.collection.ChatRoomCollection;
 import com.spring.boot.dto.ChatRoom;
 import com.spring.boot.mapper.ChatRoomRepository;
+import com.spring.boot.model.Users;
 import com.spring.boot.service.ChatContentService;
 import com.spring.boot.service.ChatRoomService;
 
@@ -64,21 +65,27 @@ public class ChatRoomController {
 
     //채팅 리스트 화면
     @RequestMapping("/chatlist.action")
-    public ModelAndView chatRooms(@RequestParam("userName") String userName, HttpServletRequest req){
+    public ModelAndView chatRooms(HttpServletRequest req){
+        //@RequestParam("userName") String userName
         System.out.println("ChatList 화면 입니다.");
         ModelAndView mav = new ModelAndView();
         // mav.addObject("list", chatDAO.findAllChatRoom());
-        System.out.println("유저 이름 : " + userName);
+        
         // 로그인 된 유저 방만 찾기
         // 세션에 로그인된 아이디 받아와서 찾아주고
-        //List<ChatRoomCollection> lists = chatRoomService.getFindNameInUsers(userName);
-        List<ChatRoomCollection> lists = chatRoomService.getFindAllChats();
-        System.out.println("lists : " + lists);
 
         HttpSession session = req.getSession();
-        session.setAttribute("userName", userName);
+        Users user = (Users) session.getAttribute("user1");
+        String userName = user.getName();
+        System.out.println("유저 이름 : " + userName);
 
-        mav.addObject("userName", userName);
+        List<ChatRoomCollection> lists = chatRoomService.getFindNameInUsers(userName);
+        // List<ChatRoomCollection> lists = chatRoomService.getFindAllChats();
+        System.out.println("lists : " + lists);
+
+        // session.setAttribute("userName", userName);
+
+        // mav.addObject("userName", userName);
         mav.addObject("list", lists);
 
         // if(chatDAO.findAllChatRoom() != null){
@@ -135,7 +142,9 @@ public class ChatRoomController {
     public ModelAndView roomDetail(ModelAndView mav, String roomId, HttpServletRequest req){
         
         HttpSession session = req.getSession();
-        String userName = (String) session.getAttribute("userName");
+        Users user = (Users) session.getAttribute("user1");
+        String userName = user.getName();
+
         System.out.println("세션에 올라간 아이디 : " + userName);
         System.out.println("Room Detail 화면 입니다.");
 

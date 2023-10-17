@@ -3,7 +3,9 @@ package com.spring.boot.controller;
 import java.io.File;
 import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -12,6 +14,9 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -212,7 +217,7 @@ public class MeetmateController {
 		//mav.addObject("readData", readData);//추가한거
 		mav.setViewName("/meetmate/meetMateList");
 		
-		return mav;		
+		return mav;
 	}
 
 
@@ -252,7 +257,7 @@ public class MeetmateController {
 		List<GatchiDTO> communiFindSlideLists = new ArrayList<>();
 
 		communiFindLists = gatchiService.getCommuniFindLists();
-		communiFindSlideLists = gatchiService.getCommuniFindRandomList(5); // 5개의 랜덤 모임을 가져옴
+		communiFindSlideLists = gatchiService.getCommuniFindRandomList(9); // 5개의 랜덤 모임을 가져옴
 
 		//System.out.println("모임 DB 가져온 내용 : " + meetLists);
 
@@ -264,6 +269,20 @@ public class MeetmateController {
 		return mav;		
 	}
 
+	@RequestMapping(value = "/reFindList", method = RequestMethod.POST, consumes = "application/json")
+	public Map<String,Object> reFindList(@RequestBody Map<String, String> requestMap) throws Exception {
 
+		System.out.println(requestMap);
 
+		List<GatchiDTO> lists = new ArrayList<>();
+		
+		int endList = Integer.parseInt(requestMap.get("endList"));
+
+		lists = gatchiService.getRownumList(endList);
+
+		Map<String, Object> data = new HashMap<>();
+		data.put("meetLists", lists);
+
+		return data;
+	}
 }
