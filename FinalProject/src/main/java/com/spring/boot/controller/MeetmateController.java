@@ -178,6 +178,27 @@ public class MeetmateController {
 	}
 		
 	@GetMapping("/meetMateList")
+	public ModelAndView meetMateList() throws Exception {
+		
+		ModelAndView mav = new ModelAndView();
+		
+		List<GatchiDTO> meetMateLists = new ArrayList<>();
+		List<GatchiDTO> meetMateSlideLists = new ArrayList<>();
+
+		meetMateSlideLists = gatchiService.getMeetMateRandomList(3); // 5개의 랜덤 모임을 가져옴
+
+		//System.out.println("모임 DB 가져온 내용 : " + meetLists);
+
+		mav.addObject("meetMateSlideLists", meetMateSlideLists);
+		
+		mav.addObject("meetLists", meetMateLists);
+	
+		mav.setViewName("/meetmate/meetMateList");
+		
+		return mav;		
+	}
+
+	@PostMapping("/meetMateList")
 	public ModelAndView meetMateList(@RequestParam(name = "searchKey", required = false) String searchKey,
         @RequestParam(name = "searchValue", required = false) String searchValue) throws Exception {
 		
@@ -197,24 +218,19 @@ public class MeetmateController {
 		// 		searchValue = URLDecoder.decode(searchValue, "UTF-8");
 		// 	}
 		// }   ******************************************
+		
+		System.out.println("searchKey 내용 : " + searchKey);
+		System.out.println("searchValue 내용 : " + searchValue);
 
-
-		//meetMateLists = gatchiService.getMeetMateListsPaging(start, itemsPerPage);//*****
-
-		//meetMateLists = gatchiService.getMeetMateLists(); //***************
 		meetMateLists = gatchiService.searchMeetMateList(searchKey, searchValue);
 		meetMateSlideLists = gatchiService.getMeetMateRandomList(3); // 5개의 랜덤 모임을 가져옴
 
 		//System.out.println("모임 DB 가져온 내용 : " + meetLists);
-		System.out.println("searchKey 내용 : " + searchKey);
-		System.out.println("searchValue 내용 : " + searchValue);
-
-
 
 		mav.addObject("meetMateSlideLists", meetMateSlideLists);
 		
 		mav.addObject("meetLists", meetMateLists);
-		//mav.addObject("readData", readData);//추가한거
+		
 		mav.setViewName("/meetmate/meetMateList");
 		
 		return mav;
