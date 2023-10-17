@@ -246,55 +246,129 @@ function heartClickBtn(){
 
 
 
+//ajax 검색
+function sendKeyword() {
+  var searchForm = document.forms.searchForm;
+  var searchKey = searchForm.searchKey.value;
+  var searchValue = searchForm.searchValue.value;
 
-
-
-
-
-
-
-
-
-//AUTO SCROLL 
-var page = 1;   // 불러올 페이지
-var isLoading = false;    // 중복 실행 여부 확인 변수
-
-function loadCards() {
-  if (isLoading) {
-    return;
+  if (searchValue === "") {
+      hide();
+      return;
   }
-  isLoading = true;
 
-  $.ajax({
-    type: "GET",
-    url: "meetMateList?page=" + page, // 수정: 서버 측 URL로 변경
-    dataType: "json",
-    success: function (data) {
-      if (data.length > 0) {
-        // 데이터를 받아와서 카드를 생성하는 로직
-        var cardContainer = $('#card-container');
-        data.forEach(function (item) {
-          var cardHTML = '<div class="card">' + item.meetListNum + ' - ' + item.someOtherField + '</div>';
-          cardContainer.append(cardHTML);
-        });
+  var params = "searchKey=" + searchKey + "&searchValue=" + searchValue;
 
-        // 페이지 증가
-        page++;
-        isLoading = false;
-      }
-    },
-    error: function () {
-      isLoading = false;
-    }
-  });
+  sendRequest("meetMateList.html", params, displaySuggest, "GET");
 }
 
-// 초기 페이지 로드
-loadCards();
+function displaySuggest() {
+  if (httpRequest.readyState == 4) {
+      if (httpRequest.status == 200) {
+          var resultText = httpRequest.responseText;
 
-// 스크롤 이벤트 처리
-$(window).scroll(function () {
-  if ($(window).scrollTop() + $(window).height() >= $(document).height() - 200) {
-    loadCards();
+          var resultArray = resultText.split("|");
+
+          var count = parseInt(resultArray[0]);
+
+          var keywordList = "";
+
+          if (count > 0) {
+
+              keywordList = resultArray[1].split(",");
+
+              var html = "";
+
+              for (var i = 0; i < keywordList.length; i++) {
+                  html += "<a href=\"javascript:select('"
+                          + keywordList[i] + "');\">"
+                          + keywordList[i] + "</a><br/>";
+              }
+
+              var suggestListDiv = document.getElementById("suggestListDiv");
+              suggestListDiv.innerHTML = html;
+
+              show();
+          } else {
+              hide();
+          }
+      } else {
+          hide();
+      }
+  } else {
+      hide();
   }
-});
+}
+
+function select(selectKeyword) {
+  document.forms.myForm.userKeyword.value = selectKeyword;
+  hide();
+}
+
+function show() {
+  var suggestDiv = document.getElementById("suggestDiv");
+  suggestDiv.style.display = "block";
+}
+
+function hide() {
+  var suggestDiv = document.getElementById("suggestDiv");
+  suggestDiv.style.display = "none";
+}
+
+window.onload = function () {
+  hide();
+}
+
+
+
+
+
+
+
+
+
+
+
+// //AUTO SCROLL 
+// var page = 1;   // 불러올 페이지
+// var isLoading = false;    // 중복 실행 여부 확인 변수
+
+// function loadCards() {
+//   if (isLoading) {
+//     return;
+//   }
+//   isLoading = true;
+
+//   $.ajax({
+//     type: "GET",
+//     url: "meetMateList?page=" + page, // 수정: 서버 측 URL로 변경
+//     dataType: "json",
+//     success: function (data) {
+//       if (data.length > 0) {
+//         // 데이터를 받아와서 카드를 생성하는 로직
+//         var cardContainer = $('#card-container');
+//         data.forEach(function (item) {
+//           var cardHTML = '<div class="card">' + item.meetListNum + ' - ' + item.someOtherField + '</div>';
+//           cardContainer.append(cardHTML);
+//         });
+
+//         // 페이지 증가
+//         page++;
+//         isLoading = false;
+//       }
+//     },
+//     error: function () {
+//       isLoading = false;
+//     }
+//   });
+// }
+
+// // 초기 페이지 로드
+// loadCards();
+
+// // 스크롤 이벤트 처리
+// $(window).scroll(function () {
+//   if ($(window).scrollTop() + $(window).height() >= $(document).height() - 200) {
+//     loadCards();
+//   }
+// });

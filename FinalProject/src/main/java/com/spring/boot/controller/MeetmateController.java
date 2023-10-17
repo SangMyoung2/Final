@@ -144,44 +144,39 @@ public class MeetmateController {
 		return mav;
 	}
 		
-
 	@GetMapping("/meetMateList")
-	public ModelAndView meetMateList(HttpServletRequest request) throws Exception{
+	public ModelAndView meetMateList(@RequestParam(name = "searchKey", required = false) String searchKey,
+        @RequestParam(name = "searchValue", required = false) String searchValue) throws Exception {
 		
 		ModelAndView mav = new ModelAndView();
 		
 		List<GatchiDTO> meetMateLists = new ArrayList<>();
 		List<GatchiDTO> meetMateSlideLists = new ArrayList<>();
 		
-		String searchKey = request.getParameter("searchKey");
-		String searchValue = request.getParameter("searchValue");
-
-		if (searchValue == null) {
-			searchKey = "meetTitle";
-			searchValue = "";
-
-		} else {
-			if (request.getMethod().equalsIgnoreCase("GET")) {
-				searchValue = URLDecoder.decode(searchValue, "UTF-8");
-			}
-		}
-
+		// // String searchKey = request.getParameter("searchKey");
+		// // String searchValue = request.getParameter("searchValue");
+		// if (searchValue == null) {
+		// 	searchKey = "meetTitle";
+		// 	searchValue = "";
 		
+		// } else {
+		// 	if (request.getMethod().equalsIgnoreCase("GET")) {
+		// 		searchValue = URLDecoder.decode(searchValue, "UTF-8");
+		// 	}
+		// }   ******************************************
 
-		//int itemsPerPage = 10; // 페이지당 표시할 항목 수를 설정*****************
-
-		// 페이징을 위한 시작 인덱스 계산
-		//int start = (page - 1) * itemsPerPage;//*******************************
-
-		//int meetListNum = Integer.parseInt(request.getParameter("meetListNum"));//추가한거
-		//GatchiDTO readData = gatchiService.getReadData(meetListNum);//추가한거
 
 		//meetMateLists = gatchiService.getMeetMateListsPaging(start, itemsPerPage);//*****
 
-		meetMateLists = gatchiService.getMeetMateLists(); //***************
+		//meetMateLists = gatchiService.getMeetMateLists(); //***************
+		meetMateLists = gatchiService.searchMeetMateList(searchKey, searchValue);
 		meetMateSlideLists = gatchiService.getMeetMateRandomList(3); // 5개의 랜덤 모임을 가져옴
 
 		//System.out.println("모임 DB 가져온 내용 : " + meetLists);
+		System.out.println("searchKey 내용 : " + searchKey);
+		System.out.println("searchValue 내용 : " + searchValue);
+
+
 
 		mav.addObject("meetMateSlideLists", meetMateSlideLists);
 		

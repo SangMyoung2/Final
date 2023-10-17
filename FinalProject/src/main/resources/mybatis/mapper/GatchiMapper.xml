@@ -55,19 +55,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 
 
-
-<select id="getMeetMateListsPaging" parameterType="map" resultType="com.spring.boot.dto.GatchiDTO">
-    select *
-    from (
-        select rownum rnum, data.*
-        from (
-            select *
-            from gatchi
-            where meetCheck = 1
-            order by meetListNum desc
-        ) data
+<select id="searchMeetMateList" parameterType="map" resultType="com.spring.boot.dto.GatchiDTO">
+    SELECT * FROM gatchi
+    WHERE 
+	<!-- (
+		(CASE 
+			WHEN #{searchKey} = 'meetTitle' THEN meetTitle
+			WHEN #{searchKey} = 'meetDday' THEN meetDday
+			WHEN #{searchKey} = 'meetPlace' THEN meetPlace
+			ELSE ''
+		END) LIKE CONCAT('%', #{searchValue}, '%')
+	) -->    
+	(
+        (#{searchKey} = 'meetTitle' AND meetTitle LIKE '%' || #{searchValue} || '%')
+        OR
+        (#{searchKey} = 'meetDday' AND meetDday LIKE '%' || #{searchValue} || '%')
+        OR
+        (#{searchKey} = 'meetPlace' AND meetPlace LIKE '%' || #{searchValue} || '%')
     )
-    where rnum between #{start} and #{itemsPerPage}
 </select>
 
 
