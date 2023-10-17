@@ -1,6 +1,7 @@
 package com.spring.boot.controller;
 
 import java.io.File;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -171,22 +172,39 @@ public class MeetmateController {
 		return mav;
 	}
 		
-
 	@GetMapping("/meetMateList")
-	public ModelAndView meetMateList(HttpServletRequest request) throws Exception{
+	public ModelAndView meetMateList(@RequestParam(name = "searchKey", required = false) String searchKey,
+        @RequestParam(name = "searchValue", required = false) String searchValue) throws Exception {
 		
 		ModelAndView mav = new ModelAndView();
 		
 		List<GatchiDTO> meetMateLists = new ArrayList<>();
 		List<GatchiDTO> meetMateSlideLists = new ArrayList<>();
 		
-		//int meetListNum = Integer.parseInt(request.getParameter("meetListNum"));//추가한거
-		//GatchiDTO readData = gatchiService.getReadData(meetListNum);//추가한거
+		// // String searchKey = request.getParameter("searchKey");
+		// // String searchValue = request.getParameter("searchValue");
+		// if (searchValue == null) {
+		// 	searchKey = "meetTitle";
+		// 	searchValue = "";
+		
+		// } else {
+		// 	if (request.getMethod().equalsIgnoreCase("GET")) {
+		// 		searchValue = URLDecoder.decode(searchValue, "UTF-8");
+		// 	}
+		// }   ******************************************
 
-		meetMateLists = gatchiService.getMeetMateLists();
+
+		//meetMateLists = gatchiService.getMeetMateListsPaging(start, itemsPerPage);//*****
+
+		//meetMateLists = gatchiService.getMeetMateLists(); //***************
+		meetMateLists = gatchiService.searchMeetMateList(searchKey, searchValue);
 		meetMateSlideLists = gatchiService.getMeetMateRandomList(3); // 5개의 랜덤 모임을 가져옴
 
 		//System.out.println("모임 DB 가져온 내용 : " + meetLists);
+		System.out.println("searchKey 내용 : " + searchKey);
+		System.out.println("searchValue 내용 : " + searchValue);
+
+
 
 		mav.addObject("meetMateSlideLists", meetMateSlideLists);
 		

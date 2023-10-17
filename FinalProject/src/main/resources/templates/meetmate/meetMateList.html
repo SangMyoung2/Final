@@ -55,20 +55,26 @@
       </article>
     </main>  
   </div>
-  <h2 th:text="|${session.user1.name}님의 참여를 기다리는 MeetMate List|" style="text-align: center; font-weight: normal; margin-top: 100px;"></h2>
-
+  <h2 th:if="${#httpSession.getAttribute('user1') != null}" 
+  th:text="|${session.user1.name}님의 참여를 기다리는 MeetMate List|" 
+  style="text-align: center; font-weight: normal; margin-top: 100px;"></h2>
+  <h2 th:if="${#httpSession.getAttribute('user') != null}" 
+  th:text="|${session.user.name}님의 참여를 기다리는 MeetMate List|" 
+  style="text-align: center; font-weight: normal; margin-top: 100px;"></h2>
+<br/>
+<!-- 
   <div class="search-input-box" style="display: flex;">
 
-    <form action="" method="get" name="searchForm" style="margin-left: 72%;">
+    <form action="" method="get" name="searchForm" style="margin-left: 72%; border: groove; border-radius: 10px;">
       <select name="searchKey" class="selectFiled">
-        <option value="meetTitle">제목</option>
-        <option value="meetDday">모임일</option>
-        <option value="meetPlace">장소</option>			
+        <option value="meetTitle">　제목</option>
+        <option value="meetDday">　모임일</option>
+        <option value="meetPlace">　장소</option>			
       </select>
 
-      <input type="text" name="searchValue" placeholder="search.." onkeyup="sendKeyword();"/>
-          <input type="button" onclick=""/>      
-              <svg width="15" height="12" viewBox="0 0 34 30" xmlns="http://www.w3.org/2000/svg">
+      <input type="text" name="searchValue" placeholder=" search.. " onkeyup="sendKeyword();"/>
+          <input type="button" onclick=""/>     
+              <svg width="20" height="15" viewBox="7 -5 40 30" xmlns="http://www.w3.org/2000/svg">
               <g fill="none" fill-rule="evenodd">
                   <path fill="none" d="M0 0h36v36H0z"/>
                   <g stroke="#5F0080" stroke-linecap="round" stroke-width="2">
@@ -82,8 +88,8 @@
             <div id="suggestListDiv"></div>
         </div>
     </form>
-  </div>
-
+  </div> -->
+<br/><br/><br/>
 
 
 
@@ -145,25 +151,31 @@
 </div>
 
 
-<!--  무한스크롤?????????? 일단 이건 안돼
+<!-- 
 <?php
-$page = $_GET['page'];
+ // 이 부분에서 필요한 데이터베이스 연결 및 쿼리 수행을 수행합니다.
+// 예를 들어, 데이터베이스로부터 카드 데이터를 가져와야 합니다. 
 
-if ($page) {
-  // 페이지별로 생성할 카드 HTML을 반환합니다.
-  // 적절한 데이터를 가져오고 HTML을 생성해야 합니다.
-  // 예시:
-  for ($i = 1; $i <= 8; $i++) {
-    echo '<div class="card">';
-    echo '새로운 카드 ' . ($page * 8 + $i);
-    echo '</div>';
-  }
-} else {
-  echo ''; // 요청에 대한 응답을 설정하세요.
+ // 페이지 및 페이지당 항목 수 설정 --
+$page = $_GET['page']; !-- // AJAX 요청에서 전달된 페이지 번호 
+$itemsPerPage = 8; -- // 페이지당 아이템 수 
+
+ // 데이터베이스에서 데이터 가져오기 
+$start = ($page - 1) * $itemsPerPage;
+$query = "SELECT * FROM your_table WHERE meetCheck = 1 ORDER BY meetListNum DESC LIMIT $start, $itemsPerPage";
+$result = mysqli_query($connection, $query);
+
+// 결과를 배열로 변환 
+$data = array();
+while ($row = mysqli_fetch_assoc($result)) {
+    $data[] = $row;
 }
-?> -->
 
-
+ // JSON 형식으로 데이터 반환 --
+header('Content-Type: application/json');
+echo json_encode($data);
+mysqli_close($connection);
+?>  -->
 </body>
 
 </html>
