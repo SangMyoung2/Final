@@ -22,6 +22,10 @@ public interface GatchiMapper {
 	public List<GatchiDTO> getMeetMateRandomList(int count) throws Exception;
 
 	public List<GatchiDTO> getCommuniFindRandomList(int count) throws Exception;
+
+    public List<GatchiDTO> searchMeetMateList(String searchKey, String searchValue);
+	
+    //public List<GatchiDTO> getMeetMateListsPaging(int start, int itemsPerPage);
 	
 	public List<GatchiDTO> getRownumList(int end) throws Exception;
 	

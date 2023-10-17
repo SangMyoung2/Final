@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>GATCHI MAP</title>
-    <link rel="icon" type="image/png" th:href="@{http://localhost:8080/image/로고.png}"/>
+    <link rel="icon" type="image/png" href="/image/로고.png"/>
 
     <script th:src="@{http://localhost:8080/js/map/jquery-1.9.1.js}"></script>
     <script type="text/javascript" th:src="@{http://localhost:8080/js/map/examples-base.js}"></script>
@@ -1045,7 +1045,7 @@ a {
 
                 <form role="search" class="searchCustom" id="searchForm">
 
-                    <input id="search" type="search" placeholder="Search..." onfocus="showSearchList();" onblur="hideSearchList();" oninput="searchItem(this);">
+                    <input id="search" type="search" placeholder="주제를 검색하세요." onfocus="showSearchList();" onblur="hideSearchList();" oninput="searchItem(this);">
                     
                     <button class="button1" type="submit">Go</button>
                     <div id="recommend" class="">
@@ -1222,10 +1222,10 @@ for (var key in jsonArray) {
 
     //넘어오는 데이터 확인
 
-    console.log(key)
-    console.log('아이디'+jsonArray[key].meetListNum)
-    console.log(jsonArray[key].lat)
-    console.log(jsonArray[key].lng)
+    // console.log(key)
+    // console.log('아이디'+jsonArray[key].meetListNum)
+    // console.log(jsonArray[key].lat)
+    // console.log(jsonArray[key].lng)
 
 
     var position = new naver.maps.LatLng(
@@ -1269,7 +1269,6 @@ for (var key in jsonArray) {
         borderWidth: 0,
         disableAnchor: true,
         backgroundColor: 'transparent',
-
         pixelOffset: new naver.maps.Point(0, -50)
     });
 

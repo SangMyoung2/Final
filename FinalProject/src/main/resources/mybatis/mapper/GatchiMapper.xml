@@ -15,17 +15,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	#{meetListNum},#{meetCheck},#{meetCtgNum},#{meetName},
 	#{meetTitle},#{meetContent},#{meetImage},sysdate,#{meetDday},
     1,#{meetMaxMemCnt},0,0,
-	#{meetHow},#{meetEntryfee},#{meetMoney},0)
+	#{meetHow},#{meetEntryfee},#{meetMoney},#{meetPlace})
 </insert>
 
 <select id="maxNum" resultType="int">
 	select nvl(max(meetListNum),0) from gatchi
 </select>
 
-<select id="getReadData" parameterType="int" resultType="com.spring.boot.dto.GatchiDTO">
+<!-- <select id="getReadData" parameterType="int" resultType="com.spring.boot.dto.GatchiDTO">
 	select * from gatchi 
 	where meetListNum=#{meetListNum}
-</select>
+</select> -->
 
 <select id="getMeetMateLists" resultType="com.spring.boot.dto.GatchiDTO">
 	select * from gatchi where meetCheck = 1
@@ -62,6 +62,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	where rnum >= 1 and rnum <= ${end}
 	]]>
 </select>
+
+
+<select id="searchMeetMateList" parameterType="map" resultType="com.spring.boot.dto.GatchiDTO">
+    SELECT * FROM gatchi
+    WHERE 
+	<!-- (
+		(CASE 
+			WHEN #{searchKey} = 'meetTitle' THEN meetTitle
+			WHEN #{searchKey} = 'meetDday' THEN meetDday
+			WHEN #{searchKey} = 'meetPlace' THEN meetPlace
+			ELSE ''
+		END) LIKE CONCAT('%', #{searchValue}, '%')
+	) -->    
+	(
+        (#{searchKey} = 'meetTitle' AND meetTitle LIKE '%' || #{searchValue} || '%')
+        OR
+        (#{searchKey} = 'meetDday' AND meetDday LIKE '%' || #{searchValue} || '%')
+        OR
+        (#{searchKey} = 'meetPlace' AND meetPlace LIKE '%' || #{searchValue} || '%')
+    )
+</select>
+
 
 <!--
 <select id="meetLikes" parameterType="int">

@@ -185,6 +185,48 @@
   }
   */
 
+
+  
+/*
+  main .panel>li:nth-of-type(1) {
+    background: url('/image/gatchiImage/${imageFileNames[0]}');/* Thymeleaf 변수 사용 
+    background-size: cover;
+    background-position: 80% 50%;
+    cursor: pointer;
+  }
+  
+  main .panel>li:nth-of-type(2) {
+    background: url('/image/gatchiImage/${imageFileNames[1]}') no-repeat;/* Thymeleaf 변수 사용 
+    background-size: cover;
+    background-position: top center;
+    cursor: pointer;
+  }
+  
+  main .panel>li:nth-of-type(3) {
+    background: url('/image/gatchiImage/${imageFileNames[2]}') no-repeat;/* Thymeleaf 변수 사용 
+    background-size: cover;
+    background-position: 20%;
+    cursor: pointer;
+  }
+  main .panel>li:nth-of-type(4) {
+    background: url('/image/gatchiImage/${imageFileNames[3]}') no-repeat;/* Thymeleaf 변수 사용
+    background-size: cover;
+    background-position: 20%;
+    cursor: pointer;
+  }
+  main .panel>li:nth-of-type(5) {
+    background: url('/image/gatchiImage/${imageFileNames[4]}') no-repeat;/* Thymeleaf 변수 사용 
+    background-size: cover;
+    background-position: 20%;
+    cursor: pointer;
+  }
+  */
+
+
+
+
+  
+
 /*여기까지가 테스트야*/
 
 .li2_img{
@@ -235,10 +277,6 @@
     max-height: 500px;
   }
 
-
-
-
-
   /* 슬라이드 div안의 image크기를 고정시키기 위해 추가 */
   main .opa img.card__image {
     display: block;
@@ -255,11 +293,6 @@
     left: 0;
   }
 
-
-
-
-
-  
   main .opa section h3, main .opa section h4 {
     color: #fff;
   }
@@ -346,6 +379,25 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* 게시글 뿌려주는 card css*/
 /* 될지 모르겠는데 카테고리를 div에 버튼형식으로 눈에 띄게 하고싶어서 해봄 */
   .ctgButton {
@@ -361,7 +413,7 @@
     display: inline;
     white-space: nowrap; /*줄변경방지*/
 
-
+    -webkit-text-stroke: medium; /* 카테고리 텍스트두께 */
     margin-right: 0.5rem; /* 버튼과 제목 사이의 간격을 조절할 수 있음 */
   }
 

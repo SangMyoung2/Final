@@ -31,7 +31,7 @@ label {
 
 .t1 {
   display: block;
-  width: 360px;
+  width: 580px;
   height: 36px;
   padding: 0 12px;
   border-radius: 7px;
@@ -163,7 +163,7 @@ label {
   line-height: 22px;
   font-weight: bold;
 }
-
+/* 
 .t1 {
   display: block;
   width: 360px;
@@ -174,7 +174,7 @@ label {
   font-size: 14px;
   border: 1px solid #d3dce6;
   transition: border-color 200ms ease-in-out;
-}
+} */
 
 input:focus,
 input:hover,
@@ -317,7 +317,7 @@ input[type=radio]{
 }
 
 #wrap_gatchiCheck {
-  width: 360px;
+  width: 580px;
   display: flex;
   border-radius: 7px;
   border: 1px solid #d3dce6;  
