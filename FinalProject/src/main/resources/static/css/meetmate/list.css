@@ -604,10 +604,8 @@
     background-size: 2900%;
     position: absolute;
     right: 0px;
-
     top: -30px; /* 간격 조금 늘림 */
-  }
-  
+}
   .heart:hover {
     background-position: right;
   }
