@@ -67,6 +67,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     update gatchi set meetStatus = 0 where meetListNum = #{meetListNum}
 </update>
 
+<select id="getMeetStatus" parameterType="com.spring.boot.dto.MeetDTOYj" resultType="int">
+    select meetStatus from gatchi where meetListNum = #{meetListNum}
+</select>
+
 <select id="getMeetWait" parameterType="int" resultType="String">
     select email from meetInfo where meetListNum = #{meetListNum} and meetMemStatus = 0 order by email desc
 </select>

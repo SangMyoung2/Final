@@ -1,6 +1,5 @@
 package com.spring.boot.controller;
 
-import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -18,6 +17,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -78,7 +78,7 @@ public class MeetControllerYj {
 		mav.addObject("meetReview", meetReview);
 		mav.addObject("meetMemStatus", memberStatus);
 		mav.addObject("dto", dto);
-		mav.setViewName("bbs/articleYj");
+		mav.setViewName("meetmate/articleYj");
 		
 		return mav;
 		
@@ -174,7 +174,7 @@ public class MeetControllerYj {
 		String masterEmail = meetServiceYj.getMeetMasterEmail(meetListNum);
 		mav.addObject("masterEmail", masterEmail);
 
-		mav.setViewName("bbs/managerYj");
+		mav.setViewName("meetmate/managerYj");
 		
 		return mav;
 		
@@ -232,6 +232,16 @@ public class MeetControllerYj {
 	
 		return mav;
 	}
+
+	// 방 상태가 뭐냐
+	@PostMapping("/getMeetStatus")
+	@ResponseBody
+	public int getMeetStatus(@RequestParam("meetListNum") int meetListNum) throws Exception {
+		int meetStatus = meetServiceYj.getMeetStatus(meetListNum);
+		
+		return meetStatus;
+	}
+
 
 	// 승인대기 수락
 	@PostMapping("/accept-to-waitlist")

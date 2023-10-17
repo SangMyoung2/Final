@@ -32,6 +32,8 @@ public interface MeetServiceYj {
     
     public void updateMeetStatus(MeetDTOYj dto) throws Exception;
 
+    public int getMeetStatus(int meetListNum) throws Exception;
+
     public List<String> getMeetWait(int meetListNum) throws Exception;
 
     public int acceptToWaitlist(MeetDTOYj dto) throws Exception;

@@ -80,6 +80,11 @@ public class MeetServiceImplYj implements MeetServiceYj {
     }
 
     @Override
+    public int getMeetStatus(int meetListNum) throws Exception {
+        return meetMapperYj.getMeetStatus(meetListNum);
+    }
+
+    @Override
     public List<String> getMeetWait(int meetListNum) throws Exception {
         return meetMapperYj.getMeetWait(meetListNum);
     }
