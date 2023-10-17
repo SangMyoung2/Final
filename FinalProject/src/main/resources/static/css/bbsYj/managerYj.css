@@ -6,6 +6,7 @@
 .manager-container {
     /* border: 1px solid #171616; */
     max-width: 600px;
+    min-width: 600px;
     margin: 0 50px 100px 100px;
     display: flex;
     flex-direction: column;
@@ -143,7 +144,8 @@
     border: 1px solid #E4EEF7;
     width: 250px;
     height: 300px;
-    margin-top: 110px;
+    margin-top: 70px;
+    margin-bottom: 70px;
     display: flex;
     flex-direction: column;
     align-items: center;
