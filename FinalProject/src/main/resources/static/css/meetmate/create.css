@@ -34,7 +34,7 @@ label {
 
 .t1 {
   display: block;
-  width: 600px;
+  width: 580px;
   height: 36px;
   padding: 0 12px;
   border-radius: 7px;
@@ -341,7 +341,7 @@ input[type=radio]{
 
 
 #wrap_how {
-  width: 600px;
+  width: 580px;
   display: flex;
   border-radius: 7px;
   border: 1px solid #d3dce6;  
@@ -383,7 +383,7 @@ input[type=radio]{
 
 
 #wrap_ctgNum {
-  width: 600px;
+  width: 580px;
   display: flex;
   border-radius: 7px;
   border: 1px solid #d3dce6;  
@@ -474,7 +474,7 @@ textarea:active {
 
 .t3 {
   display: block;
-  width: 600px;
+  width: 580px;
   height: 36px;
   padding: 0 12px;
   border-radius: 7px;
@@ -533,7 +533,7 @@ form .terms :nth-child(6) div img {
 
 
 #wrap_entryfee{
-  width: 600px;
+  width: 580px;
   display: flex;
   border-radius: 7px;
   border: 1px solid #d3dce6;  
