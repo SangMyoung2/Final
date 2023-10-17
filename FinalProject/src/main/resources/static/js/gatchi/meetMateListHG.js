@@ -1,35 +1,3 @@
-/*
-//좋아요 Ajax
-var isLike = false;
-
-
-
-$(".heart").on('click touchstart', function(){
-  isLike = !isLike;
-  var meetListNum =  1;// 모임 목록 번호를 가져오는 코드 (어떻게 가져올지는 구현에 따라 다름)
-  String userEmail = "kim";   // 사용자 이메일을 가져오는 코드
-  var likeClick = isLike ? 1 : 0; // 클릭 상태에 따라 1 또는 0으로 설정
-
-  // Ajax 요청을 보냅니다.
-  $.ajax({
-      type: 'POST', // 또는 'GET'에 따라 서버 요청 방식 선택
-      url: '/your-server-endpoint', // 서버 측 엔드포인트 URL을 지정합니다.
-      data: {
-          likeClick: likeClick,
-          meetListNum: meetListNum,
-          userEmail: userEmail
-      },
-      success: function(data) {
-          // 서버로부터 성공적인 응답을 받았을 때 실행할 코드
-      },
-      error: function() {
-          // 오류가 발생했을 때 실행할 코드
-      }
-  });
-});
-*/          
-
-
 
 //>>>>>>메인 슬라이드
 $(document).ready(function() {
@@ -220,7 +188,7 @@ jQuery('#selectBox').change(function() {
 //좋아요버튼 애니메이션
 var isLike = false
 function heartClickBtn(){
-  let h = document.getElementsByName('likeCount');
+  let h = document.getElementsByName('likeBtn');
 
   for(let i=0; i<h.length; i++){
     h[i].addEventListener('click', function(){
@@ -261,11 +229,36 @@ function handleScroll() {
 
 }
 
+//좋아요
+function heartClick(){
 
-window.addEventListener('scroll', handleScroll);
+  let heartElements = document.getElementsByName('likeBtn')
+  
+  for(let i=0; i<heartElements.length; i++){
+    console.log(heartElements[i].firstElementChild.value);
 
-window.onload = function() {
+    heartElements[i].addEventListener('click', function(){
+      console.log(heartElements[i].firstElementChild.value)
+      // 누르면 서버로 보내서 카운트 ++
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', '/meet/likeBtn', true);
+      
+      xhr.onload = function(){
+        if(xhr.status === 200){
+          console.log('좋아요 성공');
+        }
+        else{
+          console.log('좋아요 실패')
+        }
+      };
 
+
+    });
+  }
+    
+}
+
+function meetList(){
   let cards = document.getElementsByName('meetLists');
   
   for(let i=0; i<endList; i++){
@@ -273,135 +266,9 @@ window.onload = function() {
   }
 }
 
+window.addEventListener('scroll', handleScroll);
 
-
-
-
-
-
-// //ajax 검색
-// function sendKeyword() {
-//   var searchForm = document.forms.searchForm;
-//   var searchKey = searchForm.searchKey.value;
-//   var searchValue = searchForm.searchValue.value;
-
-//   if (searchValue === "") {
-//       hide();
-//       return;
-//   }
-
-//   var params = "searchKey=" + searchKey + "&searchValue=" + searchValue;
-
-//   sendRequest("meetMateList.html", params, displaySuggest, "POST");
-// }
-
-// function displaySuggest() {
-//   if (httpRequest.readyState == 4) {
-//       if (httpRequest.status == 200) {
-//           var resultText = httpRequest.responseText;
-
-//           var resultArray = resultText.split("|");
-
-//           var count = parseInt(resultArray[0]);
-
-//           var keywordList = "";
-
-//           if (count > 0) {
-
-//               keywordList = resultArray[1].split(",");
-
-//               var html = "";
-
-//               for (var i = 0; i < keywordList.length; i++) {
-//                   html += "<a href=\"javascript:select('"
-//                           + keywordList[i] + "');\">"
-//                           + keywordList[i] + "</a><br/>";
-//               }
-
-//               var suggestListDiv = document.getElementById("suggestListDiv");
-//               suggestListDiv.innerHTML = html;
-
-//               show();
-//           } else {
-//               hide();
-//           }
-//       } else {
-//           hide();
-//       }
-//   } else {
-//       hide();
-//   }
-// }
-
-// function select(selectKeyword) {
-//   document.forms.myForm.userKeyword.value = selectKeyword;
-//   hide();
-// }
-
-// function show() {
-//   var suggestDiv = document.getElementById("suggestDiv");
-//   suggestDiv.style.display = "block";
-// }
-
-// function hide() {
-//   var suggestDiv = document.getElementById("suggestDiv");
-//   suggestDiv.style.display = "none";
-// }
-
-// window.onload = function () {
-//   hide();
-// }
-
-
-
-
-
-
-
-
-
-
-
-// //AUTO SCROLL 
-// var page = 1;   // 불러올 페이지
-// var isLoading = false;    // 중복 실행 여부 확인 변수
-
-// function loadCards() {
-//   if (isLoading) {
-//     return;
-//   }
-//   isLoading = true;
-
-//   $.ajax({
-//     type: "GET",
-//     url: "meetMateList?page=" + page, // 수정: 서버 측 URL로 변경
-//     dataType: "json",
-//     success: function (data) {
-//       if (data.length > 0) {
-//         // 데이터를 받아와서 카드를 생성하는 로직
-//         var cardContainer = $('#card-container');
-//         data.forEach(function (item) {
-//           var cardHTML = '<div class="card">' + item.meetListNum + ' - ' + item.someOtherField + '</div>';
-//           cardContainer.append(cardHTML);
-//         });
-
-//         // 페이지 증가
-//         page++;
-//         isLoading = false;
-//       }
-//     },
-//     error: function () {
-//       isLoading = false;
-//     }
-//   });
-// }
-
-// // 초기 페이지 로드
-// loadCards();
-
-// // 스크롤 이벤트 처리
-// $(window).scroll(function () {
-//   if ($(window).scrollTop() + $(window).height() >= $(document).height() - 200) {
-//     loadCards();
-//   }
-// });
+window.onload = function() {
+  heartClick();
+  meetList();
+}
