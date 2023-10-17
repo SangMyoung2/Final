@@ -149,7 +149,7 @@ button.accent {
 
 #chat-page #messageArea li {
     line-height: 1.5rem;
-    /* padding: 5px 20px; */
+    padding: 5px 20px;
     margin: 5px 0px;
 }
 

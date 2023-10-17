@@ -213,7 +213,7 @@
 }
 
 .randomcard:hover{
-  border: 1px solid black;
+  border: 1px solid #adadad;
   transform: translateY(-20px);
 }
 
@@ -391,6 +391,10 @@
     list-style-type: none;
   }
   
+  .meetList_hidden{
+    display: none;
+  }
+
   .card {
     position: relative;
     display: block;

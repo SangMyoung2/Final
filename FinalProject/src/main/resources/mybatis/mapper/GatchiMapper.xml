@@ -53,6 +53,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 ]]>
 </select>
 
+<select id="getRownumList" parameterType="int" resultType="com.spring.boot.dto.GatchiDTO">
+	select * from
+	<![CDATA[
+	(select ROWNUM rnum, data.* from (
+	select * from GATCHI
+	where MEETTITLE like '%%') data)
+	where rnum >= 1 and rnum <= ${end}
+	]]>
+</select>
 
 <!--
 <select id="meetLikes" parameterType="int">

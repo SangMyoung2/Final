@@ -52,7 +52,6 @@
               </div>
               </div>
             </th:block>
-
           
         </div>
         <ul class="dot">
@@ -101,7 +100,7 @@
   <div class="c2">
     <ul class="cards">
       
-      <li th:each="items : ${meetLists}">
+      <li name="meetLists" class="meetList_hidden" th:each="items : ${meetLists}">
           <div class="card">
             <div id="heart" class="heart" name="likeCount"></div>    
           <div id="heart" class="button__like"></div>  
@@ -110,7 +109,7 @@
             </a>
             <div class="card__overlay">
               <div class="card__header">
-                <svg class="card__arc" xmlns="http://www.w3.org/2000/svg"><path /></svg>                     
+                <svg class="card__arc" xmlns="http://www.w3.org/2000/svg"><path /></svg>
                 <img class="card__thumb" src="https://i.imgur.com/7D7I6dI.png" alt="" /><!--여기 회원 프로필사진-->
                 <div class="card__header-wrapper">
                   <div class="card__header-text">
@@ -140,17 +139,18 @@
                     <span class="card__status" th:text="'만남일 : ' + ${items.meetDday} + ', 장소 : '">날짜, 시간,  장소</span><br/>
                     <span class="card__status" th:text="' 참여인원 : ' + ${items.meetMemCnt} + ' / ' + ${items.meetMaxMemCnt}">현재 참석인원 / 최대인원</span>
                   </div>
-                </div>       
+                </div>
               </div>
               <div class="description1">
               <p class="card__description" th:text="${items.meetContent}">글 내용</p>
               </div>
             </div>
-          </div>    
+          </div>
         </li>
       </div>
       </ul>
   </div>
+
 </div>
 
 

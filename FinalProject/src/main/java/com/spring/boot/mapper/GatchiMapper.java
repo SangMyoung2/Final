@@ -23,6 +23,8 @@ public interface GatchiMapper {
 
 	public List<GatchiDTO> getCommuniFindRandomList(int count) throws Exception;
 	
+	public List<GatchiDTO> getRownumList(int end) throws Exception;
+	
     //public void meetLikes(int meetListNum) throws Exception;
 
 	

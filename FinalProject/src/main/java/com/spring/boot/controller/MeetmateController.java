@@ -2,13 +2,20 @@ package com.spring.boot.controller;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,7 +28,7 @@ import com.spring.boot.service.GatchiService;
 @RestController //는 return을 텍스트로 인식하지만 ModelAndView는 ResponseBody를 작성하지 않아도 주소로 인식한다. 
 public class MeetmateController {
 	
-	@Resource
+	@Autowired
 	private GatchiService gatchiService;
 
 	//여기서 호출 하면 BoardService -> BoardServiceImpl -> BoardMapper -> boardMapper.xml에서 데이터 반환을 BoardController로 해준다.
@@ -99,19 +106,24 @@ public class MeetmateController {
 		GatchiDTO dto) throws Exception{
 
 		ModelAndView mav = new ModelAndView();
-		
-		String uploadDir = "C:\\VSCode\\work\\Final\\FinalProject\\src\\main\\resources\\static\\image\\gatchiImage";
-
-		if (!meetImage.isEmpty()) {
-			String originalFileName = meetImage.getOriginalFilename();
-			File destFile = new File(uploadDir, originalFileName);
-			
-			//System.out.print("이거야 이름 이거이거거거ㅓ"+ originalFileName);
-			meetImage.transferTo(destFile);
-			int maxNum = gatchiService.maxNum();
-			dto.setMeetListNum(maxNum + 1);
-			dto.setMeetImage(originalFileName);
-			gatchiService.createGatchi(dto);
+		try{
+			//String uploadDir = "C:\\VSCode\\work\\Final\\FinalProject\\src\\main\\resources\\static\\image\\gatchiImage";
+			Resource resource = new ClassPathResource("static");
+			String resourcePath = resource.getFile().getAbsolutePath() + "/image/gatchiImage";
+			if (!meetImage.isEmpty()) {
+				String originalFileName = meetImage.getOriginalFilename();
+				File destFile = new File(resourcePath, originalFileName);
+				
+				//System.out.print("이거야 이름 이거이거거거ㅓ"+ originalFileName);
+				meetImage.transferTo(destFile);
+				int maxNum = gatchiService.maxNum();
+				dto.setMeetListNum(maxNum + 1);
+				dto.setMeetImage(originalFileName);
+				gatchiService.createGatchi(dto);
+			}
+		}
+		catch(Exception e){
+			System.out.println(e.toString());
 		}
 		mav.setViewName("redirect:/meetMateList");
 		return mav;
@@ -125,11 +137,12 @@ public class MeetmateController {
 
 		ModelAndView mav = new ModelAndView();
 		
-		String uploadDir = "C:\\VSCode\\work\\Final\\FinalProject\\src\\main\\resources\\static\\image\\gatchiImage";
-
+		// String uploadDir = "C:\\VSCode\\work\\Final\\FinalProject\\src\\main\\resources\\static\\image\\gatchiImage";
+		Resource resource = new ClassPathResource("static");
+		String resourcePath = resource.getFile().getAbsolutePath() + "/image/gatchiImage";
 		if (!meetImage.isEmpty()) {
 			String originalFileName = meetImage.getOriginalFilename();
-			File destFile = new File(uploadDir, originalFileName);
+			File destFile = new File(resourcePath, originalFileName);
 			
 			//System.out.print("이거야 이름 이거이거거거ㅓ"+ originalFileName);
 
@@ -218,6 +231,20 @@ public class MeetmateController {
 		return mav;		
 	}
 
+	@RequestMapping(value = "/reFindList", method = RequestMethod.POST, consumes = "application/json")
+	public Map<String,Object> reFindList(@RequestBody Map<String, String> requestMap) throws Exception {
 
+		System.out.println(requestMap);
 
+		List<GatchiDTO> lists = new ArrayList<>();
+		
+		int endList = Integer.parseInt(requestMap.get("endList"));
+
+		lists = gatchiService.getRownumList(endList);
+
+		Map<String, Object> data = new HashMap<>();
+		data.put("meetLists", lists);
+
+		return data;
+	}
 }
