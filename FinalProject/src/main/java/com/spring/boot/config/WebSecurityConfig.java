@@ -11,8 +11,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-
 import com.spring.boot.model.BaseAuthRole;
 import com.spring.boot.service.BaseCustomOAuth2UserService;
 import com.spring.boot.service.UserSecurityService;

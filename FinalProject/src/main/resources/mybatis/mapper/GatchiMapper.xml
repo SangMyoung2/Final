@@ -15,7 +15,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	#{meetListNum},#{meetCheck},#{meetCtgNum},#{meetName},
 	#{meetTitle},#{meetContent},#{meetImage},sysdate,#{meetDday},
     1,#{meetMaxMemCnt},0,0,
-	#{meetHow},#{meetEntryfee},#{meetMoney},0)
+	#{meetHow},#{meetEntryfee},#{meetMoney},#{meetPlace})
 </insert>
 
 <select id="maxNum" resultType="int">
