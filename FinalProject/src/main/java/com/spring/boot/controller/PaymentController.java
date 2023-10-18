@@ -1,11 +1,14 @@
 package com.spring.boot.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -14,22 +17,47 @@ import com.spring.boot.dto.userPointDTO;
 import com.spring.boot.model.Users;
 import com.spring.boot.service.PaymentService;
 
-@RestController
+@Controller // RestController를 사용하면 결제 성공 후 페이지가 안 뜨고, Controller 쓰면 뜬다
 public class PaymentController {
 
     @Autowired
     private PaymentService paymentService;
 
 
-    @GetMapping("/pay.action")
+    @GetMapping("/pay.action") // 결제 페이지
 	public ModelAndView pay(){
-		// System.out.println("pay controller 들어옴");
-		ModelAndView mav = new ModelAndView();
+
+        ModelAndView mav = new ModelAndView();
 		
 		mav.setViewName("pay/pay");
 		
 		return mav;
 	}
+
+    @GetMapping("/paymentInfo.action") // 결제 내역 페이지
+    public ModelAndView paymentInfo(HttpServletRequest req){
+        ModelAndView mav = new ModelAndView();
+
+        // 세션에서 email 값을 가져온다.
+        HttpSession session = req.getSession();
+        Users user = (Users)session.getAttribute("user1");
+        String email = user.getEmail();
+
+        // email 값 체크 (null이거나 비어 있는지)
+        if(email == null || email.isEmpty()){
+            mav.setViewName("pay/paymentErrorPage");
+            return mav;
+        }
+
+        try {
+            List<PaymentInfoDTO> paymentInfo = paymentService.findByEmail(email);
+            mav.addObject("paymentInfo", paymentInfo);
+            mav.setViewName("pay/paymentInfo");
+        } catch (Exception e) {
+            mav.setViewName("pay/paymentErrorPage");
+        }
+        return mav;
+    }
 
 
     
@@ -39,25 +67,20 @@ public class PaymentController {
     @PostMapping("/payment-info")
     public ResponseEntity<String> receivePaymentInfo(@RequestBody PaymentInfoDTO paymentInfoDTO, HttpServletRequest req) {
         
-        //로그인 세션
-
-        //로그인 정보 결제내역
-
         //결제하면서 결제 내역 넣어주기
 
         //포인트 잔액 데이터 넣기 이메일 같이 넣기기
 
-        // SessionUser sessionUser = (SessionUser) httpSession.getAttribute("user");
         HttpSession session = req.getSession();
         Users user = (Users)session.getAttribute("user1");
         String userEmail = user.getEmail();
+        System.out.println("현재 세션에 있는 유저 이메일 : " + userEmail);
 
-        System.out.println("유저 이메일 : " + userEmail);
-
+        paymentInfoDTO.setEmail(userEmail);
 
         try {
-            //paymentInfoDTO 결제내역
-        paymentInfoDTO.setEmail(userEmail);
+            paymentService.insertPaymentInfo(paymentInfoDTO);
+
         
         // 결제가 완료되었으면, 해당 사용자의 포인트를 증가시킨다.
         userPointDTO userPointDTO = new userPointDTO();
@@ -66,9 +89,9 @@ public class PaymentController {
         paymentService.updateUserPoint(userPointDTO);
         
         return new ResponseEntity<>("Payment data received successfully!", HttpStatus.OK);
-            } catch (Exception e) {
+        } catch (Exception e) {
         return new ResponseEntity<>("Error while processing payment data", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        }   
     }
 
     @GetMapping("/paySuccessPage")

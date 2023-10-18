@@ -1,0 +1,76 @@
+<html layout:decorate="~{layout}">
+<head>
+<title>결제 내역 페이지</title>
+<style>
+    footer {
+        position: static !important;
+    }
+</style>
+<link rel="stylesheet" type="text/css" href="css/pay/paybutton.css"/>
+<link rel="stylesheet" type="text/css" href="css/pay/paytext.css"/>
+<link rel="icon" type="image/png" th:href="@{http://localhost:8080/image/로고.png}"/>
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="https://service.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+</head>
+<body>
+
+
+    <div layout:fragment="content">
+        <br/>
+        <p class="paytitle">결제 내역</p> 
+        <br/>
+    
+        <!-- paymentInfo 데이터를 반복하여 각 결제 내역을 div로 표시 -->
+        <div th:each="payment : ${paymentInfo}" class="payment-block">
+            
+
+            <div class="payment-detail">
+                <span class="label">결제 시간: </span>
+                <span th:text="${payment.paid_at}"></span>
+            </div>
+
+            <br/>
+    
+            <div class="payment-detail">
+                <span class="label">결제 금액: </span>
+                <span th:text="${payment.paid_amount}"></span>
+            </div>
+            
+            <br/>
+
+            <div class="payment-detail">
+                <span class="label">결제 방법: </span>
+                <span th:text="${payment.pay_method}"></span>
+            </div>
+            
+            <br/>
+    
+            <!-- 필요한 경우 다른 데이터 필드들도 추가 가능 -->
+    
+        </div>
+    
+        <br/><br/>
+    </div>
+    
+    <style>
+        .payment-block {
+            border: 1px solid #e0e0e0;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+    
+        .payment-detail {
+            margin-bottom: 10px;
+        }
+    
+        .label {
+            font-weight: bold;
+        }
+    </style>
+
+
+</body>
+
+</html>

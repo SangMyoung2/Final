@@ -10,7 +10,7 @@ import lombok.ToString;
 public class PaymentInfoDTO {
     private String email;
     private int paid_amount;
-    private int paid_at;
+    private String paid_at;
     private String pay_method;
     private String card_name;
     private String card_number;
