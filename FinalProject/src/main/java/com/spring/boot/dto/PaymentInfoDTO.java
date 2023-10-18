@@ -8,6 +8,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class PaymentInfoDTO {
+    private String email;
     private int paid_amount;
     private int paid_at;
     private String pay_method;
