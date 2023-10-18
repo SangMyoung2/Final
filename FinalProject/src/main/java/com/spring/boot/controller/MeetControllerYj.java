@@ -50,6 +50,11 @@ public class MeetControllerYj {
 	@GetMapping("/articleYj.action")
 	public ModelAndView articleYj(HttpServletRequest request) throws Exception {
 
+		// 날짜 종료된 모임이면 meetStatus( 1 => 2로 변경 )
+		GatchiDTO GatchiDTO = new GatchiDTO();
+		GatchiDTO.setMeetListNum(Integer.parseInt(request.getParameter("meetListNum")));
+        meetServiceYj.meetStatusCompletion(GatchiDTO);
+
 		GatchiDTO meetListInfo = meetServiceYj.getMeetListInfo(Integer.parseInt(request.getParameter("meetListNum")));
 		List<String> meetMembers = meetServiceYj.getMeetMembers(Integer.parseInt(request.getParameter("meetListNum")));
 		List<MeetReviewDTO> meetReview = meetServiceYj.getReview(Integer.parseInt(request.getParameter("meetListNum")));
@@ -58,43 +63,27 @@ public class MeetControllerYj {
 		ModelAndView mav = new ModelAndView();
 		MeetInfoDTO MeetInfoDTO = new MeetInfoDTO();
 		
-		mav.addObject("loginEmail", "lee");  // TODO : 로그인된 email
+		mav.addObject("loginEmail", "kim");  // TODO : 로그인된 email
 
 		MeetInfoDTO.setMeetListNum(Integer.parseInt(request.getParameter("meetListNum")));
-		MeetInfoDTO.setEmail("lee"); // TODO : 세션에서 email 가져와야됨
+		MeetInfoDTO.setEmail("kim"); // TODO : 세션에서 email 가져와야됨
 
+		// 떠돌이 유저
 		int memberStatus = -1;
 		Integer ret = meetServiceYj.getMemberStatus(MeetInfoDTO);
 		if (ret != null) memberStatus = ret.intValue();
 		
+		// 방장 자신은 강퇴하면 안 되니까 비교하려고
 		if (memberStatus == 1) {
 			String masterEmail = meetServiceYj.getMeetMasterEmail(Integer.parseInt(request.getParameter("meetListNum")));
 			mav.addObject("masterEmail", masterEmail);
 		}
 
+		// 방장 이메일 띄움
 		String masterEmail2 = meetServiceYj.getMeetMasterEmail(Integer.parseInt(request.getParameter("meetListNum")));
 		mav.addObject("masterEmail2", masterEmail2);
 
-
-
-
-		Date currentDate = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        String formattedCurrentDate = dateFormat.format(currentDate);
-
-        mav.addObject("currentDate", formattedCurrentDate);
-
-        String meetDday = meetServiceYj.getMeetDday(Integer.parseInt(request.getParameter("meetListNum")));
-        
-        if (meetDday != null && meetDday.compareTo(formattedCurrentDate) < 0) {
-            GatchiDTO GatchiDTO = new GatchiDTO();
-            meetServiceYj.meetStatusCompletion(GatchiDTO);
-        }
-
-
-	
         mav.addObject("meetStatus", meetStatus);
-       
 		mav.addObject("meetListNum", request.getParameter("meetListNum"));
 		mav.addObject("meetListInfo", meetListInfo);
 		mav.addObject("meetMembers", meetMembers);
@@ -104,7 +93,6 @@ public class MeetControllerYj {
 		mav.setViewName("meetmate/articleYj");
 		
 		return mav;
-		
 	}
 
 	//리뷰 올리기
@@ -120,13 +108,13 @@ public class MeetControllerYj {
         MeetReviewDTO MeetReviewDTO = new MeetReviewDTO();
 		
 		MeetReviewDTO.setMeetListNum(meetListNum);
-		MeetReviewDTO.setEmail("lee"); // TODO : 세션에서 email 가져와야됨
+		MeetReviewDTO.setEmail("kim"); // TODO : 세션에서 email 가져와야됨
 
 		// 중복 리뷰 작성 여부 확인
 		int hasReviewed = meetServiceYj.hasUserReviewed(MeetReviewDTO);
 		String response = "";
 
-		if (hasReviewed<=0) {
+		if (hasReviewed<=0) { // 리뷰는 한 이메일당 하나만 작성 가능
 
 			if (!meetReviewImg.isEmpty()) {
 				String originalFilename = meetReviewImg.getOriginalFilename();
@@ -193,14 +181,12 @@ public class MeetControllerYj {
 		mav.addObject("meetWait", meetWait);
 		mav.addObject("meetBlack", meetBlack);
 
-		// 방장의 이메일을 모델에 추가
 		String masterEmail = meetServiceYj.getMeetMasterEmail(meetListNum);
 		mav.addObject("masterEmail", masterEmail);
 
 		mav.setViewName("meetmate/managerYj");
 		
 		return mav;
-		
 	}
 
 	// 방 가입
@@ -214,7 +200,7 @@ public class MeetControllerYj {
 	
 		MeetInfoDTO MeetInfoDTO = new MeetInfoDTO();
 		MeetInfoDTO.setMeetListNum(meetListNum);
-		MeetInfoDTO.setEmail("lee"); // TODO : 세션에서 email 가져와야됨
+		MeetInfoDTO.setEmail("kim"); // TODO : 세션에서 email 가져와야됨
 		MeetInfoDTO.setMeetMemStatus(0); //승인대기
 		meetServiceYj.insertMeetJoinOk(MeetInfoDTO);
 	
@@ -304,7 +290,6 @@ public class MeetControllerYj {
 
 		return new ModelAndView("redirect:/managerYj.action?meetListNum=" + meetListNum);
 	}
-
 
 	// 블랙리스트 해제
 	@PostMapping("/release-from-blacklist")

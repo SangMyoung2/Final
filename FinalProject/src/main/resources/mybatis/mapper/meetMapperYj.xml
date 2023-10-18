@@ -13,9 +13,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     select * from gatchi where meetListNum = #{meetListNum}
 </select>
 
-<select id="getMeetDday" parameterType="int" resultType="String">
-    select meetDday from gatchi where meetListNum = #{meetListNum} and meetStatus = 1
-</select>
+<!-- <select id="getMeetDday" parameterType="int" resultType="String">
+    select to_char(to_date(meetDday,'yyyy-mm-dd'),'yyyymmdd') from gatchi where meetListNum = #{meetListNum} and meetStatus = 1
+</select> -->
 
 <select id="getMeetMasterEmail" parameterType="int" resultType="string">
     select email from meetInfo
@@ -71,14 +71,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     update gatchi set meetStatus = 0 where meetListNum = #{meetListNum}
 </update>
 
-<!-- <update id="meetStatusCompletion" parameterType="com.spring.boot.dto.GatchiDTO">
-    update gatchi set meetStatus = 2
-    WHERE to_char(To_date(meetDday,'yyyy-mm-dd'),'yyyymmdd') < TO_CHAR(SYSDATE,'YYYYMMDD') and meetListNum = #{meetListNum}
-</update> -->
-
 <update id="meetStatusCompletion" parameterType="com.spring.boot.dto.GatchiDTO">
-    update gatchi set meetStatus = 2 where meetListNum = #{meetListNum}
+    <![CDATA[
+    update gatchi set meetstatus = 2 where to_char(to_date(meetdday,'yyyy-mm-dd hh24:mi'),'yyyymmdd') < to_char(sysdate, 'yyyymmdd') and meetlistnum = #{meetListNum}
+    ]]>
 </update>
+
+<!-- <update id="meetStatusCompletion" parameterType="com.spring.boot.dto.GatchiDTO">
+    update gatchi set meetStatus = 2 where meetListNum = #{meetListNum}
+</update> -->
 
 <!-- <update id="meetStatusCompletion" parameterType="com.spring.boot.dto.GatchiDTO">
     <![CDATA[
