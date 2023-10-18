@@ -1,9 +1,9 @@
 package com.spring.boot.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.spring.boot.dto.PaymentInfoDTO;
-import com.spring.boot.dto.userPointDTO;
 
 public interface PaymentService {
     
@@ -11,10 +11,7 @@ public interface PaymentService {
     public void insertPaymentInfo(PaymentInfoDTO paymentInfoDTO) throws Exception;
 
     // 사용자의 포인트를 업데이트합니다.
-    public void updateUserPoint(userPointDTO userPointDTO) throws Exception;
-
-    // 주어진 모임 번호의 meetMoney를 조회합니다.
-    public int getMeetMoney(int meetListNum) throws Exception;
+    public void updateOrInsertUserPointWithMap(Map<String, Object> params) throws Exception;
 
     // 주어진 이메일의 사용자의 포인트 잔액을 조회합니다.
     public int getUserPoint(String email) throws Exception;

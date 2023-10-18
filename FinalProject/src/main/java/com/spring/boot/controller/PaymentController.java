@@ -1,6 +1,8 @@
 package com.spring.boot.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -67,13 +69,12 @@ public class PaymentController {
     @PostMapping("/payment-info")
     public ResponseEntity<String> receivePaymentInfo(@RequestBody PaymentInfoDTO paymentInfoDTO, HttpServletRequest req) {
         
-        //결제하면서 결제 내역 넣어주기
-
-        //포인트 잔액 데이터 넣기 이메일 같이 넣기기
+        //포인트 잔액 데이터 넣기 이메일 같이 넣기
 
         HttpSession session = req.getSession();
         Users user = (Users)session.getAttribute("user1");
         String userEmail = user.getEmail();
+
         System.out.println("현재 세션에 있는 유저 이메일 : " + userEmail);
 
         paymentInfoDTO.setEmail(userEmail);
@@ -81,13 +82,15 @@ public class PaymentController {
         try {
             paymentService.insertPaymentInfo(paymentInfoDTO);
 
+            // 결제 정보가 성공적으로 삽입된 후, 포인트 증가 로직 추가
+            // 여기에서 Map을 사용합니다.
+            Map<String, Object> params = new HashMap<>();
+            params.put("email", userEmail);
+            params.put("paid_amount", paymentInfoDTO.getPaid_amount());
         
-        // 결제가 완료되었으면, 해당 사용자의 포인트를 증가시킨다.
-        userPointDTO userPointDTO = new userPointDTO();
-        userPointDTO.setEmail(userEmail);
-        userPointDTO.setPoint_balance(paymentInfoDTO.getPaid_amount()); // 결제금액만큼 포인트 증가
-        paymentService.updateUserPoint(userPointDTO);
-        
+        // 서비스 메서드에 Map을 전달
+        paymentService.updateOrInsertUserPointWithMap(params);
+
         return new ResponseEntity<>("Payment data received successfully!", HttpStatus.OK);
         } catch (Exception e) {
         return new ResponseEntity<>("Error while processing payment data", HttpStatus.INTERNAL_SERVER_ERROR);

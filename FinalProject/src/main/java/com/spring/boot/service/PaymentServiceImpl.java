@@ -1,6 +1,7 @@
 package com.spring.boot.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,13 +21,8 @@ public class PaymentServiceImpl implements PaymentService{
 	}
 
 	@Override
-	public void updateUserPoint(userPointDTO userPointDTO) throws Exception {
-		paymentMapper.updateUserPoint(userPointDTO);
-	}
-
-	@Override
-	public int getMeetMoney(int meetListNum) throws Exception {
-		return paymentMapper.getMeetMoney(meetListNum);
+	public void updateOrInsertUserPointWithMap(Map<String, Object> params) throws Exception {
+		paymentMapper.updateOrInsertUserPointWithMap(params);
 	}
 
 	@Override
