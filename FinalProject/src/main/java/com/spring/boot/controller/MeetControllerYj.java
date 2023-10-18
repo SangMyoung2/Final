@@ -17,12 +17,14 @@ import org.springframework.core.io.Resource;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.spring.boot.dto.MeetDTOYj;
+import com.spring.boot.dto.GatchiDTO;
+import com.spring.boot.dto.MeetCategoryDTO;
+import com.spring.boot.dto.MeetInfoDTO;
+import com.spring.boot.dto.MeetReviewDTO;
 import com.spring.boot.service.MeetServiceYj;
 
 @RestController
@@ -33,7 +35,7 @@ public class MeetControllerYj {
 
 	@GetMapping("/listYj.action")
 	public ModelAndView listYj() throws Exception {
-		List<MeetDTOYj> listYj = meetServiceYj.getAllCategories();
+		List<MeetCategoryDTO> listYj = meetServiceYj.getAllCategories();
 
 		ModelAndView mav = new ModelAndView();
 		if(listYj != null){
@@ -48,22 +50,23 @@ public class MeetControllerYj {
 	@GetMapping("/articleYj.action")
 	public ModelAndView articleYj(HttpServletRequest request) throws Exception {
 
-		MeetDTOYj meetListInfo = meetServiceYj.getMeetListInfo(Integer.parseInt(request.getParameter("meetListNum")));
+		GatchiDTO meetListInfo = meetServiceYj.getMeetListInfo(Integer.parseInt(request.getParameter("meetListNum")));
 		List<String> meetMembers = meetServiceYj.getMeetMembers(Integer.parseInt(request.getParameter("meetListNum")));
-		List<MeetDTOYj> meetReview = meetServiceYj.getReview(Integer.parseInt(request.getParameter("meetListNum")));
-
-		ModelAndView mav = new ModelAndView();
-		MeetDTOYj dto = new MeetDTOYj();
+		List<MeetReviewDTO> meetReview = meetServiceYj.getReview(Integer.parseInt(request.getParameter("meetListNum")));
+		int meetStatus = meetServiceYj.getMeetStatus(Integer.parseInt(request.getParameter("meetListNum")));
 		
-		mav.addObject("loginEmail", "kim");  // TODO : 로그인된 email
+		ModelAndView mav = new ModelAndView();
+		MeetInfoDTO MeetInfoDTO = new MeetInfoDTO();
+		
+		mav.addObject("loginEmail", "lee");  // TODO : 로그인된 email
 
-		dto.setMeetListNum(Integer.parseInt(request.getParameter("meetListNum")));
-		dto.setEmail("kim"); // TODO : 세션에서 email 가져와야됨
+		MeetInfoDTO.setMeetListNum(Integer.parseInt(request.getParameter("meetListNum")));
+		MeetInfoDTO.setEmail("lee"); // TODO : 세션에서 email 가져와야됨
 
 		int memberStatus = -1;
-		Integer ret = meetServiceYj.getMemberStatus(dto);
+		Integer ret = meetServiceYj.getMemberStatus(MeetInfoDTO);
 		if (ret != null) memberStatus = ret.intValue();
-
+		
 		if (memberStatus == 1) {
 			String masterEmail = meetServiceYj.getMeetMasterEmail(Integer.parseInt(request.getParameter("meetListNum")));
 			mav.addObject("masterEmail", masterEmail);
@@ -72,18 +75,38 @@ public class MeetControllerYj {
 		String masterEmail2 = meetServiceYj.getMeetMasterEmail(Integer.parseInt(request.getParameter("meetListNum")));
 		mav.addObject("masterEmail2", masterEmail2);
 
+
+
+
+		Date currentDate = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        String formattedCurrentDate = dateFormat.format(currentDate);
+
+        mav.addObject("currentDate", formattedCurrentDate);
+
+        String meetDday = meetServiceYj.getMeetDday(Integer.parseInt(request.getParameter("meetListNum")));
+        
+        if (meetDday != null && meetDday.compareTo(formattedCurrentDate) < 0) {
+            GatchiDTO GatchiDTO = new GatchiDTO();
+            meetServiceYj.meetStatusCompletion(GatchiDTO);
+        }
+
+
+	
+        mav.addObject("meetStatus", meetStatus);
+       
 		mav.addObject("meetListNum", request.getParameter("meetListNum"));
 		mav.addObject("meetListInfo", meetListInfo);
 		mav.addObject("meetMembers", meetMembers);
 		mav.addObject("meetReview", meetReview);
 		mav.addObject("meetMemStatus", memberStatus);
-		mav.addObject("dto", dto);
+		mav.addObject("dto", MeetInfoDTO);
 		mav.setViewName("meetmate/articleYj");
 		
 		return mav;
 		
 	}
-	
+
 	//리뷰 올리기
 	@PostMapping("/upload-review")
     public String uploadReview(HttpServletRequest request,
@@ -94,13 +117,13 @@ public class MeetControllerYj {
 		Resource resource = new ClassPathResource("static");
       	String resourcePath = resource.getFile().getAbsolutePath() + "/image/reviewImage";
 
-        MeetDTOYj dto = new MeetDTOYj();
+        MeetReviewDTO MeetReviewDTO = new MeetReviewDTO();
 		
-		dto.setMeetListNum(meetListNum);
-		dto.setEmail("kim"); // TODO : 세션에서 email 가져와야됨
+		MeetReviewDTO.setMeetListNum(meetListNum);
+		MeetReviewDTO.setEmail("lee"); // TODO : 세션에서 email 가져와야됨
 
 		// 중복 리뷰 작성 여부 확인
-		int hasReviewed = meetServiceYj.hasUserReviewed(dto);
+		int hasReviewed = meetServiceYj.hasUserReviewed(MeetReviewDTO);
 		String response = "";
 
 		if (hasReviewed<=0) {
@@ -115,14 +138,14 @@ public class MeetControllerYj {
 				// File destFile = new File(resourcePath, saveFileName);
 				// meetReviewImg.transferTo(destFile);
 
-				dto.setMeetReviewImg(saveFileName); // 원본 이미지 파일 이름을 저장
-				dto.setMeetReviewContent(meetReviewContent);
-				dto.setMeetReviewDate(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+				MeetReviewDTO.setMeetReviewImg(saveFileName); // 원본 이미지 파일 이름을 저장
+				MeetReviewDTO.setMeetReviewContent(meetReviewContent);
+				MeetReviewDTO.setMeetReviewDate(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
 
 				int meetReviewNum = meetServiceYj.getReviewNum(meetListNum);
-				dto.setMeetReviewNum(meetReviewNum);
+				MeetReviewDTO.setMeetReviewNum(meetReviewNum);
 
-				meetServiceYj.insertMeetReview(dto);
+				meetServiceYj.insertMeetReview(MeetReviewDTO);
 				response = "success";
 				return response; // 리뷰 작성 성공 시 success 페이지로 리다이렉트
 
@@ -142,13 +165,13 @@ public class MeetControllerYj {
 			@RequestParam("meetReviewNum") int meetReviewNum,
 			@RequestParam("email") String email) throws Exception {
 
-		MeetDTOYj dto = new MeetDTOYj();
+		MeetReviewDTO MeetReviewDTO = new MeetReviewDTO();
 		
-		dto.setMeetListNum(meetListNum);
-		dto.setEmail(email);
-		dto.setMeetReviewNum(meetReviewNum);
+		MeetReviewDTO.setMeetListNum(meetListNum);
+		MeetReviewDTO.setEmail(email);
+		MeetReviewDTO.setMeetReviewNum(meetReviewNum);
 
-		meetServiceYj.deleteMeetReview(dto);		
+		meetServiceYj.deleteMeetReview(MeetReviewDTO);		
 
 		return new ModelAndView("redirect:/articleYj.action?meetListNum=" + meetListNum);
 	}
@@ -189,11 +212,11 @@ public class MeetControllerYj {
 
 		//String email = (String) request.getSession().getAttribute("email"); //세션
 	
-		MeetDTOYj dto = new MeetDTOYj();
-		dto.setMeetListNum(meetListNum);
-		dto.setEmail("kim"); // TODO : 세션에서 email 가져와야됨
-		dto.setMeetMemStatus(0); //승인대기
-		meetServiceYj.insertMeetJoinOk(dto);
+		MeetInfoDTO MeetInfoDTO = new MeetInfoDTO();
+		MeetInfoDTO.setMeetListNum(meetListNum);
+		MeetInfoDTO.setEmail("lee"); // TODO : 세션에서 email 가져와야됨
+		MeetInfoDTO.setMeetMemStatus(0); //승인대기
+		meetServiceYj.insertMeetJoinOk(MeetInfoDTO);
 	
 		return mav;
 	}
@@ -208,11 +231,11 @@ public class MeetControllerYj {
 
 		//String email = (String) request.getSession().getAttribute("email"); //세션
 	
-		MeetDTOYj dto = new MeetDTOYj();
-		dto.setMeetListNum(meetListNum);
-		dto.setEmail(email);
+		MeetInfoDTO MeetInfoDTO = new MeetInfoDTO();
+		MeetInfoDTO.setMeetListNum(meetListNum);
+		MeetInfoDTO.setEmail(email);
 
-		meetServiceYj.deleteMeetOut(dto);
+		meetServiceYj.deleteMeetOut(MeetInfoDTO);
 		meetServiceYj.decrementMeetMemCnt(meetListNum);
 	
 		return mav;
@@ -225,23 +248,13 @@ public class MeetControllerYj {
 
 		ModelAndView mav = new ModelAndView("redirect:/meetMateList");
 
-		MeetDTOYj dto = new MeetDTOYj();
-		dto.setMeetListNum(meetListNum);
+		GatchiDTO GatchiDTO = new GatchiDTO();
+		GatchiDTO.setMeetListNum(meetListNum);
 
-		meetServiceYj.updateMeetStatus(dto);
+		meetServiceYj.updateMeetStatus(GatchiDTO);
 	
 		return mav;
 	}
-
-	// 방 상태가 뭐냐
-	@PostMapping("/getMeetStatus")
-	@ResponseBody
-	public int getMeetStatus(@RequestParam("meetListNum") int meetListNum) throws Exception {
-		int meetStatus = meetServiceYj.getMeetStatus(meetListNum);
-		
-		return meetStatus;
-	}
-
 
 	// 승인대기 수락
 	@PostMapping("/accept-to-waitlist")
@@ -249,12 +262,12 @@ public class MeetControllerYj {
 			@RequestParam("meetListNum") int meetListNum,
 			@RequestParam("email") String email) throws Exception {
 
-		MeetDTOYj dto = new MeetDTOYj();
+		MeetInfoDTO MeetInfoDTO = new MeetInfoDTO();
 
-		dto.setMeetListNum(meetListNum);
-		dto.setEmail(email);
+		MeetInfoDTO.setMeetListNum(meetListNum);
+		MeetInfoDTO.setEmail(email);
 
-		meetServiceYj.acceptToWaitlist(dto);
+		meetServiceYj.acceptToWaitlist(MeetInfoDTO);
 		meetServiceYj.incrementMeetMemCnt(meetListNum);
 		
 		return new ModelAndView("redirect:/managerYj.action?meetListNum=" + meetListNum);
@@ -266,10 +279,11 @@ public class MeetControllerYj {
 			@RequestParam("meetListNum") int meetListNum,
 			@RequestParam("email") String email) throws Exception {
 
-		MeetDTOYj dto = new MeetDTOYj();
-		dto.setMeetListNum(meetListNum);
-		dto.setEmail(email);
-		meetServiceYj.rejectFromWaitlist(dto);
+		MeetInfoDTO MeetInfoDTO = new MeetInfoDTO();
+
+		MeetInfoDTO.setMeetListNum(meetListNum);
+		MeetInfoDTO.setEmail(email);
+		meetServiceYj.rejectFromWaitlist(MeetInfoDTO);
 
 		return new ModelAndView("redirect:/managerYj.action?meetListNum=" + meetListNum);
 	}
@@ -280,12 +294,12 @@ public class MeetControllerYj {
 			@RequestParam("meetListNum") int meetListNum,
 			@RequestParam("email") String email) throws Exception {
 
-		MeetDTOYj dto = new MeetDTOYj();
+		MeetInfoDTO MeetInfoDTO = new MeetInfoDTO();
 
-		dto.setMeetListNum(meetListNum);
-		dto.setEmail(email);
+		MeetInfoDTO.setMeetListNum(meetListNum);
+		MeetInfoDTO.setEmail(email);
 
-		meetServiceYj.addToBlacklist(dto);
+		meetServiceYj.addToBlacklist(MeetInfoDTO);
 		meetServiceYj.decrementMeetMemCnt(meetListNum);
 
 		return new ModelAndView("redirect:/managerYj.action?meetListNum=" + meetListNum);
@@ -298,10 +312,10 @@ public class MeetControllerYj {
 			@RequestParam("meetListNum") int meetListNum,
 			@RequestParam("email") String email) throws Exception {
 
-		MeetDTOYj dto = new MeetDTOYj();
-		dto.setMeetListNum(meetListNum);
-		dto.setEmail(email);
-		meetServiceYj.releaseFromBlacklist(dto);
+		MeetInfoDTO MeetInfoDTO = new MeetInfoDTO();
+		MeetInfoDTO.setMeetListNum(meetListNum);
+		MeetInfoDTO.setEmail(email);
+		meetServiceYj.releaseFromBlacklist(MeetInfoDTO);
 
 		return new ModelAndView("redirect:/managerYj.action?meetListNum=" + meetListNum);
 	}

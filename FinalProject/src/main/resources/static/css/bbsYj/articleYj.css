@@ -285,7 +285,7 @@
     margin-right: 10px;
 }
 
-.join-button,.out-button,.delete-button:hover {
+.join-button:hover,.out-button:hover,.delete-button:hover {
     background-color: #4992df;
 }
 

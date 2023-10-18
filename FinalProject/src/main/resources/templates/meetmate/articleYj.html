@@ -21,56 +21,11 @@
 
 <script>
 
-//     // 페이지 로드 시 초기 버튼 상태 설정
-//     document.addEventListener('DOMContentLoaded', function () {
-//         var homeButton = document.querySelector('#btnradio1');
-//         var reviewButton = document.querySelector('#btnradio2');
-
-//         if (window.location.hash === '#review') {
-//             // 리뷰 버튼이 선택된 상태로 초기화
-//             reviewButton.checked = true;
-//             showReviewContent();
-//         } else {
-//             // 홈 버튼이 선택된 상태로 초기화
-//             homeButton.checked = true;
-//             showHomeContent();
-//         }
-
-//         // 버튼 클릭 시 해시 변경
-//         homeButton.addEventListener('click', function () {
-//             window.location.hash = '#home';
-//             showHomeContent();
-//         });
-
-//         reviewButton.addEventListener('click', function () {
-//             window.location.hash = '#review';
-//             showReviewContent();
-//         });
-
-//         // 서버에서 meetStatus와 meetListNum 값을 가져오는 부분
-//         var xhr = new XMLHttpRequest();
-//         xhr.open('POST', '/getMeetStatus?meetListNum=서버에서_가져온_값', true); // 서버에서 가져온 meetListNum 값으로 대체
-//         xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
-//         xhr.onreadystatechange = function () {
-//             if (xhr.readyState === 4 && xhr.status === 200) {
-//                 var meetStatus = xhr.responseText;
-//                 if (parseInt(meetStatus) === 1) {
-//                     // meetStatus가 1인 경우
-//                     alert('현재 진행 중인 모임입니다');
-//                     // 리뷰 버튼 비활성화
-//                     reviewButton.disabled = true;
-//                     // 홈 화면 표시
-//                     showHomeContent();
-// }
-//             }
-//         };
-//         xhr.send();
-//     });
-
     // 페이지 로드 시 초기 버튼 상태 설정
     document.addEventListener('DOMContentLoaded', function() {
         var homeButton = document.querySelector('#btnradio1');
         var reviewButton = document.querySelector('#btnradio2');
+        var meetStatus = document.querySelector('#meetStatus').value;  // meetStatus를 가져옴
 
         if (window.location.hash === '#review') {
             // 리뷰 버튼이 선택된 상태로 초기화
@@ -89,10 +44,16 @@
         });
 
         reviewButton.addEventListener('click', function() {
+        if (meetStatus === "1") {
+            alert('현재 진행 중인 모임입니다. \n\n※리뷰는 모임이 완료된 후 작성하실 수 있습니다.');
+            homeButton.checked = true;
+            showHomeContent();
+        } else {
             window.location.hash = '#review';
             showReviewContent();
-        });
+        }
     });
+});
 
     // 홈 내용 표시 함수
     function showHomeContent() {
@@ -184,6 +145,7 @@
                             window.location.reload();
                         } else if (response === 'already-reviewed') {
                             alert('이미 리뷰를 작성하셨습니다.');
+                            window.location.reload();
                         }
                     },
                     error: function(xhr, status, error) {
@@ -287,6 +249,7 @@ function deleteReview(email, meetListNum, meetReviewNum) {
                 <span style="color: black;">리뷰</span>
                 <div class="underline"></div> <!-- 밑줄 요소 추가 -->
             </label>
+            <input type="hidden" id="meetStatus" th:value="${meetStatus}">
         </div>
     </div>
 
@@ -321,16 +284,20 @@ function deleteReview(email, meetListNum, meetReviewNum) {
                             <p class="Yj-text4 meet-money" th:text="${meetListInfo.meetMoney}"></p>원
                         </div>
                         
-                        <form th:with="meetMemStatus=${meetMemStatus}" th:if="${meetMemStatus < 0}">
+                        <form th:with="meetMemStatus=${meetMemStatus}" th:if="${meetMemStatus < 0} and ${meetStatus == 1}">
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button form="joinForm" type="submit" class="join-button">
                                가입하기
                             </button>
                         </form>
+                        
+                        <th:block th:if="${meetStatus == 2}">
+                            <p style="font-size: 18px; color: red;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;이미 종료된 모임입니다.</p>
+                        </th:block>
                         <form id="joinForm" action="/join-meet" method="post">
                             <input type="hidden" name="meetListNum" th:value="${meetListNum}"/>
                         </form>
 
-                        <form th:with="meetMemStatus=${meetMemStatus}" th:if="${meetMemStatus == 2}">
+                        <form th:with="meetMemStatus=${meetMemStatus}" th:if="${meetMemStatus == 2} and ${meetStatus == 1}">
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button form="outForm" type="submit" class="out-button">
                                 모임 나가기
                             </button>
@@ -340,7 +307,7 @@ function deleteReview(email, meetListNum, meetReviewNum) {
                             <input type="hidden" name="email" th:value="${dto.email}"/>
                         </form>
                         
-                        <form th:with="meetMemStatus=${meetMemStatus}" th:if="${meetMemStatus == 1}">
+                        <form th:with="meetMemStatus=${meetMemStatus}" th:if="${meetMemStatus == 1} and ${meetStatus == 1}">
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button form="deleteForm" type="submit" class="delete-button">
                                 모임 삭제
                             </button>
@@ -348,6 +315,9 @@ function deleteReview(email, meetListNum, meetReviewNum) {
                         <form id="deleteForm" action="/delete-meet" method="post">
                             <input type="hidden" name="meetListNum" th:value="${meetListNum}"/>
                         </form>
+                        <th:block th:if="${meetStatus == 1 and meetMemStatus == 0}">
+                            <p style="font-size: 18px; color: rgb(0, 68, 255);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;가입 승인 대기 중입니다.</p>
+                        </th:block>
                         
                     </div>
                 </div>
@@ -377,7 +347,7 @@ function deleteReview(email, meetListNum, meetReviewNum) {
     <div class="yj-img2">
         <div class="review-title">REVIEW</div>
         <div class="review-sub">이 모임 유저의 생생한 후기를 만나보세요!</div>
-        <div class="review-write" th:if="${meetMemStatus == 1 or meetMemStatus == 2}">작성하기</div>
+        <div class="review-write" th:if="${meetStatus == 2 and (meetMemStatus == 1 or meetMemStatus == 2)}">작성하기</div>
         <form action="/upload-review" method="POST" enctype="multipart/form-data">
             <div class="review-form" style="display: none;">
                 <div class="review-input">
