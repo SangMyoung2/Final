@@ -1,0 +1,362 @@
+<html layout:decorate="~{layout}">
+<head>
+<meta charset="UTF-8">
+
+<title>Challenge 만들기</title>
+
+
+<script type="text/javascript" src="/js/challenge/challenge.js"></script>
+
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<style>
+  #imgSuccess img{
+    max-width: 100%;
+    max-height: 180px;
+  }
+  #imgFail img {
+    max-width: 100%;
+    max-height: 180px;
+  }
+
+.table {
+    display: table;
+}
+
+.row {
+  display: table-row;
+  
+}
+.row:nth-child(2) .cell {
+ 
+  height: 150px; /* 세로 크기를 300px로 설정합니다 */
+}
+
+.cell1 {
+  display: table-cell;
+  border: 0px;
+  width: 300px;
+}
+
+.cell {
+  display: table-cell;
+  border: 1px #ededed solid;
+  padding: 10px;
+  width: 300px;
+}
+
+.challengeTitle {
+  border: 5px solid rgb(6, 153, 186);
+  border-radius: 7px;
+  width: 100%;
+  height: 100px;
+  font-size: 60px;
+}
+</style>
+
+</head>
+<body>
+<div layout:fragment="content">    
+
+    <br/>
+    <br/>
+    
+    <h1 style="text-align: center; margin-left: 100px;">Challenge를 개설하고 리더가 되어 보세요!</h1>
+
+    <div id="yaksok" style="display: block;">
+
+        <div class="modal-dialog" style="align-items: center;">
+            <div class="modal-content p-4"style="width: 600px;">
+
+                <div class="modal-header pt-1 pl-2" style="justify-content: space-evenly;">
+                    <img src="/image/challenge/crown.gif" alt="Crown" width="70" height="70" /> 
+                    <h4 class="modal-title" id="exampleModalLabel">Challenge를 개설하는 순간부터
+                        <br/>당신은 Challenge를 이끌어나갈 '리더'가 됩니다!</h4>
+                </div>
+              
+                <div class="modal-body">
+                    <div class="form-check pt-4">
+
+                        <input class="form-check-input" type="checkbox" name="" id="yaksok1" value="option2">
+                        <label class="form-check-label" for="yaksok1"><h5>첫번째 약속!</h5></label>
+                        
+                        <p class="justify">모두에게 기분 좋은 챌린지가 될 수 있도록 노력해주세요!</p>
+                    </div>
+                
+                    <div class="form-check pt-4">
+
+                        <input class="form-check-input" type="checkbox" name="" id="yaksok2" value="option2">
+                        <label class="form-check-label" for="yaksok2"><h5>두번째 약속!</h5></label>
+                        
+                        <p class="justify">참가자들의 의지와 예치금이 모일 챌린지입니다. 책임감 있게 관리해 주세요!</p>
+                    </div>
+                
+                    <div class="form-check pt-4">
+
+                        <input class="form-check-input" type="checkbox" name="" id="yaksok3" value="option2">
+                        <label class="form-check-label" for="yaksok3"><h5>세번째 약속!</h5></label>
+                        
+                        <p class="justify">공정한 인증샷 검토를 부탁드립니다!</p>
+                    </div>
+                
+                </div>
+                    
+                    <div class="modal-footer pt-4">
+                        <button class="btn btn-dark mx-auto" style="width:45%" id="check" onclick="checkboxCheck();">네, 약속합니다!</button>
+                        <!-- <button type="button" class="btn btn-light mx-auto" style="width:45%" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-dark mx-auto" style="width:45%">Save</button> -->
+                    </div>
+                </div>
+        </div>
+    </div>
+
+    <form action="" method="POST" name="myForm" enctype="multipart/form-data">
+
+    <div id="title" style="display: none;">
+
+        <div class="modal-dialog" style="align-items: center;">
+            <div class="modal-content p-4"style="width: 600px;">
+
+                <div class="modal-header pt-1 pl-2" style="justify-content: space-evenly;">
+                    <img src="/image/challenge/crown.gif" alt="Crown" width="70" height="70" /> 
+                    <h4 class="modal-title" id="exampleModalLabel">Challenge를 개설하는 순간부터
+                        <br/>당신은 Challenge를 이끌어나갈 '리더'가 됩니다!</h4>
+                </div>
+                
+                <div class="modal-body">
+                    <input type="text" id="challengeTitle" name="challengeTitle" class="challengeTitle"/>
+                
+                </div>
+                    
+                    <div class="modal-footer pt-4">
+                        <button type="button" class="btn btn-dark mx-auto" style="width:45%" id="check" onclick="titleCheck();">다 음</button>
+                    </div>
+                </div>
+        </div>
+    </div>
+
+
+
+
+
+    <div id="createChallenge" style="display: none;">
+
+        <div class="modal-dialog" style="align-items: center;">
+            <div class="modal-content p-4"style="width: 600px;">
+
+                <div class="modal-header pt-1 pl-2" style="justify-content: space-evenly;">
+                    <img src="/image/challenge/crown.gif" alt="Crown" width="70" height="70" /> 
+                    <h4 class="modal-title" id="exampleModalLabel">Challenge를 개설하는 순간부터
+                        <br/>당신은 Challenge를 이끌어나갈 '리더'가 됩니다!</h4>
+                </div>
+            
+                
+                <div class="modal-body">
+                    <div class="form-check pt-4" style="padding-left: 0px;">
+
+                        <h4>인증빈도</h4>
+                        <p class="justify">&#149 멤버들의 인증은 리더가 확인해야합니다!</p>
+                        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                            <input class="btn-check" type="radio" name="weekCheck" id="weekCheck1" value="everyDay" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="weekCheck1"><h7>매일 인증</h7></label>
+
+                            <input class="btn-check" type="radio" name="weekCheck" id="weekCheck2" value="weekdayDaily" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="weekCheck2"><h7>평일매일 인증</h7></label>
+
+                            <input class="btn-check" type="radio" name="weekCheck" id="weekCheck3" value="weekdayDaily" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="weekCheck3"><h7>주말매일 인증</h7></label>
+                        </div>
+
+                        <div class="btn-group" role="group" aria-label="Basic radio toggle button group" style="padding-top: 5px;">
+                            <input class="btn-check" type="radio" name="weekCheck" id="weekCheck4" value="oneWeek1" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="weekCheck4"><h7>주 1회</h7></label>
+
+                            <input class="btn-check" type="radio" name="weekCheck" id="weekCheck5" value="oneWeek2" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="weekCheck5"><h7>주 2회</h7></label>
+
+                            <input class="btn-check" type="radio" name="weekCheck" id="weekCheck6" value="oneWeek3" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="weekCheck6"><h7>주 3회</h7></label>
+
+                            <input class="btn-check" type="radio" name="weekCheck" id="weekCheck7" value="oneWeek4" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="weekCheck7"><h7>주 4회</h7></label>
+
+                            <input class="btn-check" type="radio" name="weekCheck" id="weekCheck8" value="oneWeek5" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="weekCheck8"><h7>주 5회</h7></label>
+
+                            <input class="btn-check" type="radio" name="weekCheck" id="weekCheck9" value="oneWeek6" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="weekCheck9"><h7>주 6회</h7></label>
+                        </div>
+                    </div>
+
+
+                    <div class="form-check pt-4" style="padding-left: 0px;">
+                        <h4>챌린지 기간</h4>
+                        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                            <input class="btn-check" type="radio" name="dateCheck" id="date1" value="1week" autocomplete="off" onclick="calEndDate(this.value)"/>
+                            <label class="btn btn-outline-primary" for="date1"><h7>1주 동안</h7></label>
+
+                            <input class="btn-check" type="radio" name="dateCheck" id="date2" value="2week" autocomplete="off" onclick="calEndDate(this.value)"/>
+                            <label class="btn btn-outline-primary" for="date2"><h7>2주 동안</h7></label>
+
+                            <input class="btn-check" type="radio" name="dateCheck" id="date3" value="3week" autocomplete="off" onclick="calEndDate(this.value)"/>
+                            <label class="btn btn-outline-primary" for="date3"><h7>3주 동안</h7></label>
+
+                            <input class="btn-check" type="radio" name="dateCheck" id="date4" value="1month" autocomplete="off" onclick="calEndDate(this.value)"/>
+                            <label class="btn btn-outline-primary" for="date4"><h7>1달 동안</h7></label>
+                        </div>
+                    </div>
+                    <br/>
+                    <div class="table">
+                        <div class="row">
+                            <div class="cell1"><h5>시작일</h5>
+                            <input type="date" id="startDate" value="startDate" min="" onchange="calEndDate()"/></div>
+
+                            <div class="cell1"><h5>종료일</h5>
+                                <input type="date" id="endDate" value="endDate" disabled></div>
+                        </div>
+                    </div>
+                    
+                    <br/>
+                    <h4>인증샷 예시</h4>
+                    <div class="table">
+                        <div class="row" style="text-align: center;">
+                            <div class="cell">성공</div>
+                            <div class="cell">실패</div>
+                        </div>
+                        <div class="row">
+                            <div class="cell">
+                            <div id="imgSuccess"></div>
+                            </div>
+                            <div class="cell">
+                            <div id="imgFail"></div>
+                            </div>
+                        </div>
+                        </div>
+                        
+                        <h6>성공</h6>
+                        <input type="file" id="imageSuccess" name="imageSuccess" value="imageSuccess" accept="image/*" style="color: transparent;" onchange="setMiriSuccess(event);">
+                        <br/><br/>
+                        <h6>실패</h6>
+                        <input type="file" id="imageFail" name="imageFail" value="imageFail" accept="image/*" style="color: transparent;" onchange="setMiriFail(event);">
+                        
+                </div>
+
+
+                
+                <div class="modal-footer pt-4">
+                    <button type="button" class="btn btn-dark mx-auto" style="width:45%" onclick="sendIt();">Challenge 시작하기</button>
+                    <!-- <button type="button" class="btn btn-light mx-auto" style="width:45%" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-dark mx-auto" style="width:45%">Save</button> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    </form>
+<script>
+    // 오늘 날짜를 계산
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth() + 1;
+    var yyyy = today.getFullYear();
+    
+    if (dd < 10) {
+        dd = '0' + dd;
+    }
+    
+    if (mm < 10) {
+        mm = '0' + mm;
+    }
+    
+    today = yyyy + '-' + mm + '-' + dd;
+
+    // 시작일 input 요소를 선택
+    var startDateInput = document.getElementById("startDate");
+    
+    // 시작일 input 요소의 min 속성 설정
+    startDateInput.min = today;
+</script>
+<script>
+     function setMiriSuccess(event) {
+        var reader = new FileReader();
+        var miriImage = document.getElementById("imgSuccess");
+        miriImage.innerHTML = "";
+        reader.onload = function(event) {
+          var img = document.createElement("img");
+          img.setAttribute("src", event.target.result);
+          document.querySelector("div#imgSuccess").appendChild(img);
+        };
+
+        reader.readAsDataURL(event.target.files[0]);
+      }
+
+      function setMiriFail(event) {
+        var reader = new FileReader();
+        var miriImage = document.getElementById("imgFail");
+        miriImage.innerHTML = "";
+        reader.onload = function(event) {
+          var img = document.createElement("img");
+          img.setAttribute("src", event.target.result);
+          document.querySelector("div#imgFail").appendChild(img);
+        };
+
+        reader.readAsDataURL(event.target.files[0]);
+      }
+
+      function sendIt() {
+        // 체크박스 체크 여부 확인
+        var weekCheck = document.getElementsByName("weekCheck");
+        var dateCheck = document.getElementsByName("dateCheck");
+        var startDate = document.getElementById("startDate");
+        var imageSuccess = document.getElementById("imageSuccess");
+        var imageFail = document.getElementById("imageFail");
+
+        // 인증빈도 체크
+        var isWeekCheckSelected = false;
+        weekCheck.forEach(function (checkbox) {
+            if (checkbox.checked) {
+                isWeekCheckSelected = true;
+            }
+        });
+
+        // 챌린지 기간 체크
+        var isDateCheckSelected = false;
+        dateCheck.forEach(function (radio) {
+            if (radio.checked) {
+                isDateCheckSelected = true;
+            }
+        });
+
+        if (!isWeekCheckSelected) {
+            alert('인증빈도를 선택하세요!');
+            return;
+        }
+
+        if (!isDateCheckSelected) {
+            alert('챌린지 기간을 선택하세요!');
+            return;
+        }
+
+        if (!startDate.value) {
+            alert('시작일을 선택하세요!');
+            return;
+        }
+
+        if (!imageSuccess.value) {
+            alert('인증성공 예시 사진을 올려주세요.');
+            return;
+        }
+
+        if (!imageFail.value) {
+            alert('인증실패 예시 사진을 올려주세요.');
+            return;
+        }
+        myForm.action = "/ChallengeCreate.action";
+        myForm.submit();
+      }
+</script>
+</div>
+</body>
+
+
+</html>
