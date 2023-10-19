@@ -1,0 +1,24 @@
+.search-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0; /* 상하 패딩 추가하여 좀 더 깔끔하게 보이게 함 */
+}
+
+.search-bar {
+    width: 20%;
+    padding: 10px 15px;
+    border-radius: 25px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e0e0e0;
+    /* margin: 0 auto; <-- 이 부분은 제거 */
+}
+
+.search-button {
+    padding: 10px 20px;
+    border-radius: 25px;
+    background-color: #5CA8B5;
+    color: white;
+    border: none;
+    cursor: pointer;
+}

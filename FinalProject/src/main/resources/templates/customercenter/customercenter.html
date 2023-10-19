@@ -7,6 +7,8 @@
     }
 </style>
 <link rel="icon" type="image/png" th:href="@{http://localhost:8080/image/로고.png}"/>
+<link rel="stylesheet" type="text/css" href="css/customercenter/customercenter.css"/>
+<link rel="stylesheet" type="text/css" href="css/customercenter/customercenterButton.css"/>
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
 <script type="text/javascript" src="http://localhost:8080/js/customercenter/customerCenter.js"></script>
@@ -14,15 +16,21 @@
 <body>
 
 <div layout:fragment="content">
+    <p class="title">무엇을 도와드릴까요?</p>
 
-    <!-- 검색 상자와 검색 버튼 추가 -->
-    <input type="text" id="searchInput" placeholder="검색어 입력">
-    <button id="searchBtn">검색</button>
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="검색어 입력" class="search-bar">
+        <button id="searchBtn" class="search-button">검색</button>
+    </div>
+
     <br/><br/>
+
     <button data-subject="결제">결제</button>
-    <button data-subject="소셜링">소셜링</button>
+    <button data-subject="모임">모임</button>
     <button data-subject="기타">기타</button>
     <button data-subject="인증/보안">인증/보안</button>
+
+    <p id="noResults" style="display:none; text-align: center;">검색 결과가 없습니다. 다시 검색어를 입력해주세요.</p>
     
     <div th:each="data : ${customerCenterData}" th:attr="data-subject=${data.centerSubject}">
         <div>
