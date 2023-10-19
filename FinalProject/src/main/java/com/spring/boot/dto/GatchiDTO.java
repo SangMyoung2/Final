@@ -20,7 +20,7 @@ public class GatchiDTO {
     private int meetLikeCount; //게시글 좋아요수
     private int meetHow; //1선착순 2승인제
     private int meetEntryfee; //1기본참가비있음 2없음
-    public int meetMoney; //참가비금액
+    private int meetMoney; //참가비금액
     private String meetPlace; //모임장소
-    private int meetStatus; //0삭제 1현재 2완료
+    private int meetStatus; ///0삭제된모임 1현재진행중모임 2완료된모임
 }

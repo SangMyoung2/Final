@@ -16,11 +16,11 @@
     <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=YOUR_CLIENT_ID&submodules=geocoder"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css">
     <script src="https://kit.fontawesome.com/171f74c68f.js" crossorigin="anonymous"></script>
-    <style type="text/css">
+    <!-- <style type="text/css">
         .search { position:absolute;z-index:1000;top:20px;left:20px; }
         .search #address { width:150px;height:20px;line-height:20px;border:solid 1px #555;padding:5px;font-size:12px;box-sizing:content-box; }
         .search #submit1 { height:30px;line-height:30px;padding:0 10px;font-size:12px;border:solid 1px #555;border-radius:3px;cursor:pointer;box-sizing:content-box; }
-    </style>
+    </style> 
     <style>
         .sidebar-custom { 
             position: absolute;
@@ -42,7 +42,7 @@
             color: white;
             box-shadow: 1px 1px 4px #0c1e35;
         }
-    </style>
+    </style>  -->
 
 </head>
 
@@ -56,7 +56,6 @@
         <h1>GATCHI 개설하기</h1>
     
         <form action="" method="post" name="myForm">
-        <!-- 여기 하단에서 상명이 맵 받아도 괜찮을 것 같음 -->
         
 
         <label>GATCHI 유형 선택</label>
@@ -76,13 +75,13 @@
             <label style="color: rgba(145, 142, 142, 0.808); font-weight: 150;">
                 모임명은 변경이 불가하오니, 충분히 고민 후 입력해주세요.</label>
                 <input type="text" id="meetName" name="meetName" placeholder="communiFind 모임명" 
-                class="t1"  size="24" maxlength="24" required disabled/>
+                    class="t1"  size="24" maxlength="24" required disabled/>
         </div>
         <br/><br/><br/>
 
 
         <div id="map" style="width:100%; height:500px;">
-            <div class="search" style="">
+            <div class="search">
                 <input id="address" type="text" placeholder="검색할 주소" />
                 <input id="submit1" type="button" value="주소 검색" />
                 <a id="now-location" class="sidebar-custom"><i class="ri-user-location-line"></i></a>
@@ -93,12 +92,6 @@
         <div class="Btn2">
             <button type="button" class="createBtn" onclick="sendIt();">확인</button>        
             <button type="button" class="cancelBtn" onclick="cancelAction();">취소</button>
-            <!-- <button type="button" class="cancelBtn" onclick="javascript:location.href='/meetMateList';">취소</button> -->
-            <!-- <button type="button" class="cancelBtn" 
-                th:text="${dto.meetCheck == 1 ? 'MeetMateList' : 'CommuniFindList'}" 
-                onclick="javascript:location.href='/' + 
-                (dto.meetCheck == 1 ? 'meetMateList' : 'CommuniFindList');">취소</button> -->
-
         </div>
     </div>
 
@@ -106,6 +99,10 @@
         <input type="hidden" value="" id="lng" name="lng"/>
         <input type="hidden" value="" id="meetPlace" name="meetPlace"/>
         </form>
+
+
+
+
 
 <!-- map세팅 -->
 <script id="code">
@@ -120,13 +117,12 @@
         },
     });
     
-    
-    
     var infowindow = new naver.maps.InfoWindow({
         borderWidth: 0,
         disableAnchor: true,
         backgroundColor: 'transparent'
     });
+
 
     function onSuccessGeolocation(position) {
         var location = new naver.maps.LatLng(position.coords.latitude,
@@ -147,11 +143,17 @@
 
         var lat = position.coords.latitude;
         var lng = position.coords.longitude;
+        var meetPlace = document.getElementById("meetPlace").value
+
+        if(meetPlace===null||meetPlace==""){
+            searchCoordinateToAddress(location);
+        }
 
         document.getElementById("lat").value = lat;
         document.getElementById("lng").value = lng;
         
     }
+
     
     function onErrorGeolocation() {
         var center = map.getCenter();
@@ -176,10 +178,10 @@
             infowindow.open(map, center);
         }
     });
+
 </script>
 
 <script>
-
     var infoWindow = new naver.maps.InfoWindow({
         borderWidth: 0,
         disableAnchor: true,
@@ -216,6 +218,7 @@
             if(addrType==='[지번 주소]'){
                 
                 document.getElementById("meetPlace").value = address;
+                
             }
         }
 
@@ -235,6 +238,7 @@
         infoWindow.open(map, latlng);
     });
     }
+
 
     function searchAddressToCoordinate(address) {
     naver.maps.Service.geocode({
@@ -283,6 +287,7 @@
     });
     }
 
+
     function initGeocoder() {
     map.addListener('click', function(e) {
         searchCoordinateToAddress(e.coord);
@@ -304,6 +309,7 @@
 
 
     }
+
 
     function makeAddress(item) {
     if (!item) {
@@ -357,23 +363,27 @@
             if (hasAddition(land.addition0)) {
                 rest += ' ' + land.addition0.value;
             }
-         }
+        }
     }
 
     return [sido, sigugun, dongmyun, ri, rest].join(' ');
     }
 
+
     function hasArea(area) {
     return !!(area && area.name && area.name !== '');
     }
+
 
     function hasData(data) {
     return !!(data && data !== '');
     }
 
+
     function checkLastString (word, lastString) {
     return new RegExp(lastString + '$').test(word);
     }
+
 
     function hasAddition (addition) {
     return !!(addition && addition.value);
@@ -388,6 +398,9 @@
 
 
 
+
+
+<!-- 모임관련 -->
 <script>
 
     //모집방법(meetMate, communiFind) 
@@ -423,6 +436,7 @@
 </script>
 
 <script>
+
     const sendIt = () => {
 
     var f = document.myForm;
@@ -431,18 +445,16 @@
     var communiFind = document.getElementById("communiFind");
 
 
-    if (!meetMate.checked && !communiFind.checked) {
-        
-        alert('Gatchi 유형을 선택하세요.')
-        
+    if (!meetMate.checked && !communiFind.checked) {        
+        alert('Gatchi 유형을 선택하세요.')        
         return;
+
     }else{
         // setMeetCheck(document.querySelector('input[name="meetcheck"]:checked'));
-        f.action = "/gatchiChoice";
+        f.action = "/gatchiChoice.action";
         f.submit();
         
-    }
-    
+    }    
 
 }
 
@@ -451,9 +463,9 @@ function cancelAction() {//모임 생성을 했다가 취소 버튼을 눌렀을
             var communiFind = document.getElementById("communiFind");
 
             if (meetMate.checked) {
-                location.href = '/meetMateList';
+                location.href = '/meetMateList.action';
             } else if (communiFind.checked) {
-                location.href = '/CommuniFindList';
+                location.href = '/CommuniFindList.action';
             } else {
                 location.href = '/';
             }
@@ -461,7 +473,7 @@ function cancelAction() {//모임 생성을 했다가 취소 버튼을 눌렀을
 
 </script>
 
-    </div>
+</div>
 
 </body>
 
