@@ -14,6 +14,11 @@
 <body>
 
 <div layout:fragment="content">
+
+    <button data-subject="결제">결제</button>
+    <button data-subject="소셜링">소셜링</button>
+    <button data-subject="기타">기타</button>
+    <button data-subject="인증/보안">인증/보안</button>
     
     <div th:each="data : ${customerCenterData}">
         <div>

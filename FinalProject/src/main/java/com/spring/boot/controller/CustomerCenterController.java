@@ -17,8 +17,9 @@ public class CustomerCenterController {
     private CustomerCenterService customerCenterService;
 
     @GetMapping("/customercenter.action")
-    public ModelAndView getCustomerCenterPage() {
+    public ModelAndView getCustomerCenterPage() throws Exception {
         ModelAndView mav = new ModelAndView();
+        
         
         List<CustomerCenterDTO> customerCenterData = customerCenterService.getAllList();
         mav.addObject("customerCenterData", customerCenterData);

@@ -14,7 +14,7 @@ public class CustomerCenterServiceImpl implements CustomerCenterService {
     private CustomerCenterMapper customerCenterMapper;
 
     @Override
-    public List<CustomerCenterDTO> getAllList() {
+    public List<CustomerCenterDTO> getAllList() throws Exception {
         return customerCenterMapper.getAllList();
     }
 }
