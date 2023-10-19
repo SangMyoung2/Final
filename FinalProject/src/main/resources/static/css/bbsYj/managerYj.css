@@ -144,7 +144,7 @@
     border: 1px solid #E4EEF7;
     width: 250px;
     height: 300px;
-    margin-top: 70px;
+    margin-top: 80px;
     margin-bottom: 70px;
     display: flex;
     flex-direction: column;
@@ -159,10 +159,11 @@
 
 .blacklist-title {
     text-align: left;
-    margin-top: 20px;
+    margin-top: 10px;
     font-size: 18px;
     color: #171616;
     margin-bottom: 10px;
+    font-weight: bold;
 }
 
 .black-background {

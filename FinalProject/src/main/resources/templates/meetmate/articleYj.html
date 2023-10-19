@@ -242,13 +242,13 @@ function deleteReview(email, meetListNum, meetReviewNum) {
             <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
             <label class="btn btn-custom" for="btnradio1" onclick="showHomeContent()">
                 <span style="color: black;">홈</span>
-                <div class="underline"></div> <!-- 밑줄 요소 추가 -->
+                <div class="underline"></div>
             </label>
             <!-- 리뷰 버튼 -->
             <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
             <label class="btn btn-custom" for="btnradio2" onclick="showReviewContent()">
                 <span style="color: black;">리뷰</span>
-                <div class="underline"></div> <!-- 밑줄 요소 추가 -->
+                <div class="underline"></div>
             </label>
             <input type="hidden" id="meetStatus" th:value="${meetStatus}">
         </div>
@@ -256,8 +256,20 @@ function deleteReview(email, meetListNum, meetReviewNum) {
 
     <div class="container">
         <div class="row justify-content-end homeaticle">
+            <div class="col-md-2">
+                <div class="meet-mypage" th:each="meetListInfo : ${meetListInfo}">
+                    <div class="badge meetMate" th:text="${meetListInfo.meetCheck}">meetmate</div>
+                    <div class="badge primary" th:text="${meetListInfo.meetCtgNum}">취미</div>
+                    <div class="user-info-container">
+                        <div class="round-image-login">
+                            <img th:src="@{/image/gatchiImage/1111.jpg}" alt="로그인유저프사(임의)"/>
+                        </div>
+                        <div class="login-user-email" th:text="${loginEmail}"></div>님
+                    </div>
+                </div>
+            </div>
+
             <div class="col-8 mx-2 fixed-width-col" th:each="meetListInfo : ${meetListInfo}">
-    
                 <div class="yj-img">
                     <img th:src="@{${'/image/gatchiImage/' + meetListInfo.meetImage}}" alt="n번방의 대표사진">
                     <div class="Main_content" >
@@ -267,7 +279,18 @@ function deleteReview(email, meetListNum, meetReviewNum) {
                         <p class="Yj-master" th:text="${masterEmail2}"></p>
                         <p class="Yj-title" th:text="${meetListInfo.meetTitle}"></p>
                     </div>
+
+                    
                     <div class="main-text">
+
+
+                        <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Heart%20on%20Fire.png" alt="Heart on Fire" style="width: 40px; height: 40px;"/>좋아요 
+                        <div th:text="${meetListInfo.meetLikeCount}"></div>
+
+                        <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Partying%20Face.png" alt="Partying Face" style="width: 40px; height: 40px;"/>조회수
+                        <div th:text="${meetListInfo.meetHitCount}"></div>
+
+
                         <p class="Yj-text1" th:text="${meetListInfo.meetContent}"></p>
 
                         <div class="yj-info">상세 정보</div>
@@ -323,10 +346,10 @@ function deleteReview(email, meetListNum, meetReviewNum) {
                         <th:block th:if="${meetStatus == 1 and meetMemStatus == 0}">
                             <p style="font-size: 18px; color: rgb(0, 68, 255);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;가입 승인 대기 중입니다.</p>
                         </th:block>
-                        
                     </div>
                 </div>
             </div>
+
             <div class="col-md-2">
                 <div class="meet-members">
                     <p>
@@ -337,7 +360,7 @@ function deleteReview(email, meetListNum, meetReviewNum) {
                         </a>
                     </p>
                     <div class="meet-mem-list" th:each="meetMember : ${meetMembers}">
-                        <li class="round-image-rev mt-2" style="margin-right: 10px; margin-left: -10px;">
+                        <li class="round-image-user mt-2" style="margin-right: 10px; margin-left: -10px;">
                             <img th:src="@{/image/gatchiImage/1111.jpg}" alt="유저프사(임의)"/>
                         </li>
                         <li class="custom-li" th:text="${meetMember}"></li>
@@ -345,8 +368,6 @@ function deleteReview(email, meetListNum, meetReviewNum) {
                 </div>
             </div>
         </div>
-
-
     </div>
 
     <div class="yj-img2">
@@ -375,7 +396,7 @@ function deleteReview(email, meetListNum, meetReviewNum) {
                 <div class="card" style="width: 36rem; margin-bottom: 20px; border:none;">
                     <div class="card-body">
                         <div class="d-flex flex-column mb-2">
-                            <div class="round-image-rev mt-2">
+                            <div class="round-image-user mt-2">
                                 <img th:src="@{/image/gatchiImage/1111.jpg}" alt="유저프사(임의)"/>
                             </div>
                             <p class="memid" th:text="${meetReview.email}"></p>
@@ -387,12 +408,10 @@ function deleteReview(email, meetListNum, meetReviewNum) {
                         <p class="card-text d-flex" th:text="${#strings.substring(meetReview.meetReviewDate, 0, 16)}" style="color: #AAAAAA; font-size: 13px; position: absolute; top: 0; right: 0; margin-top: 31px; margin-right: 20px;"></p>
 
                         <span class="card-text d-flex delete-review" style="color: #AAAAAA; font-size: 13px; position: absolute; top: 0; right: 0; margin-top: 50px; margin-right: 20px;" th:if="${loginEmail == meetReview.email}" th:data-email="${meetReview.email}" th:data-meetListNum="${meetListNum}" th:data-meetReviewNum="${meetReview.meetReviewNum}" onclick="deleteReview(this.getAttribute('data-email'), this.getAttribute('data-meetListNum'), this.getAttribute('data-meetReviewNum'))">삭제</span>
-
                     </div>
                 </div>
             </div>
         </th:block>
-
     </div>
 
 

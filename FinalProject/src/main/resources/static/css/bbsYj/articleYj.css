@@ -238,7 +238,7 @@
     width: calc(70% - 8px);
 }
 
-.round-image-rev {
+.round-image-user {
     width: 30px;
     height: 30px;
     border-radius: 50%;
@@ -247,7 +247,7 @@
     margin-top: -30px;
 }
 
-.round-image-rev img {
+.round-image-user img {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -309,7 +309,6 @@
     transform: translateX(-50%);
 }
 
-/* 밑줄 */
 .btn-check:checked + .btn::before {
     border-radius: 0;
 }
@@ -325,6 +324,67 @@
     overflow-y: auto;
     padding: 15px 0px 15px 15px;
     border: 1px solid #E4EEF7;
+}
+
+.meet-mypage {
+    position: fixed;
+    margin-left: 20px;
+    width: 500px;
+    height: 500px;
+    background-color: #F9F9F9;
+    padding: 15px 0px 15px 15px;
+    border: 1px solid #E4EEF7;
+    left: 0;
+}
+
+.badge {
+    display: inline-block;
+    padding: 0.4em 0.5em;
+    font-size: 0.6em;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0.25rem;
+    color: #fff;
+    background-color: #6c757d;
+    margin-bottom: 20px;
+  }
+  .badge.primary {
+    background-color: #807373;
+  }
+  .badge.meetMate {
+    background-color: #1d65b2;
+  }
+  .badge.communiFind {
+    background-color: #00824a;
+  }
+
+.user-info-container {
+    display: flex;
+    align-items: center; /* 수직 정렬 설정 (센터) */
+}
+
+.round-image-login {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 10px;
+}
+
+.round-image-login img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.login-user-email {
+    font-size: 18px;
+    color: #383535;
+    font-weight: bold;
+    margin-right: 5px;
 }
 
 .meet-mem-list {
