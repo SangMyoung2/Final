@@ -26,10 +26,11 @@
     gap: 20px;
     margin: 25px 0px 0px 50px;
     height: 80px;
+    font-weight: 100;
   }
 
   .meetTitle_Sub{
-    margin-left: 175px;
+    margin-left: 50px;
     font-size: 20pt;
     margin-bottom: 30px;
   }
@@ -162,72 +163,6 @@
     position: relative;
   }
   
-  /* 사진 3개 뜨는데 5개로 바꿔보려고 잠시 주석처리함 에러뜨면 이거 살리면 돼
-  main .panel>li:nth-of-type(1) {
-    background: url('https://images.ctfassets.net/8cd2csgvqd3m/491YJNhkZ60sVK96uDCrlS/1009defbb0bee787645fe9b0ccf609e2/Natale_1.jpg?q=90&fm=webp&w=1440&h=808&fit=fill');
-    background-size: cover;
-    background-position: 80% 50%;
-    cursor: pointer;
-  }
-  
-  main .panel>li:nth-of-type(2) {
-    background: url('https://images.ctfassets.net/8cd2csgvqd3m/7icYc8IH1iTeaSxL4u9T0n/03b6ea278c2fa57dacaf37669ceca593/BH_landscape.jpg?q=90&fm=webp&w=1440&h=808&fit=fill') no-repeat;
-    background-size: cover;
-    background-position: top center;
-    cursor: pointer;
-  }
-  
-  main .panel>li:nth-of-type(3) {
-    background: url('https://images.ctfassets.net/8cd2csgvqd3m/0S2AMQsUvECSym8Vxy5XZ/b82d4a1c0f6d5cc51f31836673e87f3d/Hero_Hero.jpg?q=90&fm=webp&w=1440&h=808&fit=fill') no-repeat;
-    background-size: cover;
-    background-position: 30%;
-    cursor: pointer;
-  }
-  */
-
-
-  
-/*
-  main .panel>li:nth-of-type(1) {
-    background: url('/image/gatchiImage/${imageFileNames[0]}');/* Thymeleaf 변수 사용 
-    background-size: cover;
-    background-position: 80% 50%;
-    cursor: pointer;
-  }
-  
-  main .panel>li:nth-of-type(2) {
-    background: url('/image/gatchiImage/${imageFileNames[1]}') no-repeat;/* Thymeleaf 변수 사용 
-    background-size: cover;
-    background-position: top center;
-    cursor: pointer;
-  }
-  
-  main .panel>li:nth-of-type(3) {
-    background: url('/image/gatchiImage/${imageFileNames[2]}') no-repeat;/* Thymeleaf 변수 사용 
-    background-size: cover;
-    background-position: 20%;
-    cursor: pointer;
-  }
-  main .panel>li:nth-of-type(4) {
-    background: url('/image/gatchiImage/${imageFileNames[3]}') no-repeat;/* Thymeleaf 변수 사용
-    background-size: cover;
-    background-position: 20%;
-    cursor: pointer;
-  }
-  main .panel>li:nth-of-type(5) {
-    background: url('/image/gatchiImage/${imageFileNames[4]}') no-repeat;/* Thymeleaf 변수 사용 
-    background-size: cover;
-    background-position: 20%;
-    cursor: pointer;
-  }
-  */
-
-
-
-
-  
-
-/*여기까지가 테스트야*/
 
 .li2_img{
     max-height: 500px;
@@ -240,7 +175,7 @@
     justify-content: center;
     align-items: center;
 }
- 
+
 .li2_img .randomcard{
   width: 90%;
   align-self: center;
@@ -556,7 +491,7 @@
   }
   
   .card__status {
-    font-size: .8em;
+    font-size: .9em;
     color: #D7BDCA;
   }
   
@@ -704,12 +639,4 @@ margin: 0 10px;
 
 
 
- AUTO SCROLL 
 
-.fadein {
-	-webkit-animation: fadein 2s; /* Safari, Chrome and Opera > 12.1 */
-	-moz-animation: fadein 2s; /* Firefox < 16 */
-	-ms-animation: fadein 2s; /* Internet Explorer */
-	-o-animation: fadein 2s; /* Opera < 12.1 */
-	animation: fadein 2s;
-} 
