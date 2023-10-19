@@ -13,8 +13,6 @@ public interface MeetServiceYj {
 
     public GatchiDTO getMeetListInfo(int meetListNum) throws Exception;
 
-    public String getMeetDday(int meetListNum) throws Exception;
-
     public List<MeetReviewDTO> getReview(int meetListNum) throws Exception;
 
     public String getMeetMasterEmail(int meetListNum) throws Exception;
@@ -30,6 +28,8 @@ public interface MeetServiceYj {
     public void deleteMeetReview(MeetReviewDTO dto) throws Exception;
     
     public Integer getMemberStatus(MeetInfoDTO dto) throws Exception;
+
+    public int getMeetHow(int meetListNum) throws Exception;
 
     public void insertMeetJoinOk(MeetInfoDTO dto) throws Exception;
 

@@ -28,11 +28,6 @@ public class MeetServiceImplYj implements MeetServiceYj {
     }
 
     @Override
-    public String getMeetDday(int meetListNum) throws Exception {
-        return meetMapperYj.getMeetDday(meetListNum);
-    }
-
-    @Override
     public List<MeetReviewDTO> getReview(int meetListNum) throws Exception {
         return meetMapperYj.getReview(meetListNum);
     }
@@ -70,6 +65,11 @@ public class MeetServiceImplYj implements MeetServiceYj {
     @Override
     public Integer getMemberStatus(MeetInfoDTO dto) throws Exception {
         return meetMapperYj.getMemberStatus(dto);
+    }
+
+    @Override
+    public int getMeetHow(int meetListNum) throws Exception {
+        return meetMapperYj.getMeetHow(meetListNum);
     }
     
     @Override

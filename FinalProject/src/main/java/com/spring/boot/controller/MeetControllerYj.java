@@ -128,7 +128,8 @@ public class MeetControllerYj {
 
 				MeetReviewDTO.setMeetReviewImg(saveFileName); // 원본 이미지 파일 이름을 저장
 				MeetReviewDTO.setMeetReviewContent(meetReviewContent);
-				MeetReviewDTO.setMeetReviewDate(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+				MeetReviewDTO.setMeetReviewDate(sdf.format(new Date()));
 
 				int meetReviewNum = meetServiceYj.getReviewNum(meetListNum);
 				MeetReviewDTO.setMeetReviewNum(meetReviewNum);
@@ -136,7 +137,6 @@ public class MeetControllerYj {
 				meetServiceYj.insertMeetReview(MeetReviewDTO);
 				response = "success";
 				return response; // 리뷰 작성 성공 시 success 페이지로 리다이렉트
-
         } 
 
 		}else{
@@ -170,6 +170,7 @@ public class MeetControllerYj {
 	public ModelAndView manageYj(HttpServletRequest request) throws Exception {
 
 		int meetListNum = Integer.parseInt(request.getParameter("meetListNum"));
+		GatchiDTO meetListInfo = meetServiceYj.getMeetListInfo(Integer.parseInt(request.getParameter("meetListNum")));
 
 		List<String> meetMembers = meetServiceYj.getMeetMembers(meetListNum);
 		List<String> meetBlack = meetServiceYj.getMeetBlack(meetListNum);
@@ -180,6 +181,7 @@ public class MeetControllerYj {
 		mav.addObject("meetMembers", meetMembers);
 		mav.addObject("meetWait", meetWait);
 		mav.addObject("meetBlack", meetBlack);
+		mav.addObject("meetListInfo", meetListInfo);
 
 		String masterEmail = meetServiceYj.getMeetMasterEmail(meetListNum);
 		mav.addObject("masterEmail", masterEmail);
@@ -201,11 +203,19 @@ public class MeetControllerYj {
 		MeetInfoDTO MeetInfoDTO = new MeetInfoDTO();
 		MeetInfoDTO.setMeetListNum(meetListNum);
 		MeetInfoDTO.setEmail("kim"); // TODO : 세션에서 email 가져와야됨
-		MeetInfoDTO.setMeetMemStatus(0); //승인대기
-		meetServiceYj.insertMeetJoinOk(MeetInfoDTO);
-	
-		return mav;
-	}
+		
+		// meetHow 값에 따라 meetMemStatus 설정
+		int meetHow = meetServiceYj.getMeetHow(meetListNum);
+		if (meetHow == 1) {
+			MeetInfoDTO.setMeetMemStatus(2); // 선착순
+			meetServiceYj.incrementMeetMemCnt(meetListNum);
+		} else if (meetHow == 2) {
+			MeetInfoDTO.setMeetMemStatus(0); // 승인대기
+		}
+			meetServiceYj.insertMeetJoinOk(MeetInfoDTO);
+		
+			return mav;
+		}
 
 	// 방 나가기
 	@PostMapping("/out-meet")

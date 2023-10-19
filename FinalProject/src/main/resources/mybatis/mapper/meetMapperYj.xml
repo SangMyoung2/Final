@@ -13,17 +13,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     select * from gatchi where meetListNum = #{meetListNum}
 </select>
 
-<!-- <select id="getMeetDday" parameterType="int" resultType="String">
-    select to_char(to_date(meetDday,'yyyy-mm-dd'),'yyyymmdd') from gatchi where meetListNum = #{meetListNum} and meetStatus = 1
-</select> -->
-
 <select id="getMeetMasterEmail" parameterType="int" resultType="string">
     select email from meetInfo
     where meetListNum = #{meetListNum} and meetMemStatus = 1
 </select>
 
 <select id="getMeetMembers" parameterType="int" resultType="String">
-    select email from meetInfo where meetListNum = #{meetListNum} and meetMemStatus = 2 or meetMemStatus = 1 order by email asc
+    select email from meetInfo where meetListNum = #{meetListNum} and (meetMemStatus = 2 or meetMemStatus = 1) order by email asc
 </select>
 
 <update id="incrementMeetMemCnt" parameterType="int">
@@ -43,7 +39,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <insert id="insertMeetReview" parameterType="com.spring.boot.dto.MeetReviewDTO">
     insert into meetReview (meetListNum, meetReviewNum, email, meetReviewContent, meetReviewDate, meetReviewImg)
-    values (#{meetListNum}, #{meetReviewNum}, #{email}, #{meetReviewContent}, TO_DATE(#{meetReviewDate}, 'YYYY-MM-DD HH24:MI:SS'), #{meetReviewImg})
+    values (#{meetListNum}, #{meetReviewNum}, #{email}, #{meetReviewContent}, TO_DATE(#{meetReviewDate}, 'YYYY-MM-DD HH24:MI'), #{meetReviewImg})
 </insert>
 
 <select id="hasUserReviewed" parameterType="com.spring.boot.dto.MeetReviewDTO" resultType="int">
@@ -56,6 +52,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <select id="getMemberStatus" parameterType="com.spring.boot.dto.MeetInfoDTO" resultType="Integer">
     select meetMemStatus from meetInfo where meetListNum = #{meetListNum} and email = #{email}
+</select>
+
+<select id="getMeetHow" parameterType="int" resultType="int">
+    select meetHow from gatchi where meetListNum = #{meetListNum}
 </select>
 
 <insert id="insertMeetJoinOk" parameterType="com.spring.boot.dto.MeetInfoDTO">
@@ -76,19 +76,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     update gatchi set meetstatus = 2 where to_char(to_date(meetdday,'yyyy-mm-dd hh24:mi'),'yyyymmdd') < to_char(sysdate, 'yyyymmdd') and meetlistnum = #{meetListNum}
     ]]>
 </update>
-
-<!-- <update id="meetStatusCompletion" parameterType="com.spring.boot.dto.GatchiDTO">
-    update gatchi set meetStatus = 2 where meetListNum = #{meetListNum}
-</update> -->
-
-<!-- <update id="meetStatusCompletion" parameterType="com.spring.boot.dto.GatchiDTO">
-    <![CDATA[
-    UPDATE gatchi
-    SET meetStatus = 2
-    WHERE meetListNum = #{meetListNum}
-    AND TO_DATE(meetDday, 'YYYY-MM-DD') < SYSDATE
-    ]]>
-</update> -->
 
 <select id="getMeetStatus" parameterType="com.spring.boot.dto.GatchiDTO" resultType="int">
     select meetStatus from gatchi where meetListNum = #{meetListNum}

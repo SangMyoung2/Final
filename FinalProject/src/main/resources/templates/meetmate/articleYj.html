@@ -143,6 +143,7 @@
                             document.querySelector('#review-content').value = '';
                             document.querySelector('#review-image').value = ''; // 이미지 파일 선택 초기화
                             window.location.reload();
+
                         } else if (response === 'already-reviewed') {
                             alert('이미 리뷰를 작성하셨습니다.');
                             window.location.reload();
@@ -284,11 +285,15 @@ function deleteReview(email, meetListNum, meetReviewNum) {
                             <p class="Yj-text4 meet-money" th:text="${meetListInfo.meetMoney}"></p>원
                         </div>
                         
-                        <form th:with="meetMemStatus=${meetMemStatus}" th:if="${meetMemStatus < 0} and ${meetStatus == 1}">
+                        <form th:if="${meetMemStatus < 0} and ${meetStatus == 1} and ${meetListInfo.meetMemCnt<meetListInfo.meetMaxMemCnt}">
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button form="joinForm" type="submit" class="join-button">
                                가입하기
                             </button>
                         </form>
+
+                        <th:block th:if="${(meetListInfo.meetMemCnt >= meetListInfo.meetMaxMemCnt) and meetStatus == 1 and (meetMemStatus <0)}">
+                            <p style="font-size: 18px; color: red;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;모집 인원이 마감되었습니다.</p>
+                        </th:block>
                         
                         <th:block th:if="${meetStatus == 2}">
                             <p style="font-size: 18px; color: red;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;이미 종료된 모임입니다.</p>
@@ -297,7 +302,7 @@ function deleteReview(email, meetListNum, meetReviewNum) {
                             <input type="hidden" name="meetListNum" th:value="${meetListNum}"/>
                         </form>
 
-                        <form th:with="meetMemStatus=${meetMemStatus}" th:if="${meetMemStatus == 2} and ${meetStatus == 1}">
+                        <form th:if="${meetMemStatus == 2} and ${meetStatus == 1}">
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button form="outForm" type="submit" class="out-button">
                                 모임 나가기
                             </button>
@@ -335,7 +340,7 @@ function deleteReview(email, meetListNum, meetReviewNum) {
                         <li class="round-image-rev mt-2" style="margin-right: 10px; margin-left: -10px;">
                             <img th:src="@{/image/gatchiImage/1111.jpg}" alt="유저프사(임의)"/>
                         </li>
-                            <li class="custom-li" th:text="${meetMember}"></li>
+                        <li class="custom-li" th:text="${meetMember}"></li>
                     </div>
                 </div>
             </div>
@@ -379,7 +384,7 @@ function deleteReview(email, meetListNum, meetReviewNum) {
                             </div>
                         </div>
                         <p class="card-text" th:text="${meetReview.meetReviewContent}" style="padding-left: 10px; padding-right: 10px; text-align: justify; font-size: 18px; margin-bottom: 5px;"></p>
-                        <p class="card-text d-flex" th:text="${meetReview.meetReviewDate}" style="color: #AAAAAA; font-size: 13px; position: absolute; top: 0; right: 0; margin-top: 31px; margin-right: 20px;"></p>
+                        <p class="card-text d-flex" th:text="${#strings.substring(meetReview.meetReviewDate, 0, 16)}" style="color: #AAAAAA; font-size: 13px; position: absolute; top: 0; right: 0; margin-top: 31px; margin-right: 20px;"></p>
 
                         <span class="card-text d-flex delete-review" style="color: #AAAAAA; font-size: 13px; position: absolute; top: 0; right: 0; margin-top: 50px; margin-right: 20px;" th:if="${loginEmail == meetReview.email}" th:data-email="${meetReview.email}" th:data-meetListNum="${meetListNum}" th:data-meetReviewNum="${meetReview.meetReviewNum}" onclick="deleteReview(this.getAttribute('data-email'), this.getAttribute('data-meetListNum'), this.getAttribute('data-meetReviewNum'))">삭제</span>
 

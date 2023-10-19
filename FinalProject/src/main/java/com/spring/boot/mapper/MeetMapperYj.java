@@ -16,8 +16,6 @@ public interface MeetMapperYj {
 
     public GatchiDTO getMeetListInfo(int meetListNum) throws Exception;
 
-    public String getMeetDday(int meetListNum) throws Exception;
-
     public List<MeetReviewDTO> getReview(int meetListNum) throws Exception;
 
     public String getMeetMasterEmail(int meetListNum) throws Exception;
@@ -34,6 +32,8 @@ public interface MeetMapperYj {
 
     public Integer getMemberStatus(MeetInfoDTO dto) throws Exception;
     
+    public int getMeetHow(int meetListNum) throws Exception;
+
     public void insertMeetJoinOk(MeetInfoDTO dto) throws Exception;
 
     public void deleteMeetOut(MeetInfoDTO dto) throws Exception;
