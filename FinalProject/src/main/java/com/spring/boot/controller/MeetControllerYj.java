@@ -35,13 +35,14 @@ public class MeetControllerYj {
 
 	@GetMapping("/listYj.action")
 	public ModelAndView listYj() throws Exception {
-		List<MeetCategoryDTO> meetListInfo = meetServiceYj.getAllCategories();
+		List<MeetCategoryDTO> meetLists = meetServiceYj.getAllCategories();
 
 		ModelAndView mav = new ModelAndView();
-		if(meetListInfo != null){
-			meetListInfo = new ArrayList<>();
+		if (meetLists == null) {
+			meetLists = new ArrayList<>();
 		}
-		mav.addObject("meetListInfo", meetListInfo);
+		
+		mav.addObject("meetLists", meetLists);
 		mav.setViewName("bbs/listYj");
 
 		return mav;
