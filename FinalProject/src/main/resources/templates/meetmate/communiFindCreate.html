@@ -56,7 +56,7 @@
             th:value="${session.user1.name}" name="meetMemId" class="t1" readonly/>
 
             <label th:text="|${dto.meetCheck == 1 ? 'MeetMate' : 'CommuniFind'} 제목|"></label>
-            <input type="text" id="meetTitle" name="meetTitle" required placeholder="Title" class="t1" size="24" maxlength="24"/>
+            <input type="text" id="meetTitle" name="meetTitle" required placeholder="Title" class="t1" size="22" maxlength="22"/>
             
             <label th:text="|${dto.meetCheck == 1 ? 'MeetMate' : 'CommuniFind'} 내용|"></label>
             <div class="flex_wrap">
@@ -174,11 +174,12 @@
 
         <div class="Btn2">
             <button type="submit" class="createBtn" onclick="sendIt();">생성</button>
-            <button type="button" class="cancelBtn" onclick="javascript:location.href='/communiFindList';">취소</button>
+            <button type="button" class="cancelBtn" 
+                onclick="javascript:location.href='/communiFindList.action';">취소</button>
         </div>
-        <input type="hidden" th:value="${lat}" id="lat" name="lat"/>
-        <input type="hidden" th:value="${lng}" id="lng" name="lng"/>
-        <input type="hidden" th:value="${dto.meetPlace}" id="meetPlace" name="meetPlace"/>
+            <input type="hidden" th:value="${lat}" id="lat" name="lat"/>
+            <input type="hidden" th:value="${lng}" id="lng" name="lng"/>
+            <input type="hidden" th:value="${dto.meetPlace}" id="meetPlace" name="meetPlace"/>
         </form>
     </div>
 
@@ -349,7 +350,7 @@
         
             var meetCheck = parseInt(document.getElementById("meetCheck").value);
 
-            myForm.action = "/communiFindList";
+            myForm.action = "/communiFindList.action";
             myForm.submit();
         }
     }

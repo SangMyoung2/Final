@@ -13,14 +13,23 @@
 <link rel="icon" type="image/png" th:href="@{http://localhost:8080/image/로고.png}"/>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="http://localhost:8080/js/gatchi/meetMateList.js"></script>
+<script src="js/includeHTML.js"></script>
 
 </head>
 
 <body>
   
-  <!-- ★★★★★★ like DB에 담기는거 추가해야돼 ★★★★★★ -->
+  
   <div layout:fragment="content">    
   
+    <div class="meetTitle">
+      <img src="/image/gatchiImage/meetmateList.png"/>
+      <h1>CommuniFind에 오신걸 환영 합니다.</h1>
+    </div>
+    <div class="meetTitle_Sub">
+      <p>똑같은 일상을 다채롭게 만들어 줄 원데이 취향 모임</p>
+    </div>
+
     <div class="body7">
   
       <main>
@@ -117,15 +126,7 @@
     </div>
   </div>
   
-  
-  
-  <?php
-      $page = $_GET['page'];
-      if($page)
-      {
-          echo 'success';
-      }
-  ?>
+
   
   
   </body>

@@ -3,7 +3,7 @@ package com.spring.boot.service;
 import java.util.List;
 
 import com.spring.boot.dto.GatchiDTO;
-import com.spring.boot.dto.GatchiLikeDTO;
+import com.spring.boot.dto.MeetInfoDTO;
 
 public interface GatchiService {
 
@@ -11,7 +11,11 @@ public interface GatchiService {
 	
 	public void createGatchi(GatchiDTO dto) throws Exception;
 
+	public void createMeetInfo(MeetInfoDTO infoDTO) throws Exception;
+
 	public int maxNum() throws Exception;
+
+	public String masterPicture() throws Exception;
 	
 	public GatchiDTO getReadData(int meetListNum) throws Exception;
 
@@ -24,6 +28,7 @@ public interface GatchiService {
 	public List<GatchiDTO> getCommuniFindRandomList(int count) throws Exception;
 	
 	public List<GatchiDTO> getRownumList(int endList) throws Exception;
+	
 	public List<GatchiDTO> searchMeetMateList(String searchKey, String searchValue) throws Exception;
 
 

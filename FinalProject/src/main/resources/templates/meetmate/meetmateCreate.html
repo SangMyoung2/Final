@@ -18,7 +18,7 @@
 
     <h1 th:text="|${dto.meetCheck == 1 ? 'MeetMate' : 'CommuniFind'} 개설하기|"></h1>
 
-    <form action="meetMateCreate" method="POST" name="myForm" enctype="multipart/form-data" onsubmit="return validateForm();">
+    <form action="meetMateCreate.action" method="POST" name="myForm" enctype="multipart/form-data" onsubmit="return validateForm();">
     
         <label th:text="|${dto.meetCheck == 1 ? 'MeetMate' : 'CommuniFind'} 카테고리|"></label>
             <div id="wrap_ctgNum"> 
@@ -51,12 +51,12 @@
             <label th:text="|${dto.meetCheck == 1 ? 'MeetMate' : 'CommuniFind'} 마스터|"></label>
             <!-- <input type="text" id="meetMemId" name="meetMemId" value="세션에서받기" class="t1" readonly/> -->
             <input type="text" id="meetMemId" th:if="${#httpSession.getAttribute('user') != null}" 
-            th:value="${session.user.name}" name="meetMemId" class="t1" readonly/>
+                th:value="${session.user.name}" name="meetMemId" class="t1" readonly/>
             <input type="text" id="meetMemId" th:if="${#httpSession.getAttribute('user1') != null}" 
-            th:value="${session.user1.name}" name="meetMemId" class="t1" readonly/>
+                th:value="${session.user1.name}" name="meetMemId" class="t1" readonly/>
 
             <label th:text="|${dto.meetCheck == 1 ? 'MeetMate' : 'CommuniFind'} 제목|"></label>
-            <input type="text" id="meetTitle" name="meetTitle" required placeholder="Title" class="t1" size="24" maxlength="24"/>
+            <input type="text" id="meetTitle" name="meetTitle" required placeholder="Title" class="t1" size="22" maxlength="22"/>
             
             <label th:text="|${dto.meetCheck == 1 ? 'MeetMate' : 'CommuniFind'} 내용|"></label>
             <div class="flex_wrap">
@@ -73,13 +73,13 @@
             <label th:text="|${dto.meetCheck == 1 ? 'MeetMate' : 'CommuniFind'} 날짜|"></label>
             <div style="width: 118%;">
                 <input type="text" name="mDate" id="meetmateDateYear"
-                pattern="202[3-9]|20[3-9][0-9]" size="4" maxlength="4" required placeholder="YYYY" class="t2"/>
+                    pattern="202[3-9]|20[3-9][0-9]" size="4" maxlength="4" required placeholder="YYYY" class="t2"/>
                 <span>/</span>
                 <input type="text" name="mDate" id="meetmateDateMonth" pattern="0[1-9]|1[0-2]" 
-                size="2" maxlength="2" required placeholder="MM" class="t2" style="margin-left: 2px;"/>
+                    size="2" maxlength="2" required placeholder="MM" class="t2" style="margin-left: 2px;"/>
                 <span>/</span>
                 <input type="text" name="mDate" id="meetmateDateDay" pattern="0[1-9]|[1-2][0-9]|3[0-1]" 
-                size="2" maxlength="2" required placeholder="DD" class="t2" style="margin-left: 2px;"/>
+                    size="2" maxlength="2" required placeholder="DD" class="t2" style="margin-left: 2px;"/>
             </div>    
                 
             <label th:text="|${dto.meetCheck == 1 ? 'MeetMate' : 'CommuniFind'} 시간|"></label>
@@ -174,11 +174,12 @@
 
         <div class="Btn2">
             <button type="submit" class="createBtn" onclick="sendIt();">생성</button>
-            <button type="button" class="cancelBtn" onclick="javascript:location.href='/meetmateList';">취소</button>
+            <button type="button" class="cancelBtn" onclick="javascript:location.href='/meetMateList.action';">취소</button>
         </div>
         <input type="hidden" th:value="${lat}" id="lat" name="lat"/>
         <input type="hidden" th:value="${lng}" id="lng" name="lng"/>
         <input type="hidden" th:value="${dto.meetPlace}" id="meetPlace" name="meetPlace"/>
+        
         </form>
     </div>
 
@@ -227,6 +228,7 @@
 
     function validateForm() {
         var meetImage = document.getElementById("meetImage");
+
         if (meetImage.files.length === 0) {
             alert("메인으로 보여질 사진을 업로드해주세요.");
             return false; //사진 미선택시 form안넘어가게
@@ -342,18 +344,22 @@
 
         if (!imageCheck()) {
             alert('메인으로 보여질 사진을 업로드해주세요.');
+
         } else {
             how();
             entryfee();
         
             var meetCheck = parseInt(document.getElementById("meetCheck").value);
 
-            myForm.action = "/meetMateList";
+            var meetContent = document.getElementById('meetContent').value; 
+            meetContent = meetContent.replace(/\n/g, '<br/>');
+
+            //myForm.action = "/meetMateList.action";
             myForm.submit();
         }
     }
 
-    </script>
+</script>
 
 </body>
 </html>
