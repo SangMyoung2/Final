@@ -9,29 +9,33 @@
 <link rel="icon" type="image/png" th:href="@{http://localhost:8080/image/로고.png}"/>
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
-
+<script type="text/javascript" src="http://localhost:8080/js/customercenter/customerCenter.js"></script>
 </head>
 <body>
 
 <div layout:fragment="content">
 
+    <!-- 검색 상자와 검색 버튼 추가 -->
+    <input type="text" id="searchInput" placeholder="검색어 입력">
+    <button id="searchBtn">검색</button>
+    <br/><br/>
     <button data-subject="결제">결제</button>
     <button data-subject="소셜링">소셜링</button>
     <button data-subject="기타">기타</button>
     <button data-subject="인증/보안">인증/보안</button>
     
-    <div th:each="data : ${customerCenterData}">
+    <div th:each="data : ${customerCenterData}" th:attr="data-subject=${data.centerSubject}">
         <div>
             <strong>주제: </strong>
             <span th:text="${data.centerSubject}"></span>
         </div>
         <div>
             <strong>질문: </strong>
-            <span th:text="${data.centerQuestion}"></span>
+            <span th:text="${data.centerQuestion}" data-question></span>
         </div>
         <div>
             <strong>답변: </strong>
-            <span th:text="${data.centerAnswer}"></span>
+            <span th:text="${data.centerAnswer}" data-answer></span>
         </div>
         <hr/>
     </div>
