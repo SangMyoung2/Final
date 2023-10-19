@@ -73,7 +73,7 @@ public class ChatRoomController {
         
         // 로그인 된 유저 방만 찾기
         // 세션에 로그인된 아이디 받아와서 찾아주고
-
+        
         HttpSession session = req.getSession();
         Users user = (Users) session.getAttribute("user1");
         String userName = user.getName();

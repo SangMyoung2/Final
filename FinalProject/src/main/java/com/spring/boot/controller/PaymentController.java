@@ -48,8 +48,8 @@ public class PaymentController {
         
         // 결제가 완료되었으면, 해당 사용자의 포인트를 증가시킨다.
         userPointDTO userPoint = new userPointDTO();
-        userPoint.setEmail(sessionUser.getEmail());
-        userPoint.setPoint_balance(paymentInfoDTO.getPaid_amount()); // 결제금액만큼 포인트 증가
+        userPoint.setUseremail(sessionUser.getEmail());
+        userPoint.setPointBalance(paymentInfoDTO.getPaid_amount()); // 결제금액만큼 포인트 증가
         paymentService.updateUserPoint(userPoint);
         
         return new ResponseEntity<>("Payment data received successfully!", HttpStatus.OK);

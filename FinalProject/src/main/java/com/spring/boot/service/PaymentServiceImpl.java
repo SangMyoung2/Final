@@ -45,8 +45,8 @@ public class PaymentServiceImpl implements PaymentService {
         // 해당 이메일 주소를 사용하여 userPointDTO를 업데이트하기
         int currentBalance = paymentMapper.getUserPoint(email);
         userPointDTO userPoint = new userPointDTO();
-        userPoint.setEmail(email);
-        userPoint.setPoint_balance(currentBalance + paymentInfoDTO.getPaid_amount());
+        userPoint.setUseremail(email);
+        userPoint.setPointBalance(currentBalance + paymentInfoDTO.getPaid_amount());
         
         paymentMapper.updateUserPoint(userPoint);
         
@@ -74,8 +74,8 @@ public class PaymentServiceImpl implements PaymentService {
             }
 
             userPointDTO userPointDTO = new userPointDTO();
-            userPointDTO.setEmail(emailFromSession);
-            userPointDTO.setPoint_balance(-meetMoney);
+            userPointDTO.setUseremail(emailFromSession);
+            userPointDTO.setPointBalance(-meetMoney);
 
             updateUserPoint(userPointDTO);
 
@@ -89,6 +89,13 @@ public class PaymentServiceImpl implements PaymentService {
 
     }
 
+    @Override
+    public int getUserPoint(String useremail){
+        return paymentMapper.getUserPoint(useremail);
+    }
 
-
+    @Override
+    public void updateUserUsePoint(userPointDTO userPointDTO){
+        paymentMapper.updateUserUsePoint(userPointDTO);
+    }
 }

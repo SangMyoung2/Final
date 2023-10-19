@@ -27,17 +27,12 @@ public interface GatchiMapper {
 
 	public List<GatchiDTO> getRownumList(int end) throws Exception;
 	
-    //public void meetLikes(int meetListNum) throws Exception;
-
-	
-	// public int getDataCount(String searchKey, String searchValue) throws Exception;
-	
-	// public List<MeetmateDTO> getLists(int start, int end, String searchKey, String searchValue);
-		
-	// public void updateHitCount(int num) throws Exception;	
-	
-	// public void updateData(MeetmateDTO dto) throws Exception;
-	
-	// public void deleteData(int num) throws Exception;
+	public void plusMeetCount(int meetListNum) throws Exception;
     
+	public void minusMeetCount(int meetListNum) throws Exception;
+
+	public List<GatchiDTO> getReadDataInUser(String useremail) throws Exception;
+
+	public List<GatchiDTO> getReadDataInListNum(int meetListNum) throws Exception;
+	
 }

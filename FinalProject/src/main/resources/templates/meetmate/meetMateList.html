@@ -99,19 +99,16 @@
   </div>
 <br/><br/><br/>
 
-
-
-
-
   <div class="c2">
     <ul class="cards">
       
       <li name="meetLists" class="meetList_hidden" th:each="items : ${meetLists}">
           <div class="card">
-            <div id="heart" class="heart" name="likeBtn">
-              <input type="hidden" th:value="${items.meetListNum}">
-            </div>
-            <a href="#">
+
+            <input type="checkbox" th:id="'heartBtn' + ${items.meetListNum}" class="heartBtn" name="likeBtn" th:value="${items.meetListNum}">
+            <label th:for="'heartBtn' + ${items.meetListNum}" th:id="'likeBtnLabel' + ${items.meetListNum}" class="heart"></label>
+
+            <a th:href="@{'articleYj.action?meetListNum=' + ${items.meetListNum}}">
               <img th:src="@{|/image/gatchiImage/${items.meetImage}|}" class="card__image" alt="" />  <!-- 클릭하면 article로 넘어가게 -->
             </a>
             <div class="card__overlay">
@@ -160,32 +157,6 @@
 
 </div>
 
-
-<!-- 
-<?php
- // 이 부분에서 필요한 데이터베이스 연결 및 쿼리 수행을 수행합니다.
-// 예를 들어, 데이터베이스로부터 카드 데이터를 가져와야 합니다. 
-
- // 페이지 및 페이지당 항목 수 설정 --
-$page = $_GET['page']; !-- // AJAX 요청에서 전달된 페이지 번호 
-$itemsPerPage = 8; -- // 페이지당 아이템 수 
-
- // 데이터베이스에서 데이터 가져오기 
-$start = ($page - 1) * $itemsPerPage;
-$query = "SELECT * FROM your_table WHERE meetCheck = 1 ORDER BY meetListNum DESC LIMIT $start, $itemsPerPage";
-$result = mysqli_query($connection, $query);
-
-// 결과를 배열로 변환 
-$data = array();
-while ($row = mysqli_fetch_assoc($result)) {
-    $data[] = $row;
-}
-
- // JSON 형식으로 데이터 반환 --
-header('Content-Type: application/json');
-echo json_encode($data);
-mysqli_close($connection);
-?>  -->
 </body>
 
 </html>

@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -22,14 +23,30 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.spring.boot.dto.GatchiDTO;
 import com.spring.boot.dto.MeetDTOYj;
+import com.spring.boot.dto.PointHistoryDTO;
+import com.spring.boot.dto.userPointDTO;
+import com.spring.boot.model.Users;
+import com.spring.boot.service.GatchiService;
 import com.spring.boot.service.MeetServiceYj;
+import com.spring.boot.service.PaymentService;
+import com.spring.boot.service.PointHistoryService;
 
 @RestController
 public class MeetControllerYj {
     
 	@Autowired
 	private MeetServiceYj meetServiceYj;
+
+	@Autowired
+	private PaymentService paymentService;
+
+	@Autowired
+	private PointHistoryService pointHistoryService;
+
+	@Autowired
+	private GatchiService gatchiService;
 
 	@GetMapping("/listYj.action")
 	public ModelAndView listYj() throws Exception {
@@ -117,7 +134,7 @@ public class MeetControllerYj {
 
 				int meetReviewNum = meetServiceYj.getReviewNum(meetListNum);
 				dto.setMeetReviewNum(meetReviewNum);
-
+				
 				meetServiceYj.insertMeetReview(dto);
 				response = "success";
 				return response; // 리뷰 작성 성공 시 success 페이지로 리다이렉트
@@ -177,14 +194,40 @@ public class MeetControllerYj {
 	}
 
 	// 방 가입
-	@PostMapping("/join-meet")
+	@GetMapping("/join-meet")
 	public ModelAndView  joinMeet(HttpServletRequest request,
 			@RequestParam("meetListNum") int meetListNum) throws Exception {
 
 		ModelAndView mav = new ModelAndView("redirect:/articleYj.action?meetListNum=" + meetListNum);
 
 		//String email = (String) request.getSession().getAttribute("email"); //세션
-	
+		System.out.println("join-meet 들어옴");
+
+		HttpSession session = request.getSession();
+		Users user = (Users) session.getAttribute("user1");
+		String useremail = user.getEmail();
+		
+		// 사용자가 현재 가지고 있는 포인트
+		int userPoint = paymentService.getUserPoint(useremail);
+		
+		GatchiDTO gatchiDto = gatchiService.getReadData(meetListNum);
+		
+		// 유저 포인트 감소
+		userPointDTO userpointDTO = new userPointDTO();
+		userpointDTO.setUseremail(useremail);
+		userpointDTO.setPointBalance(gatchiDto.getMeetMoney());
+		paymentService.updateUserUsePoint(userpointDTO);
+
+		// 히스토리 업데이트(추가)
+		PointHistoryDTO pointDto = new PointHistoryDTO();
+		pointDto.setUseremail(useremail);
+		pointDto.setUseType(1);
+		pointDto.setUsePoint(gatchiDto.getMeetMoney());
+		pointDto.setPointUseHistory(gatchiDto.getMeetTitle());
+		pointDto.setAfterPoint(userPoint);
+		pointDto.setBeforPoint(userPoint - gatchiDto.getMeetMoney());
+		pointHistoryService.insertPointHistory(pointDto);
+
 		MeetDTOYj dto = new MeetDTOYj();
 		dto.setMeetListNum(meetListNum);
 		dto.setEmail("kim"); // TODO : 세션에서 email 가져와야됨
@@ -205,8 +248,8 @@ public class MeetControllerYj {
 		dto.setMeetListNum(meetListNum);
 		dto.setEmail(email);
 
-		meetServiceYj.acceptToWaitlist(dto);
-		meetServiceYj.incrementMeetMemCnt(meetListNum);
+		meetServiceYj.acceptToWaitlist(dto); //멤버 상태(2로)변경
+		meetServiceYj.incrementMeetMemCnt(meetListNum);//방인원수 증가
 		
 		return new ModelAndView("redirect:/managerYj.action?meetListNum=" + meetListNum);
 	}
@@ -255,6 +298,35 @@ public class MeetControllerYj {
 		meetServiceYj.releaseFromBlacklist(dto);
 
 		return new ModelAndView("redirect:/managerYj.action?meetListNum=" + meetListNum);
+	}
+
+	// 포인트 있는지 확인
+	@PostMapping("/checkuserpoint")
+	public Boolean checkUserMoney(HttpServletRequest req, @RequestParam("meetMoney") String meetMoney){
+		HttpSession session = req.getSession();
+		Users user = (Users) session.getAttribute("user1");
+		String useremail = user.getEmail();
+		System.out.println("유저 이메일 : " + useremail);
+		System.out.println("포인트 체크 하는 곳");
+		int userPoint = paymentService.getUserPoint(useremail);
+		int money = Integer.parseInt(meetMoney);
+
+		System.out.println("유저 포인트 : " + userPoint);
+		System.out.println("meetMoney = " + meetMoney);
+
+		if(userPoint < money){
+			return false;
+		}
+		return true;
+	}
+
+	// 가입 취소시 
+	@PostMapping("/joincancel")
+	public ModelAndView joinCancel(){
+
+		
+
+		return null;
 	}
 
 }

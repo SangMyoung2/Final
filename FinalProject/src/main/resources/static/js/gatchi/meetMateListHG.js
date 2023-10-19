@@ -1,9 +1,5 @@
 
-//>>>>>>메인 슬라이드
-$(document).ready(function() {
-  slide();
-  heartClickBtn();
-});
+
 
 function slide() {
   var wid = 0;
@@ -185,37 +181,13 @@ jQuery('#selectBox').change(function() {
 
 
 
-//좋아요버튼 애니메이션
-var isLike = false
-function heartClickBtn(){
-  let h = document.getElementsByName('likeBtn');
-
-  for(let i=0; i<h.length; i++){
-    h[i].addEventListener('click', function(){
-      isLike = !isLike
-    if(isLike){
-          $(this).toggleClass('is_animating');
-          $(this).addClass('like')
-      }
-      else{
-          $(this).removeClass('like')
-      }
-    });
-  }
-
-  $(".heart").on('animationend', function(){
-    $(this).toggleClass('is_animating');
-  });
-}
-
-
 let endList = 8;
-let scrollY = 1200;
+let scrollY = 1300;
 //1850;
 // 1200
 function handleScroll() {
 
-  if(window.scrollY >= scrollY){
+  if(window.scrollY > scrollY){
     scrollY += scrollY;
     endList += endList;
 
@@ -229,34 +201,121 @@ function handleScroll() {
 
 }
 
-//좋아요
-function heartClick(){
 
-  let heartElements = document.getElementsByName('likeBtn')
-  
-  for(let i=0; i<heartElements.length; i++){
-    console.log(heartElements[i].firstElementChild.value);
 
-    heartElements[i].addEventListener('click', function(){
-      console.log(heartElements[i].firstElementChild.value)
-      // 누르면 서버로 보내서 카운트 ++
-      const xhr = new XMLHttpRequest();
-      xhr.open('GET', '/meet/likeBtn', true);
-      
-      xhr.onload = function(){
-        if(xhr.status === 200){
-          console.log('좋아요 성공');
+//좋아요버튼 애니메이션
+var isLike = false
+function heartClickBtn(){
+  let h = document.getElementsByName('likeBtn');
+
+  for(let i=0; i<h.length; i++){
+      h[i].addEventListener('change', function(){
+        let num = h[i].value;
+        console.log("change" + num);
+        let heartLabel = document.getElementById('likeBtnLabel' + num);
+        if(h[i].checked){
+          heartLabel.classList.toggle('is_animating');
+          heartLabel.classList.add('like');
+          plusLike(num);
+        }else{
+          heartLabel.classList.remove('like')
+          minusLike(num);
         }
-        else{
-          console.log('좋아요 실패')
-        }
-      };
-
-
     });
   }
-    
+
+  $(".heart").on('animationend', function(){
+    $(this).toggleClass('is_animating');
+  });
 }
+
+
+
+//좋아요
+function plusLike(num){
+
+  // let heartElements = document.getElementsByName('likeBtn')
+  console.log(num)
+  
+      // 누르면 서버로 보내서 카운트 ++
+      fetch('/meet/plusLike', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ 'meetListNum': num}),
+      })
+      .then(response => {
+        if (response.status === 200) {
+          console.log('요청이 성공했습니다.');
+        } else {
+          console.error('요청이 실패했습니다.');
+        }
+      });
+  }
+
+
+//안좋아요
+function minusLike(num){
+
+  // let heartElements = document.getElementsByName('likeBtn')
+  console.log(num)
+  
+      // 누르면 서버로 보내서 카운트 ++
+      fetch('/meet/minusLike', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ 'meetListNum': num}),
+      })
+      .then(response => {
+        if (response.status === 200) {
+          console.log('요청이 성공했습니다.');
+        } else {
+          console.error('요청이 실패했습니다.');
+        }
+      });
+  }
+
+  function loadLike(num){
+
+    // let heartElements = document.getElementsByName('likeBtn')
+    console.log(num)
+    
+        // 누르면 서버로 보내서 카운트 ++
+        fetch('/meet/loadLikeData', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+        .then(response => {
+          if (response.status === 200) {
+            console.log('요청이 성공했습니다.');
+            return response.json();
+          } else {
+            console.error('요청이 실패했습니다.');
+          }
+        })
+        .then(data => {
+          console.log(data);
+          checkLike(data);
+        });
+    }
+
+function checkLike(data){
+
+  for(let i=0; i<data.length; i++){
+    console.log(data[i]);
+    let likeBtn = document.getElementById("likeBtnLabel" + data[i]);
+    let likecheck = document.getElementById("heartBtn" + data[i]);
+
+    likeBtn.classList.add('like');
+    likecheck.checked = true;
+  }
+}
+
 
 function meetList(){
   let cards = document.getElementsByName('meetLists');
@@ -269,6 +328,9 @@ function meetList(){
 window.addEventListener('scroll', handleScroll);
 
 window.onload = function() {
-  heartClick();
+  
   meetList();
+  slide();
+  heartClickBtn();
+  loadLike();
 }

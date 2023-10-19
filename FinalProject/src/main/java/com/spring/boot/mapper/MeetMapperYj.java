@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.spring.boot.dto.GatchiLikeDTO;
 import com.spring.boot.dto.MeetDTOYj;
 
 @Mapper

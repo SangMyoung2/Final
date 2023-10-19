@@ -22,10 +22,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	select nvl(max(meetListNum),0) from gatchi
 </select>
 
-<!-- <select id="getReadData" parameterType="int" resultType="com.spring.boot.dto.GatchiDTO">
+<select id="getReadData" parameterType="int" resultType="com.spring.boot.dto.GatchiDTO">
 	select * from gatchi 
 	where meetListNum=#{meetListNum}
-</select> -->
+</select>
 
 <select id="getMeetMateLists" resultType="com.spring.boot.dto.GatchiDTO">
 	select * from gatchi where meetCheck = 1
@@ -59,7 +59,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	(select ROWNUM rnum, data.* from (
 	select * from GATCHI
 	where MEETTITLE like '%%') data)
-	where rnum >= 1 and rnum <= ${end}
+	where rnum >= 1 and rnum <= #{end}
 	]]>
 </select>
 
@@ -67,14 +67,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <select id="searchMeetMateList" parameterType="map" resultType="com.spring.boot.dto.GatchiDTO">
     SELECT * FROM gatchi
     WHERE 
-	<!-- (
-		(CASE 
-			WHEN #{searchKey} = 'meetTitle' THEN meetTitle
-			WHEN #{searchKey} = 'meetDday' THEN meetDday
-			WHEN #{searchKey} = 'meetPlace' THEN meetPlace
-			ELSE ''
-		END) LIKE CONCAT('%', #{searchValue}, '%')
-	) -->    
+
 	(
         (#{searchKey} = 'meetTitle' AND meetTitle LIKE '%' || #{searchValue} || '%')
         OR
@@ -84,63 +77,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     )
 </select>
 
-
-<!--
-<select id="meetLikes" parameterType="int">
-	select count(*) from gatchiLike 
-	where meetListNum = ${meetListNum} and userEmail = ${userEmail}
-</select>
-
-<insert id="meetLikeUp">
-	insert into gatchiLike (meetListNum,likeCount,userEmail)
-	values (#{meetListNum}, #{likecount}=#{likecount}+1, #{userEmail})
-</insert>
--->
-
-<!--
-public void createMeetmate(MeetmateDTO dto) throws Exception;
-
-
-<update id="updateHitCount" parameterType="int">
-	update board set hitCount=hitCount+1 where num=#{num}
+<update id="plusMeetCount" parameterType="int">
+	update gatchi set meetlikecount = meetlikecount + 1
+	where meetListNum = #{meetListNum}
 </update>
 
-<insert id="insertData" parameterType="com.spring.boot.dto.BoardDTO">
-	insert into board(num,name,pwd,email,subject,content,ipAddr,
-	hitCount,created) values (#{num},#{name},#{pwd},#{email},
-	#{subject},#{content},#{ipAddr},0,sysdate)
-</insert>
-
- map이나 hashMap이나 모두 사용가능 
-<select id="getLists" parameterType="hashMap" resultType="com.spring.boot.dto.BoardDTO">
-	select * from (
-	select rownum rnum, data.* from (
-	select num,name,subject,hitCount,to_char(created,'YYYY-MM-DD') created from board 
-	where ${searchKey} like '%' || #{searchValue} || '%'
-	order by num desc) data)
-<![CDATA[
-	where rnum>=#{start} and rnum<=#{end}
-]]>
-</select>
-
-<select id="getDataCount" parameterType="map" resultType="int">
-	select nvl(count(*),0) from board
-	where ${searchKey} like '%' || #{searchValue} || '%'
-</select>
-
-
-
-
-<update id="updateData" parameterType="com.spring.boot.dto.BoardDTO">
-	update board set name=#{name},pwd=#{pwd},email=#{email},
-	subject=#{subject},content=#{content} where num=#{num}
+<update id="minusMeetCount" parameterType="int">
+	update gatchi set meetlikecount = meetlikecount - 1
+	where meetListNum = #{meetListNum} and
+	<![CDATA[
+	(select MEETLIKECOUNT from gatchi where meetListNum = #{meetListNum}) > 0
+	]]>
 </update>
 
-<delete id="deleteData" parameterType="int">
-	delete board where num=#{num}
-</delete>
+<select id="getReadDataInUser" parameterType="String" resultType="com.spring.boot.dto.GatchiDTO">
+	select * from gatchi
+	where MEETLISTNUM = (select MEETLISTNUM from gatchiLike where useremail = #{useremail})
+</select>
 
+<select id="getReadDataInListNum" parameterType="int" resultType="com.spring.boot.dto.GatchiDTO">
+	select * from GATCHI
+	where meetListNum = #{meetListNum}
+</select>
 
--->
 
 </mapper>
