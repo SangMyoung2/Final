@@ -22,4 +22,5 @@ public class GatchiDTO {
     private int meetEntryfee; //1기본참가비있음 2없음
     public int meetMoney; //참가비금액
     private String meetPlace; //모임장소
+    private int meetStatus; //0삭제 1현재 2완료
 }

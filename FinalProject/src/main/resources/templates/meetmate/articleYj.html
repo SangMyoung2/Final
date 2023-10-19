@@ -25,6 +25,7 @@
     document.addEventListener('DOMContentLoaded', function() {
         var homeButton = document.querySelector('#btnradio1');
         var reviewButton = document.querySelector('#btnradio2');
+        var meetStatus = document.querySelector('#meetStatus').value;  // meetStatus를 가져옴
 
         if (window.location.hash === '#review') {
             // 리뷰 버튼이 선택된 상태로 초기화
@@ -43,10 +44,16 @@
         });
 
         reviewButton.addEventListener('click', function() {
+        if (meetStatus === "1") {
+            alert('현재 진행 중인 모임입니다. \n\n※리뷰는 모임이 완료된 후 작성하실 수 있습니다.');
+            homeButton.checked = true;
+            showHomeContent();
+        } else {
             window.location.hash = '#review';
             showReviewContent();
-        });
+        }
     });
+});
 
     // 홈 내용 표시 함수
     function showHomeContent() {
@@ -69,7 +76,25 @@
     //         joinButton.addEventListener('click', function() {
     //         alert('가입 신청이 완료되었습니다.');
     //         });
-    //     });
+    // });
+
+    document.addEventListener('DOMContentLoaded', function() {
+
+        var outButton = document.querySelector('.out-button');
+        
+        outButton.addEventListener('click', function() {
+            alert('모임을 나가시겠습니까?');
+            });
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+
+        var deleteButton = document.querySelector('.delete-button');
+        
+        deleteButton.addEventListener('click', function() {
+            alert('모임을 삭제하시겠습니까?');
+            });
+    });
 
     document.addEventListener('DOMContentLoaded', function() {
 
@@ -118,8 +143,10 @@
                             document.querySelector('#review-content').value = '';
                             document.querySelector('#review-image').value = ''; // 이미지 파일 선택 초기화
                             window.location.reload();
+
                         } else if (response === 'already-reviewed') {
                             alert('이미 리뷰를 작성하셨습니다.');
+                            window.location.reload();
                         }
                     },
                     error: function(xhr, status, error) {
@@ -239,6 +266,18 @@ function joinCancel(){
     }
 }
 
+    function inputNumberWithComma(str) {
+        str = String(str);
+        return str.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var meetMoneyElement = document.querySelector('.meet-money');
+        var meetMoneyValue = meetMoneyElement.textContent;
+        var formattedMeetMoney = inputNumberWithComma(meetMoneyValue);
+
+        meetMoneyElement.textContent = formattedMeetMoney;
+    });
 
 </script>
 
@@ -268,6 +307,7 @@ function joinCancel(){
                 <span style="color: black;">리뷰</span>
                 <div class="underline"></div> <!-- 밑줄 요소 추가 -->
             </label>
+            <input type="hidden" id="meetStatus" th:value="${meetStatus}">
         </div>
     </div>
 
@@ -281,12 +321,8 @@ function joinCancel(){
                         <div class="round-image">
                             <img th:src="@{/image/gatchiImage/1111.jpg}" alt="방장프사(임의)"/>
                         </div>
-                        <p class="Yj-master" th:text="${masterEmail}"></p>
-                        <!-- <p class="Yj-master">김명란</p> -->
-                        <!-- <div class="Yj-master" th:each="meetMember : ${meetMembers}">
-                            <p th:if="${meetMemStatus == 1}" th:text="${meetMember}"></p>
-                        </div> -->
-                        <p class="Yj-title" id="meetTitle" th:text="${meetListInfo.meetTitle}"></p>
+                        <p class="Yj-master" th:text="${masterEmail2}"></p>
+                        <p class="Yj-title" th:text="${meetListInfo.meetTitle}"></p>
                     </div>
                     <div class="main-text">
                         <p class="Yj-text1" th:text="${meetListInfo.meetContent}"></p>
@@ -301,25 +337,49 @@ function joinCancel(){
                             <p class="Yj-text3" th:text="${meetListInfo.meetMaxMemCnt}"></p>
                         </div>
 
-                        <div class="yj-inwon">가입비(회비)</div>
+                        <div class="yj-money">가입비 (회비)</div>
                         <div class="text-container">
-                            <p id="meetMoney" class="Yj-text3" th:text="${meetListInfo.meetMoney}"></p>
+                            <p class="Yj-text4 meet-money" th:text="${meetListInfo.meetMoney}"></p>원
                         </div>
                         
-                        <form th:with="meetMemStatus=${meetMemStatus}" th:if="${meetMemStatus &lt; 0}">
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button form="joinForm" type="button" class="join-button" onclick="joinMeet()">
+                        <form th:if="${meetMemStatus < 0} and ${meetStatus == 1} and ${meetListInfo.meetMemCnt<meetListInfo.meetMaxMemCnt}">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button form="joinForm" type="submit" class="join-button">
                                가입하기
                             </button>
                         </form>
-                        <form th:with="meetMemStatus=${meetMemStatus}" th:if="${meetMemStatus == 0}">
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button form="joinForm" type="button" class="join-button" onclick="joinCancel()">
-                               가입취소
+
+                        <th:block th:if="${(meetListInfo.meetMemCnt >= meetListInfo.meetMaxMemCnt) and meetStatus == 1 and (meetMemStatus <0)}">
+                            <p style="font-size: 18px; color: red;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;모집 인원이 마감되었습니다.</p>
+                        </th:block>
+                        
+                        <th:block th:if="${meetStatus == 2}">
+                            <p style="font-size: 18px; color: red;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;이미 종료된 모임입니다.</p>
+                        </th:block>
+                        <form id="joinForm" action="/join-meet" method="post">
+                            <input type="hidden" name="meetListNum" th:value="${meetListNum}"/>
+                        </form>
+
+                        <form th:if="${meetMemStatus == 2} and ${meetStatus == 1}">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button form="outForm" type="submit" class="out-button">
+                                모임 나가기
                             </button>
                         </form>
-                        <form id="joinForm" action="" method="post">
-                            <input type="hidden" name="meetListNum" id="meetListNum" th:value="${meetListNum}"/>
+                        <form id="outForm" action="/out-meet" method="post">
+                            <input type="hidden" name="meetListNum" th:value="${meetListNum}"/>
+                            <input type="hidden" name="email" th:value="${dto.email}"/>
                         </form>
                         
+                        <form th:with="meetMemStatus=${meetMemStatus}" th:if="${meetMemStatus == 1} and ${meetStatus == 1}">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button form="deleteForm" type="submit" class="delete-button">
+                                모임 삭제
+                            </button>
+                        </form>
+                        <form id="deleteForm" action="/delete-meet" method="post">
+                            <input type="hidden" name="meetListNum" th:value="${meetListNum}"/>
+                        </form>
+                        <th:block th:if="${meetStatus == 1 and meetMemStatus == 0}">
+                            <p style="font-size: 18px; color: rgb(0, 68, 255);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;가입 승인 대기 중입니다.</p>
+                        </th:block>
                         
                     </div>
                 </div>
@@ -337,7 +397,7 @@ function joinCancel(){
                         <li class="round-image-rev mt-2" style="margin-right: 10px; margin-left: -10px;">
                             <img th:src="@{/image/gatchiImage/1111.jpg}" alt="유저프사(임의)"/>
                         </li>
-                            <li class="custom-li" th:text="${meetMember}"></li>
+                        <li class="custom-li" th:text="${meetMember}"></li>
                     </div>
                 </div>
             </div>
@@ -349,7 +409,7 @@ function joinCancel(){
     <div class="yj-img2">
         <div class="review-title">REVIEW</div>
         <div class="review-sub">이 모임 유저의 생생한 후기를 만나보세요!</div>
-        <div class="review-write" th:if="${meetMemStatus == 1 or meetMemStatus == 2}">작성하기</div>
+        <div class="review-write" th:if="${meetStatus == 2 and (meetMemStatus == 1 or meetMemStatus == 2)}">작성하기</div>
         <form action="/upload-review" method="POST" enctype="multipart/form-data">
             <div class="review-form" style="display: none;">
                 <div class="review-input">
@@ -381,7 +441,7 @@ function joinCancel(){
                             </div>
                         </div>
                         <p class="card-text" th:text="${meetReview.meetReviewContent}" style="padding-left: 10px; padding-right: 10px; text-align: justify; font-size: 18px; margin-bottom: 5px;"></p>
-                        <p class="card-text d-flex" th:text="${meetReview.meetReviewDate}" style="color: #AAAAAA; font-size: 13px; position: absolute; top: 0; right: 0; margin-top: 31px; margin-right: 20px;"></p>
+                        <p class="card-text d-flex" th:text="${#strings.substring(meetReview.meetReviewDate, 0, 16)}" style="color: #AAAAAA; font-size: 13px; position: absolute; top: 0; right: 0; margin-top: 31px; margin-right: 20px;"></p>
 
                         <span class="card-text d-flex delete-review" style="color: #AAAAAA; font-size: 13px; position: absolute; top: 0; right: 0; margin-top: 50px; margin-right: 20px;" th:if="${loginEmail == meetReview.email}" th:data-email="${meetReview.email}" th:data-meetListNum="${meetListNum}" th:data-meetReviewNum="${meetReview.meetReviewNum}" onclick="deleteReview(this.getAttribute('data-email'), this.getAttribute('data-meetListNum'), this.getAttribute('data-meetReviewNum'))">삭제</span>
 

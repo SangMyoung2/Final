@@ -5,11 +5,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="com.spring.boot.mapper.MeetMapperYj">
 
-<select id="getAllCategories" resultType="com.spring.boot.dto.MeetDTOYj">
+<select id="getAllCategories" resultType="com.spring.boot.dto.MeetCategoryDTO">
     select * from meetCategory order by meetCtgNum asc
 </select>
 
-<select id="getMeetListInfo" parameterType="int" resultType="com.spring.boot.dto.MeetDTOYj">
+<select id="getMeetListInfo" parameterType="int" resultType="com.spring.boot.dto.GatchiDTO">
     select * from gatchi where meetListNum = #{meetListNum}
 </select>
 
@@ -19,14 +19,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </select>
 
 <select id="getMeetMembers" parameterType="int" resultType="String">
-    select email from meetInfo where meetListNum = #{meetListNum} and meetMemStatus = 2 or meetMemStatus = 1 order by email asc
+    select email from meetInfo where meetListNum = #{meetListNum} and (meetMemStatus = 2 or meetMemStatus = 1) order by email asc
 </select>
 
 <update id="incrementMeetMemCnt" parameterType="int">
     update gatchi set meetMemCnt = meetMemCnt + 1 where meetListNum = #{meetListNum}
 </update>
 
-<select id="getReview" parameterType="int" resultType="com.spring.boot.dto.MeetDTOYj">
+<select id="getReview" parameterType="int" resultType="com.spring.boot.dto.MeetReviewDTO">
     select * from meetReview where meetListNum = #{meetListNum}
     order by meetReviewNum desc
 </select>
@@ -37,38 +37,60 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     where meetListNum = #{meetListNum}
 </select>
 
-<insert id="insertMeetReview" parameterType="com.spring.boot.dto.MeetDTOYj">
+<insert id="insertMeetReview" parameterType="com.spring.boot.dto.MeetReviewDTO">
     insert into meetReview (meetListNum, meetReviewNum, email, meetReviewContent, meetReviewDate, meetReviewImg)
-    values (#{meetListNum}, #{meetReviewNum}, #{email}, #{meetReviewContent}, TO_DATE(#{meetReviewDate}, 'YYYY-MM-DD HH24:MI:SS'), #{meetReviewImg})
+    values (#{meetListNum}, #{meetReviewNum}, #{email}, #{meetReviewContent}, TO_DATE(#{meetReviewDate}, 'YYYY-MM-DD HH24:MI'), #{meetReviewImg})
 </insert>
 
-<select id="hasUserReviewed" parameterType="com.spring.boot.dto.MeetDTOYj" resultType="int">
+<select id="hasUserReviewed" parameterType="com.spring.boot.dto.MeetReviewDTO" resultType="int">
     select count(*) from meetReview where email = #{email} and meetListNum = #{meetListNum}
 </select>
 
-<delete id="deleteMeetReview" parameterType="com.spring.boot.dto.MeetDTOYj">
+<delete id="deleteMeetReview" parameterType="com.spring.boot.dto.MeetReviewDTO">
     delete from meetReview where meetListNum = #{meetListNum} and meetReviewNum = #{meetReviewNum} and email = #{email}
 </delete>
 
-<select id="getMemberStatus" parameterType="com.spring.boot.dto.MeetDTOYj" resultType="Integer">
+<select id="getMemberStatus" parameterType="com.spring.boot.dto.MeetInfoDTO" resultType="Integer">
     select meetMemStatus from meetInfo where meetListNum = #{meetListNum} and email = #{email}
 </select>
 
-<insert id="insertMeetJoinOk" parameterType="com.spring.boot.dto.MeetDTOYj">
+<select id="getMeetHow" parameterType="int" resultType="int">
+    select meetHow from gatchi where meetListNum = #{meetListNum}
+</select>
+
+<insert id="insertMeetJoinOk" parameterType="com.spring.boot.dto.MeetInfoDTO">
     insert into meetInfo (meetListNum, email, meetMemStatus)
     values (#{meetListNum}, #{email}, #{meetMemStatus})
 </insert>
+
+<delete id="deleteMeetOut" parameterType="com.spring.boot.dto.MeetInfoDTO">
+    delete from meetInfo where meetListNum = #{meetListNum} and email = #{email}
+</delete>
+
+<update id="updateMeetStatus" parameterType="com.spring.boot.dto.GatchiDTO">
+    update gatchi set meetStatus = 0 where meetListNum = #{meetListNum}
+</update>
+
+<update id="meetStatusCompletion" parameterType="com.spring.boot.dto.GatchiDTO">
+    <![CDATA[
+    update gatchi set meetstatus = 2 where to_char(to_date(meetdday,'yyyy-mm-dd hh24:mi'),'yyyymmdd') < to_char(sysdate, 'yyyymmdd') and meetlistnum = #{meetListNum}
+    ]]>
+</update>
+
+<select id="getMeetStatus" parameterType="com.spring.boot.dto.GatchiDTO" resultType="int">
+    select meetStatus from gatchi where meetListNum = #{meetListNum}
+</select>
 
 <select id="getMeetWait" parameterType="int" resultType="String">
     select email from meetInfo where meetListNum = #{meetListNum} and meetMemStatus = 0 order by email desc
 </select>
 
-<update id="acceptToWaitlist" parameterType="com.spring.boot.dto.MeetDTOYj">
+<update id="acceptToWaitlist" parameterType="com.spring.boot.dto.MeetInfoDTO">
     update meetInfo set meetMemStatus = 2
     where meetListNum = #{meetListNum} and email = #{email}
 </update>
 
-<delete id="rejectFromWaitlist" parameterType="com.spring.boot.dto.MeetDTOYj">
+<delete id="rejectFromWaitlist" parameterType="com.spring.boot.dto.MeetInfoDTO">
     delete from meetInfo where meetListNum = #{meetListNum} and email = #{email}
 </delete>
 
@@ -76,7 +98,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     select email from meetInfo where meetListNum = #{meetListNum} and meetMemStatus = 3 order by email desc
 </select>
 
-<update id="addToBlacklist" parameterType="com.spring.boot.dto.MeetDTOYj">
+<update id="addToBlacklist" parameterType="com.spring.boot.dto.MeetInfoDTO">
     update meetInfo set meetMemStatus = 3
     where meetListNum = #{meetListNum} and email = #{email}
 </update>
@@ -85,7 +107,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     update gatchi set meetMemCnt = meetMemCnt - 1 where meetListNum = #{meetListNum}
 </update>
 
-<delete id="releaseFromBlacklist" parameterType="com.spring.boot.dto.MeetDTOYj">
+<delete id="releaseFromBlacklist" parameterType="com.spring.boot.dto.MeetInfoDTO">
     delete from meetInfo where meetListNum = #{meetListNum} and email = #{email}
 </delete>
 
