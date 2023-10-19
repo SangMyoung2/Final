@@ -12,7 +12,7 @@
 <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
 <link rel="icon" type="image/png" th:href="@{http://localhost:8080/image/로고.png}"/>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="http://localhost:8080/js/gatchi/meetMateList.js"></script>
+<script src="http://localhost:8080/js/gatchi/meetMateListHG.js"></script>
 <script src="js/includeHTML.js"></script>
 
 
@@ -74,9 +74,9 @@
   <div class="search-input-box" style="display: flex;">
     <form action="" method="get" name="searchForm" style="margin-left: 72%; border: groove; border-radius: 10px;">
       <select name="searchKey" class="selectFiled">
-        <option value="meetTitle">제목</option>
-        <option value="meetDday">모임일</option>
-        <option value="meetPlace">장소</option>
+        <option value="meetTitle">　제목</option>
+        <option value="meetDday">　모임일</option>
+        <option value="meetPlace">　장소</option>
       </select>
   
       <input type="text" name="searchValue" placeholder="search.."/>
@@ -102,8 +102,9 @@
     <ul class="cards">
       <li name="meetLists" class="meetList_hidden" th:each="items : ${searchMeetMateList}">
           <div class="card">
-            <div id="heart" class="heart" name="likeCount"></div>    
-          <div id="heart" class="button__like"></div>  
+            <div id="heart" class="heart" name="likeBtn">
+              <input type="hidden" th:value="${items.meetListNum}">
+            </div>
             <a href="#">
               <img th:src="@{|/image/gatchiImage/${items.meetImage}|}" class="card__image" alt=""/>  <!-- 클릭하면 article로 넘어가게 -->
             </a>
