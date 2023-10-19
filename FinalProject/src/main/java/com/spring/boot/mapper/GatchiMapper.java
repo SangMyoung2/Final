@@ -31,6 +31,8 @@ public interface GatchiMapper {
 
     public List<GatchiDTO> searchMeetMateList(@Param("searchKey")String searchKey, @Param("searchValue")String searchValue);
 
+    public List<GatchiDTO> searchCommuniFindList(@Param("searchKey")String searchKey, @Param("searchValue")String searchValue);
+
 	public List<GatchiDTO> getRownumList(int end) throws Exception;
 	
     //public void meetLikes(int meetListNum) throws Exception;

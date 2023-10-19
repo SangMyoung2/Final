@@ -30,6 +30,8 @@ public interface GatchiService {
 	public List<GatchiDTO> getRownumList(int endList) throws Exception;
 	
 	public List<GatchiDTO> searchMeetMateList(String searchKey, String searchValue) throws Exception;
+	
+	public List<GatchiDTO> searchCommuniFindList(String searchKey, String searchValue) throws Exception;
 
 
 	

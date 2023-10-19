@@ -2,7 +2,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>MeetMate 생성</title>
+<title>CommuniFind 생성</title>
 
 <link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/meetmate/create.css}"/>
 <link rel="icon" type="image/png" th:href="@{http://localhost:8080/image/로고.png}"/>
@@ -18,7 +18,7 @@
 
     <h1 th:text="|${dto.meetCheck == 1 ? 'MeetMate' : 'CommuniFind'} 개설하기|"></h1>
 
-    <form action="communiFindCreate" method="POST" name="myForm" enctype="multipart/form-data" onsubmit="return validateForm();">
+    <form action="communiFindCreate.action" method="POST" name="myForm" enctype="multipart/form-data" onsubmit="return validateForm();">
     
         <label th:text="|${dto.meetCheck == 1 ? 'MeetMate' : 'CommuniFind'} 카테고리|"></label>
             <div id="wrap_ctgNum"> 
@@ -350,7 +350,10 @@
         
             var meetCheck = parseInt(document.getElementById("meetCheck").value);
 
-            myForm.action = "/communiFindList.action";
+            var meetContent = document.getElementById('meetContent').value; 
+            meetContent = meetContent.replace(/\n/g, '<br/>');
+            
+            //myForm.action = "/communiFindList.action";
             myForm.submit();
         }
     }

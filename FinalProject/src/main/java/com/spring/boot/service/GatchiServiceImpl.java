@@ -73,6 +73,11 @@ public class GatchiServiceImpl implements GatchiService{
 		return gatchiMapper.searchMeetMateList(searchKey, searchValue);
 	}
 
+	@Override
+	public List<GatchiDTO> searchCommuniFindList(String searchKey, String searchValue) throws Exception {
+		return gatchiMapper.searchCommuniFindList(searchKey, searchValue);
+	}
+
 
 
 

@@ -15,18 +15,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.boot.dto.GatchiDTO;
 import com.spring.boot.dto.MapDTO;
@@ -47,12 +43,12 @@ public class MeetmateController {
 
  	//여기서 호출 하면 BoardService -> BoardServiceImpl -> BoardMapper -> boardMapper.xml에서 데이터 반환을 BoardController로 해준다.
 
-	@GetMapping("/gatchiChoice")
+	@GetMapping("/gatchiChoice.action")
 	public ModelAndView gatchiChoice() throws Exception{
 		
 		ModelAndView mav = new ModelAndView();
 
-		mav.setViewName("/meetmate/gatchiChoice");
+		mav.setViewName("meetmate/gatchiChoice");
 		
 		return mav;		
 	}
@@ -266,12 +262,12 @@ public class MeetmateController {
 			searchValue = "";
 		}
 
-		List<GatchiDTO> searchMeetMateList = gatchiService.searchMeetMateList(searchKey, searchValue);
+		List<GatchiDTO> searchCommuniFindList = gatchiService.searchCommuniFindList(searchKey, searchValue);
 
 		//System.out.println(searchMeetMateList);
 
 		//mav.addObject("picture", picture);********************
-		mav.addObject("searchMeetMateList", searchMeetMateList);		
+		mav.addObject("searchCommuniFindList", searchCommuniFindList);		
 		mav.addObject("communiFindSlideLists", communiFindSlideLists);		
 		mav.addObject("communiLists", communiFindLists);
 		mav.setViewName("/meetmate/communiFindList");

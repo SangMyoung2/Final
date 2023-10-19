@@ -73,14 +73,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 
 <select id="searchMeetMateList" parameterType="map" resultType="com.spring.boot.dto.GatchiDTO">
-	<!-- (
-		(CASE 
-			WHEN #{searchKey} = 'meetTitle' THEN meetTitle
-			WHEN #{searchKey} = 'meetDday' THEN meetDday
-			WHEN #{searchKey} = 'meetPlace' THEN meetPlace
-			ELSE ''
-		END) LIKE CONCAT('%', #{searchValue}, '%')
-	) -->    
     SELECT * FROM gatchi
     WHERE 
 	(
@@ -89,7 +81,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         (#{searchKey} = 'meetDday' AND meetDday LIKE '%' || #{searchValue} || '%')
         OR
         (#{searchKey} = 'meetPlace' AND meetPlace LIKE '%' || #{searchValue} || '%')
-    )
+    )  AND meetCheck = 1
+</select>
+
+<select id="searchCommuniFindList" parameterType="map" resultType="com.spring.boot.dto.GatchiDTO">
+    SELECT * FROM gatchi
+    WHERE 
+	(
+        (#{searchKey} = 'meetTitle' AND meetTitle LIKE '%' || #{searchValue} || '%')
+        OR
+        (#{searchKey} = 'meetDday' AND meetDday LIKE '%' || #{searchValue} || '%')
+        OR
+        (#{searchKey} = 'meetPlace' AND meetPlace LIKE '%' || #{searchValue} || '%')
+    ) AND meetCheck = 2
 </select>
 
 <!--
