@@ -33,6 +33,9 @@ public interface GatchiService {
 	
 	public List<GatchiDTO> searchCommuniFindList(String searchKey, String searchValue) throws Exception;
 
+	public void updateMeetStatusMate(GatchiDTO gatchiDTO) throws Exception;
+
+	public void updateMeetStatusFind(GatchiDTO gatchiDTO) throws Exception;
 
 	
 	//public void meetLikes(int meetListNum) throws Exception;

@@ -70,6 +70,10 @@
 <br/>
   
   <div class="search-input-box" style="display: flex;">
+
+    <button type="button" id="createBtn" class="createBtn" 
+      onclick="javascript:location.href='/gatchiChoice.action';"> 생성하기 </button>
+
     <form action="" method="get" name="searchForm" style="margin-left: 72%; border: groove; border-radius: 10px;">
       <select name="searchKey" class="selectFiled">
         <option value="meetTitle">　제목</option>
@@ -99,7 +103,9 @@
     <div class="c2">
       <ul class="cards">
         
-        <li name="communiLists" class="communiLists_hidden" th:each="items : ${searchCommuniFindList}">
+        <li name="communiLists" class="communiLists_hidden" th:each="items : ${searchCommuniFindList}" 
+          th:style="${items.meetStatus == 2 ? 'outline: inset #000000; border-radius: 40px;' : ''}" 
+          th:unless="${items.meetStatus == 3}">
           <div class="card">
             <div id="heart" class="heart" name="likeBtn">
               <input type="hidden" th:value="${items.meetListNum}">
@@ -108,7 +114,8 @@
               <img th:src="@{|/image/gatchiImage/${items.meetImage}|}" class="card__image" alt=""/>  <!-- 클릭하면 article로 넘어가게 -->
             </a>
             <div class="card__overlay">
-              <div class="card__header">
+              <div class="card__header" th:style="${items.meetStatus == 2 ? 
+                'background-image: linear-gradient(to right bottom, transparent calc(50% - 1px), red, transparent calc(50% + 1px));' : ''}">
                 <svg class="card__arc" xmlns="http://www.w3.org/2000/svg"><path /></svg>
                 <img class="card__thumb" src="https://i.imgur.com/7D7I6dI.png" alt="" />
                 <!-- <img th:src="@{|/image/gatchiImage/${masterPicture}|}" alt="User Picture" /> -->
@@ -163,8 +170,11 @@
       </div>
       </ul>
   </div>
+
+
     <ul class="cards">
-      <li name="communiLists" class="communiLists_hidden" th:each="items : ${communiLists}">
+      <li name="communiLists" class="communiLists_hidden" th:each="items : ${communiLists}" th:style="${items.meetStatus == 2 ? 'outline: inset #000000; border-radius: 40px;' : ''}" 
+        th:unless="${items.meetStatus == 3}">
           <div class="card">
             <div id="heart" class="heart" name="likeCount"></div>    
           <div id="heart" class="button__like"></div>  
@@ -172,7 +182,8 @@
               <img th:src="@{|/image/gatchiImage/${items.meetImage}|}" class="card__image" alt=""/>  <!-- 클릭하면 article로 넘어가게 -->
             </a>
             <div class="card__overlay">
-              <div class="card__header">
+              <div class="card__header" th:style="${items.meetStatus == 2 ? 
+                'background-image: linear-gradient(to right bottom, transparent calc(50% - 1px), red, transparent calc(50% + 1px));' : ''}">
                 <svg class="card__arc" xmlns="http://www.w3.org/2000/svg"><path /></svg>
                 <img th:src="@{|/image/gatchiImage/${masterPicture}|}" alt="User Picture" />
                 <!-- <img class="card__thumb" th:if="${#httpSession.getAttribute('user') != null}" 

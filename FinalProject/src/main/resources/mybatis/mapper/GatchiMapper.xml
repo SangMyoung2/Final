@@ -47,7 +47,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	resultType="com.spring.boot.dto.GatchiDTO">
 <![CDATA[
 	SELECT * FROM (
-    	SELECT * FROM gatchi WHERE meetCheck = 1 ORDER BY DBMS_RANDOM.VALUE
+    	SELECT * FROM gatchi WHERE meetCheck = 1 AND meetStatus = 1 ORDER BY DBMS_RANDOM.VALUE
 	) WHERE ROWNUM <= ${count}
 ]]>
 </select>
@@ -56,7 +56,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	resultType="com.spring.boot.dto.GatchiDTO">
 <![CDATA[
 	SELECT * FROM (
-    	SELECT * FROM gatchi WHERE meetCheck = 2 ORDER BY DBMS_RANDOM.VALUE
+    	SELECT * FROM gatchi WHERE meetCheck = 2 AND meetStatus = 1 ORDER BY DBMS_RANDOM.VALUE
 	) WHERE ROWNUM <= ${count}
 ]]>
 </select>
@@ -95,6 +95,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         (#{searchKey} = 'meetPlace' AND meetPlace LIKE '%' || #{searchValue} || '%')
     ) AND meetCheck = 2
 </select>
+
+<update id="updateMeetStatusMate" parameterType="com.spring.boot.dto.GatchiDTO">
+<![CDATA[
+	UPDATE GATCHI
+	SET meetStatus = 2
+	WHERE TO_DATE(meetDday, 'YYYY-MM-DD HH24:MI:SS') < SYSDATE and meetCheck = 1
+]]>	
+</update>
+
+<update id="updateMeetStatusFind" parameterType="com.spring.boot.dto.GatchiDTO">
+<![CDATA[
+	UPDATE GATCHI
+	SET meetStatus = 2
+	WHERE TO_DATE(meetDday, 'YYYY-MM-DD HH24:MI:SS') < SYSDATE and meetCheck = 2
+]]>	
+</update>
+
 
 <!--
 <select id="getDataCount" parameterType="map" resultType="int">

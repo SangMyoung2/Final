@@ -640,3 +640,17 @@ margin: 0 10px;
 
 
 
+/*모임생성버튼 */
+.createBtn {
+  margin-left: 200px;
+  background: #5CA8B5;
+  color: #fff;
+  width: 100px;
+  height: 30px;
+  border-radius: inherit;
+  font-size: 1rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  padding: 0px;
+  border-radius: 4px;
+}

@@ -2,7 +2,10 @@ package com.spring.boot.controller;
 
 import java.io.File;
 import java.net.URLDecoder;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -189,7 +192,21 @@ public class MeetmateController {
 
 		List<GatchiDTO> searchMeetMateList = gatchiService.searchMeetMateList(searchKey, searchValue);
 
-		//System.out.println(searchMeetMateList);
+ 		//여기서부터 meetStatus 값 변경 위한 작업		
+		Date currentDate = new Date();//현재 날짜, 시간 가져오기
+		
+		List<GatchiDTO> meetMateLists2 = gatchiService.getMeetMateLists();//meetMateLists로 GatchiDTO 가져오기
+
+		// meetMateLists를 하나씩 꺼내면서 날짜 비교 및 업데이트
+		for (GatchiDTO meetMateList : meetMateLists2) {			
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+			Date meetDday = dateFormat.parse(meetMateList.getMeetDday());
+
+			if (meetMateList.getMeetCheck() == 1 && meetDday.before(currentDate)) {// meetCheck가 1이고 meetDday 지나면
+				meetMateList.setMeetStatus(2);//meetStatus를 2로 업데이트				
+				gatchiService.updateMeetStatusMate(meetMateList);//업데이트된 GatchiDTO 저장
+			}
+		}
 
 		//mav.addObject("picture", picture);********************
 		mav.addObject("searchMeetMateList", searchMeetMateList);
@@ -264,7 +281,21 @@ public class MeetmateController {
 
 		List<GatchiDTO> searchCommuniFindList = gatchiService.searchCommuniFindList(searchKey, searchValue);
 
-		//System.out.println(searchMeetMateList);
+		//여기서부터 meetStatus 값 변경 위한 작업		
+		Date currentDate = new Date();//현재 날짜, 시간 가져오기
+		
+		List<GatchiDTO> getCommuniFindLists2 = gatchiService.getCommuniFindLists();//meetMateLists로 GatchiDTO 가져오기
+
+		//meetMateLists를 하나씩 꺼내면서 날짜 비교 및 업데이트
+		for (GatchiDTO communiFindList : getCommuniFindLists2) {			
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+			Date meetDday = dateFormat.parse(communiFindList.getMeetDday());
+
+			if (communiFindList.getMeetCheck() == 2 && meetDday.before(currentDate)) {// meetCheck가 1이고 meetDday 지나면
+				communiFindList.setMeetStatus(2);//meetStatus를 2로 업데이트				
+				gatchiService.updateMeetStatusFind(communiFindList);//업데이트된 GatchiDTO 저장
+			}
+		}
 
 		//mav.addObject("picture", picture);********************
 		mav.addObject("searchCommuniFindList", searchCommuniFindList);		
