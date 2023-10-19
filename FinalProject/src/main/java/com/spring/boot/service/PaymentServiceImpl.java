@@ -6,7 +6,6 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.spring.boot.dto.PaymentInfoDTO;
-import com.spring.boot.dto.userPointDTO;
 import com.spring.boot.mapper.PaymentMapper;
 
 @Service

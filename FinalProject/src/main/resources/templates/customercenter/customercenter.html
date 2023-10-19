@@ -13,9 +13,23 @@
 </head>
 <body>
 
-
 <div layout:fragment="content">
-
+    
+    <div th:each="data : ${customerCenterData}">
+        <div>
+            <strong>주제: </strong>
+            <span th:text="${data.centerSubject}"></span>
+        </div>
+        <div>
+            <strong>질문: </strong>
+            <span th:text="${data.centerQuestion}"></span>
+        </div>
+        <div>
+            <strong>답변: </strong>
+            <span th:text="${data.centerAnswer}"></span>
+        </div>
+        <hr/>
+    </div>
 
 </div>
 
