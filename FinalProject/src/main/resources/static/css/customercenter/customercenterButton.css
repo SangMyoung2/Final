@@ -18,9 +18,9 @@
     padding: 10px 20px;
     margin-left: 10px;
     border-radius: 25px;
-    background-color: #5CA8B5;
+    background-color: white;
     color: white;
-    border: none;
+    border: 1px solid #00000041;
     cursor: pointer;
 }
 
