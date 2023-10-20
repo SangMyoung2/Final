@@ -6,7 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.spring.boot.mapper.MeetMapperYj">
 
 <select id="getAllCategories" resultType="com.spring.boot.dto.MeetCategoryDTO">
-    select * from meetCategory order by meetCtgNum asc
+    select meetCtgName from meetCategory order by meetCtgNum asc
 </select>
 
 <select id="getMeetListInfo" parameterType="int" resultType="com.spring.boot.dto.GatchiDTO">

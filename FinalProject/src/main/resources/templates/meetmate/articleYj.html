@@ -257,9 +257,10 @@ function deleteReview(email, meetListNum, meetReviewNum) {
     <div class="container">
         <div class="row justify-content-end homeaticle">
             <div class="col-md-2">
-                <div class="meet-mypage" th:each="meetListInfo : ${meetListInfo}">
-                    <div class="badge meetMate" th:text="${meetListInfo.meetCheck}">meetmate</div>
-                    <div class="badge primary" th:text="${meetListInfo.meetCtgNum}">취미</div>
+                <div class="meet-mypage">
+                    <div class="badge meetMate" th:text="${meetListInfo.meetCheck == 1 ? 'meetmate' : 'communifind'}"></div>
+                    <div class="badge primary" >취미</div>
+                    <input type="button" th:text="${meetListInfo.meetCtgNum}">
                     <div class="user-info-container">
                         <div class="round-image-login">
                             <img th:src="@{/image/gatchiImage/1111.jpg}" alt="로그인유저프사(임의)"/>
