@@ -281,17 +281,42 @@ $(document).ready(function() {
   
   //검색
   function sendIt(){
-  
+
     var f = document.searchForm;
     
     f.action = "/meetMateList.action";
     f.submit();
     
   }
+    
+    
+    
+    
+/*    
+    
+  //SortBox 정렬
+  function changeSortOrder() {
   
-  
-  
-  
-  
-  
-  
+    var selectBox = document.getElementById("sortOrder").value; // select 박스 요소 가져오기
+    alert(selectBox)
+
+      $.ajax({
+        type: "get",
+        url: "/selectSort",
+        dataType: 'JSON',
+        data: {
+            selectBox : selectBox
+        },
+        success: function (lists) {
+
+            alert(lists);
+        },
+        error: function () {
+            alert('잠시 후 다시 시도해주세요.');
+        }
+      });
+
+  }
+
+
+*/
