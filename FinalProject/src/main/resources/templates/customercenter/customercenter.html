@@ -19,33 +19,24 @@
     <p class="title">무엇을 도와드릴까요?</p>
 
     <div class="search-container">
-        <input type="text" id="searchInput" placeholder="검색어 입력" class="search-bar">
+        <input type="text" id="searchInput" placeholder="검색해보실?" class="search-bar">    
         <button id="searchBtn" class="search-button">검색</button>
     </div>
 
     <br/><br/>
 
-    <button data-subject="결제">결제</button>
-    <button data-subject="모임">모임</button>
-    <button data-subject="기타">기타</button>
-    <button data-subject="인증/보안">인증/보안</button>
+    <div class="subject-container">
+        <button class="custom-btn btn-1" data-subject="결제">결제</button>
+        <button class="custom-btn btn-1" data-subject="모임">모임</button>
+        <button class="custom-btn btn-1" data-subject="기타">기타</button>
+        <button class="custom-btn btn-1" data-subject="인증/보안">인증/보안</button>
+    </div>
 
     <p id="noResults" style="display:none; text-align: center;">검색 결과가 없습니다. 다시 검색어를 입력해주세요.</p>
     
-    <div th:each="data : ${customerCenterData}" th:attr="data-subject=${data.centerSubject}">
-        <div>
-            <strong>주제: </strong>
-            <span th:text="${data.centerSubject}"></span>
-        </div>
-        <div>
-            <strong>질문: </strong>
-            <span th:text="${data.centerQuestion}" data-question></span>
-        </div>
-        <div>
-            <strong>답변: </strong>
-            <span th:text="${data.centerAnswer}" data-answer></span>
-        </div>
-        <hr/>
+    <div class="faq-container" th:each="data : ${customerCenterData}" th:attr="data-subject=${data.centerSubject}">
+        <button class="faq-question" th:text="' [' + ${data.centerSubject} + '] ' + ${data.centerQuestion}"></button>
+        <div class="faq-answer" th:text="${data.centerAnswer}"></div>
     </div>
 
 </div>
