@@ -9,15 +9,17 @@ import com.spring.boot.dto.MeetReviewDTO;
 
 public interface MeetServiceYj {
 
+    public String getMeetMasterName(int meetListNum) throws Exception;
+
     public List<MeetCategoryDTO> getAllCategories() throws Exception;
 
     public GatchiDTO getMeetListInfo(int meetListNum) throws Exception;
 
-    public List<MeetReviewDTO> getReview(int meetListNum) throws Exception;
-
+    public List<MeetInfoDTO> getMeetMembers(int meetListNum) throws Exception;
+    
     public String getMeetMasterEmail(int meetListNum) throws Exception;
-
-    public List<String> getMeetMembers(int meetListNum) throws Exception;
+    
+    public List<MeetReviewDTO> getReview(int meetListNum) throws Exception;
 
     public void insertMeetReview(MeetReviewDTO dto) throws Exception;
 

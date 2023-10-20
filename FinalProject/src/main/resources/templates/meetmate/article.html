@@ -12,7 +12,7 @@
 </style>
 
 <link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/index.css}"/>
-<link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/meetmate/articleYj.css}"/>
+<link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/meetmate/article.css}"/>
 <link rel="icon" type="image/png" th:href="@{http://localhost:8080/image/로고.png}"/>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"/>
 <link rel="stylesheet" href="https://kit.fontawesome.com/1f0cefbb8e.css" crossorigin="anonymous">
@@ -60,6 +60,7 @@
         document.querySelector('.yj-img').style.display = 'block';
         document.querySelector('.yj-img2').style.display = 'none';
         document.querySelector('.meet-members').style.display = 'block';
+        document.querySelector('.meet-mypage').style.display = 'block';
     }
 
     // 리뷰 내용 표시 함수
@@ -67,6 +68,7 @@
         document.querySelector('.yj-img').style.display = 'none';
         document.querySelector('.yj-img2').style.display = 'block';
         document.querySelector('.meet-members').style.display = 'none';
+        document.querySelector('.meet-mypage').style.display = 'none';
     }
 
     document.addEventListener('DOMContentLoaded', function() {
@@ -259,8 +261,7 @@ function deleteReview(email, meetListNum, meetReviewNum) {
             <div class="col-md-2">
                 <div class="meet-mypage">
                     <div class="badge meetMate" th:text="${meetListInfo.meetCheck == 1 ? 'meetmate' : 'communifind'}"></div>
-                    <div class="badge primary" >취미</div>
-                    <input type="button" th:text="${meetListInfo.meetCtgNum}">
+                    <div class="badge primary" th:text="${meetListInfo.meetCtgNum}">취미</div>
                     <div class="user-info-container">
                         <div class="round-image-login">
                             <img th:src="@{/image/gatchiImage/1111.jpg}" alt="로그인유저프사(임의)"/>
@@ -268,7 +269,11 @@ function deleteReview(email, meetListNum, meetReviewNum) {
                         <div class="login-user-email" th:if="${#httpSession.getAttribute('user1') != null}" 
                         th:text="|${session.user1.name}"></div>
                         <div class="login-user-email" th:if="${#httpSession.getAttribute('user') != null}" 
-                        th:text="|${session.user.name}"></div>님
+                        th:text="|${session.user.name}"></div>
+                        <div style="font-size: 17px;">님</div>
+                        <div th:if="${meetMemStatus == 1}" style="margin-left: 20px; color: #adadad; font-size: 17px;">👑방장</div>
+                        <div th:if="${meetMemStatus == 2}" style="margin-left: 20px; color: #adadad; font-size: 17px;">🤗회원</div>
+                        <div th:if="${meetMemStatus == 0}" style="margin-left: 20px; color: #adadad; font-size: 17px;">⌛승인대기중..</div>
                     </div>
                 </div>
             </div>
@@ -282,19 +287,25 @@ function deleteReview(email, meetListNum, meetReviewNum) {
                         </div>
                         <p class="Yj-master" th:text="${meetMasterName}"></p>
                         <p class="Yj-title" th:text="${meetListInfo.meetTitle}"></p>
+                        <div class="centered-content">
+                            <div class="content">
+                                <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Beating%20Heart.png" alt="Beating Heart" style="width: 30px; height: 30px;"/>
+                                <div>좋아요 <span th:text="${meetListInfo.meetLikeCount}"></span></div>
+                            </div>
+                        
+                            <div class="content">
+                                <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Eye%20in%20Speech%20Bubble.png" alt="Eye in Speech Bubble" style="width: 30px; height: 30px;"/>
+                                <div>조회수 <span th:text="${meetListInfo.meetHitCount}"></span></div>
+                            </div>
+                        </div>
                     </div>
 
                     
                     <div class="main-text">
 
 
-                        <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Heart%20on%20Fire.png" alt="Heart on Fire" style="width: 40px; height: 40px;"/>좋아요 
-                        <div th:text="${meetListInfo.meetLikeCount}"></div>
-
-                        <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Partying%20Face.png" alt="Partying Face" style="width: 40px; height: 40px;"/>조회수
-                        <div th:text="${meetListInfo.meetHitCount}"></div>
-
-
+                       
+                        <div class="yj-intro">모임 소개</div>
                         <p class="Yj-text1" th:text="${meetListInfo.meetContent}"></p>
 
                         <div class="yj-info">상세 정보</div>
@@ -319,7 +330,7 @@ function deleteReview(email, meetListNum, meetReviewNum) {
                         </form>
 
                         <th:block th:if="${(meetListInfo.meetMemCnt >= meetListInfo.meetMaxMemCnt) and meetStatus == 1 and (meetMemStatus <0)}">
-                            <p style="font-size: 18px; color: red;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;모집 인원이 마감되었습니다.</p>
+                            <p style="font-size: 18px; color: red;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;정원 초과로 인해 현재 가입 신청이 불가능합니다.</p>
                         </th:block>
                         
                         <th:block th:if="${meetStatus == 2}">
@@ -358,7 +369,7 @@ function deleteReview(email, meetListNum, meetReviewNum) {
                 <div class="meet-members">
                     <p>
                         <span style="margin-right: 37px; margin-left: 12px;">멤버목록</span>
-                        <a th:if="${meetMemStatus == 1}" th:href="@{'/manager.action?meetListNum=' + ${meetListInfo.meetListNum}}" style="text-decoration: none;">
+                        <a th:if="${meetMemStatus == 1}" th:href="@{'/meetManager.action?meetListNum=' + ${meetListInfo.meetListNum}}" style="text-decoration: none;">
                             <span style="color: #adadad;">관리</span>
                             <i class="fa-solid fa-gear fa-sm" style="color: #adadad; vertical-align: 0px;"></i>
                         </a>
@@ -403,7 +414,7 @@ function deleteReview(email, meetListNum, meetReviewNum) {
                             <div class="round-image-user mt-2">
                                 <img th:src="@{/image/gatchiImage/1111.jpg}" alt="유저프사(임의)"/>
                             </div>
-                            <p class="memid" th:text="${meetReview.email}"></p>
+                            <p class="memid" th:text="${meetReview.name}"></p>
                             <div class="col-md-4 mx-auto" style="width: 300px; height: 300px; overflow: hidden; border-radius: 5px; margin-bottom: 10px; margin-top: 10px;">
                                 <img th:src="@{${'/image/reviewImage/' + meetReview.meetReviewImg}}" class="img-fluid rounded-start" alt="리뷰사진" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;" onclick="openModal(this);">
                             </div>
@@ -411,7 +422,8 @@ function deleteReview(email, meetListNum, meetReviewNum) {
                         <p class="card-text" th:text="${meetReview.meetReviewContent}" style="padding-left: 10px; padding-right: 10px; text-align: justify; font-size: 18px; margin-bottom: 5px;"></p>
                         <p class="card-text d-flex" th:text="${#strings.substring(meetReview.meetReviewDate, 0, 16)}" style="color: #AAAAAA; font-size: 13px; position: absolute; top: 0; right: 0; margin-top: 31px; margin-right: 20px;"></p>
 
-                        <span class="card-text d-flex delete-review" style="color: #AAAAAA; font-size: 13px; position: absolute; top: 0; right: 0; margin-top: 50px; margin-right: 20px;" th:if="${loginEmail == meetReview.email}" th:data-email="${meetReview.email}" th:data-meetListNum="${meetListNum}" th:data-meetReviewNum="${meetReview.meetReviewNum}" onclick="deleteReview(this.getAttribute('data-email'), this.getAttribute('data-meetListNum'), this.getAttribute('data-meetReviewNum'))">삭제</span>
+                        <span class="card-text d-flex delete-review" style="color: #AAAAAA; font-size: 13px; position: absolute; top: 0; right: 0; margin-top: 50px; margin-right: 20px;" th:if="${#httpSession.getAttribute('user1') != null} and ${session.user1.email == meetReview.email}" th:data-email="${meetReview.email}" th:data-meetListNum="${meetListNum}" th:data-meetReviewNum="${meetReview.meetReviewNum}" onclick="deleteReview(this.getAttribute('data-email'), this.getAttribute('data-meetListNum'), this.getAttribute('data-meetReviewNum'))">삭제</span>
+                        <span class="card-text d-flex delete-review" style="color: #AAAAAA; font-size: 13px; position: absolute; top: 0; right: 0; margin-top: 50px; margin-right: 20px;" th:if="${#httpSession.getAttribute('user') != null} and ${session.user.email == meetReview.email}" th:data-email="${meetReview.email}" th:data-meetListNum="${meetListNum}" th:data-meetReviewNum="${meetReview.meetReviewNum}" onclick="deleteReview(this.getAttribute('data-email'), this.getAttribute('data-meetListNum'), this.getAttribute('data-meetReviewNum'))">삭제</span>
                     </div>
                 </div>
             </div>

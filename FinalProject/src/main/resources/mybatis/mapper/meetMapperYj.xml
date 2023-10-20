@@ -5,8 +5,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="com.spring.boot.mapper.MeetMapperYj">
 
+<select id="getMeetMasterName" parameterType="int" resultType="string">
+    select u.name
+    from users u
+    join meetInfo mi on u.email = mi.email
+    where mi.meetListNum = #{meetListNum}
+    and mi.meetMemStatus = 1
+</select>
+
 <select id="getAllCategories" resultType="com.spring.boot.dto.MeetCategoryDTO">
-    select meetCtgName from meetCategory order by meetCtgNum asc
+    select * from meetCategory order by meetCtgNum asc
 </select>
 
 <select id="getMeetListInfo" parameterType="int" resultType="com.spring.boot.dto.GatchiDTO">
@@ -18,8 +26,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     where meetListNum = #{meetListNum} and meetMemStatus = 1
 </select>
 
-<select id="getMeetMembers" parameterType="int" resultType="String">
-    select email from meetInfo where meetListNum = #{meetListNum} and (meetMemStatus = 2 or meetMemStatus = 1) order by email asc
+<select id="getMeetMembers" parameterType="int" resultType="com.spring.boot.dto.MeetInfoDTO">
+    select u.email,u.name
+    from users u
+    join meetInfo mi on u.email = mi.email
+    where mi.meetListNum = #{meetListNum}
+    and (mi.meetMemStatus = 1 or mi.meetMemStatus = 2) order by u.email asc
 </select>
 
 <update id="incrementMeetMemCnt" parameterType="int">
@@ -27,8 +39,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </update>
 
 <select id="getReview" parameterType="int" resultType="com.spring.boot.dto.MeetReviewDTO">
-    select * from meetReview where meetListNum = #{meetListNum}
-    order by meetReviewNum desc
+    select mr.*, u.name
+    from meetReview mr
+    join users u on mr.email = u.email
+    where mr.meetListNum = #{meetListNum}
+    order by mr.meetReviewNum desc
 </select>
 
 <select id="getReviewNum" parameterType="int" resultType="int">

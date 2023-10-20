@@ -18,6 +18,11 @@ public class MeetServiceImplYj implements MeetServiceYj {
     private MeetMapperYj meetMapperYj;
 
     @Override
+    public String getMeetMasterName(int meetListNum) throws Exception {
+        return meetMapperYj.getMeetMasterName(meetListNum);
+    }
+
+    @Override
     public List<MeetCategoryDTO> getAllCategories() throws Exception {
         return meetMapperYj.getAllCategories();
     }
@@ -26,20 +31,20 @@ public class MeetServiceImplYj implements MeetServiceYj {
     public GatchiDTO getMeetListInfo(int meetListNum) throws Exception {
         return meetMapperYj.getMeetListInfo(meetListNum);
     }
-
+    
     @Override
-    public List<MeetReviewDTO> getReview(int meetListNum) throws Exception {
-        return meetMapperYj.getReview(meetListNum);
+    public List<MeetInfoDTO> getMeetMembers(int meetListNum) throws Exception {
+        return meetMapperYj.getMeetMembers(meetListNum);
     }
-
+    
     @Override
     public String getMeetMasterEmail(int meetListNum) throws Exception {
         return meetMapperYj.getMeetMasterEmail(meetListNum);
     }
-
+    
     @Override
-    public List<String> getMeetMembers(int meetListNum) throws Exception {
-        return meetMapperYj.getMeetMembers(meetListNum);
+    public List<MeetReviewDTO> getReview(int meetListNum) throws Exception {
+        return meetMapperYj.getReview(meetListNum);
     }
 
     @Override
