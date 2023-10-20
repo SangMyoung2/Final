@@ -12,7 +12,6 @@
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script type="text/javascript" src="https://service.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 <script type="text/javascript" src="http://localhost:8080/js/pay/payVer2.js"></script>
-<script type="text/javascript" src="http://localhost:8080/js/pay/joinPay.js"></script>
 <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
@@ -31,15 +30,15 @@
     </p>
 
     <br/><br/>
-
-    <button onclick="requestPay(100)" class="snip1535">1,000포인트 [1,000원]</button>
-    <button onclick="requestPay(300)" class="snip1535">3,000포인트 [3,000원]</button>
-    <button onclick="requestPay(500)" class="snip1535">5,000포인트 [5,000원]</button>
-    <button onclick="requestPay(1000)" class="snip1535">10,000포인트 [10,000원]</button>
-    <button onclick="requestPay(3000)" class="snip1535">30,000포인트 [30,000원]</button>
-    <button onclick="requestPay(5000)" class="snip1535">50,000포인트 [50,000원]</button>
-    <button onclick="requestPay(10000)" class="snip1535">100,000포인트 [100,000원]</button>
-    
+    <div class="paybuttonContainer">
+        <button onclick="requestPay(100)" class="btn btn-2 hover-opacity">1,000포인트 [1,000원]</button>
+        <button onclick="requestPay(300)" class="btn btn-2 hover-opacity">3,000포인트 [3,000원]</button>
+        <button onclick="requestPay(500)" class="btn btn-2 hover-opacity">5,000포인트 [5,000원]</button>
+        <button onclick="requestPay(1000)" class="btn btn-2 hover-opacity">10,000포인트 [10,000원]</button>
+        <button onclick="requestPay(3000)" class="btn btn-2 hover-opacity">30,000포인트 [30,000원]</button>
+        <button onclick="requestPay(5000)" class="btn btn-2 hover-opacity">50,000포인트 [50,000원]</button>
+        <button onclick="requestPay(10000)" class="btn btn-2 hover-opacity">100,000포인트 [100,000원]</button>
+    </div>
 
 </div>
 
