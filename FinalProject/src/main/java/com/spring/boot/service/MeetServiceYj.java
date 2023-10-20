@@ -9,15 +9,13 @@ import com.spring.boot.dto.MeetReviewDTO;
 
 public interface MeetServiceYj {
 
-    public String getMeetMasterName(int meetListNum) throws Exception;
+    public MeetInfoDTO getMeetMaster(int meetListNum) throws Exception;
 
     public List<MeetCategoryDTO> getAllCategories() throws Exception;
 
     public GatchiDTO getMeetListInfo(int meetListNum) throws Exception;
 
     public List<MeetInfoDTO> getMeetMembers(int meetListNum) throws Exception;
-    
-    public String getMeetMasterEmail(int meetListNum) throws Exception;
     
     public List<MeetReviewDTO> getReview(int meetListNum) throws Exception;
 
@@ -43,7 +41,7 @@ public interface MeetServiceYj {
 
     public int getMeetStatus(int meetListNum) throws Exception;
 
-    public List<String> getMeetWait(int meetListNum) throws Exception;
+    public List<MeetInfoDTO> getMeetWait(int meetListNum) throws Exception;
 
     public int acceptToWaitlist(MeetInfoDTO dto) throws Exception;
 
@@ -51,7 +49,7 @@ public interface MeetServiceYj {
 
     public void rejectFromWaitlist(MeetInfoDTO dto) throws Exception;
 
-    public List<String> getMeetBlack(int meetListNum) throws Exception;
+    public List<MeetInfoDTO> getMeetBlack(int meetListNum) throws Exception;
     
     public void addToBlacklist(MeetInfoDTO dto) throws Exception;
 

@@ -59,8 +59,6 @@
     font-size: 25px;
     color: #171616;
     font-weight: bold;
-    margin-top: -8px;
-    margin-bottom: -5px;
 }
 
 .Yj-master {
@@ -163,15 +161,15 @@
 
 .centered-content {
     display: flex;
-    margin-top: 30px;
+    margin-top: 15px;
 }
 
-.content {
+.like-hitCount {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin: 10px;
-    padding-left: -50px; /* 좋아요와 조회수 간격 조절 */
+    padding-left: -50px;
 }
 
 .content:nth-child(1) {
@@ -276,6 +274,7 @@
     overflow: hidden;
     display: inline-block;
     margin-top: -30px;
+    position: relative;
 }
 
 .round-image-user img {
@@ -334,10 +333,11 @@
     bottom: 0;
     left: 50%;
     width: 0;
-    height: 2px;
-    background-color: #000;
+    height: 4px;
+    background-color: #dddddd;
     transition: width 0.3s ease;
     transform: translateX(-50%);
+    margin-bottom: -6.5px;
 }
 
 .btn-check:checked + .btn::before {
@@ -349,12 +349,12 @@
 
 .meet-members {
     position: fixed;
-    width: 190px;
-    height: 250px;
+    width: 220px;
+    height: 270px;
     background-color: #F9F9F9;
     overflow-y: auto;
     padding: 15px 0px 15px 15px;
-    border: 1px solid #E4EEF7;
+    border-top: 2px solid #000;
 }
 
 .meet-mypage {
@@ -364,7 +364,6 @@
     height: 500px;
     background-color: #F9F9F9;
     padding: 35px 0px 15px 40px;
-    border: 1px solid #E4EEF7;
     left: 0;
 }
 
@@ -391,10 +390,13 @@
   .badge.communiFind {
     background-color: #00824a;
   }
+  .badge.meetHow {
+    background-color: #8889c7;
+  }
 
 .user-info-container {
     display: flex;
-    align-items: center; /* 수직 정렬 설정 (센터) */
+    align-items: center;
 }
 
 .round-image-login {
@@ -418,9 +420,13 @@
     margin-right: 5px;
 }
 
+.chat-btn {
+   
+}
+
 .meet-mem-list {
     list-style-type:none;
-    width: 100px;
+    width: 170px;
     height: 40px;
     display: flex;
     align-items: center;
@@ -510,18 +516,18 @@
 @media screen and (max-width: 1400px) {
     .homeaticle{
         min-width: 800px;
-    width: 100%;
-    position: relative;
-    right: -35px;
+        width: 100%;
+        position: relative;
+        right: -35px;
     }
 }
 
 @media screen and (max-width: 1200px){
     .homeaticle{
         min-width: 800px;
-    width: 100%;
-    position: relative;
-    right: 60px;
+        width: 100%;
+        position: relative;
+        right: 60px;
     }
 }
 

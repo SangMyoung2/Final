@@ -63,6 +63,7 @@ public class MeetControllerYj {
 		List<MeetInfoDTO> meetMembers = meetServiceYj.getMeetMembers(Integer.parseInt(request.getParameter("meetListNum")));
 		List<MeetReviewDTO> meetReview = meetServiceYj.getReview(Integer.parseInt(request.getParameter("meetListNum")));
 		int meetStatus = meetServiceYj.getMeetStatus(Integer.parseInt(request.getParameter("meetListNum")));
+		MeetInfoDTO meetMaster = meetServiceYj.getMeetMaster(Integer.parseInt(request.getParameter("meetListNum")));
 		
 		ModelAndView mav = new ModelAndView();
 		MeetInfoDTO MeetInfoDTO = new MeetInfoDTO();
@@ -88,20 +89,13 @@ public class MeetControllerYj {
 		Integer ret = meetServiceYj.getMemberStatus(MeetInfoDTO);
 		if (ret != null) memberStatus = ret.intValue();
 		
-		// 방장 자신은 강퇴하면 안 되니까 비교하려고
-		if (memberStatus == 1) {
-			String masterEmail = meetServiceYj.getMeetMasterEmail(Integer.parseInt(request.getParameter("meetListNum")));
-			mav.addObject("masterEmail", masterEmail);
-		}
+		// // 방장 자신은 강퇴하면 안 되니까 비교하려고
+		// if (memberStatus == 1) {
+		// 	String masterEmail = meetServiceYj.getMeetMaster(Integer.parseInt(request.getParameter("meetListNum")));
+		// 	mav.addObject("masterEmail", masterEmail);
+		// }
 
-		// // 방장 이메일 띄움
-		// String masterEmail2 = meetServiceYj.getMeetMasterEmail(Integer.parseInt(request.getParameter("meetListNum")));
-		// mav.addObject("masterEmail2", masterEmail2);
-
-		// 방장 이름 띄움
-		String meetMasterName = meetServiceYj.getMeetMasterName(Integer.parseInt(request.getParameter("meetListNum")));
-		mav.addObject("meetMasterName", meetMasterName);
-
+		mav.addObject("meetMaster", meetMaster);
         mav.addObject("meetStatus", meetStatus);
 		mav.addObject("meetListNum", request.getParameter("meetListNum"));
 		mav.addObject("meetListInfo", meetListInfo);
@@ -207,23 +201,19 @@ public class MeetControllerYj {
 		GatchiDTO meetListInfo = meetServiceYj.getMeetListInfo(Integer.parseInt(request.getParameter("meetListNum")));
 
 		List<MeetInfoDTO> meetMembers = meetServiceYj.getMeetMembers(meetListNum);
-		List<String> meetBlack = meetServiceYj.getMeetBlack(meetListNum);
-		List<String> meetWait = meetServiceYj.getMeetWait(meetListNum);
+		List<MeetInfoDTO> meetBlack = meetServiceYj.getMeetBlack(meetListNum);
+		List<MeetInfoDTO> meetWait = meetServiceYj.getMeetWait(meetListNum);
+		MeetInfoDTO meetMaster = meetServiceYj.getMeetMaster(meetListNum);
 
 		ModelAndView mav = new ModelAndView();
 
-		// 방장 이름 띄움
-		String meetMasterName = meetServiceYj.getMeetMasterName(Integer.parseInt(request.getParameter("meetListNum")));
-		mav.addObject("meetMasterName", meetMasterName);
 
 		mav.addObject("meetListNum", meetListNum);
 		mav.addObject("meetMembers", meetMembers);
 		mav.addObject("meetWait", meetWait);
 		mav.addObject("meetBlack", meetBlack);
 		mav.addObject("meetListInfo", meetListInfo);
-
-		String masterEmail = meetServiceYj.getMeetMasterEmail(meetListNum);
-		mav.addObject("masterEmail", masterEmail);
+		mav.addObject("meetMaster", meetMaster);
 
 		mav.setViewName("meetmate/manager");
 		
@@ -350,14 +340,12 @@ public class MeetControllerYj {
 	@PostMapping("/add-to-blacklist")
 	public ModelAndView addToBlacklist(
 			@RequestParam("meetListNum") int meetListNum,
-			@RequestParam("email") String email,
-			@RequestParam("name") String name) throws Exception {
+			@RequestParam("email") String email) throws Exception {
 
 		MeetInfoDTO MeetInfoDTO = new MeetInfoDTO();
 
 		MeetInfoDTO.setMeetListNum(meetListNum);
 		MeetInfoDTO.setEmail(email);
-		MeetInfoDTO.setName(name);
 
 		meetServiceYj.addToBlacklist(MeetInfoDTO);
 		meetServiceYj.decrementMeetMemCnt(meetListNum);

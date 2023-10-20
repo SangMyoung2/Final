@@ -5,8 +5,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="com.spring.boot.mapper.MeetMapperYj">
 
-<select id="getMeetMasterName" parameterType="int" resultType="string">
-    select u.name
+<select id="getMeetMaster" parameterType="int" resultType="com.spring.boot.dto.MeetInfoDTO">
+    select u.email,u.name
     from users u
     join meetInfo mi on u.email = mi.email
     where mi.meetListNum = #{meetListNum}
@@ -19,11 +19,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <select id="getMeetListInfo" parameterType="int" resultType="com.spring.boot.dto.GatchiDTO">
     select * from gatchi where meetListNum = #{meetListNum}
-</select>
-
-<select id="getMeetMasterEmail" parameterType="int" resultType="string">
-    select email from meetInfo
-    where meetListNum = #{meetListNum} and meetMemStatus = 1
 </select>
 
 <select id="getMeetMembers" parameterType="int" resultType="com.spring.boot.dto.MeetInfoDTO">
@@ -96,8 +91,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     select meetStatus from gatchi where meetListNum = #{meetListNum}
 </select>
 
-<select id="getMeetWait" parameterType="int" resultType="String">
-    select email from meetInfo where meetListNum = #{meetListNum} and meetMemStatus = 0 order by email desc
+<select id="getMeetWait" parameterType="int" resultType="com.spring.boot.dto.MeetInfoDTO">
+    select u.name, mi.email
+    from users u
+    join meetInfo mi on u.email = mi.email
+    where mi.meetListNum = #{meetListNum} and mi.meetMemStatus = 0
+    order by mi.email desc
 </select>
 
 <update id="acceptToWaitlist" parameterType="com.spring.boot.dto.MeetInfoDTO">
@@ -109,8 +108,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     delete from meetInfo where meetListNum = #{meetListNum} and email = #{email}
 </delete>
 
-<select id="getMeetBlack" parameterType="int" resultType="String">
-    select email from meetInfo where meetListNum = #{meetListNum} and meetMemStatus = 3 order by email desc
+<select id="getMeetBlack" parameterType="int" resultType="com.spring.boot.dto.MeetInfoDTO">
+    select u.name, mi.email
+    from users u
+    join meetInfo mi on u.email = mi.email
+    where mi.meetListNum = #{meetListNum} and mi.meetMemStatus = 3
+    order by mi.email desc
 </select>
 
 <update id="addToBlacklist" parameterType="com.spring.boot.dto.MeetInfoDTO">
