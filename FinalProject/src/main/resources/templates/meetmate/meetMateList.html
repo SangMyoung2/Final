@@ -103,13 +103,12 @@
       </button>
     </form>
   </div>
-<br/><br/><br/>
 
 
 
 
 
-  <div class="c2">
+  <div class="c2" style="margin-top: 100px;">
     <ul class="cards">
       <li name="meetLists" class="meetList_hidden" th:each="items : ${searchMeetMateList}" 
         th:style="${items.meetStatus == 2 ? 'outline: inset #000000; border-radius: 40px;' : ''}" 
