@@ -1,4 +1,6 @@
 package com.spring.boot.dto;
+
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -6,6 +8,8 @@ import lombok.Setter;
 @Setter
 public class ChallengeDTO {
     private int challengeListNum;
+    private String challengeTitle;
+    private String challengeContent;
     private String challengeImageMain;
     private String challengeWeekCheck;
     private String challengeDateCheck;
@@ -14,7 +18,7 @@ public class ChallengeDTO {
     private String challengeImageSuccess;
     private String challengeImageFail;
     private int challengeLikeCount;
-    private String challengeContent;
     private int challengeMemberCount;
     private String challengeCreateDate;
+    private int challengeStatus;
 }

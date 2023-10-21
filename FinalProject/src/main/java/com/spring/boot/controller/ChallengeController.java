@@ -1,87 +1,49 @@
 package com.spring.boot.controller;
 
+
 import java.io.File;
-import java.net.URLDecoder;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
+import java.util.UUID;
 
+import org.springframework.core.io.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
+import org.junit.internal.runners.statements.ExpectException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.spring.boot.dto.ChallengeDTO;
+import com.spring.boot.dto.ChallengeInfoDTO;
 import com.spring.boot.dto.GatchiDTO;
 import com.spring.boot.dto.MapDTO;
-import com.spring.boot.service.GatchiService;
-import com.spring.boot.service.MapService;
+import com.spring.boot.dto.MeetInfoDTO;
+import com.spring.boot.dto.MeetReviewDTO;
+import com.spring.boot.dto.SessionUser;
+import com.spring.boot.model.Users;
+import com.spring.boot.service.ChallengeService;
+
 
 
 @RestController
 public class ChallengeController {
 	
 	@Autowired
-	private GatchiService gatchiService;
-
-	
-	// @GetMapping("/")
-	// public ModelAndView gatchiChoice() throws Exception{
-		
-	// 	ModelAndView mav = new ModelAndView();
-
-	// 	mav.setViewName("/meetmate/gatchiChoice");
-		
-	// 	return mav;		
-	// }
+    private ChallengeService challengeService;
 
 
-	// @PostMapping("/")
-	// public ModelAndView gatchiChoice_ok(@RequestParam("meetCheck") String meetCheck, HttpServletRequest request, GatchiDTO dto) throws Exception{
-
-	// 	ModelAndView mav = new ModelAndView();
-
-
-
-	// 	// if (dto.getMeetCheck() == 1) {
-	// 	// 	dto.setMeetName(""); // 모임명을 ""로 설정
-	// 	// }             ///////이거 주석처리돼있으면 아래에서 설정하는게 먹힌다는거니까 지우기
-				
-	// 	//System.out.println("설정한 meetCheck 1: " + dto.getMeetCheck());
-	// 	//System.out.println("설정한 meetName 2: " + dto.getMeetName());
-	// 	mav.addObject("dto", dto);
-	// 	mav.addObject("lat", request.getParameter("lat"));
-	// 	mav.addObject("lng", request.getParameter("lng"));
-		
-
-	// 	//이거 왜 안되냐구........................
-	// 	if (dto.getMeetCheck() == 1) {
-	// 		System.out.println("들어옴");
-	// 		dto.setMeetName(""); // 모임명을 ""로 설정
-	// 		mav.setViewName("meetmate/meetMateCreate");
-	// 		return mav;
-
-	// 	} else if (dto.getMeetCheck() == 2) {
-	// 		mav.setViewName("meetmate/communiFindCreate");
-	// 		return mav;
-	// 	}	
-
-	// 	return mav;
-	// }
-
-
-    
-	@GetMapping("/ChallengeCreate.action")
+	@GetMapping("/challengeCreate.action")
 	public ModelAndView challengeCreate() throws Exception{
 
 		ModelAndView mav = new ModelAndView();
@@ -91,139 +53,176 @@ public class ChallengeController {
 		return mav;	
 	}
 
-    @PostMapping("/ChallengeCreate.action")
-	public ModelAndView challengeCreatedOk(HttpServletRequest request) throws Exception{
+    @PostMapping("/challengeCreate.action")
+	public ModelAndView challengeCreatedOk(ChallengeDTO dto,
+    ChallengeInfoDTO infoDTO,
+    @RequestParam("imageMain") MultipartFile imageMain, 
+    @RequestParam("imageSuccess") MultipartFile imageSuccess, 
+    @RequestParam("imageFail") MultipartFile imageFail,
+    HttpServletRequest request
+    ) throws Exception{
 
 		ModelAndView mav = new ModelAndView();
 
-        String weekCheck = request.getParameter("weekCheck");
-        String dateCheck = request.getParameter("dateCheck");
+        HttpSession session = request.getSession();
+		SessionUser social = (SessionUser)session.getAttribute("user");
+		Users user1 = (Users)session.getAttribute("user1");
 
-        System.out.println(weekCheck);
-        System.out.println(dateCheck);
+		if (social != null) {
+			infoDTO.setEmail(social.getEmail()); 
+		} else if (user1 != null) {
+			infoDTO.setEmail(user1.getEmail()); 
+		}
 
+        // Resource resource = new ClassPathResource("static");
+        // String resourcePath = resource.getFile().getAbsolutePath() + "/image/challenge";
+        String resourcePath ="C:\\VSCode\\Final\\FinalProject\\src\\main\\resources\\static\\image\\challenge";
 
+		if (!imageMain.isEmpty()) {
+			String originalFileName = imageMain.getOriginalFilename();
+			String saveFileName = UUID.randomUUID() + originalFileName;
+		    
+			Path filePath = Paths.get(resourcePath, saveFileName);
 
-		mav.setViewName("redirect:/ChallengeList.action");
+            Files.write(filePath, imageMain.getBytes());
+            //challenge dto
+            dto.setChallengeImageMain(saveFileName);
+
+            //challengeInfo dto
+
+            infoDTO.setChallengeMemberStatus(1); //방장 설정
+
+		}
+
+        if (!imageSuccess.isEmpty()) {
+			String originalFileName = imageSuccess.getOriginalFilename();
+			String saveFileName = UUID.randomUUID() + originalFileName;
+		    
+			Path filePath = Paths.get(resourcePath, saveFileName);
+
+            Files.write(filePath, imageSuccess.getBytes());
+            //challenge dto
+            dto.setChallengeImageSuccess(saveFileName);
+
+            //challengeInfo dto
+            infoDTO.setChallengeMemberStatus(1); //방장 설정
+
+		}
+        
+        if (!imageFail.isEmpty()) {
+			String originalFileName = imageFail.getOriginalFilename();
+			String saveFileName = UUID.randomUUID() + originalFileName;
+		    
+			Path filePath = Paths.get(resourcePath, saveFileName);
+
+            Files.write(filePath, imageFail.getBytes());
+            //challenge dto
+            dto.setChallengeImageFail(saveFileName);
+
+            //challengeInfo dto
+            infoDTO.setChallengeMemberStatus(1); //방장 설정
+
+		}
+
+        int maxNum = challengeService.maxNum();
+        infoDTO.setChallengeListNum(maxNum+1);
+        dto.setChallengeListNum(maxNum+1);
+
+        challengeService.createChallenge(dto);
+        challengeService.insertChallengeInfo(infoDTO);
+
+		mav.setViewName("redirect:/challengeList.action");
 		
 		return mav;	
 	}
 
 
-		
-	@GetMapping("/ChallengeList.action")
-	public ModelAndView meetMateList() throws Exception {
-		
+
+    @GetMapping("/challengeArticle.action")
+	public ModelAndView challengeArticle(HttpServletRequest request) throws Exception {
+
 		ModelAndView mav = new ModelAndView();
-		
+		ChallengeInfoDTO challengeInfoDTO = new ChallengeInfoDTO();
 
-	
-		mav.setViewName("challenge/ChallengeList");
-		
-		return mav;		
-	}
+        //게시글 번호로 1개의 게시글 불러옴
+        int challengeListNum = Integer.parseInt( request.getParameter("challengeListNum"));
+		ChallengeDTO challengeDTO = challengeService.getReadData(challengeListNum);
 
-	@PostMapping("/meetMateList")
-	public ModelAndView meetMateList(@RequestParam(name = "searchKey", required = false) String searchKey,
-        @RequestParam(name = "searchValue", required = false) String searchValue) throws Exception {
-		
-		ModelAndView mav = new ModelAndView();
-		
-		List<GatchiDTO> meetMateLists = new ArrayList<>();
-		List<GatchiDTO> meetMateSlideLists = new ArrayList<>();
-		
-		// // String searchKey = request.getParameter("searchKey");
-		// // String searchValue = request.getParameter("searchValue");
-		// if (searchValue == null) {
-		// 	searchKey = "meetTitle";
-		// 	searchValue = "";
-		
-		// } else {
-		// 	if (request.getMethod().equalsIgnoreCase("GET")) {
-		// 		searchValue = URLDecoder.decode(searchValue, "UTF-8");
-		// 	}
-		// }   ******************************************
-		
-		System.out.println("searchKey 내용 : " + searchKey);
-		System.out.println("searchValue 내용 : " + searchValue);
+        //user session정보 가져오기
+        HttpSession session = request.getSession();
+		SessionUser social = (SessionUser)session.getAttribute("user");
+		Users user1 = (Users)session.getAttribute("user1");
 
-		meetMateLists = gatchiService.searchMeetMateList(searchKey, searchValue);
-		meetMateSlideLists = gatchiService.getMeetMateRandomList(3); // 5개의 랜덤 모임을 가져옴
+        //접속한 user 정보 데이터 담기  
+        if (social != null) { //소셜유저의 정보
+            
+            challengeInfoDTO = challengeService.getUserEmailData(social.getEmail(),challengeListNum);
+            
+            if(challengeInfoDTO==null){
+                System.out.println("일치하는 유저 정보 없음");
+            }
 
-		//System.out.println("모임 DB 가져온 내용 : " + meetLists);
+		} else if (user1 != null) { //홈페이지 가입 정보
+			challengeInfoDTO = challengeService.getUserEmailData(user1.getEmail(),challengeListNum);
+            
+            if(challengeInfoDTO==null){
+                System.out.println("일치하는 유저 정보 없음");
+            }
+		}
 
-		mav.addObject("meetMateSlideLists", meetMateSlideLists);
-		
-		mav.addObject("meetLists", meetMateLists);
-		
-		mav.setViewName("/meetmate/meetMateList");
+        
+        
+      
+        mav.addObject("challengeDTO", challengeDTO);
+        mav.addObject("challengeInfoDTO", challengeInfoDTO);
+		mav.setViewName("challenge/ChallengeArticle");
 		
 		return mav;
 	}
 
 
-/* 페이징처리 폭망하면 이거 살리고 하던거 지워
 
-	@GetMapping("/meetMateList")
-	public ModelAndView meetMateList() throws Exception{
+
+
+
+
+
+		
+	@GetMapping("/challengeList.action")
+	public ModelAndView challengeList() throws Exception {
 		
 		ModelAndView mav = new ModelAndView();
 		
-		List<GatchiDTO> meetMateLists = new ArrayList<>();
-		List<GatchiDTO> meetMateSlideLists = new ArrayList<>();
-		
-		//int meetListNum = Integer.parseInt(request.getParameter("meetListNum"));//추가한거
-		//GatchiDTO readData = gatchiService.getReadData(meetListNum);//추가한거
-		
-		meetMateLists = gatchiService.getMeetMateLists();
-		meetMateSlideLists = gatchiService.getMeetMateRandomList(5); // 5개의 랜덤 모임을 가져옴
-
-		//System.out.println("모임 DB 가져온 내용 : " + meetLists);
-
-		mav.addObject("meetLists", meetMateLists);
-		mav.addObject("meetMateSlideLists", meetMateSlideLists);
-		//mav.addObject("readData", readData);//추가한거
-		mav.setViewName("/meetmate/meetMateList");
-		
-		return mav;		
-	}
- */
-
-	@GetMapping("/communiFindList")
-	public ModelAndView communiFindList() throws Exception{
-		
-		ModelAndView mav = new ModelAndView();
-		
-		List<GatchiDTO> communiFindLists = new ArrayList<>();
-		List<GatchiDTO> communiFindSlideLists = new ArrayList<>();
-
-		communiFindLists = gatchiService.getCommuniFindLists();
-		communiFindSlideLists = gatchiService.getCommuniFindRandomList(9); // 5개의 랜덤 모임을 가져옴
-
-		//System.out.println("모임 DB 가져온 내용 : " + meetLists);
-
-		mav.addObject("communiFindSlideLists", communiFindSlideLists);
-		
-		mav.addObject("communiLists", communiFindLists);
-		mav.setViewName("/meetmate/communiFindList");
+		mav.setViewName("challenge/ChallengeList");
 		
 		return mav;		
 	}
 
-	@RequestMapping(value = "/reFindList", method = RequestMethod.POST, consumes = "application/json")
-	public Map<String,Object> reFindList(@RequestBody Map<String, String> requestMap) throws Exception {
 
-		System.out.println(requestMap);
+    //테스트용
+    @GetMapping("/test1.action")
+    public ModelAndView test() throws Exception {
+        ModelAndView mav = new ModelAndView();
 
-		List<GatchiDTO> lists = new ArrayList<>();
+		mav.setViewName("challenge/test");
 		
-		int endList = Integer.parseInt(requestMap.get("endList"));
+		return mav;	
+    }
 
-		lists = gatchiService.getRownumList(endList);
 
-		Map<String, Object> data = new HashMap<>();
-		data.put("meetLists", lists);
+    @PostMapping("/test1.action")
+    public ModelAndView testResult(ChallengeDTO dto) throws Exception {
+        ModelAndView mav = new ModelAndView();
 
-		return data;
-	}
+        challengeService.test(dto);
+
+        System.out.println(dto.getChallengeStartDate()+"여기?");
+        System.out.println(dto.getChallengeEndDate()+"여기?");
+
+
+        mav.setViewName("redirect:/challengeList.action");
+        return mav;	
+    }
+
+
 }

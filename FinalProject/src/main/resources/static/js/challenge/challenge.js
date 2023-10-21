@@ -15,31 +15,49 @@ function checkboxCheck() {
 
 function titleCheck() {
     var title = document.getElementById('challengeTitle').value;
+    var content = document.getElementById('challengeContent').value;
+    var challengeImageMain = document.querySelector('#challengeImageMain').files[0];
 
-    if(title.trim() !== ''){
-        document.getElementById('title').style.display = 'none';
-        document.getElementById('createChallenge').style.display = 'block';
-    }else{
+    if(title.trim() === ''){
         alert('타이틀을 입력해주세요!');
+        return
     }
+
+    if(content.trim() === ''){
+      alert('간단한 소개를 입력해주세요!');
+      return
+    }
+
+    if(!challengeImageMain){
+      alert('대표 사진을 업로드 해주세요.')
+      return
+    }
+
+
+
+    document.getElementById('title').style.display = 'none';
+    document.getElementById('createChallenge').style.display = 'block';
+   
+
+
 }
 
 function calEndDate() {
-    const dateCheck = document.querySelector('input[name="dateCheck"]:checked').value;
-    const startDate = new Date(document.getElementById("startDate").value);
-    const endDate = new Date(startDate);
+    const challengeDateCheck = document.querySelector('input[name="challengeDateCheck"]:checked').value;
+    const challengeStartDate = new Date(document.getElementById("challengeStartDate").value);
+    const challengeEndDate = new Date(challengeStartDate);
   
-    if (dateCheck === "1week") {
-      endDate.setDate(startDate.getDate() + 7);
-    } else if (dateCheck === "2week") {
-      endDate.setDate(startDate.getDate() + 14);
-    } else if (dateCheck === "3week") {
-      endDate.setDate(startDate.getDate() + 21);
-    } else if (dateCheck === "1month") {
-      endDate.setMonth(startDate.getMonth() + 1);
+    if (challengeDateCheck === "1week") {
+      challengeEndDate.setDate(challengeStartDate.getDate() + 7);
+    } else if (challengeDateCheck === "2week") {
+      challengeEndDate.setDate(challengeStartDate.getDate() + 14);
+    } else if (challengeDateCheck === "3week") {
+      challengeEndDate.setDate(challengeStartDate.getDate() + 21);
+    } else if (challengeDateCheck === "1month") {
+      challengeEndDate.setMonth(challengeStartDate.getMonth() + 1);
     }
-    const endDateInput = document.getElementById("endDate");
-    endDateInput.valueAsDate = endDate;
+    
+    document.getElementById("challengeEndDate").valueAsDate = challengeEndDate;
 }
 
 

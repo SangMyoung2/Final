@@ -1,15 +1,11 @@
-package com.spring.boot.mapper;
+package com.spring.boot.service;
 
 import java.util.List;
-
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 
 import com.spring.boot.dto.ChallengeDTO;
 import com.spring.boot.dto.ChallengeInfoDTO;
 
-@Mapper
-public interface ChallengeMapper {
+public interface ChallengeService {
     
     public int maxNum() throws Exception;
     
@@ -21,7 +17,7 @@ public interface ChallengeMapper {
 
     public void insertChallengeInfo(ChallengeInfoDTO infoDto) throws Exception;
 
-    public ChallengeInfoDTO getUserEmailData(@Param("email")String email,@Param("challengelistnum")int challengelistnum) throws Exception;
+    public ChallengeInfoDTO getUserEmailData(String email, int challengelistnum) throws Exception;
 
     public void test(ChallengeDTO dto) throws Exception;
 
