@@ -52,7 +52,8 @@ public class MeetControllerYj {
 	}
 
 	@GetMapping("/meetArticle.action")
-	public ModelAndView meetArticle(HttpServletRequest request) throws Exception {
+	public ModelAndView meetArticle(HttpServletRequest request,
+			@RequestParam("meetListNum") int meetListNum) throws Exception {
 
 		// 날짜 종료된 모임이면 meetStatus( 1 => 2로 변경 )
 		GatchiDTO GatchiDTO = new GatchiDTO();
@@ -61,6 +62,7 @@ public class MeetControllerYj {
 
 		GatchiDTO meetListInfo = meetServiceYj.getMeetListInfo(Integer.parseInt(request.getParameter("meetListNum")));
 		List<MeetInfoDTO> meetMembers = meetServiceYj.getMeetMembers(Integer.parseInt(request.getParameter("meetListNum")));
+		List<MeetInfoDTO> membersExMaster = meetServiceYj.getMembersExMaster(Integer.parseInt(request.getParameter("meetListNum")));
 		List<MeetReviewDTO> meetReview = meetServiceYj.getReview(Integer.parseInt(request.getParameter("meetListNum")));
 		int meetStatus = meetServiceYj.getMeetStatus(Integer.parseInt(request.getParameter("meetListNum")));
 		MeetInfoDTO meetMaster = meetServiceYj.getMeetMaster(Integer.parseInt(request.getParameter("meetListNum")));
@@ -100,9 +102,11 @@ public class MeetControllerYj {
 		mav.addObject("meetListNum", request.getParameter("meetListNum"));
 		mav.addObject("meetListInfo", meetListInfo);
 		mav.addObject("meetMembers", meetMembers);
+		mav.addObject("membersExMaster", membersExMaster);
 		mav.addObject("meetReview", meetReview);
 		mav.addObject("meetMemStatus", memberStatus);
 		mav.addObject("dto", MeetInfoDTO);
+
 		mav.setViewName("meetmate/article");
 		
 		return mav;
@@ -294,7 +298,7 @@ public class MeetControllerYj {
 	public ModelAndView deleteMeet(HttpServletRequest request,
 			@RequestParam("meetListNum") int meetListNum) throws Exception {
 
-		ModelAndView mav = new ModelAndView("redirect:/meetMateList");
+		ModelAndView mav = new ModelAndView("redirect:/meetMateList.action");
 
 		GatchiDTO GatchiDTO = new GatchiDTO();
 		GatchiDTO.setMeetListNum(meetListNum);

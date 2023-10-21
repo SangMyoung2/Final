@@ -38,6 +38,11 @@ public class MeetServiceImplYj implements MeetServiceYj {
     }
     
     @Override
+    public List<MeetInfoDTO> getMembersExMaster(int meetListNum) throws Exception {
+        return meetMapperYj.getMembersExMaster(meetListNum);
+    }
+    
+    @Override
     public List<MeetReviewDTO> getReview(int meetListNum) throws Exception {
         return meetMapperYj.getReview(meetListNum);
     }

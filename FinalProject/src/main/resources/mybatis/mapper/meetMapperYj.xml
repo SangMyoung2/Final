@@ -29,6 +29,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     and (mi.meetMemStatus = 1 or mi.meetMemStatus = 2) order by u.email asc
 </select>
 
+<select id="getMembersExMaster" parameterType="int" resultType="com.spring.boot.dto.MeetInfoDTO">
+    select u.email,u.name
+    from users u
+    join meetInfo mi on u.email = mi.email
+    where mi.meetListNum = #{meetListNum}
+    and mi.meetMemStatus = 2 order by u.email asc
+</select>
+
 <update id="incrementMeetMemCnt" parameterType="int">
     update gatchi set meetMemCnt = meetMemCnt + 1 where meetListNum = #{meetListNum}
 </update>
