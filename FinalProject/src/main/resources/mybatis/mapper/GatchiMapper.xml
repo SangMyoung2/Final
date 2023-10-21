@@ -96,6 +96,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     ) AND meetCheck = 2
 </select>
 
+<update id="updateMeetStatusMate" parameterType="com.spring.boot.dto.GatchiDTO">
+<![CDATA[
+	UPDATE GATCHI
+	SET meetStatus = 2
+	WHERE TO_DATE(meetDday, 'YYYY-MM-DD HH24:MI:SS') < SYSDATE and meetCheck = 1
+]]>	
+</update>
+
+<update id="updateMeetStatusFind" parameterType="com.spring.boot.dto.GatchiDTO">
+<![CDATA[
+	UPDATE GATCHI
+	SET meetStatus = 2
+	WHERE TO_DATE(meetDday, 'YYYY-MM-DD HH24:MI:SS') < SYSDATE and meetCheck = 2
+]]>	
+</update>
+
+
 <!--
 <select id="getDataCount" parameterType="map" resultType="int">
 	select nvl(count(*),0) from board
