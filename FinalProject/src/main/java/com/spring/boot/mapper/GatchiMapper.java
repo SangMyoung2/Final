@@ -15,6 +15,8 @@ public interface GatchiMapper {
 
 	public void createMeetInfo(MeetInfoDTO dto) throws Exception;
 
+	public List<MeetInfoDTO> getMeetInfo()throws Exception;
+
 	public int maxNum() throws Exception;
 
 	public String masterPicture() throws Exception;
@@ -34,6 +36,8 @@ public interface GatchiMapper {
     public List<GatchiDTO> searchCommuniFindList(@Param("searchKey")String searchKey, @Param("searchValue")String searchValue);
 
 	public List<GatchiDTO> getRownumList(int end) throws Exception;
+
+    
 	
     //public void meetLikes(int meetListNum) throws Exception;
 

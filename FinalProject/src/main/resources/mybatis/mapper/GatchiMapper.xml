@@ -22,6 +22,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     insert into meetInfo(meetListNum,email,meetMemStatus) values (#{meetListNum},#{email},1)
 </insert>
 
+
+<select id="getMeetInfo" parameterType="com.spring.boot.dto.MeetInfoDTO">
+    select * from meetInfo where meetMemStatus = 1 or meetMemStatus = 2
+</select>
+
 <select id="maxNum" resultType="int">
 	select nvl(max(meetListNum),0) from gatchi
 </select>

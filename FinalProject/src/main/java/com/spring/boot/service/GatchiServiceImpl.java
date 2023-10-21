@@ -28,6 +28,12 @@ public class GatchiServiceImpl implements GatchiService{
 	}
 
 	@Override
+	public List<MeetInfoDTO> getMeetInfo(MeetInfoDTO infoDTO) throws Exception {
+		
+		return gatchiMapper.getMeetInfo();
+	}
+
+	@Override
 	public int maxNum() throws Exception {
 		return gatchiMapper.maxNum();
 	}
@@ -77,6 +83,8 @@ public class GatchiServiceImpl implements GatchiService{
 	public List<GatchiDTO> searchCommuniFindList(String searchKey, String searchValue) throws Exception {
 		return gatchiMapper.searchCommuniFindList(searchKey, searchValue);
 	}
+
+	
 
 
 

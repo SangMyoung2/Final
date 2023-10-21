@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -22,7 +24,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import com.spring.boot.dao.UserRepository;
+import com.spring.boot.dto.GatchiDTO;
+import com.spring.boot.dto.MeetInfoDTO;
 import com.spring.boot.model.Users;
+import com.spring.boot.service.GatchiService;
 import com.spring.boot.service.UserService;
 import lombok.RequiredArgsConstructor;
 
@@ -36,10 +41,19 @@ public class BaseAuthController {
    @Autowired
     private UserRepository userRepository;
 
+	@Autowired
+	private GatchiService gatchiService;
+
 	@GetMapping("/")
 	public ModelAndView main() throws Exception {
 
 	ModelAndView mav = new ModelAndView();
+
+	List<GatchiDTO> meetMateLists = new ArrayList<>();
+
+	meetMateLists = gatchiService.getMeetMateLists();
+
+	mav.addObject("meetLists", meetMateLists);	
 
 	mav.setViewName("index");
 		
@@ -181,10 +195,16 @@ public class BaseAuthController {
 	}
 
 	@GetMapping("/mypage.action")
-	public ModelAndView mypage() {
+	public ModelAndView mypage() throws Exception {
 		ModelAndView mav = new ModelAndView();
+
+		List<MeetInfoDTO> meetInfoList = new ArrayList<>();
+
+		meetInfoList = gatchiService.getMeetInfo(null);
+
+		mav.addObject("meetinfolist", meetInfoList);	
 		
-	mav.setViewName("login/mypage");
+		mav.setViewName("login/mypage");
 			
 	return mav;
 	}
