@@ -13,7 +13,7 @@ package com.spring.boot.controller;
 // import org.springframework.beans.factory.annotation.Autowired;
 // import org.springframework.core.io.ClassPathResource;
 // import org.springframework.core.io.Resource;
-import org.springframework.web.bind.annotation.GetMapping;
+// import org.springframework.web.bind.annotation.GetMapping;
 // import org.springframework.web.bind.annotation.PostMapping;
 // import org.springframework.web.bind.annotation.RequestBody;
 // import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 
 // @RestController //는 return을 텍스트로 인식하지만 ModelAndView는 ResponseBody를 작성하지 않아도 주소로 인식한다. 
-public class MeetmateControllerHG {
+// public class MeetmateControllerHG {
 	
 // 	@Autowired
 // 	private GatchiService gatchiService;
@@ -303,14 +303,14 @@ public class MeetmateControllerHG {
 // 		return data;
 // 	}
 
-	@GetMapping("/meet/likeBtn")
-	public String likeCount() {
+// 	@GetMapping("/meet/likeBtn")
+// 	public String likeCount() {
 		
-		System.out.println("좋아요 버튼을 누르셨군요?");
+// 		System.out.println("좋아요 버튼을 누르셨군요?");
 
-		return "성공";
-	}
+// 		return "성공";
+// 	}
 	
 
 
-}
+// }
