@@ -26,11 +26,11 @@
           <div style="display: flex; width: 875px; font-size: 20px; margin-top: 20px; ">
            
             <p style="width: 160px; font-weight: 100;" class="menu_item"><a href="#" class="link">MeetMate</a></p>
-			<b style="width: 160px; font-weight: 100;" class="menu_item"><a href="#" class="link">CommuniFind</a></b>
-			<b style="width: 160px; font-weight: 100;" class="menu_item"><a href="#" class="link">Challenge</a></b>
-			<b style="width: 160px; font-weight: 100;" class="menu_item"><a href="#" class="link">Review</a></b>
-			<b style="width: 160px; font-weight: 100;" class="menu_item"><a href="#" class="link">Discovery</a></b>
-			<b style="width: 160px; font-weight: 100;" class="menu_item"><a href="#" class="link">Service</a></b>
+            <b style="width: 160px; font-weight: 100;" class="menu_item"><a href="#" class="link">CommuniFind</a></b>
+            <b style="width: 160px; font-weight: 100;" class="menu_item"><a href="#" class="link">Challenge</a></b>
+            <b style="width: 160px; font-weight: 100;" class="menu_item"><a href="#" class="link">Review</a></b>
+            <b style="width: 160px; font-weight: 100;" class="menu_item"><a href="#" class="link">Discovery</a></b>
+            <b style="width: 160px; font-weight: 100;" class="menu_item"><a href="#" class="link">Service</a></b>
              
               
               </div>
@@ -43,6 +43,8 @@
         
                     <p style="width: 180px;" th:if="${#httpSession.getAttribute('user1') != null}">
                         <a style="color: black;" th:text="${session.user1.name}+ ' 님 안녕하세요!'"></a>
+                      
+                       
                         </p>
         
                      
@@ -66,8 +68,9 @@
               </div>
 
             <div th:if="${#httpSession.getAttribute('user1') != null}"  class="image is-128x128 avatar">
-              <img style="margin-bottom: 30px;" src="https://placehold.it/256x256">
-              <a th:if="${#httpSession.getAttribute('user1') != null}" style=" color: #00d1b2; margin-left: 15px; font-size: 23px;" href="">회원정보 수정 </a>
+            <img style="margin-bottom: 30px;" th:src="@{image/login/__${session.user1.picture}__}">
+          
+              <a th:if="${#httpSession.getAttribute('user1') != null}" style=" color: #00d1b2; margin-left: 15px; font-size: 23px;" href="/userupdate.action">회원정보 수정 </a>
               <a  style=" color: #00d1b2; margin-left: -3px; font-size: 23px;" href="">포인트 상세 조회</a>
             </div>
            
@@ -198,154 +201,18 @@
               </div>
             </div>
             <footer class="card-footer">
-              <a class="card-footer-item">Save</a>
+              <a class="card-footer-item">제목</a>
               <a class="card-footer-item">Edit</a>
               <a class="card-footer-item">Delete</a>
-            </footer>
-          </div>
-          <br>
-          <div class="card">
-            <div class="card-image">
-              <figure class="image is-4by3">
-                <img src="http://placehold.it/300x225" alt="">
-              </figure>
-            </div>
-            <div class="card-content">
-              <div class="content">
-                <span class="tag is-dark">#webdev</span>
-                <strong class="timestamp">2 d</strong>
-              </div>
-            </div>
-            <footer class="card-footer">
-              <a class="card-footer-item">Save</a>
-              <a class="card-footer-item">Edit</a>
               <a class="card-footer-item">Delete</a>
             </footer>
-          </div>
-          <br>
-          <div class="card">
-            <div class="card-image">
-              <figure class="image is-4by3">
-                <img src="http://placehold.it/300x225" alt="">
-              </figure>
-            </div>
-            <div class="card-content">
-              <div class="content">
-                <span class="tag is-dark">#webdev</span>
-                <strong class="timestamp">2 d</strong>
-              </div>
-            </div>
-            <footer class="card-footer">
-              <a class="card-footer-item">Save</a>
-              <a class="card-footer-item">Edit</a>
-              <a class="card-footer-item">Delete</a>
             </footer>
           </div>
-          <br>
-          <div class="card">
-            <div class="card-image">
-              <figure class="image is-4by3">
-                <img src="http://placehold.it/300x225" alt="">
-              </figure>
-            </div>
-            <div class="card-content">
-              <div class="content">
-                <span class="tag is-dark">#webdev</span>
-                <strong class="timestamp">2 d</strong>
-              </div>
-            </div>
-            <footer class="card-footer">
-              <a class="card-footer-item">Save</a>
-              <a class="card-footer-item">Edit</a>
-              <a class="card-footer-item">Delete</a>
-            </footer>
-          </div>
-          <br>
+          
         </div>
         </div>
   
-             <!-- 리스트 2번째 줄 -->
-        <div class="columns">
-            <div class="column is-3">
-              <div class="card">
-                <div class="card-image">
-                  <figure class="image is-4by3">
-                    <img src="http://placehold.it/300x225" alt="">
-                  </figure>
-                </div>
-                <div class="card-content">
-                  <div class="content">
-                    <span class="tag is-dark">#webdev</span>
-                    <strong class="timestamp">2 d</strong>
-                  </div>
-                </div>
-                <footer class="card-footer">
-                  <a class="card-footer-item">Save</a>
-                  <a class="card-footer-item">Edit</a>
-                  <a class="card-footer-item">Delete</a>
-                </footer>
-              </div>
-              <br>
-              <div class="card">
-                <div class="card-image">
-                  <figure class="image is-4by3">
-                    <img src="http://placehold.it/300x225" alt="">
-                  </figure>
-                </div>
-                <div class="card-content">
-                  <div class="content">
-                    <span class="tag is-dark">#webdev</span>
-                    <strong class="timestamp">2 d</strong>
-                  </div>
-                </div>
-                <footer class="card-footer">
-                  <a class="card-footer-item">Save</a>
-                  <a class="card-footer-item">Edit</a>
-                  <a class="card-footer-item">Delete</a>
-                </footer>
-              </div>
-              <br>
-              <div class="card">
-                <div class="card-image">
-                  <figure class="image is-4by3">
-                    <img src="http://placehold.it/300x225" alt="">
-                  </figure>
-                </div>
-                <div class="card-content">
-                  <div class="content">
-                    <span class="tag is-dark">#webdev</span>
-                    <strong class="timestamp">2 d</strong>
-                  </div>
-                </div>
-                <footer class="card-footer">
-                  <a class="card-footer-item">Save</a>
-                  <a class="card-footer-item">Edit</a>
-                  <a class="card-footer-item">Delete</a>
-                </footer>
-              </div>
-              <br>
-              <div class="card">
-                <div class="card-image">
-                  <figure class="image is-4by3">
-                    <img src="http://placehold.it/300x225" alt="">
-                  </figure>
-                </div>
-                <div class="card-content">
-                  <div class="content">
-                    <span class="tag is-dark">#webdev</span>
-                    <strong class="timestamp">2 d</strong>
-                  </div>
-                </div>
-                <footer class="card-footer">
-                  <a class="card-footer-item">Save</a>
-                  <a class="card-footer-item">Edit</a>
-                  <a class="card-footer-item">Delete</a>
-                </footer>
-              </div>
-              <br>
-            </div>
-           
-            </div>
+          
 
             <br/><br/><br/><br/>
         </div>

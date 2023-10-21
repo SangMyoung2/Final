@@ -6,7 +6,7 @@
 
 <link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/index.css}"/>
 <link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/main/main.css}"/>
-
+<script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=83bfuniegk"></script>
 </head>
 <body>
 
@@ -15,10 +15,10 @@
     
  
 <header id="header">
-  
+
     <div class="title">
       <div><span class="typcn typcn-heart-outline icon heading"></span></div>
-      <div class="smallsep heading"></div>
+    
       <h1 class="heading"> 가치(GATCHI) </h1>
       <h2 class="heading">Lorem ipsum dolor sit amet</h2>
       <a class="smoothscroll" href="#about">
@@ -33,7 +33,7 @@
   <!-- About Section
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->  
     
-  <section style="height: 1000px;" id="about">
+  <section style="height: 1200px;" id="about">
     <div class="container">
       <div class="row">
         <h4 style="color:#5CA8B5;" >가치(GATCHI) 란?</h4>
@@ -41,15 +41,16 @@
         
       </div>
       <div class="row">
-        <div style="text-align: center;" class="six columns">
+        <div style="text-align: center; " class="six columns">
           <h5><span class="typcn typcn-device-desktop icon"></span>내 주변 친구들과 함께 만들어 가는<br/> 즐거운 모임 생활 가치(GATCHI)  !</h5>
          
-         <img style="width: 650px;" src="http://localhost:8080/image/main/mapimage.jpg"/><br/><br/><br/>
+         <img style="height: 600px; width: 650px;" src="http://localhost:8080/image/main/123123.jpg"/><br/><br/><br/>
          
-          <p>같이 먹고! 같이 놀고! 같이 사고!<br/>
+          <p>같이 먹고! 같이 놀고! 같이 하고!<br/>
             함께의 가치를 가치(GATCHI)에서 느껴보세요 </p>
+           
         </div>
-        
+       
         
       </div>
     </div>
@@ -60,10 +61,10 @@
   
   <section id="team">
     <div style="margin-bottom: -110px;" class="container">
-        <h4 style="color:#5CA8B5;">MeetMate</h4>
+        <h4 style="color:#5CA8B5;">Meet Mate</h4>
         <div class="block"></div>
-        <h5>똑같은 일상을 다채롭게<br/>
-            만들어 줄 원데이 취향 모임</h5>
+        <h5>오늘 하루도 가치있게 <br/>
+            취향 별 원데이 모임</h5>
       
       <br/>
     </div>
@@ -75,11 +76,12 @@
         <img src="http://localhost:8080/image/main/jbal.jpg" alt="">
       </div>
       <div class="text-content">
+        <p>Lead Designer</p>
         <h5>치킨 모임</h5>
-        <p>Lead Designer</p>
-        <p>Lead Designer</p>
-        <p>Lead Designer</p>
-        <p>Lead Designer</p>
+        <p>위치</p>
+        <p>참여인원</p>
+        
+       
       </div>
     </div>
   </div>
@@ -144,11 +146,11 @@
 
 
       <section id="team">
-        <div style="margin-bottom: -110px;" class="container">
-            <h4 style="color:#5CA8B5;">CommuniFind</h4>
+        <div style=" margin-bottom: -110px;" class="container">
+            <h4 style="color:#5CA8B5;">Communi Find</h4>
             <div class="block"></div>
-            <h5>똑같은 일상을 다채롭게<br/>
-                만들어 줄 원데이 취향 모임</h5>
+            <h5>지속적인 취미 활동 공유<br/>
+                우리만의 커뮤니티</h5>
           
           <br/>
         </div>
@@ -228,77 +230,98 @@
     
  
 
-  <section id="team" style="background-color: white;" >
-    <div class="container">
-      <div class="row">
-        <h4 style="color:#5CA8B5;">공동구매</h4>
-        <div class="block"></div>
-        <h5>함께 구매 하고<br/>
-            할인 혜택 까지!
-        </h5>
-      </div>
-      <div class="row">
-        <div class="one columns"> <img src="http://placehold.it/220x220" width="220" height="220" alt=""/>
-          <h5>라면</h5>
-          <p>Creative Director</p>
-           </div>
-        <div class="one columns"> <img src="http://placehold.it/220x220" width="220" height="220" alt=""/>
-          <h5>라면 </h5>
-          <p>Lead Designer</p>
-          </div>
-        <div class="one columns"> <img src="http://placehold.it/220x220" width="220" height="220" alt=""/>
-          <h5>김밥</h5>
-          <p>Designer</p>
-          </div>
-        <div class="one columns"> <img src="http://placehold.it/220x220" width="220" height="220" alt=""/>
-          <h5>비누</h5>
-          <p>Designer</p>
-          </div>
-          <div class="one columns" style="margin-left: 0;"> <img src="http://placehold.it/220x220" width="220" height="220" alt=""/>
-            <h5>비누</h5>
-            <p>Designer</p>
+          <section id="team">
+            <div style="margin-bottom: -110px;" class="container">
+                <h4 style="color:#5CA8B5;">Challenge</h4>
+                <div class="block"></div>
+                <h5>함께 한다면 의지도 두 배!<br/>
+                    함께 목표를 달성해 보세요!</h5>
+              
+              <br/>
             </div>
-            <div class="one columns"> <img src="http://placehold.it/220x220" width="220" height="220" alt=""/>
-              <h5>비누</h5>
-              <p>Designer</p>
+          </section>
+        <div style="display: flex; justify-content: center; background-color:#F5F5F5;">
+          <div class="card-item">
+            <div class="item-content">
+              <div class="image-container">
+                <img src="http://localhost:8080/image/main/jbal.jpg" alt="">
               </div>
-              <div class="one columns"> <img src="http://placehold.it/220x220" width="220" height="220" alt=""/>
-                <h5>비누</h5>
-                <p>Designer</p>
-                </div>
-                <div class="one columns"> <img src="http://placehold.it/220x220" width="220" height="220" alt=""/>
-                  <h5>비누</h5>
-                  <p>Designer</p>
+              <div class="text-content">
+                <h5>치킨 모임</h5>
+                <p>Lead Designer</p>
+                <p>Lead Designer</p>
+                <p>Lead Designer</p>
+                <p>Lead Designer</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="card-item">
+            <div class="item-content">
+              <div class="image-container">
+                <img src="http://localhost:8080/image/main/jbal.jpg" alt="">
+              </div>
+              <div class="text-content">
+                <h5>치킨 모임</h5>
+                <p>Lead Designer</p>
+                <p>Lead Designer</p>
+                <p>Lead Designer</p>
+                <p>Lead Designer</p>
+              </div>
+            </div>
+          </div>
+          </div>
+              <div style="display: flex; justify-content: center; background-color:#F5F5F5;">
+                <div class="card-item">
+                  <div class="item-content">
+                    <div class="image-container">
+                      <img src="http://localhost:8080/image/main/jbal.jpg" alt="">
+                    </div>
+                    <div class="text-content">
+                      <h5>치킨 모임</h5>
+                      <p>Lead Designer</p>
+                      <p>Lead Designer</p>
+                      <p>Lead Designer</p>
+                      <p>Lead Designer</p>
+                    </div>
                   </div>
-
-      
-         
-    </div>
-  </section>
+                </div>
+          
+                <div class="card-item">
+                  <div class="item-content">
+                    <div class="image-container">
+                      <img src="http://localhost:8080/image/main/jbal.jpg" alt="">
+                    </div>
+                    <div class="text-content">
+                      <h5>치킨 모임</h5>
+                      <p>Lead Designer</p>
+                      <p>Lead Designer</p>
+                      <p>Lead Designer</p>
+                      <p>Lead Designer</p>
+                    </div>
+                  </div>
+                </div>
+            </div>
+        
+            <div style=" height: 170px; display: flex; justify-content: center; background-color:#F5F5F5;">
+              <div class="card-item" style="width: 200px; height: 58px;">
+              <a href="/"> 더보기</a>
+              </div>
+              </div>
+              <br/><br/><br/>
 
  
   
   <!-- Skills Section
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->  
   
-  <section id="skills" style="background-color: #F5F5F5;">
-    <div style="height: 900px; " class="container">
+  <section id="skills" style="background-color: #ffffff;">
+    <div style="height: 700px; " class="container">
       <br/>
       <h4 style="color:#5CA8B5;">함께 하는 가치</h4>
       <div style="width: 255px;" class="block"></div>
       <div class="row">
-        <div class="one-third column">
-          <h3>소셜링</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nostrum, recusandae, at, labore velit eligendi amet nobis repellat natus.</p>
-        </div>
-        <div class="one-third column">
-          <h3>클럽</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nostrum, recusandae, at, labore velit eligendi amet nobis repellat natus.</p>
-        </div>
-        <div class="one-third column">
-          <h3>공동구매</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nostrum, recusandae, at, labore velit eligendi amet nobis repellat natus.</p>
-        </div>
+      <h1>함께 하는 가치</h1>
       </div>
      
     </div>
@@ -307,31 +330,51 @@
   <!-- Portfolio Section
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->  
   
-  <section id="portfolio">
-    <div class="container">
-      <h4 style="color:#5CA8B5;">Work</h4>
-      <div class="block"></div>
-      <div class="row">
-        <div class="one columns"> <img src="http://placehold.it/160x160" class="image" alt="Work One"/></div>
-        <div class="one columns"> <img src="http://placehold.it/220x220" class="image" alt="Work Two"/></div>
-        <div class="one columns"> <img src="http://placehold.it/220x220" class="image" alt="Work Three"/></div>
-        <div class="one columns"> <img src="http://placehold.it/220x220" class="image" alt="Work Four"/></div>
-      </div>
-      <div class="row" style="margin-top: 30px;">
-        <div class="one columns"> <img src="http://placehold.it/220x220" class="image" alt="Work Five"/></div>
-        <div class="one columns"> <img src="http://placehold.it/220x220" class="image" alt="Work Six"/></div>
-        <div class="one columns"> <img src="http://placehold.it/220x220" class="image" alt="Work Seven"/></div>
-        <div class="one columns"> <img src="http://placehold.it/220x220" class="image" alt="Work Eight"/></div>
-      </div>
+  <section style="background-color: #ffffff;" id="team">
+    <div style="margin-bottom: -110px;" class="container">
+        <h4 style="color:#5CA8B5;">Info</h4>
+        <div class="block"></div>
+        <h5></h5>
+      
+      <br/>
     </div>
   </section>
-  
 
-
-  
-  
-      
+ 
+<div style=" margin-left: 295px; width: 934px; height: 700px; background-color:#ffffff;">
+  <div id="map" style="width:100%; height:500px;"></div>
+  <h1>ㅎㅇㅎㅇ</h1>
 </div>
+
+
+  
+  <script id="code">
+      
+      var HOME_PATH = window.HOME_PATH || '.';
+      var position = new naver.maps.LatLng(37.4988487, 127.0316082);
+      
+      var map = new naver.maps.Map('map', {
+      center: position, //지도의 초기 중심 좌표
+      zoom: 18, //지도의 초기 줌 레벨
+    
+
+  });
+
+  var markerOptions = {
+  position: position.destinationPoint(0, 0),
+  map: map,
+  icon: {
+      url: HOME_PATH+'/image/map/marker-nowLocation.png',
+      
+      origin: new naver.maps.Point(0, 0),
+      anchor: new naver.maps.Point(25, 26)
+  }
+  };
+  var marker = new naver.maps.Marker(markerOptions);
+
+  </script>
+  
+
 
 
 

@@ -2271,7 +2271,7 @@
   
   .image img {
     display: block;
-    height: auto;
+    height: 100%;
     width: 100%;
   }
   
@@ -2970,7 +2970,7 @@
   .card-footer {
     border-top: 1px solid #dbdbdb;
     align-items: stretch;
-    display: flex;
+    
   }
   
   .card-footer-item {
