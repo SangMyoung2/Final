@@ -11,4 +11,6 @@ public class MeetReviewDTO {
     private String meetReviewContent;
     private String meetReviewDate;
     private String meetReviewImg;
+
+    private String name;
 }
