@@ -28,6 +28,12 @@ public class GatchiServiceImpl implements GatchiService{
 	}
 
 	@Override
+	public List<MeetInfoDTO> getMeetInfo(MeetInfoDTO infoDTO) throws Exception {
+		
+		return gatchiMapper.getMeetInfo();
+	}
+
+	@Override
 	public int maxNum() throws Exception {
 		return gatchiMapper.maxNum();
 	}

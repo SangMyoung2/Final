@@ -21,34 +21,33 @@
   
   <div class="container">
     <div class="row">
-        <form action="" name="myForm" th:object="${BaseAuthUser}" method="post">
+        <form action="" name="myForm" th:object="${BaseAuthUser}" method="post" enctype="multipart/form-data">
+
+          <div class="row" >
+            <div class="input-field col s12" >
+              <br/><br/><br/><br/>
+              <label style="font-size: 23px;" for="name" >프로필 사진 변경</label>
+              <input type="file" name="userImg" accept="image/*">
+           </div>
+         </div>
+
+          
+
+
+
           <div class="row" >
              <div class="input-field col s12" >
-              <input id="picture" name="picture" type="hidden" value="defult.jpeg">
-              <input id="name" name="name"  type="text" class="validate" maxlength="10" required>
+              <input id="email" name="email" type="hidden" th:value="${session.user1.email}">
+              <input th:if="${#httpSession.getAttribute('user1') != null}"
+               id="name" name="name" th:placeholder="${session.user1.name}" type="text" class="validate" maxlength="10" required>
               <label style="font-size: 23px;" for="name" >이름(본명 혹은 닉네임 10글자 이하)</label>
               <div id="ErrorMessage" style="display: none;">
                 <p style='color: red; font-size: 18px;'>닉네임을 입력하세요</p>
              </div>
             </div>
-            
-           
           </div>
-          <div class="row">
-            <div class="input-field col s12">
-              <input id="userName" name="userName" type="email" class="validate" required>
-              <label style="font-size: 23px;" for="userName">이메일</label>
-              <div id="nameErrorMessage" style="display: none;">
-                <p style='color: red; font-size: 18px;'>이메일을 입력하세요</p>
-             </div>
-             <div id="userNameErrorMessage" style="display: none;">
-              <p style='color: red; font-size: 18px;'>정상적인 이메일을 입력하세요</p>
-           </div>
-            </div>
-          </div>
-          
-          
-          
+
+
           
           <div class="row">
             <div class="input-field col s12">
@@ -119,11 +118,11 @@
       </div>
             <div class="row">
       <div class="input-field col s6">
-        <button class="btn btn-large btn-register waves-effect waves-light" type="button" onclick="join();">회원가입</button>
+        <button class="btn btn-large btn-register waves-effect waves-light" type="button" onclick="update();">정보 수정</button>
       </div>
       <div class="input-field col s6">
 
-        <button class="btn btn-large btn-register waves-effect waves-light" type="button" onclick="window.location.href='/login.action'">가입취소</button>
+        <button class="btn btn-large btn-register waves-effect waves-light" type="button" onclick="window.location.href='/login.action'">수정 취소</button>
         
       </div>
     </div>
@@ -135,7 +134,7 @@
          
           <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
           <script type="text/javascript" src="js/util.js"></script>
-          <script type="text/javascript" src="http://localhost:8080/js/signup/signup.js"></script>
+          <script type="text/javascript" src="http://localhost:8080/js/signup/userupdate.js"></script>
 </div>
 
 <br/><br/><br/><br/><br/><br/><br/>

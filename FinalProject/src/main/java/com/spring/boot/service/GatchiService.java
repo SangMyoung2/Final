@@ -13,6 +13,8 @@ public interface GatchiService {
 
 	public void createMeetInfo(MeetInfoDTO infoDTO) throws Exception;
 
+	public List<MeetInfoDTO> getMeetInfo(MeetInfoDTO infoDTO) throws Exception;
+
 	public int maxNum() throws Exception;
 
 	public String masterPicture() throws Exception;
