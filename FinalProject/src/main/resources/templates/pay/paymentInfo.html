@@ -17,14 +17,17 @@
 </head>
 <body>
 
-
     <div layout:fragment="content">
         <br/>
         <p class="paytitle">결제 내역 / 포인트 사용 내역</p>
         <br/>
+
+        <div th:if="${#lists.isEmpty(paymentInfo)}">
+            <p style="text-align: center;">결제 내역이 없습니다.</p>
+        </div>
     
         <!-- paymentInfo 데이터를 반복하여 각 결제 내역을 div로 표시 -->
-        <div th:each="payment : ${paymentInfo}" class="paymentinfocontainer">
+        <div th:each="payment : ${paymentInfo}" class="paymentinfocontainer" th:unless="${#lists.isEmpty(paymentInfo)}">
             <br/>
             <div>
                 <span class="label">결제 날짜/시간: </span>
