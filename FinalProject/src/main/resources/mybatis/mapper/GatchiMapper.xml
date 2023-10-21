@@ -47,7 +47,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	resultType="com.spring.boot.dto.GatchiDTO">
 <![CDATA[
 	SELECT * FROM (
-    	SELECT * FROM gatchi WHERE meetCheck = 1 AND meetStatus = 1 ORDER BY DBMS_RANDOM.VALUE
+    	SELECT * FROM gatchi WHERE meetCheck = 1 ORDER BY DBMS_RANDOM.VALUE
 	) WHERE ROWNUM <= ${count}
 ]]>
 </select>
@@ -56,7 +56,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	resultType="com.spring.boot.dto.GatchiDTO">
 <![CDATA[
 	SELECT * FROM (
-    	SELECT * FROM gatchi WHERE meetCheck = 2 AND meetStatus = 1 ORDER BY DBMS_RANDOM.VALUE
+    	SELECT * FROM gatchi WHERE meetCheck = 2 ORDER BY DBMS_RANDOM.VALUE
 	) WHERE ROWNUM <= ${count}
 ]]>
 </select>
@@ -70,6 +70,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	where rnum >= 1 and rnum <= ${end}
 ]]>
 </select>
+
 
 <select id="searchMeetMateList" parameterType="map" resultType="com.spring.boot.dto.GatchiDTO">
     SELECT * FROM gatchi
@@ -93,42 +94,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         OR
         (#{searchKey} = 'meetPlace' AND meetPlace LIKE '%' || #{searchValue} || '%')
     ) AND meetCheck = 2
-</select>
-
-<select id="sortByLikeCountMeet" parameterType="map" resultType="com.spring.boot.dto.GatchiDTO">
-    SELECT * FROM gatchi
-	WHERE meetCheck = 1
-	ORDER BY meetLikeCount DESC
-</select>
-
-<select id="sortByHitCountMeet" parameterType="map" resultType="com.spring.boot.dto.GatchiDTO">
-    SELECT * FROM gatchi
-	WHERE meetCheck = 1
-	ORDER BY meetHitCount DESC
-</select>
-
-<select id="sortByDdayMeet" parameterType="map" resultType="com.spring.boot.dto.GatchiDTO">
-	SELECT * FROM gatchi
-	WHERE meetCheck = 1
-	ORDER BY meetDday - TO_DATE(SYSDATE, 'YYYY-MM-DD HH24:MI:SS') ASC
-</select>
-
-<select id="sortByLikeCountFind" parameterType="map" resultType="com.spring.boot.dto.GatchiDTO">
-    SELECT * FROM gatchi
-	WHERE meetCheck = 2
-	ORDER BY meetLikeCount DESC
-</select>
-
-<select id="sortByHitCountFind" parameterType="map" resultType="com.spring.boot.dto.GatchiDTO">
-    SELECT * FROM gatchi
-	WHERE meetCheck = 2
-	ORDER BY meetHitCount DESC
-</select>
-
-<select id="sortByDdayFind" parameterType="map" resultType="com.spring.boot.dto.GatchiDTO">
-	SELECT * FROM gatchi
-	WHERE meetCheck = 2
-	ORDER BY meetDday - TO_DATE(SYSDATE, 'YYYY-MM-DD HH24:MI:SS') ASC
 </select>
 
 <update id="updateMeetStatusMate" parameterType="com.spring.boot.dto.GatchiDTO">
