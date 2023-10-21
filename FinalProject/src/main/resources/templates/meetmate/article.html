@@ -15,8 +15,6 @@
 <link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/meetmate/article.css}"/>
 <link rel="icon" type="image/png" th:href="@{http://localhost:8080/image/로고.png}"/>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"/>
-<link rel="stylesheet" href="https://kit.fontawesome.com/1f0cefbb8e.css" crossorigin="anonymous">
-<script src="https://kit.fontawesome.com/1f0cefbb8e.js" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
@@ -224,6 +222,33 @@ function deleteReview(email, meetListNum, meetReviewNum) {
         meetMoneyElement.textContent = formattedMeetMoney;
     });
 
+    $(document).ready(function() {
+        // 각 meetListInfo 요소에 대한 인원수 달성률 계산 및 그래프 색상 및 표시 업데이트
+        $('#countdown-wrap').each(function() {
+            var currentAmount = parseInt($(this).find('#current-amount').text());
+            var maxAmount = parseInt($(this).find('#max-amount').text());
+
+            // 자연수 형태로 인원수 달성률 계산
+            var percentage = Math.floor((currentAmount / maxAmount) * 100);
+            
+            // 그래프 요소 업데이트
+            var progressBar = $(this).find('#progress');
+            progressBar.css('width', percentage + '%');
+
+            // 그래프에 따라 색상 채우기
+            if (percentage >= 100) {
+                progressBar.css('background-color', '#5CA8B5'); // 달성률이 100% 이상인 경우
+            } else if (percentage >= 50) {
+                progressBar.css('background-color', '#5CA8B5'); // 달성률이 50% 이상인 경우
+            } else {
+                progressBar.css('background-color', '#5CA8B5'); // 달성률이 50% 미만인 경우
+            }
+
+            // 자연수 형태와 백분율(%)로 표시 업데이트
+            var percentElement = $(this).find('#goal');
+            percentElement.text(percentage + "%");
+        });
+    });
 </script>
 
 </head>
@@ -277,7 +302,40 @@ function deleteReview(email, meetListNum, meetReviewNum) {
                         <div th:if="${meetMemStatus == 0}" style="margin-left: 30px; color: #adadad; font-size: 17px;">⌛ 승인대기중..</div>
                         <div th:if="${meetMemStatus < 0}" style="margin-left: 30px; color: #adadad; font-size: 17px;">👤 손님</div>
                     </div>
-                    <button class="chat-btn">채팅 바로가기</button>
+
+                    <hr/>
+
+                    <div id="countdown-wrap" th:each="meetListInfo : ${meetListInfo}">
+                        <div id="goal"></div>
+                        <div id="glass">
+                            <div id="progress">
+                            </div>
+                        </div>
+                        <div class="goal-stat">
+                            <span class="goal-number" id="current-amount" th:text="${meetListInfo.meetMemCnt}"></span>
+                            <span class="goal-label">현재 인원</span>
+                        </div>
+                        <div class="goal-stat" style="margin-left: 187px;">
+                            <span class="goal-number" id="max-amount" th:text="${meetListInfo.meetMaxMemCnt}"></span>
+                            <span class="goal-label">모집 인원</span>
+                        </div>
+                    </div>
+
+                    <button class="chat-btn"><img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Speech%20Balloon.png" alt="Speech Balloon" width="25px" height="25px" /> 채팅 바로가기</button>
+
+                    <div class="approval-back"> 
+                        <div style="margin-left: 10px;">승인요청</div>
+             
+
+                        <!-- <div class="mem-request" th:text="${meetWait.name}"></div>
+                        <div class="actions">
+                            <span class="accept-action" th:data-email="${meetWait.email}" th:data-meetListNum="${meetListNum}" th:data-name="${meetWait.name}" onclick="accept(this.getAttribute('data-email'), this.getAttribute('data-meetListNum'), this.getAttribute('data-name'))">요청</span>
+                        </div> -->
+                    </div>
+
+
+
+                    
                 </div>
             </div>
 
@@ -379,7 +437,7 @@ function deleteReview(email, meetListNum, meetReviewNum) {
                         <span style="margin-right: 20px; color: #5CA8B5;">명</span>
                         <a th:if="${meetMemStatus == 1}" th:href="@{'/meetManager.action?meetListNum=' + ${meetListInfo.meetListNum}}" style="text-decoration: none;">
                             <span style="color: #adadad;">관리</span>
-                            <i class="fa-solid fa-gear fa-sm" style="color: #adadad; vertical-align: 0px;"></i>
+                            <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Chains.png" alt="Chains" width="17" height="17" />
                         </a>
                     </p>
                     <div class="meet-mem-list" th:each="meetMember : ${meetMembers}">

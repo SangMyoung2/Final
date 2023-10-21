@@ -350,7 +350,7 @@
 .meet-members {
     position: fixed;
     width: 220px;
-    height: 270px;
+    height: 400px;
     background-color: #F9F9F9;
     overflow-y: auto;
     padding: 15px 0px 15px 15px;
@@ -363,7 +363,7 @@
     width: 500px;
     height: 500px;
     background-color: #F9F9F9;
-    padding: 35px 0px 15px 40px;
+    padding: 35px 40px 15px 40px;
     left: 0;
 }
 
@@ -383,15 +383,19 @@
   }
   .badge.primary {
     background-color: #807373;
+    font-size: 13px;
   }
   .badge.meetMate {
     background-color: #1d65b2;
+    font-size: 13px;
   }
   .badge.communiFind {
     background-color: #00824a;
+    font-size: 13px;
   }
   .badge.meetHow {
-    background-color: #8889c7;
+    background-color: rgb(165, 166, 199);
+    font-size: 13px;
   }
 
 .user-info-container {
@@ -420,9 +424,91 @@
     margin-right: 5px;
 }
 
-.chat-btn {
-   
+#countdown-wrap {
+    width: 100%;
+    height: 200px;
+    /* border: 1px solid black; */
+    padding: 0px 26px 0px 20px; /*위/양사이드/아래*/ 
+    font-family: arial;
+    max-width: 650px;
+  }
+  
+  #goal {
+    font-size: 35px;
+    text-align: right;
+    color: #000;
+    @media only screen and (max-width : 640px) {
+      text-align: center;  
+    }
+    
+  }
+  
+  #glass {
+    width: 100%;
+    height: 20px;
+    background: #c7c7c7;
+    border-radius: 10px;
+    float: left;
+    overflow: hidden;
+  }
+  
+  #progress {
+    float: left;
+    width: 16%;
+    height: 20px;
+    background: #5CA8B5;
+    z-index: 333;
+    border-radius: 5px;
+  }
+  
+  .goal-stat {
+    width: 25%;
+    height: 30px;
+    padding: 10px;
+    float: left;
+    margin: 0;
+    color: #000;
+    
+    @media only screen and (max-width : 640px) {
+      width: 50%;
+      text-align: center;
+    }
+  }
+  
+  .goal-number, .goal-label {
+    display: block;
+  }
+  
+  .goal-number {
+    font-weight: bold;
+  }
+
+  .chat-btn {
+    background-color: #383838;
+    border: none;
+    color: white;
+    padding: 10px 133px;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    margin: 0 auto;
+    font-size: 16px;
+    border-radius: 7px;
+    cursor: pointer;
+    font-size: 20px;
+    margin-top: -40px;
+    margin-bottom: 30px;
 }
+
+.approval-back {
+    display: inline-block;
+    padding: 10px;
+    background-color: #f0f0f0;
+    width: 390px;
+    height: 130px;
+    margin-left: 15px;
+}
+
 
 .meet-mem-list {
     list-style-type:none;
