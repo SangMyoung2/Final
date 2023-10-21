@@ -154,7 +154,7 @@ public class ChatRoomController {
         
         ModelAndView mav = new ModelAndView();
         //mav.addObject("roomName", room);
-        mav.setViewName("redirect:/meetMateList");
+        mav.setViewName("redirect:/meetMateList.action");
         return mav;
     }
 

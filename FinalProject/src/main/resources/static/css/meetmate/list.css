@@ -548,7 +548,7 @@
     top: -20px; /* 간격 조금 늘림 */
 }
   .heart:hover {
-    background-position: left;
+    background-position: right;
   }
   
   .like{

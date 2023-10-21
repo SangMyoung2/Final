@@ -250,10 +250,13 @@ public class MeetControllerYj {
 		} else if (meetHow == 2) {
 			MeetInfoDTO.setMeetMemStatus(0); // 승인대기
 		}
-			meetServiceYj.insertMeetJoinOk(MeetInfoDTO);
-		
-			return mav;
-		}
+		System.out.println("예외 ================================================================");
+
+		meetServiceYj.insertMeetJoinOk(MeetInfoDTO);
+		System.out.println("예외 ================================================================");
+
+		return mav;
+	}
 
 	// 방 나가기
 	@GetMapping("/out-meet")
@@ -285,7 +288,7 @@ public class MeetControllerYj {
 	public ModelAndView deleteMeet(HttpServletRequest request,
 			@RequestParam("meetListNum") int meetListNum) throws Exception {
 
-		ModelAndView mav = new ModelAndView("redirect:/meetMateList");
+		ModelAndView mav = new ModelAndView("redirect:/meetMateList.");
 
 		GatchiDTO GatchiDTO = new GatchiDTO();
 		GatchiDTO.setMeetListNum(meetListNum);

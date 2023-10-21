@@ -74,6 +74,7 @@ public class MeetServiceImplYj implements MeetServiceYj {
     
     @Override
     public void insertMeetJoinOk(MeetInfoDTO dto) throws Exception {
+        System.out.println("inserMeetJoin 들어옴 ===");
         meetMapperYj.insertMeetJoinOk(dto);
     }
 
