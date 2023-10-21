@@ -111,7 +111,7 @@
       <ul class="cards">
         
         <li name="communiLists" class="communiLists_hidden" th:each="items : ${searchCommuniFindList}" 
-          th:style="${items.meetStatus == 2 ? 'outline: inset #000000; border-radius: 40px;' : ''}" 
+          th:style="${items.meetStatus == 2 ? 'border-radius: 40px;' : ''}" 
           th:unless="${items.meetStatus == 3}">
           <div class="card">
             <div id="heart" class="heart" name="likeBtn">
@@ -188,7 +188,7 @@
 
 
     <ul class="cards">
-      <li name="communiLists" class="communiLists_hidden" th:each="items : ${communiLists}" th:style="${items.meetStatus == 2 ? 'outline: inset #000000; border-radius: 40px;' : ''}" 
+      <li name="communiLists" class="communiLists_hidden" th:each="items : ${communiLists}" th:style="${items.meetStatus == 2 ? 'border-radius: 40px;' : ''}" 
         th:unless="${items.meetStatus == 3}">
           <div class="card">
             <div id="heart" class="heart" name="likeCount"></div>    

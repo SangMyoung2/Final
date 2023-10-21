@@ -111,7 +111,7 @@
   <div class="c2" style="margin-top: 100px;">
     <ul class="cards">
       <li name="meetLists" class="meetList_hidden" th:each="items : ${searchMeetMateList}" 
-        th:style="${items.meetStatus == 2 ? 'outline: inset #000000; border-radius: 40px;' : ''}" 
+        th:style="${items.meetStatus == 2 ? 'border-radius: 40px;' : ''}" 
         th:unless="${items.meetStatus == 3}">
           <div class="card">
             <div id="heart" class="heart" name="likeBtn">
@@ -188,7 +188,7 @@
 
 
     <ul class="cards">
-      <li name="meetLists" class="meetList_hidden" th:each="items : ${meetLists}" th:style="${items.meetStatus == 2 ? 'outline: inset #000000; border-radius: 40px;' : ''}" 
+      <li name="meetLists" class="meetList_hidden" th:each="items : ${meetLists}" th:style="${items.meetStatus == 2 ? 'border-radius: 40px;' : ''}" 
       th:unless="${items.meetStatus == 3}">
           <div class="card">
             <div id="heart" class="heart" name="likeCount"></div>    
