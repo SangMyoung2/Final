@@ -141,7 +141,7 @@
                 <div class="card__header-wrapper">
                   <div class="card__header-text">
                     <span class="card__status" >
-                      <span th:switch="${items.meetCtgNum}">
+                      <!-- <span th:switch="${items.meetCtgNum}">
                         <span th:case="1" class="category-button">
                           <button class="ctgButton" disabled="disabled">문화·예술</button>
                           <h3 class="card__title" th:text="${items.meetTitle}">글제목</h3>
@@ -161,8 +161,16 @@
                         <span th:case="5" class="category-button">
                           <button class="ctgButton" disabled="disabled">운동·액티비티</button>
                           <h3 class="card__title" th:text="${items.meetTitle}">글제목</h3>    
-                        </span>
-                    </span><br/>
+                        </span> -->
+                    <span th:switch="${items.meetCtgNum}">
+                      <span th:case="1"><button class="ctgButton" disabled="disabled">문화·예술</button></span>
+                      <span th:case="2"><button class="ctgButton" disabled="disabled">맛집</button></span>
+                      <span th:case="3"><button class="ctgButton" disabled="disabled">취미</button></span>
+                      <span th:case="4"><button class="ctgButton" disabled="disabled">여행</button></span>
+                      <span th:case="5"><button class="ctgButton" disabled="disabled">운동·액티비티</button></span>
+                    </span>
+                    <h3 class="card__title" th:text="${items.meetTitle}">글제목</h3> <br/>   
+                    
                     <span class="card__status" th:text="'일시: ' + ${items.meetDday} + ', 장소: ' + ${items.meetPlace.replaceAll('.*?([^ ]+구).*', '$1')}">일시, 좋아요</span><br/>
                     <span class="card__status" th:text="' 참여인원 : ' + ${items.meetMemCnt} + ' / ' + ${items.meetMaxMemCnt}">현재 참석인원 / 최대인원</span>
                   </div>
@@ -207,7 +215,7 @@
                 <div class="card__header-wrapper">
                   <div class="card__header-text">
                     <span class="card__status" >
-                      <span th:switch="${items.meetCtgNum}">
+                      <!-- <span th:switch="${items.meetCtgNum}">
                         <span th:case="1" class="category-button">
                           <button class="ctgButton" disabled="disabled">문화·예술</button>
                           <h3 class="card__title" th:text="${items.meetTitle}">글제목</h3>
@@ -227,8 +235,16 @@
                         <span th:case="5" class="category-button">
                           <button class="ctgButton" disabled="disabled">운동·액티비티</button>
                           <h3 class="card__title" th:text="${items.meetTitle}">글제목</h3>    
-                        </span>
-                    </span><br/>
+                        </span> -->
+                      <span th:switch="${items.meetCtgNum}">
+                        <span th:case="1"><button class="ctgButton" disabled="disabled">문화·예술</button></span>
+                        <span th:case="2"><button class="ctgButton" disabled="disabled">맛집</button></span>
+                        <span th:case="3"><button class="ctgButton" disabled="disabled">취미</button></span>
+                        <span th:case="4"><button class="ctgButton" disabled="disabled">여행</button></span>
+                        <span th:case="5"><button class="ctgButton" disabled="disabled">운동·액티비티</button></span>
+                      </span>
+                      <h3 class="card__title" th:text="${items.meetTitle}">글제목</h3> <br/>   
+                    </span><br=/>
                     <span class="card__status" th:text="'일시: ' + ${items.meetDday} + ', 장소: ' + ${items.meetPlace.replaceAll('.*?([^ ]+구).*', '$1')}">일시, 좋아요</span><br/>
                     <span class="card__status" th:text="' 참여인원 : ' + ${items.meetMemCnt} + ' / ' + ${items.meetMaxMemCnt}">현재 참석인원 / 최대인원</span>
                   </div>

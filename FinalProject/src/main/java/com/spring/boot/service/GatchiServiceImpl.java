@@ -38,10 +38,10 @@ public class GatchiServiceImpl implements GatchiService{
 		return gatchiMapper.masterPicture();
 	}
 
-	@Override
-	public GatchiDTO getReadData(int meetListNum) throws Exception {
-		return gatchiMapper.getReadData(meetListNum);	
-	}
+	// @Override
+	// public GatchiDTO getReadData(int meetListNum) throws Exception {
+	// 	return gatchiMapper.getReadData(meetListNum);	
+	// }
 
 	@Override
 	public List<GatchiDTO> getMeetMateLists() throws Exception{
