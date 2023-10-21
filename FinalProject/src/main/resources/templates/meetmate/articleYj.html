@@ -325,6 +325,36 @@ function outmeet(){
     }
 }
 
+function testMeet() {
+    let meetListNum = document.getElementById('meetListNum').value;
+    let reqMoney = confirm(title + ' 모임 정산을 멤버들에게 요청할까요?');
+
+    if(reqMoney){
+        $.ajax({
+                type: "POST",
+                url: "/meetMoneyReq",
+                data: {
+                    meetListNum: meetListNum
+                },
+                success: function (response) {
+                    if(response == 1){
+                        alert('멤버들에게 정산요청을 하였습니다.');
+                        location.href = '/articleYj.action?meetListNum='+meetListNum;
+                    }else if(response === 2){
+                        alert('....');
+                    }
+                    else{
+                        alert('다시 시도해 주세요..');
+                    }
+                },
+                error: function () {
+                    alert('알수없는 에러 입니다.. 고객센터에게 문의해주세요');
+                }
+            });
+
+    }
+}
+
 
     function inputNumberWithComma(str) {
         str = String(str);
@@ -345,13 +375,6 @@ function outmeet(){
 <body>
 
 <div layout:fragment="content">
-
-
-
-
-
-
-    
 
     <div class="text-center">
         <div class="btn-group" role="group" aria-label="Basic radio toggle button group" style="width: 800px; margin-bottom: 5px; margin-top: 20px;">
@@ -449,7 +472,13 @@ function outmeet(){
                         <th:block th:if="${meetStatus == 1 and meetMemStatus == 0}">
                             <p style="font-size: 18px; color: rgb(0, 68, 255);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;가입 승인 대기 중입니다.</p>
                         </th:block>
-                        
+
+                        <button type="button" class="test-button" 
+                        style="margin-top: 20px;"
+                        onclick="testMeet()">
+                            승인테스트용 버튼
+                        </button>
+
                     </div>
                 </div>
             </div>
