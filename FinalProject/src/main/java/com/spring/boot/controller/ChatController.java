@@ -109,7 +109,7 @@ public class ChatController {
             rooms.setUserCount(userCnt + 1);
             chatRoomService.updateChatRoom(rooms);
         }
-        return new ModelAndView("redirect:/managerYj.action?meetListNum=" + meetListNum);
+        return new ModelAndView("redirect:/meetManager.action?meetListNum=" + meetListNum);
     }
 
 

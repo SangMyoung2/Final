@@ -13,7 +13,9 @@
     <update id="updateUserPoint" parameterType="com.spring.boot.dto.userPointDTO">
         UPDATE userPoint
         SET pointBalance = pointBalance + #{pointBalance}
-        WHERE useremail = #{useremail}
+        WHERE email = #{email}
+    </update>
+    
     <update id="updateOrInsertUserPointWithMap" parameterType="java.util.Map">
     <!-- 해당 이메일 레코드가 존재하는지 확인 -->
     <selectKey resultType="int" keyProperty="count" order="BEFORE">
@@ -49,7 +51,7 @@
     <!-- 사용자 포인트 사용시 감소 -->
     <update id="updateUserUsePoint" parameterType="com.spring.boot.dto.userPointDTO">
         update userPoint set pointBalance = pointBalance - #{pointBalance}
-        where useremail = #{useremail}
+        where email = #{email}
     </update>
     <!-- 추가적인 결제 관련 SQL 문장을 작성할 수 있습니다. -->
 

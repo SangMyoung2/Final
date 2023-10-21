@@ -467,15 +467,15 @@ public class MeetControllerYj {
 		GatchiDTO gatchiDTO = meetServiceYj.getMeetListInfo(meetListNum);
 		int meetMoney = gatchiDTO.getMeetMoney();
 
-		PointHistoryDTO pointDTO = new PointHistoryDTO();
-		pointDTO.setUseremail(useremail);
-		pointDTO.setMeetListNum(meetListNum);
+		// PointHistoryDTO pointDTO = new PointHistoryDTO();
+		// pointDTO.setUseremail(useremail);
+		// pointDTO.setMeetListNum(meetListNum);
 
-		pointDTO = pointHistoryService.getUseReadData(pointDTO);
+		// pointDTO = pointHistoryService.getUseReadData(pointDTO);
 
-		if(meetMoney != pointDTO.getUsePoint()){
-			return false;
-		}
+		// if(meetMoney != pointDTO.getUsePoint()){
+		// 	return false;
+		// }
 
 		// 위에 조건에서 리턴 안되면 환불
 		refundPoint(useremail, meetListNum);
@@ -512,13 +512,13 @@ public class MeetControllerYj {
 		int userPoint = paymentService.getUserPoint(useremail);
 		
 		GatchiDTO gatchiDto = meetServiceYj.getMeetListInfo(meetListNum);
-		
+		System.out.println("유저 포인트 전");
 		// 유저 포인트 감소
 		userPointDTO userpointDTO = new userPointDTO();
 		userpointDTO.setEmail(useremail);
 		userpointDTO.setPointBalance(gatchiDto.getMeetMoney());
 		paymentService.updateUserUsePoint(userpointDTO);
-
+		System.out.println("유저 포인트 후 히스토리 전");
 		// 히스토리 업데이트(추가)
 		PointHistoryDTO pointDto = new PointHistoryDTO();
 		pointDto.setUseremail(useremail);
@@ -529,6 +529,7 @@ public class MeetControllerYj {
 		pointDto.setBeforPoint(userPoint);
 		pointDto.setMeetListNum(meetListNum);
 		pointHistoryService.insertPointHistory(pointDto);
+		System.out.println("히스토리 후");
 	}
 
 
