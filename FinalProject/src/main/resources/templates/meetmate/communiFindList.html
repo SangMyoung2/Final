@@ -117,7 +117,7 @@
             <div id="heart" class="heart" name="likeBtn">
               <input type="hidden" th:value="${items.meetListNum}">
             </div>
-            <a href="#">
+              <a th:href="@{'/meetArticle.action?meetListNum=' + ${items.meetListNum}}">
               <img th:src="@{|/image/gatchiImage/${items.meetImage}|}" class="card__image" alt=""/>  <!-- 클릭하면 article로 넘어가게 -->
             </a>
             <div class="card__overlay">
