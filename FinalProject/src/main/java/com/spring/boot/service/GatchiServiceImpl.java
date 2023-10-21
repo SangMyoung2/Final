@@ -38,10 +38,10 @@ public class GatchiServiceImpl implements GatchiService{
 		return gatchiMapper.masterPicture();
 	}
 
-	@Override
-	public GatchiDTO getReadData(int meetListNum) throws Exception {
-		return gatchiMapper.getReadData(meetListNum);	
-	}
+	// @Override
+	// public GatchiDTO getReadData(int meetListNum) throws Exception {
+	// 	return gatchiMapper.getReadData(meetListNum);	
+	// }
 
 	@Override
 	public List<GatchiDTO> getMeetMateLists() throws Exception{
@@ -78,15 +78,15 @@ public class GatchiServiceImpl implements GatchiService{
 		return gatchiMapper.searchCommuniFindList(searchKey, searchValue);
 	}
 	
-	// @Override
-	// public void updateMeetStatusMate(GatchiDTO gatchiDTO) throws Exception {
-	// 	gatchiMapper.updateMeetStatusMate(gatchiDTO);
-	// }
+	@Override
+	public void updateMeetStatusMate(GatchiDTO gatchiDTO) throws Exception {
+		gatchiMapper.updateMeetStatusMate(gatchiDTO);
+	}
 	
-	// @Override
-	// public void updateMeetStatusFind(GatchiDTO gatchiDTO) throws Exception {
-	// 	gatchiMapper.updateMeetStatusFind(gatchiDTO);
-	// }
+	@Override
+	public void updateMeetStatusFind(GatchiDTO gatchiDTO) throws Exception {
+		gatchiMapper.updateMeetStatusFind(gatchiDTO);
+	}
 	
 	@Override
 	public List<GatchiDTO> sortByLikeCountMeet() throws Exception {
@@ -168,15 +168,7 @@ public class GatchiServiceImpl implements GatchiService{
 	}
 */
 
-@Override
-   public void updateMeetStatusMate(GatchiDTO gatchiDTO) throws Exception {
-      gatchiMapper.updateMeetStatusMate(gatchiDTO);
-   }
-   
-   @Override
-   public void updateMeetStatusFind(GatchiDTO gatchiDTO) throws Exception {
-      gatchiMapper.updateMeetStatusFind(gatchiDTO);
-   }
+
 	
 @Override
 public void plusMeetCount(int meetListNum) throws Exception {

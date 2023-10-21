@@ -47,6 +47,10 @@ public interface GatchiMapper {
 
 	public List<GatchiDTO> sortByDdayFind() throws Exception;
 
+	public void updateMeetStatusMate(GatchiDTO gatchiDTO) throws Exception;
+
+	public void updateMeetStatusFind(GatchiDTO gatchiDTO) throws Exception;
+
 	
     //public void meetLikes(int meetListNum) throws Exception;
 
@@ -59,9 +63,7 @@ public interface GatchiMapper {
 	// public void updateData(MeetmateDTO dto) throws Exception;
 	
 	// public void deleteData(int num) throws Exception;
-	public void updateMeetStatusMate(GatchiDTO gatchiDTO) throws Exception;
 
-	public void updateMeetStatusFind(GatchiDTO gatchiDTO) throws Exception;
 
 	public void plusMeetCount(int meetListNum) throws Exception;
     

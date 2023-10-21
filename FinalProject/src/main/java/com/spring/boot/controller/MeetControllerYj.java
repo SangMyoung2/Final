@@ -33,6 +33,8 @@ import com.spring.boot.service.GatchiService;
 import com.spring.boot.dto.MeetCategoryDTO;
 import com.spring.boot.dto.MeetInfoDTO;
 import com.spring.boot.dto.MeetReviewDTO;
+import com.spring.boot.dto.SessionUser;
+import com.spring.boot.model.Users;
 import com.spring.boot.service.MeetServiceYj;
 import com.spring.boot.service.PaymentService;
 import com.spring.boot.service.PointHistoryService;
@@ -55,20 +57,21 @@ public class MeetControllerYj {
 
 	@GetMapping("/listYj.action")
 	public ModelAndView listYj() throws Exception {
-		List<MeetCategoryDTO> listYj = meetServiceYj.getAllCategories();
+		List<MeetCategoryDTO> meetLists = meetServiceYj.getAllCategories();
 
 		ModelAndView mav = new ModelAndView();
-		if(listYj != null){
-			listYj = new ArrayList<>();
+		if (meetLists == null) {
+			meetLists = new ArrayList<>();
 		}
-		mav.addObject("listYj", listYj);
+		
+		mav.addObject("meetLists", meetLists);
 		mav.setViewName("bbs/listYj");
 
 		return mav;
 	}
 
-	@GetMapping("/articleYj.action")
-	public ModelAndView articleYj(HttpServletRequest request) throws Exception {
+	@GetMapping("/meetArticle.action")
+	public ModelAndView meetArticle(HttpServletRequest request, @RequestParam("meetListNum") int meetListNum) throws Exception {
 
 		// 날짜 종료된 모임이면 meetStatus( 1 => 2로 변경 )
 		GatchiDTO GatchiDTO = new GatchiDTO();
@@ -76,16 +79,27 @@ public class MeetControllerYj {
         meetServiceYj.meetStatusCompletion(GatchiDTO);
 
 		GatchiDTO meetListInfo = meetServiceYj.getMeetListInfo(Integer.parseInt(request.getParameter("meetListNum")));
-		List<String> meetMembers = meetServiceYj.getMeetMembers(Integer.parseInt(request.getParameter("meetListNum")));
+		List<MeetInfoDTO> meetMembers = meetServiceYj.getMeetMembers(Integer.parseInt(request.getParameter("meetListNum")));
 		List<MeetReviewDTO> meetReview = meetServiceYj.getReview(Integer.parseInt(request.getParameter("meetListNum")));
 		int meetStatus = meetServiceYj.getMeetStatus(Integer.parseInt(request.getParameter("meetListNum")));
+		MeetInfoDTO meetMaster = meetServiceYj.getMeetMaster(Integer.parseInt(request.getParameter("meetListNum")));
 		
 		ModelAndView mav = new ModelAndView();
 		MeetInfoDTO MeetInfoDTO = new MeetInfoDTO();
-		
+
 		HttpSession session = request.getSession();
-		Users user = (Users) session.getAttribute("user1");
-		String useremail = user.getEmail();
+		// Users social = (Users)session.getAttribute("user");
+		Users user1 = (Users)session.getAttribute("user1");
+		SessionUser sessionUser = (SessionUser) session.getAttribute("user");
+
+		if (sessionUser != null) {
+			MeetInfoDTO.setEmail(sessionUser.getEmail()); 
+		} else if (user1 != null) {
+			MeetInfoDTO.setEmail(user1.getEmail()); 
+		}
+		
+		
+		String useremail = user1.getEmail();
 
 		mav.addObject("loginEmail", useremail);  // TODO : 로그인된 email
 
@@ -97,16 +111,13 @@ public class MeetControllerYj {
 		Integer ret = meetServiceYj.getMemberStatus(MeetInfoDTO);
 		if (ret != null) memberStatus = ret.intValue();
 		
-		// 방장 자신은 강퇴하면 안 되니까 비교하려고
-		if (memberStatus == 1) {
-			String masterEmail = meetServiceYj.getMeetMasterEmail(Integer.parseInt(request.getParameter("meetListNum")));
-			mav.addObject("masterEmail", masterEmail);
-		}
+		// // 방장 자신은 강퇴하면 안 되니까 비교하려고
+		// if (memberStatus == 1) {
+		// 	String masterEmail = meetServiceYj.getMeetMaster(Integer.parseInt(request.getParameter("meetListNum")));
+		// 	mav.addObject("masterEmail", masterEmail);
+		// }
 
-		// 방장 이메일 띄움
-		String masterEmail2 = meetServiceYj.getMeetMasterEmail(Integer.parseInt(request.getParameter("meetListNum")));
-		mav.addObject("masterEmail2", masterEmail2);
-
+		mav.addObject("meetMaster", meetMaster);
         mav.addObject("meetStatus", meetStatus);
 		mav.addObject("meetListNum", request.getParameter("meetListNum"));
 		mav.addObject("meetListInfo", meetListInfo);
@@ -114,7 +125,7 @@ public class MeetControllerYj {
 		mav.addObject("meetReview", meetReview);
 		mav.addObject("meetMemStatus", memberStatus);
 		mav.addObject("dto", MeetInfoDTO);
-		mav.setViewName("meetmate/articleYj");
+		mav.setViewName("meetmate/article");
 		
 		return mav;
 	}
@@ -130,10 +141,23 @@ public class MeetControllerYj {
       	String resourcePath = resource.getFile().getAbsolutePath() + "/image/reviewImage";
 
         MeetReviewDTO MeetReviewDTO = new MeetReviewDTO();
-		
+		MeetInfoDTO MeetInfoDTO = new MeetInfoDTO();
+
 		HttpSession session = request.getSession();
-		Users user = (Users) session.getAttribute("user1");
-		String useremail = user.getEmail();
+		// Users social = (Users)session.getAttribute("user");
+		Users user1 = (Users)session.getAttribute("user1");
+		SessionUser sessionUser = (SessionUser) session.getAttribute("user");
+
+		if (sessionUser != null) {
+			MeetInfoDTO.setEmail(sessionUser.getEmail()); 
+			MeetReviewDTO.setEmail(sessionUser.getEmail());
+		} else if (user1 != null) {
+			MeetInfoDTO.setEmail(user1.getEmail()); 
+			MeetReviewDTO.setEmail(user1.getEmail());
+		}
+		
+		
+		String useremail = user1.getEmail();
 
 		MeetReviewDTO.setMeetListNum(meetListNum);
 		MeetReviewDTO.setEmail(useremail); // TODO : 세션에서 email 가져와야됨
@@ -154,14 +178,15 @@ public class MeetControllerYj {
 				// File destFile = new File(resourcePath, saveFileName);
 				// meetReviewImg.transferTo(destFile);
 
-				MeetReviewDTO.setMeetReviewImg(saveFileName); // 원본 이미지 파일 이름을 저장
+				MeetReviewDTO.setMeetReviewImg(saveFileName);
 				MeetReviewDTO.setMeetReviewContent(meetReviewContent);
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 				MeetReviewDTO.setMeetReviewDate(sdf.format(new Date()));
 
 				int meetReviewNum = meetServiceYj.getReviewNum(meetListNum);
 				MeetReviewDTO.setMeetReviewNum(meetReviewNum);
-
+				
+				
 				meetServiceYj.insertMeetReview(MeetReviewDTO);
 				response = "success";
 				return response; // 리뷰 작성 성공 시 success 페이지로 리다이렉트
@@ -189,32 +214,33 @@ public class MeetControllerYj {
 
 		meetServiceYj.deleteMeetReview(MeetReviewDTO);		
 
-		return new ModelAndView("redirect:/articleYj.action?meetListNum=" + meetListNum);
+		return new ModelAndView("redirect:/meetArticle.action?meetListNum=" + meetListNum);
 	}
 
 	
 	// 방장이 관리할 수 있는 곳
-	@GetMapping("/managerYj.action")
-	public ModelAndView manageYj(HttpServletRequest request) throws Exception {
+	@GetMapping("/meetManager.action")
+	public ModelAndView meetManager(HttpServletRequest request) throws Exception {
 
 		int meetListNum = Integer.parseInt(request.getParameter("meetListNum"));
 		GatchiDTO meetListInfo = meetServiceYj.getMeetListInfo(Integer.parseInt(request.getParameter("meetListNum")));
 
-		List<String> meetMembers = meetServiceYj.getMeetMembers(meetListNum);
-		List<String> meetBlack = meetServiceYj.getMeetBlack(meetListNum);
-		List<String> meetWait = meetServiceYj.getMeetWait(meetListNum);
+		List<MeetInfoDTO> meetMembers = meetServiceYj.getMeetMembers(meetListNum);
+		List<MeetInfoDTO> meetBlack = meetServiceYj.getMeetBlack(meetListNum);
+		List<MeetInfoDTO> meetWait = meetServiceYj.getMeetWait(meetListNum);
+		MeetInfoDTO meetMaster = meetServiceYj.getMeetMaster(meetListNum);
 
 		ModelAndView mav = new ModelAndView();
+
+
 		mav.addObject("meetListNum", meetListNum);
 		mav.addObject("meetMembers", meetMembers);
 		mav.addObject("meetWait", meetWait);
 		mav.addObject("meetBlack", meetBlack);
 		mav.addObject("meetListInfo", meetListInfo);
+		mav.addObject("meetMaster", meetMaster);
 
-		String masterEmail = meetServiceYj.getMeetMasterEmail(meetListNum);
-		mav.addObject("masterEmail", masterEmail);
-
-		mav.setViewName("meetmate/managerYj");
+		mav.setViewName("meetmate/manager");
 		
 		return mav;
 	}
@@ -224,7 +250,7 @@ public class MeetControllerYj {
 	public ModelAndView  joinMeet(HttpServletRequest request,
 			@RequestParam("meetListNum") int meetListNum) throws Exception {
 
-		ModelAndView mav = new ModelAndView("redirect:/articleYj.action?meetListNum=" + meetListNum);
+		ModelAndView mav = new ModelAndView("redirect:/meetArticle.action?meetListNum=" + meetListNum);
 
 		//String email = (String) request.getSession().getAttribute("email"); //세션
 		System.out.println("join-meet 들어옴");
@@ -236,6 +262,18 @@ public class MeetControllerYj {
 		paymentPoint(useremail, meetListNum);
 	
 		MeetInfoDTO MeetInfoDTO = new MeetInfoDTO();
+
+		
+		// Users social = (Users)session.getAttribute("user");
+		Users user1 = (Users)session.getAttribute("user1");
+		SessionUser sessionUser = (SessionUser) session.getAttribute("user");
+
+		if (sessionUser != null) {
+			MeetInfoDTO.setEmail(sessionUser.getEmail()); 
+		} else if (user1 != null) {
+			MeetInfoDTO.setEmail(user1.getEmail()); 
+		}
+
 		MeetInfoDTO.setMeetListNum(meetListNum);
 		MeetInfoDTO.setEmail(useremail); // TODO : 세션에서 email 가져와야됨
 		
@@ -263,15 +301,24 @@ public class MeetControllerYj {
 	public ModelAndView outMeet(HttpServletRequest request,
 			@RequestParam("meetListNum") int meetListNum) throws Exception {
 
-		ModelAndView mav = new ModelAndView("redirect:/articleYj.action?meetListNum=" + meetListNum);
+		ModelAndView mav = new ModelAndView("redirect:/meetArticle.action?meetListNum=" + meetListNum);
+		MeetInfoDTO MeetInfoDTO = new MeetInfoDTO();
+
+		HttpSession session = request.getSession();
+		// Users social = (Users)session.getAttribute("user");
+		Users user1 = (Users)session.getAttribute("user1");
+		SessionUser sessionUser = (SessionUser) session.getAttribute("user");
+
+		if (sessionUser != null) {
+			MeetInfoDTO.setEmail(sessionUser.getEmail()); 
+		} else if (user1 != null) {
+			MeetInfoDTO.setEmail(user1.getEmail()); 
+		}
 
 		//String email = (String) request.getSession().getAttribute("email"); //세션
-	
-		HttpSession session = request.getSession();
-		Users user = (Users) session.getAttribute("user1");
-		String useremail = user.getEmail();
+		
+		String useremail = user1.getEmail();
 
-		MeetInfoDTO MeetInfoDTO = new MeetInfoDTO();
 		MeetInfoDTO.setMeetListNum(meetListNum);
 		MeetInfoDTO.setEmail(useremail);
 
@@ -288,7 +335,8 @@ public class MeetControllerYj {
 	public ModelAndView deleteMeet(HttpServletRequest request,
 			@RequestParam("meetListNum") int meetListNum) throws Exception {
 
-		ModelAndView mav = new ModelAndView("redirect:/meetMateList.");
+				
+		ModelAndView mav = new ModelAndView("redirect:/meetMateList.action");
 
 		GatchiDTO GatchiDTO = new GatchiDTO();
 		GatchiDTO.setMeetListNum(meetListNum);
@@ -325,7 +373,7 @@ public class MeetControllerYj {
 		meetServiceYj.acceptToWaitlist(MeetInfoDTO);
 		meetServiceYj.incrementMeetMemCnt(meetListNum);
 		
-		GatchiDTO gatchiDTO = gatchiService.getReadData(meetListNum);
+		GatchiDTO gatchiDTO = meetServiceYj.getMeetListInfo(meetListNum);
 
 		//채팅방 가입으로 보냄
 		ModelAndView mav = new ModelAndView();
@@ -351,7 +399,7 @@ public class MeetControllerYj {
 		
 		refundPoint(email, meetListNum);
 
-		return new ModelAndView("redirect:/managerYj.action?meetListNum=" + meetListNum);
+		return new ModelAndView("redirect:/meetManager.action?meetListNum=" + meetListNum);
 	}
 		
 	// 블랙리스트에 추가
@@ -368,7 +416,7 @@ public class MeetControllerYj {
 		meetServiceYj.addToBlacklist(MeetInfoDTO);
 		meetServiceYj.decrementMeetMemCnt(meetListNum);
 
-		return new ModelAndView("redirect:/managerYj.action?meetListNum=" + meetListNum);
+		return new ModelAndView("redirect:/meetManager.action?meetListNum=" + meetListNum);
 	}
 
 	// 블랙리스트 해제
@@ -382,7 +430,7 @@ public class MeetControllerYj {
 		MeetInfoDTO.setEmail(email);
 		meetServiceYj.releaseFromBlacklist(MeetInfoDTO);
 
-		return new ModelAndView("redirect:/managerYj.action?meetListNum=" + meetListNum);
+		return new ModelAndView("redirect:/meetManager.action?meetListNum=" + meetListNum);
 	}
 
 	// 포인트 있는지 확인
@@ -395,7 +443,7 @@ public class MeetControllerYj {
 		System.out.println("포인트 체크 하는 곳");
 		int userPoint = paymentService.getUserPoint(useremail);
 
-		GatchiDTO dto = gatchiService.getReadData(meetListNum);
+		GatchiDTO dto = meetServiceYj.getMeetListInfo(meetListNum);
 		int meetMoney = dto.getMeetMoney();
 
 		System.out.println("유저 포인트 : " + userPoint);
@@ -416,7 +464,7 @@ public class MeetControllerYj {
 		Users user = (Users) session.getAttribute("user1");
 		String useremail = user.getEmail();
 
-		GatchiDTO gatchiDTO = gatchiService.getReadData(meetListNum);
+		GatchiDTO gatchiDTO = meetServiceYj.getMeetListInfo(meetListNum);
 		int meetMoney = gatchiDTO.getMeetMoney();
 
 		PointHistoryDTO pointDTO = new PointHistoryDTO();
@@ -444,7 +492,7 @@ public class MeetControllerYj {
 	public int meetTiemCheck(HttpServletRequest req, @RequestParam("meetListNum") int meetListNum) throws Exception{
 		// 1 = 취소가능 2 = 취소 불가능(마감시간 끝)
 
-		GatchiDTO gatchiDTO = gatchiService.getReadData(meetListNum);
+		GatchiDTO gatchiDTO = meetServiceYj.getMeetListInfo(meetListNum);
 
 		LocalDateTime currentDateTime = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
@@ -463,11 +511,11 @@ public class MeetControllerYj {
 	private void paymentPoint(String useremail, int meetListNum) throws Exception{
 		int userPoint = paymentService.getUserPoint(useremail);
 		
-		GatchiDTO gatchiDto = gatchiService.getReadData(meetListNum);
+		GatchiDTO gatchiDto = meetServiceYj.getMeetListInfo(meetListNum);
 		
 		// 유저 포인트 감소
 		userPointDTO userpointDTO = new userPointDTO();
-		userpointDTO.setUseremail(useremail);
+		userpointDTO.setEmail(useremail);
 		userpointDTO.setPointBalance(gatchiDto.getMeetMoney());
 		paymentService.updateUserUsePoint(userpointDTO);
 
@@ -488,11 +536,11 @@ public class MeetControllerYj {
 	private void refundPoint(String useremail, int meetListNum) throws Exception{
 		//여기부터 환불 코드
 		// 해당 방 정보 가져오기(금액 확인용)
-		GatchiDTO gatchiDTO = gatchiService.getReadData(meetListNum);
+		GatchiDTO gatchiDTO = meetServiceYj.getMeetListInfo(meetListNum);
 		int userPoint = paymentService.getUserPoint(useremail);
 		// 유저 포인트 증가
 		userPointDTO userpointDTO = new userPointDTO();
-		userpointDTO.setUseremail(useremail);
+		userpointDTO.setEmail(useremail);
 		userpointDTO.setPointBalance(gatchiDTO.getMeetMoney());
 		System.out.println(userpointDTO.getPointBalance());
 		paymentService.updateUserPoint(userpointDTO);

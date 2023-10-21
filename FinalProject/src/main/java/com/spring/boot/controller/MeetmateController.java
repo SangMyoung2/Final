@@ -4,6 +4,8 @@ import java.io.File;
 import java.net.URLDecoder;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -420,7 +422,7 @@ public class MeetmateController {
 		gatchiService.plusMeetCount(listNum);
 		gatchiLikeService.insertGatchiLike(dto);
 
-		GatchiDTO readData = gatchiService.getReadData(listNum);
+		GatchiDTO readData = meetServiceYj.getMeetListInfo(listNum);
 		System.out.println(readData.getMeetTitle() + "모임의 좋아요 수는 : " + readData.getMeetLikeCount());
 
 		return "SUCCESS";
@@ -449,7 +451,7 @@ public class MeetmateController {
 
 		gatchiLikeService.deleteGatchiLike(dto);
 
-		GatchiDTO readData = gatchiService.getReadData(listNum);
+		GatchiDTO readData = meetServiceYj.getMeetListInfo(listNum);
 		System.out.println(readData.getMeetTitle() + "모임의 좋아요 수는 : " + readData.getMeetLikeCount());
 
 		return "SUCCESS";

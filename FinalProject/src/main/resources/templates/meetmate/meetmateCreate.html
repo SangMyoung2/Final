@@ -333,13 +333,30 @@
                 str += "-";
             }
         }
-
-        meetDday.value = str;        
+        meetDday.value = str;      
     }
 
+
+    // function DdayCheck() {
+    //     let meetDday = document.getElementById('meetDday').value;
+
+    //     // meetDday와 현재 날짜를 비교하여 날짜가 현재 날짜 이전이면 true 반환
+    //     // 여기에 날짜 비교 로직을 작성
+    //     let currentDate = new Date();
+    //     let selectedDate = new Date(meetDday);
+
+    //     if (selectedDate < currentDate) {
+    //         alert('날짜 및 시간을 현재 시간 이후로 입력해주세요.');
+    //         return false; // 날짜가 현재 날짜보다 이전인 경우
+    //     }
+    //     return true;
+    // }
+
+    
     const sendIt = () => {
 
         createMeetDate();
+        //DdayCheck();
         ctgNum();
 
         if (!imageCheck()) {

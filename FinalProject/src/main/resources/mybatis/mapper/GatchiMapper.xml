@@ -30,10 +30,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	select picture from users where email = #{email}
 </select>
 
-<select id="getReadData" parameterType="int" resultType="com.spring.boot.dto.GatchiDTO">
+<!-- <select id="getReadData" parameterType="int" resultType="com.spring.boot.dto.GatchiDTO">
 	select * from gatchi 
 	where meetListNum=#{meetListNum}
-</select>
+</select> -->
 
 <select id="getMeetMateLists" resultType="com.spring.boot.dto.GatchiDTO">
 	select * from gatchi where meetCheck = 1
@@ -141,10 +141,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <update id="updateMeetStatusFind" parameterType="com.spring.boot.dto.GatchiDTO">
 <![CDATA[
-   UPDATE GATCHI
-   SET meetStatus = 2
-   WHERE TO_DATE(meetDday, 'YYYY-MM-DD HH24:MI:SS') < SYSDATE and meetCheck = 2
-]]>   
+	UPDATE GATCHI
+	SET meetStatus = 2
+	WHERE TO_DATE(meetDday, 'YYYY-MM-DD HH24:MI:SS') < SYSDATE and meetCheck = 2
+]]>	
 </update>
 
 
@@ -190,6 +190,11 @@ map이나 hashMap이나 모두 사용가능
 	where rnum>=#{start} and rnum<=#{end}
 ]]>
 </select>
+
+
+
+
+
 
 <update id="updateData" parameterType="com.spring.boot.dto.BoardDTO">
 	update board set name=#{name},pwd=#{pwd},email=#{email},
