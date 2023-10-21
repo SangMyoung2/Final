@@ -7,5 +7,5 @@ import lombok.Setter;
 @Setter
 public class userPointDTO {
     private String email;
-    private int point_balance;
+    private int pointBalance;
 }

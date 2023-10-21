@@ -19,7 +19,7 @@ public interface GatchiService {
 
 	public String masterPicture() throws Exception;
 	
-	public GatchiDTO getReadData(int meetListNum) throws Exception;
+	// public GatchiDTO getReadData(int meetListNum) throws Exception;
 
 	public List<GatchiDTO> getMeetMateLists() throws Exception;
 	
@@ -35,8 +35,22 @@ public interface GatchiService {
 	
 	public List<GatchiDTO> searchCommuniFindList(String searchKey, String searchValue) throws Exception;
 
+	public void updateMeetStatusMate(GatchiDTO gatchiDTO) throws Exception;
 
-	
+	public void updateMeetStatusFind(GatchiDTO gatchiDTO) throws Exception;
+
+	public List<GatchiDTO> sortByLikeCountMeet() throws Exception;
+
+	public List<GatchiDTO> sortByHitCountMeet() throws Exception;
+
+	public List<GatchiDTO> sortByDdayMeet() throws Exception;
+
+	public List<GatchiDTO> sortByLikeCountFind() throws Exception;
+
+	public List<GatchiDTO> sortByHitCountFind() throws Exception;
+
+	public List<GatchiDTO> sortByDdayFind() throws Exception;
+
 	//public void meetLikes(int meetListNum) throws Exception;
     //public GatchiLikeDTO meetLikes(String userEmail, int meetListNum);
 
