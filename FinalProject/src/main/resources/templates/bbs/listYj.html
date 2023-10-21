@@ -14,7 +14,7 @@
     <div class="yj-div">
         <ul class="yj-ul">
             <!-- 카테고리 목록 출력 -->
-            <th:block th:each="category : ${listYj}">
+            <th:block th:each="category : ${meetLists}">
                 <li class="yj-li"
                     th:text="${category.meetCtgName}"
                     th:data-category="${category.meetCtgName}"></li>
