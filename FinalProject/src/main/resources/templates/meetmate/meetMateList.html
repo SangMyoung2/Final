@@ -12,7 +12,7 @@
 <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
 <link rel="icon" type="image/png" th:href="@{http://localhost:8080/image/로고.png}"/>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="http://localhost:8080/js/gatchi/meetMateListHG.js"></script>
+<script src="http://localhost:8080/js/gatchi/list.js"></script>
 <script src="js/includeHTML.js"></script>
 
 
@@ -20,15 +20,13 @@
 
 <body>
 
-<!-- ★★★★★★ like DB에 담기는거 추가해야돼 ★★★★★★ -->
 <div layout:fragment="content">    
 
   <div class="meetTitle">
-    <img src="/image/gatchiImage/meetmateList.png"/>
-    <h1>Meet Mate에 오신걸 환영 합니다.</h1>
+    <h1>Meet Mate는 Meet + Mate의 합성어입니다.</h1>
   </div>
   <div class="meetTitle_Sub">
-    <p>똑같은 일상을 다채롭게 만들어 줄 원데이 취향 모임</p>
+    <p>동일한 관심사를 가진 사람들의 가치있는 하루를 위한 원데이 모임입니다.</p>
   </div>
 
   <div class="body7">
@@ -64,60 +62,82 @@
     </main>  
   </div>
   <h2 th:if="${#httpSession.getAttribute('user1') != null}" 
-  th:text="|${session.user1.name}님의 참여를 기다리는 MeetMate List|" 
-  style="text-align: center; font-weight: normal; margin-top: 100px;"></h2>
+    th:text="|${session.user1.name}님의 참여를 기다리는 MeetMate List|" 
+    style="text-align: center; font-weight: normal; margin-top: 100px;"></h2>
   <h2 th:if="${#httpSession.getAttribute('user') != null}" 
-  th:text="|${session.user.name}님의 참여를 기다리는 MeetMate List|" 
-  style="text-align: center; font-weight: normal; margin-top: 100px;"></h2>
+    th:text="|${session.user.name}님의 참여를 기다리는 MeetMate List|" 
+    style="text-align: center; font-weight: normal; margin-top: 100px;"></h2>
 <br/>
 
-  <div class="search-input-box" style="display: flex;">
+  <div class="search-input-box" style="display: flex; align-items: center;     margin-top: 50px;">
 
-    <form action="" method="get" name="searchForm" style="margin-left: 72%; border: groove; border-radius: 10px;">
-      <select name="searchKey" class="selectFiled">
+    <button type="button" id="createBtn" class="createBtn" 
+      onclick="javascript:location.href='/gatchiChoice.action';"> 생성하기 </button>
+
+    <form action="" method="get" name="sortForm" class="sortBox">
+      <select name="sortOrder" id="sortOrder" class="selectFiled" onchange="changeSortOrder()" style="vertical-align: middle;">
+        <option>　--정렬--</option>
+        <option value="meetHitCount">　조회순</option>
+        <option value="meetLikeCount">　좋아요순</option>
+        <option value="meetDday">　일자순</option>
+      </select>
+    </form>
+
+    <form action="" method="get" name="searchForm" class="searchBox">
+      <select name="searchKey" class="selectFiled" style="display: inline;">
         <option value="meetTitle">　제목</option>
         <option value="meetDday">　모임일</option>
         <option value="meetPlace">　장소</option>
       </select>
-
-      <input type="text" name="searchValue" placeholder=" search.. " onkeyup="sendKeyword();"/>
-          <input type="button" onclick=""/>     
-              <svg width="20" height="15" viewBox="7 -5 40 30" xmlns="http://www.w3.org/2000/svg">
-              <g fill="none" fill-rule="evenodd">
-                  <path fill="none" d="M0 0h36v36H0z"/>
-                  <g stroke="#5F0080" stroke-linecap="round" stroke-width="2">
-                  <path d="m26.081 26.081-4.12-4.12M16.467 23.334a6.867 6.867 0 1 0 0-13.734 6.867 6.867 0 0 0 0 13.734z"/>
-                  </g>
-              </g>
-              </svg>
-        </input>
-      
-        <div id="suggestDiv" class="suggest">
-            <div id="suggestListDiv"></div>
-        </div>
+  
+      <input type="text" name="searchValue" placeholder="search.."/>
+      <button type="button" onclick="sendIt();" style="background-color: transparent;">
+        <svg width="20" height="15" viewBox="4 7 30 20" xmlns="http://www.w3.org/2000/svg">
+          <g fill="none" fill-rule="evenodd">
+            <path fill="none" d="M0 0h36v36H0z"/>
+            <g stroke="#5F0080" stroke-linecap="round" stroke-width="2">
+              <path d="m26.081 26.081-4.12-4.12M16.467 23.334a6.867 6.867 0 1 0 0-13.734 6.867 6.867 0 0 0 0 13.734z"/>
+            </g>
+          </g>
+        </svg>
+      </button>
     </form>
   </div>
-<br/><br/><br/>
 
 
 
 
 
-  <div class="c2">
+  <div class="c2" style="margin-top: 100px;">
     <ul class="cards">
-      
-      <li name="meetLists" class="meetList_hidden" th:each="items : ${meetLists}">
+      <li name="meetLists" class="meetList_hidden" th:each="items : ${searchMeetMateList}" 
+        th:style="${items.meetStatus == 2 ? 'outline: inset #000000; border-radius: 40px;' : ''}" 
+        th:unless="${items.meetStatus == 3}">
           <div class="card">
             <div id="heart" class="heart" name="likeBtn">
               <input type="hidden" th:value="${items.meetListNum}">
             </div>
             <a href="#">
-              <img th:src="@{|/image/gatchiImage/${items.meetImage}|}" class="card__image" alt="" />  <!-- 클릭하면 article로 넘어가게 -->
+              <img th:src="@{|/image/gatchiImage/${items.meetImage}|}" class="card__image" alt=""/>  <!-- 클릭하면 article로 넘어가게 -->
             </a>
             <div class="card__overlay">
-              <div class="card__header">
+              <div class="card__header" th:style="${items.meetStatus == 2 ? 
+                'background-image: linear-gradient(to right bottom, transparent calc(50% - 1px), red, transparent calc(50% + 1px));' : ''}">
                 <svg class="card__arc" xmlns="http://www.w3.org/2000/svg"><path /></svg>
-                <img class="card__thumb" src="https://i.imgur.com/7D7I6dI.png" alt="" /><!--여기 회원 프로필사진-->
+                <img class="card__thumb" src="https://i.imgur.com/7D7I6dI.png" alt="" />
+                <!-- <img th:src="@{|/image/gatchiImage/${masterPicture}|}" alt="User Picture" /> -->
+
+                <!-- <img class="card__thumb" th:if="${#httpSession.getAttribute('user') != null}" 
+                  th:src="@{${session.user.picture}}" alt="" />
+                <img class="card__thumb" th:if="${#httpSession.getAttribute('user1') != null}" 
+                  th:src="@{image/login/__${session.user1.picture}__}" alt="" /> -->
+
+<!-- 
+                <h2 th:if="${#httpSession.getAttribute('user') != null}" 
+                th:text="|${session.user.name}님의 참여를 기다리는 MeetMate List|" 
+
+                <img th:src="@{|/image/gatchiImage/${items.meetImage}|}" class="card__image" -->
+
                 <div class="card__header-wrapper">
                   <div class="card__header-text">
                     <span class="card__status" >
@@ -143,7 +163,7 @@
                           <h3 class="card__title" th:text="${items.meetTitle}">글제목</h3>    
                         </span>
                     </span><br/>
-                    <span class="card__status" th:text="'만남일 : ' + ${items.meetDday} + ', 장소 : '">날짜, 시간,  장소</span><br/>
+                    <span class="card__status" th:text="'일시: ' + ${items.meetDday} + ', 장소: ' + ${items.meetPlace.replaceAll('.*?([^ ]+구).*', '$1')}">일시, 좋아요</span><br/>
                     <span class="card__status" th:text="' 참여인원 : ' + ${items.meetMemCnt} + ' / ' + ${items.meetMaxMemCnt}">현재 참석인원 / 최대인원</span>
                   </div>
                 </div>
@@ -158,34 +178,73 @@
       </ul>
   </div>
 
+
+    <ul class="cards">
+      <li name="meetLists" class="meetList_hidden" th:each="items : ${meetLists}" th:style="${items.meetStatus == 2 ? 'outline: inset #000000; border-radius: 40px;' : ''}" 
+      th:unless="${items.meetStatus == 3}">
+          <div class="card">
+            <div id="heart" class="heart" name="likeCount"></div>    
+          <div id="heart" class="button__like"></div>  
+            <a href="#">
+              <img th:src="@{|/image/gatchiImage/${items.meetImage}|}" class="card__image" alt=""/>  <!-- 클릭하면 article로 넘어가게 -->
+            </a>
+            <div class="card__overlay">
+              <div class="card__header" th:style="${items.meetStatus == 2 ? 
+                'background-image: linear-gradient(to right bottom, transparent calc(50% - 1px), red, transparent calc(50% + 1px));' : ''}">
+                <svg class="card__arc" xmlns="http://www.w3.org/2000/svg"><path /></svg>
+                <img th:src="@{|/image/gatchiImage/${masterPicture}|}" alt="User Picture" />
+                <!-- <img class="card__thumb" th:if="${#httpSession.getAttribute('user') != null}" 
+                  th:src="@{${session.user.picture}}" alt="" />
+                <img class="card__thumb" th:if="${#httpSession.getAttribute('user1') != null}" 
+                  th:src="@{image/login/__${session.user1.picture}__}" alt="" /> -->
+
+<!-- 
+                <h2 th:if="${#httpSession.getAttribute('user') != null}" 
+                th:text="|${session.user.name}님의 참여를 기다리는 MeetMate List|" 
+
+                <img th:src="@{|/image/gatchiImage/${items.meetImage}|}" class="card__image" -->
+
+                <div class="card__header-wrapper">
+                  <div class="card__header-text">
+                    <span class="card__status" >
+                      <span th:switch="${items.meetCtgNum}">
+                        <span th:case="1" class="category-button">
+                          <button class="ctgButton" disabled="disabled">문화·예술</button>
+                          <h3 class="card__title" th:text="${items.meetTitle}">글제목</h3>
+                        </span>
+                        <span th:case="2" class="category-button">
+                          <button class="ctgButton" disabled="disabled">맛집</button>
+                          <h3 class="card__title" th:text="${items.meetTitle}">글제목</h3>    
+                        </span>
+                        <span th:case="3" class="category-button">
+                          <button class="ctgButton" disabled="disabled">취미</button>
+                          <h3 class="card__title" th:text="${items.meetTitle}">글제목</h3>    
+                        </span>
+                        <span th:case="4" class="category-button">
+                          <button class="ctgButton" disabled="disabled">여행</button>
+                          <h3 class="card__title" th:text="${items.meetTitle}">글제목</h3>    
+                        </span>
+                        <span th:case="5" class="category-button">
+                          <button class="ctgButton" disabled="disabled">운동·액티비티</button>
+                          <h3 class="card__title" th:text="${items.meetTitle}">글제목</h3>    
+                        </span>
+                    </span><br/>
+                    <span class="card__status" th:text="'일시: ' + ${items.meetDday} + ', 장소: ' + ${items.meetPlace.replaceAll('.*?([^ ]+구).*', '$1')}">일시, 좋아요</span><br/>
+                    <span class="card__status" th:text="' 참여인원 : ' + ${items.meetMemCnt} + ' / ' + ${items.meetMaxMemCnt}">현재 참석인원 / 최대인원</span>
+                  </div>
+                </div>
+              </div>
+              <div class="description1">
+              <p class="card__description" th:text="${items.meetContent}">글 내용</p>
+              </div>
+            </div>
+          </div>
+        </li>
+      </div>
+      </ul>
+  </div>
 </div>
 
 
-<!-- 
-<?php
- // 이 부분에서 필요한 데이터베이스 연결 및 쿼리 수행을 수행합니다.
-// 예를 들어, 데이터베이스로부터 카드 데이터를 가져와야 합니다. 
-
- // 페이지 및 페이지당 항목 수 설정 --
-$page = $_GET['page']; !-- // AJAX 요청에서 전달된 페이지 번호 
-$itemsPerPage = 8; -- // 페이지당 아이템 수 
-
- // 데이터베이스에서 데이터 가져오기 
-$start = ($page - 1) * $itemsPerPage;
-$query = "SELECT * FROM your_table WHERE meetCheck = 1 ORDER BY meetListNum DESC LIMIT $start, $itemsPerPage";
-$result = mysqli_query($connection, $query);
-
-// 결과를 배열로 변환 
-$data = array();
-while ($row = mysqli_fetch_assoc($result)) {
-    $data[] = $row;
-}
-
- // JSON 형식으로 데이터 반환 --
-header('Content-Type: application/json');
-echo json_encode($data);
-mysqli_close($connection);
-?>  -->
 </body>
-
 </html>

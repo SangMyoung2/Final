@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.boot.dto.GatchiDTO;
+import com.spring.boot.dto.MeetInfoDTO;
 import com.spring.boot.mapper.GatchiMapper;
 
 @Service
@@ -20,12 +21,23 @@ public class GatchiServiceImpl implements GatchiService{
 	public void createGatchi(GatchiDTO dto) throws Exception {		
 		gatchiMapper.createGatchi(dto);
 	}
+	
+	@Override
+	public void createMeetInfo(MeetInfoDTO infoDTO) throws Exception {
+		gatchiMapper.createMeetInfo(infoDTO);
+	}
 
 	@Override
 	public int maxNum() throws Exception {
 		return gatchiMapper.maxNum();
 	}
 	
+	
+	@Override
+	public String masterPicture() throws Exception {
+		return gatchiMapper.masterPicture();
+	}
+
 	@Override
 	public GatchiDTO getReadData(int meetListNum) throws Exception {
 		return gatchiMapper.getReadData(meetListNum);	
@@ -56,17 +68,55 @@ public class GatchiServiceImpl implements GatchiService{
 		return gatchiMapper.getRownumList(end);
 	}
 
-
-
-
 	@Override
 	public List<GatchiDTO> searchMeetMateList(String searchKey, String searchValue) throws Exception {
 		return gatchiMapper.searchMeetMateList(searchKey, searchValue);
 	}
-
-
-
-
+	
+	@Override
+	public List<GatchiDTO> searchCommuniFindList(String searchKey, String searchValue) throws Exception {
+		return gatchiMapper.searchCommuniFindList(searchKey, searchValue);
+	}
+	
+	@Override
+	public void updateMeetStatusMate(GatchiDTO gatchiDTO) throws Exception {
+		gatchiMapper.updateMeetStatusMate(gatchiDTO);
+	}
+	
+	@Override
+	public void updateMeetStatusFind(GatchiDTO gatchiDTO) throws Exception {
+		gatchiMapper.updateMeetStatusFind(gatchiDTO);
+	}
+	
+	@Override
+	public List<GatchiDTO> sortByLikeCountMeet() throws Exception {
+		return gatchiMapper.sortByLikeCountMeet();
+	}
+		
+	@Override
+	public List<GatchiDTO> sortByHitCountMeet() throws Exception {
+		return gatchiMapper.sortByHitCountMeet();
+	}
+	
+	@Override
+	public List<GatchiDTO> sortByDdayMeet() throws Exception {
+		return gatchiMapper.sortByDdayMeet();
+	}
+	
+	@Override
+	public List<GatchiDTO> sortByLikeCountFind() throws Exception {
+		return gatchiMapper.sortByLikeCountMeet();
+	}
+		
+	@Override
+	public List<GatchiDTO> sortByHitCountFind() throws Exception {
+		return gatchiMapper.sortByHitCountMeet();
+	}
+	
+	@Override
+	public List<GatchiDTO> sortByDdayFind() throws Exception {
+		return gatchiMapper.sortByDdayMeet();
+	}
 
 
 /*
