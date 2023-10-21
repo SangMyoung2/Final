@@ -52,7 +52,7 @@ public class MeetControllerYj {
 	}
 
 	@GetMapping("/meetArticle.action")
-	public ModelAndView meetArticle(HttpServletRequest request) throws Exception {
+	public ModelAndView meetArticle(HttpServletRequest request, @RequestParam("meetListNum") int meetListNum) throws Exception {
 
 		// 날짜 종료된 모임이면 meetStatus( 1 => 2로 변경 )
 		GatchiDTO GatchiDTO = new GatchiDTO();
@@ -294,7 +294,8 @@ public class MeetControllerYj {
 	public ModelAndView deleteMeet(HttpServletRequest request,
 			@RequestParam("meetListNum") int meetListNum) throws Exception {
 
-		ModelAndView mav = new ModelAndView("redirect:/meetMateList");
+				
+		ModelAndView mav = new ModelAndView("redirect:/meetMateList.action");
 
 		GatchiDTO GatchiDTO = new GatchiDTO();
 		GatchiDTO.setMeetListNum(meetListNum);
