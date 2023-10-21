@@ -172,7 +172,7 @@ public class MeetmateController {
 		return mav;
 	}
 		
-	@GetMapping("/meetMateList.action")
+	@RequestMapping("/meetMateList.action")
 	public ModelAndView meetMateList(
 		@RequestParam(name = "searchKey", required = false, defaultValue = "meetTitle") String searchKey,
 		@RequestParam(name = "searchValue", required = false) String searchValue, 
@@ -261,7 +261,7 @@ public class MeetmateController {
 	}
  */
 
-	@GetMapping("/communiFindList.action")
+	@RequestMapping("/communiFindList.action")
 	public ModelAndView communiFindList(
 		@RequestParam(name = "searchKey", required = false, defaultValue = "meetTitle") String searchKey,
 		@RequestParam(name = "searchValue", required = false) String searchValue, 
