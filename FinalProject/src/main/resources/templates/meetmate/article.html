@@ -249,6 +249,54 @@ function deleteReview(email, meetListNum, meetReviewNum) {
             percentElement.text(percentage + "%");
         });
     });
+
+    $(document).ready(function() {
+        $("#expand-button").click(function() {
+            $("#expandable-content").toggle();
+            $("#expandable-text").toggle();
+        });
+    });
+
+    function toggleAccept(element) {
+        if (element.classList.contains('accepted')) {
+            // 버튼을 해제하고 텍스트 색상을 원래 색상으로 변경
+            element.classList.remove('accepted');
+            element.style.color = ''; // 원래 텍스트색
+        } else {
+            // 요청 버튼을 파란색으로 변경
+            element.classList.add('accepted');
+            element.style.color = '#FF0000'; // 빨간색 텍스트색
+        }
+    }
+
+    function toggleAll() {
+        var elements = document.querySelectorAll('.approval-action');
+        var selectAll = true;
+
+        // 모든 요소를 선택 또는 해제
+        elements.forEach(function(element) {
+            if (!element.classList.contains('accepted')) {
+                selectAll = false;
+                element.classList.add('accepted');
+                element.style.color = '#FF0000'; // 빨간색 텍스트색
+            }
+        });
+
+        if (selectAll) {
+            // 이미 모두 선택되어 있을 경우, 모든 요소를 선택 해제
+            elements.forEach(function(element) {
+                element.classList.remove('accepted');
+                element.style.color = ''; // 원래 텍스트색
+            });
+        }
+
+        // "전체선택" 텍스트를 "전체해제"로 변경
+        var selectAllText = document.querySelector('.approval-mem-back div[onclick="toggleAll()"]');
+        if (selectAllText) {
+            selectAllText.textContent = selectAll ? '전체선택' : '전체해제';
+        }
+    }
+    
 </script>
 
 </head>
@@ -325,20 +373,26 @@ function deleteReview(email, meetListNum, meetReviewNum) {
 
                     <div class="approval-back" th:if="${meetMemStatus == 1}"> 
                         <div style="display: flex; align-items: center;">
-                            <div style="margin-left: 10px;">승인요청</div>
-                            <div class="approval-mem">ⅴ펼치기</div>
+                            <div style="margin-left: 6px; font-size: 18px;">승인요청</div>
+                            <div class="approval-mem" id="expand-button">ⅴ펼치기</div>
                         </div>
-                        <div style="margin-top: 30px;"></div>
-                        <div class="approval-mem-back">
+                        <div style="margin-top: 10px;"></div>
+                        <div class="approval-mem-back" id="expandable-content" style="display: none;">
+                            <div style="margin-left: auto; cursor: pointer; margin-bottom: 20px; margin-right: 5px; color: #AAAAAA;" onclick="toggleAll()">전체선택</div>
                             <div class="approval-mem-list" th:each="membersExMaster : ${membersExMaster}">
                                 <li class="round-image-user mt-2" style="margin-right: 10px; margin-left: -10px;">
-                                    <img th:src="@{/image/gatchiImage/1111.jpg}" alt="유저프사(임의)"/>
+                                    <img th:src="@{/image/gatchiImage/1111.jpg}" alt="유저프사(임의)" />
                                 </li>
-                                <li class="custom-li" th:text="${membersExMaster.name}"></li>
+                                <li class="approval-li" th:text="${membersExMaster.name}"></li>
+                                <span class="approval-action" th:data-email="${membersExMaster.email}" th:data-meetListNum="${meetListNum}" th:data-name="${membersExMaster.name}" onclick="toggleAccept(this)">√</span>
                             </div>
                         </div>
+                        
+                        
+                        
+                        <div id="expandable-text" style="display: none; text-align: end; font-size: 18px;">요청하기</div>
+                        
                     </div>
-                    
 
 
 

@@ -26,7 +26,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     from users u
     join meetInfo mi on u.email = mi.email
     where mi.meetListNum = #{meetListNum}
-    and (mi.meetMemStatus = 1 or mi.meetMemStatus = 2) order by u.email asc
+    and (mi.meetMemStatus = 1 or mi.meetMemStatus = 2) order by u.name asc
 </select>
 
 <select id="getMembersExMaster" parameterType="int" resultType="com.spring.boot.dto.MeetInfoDTO">
@@ -34,7 +34,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     from users u
     join meetInfo mi on u.email = mi.email
     where mi.meetListNum = #{meetListNum}
-    and mi.meetMemStatus = 2 order by u.email asc
+    and mi.meetMemStatus = 2 order by u.name asc
 </select>
 
 <update id="incrementMeetMemCnt" parameterType="int">
@@ -104,7 +104,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     from users u
     join meetInfo mi on u.email = mi.email
     where mi.meetListNum = #{meetListNum} and mi.meetMemStatus = 0
-    order by mi.email desc
+    order by u.name desc
 </select>
 
 <update id="acceptToWaitlist" parameterType="com.spring.boot.dto.MeetInfoDTO">
@@ -121,7 +121,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     from users u
     join meetInfo mi on u.email = mi.email
     where mi.meetListNum = #{meetListNum} and mi.meetMemStatus = 3
-    order by mi.email desc
+    order by u.name desc
 </select>
 
 <update id="addToBlacklist" parameterType="com.spring.boot.dto.MeetInfoDTO">
