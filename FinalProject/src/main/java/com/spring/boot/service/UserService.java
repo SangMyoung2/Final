@@ -29,12 +29,13 @@ public class UserService {
 	
 	private final PasswordEncoder passwordEncoder;
 	@Transactional
-	public Users create(String userName,String name, String password,String tel) {
+	public Users create(String userName,String name, String password,String tel,String picture) {
 		
 		Users user = new Users();
 		user.setUserName(userName);
 		user.setName(name);
 		user.setTel(tel);
+		user.setPicture(picture);
 		
 		user.setPassword(passwordEncoder.encode(password));
 		
@@ -61,6 +62,22 @@ public class UserService {
         Optional<Users> userOptional = userRepository.findByEmail(email);
         if (userOptional.isPresent()) {
             Users user = userOptional.get();
+            user.setPassword(passwordEncoder.encode(password));
+            userRepository.save(user); 
+        } 
+    }
+
+
+	public void userupDate(String email, String password,String name,String saveFileName) {
+
+        Optional<Users> userOptional = userRepository.findByEmail(email);
+        if (userOptional.isPresent()) {
+            Users user = userOptional.get();
+			user.setName(name);
+
+			if (saveFileName.contains(".")) {
+            user.setPicture(saveFileName);
+        }
             user.setPassword(passwordEncoder.encode(password));
             userRepository.save(user); 
         } 

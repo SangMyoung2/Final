@@ -2271,7 +2271,7 @@
   
   .image img {
     display: block;
-    height: auto;
+    height: 100%;
     width: 100%;
   }
   
@@ -2970,7 +2970,7 @@
   .card-footer {
     border-top: 1px solid #dbdbdb;
     align-items: stretch;
-    display: flex;
+    
   }
   
   .card-footer-item {
@@ -4258,11 +4258,12 @@
   
   .column {
     display: flex;
-    justify-content: space-between;
+    
     flex-basis: 0;
     flex-grow: 1;
     flex-shrink: 1;
     padding: 0.75rem;
+    flex-wrap: wrap;
   }
   
   .columns.is-mobile > .column.is-narrow {
@@ -4614,7 +4615,7 @@
       margin-left: 16.66667%;
     }
     .column.is-3, .column.is-3-tablet {
-      
+      margin-left: 40px;
       width: 25%;
     }
     .column.is-offset-3, .column.is-offset-3-tablet {
