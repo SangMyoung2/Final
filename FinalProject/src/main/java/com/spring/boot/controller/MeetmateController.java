@@ -147,6 +147,62 @@ public class MeetmateController {
 		return mav;
 	}
 
+	@PostMapping("/testmeetmate.action")
+	public ModelAndView testMeetMate(HttpServletRequest request, 
+		@RequestParam("meetImage1") MultipartFile meetImage, GatchiDTO dto, MeetInfoDTO infoDTO) throws Exception{
+
+		ModelAndView mav = new ModelAndView();
+		HttpSession session = request.getSession();
+		Users social = (Users)session.getAttribute("user");
+		Users user1 = (Users)session.getAttribute("user1");
+
+		if (social != null) {
+			infoDTO.setEmail(social.getEmail()); 
+		} else if (user1 != null) {
+			infoDTO.setEmail(user1.getEmail()); 
+		}
+
+		Resource resource = new ClassPathResource("static");
+        String resourcePath = resource.getFile().getAbsolutePath() + "/image/gatchiImage";
+
+		if (!meetImage.isEmpty()) {
+			String originalFileName = meetImage.getOriginalFilename();
+			File destFile = new File(resourcePath, originalFileName);
+
+			meetImage.transferTo(destFile);
+			int maxNum = gatchiService.maxNum();
+			dto.setMeetListNum(maxNum + 1);
+			dto.setMeetImage(originalFileName);
+			gatchiService.createGatchi(dto);
+
+			infoDTO.setMeetListNum(maxNum + 1);			
+			gatchiService.createMeetInfo(infoDTO);
+			
+			MapDTO mapDTO = new MapDTO();
+			mapDTO.setLat(Double.parseDouble(request.getParameter("lat")));
+			mapDTO.setLng(Double.parseDouble(request.getParameter("lng")));
+			mapDTO.setMeetListNum(maxNum + 1);
+			
+			mapService.insertMapData(mapDTO);
+
+			String useremail = user1.getEmail();
+			System.out.println("1 ================================================================");
+			MeetInfoDTO meetInfoDTO = new MeetInfoDTO();
+			meetInfoDTO.setEmail(useremail);
+			meetInfoDTO.setMeetListNum(dto.getMeetListNum());
+			meetInfoDTO.setMeetMemStatus(1);
+			meetServiceYj.insertMeetJoinOk(meetInfoDTO);
+			System.out.println("1 ================================================================");
+
+			mav.addObject("roomName", dto.getMeetTitle());
+			mav.addObject("roomType", "MEET");
+			mav.addObject("meetListNum", dto.getMeetListNum());
+		}
+
+		mav.setViewName("redirect:/createroom.action");
+		return mav;
+	}
+
 
 	@PostMapping("/communiFindCreate.action")
 	public ModelAndView communiFindCreate_ok(HttpServletRequest request, 
