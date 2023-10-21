@@ -57,4 +57,5 @@ public interface MeetServiceYj {
 
     public void releaseFromBlacklist(MeetInfoDTO dto) throws Exception;
 
+    public List<MeetInfoDTO> getMeetInfo(int meetListNum) throws Exception;
 }

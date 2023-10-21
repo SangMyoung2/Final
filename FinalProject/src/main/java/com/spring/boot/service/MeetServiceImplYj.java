@@ -137,4 +137,8 @@ public class MeetServiceImplYj implements MeetServiceYj {
         meetMapperYj.releaseFromBlacklist(dto);
     }
 
+    @Override
+    public List<MeetInfoDTO> getMeetInfo(int meetListNum) throws Exception{
+        return meetMapperYj.getMeetInfo(meetListNum);
+    }
 }

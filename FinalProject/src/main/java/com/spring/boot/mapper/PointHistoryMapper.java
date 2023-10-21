@@ -7,4 +7,5 @@ import com.spring.boot.dto.PointHistoryDTO;
 @Mapper
 public interface PointHistoryMapper {
     public void insertPointHistory(PointHistoryDTO dto);
+    public PointHistoryDTO getUseReadData(PointHistoryDTO dto);
 }

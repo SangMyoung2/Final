@@ -35,4 +35,5 @@ public interface GatchiMapper {
 
 	public List<GatchiDTO> getReadDataInListNum(int meetListNum) throws Exception;
 	
+	public void updateChatRoom(GatchiDTO dto) throws Exception;
 }

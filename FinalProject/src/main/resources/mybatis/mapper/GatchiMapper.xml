@@ -11,11 +11,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	meetListNum,meetCheck,meetCtgNum,meetName,
     meetTitle,meetContent,meetImage,meetDate,meetDday,
     meetMemCnt,meetMaxMemCnt,meetHitCount,meetLikeCount,
-    meetHow,meetEntryfee,meetMoney,meetPlace) values (
+    meetHow,meetEntryfee,meetMoney,meetPlace, meetStatus) values (
 	#{meetListNum},#{meetCheck},#{meetCtgNum},#{meetName},
 	#{meetTitle},#{meetContent},#{meetImage},sysdate,#{meetDday},
     1,#{meetMaxMemCnt},0,0,
-	#{meetHow},#{meetEntryfee},#{meetMoney},#{meetPlace})
+	#{meetHow},#{meetEntryfee},#{meetMoney},#{meetPlace},1)
 </insert>
 
 <select id="maxNum" resultType="int">
@@ -100,5 +100,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	where meetListNum = #{meetListNum}
 </select>
 
+<update id="updateChatRoom" parameterType="com.spring.boot.dto.GatchiDTO">
+	update gatchi set chatRoomNum = #{chatRoomNum} where meetListNum = #{meetListNum}
+</update>
 
 </mapper>

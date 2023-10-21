@@ -23,4 +23,5 @@ public class GatchiDTO {
     public int meetMoney; //참가비금액
     private String meetPlace; //모임장소
     private int meetStatus; //0삭제 1현재 2완료
+    private String chatRoomNum;
 }

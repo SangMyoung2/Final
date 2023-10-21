@@ -222,7 +222,7 @@ function joinMeet(){
                 type: "POST",
                 url: "/checkuserpoint",
                 data: {
-                    meetMoney: money
+                    meetListNum: meetListNum
                 },
                 success: function (response) {
                     alert(response);
@@ -247,16 +247,15 @@ function joinCancel(){
     if(joincancel){
         $.ajax({
                 type: "POST",
-                url: "/checkuserpoint",
+                url: "/joincancel",
                 data: {
-                    meetMoney: money
+                    meetListNum: meetListNum
                 },
                 success: function (response) {
-                    alert(response);
                     if(response){
-                        location.href = '/join-meet?meetListNum='+meetListNum;
+                        location.href = '/articleYj.action?meetListNum='+meetListNum;
                     }else{
-                        alert('포인트가 부족합니다.');
+                        alert('이미 가입되셨습니다...');
                     }
                 },
                 error: function () {
@@ -265,6 +264,67 @@ function joinCancel(){
             });
     }
 }
+
+function deleteMeet() {
+    let meetListNum = document.getElementById('meetListNum').value;
+    let title = document.getElementById('meetTitle').textContent;
+
+    let joincancel = confirm(title + ' 모임을 삭제하시겠습니까?');
+    if(joincancel){
+        $.ajax({
+                type: "POST",
+                url: "/meettimecheck",
+                data: {
+                    meetListNum: meetListNum
+                },
+                success: function (response) {
+                    if(response == 1){
+                        alert('취소 되었습니다.');
+                        location.href = '/delete-meet?meetListNum='+meetListNum;
+                    }else if(response === 2){
+                        alert('모임 시간이 지났습니다.');
+                    }
+                    else{
+                        alert('다시 시도해 주세요..');
+                    }
+                },
+                error: function () {
+                    alert('다시 시도 해주세요..');
+                }
+            });
+    }
+}
+
+function outmeet(){
+    let meetListNum = document.getElementById('meetListNum').value;
+    let title = document.getElementById('meetTitle').textContent;
+
+    let joincancel = confirm(title + ' 모임을 탈퇴 하시겠습니까?');
+    if(joincancel){
+        $.ajax({
+                type: "POST",
+                url: "/meettimecheck",
+                data: {
+                    meetListNum: meetListNum
+                },
+                success: function (response) {
+                    if(response == 1){
+                        alert('탈퇴 되었습니다.');
+                        location.href = '/out-meet?meetListNum='+meetListNum;
+                    }else if(response === 2){
+                        alert('모임 시간이 지났습니다.');
+                    }
+                    else{
+                        alert('다시 시도해 주세요..');
+                    }
+                },
+                error: function () {
+                    alert('다시 시도 해주세요..');
+                }
+            });
+    }
+}
+
 
     function inputNumberWithComma(str) {
         str = String(str);
@@ -322,7 +382,7 @@ function joinCancel(){
                             <img th:src="@{/image/gatchiImage/1111.jpg}" alt="방장프사(임의)"/>
                         </div>
                         <p class="Yj-master" th:text="${masterEmail2}"></p>
-                        <p class="Yj-title" th:text="${meetListInfo.meetTitle}"></p>
+                        <p class="Yj-title" id="meetTitle" th:text="${meetListInfo.meetTitle}"></p>
                     </div>
                     <div class="main-text">
                         <p class="Yj-text1" th:text="${meetListInfo.meetContent}"></p>
@@ -340,13 +400,22 @@ function joinCancel(){
                         <div class="yj-money">가입비 (회비)</div>
                         <div class="text-container">
                             <p class="Yj-text4 meet-money" th:text="${meetListInfo.meetMoney}"></p>원
+                            <input id="meetMoney" type="hidden" th:value="${meetListInfo.meetMoney}"/>
                         </div>
                         
                         <form th:if="${meetMemStatus < 0} and ${meetStatus == 1} and ${meetListInfo.meetMemCnt<meetListInfo.meetMaxMemCnt}">
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button form="joinForm" type="submit" class="join-button">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button form="joinForm" type="button" class="join-button" onclick="joinMeet()">
                                가입하기
                             </button>
                         </form>
+                        <form th:with="meetMemStatus=${meetMemStatus}" th:if="${meetMemStatus == 0}">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="join-button" onclick="joinCancel()">
+                               가입취소
+                            </button>
+                        </form>
+                        
+                    
+                    
 
                         <th:block th:if="${(meetListInfo.meetMemCnt >= meetListInfo.meetMaxMemCnt) and meetStatus == 1 and (meetMemStatus <0)}">
                             <p style="font-size: 18px; color: red;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;모집 인원이 마감되었습니다.</p>
@@ -355,26 +424,26 @@ function joinCancel(){
                         <th:block th:if="${meetStatus == 2}">
                             <p style="font-size: 18px; color: red;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;이미 종료된 모임입니다.</p>
                         </th:block>
-                        <form id="joinForm" action="/join-meet" method="post">
-                            <input type="hidden" name="meetListNum" th:value="${meetListNum}"/>
+                        <form id="joinForm" method="post">
+                            <input type="hidden" name="meetListNum" id="meetListNum" th:value="${meetListNum}"/>
                         </form>
 
                         <form th:if="${meetMemStatus == 2} and ${meetStatus == 1}">
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button form="outForm" type="submit" class="out-button">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button form="outForm" type="button" class="out-button" onclick="outmeet()">
                                 모임 나가기
                             </button>
                         </form>
-                        <form id="outForm" action="/out-meet" method="post">
+                        <form id="outForm" method="post">
                             <input type="hidden" name="meetListNum" th:value="${meetListNum}"/>
                             <input type="hidden" name="email" th:value="${dto.email}"/>
                         </form>
                         
                         <form th:with="meetMemStatus=${meetMemStatus}" th:if="${meetMemStatus == 1} and ${meetStatus == 1}">
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button form="deleteForm" type="submit" class="delete-button">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button form="deleteForm" type="button" class="delete-button" onclick="deleteMeet()">
                                 모임 삭제
                             </button>
                         </form>
-                        <form id="deleteForm" action="/delete-meet" method="post">
+                        <form id="deleteForm" method="post">
                             <input type="hidden" name="meetListNum" th:value="${meetListNum}"/>
                         </form>
                         <th:block th:if="${meetStatus == 1 and meetMemStatus == 0}">

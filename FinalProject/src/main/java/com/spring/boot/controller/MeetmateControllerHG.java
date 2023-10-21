@@ -28,10 +28,12 @@ import org.springframework.web.servlet.ModelAndView;
 import com.spring.boot.dto.GatchiDTO;
 import com.spring.boot.dto.GatchiLikeDTO;
 import com.spring.boot.dto.MapDTO;
+import com.spring.boot.dto.MeetInfoDTO;
 import com.spring.boot.model.Users;
 import com.spring.boot.service.GatchiLikeService;
 import com.spring.boot.service.GatchiService;
 import com.spring.boot.service.MapService;
+import com.spring.boot.service.MeetServiceYj;
 
 import oracle.jdbc.proxy.annotation.Post;
 
@@ -47,6 +49,9 @@ public class MeetmateControllerHG {
 
 	@Autowired
 	private MapService mapService;
+
+	@Autowired
+	private MeetServiceYj meetServiceYj;
 
 	//여기서 호출 하면 BoardService -> BoardServiceImpl -> BoardMapper -> boardMapper.xml에서 데이터 반환을 BoardController로 해준다.
 
@@ -85,13 +90,10 @@ public class MeetmateControllerHG {
 		return mav;		
 	}
 
-
 	@PostMapping("/gatchiChoice")
 	public ModelAndView gatchiChoice_ok(@RequestParam("meetCheck") String meetCheck, HttpServletRequest request, GatchiDTO dto) throws Exception{
 
 		ModelAndView mav = new ModelAndView();
-
-
 
 		// if (dto.getMeetCheck() == 1) {
 		// 	dto.setMeetName(""); // 모임명을 ""로 설정
@@ -119,7 +121,6 @@ public class MeetmateControllerHG {
 		return mav;
 	}
 
-
 	@PostMapping("/meetMateCreate")
 	public ModelAndView meetMateCreate_ok(HttpServletRequest request, 
 		@RequestParam("meetImage1") MultipartFile meetImage, 
@@ -130,6 +131,8 @@ public class MeetmateControllerHG {
 		Resource resource = new ClassPathResource("static");
         String resourcePath = resource.getFile().getAbsolutePath() + "/image/gatchiImage";
 
+		String url = "";
+
 		if (!meetImage.isEmpty()) {
 			String originalFileName = meetImage.getOriginalFilename();
 			File destFile = new File(resourcePath, originalFileName);
@@ -139,8 +142,10 @@ public class MeetmateControllerHG {
 			int maxNum = gatchiService.maxNum();
 			dto.setMeetListNum(maxNum + 1);
 			dto.setMeetImage(originalFileName);
-			gatchiService.createGatchi(dto);
 
+			System.out.println(dto.getMeetStatus());
+
+			gatchiService.createGatchi(dto);
 			
 			MapDTO mapDTO = new MapDTO();
 			mapDTO.setLat(Double.parseDouble(request.getParameter("lat")));
@@ -149,8 +154,21 @@ public class MeetmateControllerHG {
 
 			mapService.insertMapData(mapDTO);
 
+			HttpSession session = request.getSession();
+			Users user = (Users) session.getAttribute("user1");
+			String useremail = user.getEmail();
+
+			MeetInfoDTO meetInfoDTO = new MeetInfoDTO();
+			meetInfoDTO.setEmail(useremail);
+			meetInfoDTO.setMeetListNum(dto.getMeetListNum());
+			meetInfoDTO.setMeetMemStatus(1);
+			meetServiceYj.insertMeetJoinOk(meetInfoDTO);
+
+			mav.addObject("roomName", dto.getMeetTitle());
+			mav.addObject("roomType", "MEET");
+			mav.addObject("meetListNum", dto.getMeetListNum());
 		}
-		mav.setViewName("redirect:/meetMateList");
+		mav.setViewName("redirect:/createroom.action");
 		return mav;
 	}
 

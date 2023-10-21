@@ -16,4 +16,9 @@ public class PointHistoryServiceImpl implements PointHistoryService {
     public void insertPointHistory(PointHistoryDTO dto){
         pointHistoryMapper.insertPointHistory(dto);
     }
+
+    @Override
+    public PointHistoryDTO getUseReadData(PointHistoryDTO dto){
+        return pointHistoryMapper.getUseReadData(dto);
+    }
 }

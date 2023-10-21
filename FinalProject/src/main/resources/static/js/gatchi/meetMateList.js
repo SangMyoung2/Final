@@ -242,7 +242,7 @@ function heartClickBtn(){
 
 
 let endList = 8;
-let scrollY = 1200;
+let scrollY = 500;
 //1850;
 // 1200
 function handleScroll() {

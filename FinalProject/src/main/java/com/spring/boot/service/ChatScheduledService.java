@@ -21,7 +21,7 @@ public class ChatScheduledService {
         this.chatContentRepository = chatContentRepository;
     }
 
-    @Scheduled(fixedRate = 10000) // 5초마다 실행
+    // @Scheduled(fixedRate = 10000) // 5초마다 실행
     public void chatReadCountCheckScheduled() {
         // System.out.println("스케쥴 시작--------------------------------------------------");
         List<ChatContentCollection> chatContentCollection = chatContentRepository.findAll();

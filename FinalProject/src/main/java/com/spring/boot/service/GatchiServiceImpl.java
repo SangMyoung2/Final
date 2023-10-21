@@ -84,7 +84,10 @@ public class GatchiServiceImpl implements GatchiService{
 		return gatchiMapper.getReadDataInListNum(meetListNum);
 	}
 
-	
+	@Override
+	public void updateChatRoom(GatchiDTO dto) throws Exception{
+		gatchiMapper.updateChatRoom(dto);
+	}
 
 
 
