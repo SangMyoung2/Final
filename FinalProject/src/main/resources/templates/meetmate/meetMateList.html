@@ -23,7 +23,6 @@
 <div layout:fragment="content">    
 
   <div class="meetTitle">
-    <!-- <img src="/image/gatchiImage/meetmateList.png"/> -->
     <h1>Meet Mate는 Meet + Mate의 합성어입니다.</h1>
   </div>
   <div class="meetTitle_Sub">
@@ -70,9 +69,22 @@
     style="text-align: center; font-weight: normal; margin-top: 100px;"></h2>
 <br/>
 
-  <div class="search-input-box" style="display: flex;">
-    <form action="" method="get" name="searchForm" style="margin-left: 72%; border: groove; border-radius: 10px;">
-      <select name="searchKey" class="selectFiled">
+  <div class="search-input-box" style="display: flex; align-items: center;     margin-top: 50px;">
+
+    <button type="button" id="createBtn" class="createBtn" 
+      onclick="javascript:location.href='/gatchiChoice.action';"> 생성하기 </button>
+
+    <form action="" method="get" name="sortForm" class="sortBox">
+      <select name="sortOrder" id="sortOrder" class="selectFiled" onchange="changeSortOrder()" style="vertical-align: middle;">
+        <option>　--정렬--</option>
+        <option value="meetHitCount">　조회순</option>
+        <option value="meetLikeCount">　좋아요순</option>
+        <option value="meetDday">　일자순</option>
+      </select>
+    </form>
+
+    <form action="" method="get" name="searchForm" class="searchBox">
+      <select name="searchKey" class="selectFiled" style="display: inline;">
         <option value="meetTitle">　제목</option>
         <option value="meetDday">　모임일</option>
         <option value="meetPlace">　장소</option>
@@ -80,7 +92,7 @@
   
       <input type="text" name="searchValue" placeholder="search.."/>
       <button type="button" onclick="sendIt();" style="background-color: transparent;">
-        <svg width="20" height="15" viewBox="7 -5 40 30" xmlns="http://www.w3.org/2000/svg">
+        <svg width="20" height="15" viewBox="4 7 30 20" xmlns="http://www.w3.org/2000/svg">
           <g fill="none" fill-rule="evenodd">
             <path fill="none" d="M0 0h36v36H0z"/>
             <g stroke="#5F0080" stroke-linecap="round" stroke-width="2">
@@ -91,15 +103,16 @@
       </button>
     </form>
   </div>
-<br/><br/><br/>
 
 
 
 
 
-  <div class="c2">
+  <div class="c2" style="margin-top: 100px;">
     <ul class="cards">
-      <li name="meetLists" class="meetList_hidden" th:each="items : ${searchMeetMateList}">
+      <li name="meetLists" class="meetList_hidden" th:each="items : ${searchMeetMateList}" 
+        th:style="${items.meetStatus == 2 ? 'outline: inset #000000; border-radius: 40px;' : ''}" 
+        th:unless="${items.meetStatus == 3}">
           <div class="card">
             <div id="heart" class="heart" name="likeBtn">
               <input type="hidden" th:value="${items.meetListNum}">
@@ -108,7 +121,8 @@
               <img th:src="@{|/image/gatchiImage/${items.meetImage}|}" class="card__image" alt=""/>  <!-- 클릭하면 article로 넘어가게 -->
             </a>
             <div class="card__overlay">
-              <div class="card__header">
+              <div class="card__header" th:style="${items.meetStatus == 2 ? 
+                'background-image: linear-gradient(to right bottom, transparent calc(50% - 1px), red, transparent calc(50% + 1px));' : ''}">
                 <svg class="card__arc" xmlns="http://www.w3.org/2000/svg"><path /></svg>
                 <img class="card__thumb" src="https://i.imgur.com/7D7I6dI.png" alt="" />
                 <!-- <img th:src="@{|/image/gatchiImage/${masterPicture}|}" alt="User Picture" /> -->
@@ -163,8 +177,11 @@
       </div>
       </ul>
   </div>
+
+
     <ul class="cards">
-      <li name="meetLists" class="meetList_hidden" th:each="items : ${meetLists}">
+      <li name="meetLists" class="meetList_hidden" th:each="items : ${meetLists}" th:style="${items.meetStatus == 2 ? 'outline: inset #000000; border-radius: 40px;' : ''}" 
+      th:unless="${items.meetStatus == 3}">
           <div class="card">
             <div id="heart" class="heart" name="likeCount"></div>    
           <div id="heart" class="button__like"></div>  
@@ -172,7 +189,8 @@
               <img th:src="@{|/image/gatchiImage/${items.meetImage}|}" class="card__image" alt=""/>  <!-- 클릭하면 article로 넘어가게 -->
             </a>
             <div class="card__overlay">
-              <div class="card__header">
+              <div class="card__header" th:style="${items.meetStatus == 2 ? 
+                'background-image: linear-gradient(to right bottom, transparent calc(50% - 1px), red, transparent calc(50% + 1px));' : ''}">
                 <svg class="card__arc" xmlns="http://www.w3.org/2000/svg"><path /></svg>
                 <img th:src="@{|/image/gatchiImage/${masterPicture}|}" alt="User Picture" />
                 <!-- <img class="card__thumb" th:if="${#httpSession.getAttribute('user') != null}" 

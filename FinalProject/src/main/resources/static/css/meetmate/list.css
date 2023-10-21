@@ -640,3 +640,35 @@ margin: 0 10px;
 
 
 
+/*모임생성버튼 */
+.createBtn {
+  margin-left: 300px;
+  background: #5CA8B5;
+  color: #fff;
+  width: 90px;
+  height: 25px;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 6px;
+}
+
+
+.sortBox {
+  margin-left: 870px; 
+  border: groove; 
+  border-radius: 6px;
+  width: 90px;
+  vertical-align: middle;
+}
+
+
+.searchBox {
+  border: groove;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  width: 250px;
+  justify-content: space-around;
+  margin-left: 20px;
+  vertical-align: middle;
+}

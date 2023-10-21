@@ -72,13 +72,51 @@ public class GatchiServiceImpl implements GatchiService{
 	public List<GatchiDTO> searchMeetMateList(String searchKey, String searchValue) throws Exception {
 		return gatchiMapper.searchMeetMateList(searchKey, searchValue);
 	}
-
+	
 	@Override
 	public List<GatchiDTO> searchCommuniFindList(String searchKey, String searchValue) throws Exception {
 		return gatchiMapper.searchCommuniFindList(searchKey, searchValue);
 	}
-
-
+	
+	@Override
+	public void updateMeetStatusMate(GatchiDTO gatchiDTO) throws Exception {
+		gatchiMapper.updateMeetStatusMate(gatchiDTO);
+	}
+	
+	@Override
+	public void updateMeetStatusFind(GatchiDTO gatchiDTO) throws Exception {
+		gatchiMapper.updateMeetStatusFind(gatchiDTO);
+	}
+	
+	@Override
+	public List<GatchiDTO> sortByLikeCountMeet() throws Exception {
+		return gatchiMapper.sortByLikeCountMeet();
+	}
+		
+	@Override
+	public List<GatchiDTO> sortByHitCountMeet() throws Exception {
+		return gatchiMapper.sortByHitCountMeet();
+	}
+	
+	@Override
+	public List<GatchiDTO> sortByDdayMeet() throws Exception {
+		return gatchiMapper.sortByDdayMeet();
+	}
+	
+	@Override
+	public List<GatchiDTO> sortByLikeCountFind() throws Exception {
+		return gatchiMapper.sortByLikeCountMeet();
+	}
+		
+	@Override
+	public List<GatchiDTO> sortByHitCountFind() throws Exception {
+		return gatchiMapper.sortByHitCountMeet();
+	}
+	
+	@Override
+	public List<GatchiDTO> sortByDdayFind() throws Exception {
+		return gatchiMapper.sortByDdayMeet();
+	}
 
 
 /*

@@ -2,7 +2,10 @@ package com.spring.boot.controller;
 
 import java.io.File;
 import java.net.URLDecoder;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,12 +27,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.google.gson.Gson;
 import com.spring.boot.dto.GatchiDTO;
 import com.spring.boot.dto.MapDTO;
 import com.spring.boot.dto.MeetInfoDTO;
 import com.spring.boot.model.Users;
 import com.spring.boot.service.GatchiService;
 import com.spring.boot.service.MapService;
+
+import org.springframework.ui.Model;
 
 
 @RestController //는 return을 텍스트로 인식하지만 ModelAndView는 ResponseBody를 작성하지 않아도 주소로 인식한다. 
@@ -189,7 +195,21 @@ public class MeetmateController {
 
 		List<GatchiDTO> searchMeetMateList = gatchiService.searchMeetMateList(searchKey, searchValue);
 
-		//System.out.println(searchMeetMateList);
+ 		//여기서부터 meetStatus 값 변경 위한 작업		
+		Date currentDate = new Date();//현재 날짜, 시간 가져오기
+		
+		List<GatchiDTO> meetMateLists2 = gatchiService.getMeetMateLists();//meetMateLists로 GatchiDTO 가져오기
+
+		// meetMateLists를 하나씩 꺼내면서 날짜 비교 및 업데이트
+		for (GatchiDTO meetMateList : meetMateLists2) {			
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+			Date meetDday = dateFormat.parse(meetMateList.getMeetDday());
+
+			if (meetMateList.getMeetCheck() == 1 && meetDday.before(currentDate)) {// meetCheck가 1이고 meetDday 지나면
+				meetMateList.setMeetStatus(2);//meetStatus를 2로 업데이트				
+				gatchiService.updateMeetStatusMate(meetMateList);//업데이트된 GatchiDTO 저장
+			}
+		}
 
 		//mav.addObject("picture", picture);********************
 		mav.addObject("searchMeetMateList", searchMeetMateList);
@@ -264,7 +284,21 @@ public class MeetmateController {
 
 		List<GatchiDTO> searchCommuniFindList = gatchiService.searchCommuniFindList(searchKey, searchValue);
 
-		//System.out.println(searchMeetMateList);
+		//여기서부터 meetStatus 값 변경 위한 작업		
+		Date currentDate = new Date();//현재 날짜, 시간 가져오기
+		
+		List<GatchiDTO> getCommuniFindLists2 = gatchiService.getCommuniFindLists();//meetMateLists로 GatchiDTO 가져오기
+
+		//meetMateLists를 하나씩 꺼내면서 날짜 비교 및 업데이트
+		for (GatchiDTO communiFindList : getCommuniFindLists2) {			
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+			Date meetDday = dateFormat.parse(communiFindList.getMeetDday());
+
+			if (communiFindList.getMeetCheck() == 2 && meetDday.before(currentDate)) {// meetCheck가 1이고 meetDday 지나면
+				communiFindList.setMeetStatus(2);//meetStatus를 2로 업데이트				
+				gatchiService.updateMeetStatusFind(communiFindList);//업데이트된 GatchiDTO 저장
+			}
+		}
 
 		//mav.addObject("picture", picture);********************
 		mav.addObject("searchCommuniFindList", searchCommuniFindList);		
@@ -274,8 +308,66 @@ public class MeetmateController {
 		
 		return mav;		
 	}
-
 	
+/*
+	@GetMapping("/selectSort") //meetMateList
+	public String selectSort(@RequestParam("selectBox") String selectBox, Model model) throws Exception{
+
+		Gson gson = new Gson();
+		List<GatchiDTO> lists;
+        
+		if (selectBox.equals("meetHitCount")) { //조회수순
+			//System.out.println(selectBox);
+			lists = gatchiService.sortByHitCountMeet();
+			//String searchData = gson.toJson(lists);
+			//return searchData;
+
+		} else if (selectBox.equals("meetLikeCount")) { //좋아요순
+			lists = gatchiService.sortByLikeCountMeet();
+			//String searchData = gson.toJson(lists);
+			//System.out.println(lists);
+			//return searchData;
+
+		} else if (selectBox.equals("meetDday")) { //모임 가장 가까운순
+			lists = gatchiService.sortByDdayMeet();
+			//String searchData = gson.toJson(lists);
+			//return searchData;
+		}
+
+		String searchData = gson.toJson(lists);
+   		model.addAttribute("meetSortedLists", lists); // 변경된 이름으로 데이터를 모델에 추가
+
+    	return "meetmate/meetMateList :: meetCardContainer"; // 변경된 데이터를 반환
+	}
+
+
+	@GetMapping("/selectSort1") //communiFind
+	public String selectSort1(@RequestParam("selectBox1") String selectBox) throws Exception{
+
+		Gson gson = new Gson();
+        
+		if (selectBox.equals("meetHitCount")) { //조회수순
+			System.out.println(selectBox);
+			List<GatchiDTO> lists = gatchiService.sortByHitCountFind();
+			String searchData = gson.toJson(lists);
+			return searchData;
+
+		} else if (selectBox.equals("meetLikeCount")) { //좋아요순
+			List<GatchiDTO> lists = gatchiService.sortByLikeCountFind();
+			String searchData = gson.toJson(lists);
+			System.out.println(lists);
+			return searchData;
+
+		} else if (selectBox.equals( "meetDday")) { //모임 가장 가까운순
+			List<GatchiDTO> lists = gatchiService.sortByDdayFind();
+			String searchData = gson.toJson(lists);
+			return searchData;
+		}
+		return null;
+	}
+
+*/
+
 	@RequestMapping(value = "/reFindList", method = RequestMethod.POST, consumes = "application/json")
 	public Map<String,Object> reFindList(@RequestBody Map<String, String> requestMap) throws Exception {
 
