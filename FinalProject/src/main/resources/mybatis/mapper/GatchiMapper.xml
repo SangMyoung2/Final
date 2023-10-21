@@ -11,15 +11,31 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	meetListNum,meetCheck,meetCtgNum,meetName,
     meetTitle,meetContent,meetImage,meetDate,meetDday,
     meetMemCnt,meetMaxMemCnt,meetHitCount,meetLikeCount,
+<<<<<<< HEAD
     meetHow,meetEntryfee,meetMoney,meetPlace, meetStatus) values (
+=======
+    meetHow,meetEntryfee,meetMoney,meetPlace,meetStatus) values (
+>>>>>>> develop
 	#{meetListNum},#{meetCheck},#{meetCtgNum},#{meetName},
 	#{meetTitle},#{meetContent},#{meetImage},sysdate,#{meetDday},
     1,#{meetMaxMemCnt},0,0,
 	#{meetHow},#{meetEntryfee},#{meetMoney},#{meetPlace},1)
+<<<<<<< HEAD
+=======
+</insert>
+
+<insert id="createMeetInfo" parameterType="com.spring.boot.dto.MeetInfoDTO">
+    insert into meetInfo(meetListNum,email,meetMemStatus) values (#{meetListNum},#{email},1)
+>>>>>>> develop
 </insert>
 
 <select id="maxNum" resultType="int">
 	select nvl(max(meetListNum),0) from gatchi
+</select>
+
+
+<select id="masterPicture" resultType="String">
+	select picture from users where email = #{email}
 </select>
 
 <select id="getReadData" parameterType="int" resultType="com.spring.boot.dto.GatchiDTO">
@@ -55,26 +71,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <select id="getRownumList" parameterType="int" resultType="com.spring.boot.dto.GatchiDTO">
 	select * from
-	<![CDATA[
+<![CDATA[
 	(select ROWNUM rnum, data.* from (
 	select * from GATCHI
 	where MEETTITLE like '%%') data)
-	where rnum >= 1 and rnum <= #{end}
-	]]>
+	where rnum >= 1 and rnum <= ${end}
+]]>
 </select>
 
 
 <select id="searchMeetMateList" parameterType="map" resultType="com.spring.boot.dto.GatchiDTO">
     SELECT * FROM gatchi
     WHERE 
-
 	(
         (#{searchKey} = 'meetTitle' AND meetTitle LIKE '%' || #{searchValue} || '%')
         OR
         (#{searchKey} = 'meetDday' AND meetDday LIKE '%' || #{searchValue} || '%')
         OR
         (#{searchKey} = 'meetPlace' AND meetPlace LIKE '%' || #{searchValue} || '%')
-    )
+    )  AND meetCheck = 1
 </select>
 
 <update id="plusMeetCount" parameterType="int">
@@ -88,6 +103,69 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<![CDATA[
 	(select MEETLIKECOUNT from gatchi where meetListNum = #{meetListNum}) > 0
 	]]>
+<select id="searchCommuniFindList" parameterType="map" resultType="com.spring.boot.dto.GatchiDTO">
+    SELECT * FROM gatchi
+    WHERE 
+	(
+        (#{searchKey} = 'meetTitle' AND meetTitle LIKE '%' || #{searchValue} || '%')
+        OR
+        (#{searchKey} = 'meetDday' AND meetDday LIKE '%' || #{searchValue} || '%')
+        OR
+        (#{searchKey} = 'meetPlace' AND meetPlace LIKE '%' || #{searchValue} || '%')
+    ) AND meetCheck = 2
+</select>
+
+<!--
+<select id="getDataCount" parameterType="map" resultType="int">
+	select nvl(count(*),0) from board
+	where ${searchKey} like '%' || #{searchValue} || '%'
+</select>
+
+<select id="meetLikes" parameterType="int">
+	select count(*) from gatchiLike 
+	where meetListNum = ${meetListNum} and userEmail = ${userEmail}
+</select>
+
+<insert id="meetLikeUp">
+	insert into gatchiLike (meetListNum,likeCount,userEmail)
+	values (#{meetListNum}, #{likecount}=#{likecount}+1, #{userEmail})
+</insert>
+-->
+
+<!--
+public void createMeetmate(MeetmateDTO dto) throws Exception;
+
+
+<update id="updateHitCount" parameterType="int">
+	update board set hitCount=hitCount+1 where num=#{num}
+</update>
+
+<insert id="insertData" parameterType="com.spring.boot.dto.BoardDTO">
+	insert into board(num,name,pwd,email,subject,content,ipAddr,
+	hitCount,created) values (#{num},#{name},#{pwd},#{email},
+	#{subject},#{content},#{ipAddr},0,sysdate)
+</insert>
+
+map이나 hashMap이나 모두 사용가능 
+<select id="getLists" parameterType="hashMap" resultType="com.spring.boot.dto.BoardDTO">
+	select * from (
+	select rownum rnum, data.* from (
+	select num,name,subject,hitCount,to_char(created,'YYYY-MM-DD') created from board 
+	where ${searchKey} like '%' || #{searchValue} || '%'
+	order by num desc) data)
+<![CDATA[
+	where rnum>=#{start} and rnum<=#{end}
+]]>
+</select>
+
+
+
+
+
+
+<update id="updateData" parameterType="com.spring.boot.dto.BoardDTO">
+	update board set name=#{name},pwd=#{pwd},email=#{email},
+	subject=#{subject},content=#{content} where num=#{num}
 </update>
 
 <select id="getReadDataInUser" parameterType="String" resultType="com.spring.boot.dto.GatchiDTO">
