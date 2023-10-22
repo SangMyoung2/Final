@@ -21,7 +21,7 @@ public interface GatchiMapper {
 
 	public String masterPicture() throws Exception;
 	
-	public GatchiDTO getReadData(int meetListNum) throws Exception;
+	//public GatchiDTO getReadData(int meetListNum) throws Exception;
 
 	public List<GatchiDTO> getMeetMateLists() throws Exception;
 

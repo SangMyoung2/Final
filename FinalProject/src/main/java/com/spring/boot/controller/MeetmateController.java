@@ -198,44 +198,26 @@ public class MeetmateController {
 
 		List<GatchiDTO> searchMeetMateList = gatchiService.searchMeetMateList(searchKey, searchValue);
 		
-
-		////////////이부분 선택된 정렬 버튼에 따라 list 배치를 변경해줌
-		// switch (sortOrder) {
-		// 	case "meetHitCount":					
-		// 		sortLists = gatchiService.sortByHitCountMeet();
-		// 		System.out.println("sortByLikeCountMeet 들어왔음  : ");
-
-		// 		break;
-		// 	case "meetLikeCount":					
-		// 		sortLists = gatchiService.sortByLikeCountMeet();
-		// 		System.out.println("sortByHitCountMeet 들어왔음  : ");
-
-		// 		break;
-		// 	case "meetDday":
-		// 		sortLists = gatchiService.sortByDdayMeet();
-		// 		System.out.println("sortByDdayMeet 들어왔음  : ");
-
-		// 		break;
-		// 	default:
-		// }
-		
+		//정렬 버튼 클릭 시
 		if (sortOrder != null) {
-			System.out.println("sortOrder 가 들어왔나보라고  : " + sortOrder);
+			//System.out.println("sortOrder 가 들어왔나보라고  : " + sortOrder);
 			List<GatchiDTO> sortLists = new ArrayList<>();
 
 			if ("meetHitCount".equals(sortOrder)){
 				sortLists = gatchiService.sortByHitCountMeet();
-				System.out.println("sortByLikeCountMeet 들어왔음  : ");
+				//System.out.println("sortByHitCountMeet 들어왔음 !!!!!!!!!!!!!!");
 			} else if ("meetLikeCount".equals(sortOrder)) {
 				sortLists = gatchiService.sortByLikeCountMeet();
-				System.out.println("sortByHitCountMeet 들어왔음  : ");
+				//System.out.println("sortByLikeCountMeet 들어왔음 !!!!!!!!!!!!!!");
 			} else if ("meetDday".equals(sortOrder)) {
 				sortLists = gatchiService.sortByDdayMeet();
-				System.out.println("sortByDdayMeet 들어왔음  : ");
+				//System.out.println("sortByDdayMeet 들어왔음 !!!!!!!!!!!!!!");
 			}	
 			mav.addObject("sortLists", sortLists);	
+			mav.setViewName("meetmate/meetMateList");
+		
+			return mav;	
 		}
-		///////////////////////////이부분
 
 
  		//여기서부터 meetStatus 값 변경 위한 작업		
@@ -264,48 +246,11 @@ public class MeetmateController {
 	}
 
 
-/* 이거 필요한지 모르겠음..... 일단 주석처리
-	@PostMapping("/meetMateList.action")
-	public ModelAndView meetMateList(@RequestParam(name = "searchKey", required = false) String searchKey,
-        @RequestParam(name = "searchValue", required = false) String searchValue) throws Exception {
-		
-// 		ModelAndView mav = new ModelAndView();
-		
-// 		List<GatchiDTO> meetMateLists = new ArrayList<>();
-// 		List<GatchiDTO> meetMateSlideLists = new ArrayList<>();
-		
-// 		// // String searchKey = request.getParameter("searchKey");
-// 		// // String searchValue = request.getParameter("searchValue");
-// 		// if (searchValue == null) {
-// 		// 	searchKey = "meetTitle";
-// 		// 	searchValue = "";
-		
-// 		// } else {
-// 		// 	if (request.getMethod().equalsIgnoreCase("GET")) {
-// 		// 		searchValue = URLDecoder.decode(searchValue, "UTF-8");
-// 		// 	}
-// 		// }   ******************************************
-		
-// 		System.out.println("searchKey 내용 : " + searchKey);
-// 		System.out.println("searchValue 내용 : " + searchValue);
-
-		meetMateLists = gatchiService.searchMeetMateList(searchKey, searchValue);
-		meetMateSlideLists = gatchiService.getMeetMateRandomList(9); // 9개의 랜덤 모임을 가져옴
-
-// 		//System.out.println("모임 DB 가져온 내용 : " + meetLists);
-
-		mav.addObject("meetMateSlideLists", meetMateSlideLists);		
-		mav.addObject("meetLists", meetMateLists);		
-		mav.setViewName("/meetmate/meetMateList");
-		
-		return mav;
-	}
- */
-
 	@RequestMapping("/communiFindList.action")
 	public ModelAndView communiFindList(
 		@RequestParam(name = "searchKey", required = false, defaultValue = "meetTitle") String searchKey,
 		@RequestParam(name = "searchValue", required = false) String searchValue, 
+		@RequestParam(name = "sortOrder", required = false) String sortOrder,
 		HttpServletRequest request) throws Exception {
 		
 		ModelAndView mav = new ModelAndView();
@@ -327,17 +272,39 @@ public class MeetmateController {
 
 		List<GatchiDTO> searchCommuniFindList = gatchiService.searchCommuniFindList(searchKey, searchValue);
 
+		//정렬 버튼 클릭 시
+		if (sortOrder != null) {
+			//System.out.println("sortOrder 가 들어왔나보라고  : " + sortOrder);
+			List<GatchiDTO> sortLists = new ArrayList<>();
+
+			if ("meetHitCount".equals(sortOrder)){
+				sortLists = gatchiService.sortByHitCountFind();
+				//System.out.println("sortByHitCountFind 들어왔음 !!!!!!!!!!!!!!");
+			} else if ("meetLikeCount".equals(sortOrder)) {
+				sortLists = gatchiService.sortByLikeCountFind();
+				//System.out.println("sortByLikeCountFind 들어왔음 !!!!!!!!!!!!!!");
+			} else if ("meetDday".equals(sortOrder)) {
+				sortLists = gatchiService.sortByDdayFind();
+				//System.out.println("sortByDdayFind 들어왔음 !!!!!!!!!!!!!!");
+			}	
+			mav.addObject("sortLists", sortLists);	
+			mav.setViewName("meetmate/communiFindList");
+		
+			return mav;	
+		}
+
+
 		//여기서부터 meetStatus 값 변경 위한 작업		
 		Date currentDate = new Date();//현재 날짜, 시간 가져오기
 		
-		List<GatchiDTO> getCommuniFindLists2 = gatchiService.getCommuniFindLists();//meetMateLists로 GatchiDTO 가져오기
+		List<GatchiDTO> communiFindLists2 = gatchiService.getCommuniFindLists();//meetMateLists로 GatchiDTO 가져오기
 
-		//meetMateLists를 하나씩 꺼내면서 날짜 비교 및 업데이트
-		for (GatchiDTO communiFindList : getCommuniFindLists2) {			
+		//communiFindList를 하나씩 꺼내면서 날짜 비교 및 업데이트
+		for (GatchiDTO communiFindList : communiFindLists2) {			
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 			Date meetDday = dateFormat.parse(communiFindList.getMeetDday());
 
-			if (communiFindList.getMeetCheck() == 2 && meetDday.before(currentDate)) {// meetCheck가 1이고 meetDday 지나면
+			if (communiFindList.getMeetCheck() == 2 && meetDday.before(currentDate)) {// meetCheck가 2이고 meetDday 지나면
 				communiFindList.setMeetStatus(2);//meetStatus를 2로 업데이트				
 				gatchiService.updateMeetStatusFind(communiFindList);//업데이트된 GatchiDTO 저장
 			}
@@ -347,7 +314,7 @@ public class MeetmateController {
 		mav.addObject("searchCommuniFindList", searchCommuniFindList);		
 		mav.addObject("communiFindSlideLists", communiFindSlideLists);		
 		mav.addObject("communiLists", communiFindLists);
-		mav.setViewName("/meetmate/communiFindList");
+		mav.setViewName("meetmate/communiFindList");
 		
 		return mav;		
 	}

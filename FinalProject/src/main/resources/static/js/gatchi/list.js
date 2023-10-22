@@ -278,10 +278,11 @@ $(document).ready(function() {
     var sortOrder = document.getElementById("sortOrder").value;
     var form = document.sortForm; 
     
-    alert(sortOrder);
+    //alert(sortOrder);
 
     form.submit();
   }
+
   
   
   
@@ -294,6 +295,16 @@ $(document).ready(function() {
     var f = document.searchForm;
     
     f.action = "/meetMateList.action";
+    f.submit();
+    
+  }
+
+  //검색
+  function sendIt1(){
+
+    var f = document.searchForm;
+    
+    f.action = "/communiFindList.action";
     f.submit();
     
   }
