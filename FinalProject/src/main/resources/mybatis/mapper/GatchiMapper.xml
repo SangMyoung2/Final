@@ -36,11 +36,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </select> -->
 
 <select id="getMeetMateLists" resultType="com.spring.boot.dto.GatchiDTO">
-	select * from gatchi where meetCheck = 1
+	select * from gatchi where meetCheck = 1 ORDER BY meetDate DESC
 </select>
 
 <select id="getCommuniFindLists" resultType="com.spring.boot.dto.GatchiDTO">
-	select * from gatchi where meetCheck = 2
+	select * from gatchi where meetCheck = 2 ORDER BY meetDate DESC
 </select>
 
 <select id="getMeetMateRandomList" parameterType="int" 
@@ -172,5 +172,42 @@ map이나 hashMap이나 모두 사용가능
 
 
 -->
+
+<select id="sortByHitCountMeet" parameterType="map" resultType="com.spring.boot.dto.GatchiDTO">
+    SELECT * FROM gatchi
+	WHERE meetCheck = 1
+	ORDER BY meetHitCount DESC
+</select>
+
+<select id="sortByLikeCountMeet" parameterType="map" resultType="com.spring.boot.dto.GatchiDTO">
+    SELECT * FROM gatchi
+	WHERE meetCheck = 1
+	ORDER BY meetLikeCount DESC
+</select>
+
+<select id="sortByDdayMeet" parameterType="map" resultType="com.spring.boot.dto.GatchiDTO">
+	SELECT * FROM gatchi
+	WHERE meetCheck = 1 AND meetStatus != 2
+	ORDER BY TO_DATE(meetDday, 'YYYY-MM-DD HH24:MI') - TO_DATE(SYSDATE, 'YYYY-MM-DD HH24:MI') ASC
+</select>
+
+<select id="sortByHitCountFind" parameterType="map" resultType="com.spring.boot.dto.GatchiDTO">
+    SELECT * FROM gatchi
+	WHERE meetCheck = 2
+	ORDER BY meetHitCount DESC
+</select>
+
+<select id="sortByLikeCountFind" parameterType="map" resultType="com.spring.boot.dto.GatchiDTO">
+    SELECT * FROM gatchi
+	WHERE meetCheck = 2
+	ORDER BY meetLikeCount DESC
+</select>
+
+<select id="sortByDdayFind" parameterType="map" resultType="com.spring.boot.dto.GatchiDTO">
+	SELECT * FROM gatchi
+	WHERE meetCheck = 2 AND meetStatus != 2
+	ORDER BY TO_DATE(meetDday, 'YYYY-MM-DD HH24:MI') - TO_DATE(SYSDATE, 'YYYY-MM-DD HH24:MI') ASC
+</select>
+
 
 </mapper>

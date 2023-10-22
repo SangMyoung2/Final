@@ -336,12 +336,13 @@
     const sendIt = () => {
 
         createMeetDate();
-        ctgNum();
-
         if(!DdayCheck()){
             return;
+        }
+        
+        ctgNum();
 
-        } else if (!imageCheck()) {
+        if (!imageCheck()) {
             alert('메인으로 보여질 사진을 업로드해주세요.');
         } else {
             how();

@@ -272,7 +272,16 @@ $(document).ready(function() {
   }
   
   
-  
+
+  //정렬 버튼
+  function changeSortOrder() {
+    var sortOrder = document.getElementById("sortOrder").value;
+    var form = document.sortForm; 
+    
+    alert(sortOrder);
+
+    form.submit();
+  }
   
   
   

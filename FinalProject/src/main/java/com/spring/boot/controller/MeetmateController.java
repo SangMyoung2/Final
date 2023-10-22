@@ -176,6 +176,7 @@ public class MeetmateController {
 	public ModelAndView meetMateList(
 		@RequestParam(name = "searchKey", required = false, defaultValue = "meetTitle") String searchKey,
 		@RequestParam(name = "searchValue", required = false) String searchValue, 
+		@RequestParam(name = "sortOrder", required = false) String sortOrder,
 		HttpServletRequest request) throws Exception {
 		
 		ModelAndView mav = new ModelAndView();
@@ -185,7 +186,7 @@ public class MeetmateController {
 
 		List<GatchiDTO> meetMateLists = new ArrayList<>();
 		List<GatchiDTO> meetMateSlideLists = new ArrayList<>();
-
+		
 		meetMateSlideLists = gatchiService.getMeetMateRandomList(9); // 9개의 랜덤 모임을 가져옴
 		meetMateLists = gatchiService.getMeetMateLists();
 
@@ -196,6 +197,46 @@ public class MeetmateController {
 		}
 
 		List<GatchiDTO> searchMeetMateList = gatchiService.searchMeetMateList(searchKey, searchValue);
+		
+
+		////////////이부분 선택된 정렬 버튼에 따라 list 배치를 변경해줌
+		// switch (sortOrder) {
+		// 	case "meetHitCount":					
+		// 		sortLists = gatchiService.sortByHitCountMeet();
+		// 		System.out.println("sortByLikeCountMeet 들어왔음  : ");
+
+		// 		break;
+		// 	case "meetLikeCount":					
+		// 		sortLists = gatchiService.sortByLikeCountMeet();
+		// 		System.out.println("sortByHitCountMeet 들어왔음  : ");
+
+		// 		break;
+		// 	case "meetDday":
+		// 		sortLists = gatchiService.sortByDdayMeet();
+		// 		System.out.println("sortByDdayMeet 들어왔음  : ");
+
+		// 		break;
+		// 	default:
+		// }
+		
+		if (sortOrder != null) {
+			System.out.println("sortOrder 가 들어왔나보라고  : " + sortOrder);
+			List<GatchiDTO> sortLists = new ArrayList<>();
+
+			if ("meetHitCount".equals(sortOrder)){
+				sortLists = gatchiService.sortByHitCountMeet();
+				System.out.println("sortByLikeCountMeet 들어왔음  : ");
+			} else if ("meetLikeCount".equals(sortOrder)) {
+				sortLists = gatchiService.sortByLikeCountMeet();
+				System.out.println("sortByHitCountMeet 들어왔음  : ");
+			} else if ("meetDday".equals(sortOrder)) {
+				sortLists = gatchiService.sortByDdayMeet();
+				System.out.println("sortByDdayMeet 들어왔음  : ");
+			}	
+			mav.addObject("sortLists", sortLists);	
+		}
+		///////////////////////////이부분
+
 
  		//여기서부터 meetStatus 값 변경 위한 작업		
 		Date currentDate = new Date();//현재 날짜, 시간 가져오기

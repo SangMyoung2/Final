@@ -74,7 +74,7 @@
     <button type="button" id="createBtn" class="createBtn" 
       onclick="javascript:location.href='/gatchiChoice.action';"> 생성하기 </button>
 
-      <form action="" method="get" name="sortForm" class="sortBox">
+      <form action="redirect:/communiFindList.action" method="post" name="sortForm" class="sortBox">
         <select name="sortOrder" id="sortOrder" class="selectFiled" onchange="changeSortOrder()">
           <option value="meetHitCount">　조회순</option>
           <option value="meetLikeCount">　좋아요순</option>
