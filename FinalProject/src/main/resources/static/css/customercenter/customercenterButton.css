@@ -30,6 +30,12 @@
     text-align: center;
 }
 
+.seemore-container {
+    width: 50%;
+    margin: 0 auto;
+    text-align: center;
+}
+
 .custom-btn {
     width: 130px;
     height: 40px;
@@ -87,3 +93,14 @@
 .btn-16:active {
     top: 2px;
 }
+
+#loadMore {
+    padding: 10px 20px;
+    background-color: transparent;
+    color: #5CA8B5;
+    border: 2px solid #5CA8B5;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
