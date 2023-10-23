@@ -255,8 +255,10 @@ public class MeetControllerYj {
 		if (meetHow == 1) {
 			MeetInfoDTO.setMeetMemStatus(2); // 선착순
 			meetServiceYj.incrementMeetMemCnt(meetListNum);
+			MeetInfoDTO.setApprovalStatus(-1);
 		} else if (meetHow == 2) {
 			MeetInfoDTO.setMeetMemStatus(0); // 승인대기
+			MeetInfoDTO.setApprovalStatus(-1);
 		}
 			meetServiceYj.insertMeetJoinOk(MeetInfoDTO);
 		
@@ -373,7 +375,7 @@ public class MeetControllerYj {
 	}
 
 	// 방장 -> 선택한 회원에게 승인요청
-		@PostMapping("/send-request")
+	@PostMapping("/send-request")
 	public ModelAndView sendRequest(
 			@RequestParam("meetListNum") int meetListNum,
 			@RequestParam("emails") List<String> emails) throws Exception {
@@ -387,6 +389,8 @@ public class MeetControllerYj {
 
 			meetServiceYj.updateApprovalReq(MeetInfoDTO);
 		}
+System.out.println(emails + "###########################");
+System.out.println(MeetInfoDTO.getEmail() + "$$$$$$$$$$$$$$$$$$$$$$$$$");
 
 		return new ModelAndView("redirect:/meetManager.action?meetListNum=" + meetListNum);
 	}

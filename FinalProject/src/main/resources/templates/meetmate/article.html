@@ -278,27 +278,28 @@
             selectAllText.textContent = selectAll ? '전체선택' : '전체해제';
         }
     }
-
+    
     function sendRequest() {
-        var meetListNum = $('#meet-listnum').val();
-        var selectedMembers = $('.approval-action.accepted');
-        var selectedEmails = [];
-        
-        selectedMembers.each(function(index, element) {
-            selectedEmails.push($(element).data('email'));
-        });
-        alert(selectedMembers)
-        if (selectedEmails.length > 0) {
-            var confirmation = confirm('선택한 회원에게 요청을 보내시겠습니까?');
+    var meetListNum = $('#meet-listnum').val();
+    var selectedMembers = $('.approval-action.accepted');
+    var selectedEmails = [];
+    
+    selectedMembers.each(function(index, element) {
+        selectedEmails.push($(element).data('email'));
+    });
 
-            if (confirmation) {
-                $.ajax({
-                    type: "POST",
-                    url: "/send-request",
-                    data: {
-                        meetListNum: meetListNum,
-                        emails: selectedEmails
-                    },
+    if (selectedEmails.length > 0) {
+        var confirmation = confirm('선택한 회원에게 요청을 보내시겠습니까?');
+
+        if (confirmation) {
+            // JSON 문자열로 변환하여 'emails' 매개변수에 전달
+            $.ajax({
+                type: "POST",
+                url: "/send-request",
+                data: {
+                    meetListNum: meetListNum,
+                    emails: JSON.stringify(selectedEmails)
+                },
 
                     success: function(response) {
                         alert('요청이 완료되었습니다');
@@ -313,6 +314,42 @@
             alert('선택한 회원이 없습니다');
         }
     }
+
+    // function sendRequest() {
+    //     var meetListNum = $('#meet-listnum').val();
+    //     var selectedMembers = $('.approval-action.accepted');
+    //     var selectedEmails = [];
+        
+    //     selectedMembers.each(function(index, element) {
+    //         selectedEmails.push($(element).data('email'));
+    //     });
+    //     alert(selectedMembers)
+        
+    //     if (selectedEmails.length > 0) {
+    //         var confirmation = confirm('선택한 회원에게 요청을 보내시겠습니까?');
+
+    //         if (confirmation) {
+    //             $.ajax({
+    //                 type: "POST",
+    //                 url: "/send-request",
+    //                 data: {
+    //                     meetListNum: meetListNum,
+    //                     emails: selectedEmails
+    //                 },
+
+    //                 success: function(response) {
+    //                     alert('요청이 완료되었습니다');
+    //                     location.reload();
+    //                 },
+    //                 error: function(xhr, status, error) {
+    //                     alert('요청 전송 중 에러가 발생했습니다: ' + error);
+    //                 }
+    //             });
+    //         }
+    //     } else {
+    //         alert('선택한 회원이 없습니다');
+    //     }
+    // }
 
 
 
@@ -483,7 +520,7 @@
 
 
 
-                    <div class="approval-back2" th:if="${meetMemStatus == 2 and approvalStatus > 0}"> 
+                    <div class="approval-back2" th:if="${meetMemStatus == 2 and approvalStatus >= 0}"> 
                         <div style="display: flex; align-items: center;">
                             <div style="margin-left: 6px; font-size: 18px;">승인요청</div>
                         </div>
