@@ -29,6 +29,7 @@ import com.spring.boot.chat.ChatDAO;
 import com.spring.boot.collection.ChatRoomCollection;
 import com.spring.boot.dto.ChatRoom;
 import com.spring.boot.dto.GatchiDTO;
+import com.spring.boot.dto.SessionUser;
 import com.spring.boot.mapper.ChatRoomRepository;
 import com.spring.boot.model.Users;
 import com.spring.boot.service.ChatContentService;
@@ -118,6 +119,7 @@ public class ChatRoomController {
 
         HttpSession session = req.getSession();
         Users user = (Users) session.getAttribute("user1");
+        
         String userName = user.getName();
         String userId = user.getEmail();
         System.out.println("채팅방 이름 : " + roomName);

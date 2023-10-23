@@ -17,6 +17,10 @@ public interface GatchiMapper {
 
 	public List<MeetInfoDTO> getMeetInfo()throws Exception;
 
+	public List<Integer> getMeetListNumByUserEmail(String email)throws Exception;
+
+	public List<GatchiDTO> getGatchiByMeetMateListNums(List<Integer> meetListNums);
+
 	public int maxNum() throws Exception;
 
 	public String masterPicture() throws Exception;

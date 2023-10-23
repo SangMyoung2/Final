@@ -34,6 +34,7 @@ import com.spring.boot.dto.GatchiDTO;
 import com.spring.boot.dto.GatchiLikeDTO;
 import com.spring.boot.dto.MapDTO;
 import com.spring.boot.dto.MeetInfoDTO;
+import com.spring.boot.dto.SessionUser;
 import com.spring.boot.model.Users;
 import com.spring.boot.service.GatchiLikeService;
 import com.spring.boot.service.GatchiService;
@@ -98,7 +99,9 @@ public class MeetmateController {
 
 		ModelAndView mav = new ModelAndView();
 		HttpSession session = request.getSession();
-		Users social = (Users)session.getAttribute("user");
+
+		
+		SessionUser social = (SessionUser)session.getAttribute("user");
 		Users user1 = (Users)session.getAttribute("user1");
 
 		if (social != null) {
@@ -107,8 +110,9 @@ public class MeetmateController {
 			infoDTO.setEmail(user1.getEmail()); 
 		}
 
-		Resource resource = new ClassPathResource("static");
-        String resourcePath = resource.getFile().getAbsolutePath() + "/image/gatchiImage";
+		String resourcePath = "C:\\VSCode\\Final\\FinalProject\\src\\main\\resources\\static\\image\\gatchiImage";
+		// Resource resource = new ClassPathResource("static");
+        // String resourcePath = resource.getFile().getAbsolutePath() + "/image/gatchiImage";
 
 		if (!meetImage.isEmpty()) {
 			String originalFileName = meetImage.getOriginalFilename();
@@ -154,8 +158,11 @@ public class MeetmateController {
 			infoDTO.setEmail(user1.getEmail()); 
 		}
 
-		Resource resource = new ClassPathResource("static");
-        String resourcePath = resource.getFile().getAbsolutePath() + "/image/gatchiImage";
+
+		
+		// Resource resource = new ClassPathResource("static");
+        // String resourcePath = resource.getFile().getAbsolutePath() + "/image/gatchiImage";
+		String resourcePath = "C:\\VSCode\\Final\\FinalProject\\src\\main\\resources\\static\\image\\gatchiImage";
 
 		if (!meetImage.isEmpty()) {
 			String originalFileName = meetImage.getOriginalFilename();
