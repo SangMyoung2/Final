@@ -17,6 +17,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -86,17 +87,16 @@ public class MeetControllerYj {
 		MeetInfoDTO.setMeetListNum(Integer.parseInt(request.getParameter("meetListNum")));
 		// MeetInfoDTO.setEmail("kim"); // TODO : 세션에서 email 가져와야됨
 
-		// 떠돌이 유저
+		// 떠돌이 유저(meetMemStatus)
 		int memberStatus = -1;
 		Integer ret = meetServiceYj.getMemberStatus(MeetInfoDTO);
 		if (ret != null) memberStatus = ret.intValue();
-		
-		// // 방장 자신은 강퇴하면 안 되니까 비교하려고
-		// if (memberStatus == 1) {
-		// 	String masterEmail = meetServiceYj.getMeetMaster(Integer.parseInt(request.getParameter("meetListNum")));
-		// 	mav.addObject("masterEmail", masterEmail);
-		// }
 
+		// 떠돌이 유저(approvalStatus)
+		int approvalStatus = -1;
+		Integer ret2 = meetServiceYj.getApprovalStatus(MeetInfoDTO);
+		if (ret2 != null) approvalStatus = ret2.intValue();
+		
 		mav.addObject("meetMaster", meetMaster);
         mav.addObject("meetStatus", meetStatus);
 		mav.addObject("meetListNum", request.getParameter("meetListNum"));
@@ -105,6 +105,7 @@ public class MeetControllerYj {
 		mav.addObject("membersExMaster", membersExMaster);
 		mav.addObject("meetReview", meetReview);
 		mav.addObject("meetMemStatus", memberStatus);
+		mav.addObject("approvalStatus", approvalStatus);
 		mav.addObject("dto", MeetInfoDTO);
 
 		mav.setViewName("meetmate/article");
@@ -367,6 +368,57 @@ public class MeetControllerYj {
 		MeetInfoDTO.setMeetListNum(meetListNum);
 		MeetInfoDTO.setEmail(email);
 		meetServiceYj.releaseFromBlacklist(MeetInfoDTO);
+
+		return new ModelAndView("redirect:/meetManager.action?meetListNum=" + meetListNum);
+	}
+
+	// 방장 -> 선택한 회원에게 승인요청
+		@PostMapping("/send-request")
+	public ModelAndView sendRequest(
+			@RequestParam("meetListNum") int meetListNum,
+			@RequestParam("emails") List<String> emails) throws Exception {
+
+		MeetInfoDTO MeetInfoDTO = new MeetInfoDTO();
+
+		MeetInfoDTO.setMeetListNum(meetListNum);
+
+		for (String email : emails) {
+			MeetInfoDTO.setEmail(email);
+
+			meetServiceYj.updateApprovalReq(MeetInfoDTO);
+		}
+
+		return new ModelAndView("redirect:/meetManager.action?meetListNum=" + meetListNum);
+	}
+
+	// 선택받은 회원이 승인 누름
+	@PostMapping("/req-approval")
+	public ModelAndView reqApproval(
+			@RequestParam("meetListNum") int meetListNum,
+			@RequestParam("email") String email) throws Exception {
+
+		MeetInfoDTO MeetInfoDTO = new MeetInfoDTO();
+
+		MeetInfoDTO.setMeetListNum(meetListNum);
+		MeetInfoDTO.setEmail(email);
+
+		meetServiceYj.updateApprovalOk(MeetInfoDTO);
+
+		return new ModelAndView("redirect:/meetManager.action?meetListNum=" + meetListNum);
+	}
+
+	// 선택받은 회원이 기각 누름
+	@PostMapping("/req-reject")
+	public ModelAndView reqReject(
+			@RequestParam("meetListNum") int meetListNum,
+			@RequestParam("email") String email) throws Exception {
+
+		MeetInfoDTO MeetInfoDTO = new MeetInfoDTO();
+
+		MeetInfoDTO.setMeetListNum(meetListNum);
+		MeetInfoDTO.setEmail(email);
+
+		meetServiceYj.updateReject(MeetInfoDTO);
 
 		return new ModelAndView("redirect:/meetManager.action?meetListNum=" + meetListNum);
 	}

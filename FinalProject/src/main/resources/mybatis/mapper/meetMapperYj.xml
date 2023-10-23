@@ -72,13 +72,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     select meetMemStatus from meetInfo where meetListNum = #{meetListNum} and email = #{email}
 </select>
 
+<select id="getApprovalStatus" parameterType="com.spring.boot.dto.MeetInfoDTO" resultType="Integer">
+    select approvalStatus from meetInfo where meetListNum = #{meetListNum} and email = #{email} and meetMemStatus = 2
+</select>
+
 <select id="getMeetHow" parameterType="int" resultType="int">
     select meetHow from gatchi where meetListNum = #{meetListNum}
 </select>
 
 <insert id="insertMeetJoinOk" parameterType="com.spring.boot.dto.MeetInfoDTO">
-    insert into meetInfo (meetListNum, email, meetMemStatus)
-    values (#{meetListNum}, #{email}, #{meetMemStatus})
+    insert into meetInfo (meetListNum, email, meetMemStatus, approvalStatus)
+    values (#{meetListNum}, #{email}, #{meetMemStatus}, #{approvalStatus})
 </insert>
 
 <delete id="deleteMeetOut" parameterType="com.spring.boot.dto.MeetInfoDTO">
@@ -136,6 +140,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <delete id="releaseFromBlacklist" parameterType="com.spring.boot.dto.MeetInfoDTO">
     delete from meetInfo where meetListNum = #{meetListNum} and email = #{email}
 </delete>
+
+<update id="updateApprovalReq" parameterType="com.spring.boot.dto.MeetInfoDTO">
+    update meetInfo set approvalStatus = 0
+    where meetListNum = #{meetListNum} and email = #{email} and meetMemStatus = 2
+</update>
+
+<update id="updateApprovalOk" parameterType="com.spring.boot.dto.MeetInfoDTO">
+    update meetInfo set approvalStatus = 1
+    where meetListNum = #{meetListNum} and email = #{email} and meetMemStatus = 2
+</update>
+
+<update id="updateReject" parameterType="com.spring.boot.dto.MeetInfoDTO">
+    update meetInfo set approvalStatus = 2
+    where meetListNum = #{meetListNum} and email = #{email} and meetMemStatus = 2
+</update>
 
 
 </mapper>

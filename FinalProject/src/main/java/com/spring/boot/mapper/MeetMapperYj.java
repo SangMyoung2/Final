@@ -33,6 +33,8 @@ public interface MeetMapperYj {
     public void deleteMeetReview(MeetReviewDTO dto) throws Exception;
 
     public Integer getMemberStatus(MeetInfoDTO dto) throws Exception;
+
+    public Integer getApprovalStatus(MeetInfoDTO dto) throws Exception;
     
     public int getMeetHow(int meetListNum) throws Exception;
 
@@ -61,5 +63,11 @@ public interface MeetMapperYj {
     public void decrementMeetMemCnt(int meetListNum) throws Exception;
 
     public void releaseFromBlacklist(MeetInfoDTO dto) throws Exception;
+
+    public void updateApprovalReq(MeetInfoDTO dto) throws Exception;
+
+    public void updateApprovalOk(MeetInfoDTO dto) throws Exception;
+
+    public void updateReject(MeetInfoDTO dto) throws Exception;
 
 }

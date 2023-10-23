@@ -73,6 +73,11 @@ public class MeetServiceImplYj implements MeetServiceYj {
     }
 
     @Override
+    public Integer getApprovalStatus(MeetInfoDTO dto) throws Exception {
+        return meetMapperYj.getApprovalStatus(dto);
+    }
+
+    @Override
     public int getMeetHow(int meetListNum) throws Exception {
         return meetMapperYj.getMeetHow(meetListNum);
     }
@@ -140,6 +145,21 @@ public class MeetServiceImplYj implements MeetServiceYj {
     @Override
     public void releaseFromBlacklist(MeetInfoDTO dto) throws Exception {
         meetMapperYj.releaseFromBlacklist(dto);
+    }
+    
+    @Override
+    public void updateApprovalReq(MeetInfoDTO dto) throws Exception {
+        meetMapperYj.updateApprovalReq(dto);
+    }
+    
+    @Override
+    public void updateApprovalOk(MeetInfoDTO dto) throws Exception {
+        meetMapperYj.updateApprovalOk(dto);
+    }
+    
+    @Override
+    public void updateReject(MeetInfoDTO dto) throws Exception {
+        meetMapperYj.updateReject(dto);
     }
 
 }

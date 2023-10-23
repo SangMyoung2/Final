@@ -161,34 +161,28 @@
         
     });
 
-// 모달 창 열기
-function openModal(imgElement) {
-        // 모달 창 엘리먼트 생성
+    // 모달 창 열기
+    function openModal(imgElement) {
+
         var modal = document.createElement('div');
         modal.className = 'modal';
         
-        // 모달 이미지 엘리먼트 생성
         var modalImg = document.createElement('img');
         modalImg.className = 'modal-content';
         modalImg.src = imgElement.src;
         
-        // 모달 창에 이미지 추가
         modal.appendChild(modalImg);
-        
-        // 모달 창 스타일 설정
         modal.style.display = 'block';
         
-        // 모달 창을 body에 추가
         document.body.appendChild(modal);
         
-        // 모달 창을 클릭하면 닫히도록 이벤트 핸들러 추가
         modal.onclick = function() {
             modal.style.display = 'none';
-            modal.remove(); // 모달 창 제거
+            modal.remove();
         };
     }
 
-function deleteReview(email, meetListNum, meetReviewNum) {
+    function deleteReview(email, meetListNum, meetReviewNum) {
         if (confirm('리뷰를 삭제하시겠습니까?')) {
             $.ajax({
                 type: "POST",
@@ -222,71 +216,59 @@ function deleteReview(email, meetListNum, meetReviewNum) {
         meetMoneyElement.textContent = formattedMeetMoney;
     });
 
+     // 인원수 달성률 계산 및 그래프 상태 업데이트
     $(document).ready(function() {
-        // 각 meetListInfo 요소에 대한 인원수 달성률 계산 및 그래프 색상 및 표시 업데이트
         $('#countdown-wrap').each(function() {
             var currentAmount = parseInt($(this).find('#current-amount').text());
             var maxAmount = parseInt($(this).find('#max-amount').text());
 
-            // 자연수 형태로 인원수 달성률 계산
             var percentage = Math.floor((currentAmount / maxAmount) * 100);
             
-            // 그래프 요소 업데이트
             var progressBar = $(this).find('#progress');
             progressBar.css('width', percentage + '%');
+            progressBar.css('background-color', '#5CA8B5');
 
-            // 그래프에 따라 색상 채우기
-            if (percentage >= 100) {
-                progressBar.css('background-color', '#5CA8B5'); // 달성률이 100% 이상인 경우
-            } else if (percentage >= 50) {
-                progressBar.css('background-color', '#5CA8B5'); // 달성률이 50% 이상인 경우
-            } else {
-                progressBar.css('background-color', '#5CA8B5'); // 달성률이 50% 미만인 경우
-            }
-
-            // 자연수 형태와 백분율(%)로 표시 업데이트
             var percentElement = $(this).find('#goal');
             percentElement.text(percentage + "%");
         });
     });
 
+    // 펼치기 기능
     $(document).ready(function() {
         $("#expand-button").click(function() {
             $("#expandable-content").toggle();
-            $("#expandable-text").toggle();
+            $("#request-text").toggle();
         });
     });
 
+    // 회원 개별선택
     function toggleAccept(element) {
         if (element.classList.contains('accepted')) {
-            // 버튼을 해제하고 텍스트 색상을 원래 색상으로 변경
             element.classList.remove('accepted');
-            element.style.color = ''; // 원래 텍스트색
+            element.style.color = '';
         } else {
-            // 요청 버튼을 파란색으로 변경
             element.classList.add('accepted');
-            element.style.color = '#FF0000'; // 빨간색 텍스트색
+            element.style.color = '#e9194d';
         }
     }
 
+    // 회원 전체선택
     function toggleAll() {
         var elements = document.querySelectorAll('.approval-action');
         var selectAll = true;
 
-        // 모든 요소를 선택 또는 해제
         elements.forEach(function(element) {
             if (!element.classList.contains('accepted')) {
                 selectAll = false;
                 element.classList.add('accepted');
-                element.style.color = '#FF0000'; // 빨간색 텍스트색
+                element.style.color = '#e9194d';
             }
         });
 
         if (selectAll) {
-            // 이미 모두 선택되어 있을 경우, 모든 요소를 선택 해제
             elements.forEach(function(element) {
                 element.classList.remove('accepted');
-                element.style.color = ''; // 원래 텍스트색
+                element.style.color = '';
             });
         }
 
@@ -296,6 +278,111 @@ function deleteReview(email, meetListNum, meetReviewNum) {
             selectAllText.textContent = selectAll ? '전체선택' : '전체해제';
         }
     }
+
+    function sendRequest() {
+        var meetListNum = $('#meet-listnum').val();
+        var selectedMembers = $('.approval-action.accepted');
+        var selectedEmails = [];
+        
+        selectedMembers.each(function(index, element) {
+            selectedEmails.push($(element).data('email'));
+        });
+        alert(selectedMembers)
+        if (selectedEmails.length > 0) {
+            var confirmation = confirm('선택한 회원에게 요청을 보내시겠습니까?');
+
+            if (confirmation) {
+                $.ajax({
+                    type: "POST",
+                    url: "/send-request",
+                    data: {
+                        meetListNum: meetListNum,
+                        emails: selectedEmails
+                    },
+
+                    success: function(response) {
+                        alert('요청이 완료되었습니다');
+                        location.reload();
+                    },
+                    error: function(xhr, status, error) {
+                        alert('요청 전송 중 에러가 발생했습니다: ' + error);
+                    }
+                });
+            }
+        } else {
+            alert('선택한 회원이 없습니다');
+        }
+    }
+
+
+
+    // $(document).ready(function() {
+    //     $("#request-text").on("click", function() {
+    //         sendRequest();
+    //     });
+    // });
+
+    // function sendRequest(email, meetListNum) {
+    //     $.ajax({
+    //         type: "POST",
+    //         url: "/send-request",
+    //         data: {
+    //             meetListNum: meetListNum,
+    //             email: email
+    //         },
+    //         success: function(response) {
+    //             alert('요청이 전송되었습니다.');
+    //             location.reload();
+    //         },
+    //         error: function(xhr, status, error) {
+    //             alert('요청 전송 중 에러가 발생했습니다.');
+    //         }
+    //     });
+    // }
+
+   
+    // function reqApproval(email, meetListNum) {
+    //     if (confirm('요청을 승인하시겠습니까?')) {
+    //         $.ajax({
+    //             type: "POST",
+    //             url: "/req-approval",
+    //             data: {
+    //                 meetListNum: meetListNum,
+    //                 email: email
+    //             },
+    //             success: function (response) {
+    //                 alert('승인되었습니다.');
+    //                 location.reload();
+    //             },
+    //             error: function () {
+    //                 alert('승인에 실패했습니다.');
+    //             }
+    //         });
+    //     }
+    // }
+
+  
+
+
+    // function reqReject(email, meetListNum) {
+    //     if (confirm('요청을 기각하시겠습니까?')) {
+    //         $.ajax({
+    //             type: "POST",
+    //             url: "/req-reject",
+    //             data: {
+    //                 meetListNum: meetListNum,
+    //                 email: email
+    //             },
+    //             success: function (response) {
+    //                 alert('기각되었습니다.');
+    //                 location.reload();
+    //             },
+    //             error: function () {
+    //                 alert('기각에 실패했습니다.');
+    //             }
+    //         });
+    //     }
+    // }
     
 </script>
 
@@ -387,13 +474,42 @@ function deleteReview(email, meetListNum, meetReviewNum) {
                                 <span class="approval-action" th:data-email="${membersExMaster.email}" th:data-meetListNum="${meetListNum}" th:data-name="${membersExMaster.name}" onclick="toggleAccept(this)">√</span>
                             </div>
                         </div>
-                        
-                        
-                        
-                        <div id="expandable-text" style="display: none; text-align: end; font-size: 18px;">요청하기</div>
-                        
-                    </div>
 
+                        <input type="hidden" id="meet-listnum" name="meetListNum" th:value="${meetListNum}" />
+                        <div id="request-text" onclick="sendRequest()">요청하기</div>
+
+                    </div>
+                    
+
+
+
+                    <div class="approval-back2" th:if="${meetMemStatus == 2 and approvalStatus > 0}"> 
+                        <div style="display: flex; align-items: center;">
+                            <div style="margin-left: 6px; font-size: 18px;">승인요청</div>
+                        </div>
+                        <div style="margin-top: 10px;"></div>
+                        <div class="approval-mem-back2" id="expandable-content">
+                            <div class="approval-mem-q">
+                                    
+                                
+                                👑 <li class="approval-li2" th:text="${meetMaster.name}"></li>
+                                 님이 요청하셨습니다. 승인하시겠습니까?
+                            </div>
+
+                            <div class="d-flex req-actions" th:each="member : ${membersExMaster}">
+                                <span class="card-text d-flex req-approval" th:if="${#httpSession.getAttribute('user1') != null} and ${session.user1.email == member.email}" th:data-email="${member.email}" th:data-meetListNum="${meetListNum}" onclick="reqApproval(this.getAttribute('data-email'), this.getAttribute('data-meetListNum'))">승인</span>
+
+                                <span class="card-text d-flex req-approval" th:if="${#httpSession.getAttribute('user') != null} and ${session.user.email == member.email}" th:data-email="${member.email}" th:data-meetListNum="${meetListNum}" onclick="reqApproval(this.getAttribute('data-email'), this.getAttribute('data-meetListNum'))">승인</span>
+
+                                <span class="card-text d-flex req-reject" th:if="${#httpSession.getAttribute('user1') != null} and ${session.user1.email == member.email}" th:data-email="${member.email}" th:data-meetListNum="${meetListNum}" onclick="reqReject(this.getAttribute('data-email'), this.getAttribute('data-meetListNum'))">기각</span>
+
+                                <span class="card-text d-flex req-reject" th:if="${#httpSession.getAttribute('user') != null} and ${session.user.email == member.email}" th:data-email="${member.email}" th:data-meetListNum="${meetListNum}" onclick="reqReject(this.getAttribute('data-email'), this.getAttribute('data-meetListNum'))">기각</span>
+                            </div>
+
+
+                        </div>
+                    
+                    </div>
 
 
                     
@@ -549,8 +665,8 @@ function deleteReview(email, meetListNum, meetReviewNum) {
                         <p class="card-text" th:text="${meetReview.meetReviewContent}" style="padding-left: 10px; padding-right: 10px; text-align: justify; font-size: 18px; margin-bottom: 5px;"></p>
                         <p class="card-text d-flex" th:text="${#strings.substring(meetReview.meetReviewDate, 0, 16)}" style="color: #AAAAAA; font-size: 13px; position: absolute; top: 0; right: 0; margin-top: 31px; margin-right: 20px;"></p>
 
-                        <span class="card-text d-flex delete-review" style="color: #AAAAAA; font-size: 13px; position: absolute; top: 0; right: 0; margin-top: 50px; margin-right: 20px;" th:if="${#httpSession.getAttribute('user1') != null} and ${session.user1.email == meetReview.email}" th:data-email="${meetReview.email}" th:data-meetListNum="${meetListNum}" th:data-meetReviewNum="${meetReview.meetReviewNum}" onclick="deleteReview(this.getAttribute('data-email'), this.getAttribute('data-meetListNum'), this.getAttribute('data-meetReviewNum'))">삭제</span>
-                        <span class="card-text d-flex delete-review" style="color: #AAAAAA; font-size: 13px; position: absolute; top: 0; right: 0; margin-top: 50px; margin-right: 20px;" th:if="${#httpSession.getAttribute('user') != null} and ${session.user.email == meetReview.email}" th:data-email="${meetReview.email}" th:data-meetListNum="${meetListNum}" th:data-meetReviewNum="${meetReview.meetReviewNum}" onclick="deleteReview(this.getAttribute('data-email'), this.getAttribute('data-meetListNum'), this.getAttribute('data-meetReviewNum'))">삭제</span>
+                        <span class="card-text d-flex delete-review" th:if="${#httpSession.getAttribute('user1') != null} and ${session.user1.email == meetReview.email}" th:data-email="${meetReview.email}" th:data-meetListNum="${meetListNum}" th:data-meetReviewNum="${meetReview.meetReviewNum}" onclick="deleteReview(this.getAttribute('data-email'), this.getAttribute('data-meetListNum'), this.getAttribute('data-meetReviewNum'))">삭제</span>
+                        <span class="card-text d-flex delete-review" th:if="${#httpSession.getAttribute('user') != null} and ${session.user.email == meetReview.email}" th:data-email="${meetReview.email}" th:data-meetListNum="${meetListNum}" th:data-meetReviewNum="${meetReview.meetReviewNum}" onclick="deleteReview(this.getAttribute('data-email'), this.getAttribute('data-meetListNum'), this.getAttribute('data-meetReviewNum'))">삭제</span>
                     </div>
                 </div>
             </div>
