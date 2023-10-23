@@ -245,10 +245,9 @@ public class BaseAuthController {
     }
 
     if(userMeetList != null){
-    List<GatchiDTO> gatchiList = gatchiService.getGatchiByMeetListNums(userMeetList);
-    List<MeetInfoDTO> meetInfoList = gatchiService.getMeetInfo();
+    List<GatchiDTO> gatchiList = gatchiService.getGatchiByMeetMateListNums(userMeetList);
 
-    mav.addObject("meetinfolist", meetInfoList);
+   
     mav.addObject("gatchiList", gatchiList);
 	}
 	mav.setViewName("login/mypage");
@@ -283,7 +282,7 @@ public class BaseAuthController {
 		
 
 		String originalFilename = userImg.getOriginalFilename();
-				String saveFileName = originalFilename + UUID.randomUUID();
+				String saveFileName = UUID.randomUUID()+originalFilename;
 				Path filePath = Paths.get(resourcePath, saveFileName);
             	
 				

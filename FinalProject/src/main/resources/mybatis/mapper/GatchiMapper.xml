@@ -41,7 +41,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <foreach item="item" collection="list" open="(" separator="," close=")">
         #{item}
     </foreach>
-   AND MEETCHECK = 1
+	AND MEETCHECK = 1
     ORDER BY meetListNum DESC
 </select>
 
