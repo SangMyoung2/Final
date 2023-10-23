@@ -71,6 +71,7 @@ public class MeetmateController {
 	}
 
 
+
 	@PostMapping("/gatchiChoice.action")
 	public ModelAndView gatchiChoice_ok(@RequestParam("meetCheck") String meetCheck, HttpServletRequest request, GatchiDTO dto) throws Exception{
 
@@ -92,6 +93,8 @@ public class MeetmateController {
 		}	
 		return mav;
 	}
+
+
 
 	@PostMapping("/meetMateCreate.action")
 	public ModelAndView meetMateCreate_ok(HttpServletRequest request, 
@@ -142,6 +145,7 @@ public class MeetmateController {
 	}
 
 
+
 	@PostMapping("/communiFindCreate.action")
 	public ModelAndView communiFindCreate_ok(HttpServletRequest request, 
 		@RequestParam("meetImage1") MultipartFile meetImage, GatchiDTO dto, MeetInfoDTO infoDTO) throws Exception{
@@ -186,18 +190,21 @@ public class MeetmateController {
 	}
 		
 
+
 	@RequestMapping("/meetMateList.action")
 	public ModelAndView meetMateList(
 		@RequestParam(name = "searchKey", required = false, defaultValue = "meetTitle") String searchKey,
 		@RequestParam(name = "searchValue", required = false) String searchValue, 
 		@RequestParam(name = "sortOrder", required = false) String sortOrder,
-		HttpServletRequest request) throws Exception {
+		MeetInfoDTO meetInfoDTO, HttpServletRequest request) throws Exception {
 		
 		ModelAndView mav = new ModelAndView();
 		
-		//HttpSession session = request.getSession();**************프로필사진
-		//String picture = (String) session.getAttribute("picture");******************
-
+		// 방장 프로필 사진 불러오기
+		int meetListNum = meetInfoDTO.getMeetListNum();
+		// System.out.println("meetListNum--------------------------" + meetListNum);
+		String masterProfile = gatchiService.getProfileByUsers(meetListNum);
+		
 		List<GatchiDTO> meetMateLists = new ArrayList<>();
 		List<GatchiDTO> meetMateSlideLists = new ArrayList<>();
 		
@@ -229,7 +236,6 @@ public class MeetmateController {
 			return mav;	
 		}
 
-
  		//여기서부터 meetStatus 값 변경 위한 작업		
 		Date currentDate = new Date();//현재 날짜, 시간 가져오기
 		
@@ -250,11 +256,13 @@ public class MeetmateController {
 		mav.addObject("searchMeetMateList", searchMeetMateList);
 		mav.addObject("meetMateSlideLists", meetMateSlideLists);		
 		mav.addObject("meetLists", meetMateLists);	
+		mav.addObject("masterProfile", masterProfile);	
 		mav.setViewName("meetmate/meetMateList");
 		
 		return mav;		
 	}
 	
+
 
 	@RequestMapping("/communiFindList.action")
 	public ModelAndView communiFindList(
@@ -265,9 +273,10 @@ public class MeetmateController {
 		
 		ModelAndView mav = new ModelAndView();
 		
-		//방장 프로필 사진 불러오기
-		// int meetListNum = meetInfoDTO.getMeetListNum();
-		// String masterProfile = gatchiService.getProfileByUsers(meetListNum);
+		// 방장 프로필 사진 불러오기
+		int meetListNum = meetInfoDTO.getMeetListNum();
+		// System.out.println("meetListNum--------------------------" + meetListNum);
+		String masterProfile = gatchiService.getProfileByUsers(meetListNum);
 
 		
 		//HttpSession session = request.getSession();**************프로필사진
@@ -323,12 +332,13 @@ public class MeetmateController {
 		mav.addObject("searchCommuniFindList", searchCommuniFindList);		
 		mav.addObject("communiFindSlideLists", communiFindSlideLists);		
 		mav.addObject("communiLists", communiFindLists);
-		//mav.addObject("masterProfile", masterProfile);
+		mav.addObject("masterProfile", masterProfile);
 		mav.setViewName("meetmate/communiFindList");
 		
 		return mav;		
 	}
 	
+
 
 	@RequestMapping(value = "/reFindList", method = RequestMethod.POST, consumes = "application/json")
 	public Map<String,Object> reFindList(@RequestBody Map<String, String> requestMap) throws Exception {
@@ -346,6 +356,8 @@ public class MeetmateController {
 		return data;
 	}
 	
+
+
 	@PostMapping("/meet/plusLike")
 	public String plusLike(@RequestBody Map<String, String> data,HttpServletRequest req) throws Exception {
 		
@@ -376,6 +388,8 @@ public class MeetmateController {
 		return "SUCCESS";
 	}
 	
+
+
 	@PostMapping("/meet/minusLike")
 	public String minusLike(@RequestBody Map<String, String> data,HttpServletRequest req) throws Exception {
 		
@@ -404,6 +418,8 @@ public class MeetmateController {
 
 		return "SUCCESS";
 	}
+
+
 
 	@PostMapping("/meet/loadLikeData")
 	public List<Integer> loadLikeData(HttpServletRequest req) throws Exception {

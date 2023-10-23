@@ -51,7 +51,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <select id="getProfileByUsers" parameterType="int" resultType="String">
 	SELECT users.picture FROM users
 	JOIN meetInfo ON users.email = meetInfo.email
-	WHERE meetInfo.meetListNum = ${meetListNum};
+	WHERE meetInfo.meetListNum = ${meetListNum}
 </select>
 
 <!-- <select id="getReadData" parameterType="int" resultType="com.spring.boot.dto.GatchiDTO">
@@ -189,7 +189,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 -->
 
 <!--
-public void createMeetmate(MeetmateDTO dto) throws Exception;
+public void createMeetmate(MeetmateDTO dto) throws Exception
 
 
 <update id="updateHitCount" parameterType="int">

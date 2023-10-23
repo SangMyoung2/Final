@@ -50,7 +50,12 @@ public class GatchiServiceImpl implements GatchiService{
 		return gatchiMapper.maxNum();
 	}
 	
-	
+	@Override
+	public String getProfileByUsers(int meetListNum) throws Exception {
+		return gatchiMapper.getProfileByUsers(meetListNum);
+	}
+
+
 	@Override
 	public String masterPicture() throws Exception {
 		return gatchiMapper.masterPicture();
@@ -214,6 +219,7 @@ public class GatchiServiceImpl implements GatchiService{
 	public void updateChatRoom(GatchiDTO dto) throws Exception{
 		gatchiMapper.updateChatRoom(dto);
 	}
+
 
 
 }

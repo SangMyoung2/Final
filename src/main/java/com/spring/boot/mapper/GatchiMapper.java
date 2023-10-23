@@ -23,6 +23,8 @@ public interface GatchiMapper {
 
 	public int maxNum() throws Exception;
 
+	public String getProfileByUsers(int meetListNum) throws Exception;
+
 	public String masterPicture() throws Exception;
 	
 	public GatchiDTO getReadData(int meetListNum) throws Exception;
