@@ -156,7 +156,7 @@ public class ChallengeController {
 
         // int memStatus=0;
         // int memLike=0;
-
+        
         //접속한 user 정보 데이터 담기  
         if (social != null) { //소셜유저의 정보
             
@@ -202,6 +202,11 @@ public class ChallengeController {
 	}
 
 
+
+
+
+
+
     @PostMapping("/joinChallenge.action")
 	public ModelAndView joinChallenge(HttpServletRequest request, ChallengeInfoDTO infoDTO) throws Exception {
 		
@@ -217,7 +222,6 @@ public class ChallengeController {
 			infoDTO.setEmail(user1.getEmail()); 
 		}
 
-        System.out.println("왜 안오니?");
 		int challengeListNum =  Integer.parseInt(request.getParameter("challengeListNum"));
         
          
@@ -233,6 +237,52 @@ public class ChallengeController {
 	}
 
 
+    @PostMapping("/deleteChallenge.action")
+	public ModelAndView deleteChallenge(HttpServletRequest request) throws Exception {
+
+        ModelAndView mav = new ModelAndView();
+	
+        int challengeListNum =  Integer.parseInt(request.getParameter("challengeListNum"));
+
+        challengeService.deleteChallengeStatus(challengeListNum);
+
+        mav.setViewName("redirect:/challengeList.action");
+
+		return mav;
+	}
+
+    
+    @PostMapping("/giveUpChallenge")
+	public ModelAndView giveUpChallenge(HttpServletRequest request,ChallengeInfoDTO challengeInfoDTO) throws Exception {
+
+        ModelAndView mav = new ModelAndView();
+	
+        int challengeListNum =  Integer.parseInt(request.getParameter("challengeListNum"));
+
+
+
+        HttpSession session = request.getSession();
+		SessionUser social = (SessionUser)session.getAttribute("user");
+		Users user1 = (Users)session.getAttribute("user1");
+        String email = "";
+
+		if (social != null) {
+			email = social.getEmail();
+		} else if (user1 != null) {
+			email = user1.getEmail(); 
+		}
+       
+      
+
+        challengeService.deleteChallengeInfo(challengeListNum,email);
+       
+
+        mav.setViewName("redirect:/challengeArticle.action?challengeListNum=" + challengeListNum);
+
+		return mav;
+	}
+
+
 
 
 
@@ -243,6 +293,17 @@ public class ChallengeController {
 		
 		ModelAndView mav = new ModelAndView();
 		
+        // for (GatchiDTO meetMateList : meetMateLists2) {			
+		// 	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		// 	Date meetDday = dateFormat.parse(meetMateList.getMeetDday());
+
+		// 	if (meetMateList.getMeetCheck() == 1 && meetDday.before(currentDate)) {// meetCheck가 1이고 meetDday 지나면
+		// 		meetMateList.setMeetStatus(2);//meetStatus를 2로 업데이트				
+		// 		gatchiService.updateMeetStatusMate(meetMateList);//업데이트된 GatchiDTO 저장
+		// 	}
+		// }
+
+
 		mav.setViewName("challenge/ChallengeList");
 		
 		return mav;		
@@ -251,9 +312,26 @@ public class ChallengeController {
 
     //테스트용
     @GetMapping("/test1.action")
-    public ModelAndView test() throws Exception {
+    public ModelAndView test(HttpServletRequest request) throws Exception {
         ModelAndView mav = new ModelAndView();
 
+       int challengeListNum =  Integer.parseInt(request.getParameter("challengeListNum"));
+
+
+
+        HttpSession session = request.getSession();
+		SessionUser social = (SessionUser)session.getAttribute("user");
+		Users user1 = (Users)session.getAttribute("user1");
+        String email = "";
+
+		if (social != null) {
+			email = social.getEmail();
+		} else if (user1 != null) {
+			email = user1.getEmail(); 
+		}
+
+
+        challengeService.deleteChallengeInfo(challengeListNum,email);
 		mav.setViewName("challenge/test");
 		
 		return mav;	

@@ -19,6 +19,7 @@
 <!-- <script src="https://kit.fontawesome.com/1f0cefbb8e.js" crossorigin="anonymous"></script> -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+
 <script>
 
     // 페이지 로드 시 초기 버튼 상태 설정
@@ -263,12 +264,7 @@ function deleteReview(email, meetListNum, meetReviewNum) {
                     <div class="Main_content" >
 
                         <div class="round-image">
-                            <div th:if="${#httpSession.getAttribute('user') != null}">
-                                <img style="margin-bottom: 30px;" th:src="@{${session.user.picture}}">
-                            </div>
-                            <div th:if="${#httpSession.getAttribute('user1') != null}">
-                                <img style="margin-bottom: 30px;" th:src="@{${session.user1.picture}}">
-                            </div>
+                                <img style="margin-bottom: 30px;" th:src="@{|/image/login/${masterInfoDTO.picture}|}" alt="">
                         </div>
 
                         <p class="Yj-master" th:text="${masterInfoDTO.email}"></p>
@@ -277,6 +273,22 @@ function deleteReview(email, meetListNum, meetReviewNum) {
                   
                     <div class="main-text">
                         <p class="Yj-text1" th:text="${challengeDTO.challengeContent}"></p>
+
+                        <table>
+                            <tr>
+                                <td>성공</td>
+                                <td>실패</td>
+                            </tr>
+                            <tr>
+
+                            </tr>
+                            <tr>
+
+                            </tr>
+                        </table>
+                       
+
+
 
                         <div class="yj-info">상세 정보</div>
                         <p class="text-with-hyphen Yj-text2" th:text="${challengeDTO.challengeWeekCheck}"></p>
@@ -289,6 +301,9 @@ function deleteReview(email, meetListNum, meetReviewNum) {
                         <div class="text-container">
                             <p class="Yj-text3" th:text="${challengeDTO.challengeMemberCount}"></p>
                         </div>
+
+
+                        
 
 
                         <div th:switch="${challengeInfoDTO != null}">
@@ -306,9 +321,9 @@ function deleteReview(email, meetListNum, meetReviewNum) {
                                     </div>
 
                                     <div th:case="1">
-                                        <form action="/delete-meet" method="post">
+                                        <form action="/deleteChallenge.action" method="post">
                                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                            <button form="deleteForm" type="submit" class="delete-button">
+                                            <button type="submit" class="delete-button">
                                                 챌린지 삭제
                                             </button>
                                             <input type="hidden" name="challengeListNum" th:value="${challengeDTO.challengeListNum}"/>
@@ -316,9 +331,9 @@ function deleteReview(email, meetListNum, meetReviewNum) {
                                     </div>
 
                                     <div th:case="2">
-                                        <form>
+                                        <form action="/giveUpChallenge" method="post">
                                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                            <button form="outForm" type="submit" class="out-button">
+                                            <button type="submit" class="out-button">
                                                 챌린지 포기하기
                                             </button>
                                             <input type="hidden" name="challengeListNum" th:value="${challengeDTO.challengeListNum}"/>

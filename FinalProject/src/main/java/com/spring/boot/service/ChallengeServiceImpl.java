@@ -55,5 +55,21 @@ public class ChallengeServiceImpl implements ChallengeService{
         return challengeMapper.getMasterData(challengelistnum); 
     }
 
+    @Override
+    public void deleteChallengeStatus(int challengeListNum) throws Exception {
+        challengeMapper.deleteChallengeStatus(challengeListNum);
+    }
+
+    @Override
+    public void updateChallengeInfoStatus(int challengeMemberStatus, int challengeListNum, String email)
+            throws Exception {
+        challengeMapper.updateChallengeInfoStatus(challengeMemberStatus, challengeListNum, email);
+    }
+
+    @Override
+    public void deleteChallengeInfo(int challengeListNum, String email) throws Exception {
+        challengeMapper.deleteChallengeInfo(challengeListNum, email);
+    }
+
     
 }

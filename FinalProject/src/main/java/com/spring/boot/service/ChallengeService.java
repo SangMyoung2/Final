@@ -20,6 +20,12 @@ public interface ChallengeService {
     public ChallengeInfoDTO getUserEmailData(String email, int challengelistnum) throws Exception;
     
     public ChallengeInfoDTO getMasterData(int challengelistnum) throws Exception;
+    
+    public void deleteChallengeStatus(int challengeListNum) throws Exception;
+    
+    public void updateChallengeInfoStatus(int challengeMemberStatus, int challengeListNum, String email) throws Exception;
+    
+    public void deleteChallengeInfo(int challengeListNum, String email) throws Exception;
 
     public void test(ChallengeDTO dto) throws Exception;
 

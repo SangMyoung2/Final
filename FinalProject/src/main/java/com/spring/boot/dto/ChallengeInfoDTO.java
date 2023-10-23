@@ -9,4 +9,7 @@ public class ChallengeInfoDTO {
     private String email;
     private int challengeLike;
     private int challengeMemberStatus;
+
+    private String name;
+    private String picture;
 }

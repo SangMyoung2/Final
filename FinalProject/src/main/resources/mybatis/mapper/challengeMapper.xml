@@ -31,22 +31,49 @@ challengeListNum,challengeTitle,challengeImageMain,challengeWeekCheck,challengeD
 	select * from challenge
 </select>
 
+<update id="deleteChallengeStatus" parameterType="int">
+    update challenge
+    set challengeStatus = 0
+    where challengeListNum = #{challengeListNum}
+</update>
+
+<update id="giveUpChallengeStatus" parameterType="int">
+    update challenge
+    set challengeStatus = 0
+    where challengeListNum = #{challengeListNum}
+</update>
+
+
 <!-- challengeInfo -->
 <insert id="insertChallengeInfo" parameterType="com.spring.boot.dto.ChallengeInfoDTO">
     insert into challengeInfo(
 	challengeListNum,email,challengeLike,challengeMemberStatus) values (#{challengeListNum},#{email},0,#{challengeMemberStatus})
 </insert>
 
-<!-- 총멤버 구하기 -->
 <select id="getUserEmailData" parameterType="map" resultType="com.spring.boot.dto.ChallengeInfoDTO">
 	select * from challengeinfo
 	where email like #{email} and challengelistnum = #{challengelistnum}
 </select>
 
-<select id="getMasterData" parameterType="map" resultType="com.spring.boot.dto.ChallengeInfoDTO">
-	select * from challengeinfo
-	where challengeMemberStatus=1 and challengelistnum = #{challengelistnum}
+<!-- users에서 master 정보 가져오기 -->
+<select id="getMasterData" parameterType="int" resultType="com.spring.boot.dto.ChallengeInfoDTO">
+    select u.email,u.name,u.picture
+    from users u
+    join challengeInfo ci on u.email = ci.email
+    where ci.challengeListNum = #{challengeListNum}
+    and ci.challengeMemberStatus = 1
 </select>
+
+<update id="updateChallengeInfoStatus" parameterType="map">
+    update challengeinfo
+    set challengeMemberStatus = #{challengeMemberStatus}
+    where challengeListNum = #{challengeListNum} and email = #{email}
+</update>
+
+<delete id="deleteChallengeInfo" parameterType="map">
+	delete challengeInfo
+	where challengeListNum =#{challengeListNum} and email =#{email}
+</delete>
 
 
 

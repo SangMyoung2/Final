@@ -25,6 +25,12 @@ public interface ChallengeMapper {
 
     public ChallengeInfoDTO getMasterData(int challengelistnum) throws Exception;
 
+    public void deleteChallengeStatus(int challengeListNum) throws Exception;
+
+    public void updateChallengeInfoStatus(@Param("challengeMemberStatus")int challengeMemberStatus, @Param("challengeListNum")int challengeListNum, @Param("email")String email) throws Exception;
+
+    public void deleteChallengeInfo(@Param("challengeListNum")int challengeListNum, @Param("email")String email) throws Exception;
+    
     public void test(ChallengeDTO dto) throws Exception;
 
     
