@@ -34,6 +34,7 @@ import com.spring.boot.dto.GatchiDTO;
 import com.spring.boot.dto.GatchiLikeDTO;
 import com.spring.boot.dto.MapDTO;
 import com.spring.boot.dto.MeetInfoDTO;
+import com.spring.boot.dto.SessionUser;
 import com.spring.boot.model.Users;
 import com.spring.boot.service.GatchiLikeService;
 import com.spring.boot.service.GatchiService;
@@ -98,7 +99,7 @@ public class MeetmateController {
 
 		ModelAndView mav = new ModelAndView();
 		HttpSession session = request.getSession();
-		Users social = (Users)session.getAttribute("user");
+		SessionUser social = (SessionUser)session.getAttribute("user");
 		Users user1 = (Users)session.getAttribute("user1");
 
 		if (social != null) {
@@ -145,7 +146,7 @@ public class MeetmateController {
 
 		ModelAndView mav = new ModelAndView();
 		HttpSession session = request.getSession();
-		Users social = (Users)session.getAttribute("user");
+		SessionUser social = (SessionUser)session.getAttribute("user");
 		Users user1 = (Users)session.getAttribute("user1");
 
 		if (social != null) {
@@ -404,8 +405,17 @@ public class MeetmateController {
 		System.out.println("좋아요 버튼을 누르셨군요?");
 
 		HttpSession session = req.getSession();
-		Users user = (Users) session.getAttribute("user1");
-		String useremail = user.getEmail();
+		SessionUser social = (SessionUser)session.getAttribute("user");
+		Users user1 = (Users)session.getAttribute("user1");
+
+		String useremail = "";
+
+		if (social != null) {
+			useremail = social.getEmail();
+		} else if (user1 != null) {
+			useremail = user1.getEmail(); 
+		}
+		
 
 		System.out.println("유저이메일 : " + useremail);
 
@@ -434,8 +444,16 @@ public class MeetmateController {
 		System.out.println("좋아요 버튼을 취소했다.");
 
 		HttpSession session = req.getSession();
-		Users user = (Users) session.getAttribute("user1");
-		String useremail = user.getEmail();
+		SessionUser social = (SessionUser)session.getAttribute("user");
+		Users user1 = (Users)session.getAttribute("user1");
+
+		String useremail = "";
+		
+		if (social != null) {
+			useremail = social.getEmail();
+		} else if (user1 != null) {
+			useremail = user1.getEmail(); 
+		}
 
 		System.out.println("유저이메일 : " + useremail);
 
@@ -461,8 +479,16 @@ public class MeetmateController {
 	public List<Integer> loadLikeData(HttpServletRequest req) throws Exception {
 
 		HttpSession session = req.getSession();
-		Users user = (Users) session.getAttribute("user1");
-		String useremail = user.getEmail();
+		SessionUser social = (SessionUser)session.getAttribute("user");
+		Users user1 = (Users)session.getAttribute("user1");
+
+		String useremail = "";
+		
+		if (social != null) {
+			useremail = social.getEmail();
+		} else if (user1 != null) {
+			useremail = user1.getEmail(); 
+		}
 
 		List<GatchiLikeDTO> lists = gatchiLikeService.getReadDataGatchiLike(useremail);
 		if(lists == null) return null;

@@ -25,11 +25,13 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.boot.dto.GatchiDTO;
+import com.spring.boot.dto.MeetCalculateDTO;
 import com.spring.boot.dto.MeetDTOYj;
 import com.spring.boot.dto.PointHistoryDTO;
 import com.spring.boot.dto.userPointDTO;
 import com.spring.boot.model.Users;
 import com.spring.boot.service.GatchiService;
+import com.spring.boot.service.MeetCalculateService;
 import com.spring.boot.dto.MeetCategoryDTO;
 import com.spring.boot.dto.MeetInfoDTO;
 import com.spring.boot.dto.MeetReviewDTO;
@@ -54,6 +56,9 @@ public class MeetControllerYj {
 
 	@Autowired
 	private GatchiService gatchiService;
+
+	@Autowired
+	private MeetCalculateService meetCalculateService;
 
 	@GetMapping("/listYj.action")
 	public ModelAndView listYj() throws Exception {
@@ -85,7 +90,7 @@ public class MeetControllerYj {
 		MeetInfoDTO meetMaster = meetServiceYj.getMeetMaster(Integer.parseInt(request.getParameter("meetListNum")));
 		
 		ModelAndView mav = new ModelAndView();
-		MeetInfoDTO MeetInfoDTO = new MeetInfoDTO();
+		MeetInfoDTO meetInfoDTO = new MeetInfoDTO();
 
 		HttpSession session = request.getSession();
 		// Users social = (Users)session.getAttribute("user");
@@ -93,22 +98,18 @@ public class MeetControllerYj {
 		SessionUser sessionUser = (SessionUser) session.getAttribute("user");
 
 		if (sessionUser != null) {
-			MeetInfoDTO.setEmail(sessionUser.getEmail()); 
+			meetInfoDTO.setEmail(sessionUser.getEmail()); 
 		} else if (user1 != null) {
-			MeetInfoDTO.setEmail(user1.getEmail()); 
+			meetInfoDTO.setEmail(user1.getEmail()); 
 		}
-		
-		
-		String useremail = user1.getEmail();
 
-		mav.addObject("loginEmail", useremail);  // TODO : 로그인된 email
+		mav.addObject("loginEmail", meetInfoDTO.getEmail());  // TODO : 로그인된 email
 
-		MeetInfoDTO.setMeetListNum(Integer.parseInt(request.getParameter("meetListNum")));
-		MeetInfoDTO.setEmail(useremail); // TODO : 세션에서 email 가져와야됨
+		meetInfoDTO.setMeetListNum(Integer.parseInt(request.getParameter("meetListNum")));
 
 		// 떠돌이 유저
 		int memberStatus = -1;
-		Integer ret = meetServiceYj.getMemberStatus(MeetInfoDTO);
+		Integer ret = meetServiceYj.getMemberStatus(meetInfoDTO);
 		if (ret != null) memberStatus = ret.intValue();
 		
 		// // 방장 자신은 강퇴하면 안 되니까 비교하려고
@@ -124,9 +125,11 @@ public class MeetControllerYj {
 		mav.addObject("meetMembers", meetMembers);
 		mav.addObject("meetReview", meetReview);
 		mav.addObject("meetMemStatus", memberStatus);
-		mav.addObject("dto", MeetInfoDTO);
+		mav.addObject("dto", meetInfoDTO);
 		mav.setViewName("meetmate/article");
 		
+		
+
 		return mav;
 	}
 
@@ -415,6 +418,8 @@ public class MeetControllerYj {
 
 		meetServiceYj.addToBlacklist(MeetInfoDTO);
 		meetServiceYj.decrementMeetMemCnt(meetListNum);
+		
+		refundPoint(email, meetListNum);
 
 		return new ModelAndView("redirect:/meetManager.action?meetListNum=" + meetListNum);
 	}
@@ -437,10 +442,16 @@ public class MeetControllerYj {
 	@PostMapping("/checkuserpoint")
 	public Boolean checkUserMoney(HttpServletRequest req, @RequestParam("meetListNum") int meetListNum) throws Exception{
 		HttpSession session = req.getSession();
-		Users user = (Users) session.getAttribute("user1");
-		String useremail = user.getEmail();
-		System.out.println("방 넘버 : " + meetListNum);
-		System.out.println("포인트 체크 하는 곳");
+		
+		Users user1 = (Users)session.getAttribute("user1");
+		SessionUser sessionUser = (SessionUser) session.getAttribute("user");
+		String useremail = "";
+		if(user1 != null){
+            useremail = user1.getEmail();
+        }else if(sessionUser != null){
+            useremail = sessionUser.getEmail();
+        }
+
 		int userPoint = paymentService.getUserPoint(useremail);
 
 		GatchiDTO dto = meetServiceYj.getMeetListInfo(meetListNum);
@@ -461,8 +472,14 @@ public class MeetControllerYj {
 		System.out.println("가입 취소 들어옴");
 
 		HttpSession session = req.getSession();
-		Users user = (Users) session.getAttribute("user1");
-		String useremail = user.getEmail();
+		Users user1 = (Users)session.getAttribute("user1");
+		SessionUser sessionUser = (SessionUser) session.getAttribute("user");
+		String useremail = "";
+		if(user1 != null){
+            useremail = user1.getEmail();
+        }else if(sessionUser != null){
+            useremail = sessionUser.getEmail();
+        }
 
 		GatchiDTO gatchiDTO = meetServiceYj.getMeetListInfo(meetListNum);
 		int meetMoney = gatchiDTO.getMeetMoney();
@@ -505,6 +522,43 @@ public class MeetControllerYj {
 		}
 
 		return 1;
+	}
+
+	// @PostMapping("/sendCalculate")
+	// public Boolean sendCalculate(HttpServletRequest req, @RequestParam("meetListNum") int meetListNum) throws Exception{
+	// 	// 정산 메세지 보내는 곳
+	// 	System.out.println("정산 하러 들어 왔음");
+
+	// 	List<MeetInfoDTO> lists = meetServiceYj.getMeetInfo(meetListNum);
+		
+	// 	HttpSession session = req.getSession();
+	// 	Users user = (Users) session.getAttribute("user1");
+	// 	String useremail = user.getEmail();
+
+	// 	if(lists == null || lists.isEmpty() || lists.size() <= 1) return false;
+
+	// 	for (MeetInfoDTO m : lists) {
+	// 		if(m.getEmail() == useremail || m.getEmail().equals(useremail)) continue;
+
+	// 		//방장이 아니라면 실행할 코드
+	// 		MeetCalculateDTO calculateDTO = new MeetCalculateDTO();
+	// 		calculateDTO.setMeetListNum(meetListNum);
+	// 		calculateDTO.setSenderUserEmail(useremail);
+	// 		calculateDTO.setTargetUserEmail(m.getEmail());
+	// 		calculateDTO.setStatus(0);
+	// 		meetCalculateService.insertData(calculateDTO);
+	// 	}
+
+	// 	return true;
+	// }
+
+	@PostMapping("/reqCalculate")
+	public Boolean reqCalculate() throws Exception{
+		// 방장 아닌 멤버가 수락 눌러주는 곳
+
+		
+
+		return false;
 	}
 
 	// 포인트 감소(입장) 메서드

@@ -254,9 +254,8 @@ function deleteReview(email, meetListNum, meetReviewNum) {
 function joinMeet(){
 
 let title = document.getElementById('meetTitle').textContent;
-let money = document.getElementById('meetMoney').textContent;
 
-let checkJoin = confirm(title + ' 모임의 가입비는 ' + money + '입니다.' + '\n' + title + ' 모임에 가입하시겠습니까?');
+let checkJoin = confirm(title + ' 모임에 가입하시겠습니까?');
 
 let meetListNum = document.getElementById('meetListNum').value;
 if(checkJoin){
@@ -368,36 +367,75 @@ if(joincancel){
 }
 
 function testMeet() {
-let meetListNum = document.getElementById('meetListNum').value;
-let reqMoney = confirm(title + ' 모임 정산을 멤버들에게 요청할까요?');
+    let meetListNum = document.getElementById('meetListNum').value;
+    let title = document.getElementById('meetTitle').textContent;
 
-if(reqMoney){
-    $.ajax({
-            type: "POST",
-            url: "/meetMoneyReq",
-            data: {
-                meetListNum: meetListNum
-            },
-            success: function (response) {
-                if(response == 1){
-                    alert('멤버들에게 정산요청을 하였습니다.');
-                    location.href = '/articleYj.action?meetListNum='+meetListNum;
-                }else if(response === 2){
-                    alert('....');
+    let reqMoney = confirm(title + ' 모임 정산을 멤버들에게 요청할까요?');
+
+    if(reqMoney){
+        $.ajax({
+                type: "POST",
+                url: "/sendCalculate",
+                data: {
+                    meetListNum: meetListNum
+                },
+                success: function (response) {
+                    if(response == 1){
+                        alert('멤버들에게 정산요청을 하였습니다.');
+                        location.href = '/articleYj.action?meetListNum='+meetListNum;
+                    }else if(response === 2){
+                        alert('....');
+                    }
+                    else{
+                        alert('다시 시도해 주세요..');
+                    }
+                },
+                error: function () {
+                    alert('알수없는 에러 입니다.. 고객센터에게 문의해주세요');
                 }
-                else{
-                    alert('다시 시도해 주세요..');
+            });
+
+    }
+}
+
+function test2Meet(){
+    let meetListNum = document.getElementById('meetListNum').value;
+    let title = document.getElementById('meetTitle').textContent;
+
+    let reqMoney = confirm(title + ' 모임 정산을 멤버들에게 요청할까요?');
+
+    if(reqMoney){
+        $.ajax({
+                type: "POST",
+                url: "/reqCalculate",
+                data: {
+                    meetListNum: meetListNum
+                },
+                success: function (response) {
+                    if(response == 1){
+                        alert('멤버들에게 정산요청을 하였습니다.');
+                        location.href = '/articleYj.action?meetListNum='+meetListNum;
+                    }else if(response === 2){
+                        alert('....');
+                    }
+                    else{
+                        alert('다시 시도해 주세요..');
+                    }
+                },
+                error: function () {
+                    alert('알수없는 에러 입니다.. 고객센터에게 문의해주세요');
                 }
-            },
-            error: function () {
-                alert('알수없는 에러 입니다.. 고객센터에게 문의해주세요');
-            }
-        });
+            });
 
-}
+    }
 }
 
+function chatRoom(){
+    let meetListNum = document.getElementById('meetListNum').value;
 
+    var options = 'width=600px,height=700px,scrollbars=yes'
+            popupChat = window.open("articleChatRoom.action?meetListNum=" + meetListNum,"_blacnk",options);
+}
 
 </script>
 
@@ -471,12 +509,43 @@ if(reqMoney){
                         </div>
                     </div>
 
-                    <button class="chat-btn"><img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Speech%20Balloon.png" alt="Speech Balloon" width="25px" height="25px" /> 채팅 바로가기</button>
+                    <button class="chat-btn" id="chatRoom" onclick="chatRoom()"><img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Speech%20Balloon.png" alt="Speech Balloon" width="25px" height="25px" /> 채팅 바로가기</button>
 
                     <div class="approval-back"> 
-                        <div style="margin-left: 10px;">승인요청</div>
-             
-
+                        <button type="button" class="test-button" 
+                        style="margin-top: 20px;
+                        margin-left: 10px;
+                        display: inline-block;
+                        padding: 8px 18px;
+                        font-size: 18px;
+                        background-color: #1d65b2;
+                        color: #fff;
+                        border: none;
+                        border-radius: 10px;
+                        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+                        cursor: pointer;
+                        transition: background-color 0.15s ease;
+                        margin-right: 10px;"
+                        onclick="testMeet()">
+                            승인요청
+                        </button>
+                        <button type="button" class="test-button" 
+                        style="margin-top: 20px;
+                        margin-left: 10px;
+                        display: inline-block;
+                        padding: 8px 18px;
+                        font-size: 18px;
+                        background-color: #1d65b2;
+                        color: #fff;
+                        border: none;
+                        border-radius: 10px;
+                        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+                        cursor: pointer;
+                        transition: background-color 0.15s ease;
+                        margin-right: 10px;"
+                        onclick="test2Meet()">
+                            승인수락
+                        </button>
                         <!-- <div class="mem-request" th:text="${meetWait.name}"></div>
                         <div class="actions">
                             <span class="accept-action" th:data-email="${meetWait.email}" th:data-meetListNum="${meetListNum}" th:data-name="${meetWait.name}" onclick="accept(this.getAttribute('data-email'), this.getAttribute('data-meetListNum'), this.getAttribute('data-name'))">요청</span>
@@ -581,6 +650,7 @@ if(reqMoney){
                         <th:block th:if="${meetStatus == 1 and meetMemStatus == 0}">
                             <p style="font-size: 18px; color: rgb(0, 68, 255);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;가입 승인 대기 중입니다.</p>
                         </th:block>
+                        
                     </div>
                 </div>
             </div>

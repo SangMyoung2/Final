@@ -723,7 +723,7 @@ function countReadData(data){
             // console.log("myChat");
             let childMyDiv = myRead[j].querySelector("div")
             
-            let myreadcnt = read[j].querySelector("p");
+            let myreadcnt = myRead[j].querySelector("p");
             if(myreadcnt != null && myreadcnt < 0){
                 myRead[j].classList.add("chat-myMessage-ok")
                 myRead[j].classList.remove("chat-myMessage")

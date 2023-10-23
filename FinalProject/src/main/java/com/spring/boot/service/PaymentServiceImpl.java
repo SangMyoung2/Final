@@ -41,7 +41,7 @@ public class PaymentServiceImpl implements PaymentService{
         paymentMapper.updateUserPoint(userPointDTO);
     }
 
-@Override
+	@Override
     public void updateUserUsePoint(userPointDTO userPointDTO){
         paymentMapper.updateUserUsePoint(userPointDTO);
     }
