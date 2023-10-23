@@ -144,8 +144,12 @@ public class MeetmateController {
 			infoDTO.setEmail(user1.getEmail()); 
 		}
 
-		Resource resource = new ClassPathResource("static");
-        String resourcePath = resource.getFile().getAbsolutePath() + "/image/gatchiImage";
+		System.out.println("getMeetMoney" + dto.getMeetMoney());
+		System.out.println("getMeetEntryfee" + dto.getMeetEntryfee());
+
+		// Resource resource = new ClassPathResource("static");
+        // String resourcePath = resource.getFile().getAbsolutePath() + "/image/gatchiImage";
+		String resourcePath = "C:\\VSCode\\Final\\FinalProject\\src\\main\\resources\\static\\image\\gatchiImage";
 
 		if (!meetImage.isEmpty()) {
 			String originalFileName = meetImage.getOriginalFilename();
@@ -318,65 +322,7 @@ public class MeetmateController {
 		
 		return mav;		
 	}
-	
-/*
-	@GetMapping("/selectSort") //meetMateList
-	public String selectSort(@RequestParam("selectBox") String selectBox, Model model) throws Exception{
 
-		Gson gson = new Gson();
-		List<GatchiDTO> lists;
-        
-		if (selectBox.equals("meetHitCount")) { //조회수순
-			//System.out.println(selectBox);
-			lists = gatchiService.sortByHitCountMeet();
-			//String searchData = gson.toJson(lists);
-			//return searchData;
-
-		} else if (selectBox.equals("meetLikeCount")) { //좋아요순
-			lists = gatchiService.sortByLikeCountMeet();
-			//String searchData = gson.toJson(lists);
-			//System.out.println(lists);
-			//return searchData;
-
-		} else if (selectBox.equals("meetDday")) { //모임 가장 가까운순
-			lists = gatchiService.sortByDdayMeet();
-			//String searchData = gson.toJson(lists);
-			//return searchData;
-		}
-
-		String searchData = gson.toJson(lists);
-   		model.addAttribute("meetSortedLists", lists); // 변경된 이름으로 데이터를 모델에 추가
-
-    	return "meetmate/meetMateList :: meetCardContainer"; // 변경된 데이터를 반환
-	}
-
-
-	@GetMapping("/selectSort1") //communiFind
-	public String selectSort1(@RequestParam("selectBox1") String selectBox) throws Exception{
-
-		Gson gson = new Gson();
-        
-		if (selectBox.equals("meetHitCount")) { //조회수순
-			System.out.println(selectBox);
-			List<GatchiDTO> lists = gatchiService.sortByHitCountFind();
-			String searchData = gson.toJson(lists);
-			return searchData;
-
-		} else if (selectBox.equals("meetLikeCount")) { //좋아요순
-			List<GatchiDTO> lists = gatchiService.sortByLikeCountFind();
-			String searchData = gson.toJson(lists);
-			System.out.println(lists);
-			return searchData;
-
-		} else if (selectBox.equals( "meetDday")) { //모임 가장 가까운순
-			List<GatchiDTO> lists = gatchiService.sortByDdayFind();
-			String searchData = gson.toJson(lists);
-			return searchData;
-		}
-		return null;
-	}
-
-*/
 
 	@RequestMapping(value = "/reFindList", method = RequestMethod.POST, consumes = "application/json")
 	public Map<String,Object> reFindList(@RequestBody Map<String, String> requestMap) throws Exception {

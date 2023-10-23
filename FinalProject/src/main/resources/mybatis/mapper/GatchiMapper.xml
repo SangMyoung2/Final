@@ -35,10 +35,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	select picture from users where email = #{email}
 </select>
 
-<!-- <select id="getReadData" parameterType="int" resultType="com.spring.boot.dto.GatchiDTO">
-	select * from gatchi 
-	where meetListNum=#{meetListNum}
-</select> -->
+
+<!-- 방장프로필사진진 -->
+<select id="getMeetListNumByUserEmail" parameterType="String" resultType="int">
+	SELECT users.picture FROM users
+	JOIN meetInfo ON users.email = meetInfo.email
+	WHERE meetInfo.meetListNum = ${meetListNum};
+</select>
+
+
+
+
+
 
 <select id="getMeetMateLists" resultType="com.spring.boot.dto.GatchiDTO">
 	select * from gatchi where meetCheck = 1 ORDER BY meetDate DESC

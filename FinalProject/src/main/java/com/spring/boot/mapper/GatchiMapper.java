@@ -19,9 +19,9 @@ public interface GatchiMapper {
 
 	public int maxNum() throws Exception;
 
-	public String masterPicture() throws Exception;
-	
-	//public GatchiDTO getReadData(int meetListNum) throws Exception;
+	//상우가 준 부분
+	public int getMeetListNumByGatchi() throws Exception;
+	public int getMeetListNumByMeetInfo() throws Exception;
 
 	public List<GatchiDTO> getMeetMateLists() throws Exception;
 

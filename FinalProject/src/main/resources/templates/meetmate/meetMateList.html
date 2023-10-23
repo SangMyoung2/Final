@@ -112,7 +112,7 @@
     <ul class="cards">
       <li name="meetLists" class="meetList_hidden" th:each="items : ${#lists.isEmpty(searchMeetMateList) ? sortLists : searchMeetMateList}" 
         th:style="${items.meetStatus == 2 ? 'border-radius: 40px;' : ''}" 
-        th:unless="${items.meetStatus == 3}">
+        th:unless="${items.meetStatus == 0}">
           <div class="card">
             <div id="heart" class="heart" name="likeBtn">
               <input type="hidden" th:value="${items.meetListNum}">
