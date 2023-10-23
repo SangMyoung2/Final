@@ -22,12 +22,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     insert into meetInfo(meetListNum,email,meetMemStatus) values (#{meetListNum},#{email},1)
 </insert>
 
-<!-- <select id="getMypageInfo" parameterType="int" resultType="com.spring.boot.dto.GatchiDTO">
-SELECT g.meetImage,g.meettitle,g.meetCtgNum,g.meetDday,g.meetPlace,g.meetMemCnt,g.meetMaxMemCnt
-FROM gatchi g
-JOIN meetInfo mi ON g.meetListNum = mi.meetListNum
-WHERE mi.meetListNum = #{meetListNum}
-</select> -->
+
 
 <select id="getMeetInfo" parameterType="com.spring.boot.dto.MeetInfoDTO">
     select * from meetInfo where meetMemStatus = 1 or meetMemStatus = 2
@@ -36,7 +31,7 @@ WHERE mi.meetListNum = #{meetListNum}
 <select id="getMeetListNumByUserEmail" parameterType="String" resultType="int">
     SELECT meetListNum
     FROM meetInfo
-    WHERE email = #{userEmail}
+    WHERE email = #{email}
 </select>
 
 <select id="getGatchiByMeetListNums" parameterType="java.util.List" resultType="com.spring.boot.dto.GatchiDTO">

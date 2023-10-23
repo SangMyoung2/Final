@@ -28,9 +28,9 @@ public class GatchiServiceImpl implements GatchiService{
 	}
 
 	@Override
-	public List<Integer> getMeetListNumByUserEmail(String userEmail) throws Exception {
+	public List<Integer> getMeetListNumByUserEmail(String email) throws Exception {
 		
-		return gatchiMapper.getMeetListNumByUserEmail(userEmail);
+		return gatchiMapper.getMeetListNumByUserEmail(email);
 	}
 
 	@Override
