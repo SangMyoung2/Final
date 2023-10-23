@@ -450,7 +450,7 @@ public class MeetControllerYj {
 		MeetInfoDTO.setMeetListNum(meetListNum);
 
 		for (String email : emails) {
-			MeetInfoDTO.setEmail(email);
+			MeetInfoDTO.setEmail(email.replace("[","").replace("]","").replace("\"",""));
 
 			meetServiceYj.updateApprovalReq(MeetInfoDTO);
 		}
