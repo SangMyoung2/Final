@@ -74,6 +74,7 @@ public class MeetServiceImplYj implements MeetServiceYj {
     
     @Override
     public void insertMeetJoinOk(MeetInfoDTO dto) throws Exception {
+        System.out.println("inserMeetJoin 들어옴 ===");
         meetMapperYj.insertMeetJoinOk(dto);
     }
 
@@ -137,4 +138,8 @@ public class MeetServiceImplYj implements MeetServiceYj {
         meetMapperYj.releaseFromBlacklist(dto);
     }
 
+    @Override
+    public List<MeetInfoDTO> getMeetInfo(int meetListNum) throws Exception{
+        return meetMapperYj.getMeetInfo(meetListNum);
+    }
 }
