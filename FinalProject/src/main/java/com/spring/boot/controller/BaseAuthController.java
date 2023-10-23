@@ -209,7 +209,6 @@ public class BaseAuthController {
 		
 		List<Integer> userMeetList = gatchiService.getMeetListNumByUserEmail(userEmail);
 
-		
 		List<GatchiDTO> gatchiList = gatchiService.getGatchiByMeetListNums(userMeetList);
 		
 		List<MeetInfoDTO> meetInfoList = new ArrayList<>();
