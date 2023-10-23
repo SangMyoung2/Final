@@ -385,7 +385,8 @@
   .card {
     position: relative;
     display: block;
-    height: 100%;  
+    height: 90%;
+    max-width: 300px;
     border-radius: calc(var(--curve) * 1px);
     overflow: hidden;
     text-decoration: none;
@@ -529,17 +530,22 @@
 
 
   /* 좋아요 버튼 */
+
+.heartBtn{
+  display: none;
+}
+
   .heart {
     cursor: pointer;
-    height: 40%;
-    width: 40%;
+    height: 25%;
+    width: 25%;
     background-image:url( 'https://abs.twimg.com/a/1446542199/img/t1/web_heart_animation.png');
     background-position: left;
     background-repeat:no-repeat;
     background-size: 2900%;
     position: absolute;
     right: 0px;
-    top: -30px; /* 간격 조금 늘림 */
+    top: -20px; /* 간격 조금 늘림 */
 }
   .heart:hover {
     background-position: right;

@@ -129,5 +129,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     delete from meetInfo where meetListNum = #{meetListNum} and email = #{email}
 </delete>
 
+<select id="getMeetInfo" parameterType="int" resultType="com.spring.boot.dto.MeetInfoDTO">
+    select * from meetinfo where meetListNum = #{meetListNum}
+</select>
 
 </mapper>
