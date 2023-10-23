@@ -27,11 +27,10 @@ public class GatchiServiceImpl implements GatchiService{
 		gatchiMapper.createMeetInfo(infoDTO);
 	}
 
-	// @Override
-	// public List<Integer> getMeetListNumByUserEmail(String userEmail) throws Exception {
-		
-	// 	return gatchiMapper.getMeetListNumByUserEmail(userEmail);
-	// }
+	@Override
+	public List<Integer> getMeetListNumByUserEmail(String userEmail) throws Exception {		
+		return gatchiMapper.getMeetListNumByUserEmail(userEmail);
+	}
 
 	@Override
 	public List<GatchiDTO> getGatchiByMeetListNums(List<Integer> meetListNums) {
