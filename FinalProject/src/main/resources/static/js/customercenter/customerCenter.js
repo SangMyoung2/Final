@@ -57,4 +57,34 @@ document.addEventListener("DOMContentLoaded", function() {
             $(this).next(".faq-answer").slideToggle("fast");
         });
     });
+
+    // 초기에 10개의 항목만 표시하고 나머지는 숨김
+let itemsToShow = 10;
+document.querySelectorAll('div.faq-container').forEach((div, index) => {
+    if (index >= itemsToShow) {
+        div.style.display = 'none';
+    }
+});
+
+// 만약 항목이 10개 이상이면 '더보기' 버튼 표시
+if (document.querySelectorAll('div.faq-container').length > itemsToShow) {
+    document.getElementById('loadMore').style.display = 'block';
+}
+
+// '더보기' 버튼 클릭 시 추가로 10개의 항목 표시
+document.getElementById('loadMore').addEventListener('click', function() {
+    itemsToShow += 10;
+    document.querySelectorAll('div.faq-container').forEach((div, index) => {
+        if (index < itemsToShow) {
+            div.style.display = 'block';
+        }
+    });
+
+    // 모든 항목이 표시되면 '더보기' 버튼 숨김
+    if (document.querySelectorAll('div.faq-container').length <= itemsToShow) {
+        document.getElementById('loadMore').style.display = 'none';
+    }
+});
+
+
 });
