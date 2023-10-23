@@ -315,119 +315,55 @@
         }
     }
 
-    // function sendRequest() {
-    //     var meetListNum = $('#meet-listnum').val();
-    //     var selectedMembers = $('.approval-action.accepted');
-    //     var selectedEmails = [];
-        
-    //     selectedMembers.each(function(index, element) {
-    //         selectedEmails.push($(element).data('email'));
-    //     });
-    //     alert(selectedMembers)
-        
-    //     if (selectedEmails.length > 0) {
-    //         var confirmation = confirm('선택한 회원에게 요청을 보내시겠습니까?');
-
-    //         if (confirmation) {
-    //             $.ajax({
-    //                 type: "POST",
-    //                 url: "/send-request",
-    //                 data: {
-    //                     meetListNum: meetListNum,
-    //                     emails: selectedEmails
-    //                 },
-
-    //                 success: function(response) {
-    //                     alert('요청이 완료되었습니다');
-    //                     location.reload();
-    //                 },
-    //                 error: function(xhr, status, error) {
-    //                     alert('요청 전송 중 에러가 발생했습니다: ' + error);
-    //                 }
-    //             });
-    //         }
-    //     } else {
-    //         alert('선택한 회원이 없습니다');
-    //     }
-    // }
-
-
-
-    // $(document).ready(function() {
-    //     $("#request-text").on("click", function() {
-    //         sendRequest();
-    //     });
-    // });
-
-    // function sendRequest(email, meetListNum) {
-    //     $.ajax({
-    //         type: "POST",
-    //         url: "/send-request",
-    //         data: {
-    //             meetListNum: meetListNum,
-    //             email: email
-    //         },
-    //         success: function(response) {
-    //             alert('요청이 전송되었습니다.');
-    //             location.reload();
-    //         },
-    //         error: function(xhr, status, error) {
-    //             alert('요청 전송 중 에러가 발생했습니다.');
-    //         }
-    //     });
-    // }
-
-   
-    // function reqApproval(email, meetListNum) {
-    //     if (confirm('요청을 승인하시겠습니까?')) {
-    //         $.ajax({
-    //             type: "POST",
-    //             url: "/req-approval",
-    //             data: {
-    //                 meetListNum: meetListNum,
-    //                 email: email
-    //             },
-    //             success: function (response) {
-    //                 alert('승인되었습니다.');
-    //                 location.reload();
-    //             },
-    //             error: function () {
-    //                 alert('승인에 실패했습니다.');
-    //             }
-    //         });
-    //     }
-    // }
+    function reqApproval(email, meetListNum) {
+        if (confirm('요청을 승인하시겠습니까?')) {
+            $.ajax({
+                type: "POST",
+                url: "/req-approval",
+                data: {
+                    meetListNum: meetListNum,
+                    email: email
+                },
+                success: function (response) {
+                    alert('승인되었습니다.');
+                    location.reload();
+                },
+                error: function () {
+                    alert('승인에 실패했습니다.');
+                }
+            });
+        }
+    }
 
   
 
 
-    // function reqReject(email, meetListNum) {
-    //     if (confirm('요청을 기각하시겠습니까?')) {
-    //         $.ajax({
-    //             type: "POST",
-    //             url: "/req-reject",
-    //             data: {
-    //                 meetListNum: meetListNum,
-    //                 email: email
-    //             },
-    //             success: function (response) {
-    //                 alert('기각되었습니다.');
-    //                 location.reload();
-    //             },
-    //             error: function () {
-    //                 alert('기각에 실패했습니다.');
-    //             }
-    //         });
-    //     }
-    // }
+    function reqReject(email, meetListNum) {
+        if (confirm('요청을 기각하시겠습니까?')) {
+            $.ajax({
+                type: "POST",
+                url: "/req-reject",
+                data: {
+                    meetListNum: meetListNum,
+                    email: email
+                },
+                success: function (response) {
+                    alert('기각되었습니다.');
+                    location.reload();
+                },
+                error: function () {
+                    alert('기각에 실패했습니다.');
+                }
+            });
+        }
+    }
     
     
 function joinMeet(){
 
 let title = document.getElementById('meetTitle').textContent;
-let money = document.getElementById('meetMoney').textContent;
 
-let checkJoin = confirm(title + ' 모임의 가입비는 ' + money + '입니다.' + '\n' + title + ' 모임에 가입하시겠습니까?');
+let checkJoin = confirm(title + ' 모임에 가입하시겠습니까?');
 
 let meetListNum = document.getElementById('meetListNum').value;
 if(checkJoin){
@@ -608,10 +544,17 @@ if(reqMoney){
                 <div class="meet-mypage">
                     <div class="badge meetMate" th:text="${meetListInfo.meetCheck == 1 ? 'meetmate' : 'communifind'}"></div>
                     <div class="badge meetHow" th:text="${meetListInfo.meetHow == 1 ? '선착순' : '승인제'}"></div>
-                    <div class="badge primary" th:text="${meetListInfo.meetCtgNum}">취미</div>
+                    <div class="badge primary" th:text="${meetCategory[meetListInfo.meetCtgNum - 1].meetCtgName}"></div>
+
                     <div class="user-info-container">
                         <div class="round-image-login">
-                            <img th:src="@{/image/gatchiImage/1111.jpg}" alt="로그인유저프사(임의)"/>
+                            <div th:if="${#httpSession.getAttribute('user') != null}">
+                                <img th:src="@{${session.user.picture}}">
+                            </div>
+                            <div th:if="${#httpSession.getAttribute('user1') != null}">
+                                <img th:src="@{${session.user1.picture}}">
+                            </div>
+                            <!-- <img th:src="@{/image/gatchiImage/1111.jpg}" alt="로그인유저프사(임의)"/> -->
                         </div>
                         <div class="login-user-email" th:if="${#httpSession.getAttribute('user1') != null}" 
                         th:text="|${session.user1.name}"></div>
@@ -650,19 +593,30 @@ if(reqMoney){
                             <div class="approval-mem" id="expand-button">ⅴ펼치기</div>
                         </div>
                         <div style="margin-top: 10px;"></div>
+                        <div class="approval-mem-back" id="expandable-content" style="display: none;" th:if="${membersExMaster.isEmpty()}">
+                            <div style="text-align: center; margin-top: 45px; margin-left: 10px; font-size: 18px;">가입 중인 회원이 없습니다.</div>
+                        </div>
                         <div class="approval-mem-back" id="expandable-content" style="display: none;">
-                            <div style="margin-left: auto; cursor: pointer; margin-bottom: 20px; margin-right: 5px; color: #AAAAAA;" onclick="toggleAll()">전체선택</div>
+                            <div style="margin-left: auto; cursor: pointer; margin-right: 9px; color: #AAAAAA;" onclick="toggleAll()">전체선택</div>
+                            <div style="margin-top: -10px;"></div>
+                            <hr style="width: 95%; margin-left: 10px;">
                             <div class="approval-mem-list" th:each="membersExMaster : ${membersExMaster}">
                                 <li class="round-image-user mt-2" style="margin-right: 10px; margin-left: -10px;">
                                     <img th:src="@{/image/gatchiImage/1111.jpg}" alt="유저프사(임의)" />
                                 </li>
                                 <li class="approval-li" th:text="${membersExMaster.name}"></li>
-                                <span class="approval-action" th:data-email="${membersExMaster.email}" th:data-meetListNum="${meetListNum}" th:data-name="${membersExMaster.name}" onclick="toggleAccept(this)">√</span>
+                                <span class="approval-action" th:data-email="${membersExMaster.email}" th:data-meetListNum="${meetListNum}" th:data-name="${membersExMaster.name}" onclick="toggleAccept(this)">
+                                    <span th:if="${membersExMaster.approvalStatus == -1}">√</span>
+                                </span>
+                                <span th:if="${membersExMaster.approvalStatus == 0}">대기</span>
+                                <span th:if="${membersExMaster.approvalStatus == 1}" style="color: #2077d4;">승인</span>
+                                <span th:if="${membersExMaster.approvalStatus == 2}" style="color: #e9194d;">기각</span>
+                                
                             </div>
                         </div>
 
                         <input type="hidden" id="meet-listnum" name="meetListNum" th:value="${meetListNum}" />
-                        <div id="request-text" onclick="sendRequest()">요청하기</div>
+                        <div id="request-text" th:if="${not membersExMaster.isEmpty()}" onclick="sendRequest()">요청하기</div>
 
                     </div>
                     
@@ -678,11 +632,10 @@ if(reqMoney){
                             <div class="approval-mem-q">
                                     
                                 
-                                👑 <li class="approval-li2" th:text="${meetMaster.name}"></li>
-                                 님이 요청하셨습니다. 승인하시겠습니까?
+                                👑 <span class="approval-name" th:text="${meetMaster.name}"></span> 님이 요청하셨습니다. 승인하시겠습니까?
                             </div>
 
-                            <div class="d-flex req-actions" th:each="member : ${membersExMaster}">
+                            <div class="d-flex req-actions" th:each="member : ${membersExMaster}" th:if="${approvalStatus == 0}">
                                 <span class="card-text d-flex req-approval" th:if="${#httpSession.getAttribute('user1') != null} and ${session.user1.email == member.email}" th:data-email="${member.email}" th:data-meetListNum="${meetListNum}" onclick="reqApproval(this.getAttribute('data-email'), this.getAttribute('data-meetListNum'))">승인</span>
 
                                 <span class="card-text d-flex req-approval" th:if="${#httpSession.getAttribute('user') != null} and ${session.user.email == member.email}" th:data-email="${member.email}" th:data-meetListNum="${meetListNum}" onclick="reqApproval(this.getAttribute('data-email'), this.getAttribute('data-meetListNum'))">승인</span>
@@ -691,11 +644,17 @@ if(reqMoney){
 
                                 <span class="card-text d-flex req-reject" th:if="${#httpSession.getAttribute('user') != null} and ${session.user.email == member.email}" th:data-email="${member.email}" th:data-meetListNum="${meetListNum}" onclick="reqReject(this.getAttribute('data-email'), this.getAttribute('data-meetListNum'))">기각</span>
                             </div>
-
+                            <div class="d-flex req-actions" th:if="${approvalStatus == 1}">
+                                <div style="text-align: center; font-size: 18px; color: #2077d4;">승인되었습니다.</div>
+                            </div>
+                            <div class="d-flex req-actions" th:if="${approvalStatus == 2}">
+                                <div style="text-align: center; font-size: 18px; color: #e9194d;">기각되었습니다.</div>
+                            </div>
 
                         </div>
-                    
                     </div>
+
+                   
 
 
                     

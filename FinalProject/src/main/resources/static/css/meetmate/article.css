@@ -597,23 +597,25 @@
     margin-bottom: 10px;
 }
 
+.approval-li {
+    margin-top: 5px;
+}
+
 .approval-mem-q {
     list-style-type:none;
-    width: 285px;
+    width: auto;
     height: 40px;
-    display: flex;
     align-items: center;
     position: relative;
     flex-direction: row;
     padding-left: 12px;
     padding-bottom: 20px;
-    margin-bottom: 10px;
+    margin-bottom: 25px;
 }
 
-.approval-li {
-    margin-top: 5px;
-}
-.approval-li2 {
+.approval-name {
+    display: inline;
+    white-space: nowrap;
     font-weight: bold;
     margin-right: 3px;
 }

@@ -6,7 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.spring.boot.mapper.MeetMapperYj">
 
 <select id="getMeetMaster" parameterType="int" resultType="com.spring.boot.dto.MeetInfoDTO">
-    select u.email,u.name
+    select u.email,u.name,u.picture
     from users u
     join meetInfo mi on u.email = mi.email
     where mi.meetListNum = #{meetListNum}
@@ -22,7 +22,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </select>
 
 <select id="getMeetMembers" parameterType="int" resultType="com.spring.boot.dto.MeetInfoDTO">
-    select u.email,u.name
+    select u.email,u.name,u.picture
     from users u
     join meetInfo mi on u.email = mi.email
     where mi.meetListNum = #{meetListNum}
@@ -30,7 +30,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </select>
 
 <select id="getMembersExMaster" parameterType="int" resultType="com.spring.boot.dto.MeetInfoDTO">
-    select u.email,u.name
+    select u.email,u.name,u.picture,mi.approvalStatus
     from users u
     join meetInfo mi on u.email = mi.email
     where mi.meetListNum = #{meetListNum}
@@ -42,7 +42,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </update>
 
 <select id="getReview" parameterType="int" resultType="com.spring.boot.dto.MeetReviewDTO">
-    select mr.*, u.name
+    select mr.*, u.name,u.picture
     from meetReview mr
     join users u on mr.email = u.email
     where mr.meetListNum = #{meetListNum}
@@ -104,7 +104,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </select>
 
 <select id="getMeetWait" parameterType="int" resultType="com.spring.boot.dto.MeetInfoDTO">
-    select u.name, mi.email
+    select u.name,u.picture, mi.email
     from users u
     join meetInfo mi on u.email = mi.email
     where mi.meetListNum = #{meetListNum} and mi.meetMemStatus = 0
@@ -121,7 +121,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </delete>
 
 <select id="getMeetBlack" parameterType="int" resultType="com.spring.boot.dto.MeetInfoDTO">
-    select u.name, mi.email
+    select u.name,u.picture, mi.email
     from users u
     join meetInfo mi on u.email = mi.email
     where mi.meetListNum = #{meetListNum} and mi.meetMemStatus = 3
