@@ -15,5 +15,4 @@ public interface ChatRoomRepository extends MongoRepository<ChatRoomCollection, 
     public List<ChatRoomCollection> findByUsersIn(String users);
     public ChatRoomCollection findByRoomId(String roomId);
 
-
 }

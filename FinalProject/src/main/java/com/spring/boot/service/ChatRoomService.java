@@ -14,14 +14,16 @@ import com.spring.boot.mapper.ChatRoomRepository;
 @Service
 public class ChatRoomService {
     
-    @Autowired
+    
     private final ChatRoomRepository chatRoomRepository;
     
+    @Autowired
     public ChatRoomService(ChatRoomRepository chatRoomRepository) {
         this.chatRoomRepository = chatRoomRepository;
     }
 
     public ChatRoomCollection createChat(ChatRoomCollection chatRoomCollection){
+        System.out.println("?? : " + chatRoomCollection);
         return chatRoomRepository.save(chatRoomCollection);
     }
 

@@ -4,6 +4,8 @@ import java.io.File;
 import java.net.URLDecoder;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -29,11 +31,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
 import com.spring.boot.dto.GatchiDTO;
+import com.spring.boot.dto.GatchiLikeDTO;
 import com.spring.boot.dto.MapDTO;
 import com.spring.boot.dto.MeetInfoDTO;
 import com.spring.boot.model.Users;
+import com.spring.boot.service.GatchiLikeService;
 import com.spring.boot.service.GatchiService;
 import com.spring.boot.service.MapService;
+import com.spring.boot.service.MeetServiceYj;
 
 import org.springframework.ui.Model;
 
@@ -45,8 +50,13 @@ public class MeetmateController {
 	private GatchiService gatchiService;
 
 	@Autowired
+	private GatchiLikeService gatchiLikeService;
+
+	@Autowired
 	private MapService mapService;
 
+	@Autowired
+	private MeetServiceYj meetServiceYj;
  	//여기서 호출 하면 BoardService -> BoardServiceImpl -> BoardMapper -> boardMapper.xml에서 데이터 반환을 BoardController로 해준다.
 
 	@GetMapping("/gatchiChoice.action")
@@ -81,7 +91,6 @@ public class MeetmateController {
 		}	
 		return mav;
 	}
-
 
 	@PostMapping("/meetMateCreate.action")
 	public ModelAndView meetMateCreate_ok(HttpServletRequest request, 
@@ -121,8 +130,11 @@ public class MeetmateController {
 			
 			mapService.insertMapData(mapDTO);
 		}
-
-		mav.setViewName("redirect:/meetMateList.action");
+		mav.addObject("roomName", dto.getMeetTitle());
+		mav.addObject("roomType", "MEET");
+		mav.addObject("meetListNum", dto.getMeetListNum());
+		//mav.setViewName("redirect:/meetMateList.action");
+		mav.setViewName("redirect:/createroom.action");
 		return mav;
 	}
 
@@ -169,7 +181,8 @@ public class MeetmateController {
 			mapService.insertMapData(mapDTO);
 		}
 
-		mav.setViewName("redirect:/communiFindList.action");
+		// mav.setViewName("redirect:/communiFindList.action");
+		mav.setViewName("redirect:/createroom.action");
 		return mav;
 	}
 		
@@ -388,4 +401,82 @@ public class MeetmateController {
 		return data;
 	}
 	
+	@PostMapping("/meet/plusLike")
+	public String plusLike(@RequestBody Map<String, String> data,HttpServletRequest req) throws Exception {
+		
+		System.out.println("좋아요 버튼을 누르셨군요?");
+
+		HttpSession session = req.getSession();
+		Users user = (Users) session.getAttribute("user1");
+		String useremail = user.getEmail();
+
+		System.out.println("유저이메일 : " + useremail);
+
+		System.out.println(data.get("meetListNum"));
+		int listNum = Integer.parseInt(data.get("meetListNum"));
+
+		GatchiLikeDTO dto = new GatchiLikeDTO();
+		dto.setMeetListNum(listNum);
+		dto.setUseremail(useremail);
+
+		GatchiLikeDTO isDto = gatchiLikeService.getReadDataInLike(dto);
+		if(isDto != null) return "";
+
+		gatchiService.plusMeetCount(listNum);
+		gatchiLikeService.insertGatchiLike(dto);
+
+		GatchiDTO readData = meetServiceYj.getMeetListInfo(listNum);
+		System.out.println(readData.getMeetTitle() + "모임의 좋아요 수는 : " + readData.getMeetLikeCount());
+
+		return "SUCCESS";
+	}
+	
+	@PostMapping("/meet/minusLike")
+	public String minusLike(@RequestBody Map<String, String> data,HttpServletRequest req) throws Exception {
+		
+		System.out.println("좋아요 버튼을 취소했다.");
+
+		HttpSession session = req.getSession();
+		Users user = (Users) session.getAttribute("user1");
+		String useremail = user.getEmail();
+
+		System.out.println("유저이메일 : " + useremail);
+
+		System.out.println(data.get("meetListNum"));
+		int listNum = Integer.parseInt(data.get("meetListNum"));
+
+		gatchiService.minusMeetCount(listNum);
+		//gatchiService.deleteGatchiLike(listNum, useremail);
+
+		GatchiLikeDTO dto = new GatchiLikeDTO();
+		dto.setMeetListNum(listNum);
+		dto.setUseremail(useremail);
+
+		gatchiLikeService.deleteGatchiLike(dto);
+
+		GatchiDTO readData = meetServiceYj.getMeetListInfo(listNum);
+		System.out.println(readData.getMeetTitle() + "모임의 좋아요 수는 : " + readData.getMeetLikeCount());
+
+		return "SUCCESS";
+	}
+
+	@PostMapping("/meet/loadLikeData")
+	public List<Integer> loadLikeData(HttpServletRequest req) throws Exception {
+
+		HttpSession session = req.getSession();
+		Users user = (Users) session.getAttribute("user1");
+		String useremail = user.getEmail();
+
+		List<GatchiLikeDTO> lists = gatchiLikeService.getReadDataGatchiLike(useremail);
+		if(lists == null) return null;
+
+		List<Integer> listNum = new ArrayList<>();
+
+		for(GatchiLikeDTO g : lists){
+			listNum.add(g.getMeetListNum());
+		}
+		System.out.println("좋아요 누른 방들 : " + listNum);
+		return listNum;
+	} 
+
 }

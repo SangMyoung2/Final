@@ -1,239 +1,154 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-        
-        <title>메인 지도</title>
-        
-        <script th:src="@{http://localhost:8080/js/map/jquery-1.9.1.js}"></script>
-        <script type="text/javascript" th:src="@{http://localhost:8080/js/map/examples-base.js}"></script>
-        <script type="text/javascript" th:src="@{http://localhost:8080/js/map/highlight.min.js}"></script>
-        <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=83bfuniegk"></script>
-        <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=83bfuniegk&submodules=geocoder"></script>
-        <link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/map/examples-base.css}" />
-
-        <!-- 위도 경도 좌표가져오는 모듈 -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+   
+  
+ <link rel="stylesheet" href="/css/challenge/challengeCreate.css"/>
 
 
-<title>가치</title>
+<script src="https://use.fontawesome.com/b4564248e6.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
-<link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/index.css}"/>
 </head>
 <body>
-    
-<!-- @category Geocoder -->
 
-<style type="text/css">
-    .search { position:absolute;z-index:1000;top:20px;left:20px; }
-    .search #address { width:150px;height:20px;line-height:20px;border:solid 1px #555;padding:5px;font-size:12px;box-sizing:content-box; }
-    .search #submit { height:30px;line-height:30px;padding:0 10px;font-size:12px;border:solid 1px #555;border-radius:3px;cursor:pointer;box-sizing:content-box; }
-    </style>
-    
-    <div id="wrap" class="section">
-        <h2>주소와 좌표 검색 API 사용하기</h2>
-        <p>Geocoder 서브 모듈의 Service 객체를 사용하여 주소로 좌표를 검색하거나(Geocode) 좌표로 주소를 검색하는(Reversegeocode) 예제입니다.<br />
-        입력 창에 주소를 입력하여 검색하면 해당 주소의 좌표로 이동하며, 지도를 클릭하면 해당 지점의 경위도 좌표로 주소를 검색합니다.</p>
-        <div id="map" style="width:100%;height:600px;">
-            <div class="search" >
-                <input id="address" type="text" placeholder="검색할 주소" value="불정로 6" />
-                <input id="submit" type="button" value="주소 검색" />
-            </div>
-        </div>
-        <code id="snippet" class="snippet"></code>
-    </div>
-    
-    <script id="code">
-    var map = new naver.maps.Map("map", {
-        center: new naver.maps.LatLng(37.3595316, 127.1052133),
-        zoom: 15,
-        mapTypeControl: true
-    });
-    
-    var infoWindow = new naver.maps.InfoWindow({
-        anchorSkew: true
-    });
-    
-    map.setCursor('pointer');
-    
-    function searchCoordinateToAddress(latlng) {
-    
-        infoWindow.close();
-    
-        naver.maps.Service.reverseGeocode({
-            coords: latlng,
-            orders: [
-                naver.maps.Service.OrderType.ADDR,
-                naver.maps.Service.OrderType.ROAD_ADDR
-            ].join(',')
-        }, function(status, response) {
-            if (status === naver.maps.Service.Status.ERROR) {
-                return alert('Something Wrong!');
-            }
-    
-            var items = response.v2.results,
-                address = '',
-                htmlAddresses = [];
-    
-            for (var i=0, ii=items.length, item, addrType; i<ii; i++) {
-                item = items[i];
-                address = makeAddress(item) || '';
-                addrType = item.name === 'roadaddr' ? '[도로명 주소]' : '[지번 주소]';
-    
-                htmlAddresses.push((i+1) +'. '+ addrType +' '+ address);
-            }
-    
-            infoWindow.setContent([
-                '<div style="padding:10px;min-width:200px;line-height:150%;">',
-                '<h4 style="margin-top:5px;">검색 좌표 '+ ' lng : ' + latlng.x + ' lat : ' + latlng.y +'</h4><br />',
-                htmlAddresses.join('<br />'),
-                '</div>'
-            ].join('\n'));
-            console.log(latlng)
-            infoWindow.open(map, latlng);
-        });
-    }
-    
-    function searchAddressToCoordinate(address) {
-        naver.maps.Service.geocode({
-            query: address
-        }, function(status, response) {
-            if (status === naver.maps.Service.Status.ERROR) {
-                return alert('Something Wrong!');
-            }
-    
-            if (response.v2.meta.totalCount === 0) {
-                return alert('totalCount' + response.v2.meta.totalCount);
-            }
-    
-            var htmlAddresses = [],
-                item = response.v2.addresses[0],
-                point = new naver.maps.Point(item.x, item.y);
-    
-            if (item.roadAddress) {
-                htmlAddresses.push('[도로명 주소] ' + item.roadAddress);
-            }
-    
-            if (item.jibunAddress) {
-                htmlAddresses.push('[지번 주소] ' + item.jibunAddress);
-            }
-    
-            if (item.englishAddress) {
-                htmlAddresses.push('[영문명 주소] ' + item.englishAddress);
-            }
-    
-            infoWindow.setContent([
-                '<div style="padding:10px;min-width:200px;line-height:150%;">',
-                '<h4 style="margin-top:5px;">검색 주소 : '+ address +'</h4><br />',
-                htmlAddresses.join('<br />'),
-                '</div>'
-            ].join('\n'));
-    
-            map.setCenter(point);
-            infoWindow.open(map, point);
-        });
-    }
-    
-    function initGeocoder() {
-        map.addListener('click', function(e) {
-            searchCoordinateToAddress(e.coord);
-        });
-    
-        $('#address').on('keydown', function(e) {
-            var keyCode = e.which;
-    
-            if (keyCode === 13) { // Enter Key
-                searchAddressToCoordinate($('#address').val());
-            }
-        });
-    
-        $('#submit').on('click', function(e) {
-            e.preventDefault();
-    
-            searchAddressToCoordinate($('#address').val());
-        });
-    
-        searchAddressToCoordinate('정자동 178-1');
-    }
-    
-    function makeAddress(item) {
-        if (!item) {
-            return;
-        }
-    
-        var name = item.name,
-            region = item.region,
-            land = item.land,
-            isRoadAddress = name === 'roadaddr';
-    
-        var sido = '', sigugun = '', dongmyun = '', ri = '', rest = '';
-    
-        if (hasArea(region.area1)) {
-            sido = region.area1.name;
-        }
-    
-        if (hasArea(region.area2)) {
-            sigugun = region.area2.name;
-        }
-    
-        if (hasArea(region.area3)) {
-            dongmyun = region.area3.name;
-        }
-    
-        if (hasArea(region.area4)) {
-            ri = region.area4.name;
-        }
-    
-        if (land) {
-            if (hasData(land.number1)) {
-                if (hasData(land.type) && land.type === '2') {
-                    rest += '산';
-                }
-    
-                rest += land.number1;
-    
-                if (hasData(land.number2)) {
-                    rest += ('-' + land.number2);
-                }
-            }
-    
-            if (isRoadAddress === true) {
-                if (checkLastString(dongmyun, '면')) {
-                    ri = land.name;
-                } else {
-                    dongmyun = land.name;
-                    ri = '';
-                }
-    
-                if (hasAddition(land.addition0)) {
-                    rest += ' ' + land.addition0.value;
-                }
-            }
-        }
-    
-        return [sido, sigugun, dongmyun, ri, rest].join(' ');
-    }
-    
-    function hasArea(area) {
-        return !!(area && area.name && area.name !== '');
-    }
-    
-    function hasData(data) {
-        return !!(data && data !== '');
-    }
-    
-    function checkLastString (word, lastString) {
-        return new RegExp(lastString + '$').test(word);
-    }
-    
-    function hasAddition (addition) {
-        return !!(addition && addition.value);
-    }
-    
-    naver.maps.onJSContentLoaded = initGeocoder;
-    </script>
-    
 
+<div class="container">
+<div class="row">
+<!-- RADIO BUTTONS BLOCK -->
+<div class="col-xs-12 col-sm-6 col-md-5">
+<h3 class="text-center">Radio Button</h3>
+<div class="frb-group">
+
+<div class="frb frb-default">
+    <div style="margin-top: 50px;">
+<input type="radio" id="radio-button-0" name="radio-button" value="0">
+<label for="radio-button-0">
+    <span class="frb-title">Lorem Ipsum</span>
+    
+</label>
+</div>
+</div>
+
+
+<div class="frb frb-primary">
+<input type="radio" id="radio-button-1" name="radio-button" value="1" >
+<label for="radio-button-1">
+    <span class="frb-title">Lorem Ipsum</span>
+</label>
+</div>
+<div class="frb frb-success">
+<input type="radio" id="radio-button-2" name="radio-button" value="2">
+<label for="radio-button-2">
+    <span class="frb-title">Lorem Ipsum</span>
+    <span class="frb-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In semper quam nunc.</span>
+</label>
+</div>
+<div class="frb frb-info">
+<input type="radio" id="radio-button-3" name="radio-button" value="3">
+<label for="radio-button-3">
+    <span class="frb-title">Lorem Ipsum</span>
+    <span class="frb-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In semper quam nunc.</span>
+</label>
+</div>
+<div class="frb frb-warning">
+<input type="radio" id="radio-button-4" name="radio-button" value="4">
+<label for="radio-button-4">
+    <span class="frb-title">Lorem Ipsum</span>
+    <span class="frb-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In semper quam nunc.</span>
+</label>
+</div>
+<div class="frb frb-danger">
+<input type="radio" id="radio-button-5" name="radio-button" value="5">
+<label for="radio-button-5">
+    <span class="frb-title">Lorem Ipsum</span>
+    <span class="frb-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In semper quam nunc.</span>
+</label>
+</div>
+</div>
+</div>
+<!-- CHECKBOX BUTTON BLOCK -->
+<div class="col-xs-12 col-sm-6 col-md-5 col-md-offset-2">
+<h3 class="text-center">Checkbox</h3>
+<div class="frb-group">
+<div class="frb frb-default">
+<input type="checkbox" id="checkbox-0" name="checkbox" value="0">
+<label for="checkbox-0">
+    <span class="frb-title">Lorem Ipsum</span>
+    <span class="frb-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In semper quam nunc.</span>
+</label>
+</div>
+<div class="frb frb-primary">
+<input type="checkbox" id="checkbox-1" name="checkbox" value="1">
+<label for="checkbox-1">
+    <span class="frb-title">Lorem Ipsum</span>
+    <span class="frb-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In semper quam nunc.</span>
+</label>
+</div>
+<div class="frb frb-success">
+<input type="checkbox" id="checkbox-2" name="checkbox" value="2">
+<label for="checkbox-2">
+    <span class="frb-title">Lorem Ipsum</span>
+    <span class="frb-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In semper quam nunc.</span>
+</label>
+</div>
+<div class="frb frb-info">
+<input type="checkbox" id="checkbox-3" name="checkbox" value="3">
+<label for="checkbox-3">
+    <span class="frb-title">Lorem Ipsum</span>
+    <span class="frb-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In semper quam nunc.</span>
+</label>
+</div>
+<div class="frb frb-warning">
+<input type="checkbox" id="checkbox-4" name="checkbox" value="4">
+<label for="checkbox-4">
+    <span class="frb-title">Lorem Ipsum</span>
+    <span class="frb-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In semper quam nunc.</span>
+</label>
+</div>
+<div class="frb frb-danger">
+<input type="checkbox" id="checkbox-5" name="checkbox" value="5">
+<label for="checkbox-5">
+    <span class="frb-title">Lorem Ipsum</span>
+    <span class="frb-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In semper quam nunc.</span>
+</label>
+</div>
+</div>
+</div>
+</div>
+<div class="row-fluid">
+<h3 class="text-center">How to use...</h3>
+<code>
+<div class="frb-group"><br>
+<span style="margin-left: 25px"><div class="frb frb-default"><br>
+<span style="margin-left: 50px"><input type="radio" id="radio-button-0" name="radio-button" value="0"></span><br>
+<span style="margin-left: 50px"><label for="radio-button-0"></label></span><br>
+<span style="margin-left: 75px"><span class="frb-title">Lorem Ipsum</span></span><br>
+<span style="margin-left: 75px"><span class="frb-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In semper quam nunc.</span></span><br>
+<span style="margin-left: 50px"></span><br>
+<span style="margin-left: 25px"></span></div></span><br>
+<span style="margin-left: 25px"><div class="frb frb-primary"><br>
+<span style="margin-left: 50px">...</span><br>
+<span style="margin-left: 25px"></span></div></span><br>
+</div>
+</code>
+</div>
+</div>
+<!-- JS -->
+
+<div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+    <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
+    <label class="btn btn-outline-primary" for="btnradio1">Radio 1</label>
+  
+    <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
+    <label class="btn btn-outline-primary" for="btnradio2">Radio 2</label>
+  
+    <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
+    <label class="btn btn-outline-primary" for="btnradio3">Radio 3</label>
+  </div>
 </body>
 </html>
