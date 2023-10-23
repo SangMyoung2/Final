@@ -74,7 +74,7 @@
         var joinButton = document.querySelector('.join-button');
         
             joinButton.addEventListener('click', function() {
-            alert('가입 신청이 완료되었습니다.');
+            alert('챌린지 참여가 완료되었습니다.');
             });
     });
 
@@ -271,7 +271,7 @@ function deleteReview(email, meetListNum, meetReviewNum) {
                             </div>
                         </div>
 
-                        <p class="Yj-master" th:text="${challengeInfoDTO.email}"></p>
+                        <p class="Yj-master" th:text="${masterInfoDTO.email}"></p>
                         <p class="Yj-title" th:text="${challengeDTO.challengeTitle}"></p>
                     </div>
                   
@@ -285,56 +285,67 @@ function deleteReview(email, meetListNum, meetReviewNum) {
                         <p class="text-with-hyphen Yj-text2" th:text="${challengeDTO.challengeStartDate}"></p>
                         <p class="text-with-hyphen Yj-text2" th:text="${challengeDTO.challengeEndDate}"></p>
 
-                        <div class="yj-inwon">참가 인원</div>
+                        <div class="yj-inwon">현재참가 인원</div>
                         <div class="text-container">
-                            <p class="Yj-text3" th:text="${challengeDTO.challengeMemberCount}"></p>/
+                            <p class="Yj-text3" th:text="${challengeDTO.challengeMemberCount}"></p>
                         </div>
 
-                        <div class="yj-money">가입비 (회비)</div>
-                        <div class="text-container">
-                            <p class="Yj-text4 meet-money">돈은 안냄</p>
+
+                        <div th:switch="${challengeInfoDTO != null}">
+                            <div th:case="true">
+                                <div th:switch="${challengeInfoDTO.challengeMemberStatus}">
+
+                                    <div th:case="0">
+                                        <form action="/joinChallenge.action" method="post">
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <button type="submit" class="join-button">
+                                                가입하기
+                                            </button>
+                                            <input type="hidden" name="challengeListNum" th:value="${challengeDTO.challengeListNum}"/>
+                                        </form>
+                                    </div>
+
+                                    <div th:case="1">
+                                        <form action="/delete-meet" method="post">
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <button form="deleteForm" type="submit" class="delete-button">
+                                                챌린지 삭제
+                                            </button>
+                                            <input type="hidden" name="challengeListNum" th:value="${challengeDTO.challengeListNum}"/>
+                                        </form>                           
+                                    </div>
+
+                                    <div th:case="2">
+                                        <form>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <button form="outForm" type="submit" class="out-button">
+                                                챌린지 포기하기
+                                            </button>
+                                            <input type="hidden" name="challengeListNum" th:value="${challengeDTO.challengeListNum}"/>
+                                        </form>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div th:case="false">
+                                <form action="/joinChallenge.action" method="post">
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button type="submit" class="join-button">
+                                        <input type="hidden" name="challengeListNum" th:value="${challengeDTO.challengeListNum}"/>
+                                        가입하기
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                         
-                        <form>
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button form="joinForm" type="submit" class="join-button">
-                               가입하기
-                            </button>
-                        </form>
 
-                        <a href="" th:text="${challengeDTO.challengeTitle}">제목</a>
-
-                        <!-- <th:block th:if="${(meetStatus == 1 and (meetMemStatus <0)}">
-                            <p style="font-size: 18px; color: red;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;모집 인원이 마감되었습니다.</p>
-                        </th:block>
                         
-                        <th:block th:if="${meetStatus == 2}">
-                            <p style="font-size: 18px; color: red;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;이미 종료된 모임입니다.</p>
-                        </th:block> -->
-                        <form id="joinForm" action="/joinChallenge" method="post">
-                            <input type="hidden" name="meetListNum" th:value="${meetListNum}"/>
-                        </form>
-
-                        <form th:if="${meetMemStatus == 2} and ${meetStatus == 1}">
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button form="outForm" type="submit" class="out-button">
-                                모임 나가기
-                            </button>
-                        </form>
-                        <form id="outForm" action="/out-meet" method="post">
-                            <input type="hidden" name="meetListNum" th:value="${meetListNum}"/>
+                        <!-- <form id="outForm" action="/out-meet" method="post">
+                            <input type="hidden" name="meetListNum" th:value="${challengeDTO.challengeListNum}"/>
                             <input type="hidden" name="email" th:value="${dto.email}"/>
-                        </form>
+                        </form> -->
                         
-                        <form th:with="meetMemStatus=${meetMemStatus}" th:if="${meetMemStatus == 1} and ${meetStatus == 1}">
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button form="deleteForm" type="submit" class="delete-button">
-                                모임 삭제
-                            </button>
-                        </form>
-                        <form id="deleteForm" action="/delete-meet" method="post">
-                            <input type="hidden" name="meetListNum" th:value="${meetListNum}"/>
-                        </form>
-                        <th:block th:if="${meetStatus == 1 and meetMemStatus == 0}">
-                            <p style="font-size: 18px; color: rgb(0, 68, 255);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;가입 승인 대기 중입니다.</p>
-                        </th:block>
+                        
+                     
                         
                     </div>
                 </div>

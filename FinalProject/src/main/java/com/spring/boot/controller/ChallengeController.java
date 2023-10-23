@@ -147,23 +147,40 @@ public class ChallengeController {
         //게시글 번호로 1개의 게시글 불러옴
         int challengeListNum = Integer.parseInt( request.getParameter("challengeListNum"));
 		ChallengeDTO challengeDTO = challengeService.getReadData(challengeListNum);
+        ChallengeInfoDTO masterInfoDTO = new ChallengeInfoDTO();
 
         //user session정보 가져오기
         HttpSession session = request.getSession();
 		SessionUser social = (SessionUser)session.getAttribute("user");
 		Users user1 = (Users)session.getAttribute("user1");
 
+        // int memStatus=0;
+        // int memLike=0;
+
         //접속한 user 정보 데이터 담기  
         if (social != null) { //소셜유저의 정보
             
             challengeInfoDTO = challengeService.getUserEmailData(social.getEmail(),challengeListNum);
-            
+
+            mav.addObject("challengeInfoDTO",challengeInfoDTO);
+
+            // memStatus = challengeInfoDTO.getChallengeMemberStatus();
+            // memLike = challengeInfoDTO.getChallengeLike();
+
             if(challengeInfoDTO==null){
                 System.out.println("일치하는 유저 정보 없음");
             }
+            
 
 		} else if (user1 != null) { //홈페이지 가입 정보
+
 			challengeInfoDTO = challengeService.getUserEmailData(user1.getEmail(),challengeListNum);
+
+            mav.addObject("challengeInfoDTO",challengeInfoDTO);
+
+            // memStatus = challengeInfoDTO.getChallengeMemberStatus();
+            // memLike = challengeInfoDTO.getChallengeLike();
+
             
             if(challengeInfoDTO==null){
                 System.out.println("일치하는 유저 정보 없음");
@@ -171,16 +188,49 @@ public class ChallengeController {
 		}
 
         
-        
+        masterInfoDTO = challengeService.getMasterData(challengeListNum);
       
+
+        // mav.addObject("memStatus", memStatus);
+
+        mav.addObject("masterInfoDTO",masterInfoDTO);
         mav.addObject("challengeDTO", challengeDTO);
-        mav.addObject("challengeInfoDTO", challengeInfoDTO);
+        
 		mav.setViewName("challenge/ChallengeArticle");
 		
 		return mav;
 	}
 
 
+    @PostMapping("/joinChallenge.action")
+	public ModelAndView joinChallenge(HttpServletRequest request, ChallengeInfoDTO infoDTO) throws Exception {
+		
+		ModelAndView mav = new ModelAndView();
+
+        HttpSession session = request.getSession();
+		SessionUser social = (SessionUser)session.getAttribute("user");
+		Users user1 = (Users)session.getAttribute("user1");
+
+		if (social != null) {
+			infoDTO.setEmail(social.getEmail()); 
+		} else if (user1 != null) {
+			infoDTO.setEmail(user1.getEmail()); 
+		}
+
+        System.out.println("왜 안오니?");
+		int challengeListNum =  Integer.parseInt(request.getParameter("challengeListNum"));
+        
+         
+        infoDTO.setChallengeMemberStatus(2); //회원 설정
+        infoDTO.setChallengeListNum(challengeListNum);
+
+        challengeService.insertChallengeInfo(infoDTO);
+
+
+		mav.setViewName("redirect:/challengeArticle.action?challengeListNum=" + challengeListNum);
+		
+		return mav;		
+	}
 
 
 

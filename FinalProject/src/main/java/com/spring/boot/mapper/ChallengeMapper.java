@@ -23,6 +23,10 @@ public interface ChallengeMapper {
 
     public ChallengeInfoDTO getUserEmailData(@Param("email")String email,@Param("challengelistnum")int challengelistnum) throws Exception;
 
+    public ChallengeInfoDTO getMasterData(int challengelistnum) throws Exception;
+
     public void test(ChallengeDTO dto) throws Exception;
+
+    
 
 }

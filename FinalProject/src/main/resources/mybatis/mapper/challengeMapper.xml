@@ -43,4 +43,12 @@ challengeListNum,challengeTitle,challengeImageMain,challengeWeekCheck,challengeD
 	where email like #{email} and challengelistnum = #{challengelistnum}
 </select>
 
+<select id="getMasterData" parameterType="map" resultType="com.spring.boot.dto.ChallengeInfoDTO">
+	select * from challengeinfo
+	where challengeMemberStatus=1 and challengelistnum = #{challengelistnum}
+</select>
+
+
+
+
 </mapper>

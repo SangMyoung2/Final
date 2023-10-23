@@ -18,6 +18,8 @@ public interface ChallengeService {
     public void insertChallengeInfo(ChallengeInfoDTO infoDto) throws Exception;
 
     public ChallengeInfoDTO getUserEmailData(String email, int challengelistnum) throws Exception;
+    
+    public ChallengeInfoDTO getMasterData(int challengelistnum) throws Exception;
 
     public void test(ChallengeDTO dto) throws Exception;
 

@@ -50,5 +50,10 @@ public class ChallengeServiceImpl implements ChallengeService{
         return challengeMapper.getUserEmailData(email,challengelistnum);
     }
 
+    @Override
+    public ChallengeInfoDTO getMasterData(int challengelistnum) throws Exception {
+        return challengeMapper.getMasterData(challengelistnum); 
+    }
+
     
 }
