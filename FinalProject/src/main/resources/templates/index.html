@@ -46,7 +46,7 @@
          
          <img style="height: 600px; width: 650px;" src="http://localhost:8080/image/main/123123.jpg"/><br/><br/><br/>
          
-          <p>같이 먹고! 같이 놀고! 같이 하고!<br/>
+          <p style="text-align: center;">같이 먹고! 같이 놀고! 같이 하고!<br/>
             함께의 가치를 가치(GATCHI)에서 느껴보세요 </p>
            
         </div>
@@ -71,7 +71,7 @@
 
 
   <div style="flex-wrap: wrap; display: flex;  flex-direction: row;  justify-content: center; background-color:#F5F5F5;">
-    <div class="card-item" th:each="items, iterStat : ${meetLists}" th:if="${iterStat.index < 4}">
+    <div class="card-item" th:each="items, iterStat : ${meetLists}" th:if="${iterStat.index < 6}">
       <div class="item-content">
       <div class="image-container">
         <img th:src="@{|/image/gatchiImage/${items.meetImage}|}" alt="">

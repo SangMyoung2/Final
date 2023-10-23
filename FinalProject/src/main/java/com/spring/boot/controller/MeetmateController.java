@@ -107,8 +107,9 @@ public class MeetmateController {
 			infoDTO.setEmail(user1.getEmail()); 
 		}
 
-		Resource resource = new ClassPathResource("static");
-        String resourcePath = resource.getFile().getAbsolutePath() + "/image/gatchiImage";
+		String resourcePath = "C:\\VSCode\\Final\\FinalProject\\src\\main\\resources\\static\\image\\gatchiImage";
+		// Resource resource = new ClassPathResource("static");
+        // String resourcePath = resource.getFile().getAbsolutePath() + "/image/gatchiImage";
 
 		if (!meetImage.isEmpty()) {
 			String originalFileName = meetImage.getOriginalFilename();
@@ -154,9 +155,11 @@ public class MeetmateController {
 			infoDTO.setEmail(user1.getEmail()); 
 		}
 
-		System.out.println("getMeetMoney" + dto.getMeetMoney());
-		System.out.println("getMeetEntryfee" + dto.getMeetEntryfee());
+		// System.out.println("getMeetMoney" + dto.getMeetMoney());
+		// System.out.println("getMeetEntryfee" + dto.getMeetEntryfee());
 
+
+		
 		// Resource resource = new ClassPathResource("static");
         // String resourcePath = resource.getFile().getAbsolutePath() + "/image/gatchiImage";
 		String resourcePath = "C:\\VSCode\\Final\\FinalProject\\src\\main\\resources\\static\\image\\gatchiImage";
