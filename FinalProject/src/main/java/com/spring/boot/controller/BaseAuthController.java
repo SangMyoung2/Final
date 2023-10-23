@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -52,6 +54,8 @@ public class BaseAuthController {
 	List<GatchiDTO> meetMateLists = new ArrayList<>();
 
 	meetMateLists = gatchiService.getMeetMateLists();
+
+	
 
 	mav.addObject("meetLists", meetMateLists);	
 
@@ -195,15 +199,22 @@ public class BaseAuthController {
 	}
 
 	@GetMapping("/mypage.action")
-	public ModelAndView mypage() throws Exception {
+	public ModelAndView mypage(@AuthenticationPrincipal UserDetails userDetails) throws Exception {
 		ModelAndView mav = new ModelAndView();
 
+		
+		String userEmail = userDetails.getUsername();
+		
+		List<Integer> userMeetList = gatchiService.getMeetListNumByUserEmail(userEmail);
+		
 		List<MeetInfoDTO> meetInfoList = new ArrayList<>();
 
-		meetInfoList = gatchiService.getMeetInfo(null);
-
-		mav.addObject("meetinfolist", meetInfoList);	
+		List<GatchiDTO> gatchiList = gatchiService.getGatchiByMeetListNums(userMeetList);
 		
+		meetInfoList = gatchiService.getMeetInfo();
+			
+		mav.addObject("meetinfolist", meetInfoList);	
+		mav.addObject("gatchiList", gatchiList);
 		mav.setViewName("login/mypage");
 			
 	return mav;

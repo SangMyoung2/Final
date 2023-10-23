@@ -28,7 +28,19 @@ public class GatchiServiceImpl implements GatchiService{
 	}
 
 	@Override
-	public List<MeetInfoDTO> getMeetInfo(MeetInfoDTO infoDTO) throws Exception {
+	public List<Integer> getMeetListNumByUserEmail(String userEmail) throws Exception {
+		
+		return gatchiMapper.getMeetListNumByUserEmail(userEmail);
+	}
+
+	@Override
+	public List<GatchiDTO> getGatchiByMeetListNums(List<Integer> meetListNums) {
+        return gatchiMapper.getGatchiByMeetListNums(meetListNums);
+	}
+
+
+	@Override
+	public List<MeetInfoDTO> getMeetInfo() throws Exception {
 		
 		return gatchiMapper.getMeetInfo();
 	}
@@ -123,6 +135,8 @@ public class GatchiServiceImpl implements GatchiService{
 	public List<GatchiDTO> sortByDdayFind() throws Exception {
 		return gatchiMapper.sortByDdayMeet();
 	}
+
+	
 
 
 /*
