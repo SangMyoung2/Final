@@ -15,6 +15,12 @@ public interface GatchiMapper {
 
 	public void createMeetInfo(MeetInfoDTO dto) throws Exception;
 
+	public List<MeetInfoDTO> getMeetInfo()throws Exception;
+
+	public List<Integer> getMeetListNumByUserEmail(String userEmail)throws Exception;
+
+	public List<GatchiDTO> getGatchiByMeetListNums(List<Integer> meetListNums);
+
 	public int maxNum() throws Exception;
 
 	public String masterPicture() throws Exception;
@@ -34,6 +40,8 @@ public interface GatchiMapper {
     public List<GatchiDTO> searchCommuniFindList(@Param("searchKey")String searchKey, @Param("searchValue")String searchValue);
 
 	public List<GatchiDTO> getRownumList(int end) throws Exception;
+
+    
 	
 	public List<GatchiDTO> sortByLikeCountMeet() throws Exception;
 
@@ -63,5 +71,15 @@ public interface GatchiMapper {
 	// public void updateData(MeetmateDTO dto) throws Exception;
 	
 	// public void deleteData(int num) throws Exception;
+
+
+	public void plusMeetCount(int meetListNum) throws Exception;
     
+	public void minusMeetCount(int meetListNum) throws Exception;
+
+	public List<GatchiDTO> getReadDataInUser(String useremail) throws Exception;
+
+	public List<GatchiDTO> getReadDataInListNum(int meetListNum) throws Exception;
+	
+	public void updateChatRoom(GatchiDTO dto) throws Exception;
 }

@@ -3,6 +3,9 @@
     <head>
         <meta charset="UTF-8">
         <title>My Page</title>
+
+
+               
       
         <link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/structure/reset.css}"/>
      
@@ -26,11 +29,11 @@
           <div style="display: flex; width: 875px; font-size: 20px; margin-top: 20px; ">
            
             <p style="width: 160px; font-weight: 100;" class="menu_item"><a href="#" class="link">MeetMate</a></p>
-			<b style="width: 160px; font-weight: 100;" class="menu_item"><a href="#" class="link">CommuniFind</a></b>
-			<b style="width: 160px; font-weight: 100;" class="menu_item"><a href="#" class="link">Challenge</a></b>
-			<b style="width: 160px; font-weight: 100;" class="menu_item"><a href="#" class="link">Review</a></b>
-			<b style="width: 160px; font-weight: 100;" class="menu_item"><a href="#" class="link">Discovery</a></b>
-			<b style="width: 160px; font-weight: 100;" class="menu_item"><a href="#" class="link">Service</a></b>
+            <b style="width: 160px; font-weight: 100;" class="menu_item"><a href="#" class="link">CommuniFind</a></b>
+            <b style="width: 160px; font-weight: 100;" class="menu_item"><a href="#" class="link">Challenge</a></b>
+            <b style="width: 160px; font-weight: 100;" class="menu_item"><a href="#" class="link">Review</a></b>
+            <b style="width: 160px; font-weight: 100;" class="menu_item"><a href="#" class="link">Discovery</a></b>
+            <b style="width: 160px; font-weight: 100;" class="menu_item"><a href="#" class="link">Service</a></b>
              
               
               </div>
@@ -43,6 +46,8 @@
         
                     <p style="width: 180px;" th:if="${#httpSession.getAttribute('user1') != null}">
                         <a style="color: black;" th:text="${session.user1.name}+ ' 님 안녕하세요!'"></a>
+                      
+                       
                         </p>
         
                      
@@ -66,8 +71,9 @@
               </div>
 
             <div th:if="${#httpSession.getAttribute('user1') != null}"  class="image is-128x128 avatar">
-              <img style="margin-bottom: 30px;" src="https://placehold.it/256x256">
-              <a th:if="${#httpSession.getAttribute('user1') != null}" style=" color: #00d1b2; margin-left: 15px; font-size: 23px;" href="">회원정보 수정 </a>
+            <img style="margin-bottom: 30px;" th:src="@{image/login/__${session.user1.picture}__}">
+          
+              <a th:if="${#httpSession.getAttribute('user1') != null}" style=" color: #00d1b2; margin-left: 15px; font-size: 23px;" href="/userupdate.action">회원정보 수정 </a>
               <a  style=" color: #00d1b2; margin-left: -3px; font-size: 23px;" href="">포인트 상세 조회</a>
             </div>
            
@@ -116,16 +122,16 @@
           </div>
           <div style="display: flex; flex-direction: column;" class="column is-2 followers has-text-centered">
             <p style="color: #00d1b2; font-size: 30px;">MeetMate</p><br/>
-            <p class="stat-val">2</p>
+            <p class="stat-val" th:text="${#lists.size(gatchiList)}"></p>
             
           </div>
           <div style="display: flex; flex-direction: column; width: 210px;" class="column is-2 following has-text-centered">
             <p style="color: #00d1b2; font-size: 30px; ">CommuniFind</p><br/>
-            <p class="stat-val">5</p>
+            <p class="stat-val" th:text="${#lists.size(gatchiList)}"></p>
           </div>
           <div style="display: flex; flex-direction: column;" class="column is-2 likes has-text-centered">
             <p style="color: #00d1b2; font-size: 30px;">Challenge</p><br/>
-            <p class="stat-val">3</p>
+            <p class="stat-val" th:text="${#lists.size(gatchiList)}"></p>
           </div>
         </div>
       </div>
@@ -133,232 +139,235 @@
         <div class="tabs is-fullwidth">
           <ul>
            
-            <li class="link"><a href="#" id="meetmate-link"><span class="icon"><i class="fa fa-list"></i></span> <span>MeetMate</span></a></li>
-            <li class="link"><a href="#" id="communifind-link"><span class="icon"><i class="fa fa-th"></i></span> <span></span>CommuniFind</a></li>
-            <li class="link"><a href="#" id="challenge-link"><span class="icon"><i class="fa fa-th"></i></span> <span></span>Challenge</a></li>
-            <li class="link"><a href="#" id="mylikes-link"><span class="icon"><i class="fa fa-heart"></i></span> <span>My Likes</span></a></li>
-            <li class="link"><a href="#" id="mychat-link"><span class="icon"><i class="fa fa-bookmark"></i></span> <span>My Chat</span></a></li>
+            
+            <li class="link"><a href="#"  id="meetmate-link"><span class="icon"><i class="fa fa-list"></i></span> <span>MeetMate</span></a></li>
+            <li class="link"><a href="#"  id="communifind-link"><span class="icon"><i class="fa fa-th"></i></span> <span></span>CommuniFind</a></li>
+            <li class="link"><a href="#"  id="challenge-link"><span class="icon"><i class="fa fa-th"></i></span> <span></span>Challenge</a></li>
+            <li class="link"><a href="#"  id="mylikes-link"><span class="icon"><i class="fa fa-heart"></i></span> <span>My Likes</span></a></li>
+            <li class="link"><a href="#" ><span class="icon"><i class="fa fa-bookmark"></i></span> <span>My Chat</span></a></li>
           </ul>
         </div>
       </div>
   
-      <div class="box">
-        <!-- Main container -->
-        <nav class="level">
-          <!-- Left side -->
-          <div class="level-left">
-            <div class="level-item">
-              <p class="subtitle is-5">
-                <strong>123</strong> posts
-              </p>
-            </div>
-            <div class="level-item">
-              <p class="control has-addons">
-                <input class="input" type="text" placeholder="Find a post">
-                <button class="button">
-                  Search
-                </button>
-              </p>
-            </div>
-          </div>
-  
-          <!-- Right side -->
-          <div class="level-right">
-            <p class="level-item"><strong>All</strong></p>
-            <p class="level-item"><a>Published</a></p>
-            <p class="level-item"><a>Drafts</a></p>
-            <p class="level-item"><a>Deleted</a></p>
-            <p class="level-item"><a class="button is-success">New</a></p>
-          </div>
-        </nav>
-      </div>
-
-      <br/><br/>
-  
-      <div class="spacer"></div>
+   <br/> <br/> <br/>
   
 
-
-        <!-- 소셜버튼  -->
-    
-      <div class="columns">
-        <div class="column is-3">
+        <!-- meetmate 버튼  -->
+    <div id="meetmate-content">
+      <div class="columns" >
+        <div class="column is-3" >
           
           <!-- 리스트 1번째 줄 -->
-          <div class="card">
-            <div class="card-image">
+          <div class="card" th:each="items : ${gatchiList}" >
+            <div class="card-image" >
               <figure class="image is-4by3">
-                <img src="http://placehold.it/300x225" alt="">
+                <img th:src="@{|/image/gatchiImage/${items.meetImage}|}" alt="">
               </figure>
             </div>
             <div class="card-content">
               <div class="content">
-                <span class="tag is-dark">#webdev</span>
-                <strong class="timestamp">2 d</strong>
+                <span th:switch="${items.meetCtgNum}">
+                  <span th:case="1" class="category-button">
+                    <button class="ctgButton" disabled="disabled">문화</button>
+                    <p class="card__title" th:text="${items.meetTitle}">글제목</p>
+                  </span>
+                  <span th:case="2" class="category-button">
+                    <button class="ctgButton" disabled="disabled">맛집</button>
+                    <p class="card__title" th:text="${items.meetTitle}">글제목</p>    
+                  </span>
+                  <span th:case="3" class="category-button">
+                    <button class="ctgButton" disabled="disabled">취미</button>
+                    <p class="card__title" th:text="${items.meetTitle}">글제목</p>    
+                  </span>
+                  <span th:case="4" class="category-button">
+                    <button class="ctgButton" disabled="disabled">여행</button>
+                    <p class="card__title" th:text="${items.meetTitle}">글제목</p>    
+                  </span>
+                  <span th:case="5" class="category-button">
+                    <button class="ctgButton" disabled="disabled">운동</button>
+                    <p class="card__title" th:text="${items.meetTitle}">글제목</p>    
+                  </span>
+              </span>
+            
               </div>
             </div>
             <footer class="card-footer">
-              <a class="card-footer-item">Save</a>
-              <a class="card-footer-item">Edit</a>
-              <a class="card-footer-item">Delete</a>
+             
+              <a class="card-footer-item" th:text="'일시: ' + ${items.meetDday} + ', 장소: ' + ${items.meetPlace.replaceAll('.*?([^ ]+구).*', '$1')}"></a>
+              <a class="card-footer-item" th:text="' 참여인원 : ' + ${items.meetMemCnt} + ' / ' + ${items.meetMaxMemCnt}"></a>
+          
+            </footer>
             </footer>
           </div>
-          <br>
-          <div class="card">
-            <div class="card-image">
-              <figure class="image is-4by3">
-                <img src="http://placehold.it/300x225" alt="">
-              </figure>
-            </div>
-            <div class="card-content">
-              <div class="content">
-                <span class="tag is-dark">#webdev</span>
-                <strong class="timestamp">2 d</strong>
-              </div>
-            </div>
-            <footer class="card-footer">
-              <a class="card-footer-item">Save</a>
-              <a class="card-footer-item">Edit</a>
-              <a class="card-footer-item">Delete</a>
-            </footer>
-          </div>
-          <br>
-          <div class="card">
-            <div class="card-image">
-              <figure class="image is-4by3">
-                <img src="http://placehold.it/300x225" alt="">
-              </figure>
-            </div>
-            <div class="card-content">
-              <div class="content">
-                <span class="tag is-dark">#webdev</span>
-                <strong class="timestamp">2 d</strong>
-              </div>
-            </div>
-            <footer class="card-footer">
-              <a class="card-footer-item">Save</a>
-              <a class="card-footer-item">Edit</a>
-              <a class="card-footer-item">Delete</a>
-            </footer>
-          </div>
-          <br>
-          <div class="card">
-            <div class="card-image">
-              <figure class="image is-4by3">
-                <img src="http://placehold.it/300x225" alt="">
-              </figure>
-            </div>
-            <div class="card-content">
-              <div class="content">
-                <span class="tag is-dark">#webdev</span>
-                <strong class="timestamp">2 d</strong>
-              </div>
-            </div>
-            <footer class="card-footer">
-              <a class="card-footer-item">Save</a>
-              <a class="card-footer-item">Edit</a>
-              <a class="card-footer-item">Delete</a>
-            </footer>
-          </div>
-          <br>
+          
         </div>
         </div>
-  
-             <!-- 리스트 2번째 줄 -->
-        <div class="columns">
-            <div class="column is-3">
-              <div class="card">
-                <div class="card-image">
-                  <figure class="image is-4by3">
-                    <img src="http://placehold.it/300x225" alt="">
-                  </figure>
-                </div>
-                <div class="card-content">
-                  <div class="content">
-                    <span class="tag is-dark">#webdev</span>
-                    <strong class="timestamp">2 d</strong>
-                  </div>
-                </div>
-                <footer class="card-footer">
-                  <a class="card-footer-item">Save</a>
-                  <a class="card-footer-item">Edit</a>
-                  <a class="card-footer-item">Delete</a>
-                </footer>
-              </div>
-              <br>
-              <div class="card">
-                <div class="card-image">
-                  <figure class="image is-4by3">
-                    <img src="http://placehold.it/300x225" alt="">
-                  </figure>
-                </div>
-                <div class="card-content">
-                  <div class="content">
-                    <span class="tag is-dark">#webdev</span>
-                    <strong class="timestamp">2 d</strong>
-                  </div>
-                </div>
-                <footer class="card-footer">
-                  <a class="card-footer-item">Save</a>
-                  <a class="card-footer-item">Edit</a>
-                  <a class="card-footer-item">Delete</a>
-                </footer>
-              </div>
-              <br>
-              <div class="card">
-                <div class="card-image">
-                  <figure class="image is-4by3">
-                    <img src="http://placehold.it/300x225" alt="">
-                  </figure>
-                </div>
-                <div class="card-content">
-                  <div class="content">
-                    <span class="tag is-dark">#webdev</span>
-                    <strong class="timestamp">2 d</strong>
-                  </div>
-                </div>
-                <footer class="card-footer">
-                  <a class="card-footer-item">Save</a>
-                  <a class="card-footer-item">Edit</a>
-                  <a class="card-footer-item">Delete</a>
-                </footer>
-              </div>
-              <br>
-              <div class="card">
-                <div class="card-image">
-                  <figure class="image is-4by3">
-                    <img src="http://placehold.it/300x225" alt="">
-                  </figure>
-                </div>
-                <div class="card-content">
-                  <div class="content">
-                    <span class="tag is-dark">#webdev</span>
-                    <strong class="timestamp">2 d</strong>
-                  </div>
-                </div>
-                <footer class="card-footer">
-                  <a class="card-footer-item">Save</a>
-                  <a class="card-footer-item">Edit</a>
-                  <a class="card-footer-item">Delete</a>
-                </footer>
-              </div>
-              <br>
+      </div>
+
+
+        <!-- communifind 버튼  -->
+    <div id="communifind-content">
+      <div class="columns" >
+        <div class="column is-3" >
+          
+          <!-- 리스트 1번째 줄 -->
+          <div class="card" th:each="items : ${gatchiList}" >
+            <div class="card-image" >
+              <figure class="image is-4by3">
+                <img th:src="@{|/image/gatchiImage/${items.meetImage}|}" alt="">
+              </figure>
             </div>
+            <div class="card-content">
+              <div class="content">
+                <span th:switch="${items.meetCtgNum}">
+                  <span th:case="1" class="category-button">
+                    <button class="ctgButton" disabled="disabled">문화</button>
+                    <p class="card__title" th:text="${items.meetTitle}">글제목</p>
+                  </span>
+                  <span th:case="2" class="category-button">
+                    <button class="ctgButton" disabled="disabled">맛집</button>
+                    <p class="card__title" th:text="${items.meetTitle}">글제목</p>    
+                  </span>
+                  <span th:case="3" class="category-button">
+                    <button class="ctgButton" disabled="disabled">취미</button>
+                    <p class="card__title" th:text="${items.meetTitle}">글제목</p>    
+                  </span>
+                  <span th:case="4" class="category-button">
+                    <button class="ctgButton" disabled="disabled">여행</button>
+                    <p class="card__title" th:text="${items.meetTitle}">글제목</p>    
+                  </span>
+                  <span th:case="5" class="category-button">
+                    <button class="ctgButton" disabled="disabled">운동</button>
+                    <p class="card__title" th:text="${items.meetTitle}">글제목</p>    
+                  </span>
+              </span>
+            
+              </div>
+            </div>
+            <footer class="card-footer">
+             
+              <!-- <a class="card-footer-item" th:text="'일시: ' + ${items.meetDday} + ', 장소: ' + ${items.meetPlace.replaceAll('.*?([^ ]+구).*', '$1')}"></a> -->
+              <a class="card-footer-item" th:text="' 참여인원 : ' + ${items.meetMemCnt} + ' / ' + ${items.meetMaxMemCnt}"></a>
+          
+            </footer>
+            </footer>
+          </div>
+        </div>
+        </div>
+      </div>
+
+
+  <!-- challenge 버튼  -->
+  <div id="challenge-content">
+    <div class="columns" >
+      <div class="column is-3" >
+        
+        <!-- 리스트 1번째 줄 -->
+        <div class="card" th:each="items : ${gatchiList}" >
+          <div class="card-image" >
+            <figure class="image is-4by3">
+              <img th:src="@{|/image/gatchiImage/${items.meetImage}|}" alt="">
+            </figure>
+          </div>
+          <div class="card-content">
+            <div class="content">
+              <span th:switch="${items.meetCtgNum}">
+                <span th:case="1" class="category-button">
+                  <button class="ctgButton" disabled="disabled">문화</button>
+                  <p class="card__title" th:text="${items.meetTitle}">글제목</p>
+                </span>
+                <span th:case="2" class="category-button">
+                  <button class="ctgButton" disabled="disabled">맛집</button>
+                  <p class="card__title" th:text="${items.meetTitle}">글제목</p>    
+                </span>
+                <span th:case="3" class="category-button">
+                  <button class="ctgButton" disabled="disabled">취미</button>
+                  <p class="card__title" th:text="${items.meetTitle}">글제목</p>    
+                </span>
+                <span th:case="4" class="category-button">
+                  <button class="ctgButton" disabled="disabled">여행</button>
+                  <p class="card__title" th:text="${items.meetTitle}">글제목</p>    
+                </span>
+                <span th:case="5" class="category-button">
+                  <button class="ctgButton" disabled="disabled">운동</button>
+                  <p class="card__title" th:text="${items.meetTitle}">글제목</p>    
+                </span>
+            </span>
+          
+            </div>
+          </div>
+          <footer class="card-footer">
            
+            <a class="card-footer-item" th:text="'일시: ' + ${items.meetDday} + ', 장소: ' + ${items.meetPlace.replaceAll('.*?([^ ]+구).*', '$1')}"></a>
+            <!-- <a class="card-footer-item" th:text="' 참여인원 : ' + ${items.meetMemCnt} + ' / ' + ${items.meetMaxMemCnt}"></a> -->
+        
+          </footer>
+          </footer>
+        </div>
+      </div>
+      </div>
+    </div>
+
+
+    <!-- mylikes 버튼  -->
+  <div id="mylikes-content">
+    <div class="columns" >
+      <div class="column is-3" >
+        
+        <!-- 리스트 1번째 줄 -->
+        <div class="card" th:each="items : ${gatchiList}" >
+          <div class="card-image" >
+            <figure class="image is-4by3">
+              <img th:src="@{|/image/gatchiImage/${items.meetImage}|}" alt="">
+            </figure>
+          </div>
+          <div class="card-content">
+            <div class="content">
+              <span th:switch="${items.meetCtgNum}">
+                <span th:case="1" class="category-button">
+                  <button class="ctgButton" disabled="disabled">문화</button>
+                  <p class="card__title" th:text="${items.meetTitle}">글제목</p>
+                </span>
+                <span th:case="2" class="category-button">
+                  <button class="ctgButton" disabled="disabled">맛집</button>
+                  <p class="card__title" th:text="${items.meetTitle}">글제목</p>    
+                </span>
+                <span th:case="3" class="category-button">
+                  <button class="ctgButton" disabled="disabled">취미</button>
+                  <p class="card__title" th:text="${items.meetTitle}">글제목</p>    
+                </span>
+                <span th:case="4" class="category-button">
+                  <button class="ctgButton" disabled="disabled">여행</button>
+                  <p class="card__title" th:text="${items.meetTitle}">글제목</p>    
+                </span>
+                <span th:case="5" class="category-button">
+                  <button class="ctgButton" disabled="disabled">운동</button>
+                  <p class="card__title" th:text="${items.meetTitle}">글제목</p>    
+                </span>
+            </span>
+          
             </div>
+          </div>
+          <footer class="card-footer">
+           
+            <a class="card-footer-item" th:text="'일시: ' + ${items.meetDday} + ', 장소: ' + ${items.meetPlace.replaceAll('.*?([^ ]+구).*', '$1')}"></a>
+            <a class="card-footer-item" th:text="' 참여인원 : ' + ${items.meetMemCnt} + ' / ' + ${items.meetMaxMemCnt}"></a>
+        
+          </footer>
+          </footer>
+        </div>
+      </div>
+      </div>
+    </div>
 
             <br/><br/><br/><br/>
         </div>
-
-
       </div>
    
-
-
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" src="http://localhost:8080/js/signup/mypage.js"></script>
   <script src="https://unpkg.com/vue/dist/vue.js"></script>
-    
+ 
   
   
   </body>

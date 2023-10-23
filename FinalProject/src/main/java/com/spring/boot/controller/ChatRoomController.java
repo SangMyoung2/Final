@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.convert.DbRefResolver;
+import org.springframework.data.mongodb.core.convert.DefaultDbRefResolver;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,10 +28,14 @@ import org.springframework.web.servlet.ModelAndView;
 import com.spring.boot.chat.ChatDAO;
 import com.spring.boot.collection.ChatRoomCollection;
 import com.spring.boot.dto.ChatRoom;
+import com.spring.boot.dto.GatchiDTO;
 import com.spring.boot.mapper.ChatRoomRepository;
 import com.spring.boot.model.Users;
 import com.spring.boot.service.ChatContentService;
 import com.spring.boot.service.ChatRoomService;
+import com.spring.boot.service.GatchiLikeService;
+import com.spring.boot.service.GatchiService;
+import com.spring.boot.util.ChatUtil;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,14 +44,17 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ChatRoomController {
 
-	@Autowired
-    private ChatDAO chatDAO;
-
     @Autowired
     private ChatRoomService chatRoomService;
     
     @Autowired
     private ChatContentService chatContentService;
+
+    @Autowired
+    private GatchiService gatchiService;
+
+    @Autowired
+    private ChatUtil chatUtil;
 
     @RequestMapping("/chatbutton.action")
     public ModelAndView chatButton(){
@@ -73,19 +82,19 @@ public class ChatRoomController {
         
         // 로그인 된 유저 방만 찾기
         // 세션에 로그인된 아이디 받아와서 찾아주고
-
+        
         HttpSession session = req.getSession();
         Users user = (Users) session.getAttribute("user1");
-        String userName = user.getName();
-        System.out.println("유저 이름 : " + userName);
+        String userId = user.getEmail();
+        System.out.println("유저 이름 : " + userId);
 
-        List<ChatRoomCollection> lists = chatRoomService.getFindNameInUsers(userName);
+        List<ChatRoomCollection> lists = chatRoomService.getFindNameInUsers(userId);
         // List<ChatRoomCollection> lists = chatRoomService.getFindAllChats();
         System.out.println("lists : " + lists);
 
         // session.setAttribute("userName", userName);
 
-        // mav.addObject("userName", userName);
+        mav.addObject("userId", userId);
         mav.addObject("list", lists);
 
         // if(chatDAO.findAllChatRoom() != null){
@@ -98,40 +107,54 @@ public class ChatRoomController {
 
     // 채팅방 생성
     @RequestMapping("/createroom.action")
-    public ModelAndView createRoom(@RequestParam("roomName") String roomName, @RequestParam("roomMaster") String roomMaster){
+    public ModelAndView createRoom(@RequestParam("roomName") String roomName, 
+    @RequestParam("roomType") String roomType,
+    @RequestParam("meetListNum") int meetListNum,
+    HttpServletRequest req) throws Exception{
 
         //chatDAO.createChatRoom(roomName, roomMaster);
 
         System.out.println("Chat Create Room 화면 입니다.");
 
+        HttpSession session = req.getSession();
+        Users user = (Users) session.getAttribute("user1");
+        String userName = user.getName();
+        String userId = user.getEmail();
         System.out.println("채팅방 이름 : " + roomName);
-        System.out.println("방장 이름 : " + roomMaster);
+        System.out.println("방장 이름 : " + userName);
 
         LocalDateTime currentDateTime = LocalDateTime.now();
     
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String formattedDateTime = currentDateTime.format(formatter);
 
-
         ChatRoomCollection chatRoomCollection = new ChatRoomCollection();
 
         chatRoomCollection.setRoomName(roomName);
         chatRoomCollection.setRoomId(UUID.randomUUID().toString());
-        chatRoomCollection.setRoomMaster(roomMaster);
+        chatRoomCollection.setRoomMaster(userId);
         chatRoomCollection.setCreateDate(formattedDateTime);
-        chatRoomCollection.setType("만남");
-        chatRoomCollection.setUserCount(0);
+        chatRoomCollection.setType(roomType);
+        chatRoomCollection.setUserCount(1);
 
-        chatRoomCollection.setLists(roomMaster);
+        chatRoomCollection.setLists(userId);
 
+        // map에는 '.' 이 저장 안되서 aaa@naver 까지 잘라서 저장
+        String _userId = chatUtil.emailSubString(userId);
+        System.out.println("자른 유저 아이디 : " + _userId);
+        chatRoomCollection.setEntryDate(_userId, formattedDateTime);
         chatRoomService.createChat(chatRoomCollection);
         System.out.println("DB저장 완료");
 
+        GatchiDTO dto = new GatchiDTO();
+        dto.setMeetListNum(meetListNum);
+        dto.setChatRoomNum(chatRoomCollection.getRoomId());
+        gatchiService.updateChatRoom(dto);
         //ChatRoom room = chatDAO.createChatRoom(roomName, roomMaster);
         
         ModelAndView mav = new ModelAndView();
         //mav.addObject("roomName", room);
-        mav.setViewName("redirect:/chatlist.action");
+        mav.setViewName("redirect:/meetMateList.action");
         return mav;
     }
 
@@ -144,7 +167,8 @@ public class ChatRoomController {
         HttpSession session = req.getSession();
         Users user = (Users) session.getAttribute("user1");
         String userName = user.getName();
-
+        String userId = user.getEmail();
+        
         System.out.println("세션에 올라간 아이디 : " + userName);
         System.out.println("Room Detail 화면 입니다.");
 
@@ -163,6 +187,7 @@ public class ChatRoomController {
 
         System.out.println("rooms : " + rooms);
         mav.addObject("userName", userName);
+        mav.addObject("userId", userId);
         mav.addObject("room", rooms);
 
         mav.setViewName("chat/chatroom");
@@ -171,9 +196,9 @@ public class ChatRoomController {
 
     @RequestMapping("/chat/checkNotReadMessage")
     public Map<String,Object> checkNotReadMessage(@RequestBody Map<String, String> requestMap){
-        String username = requestMap.get("username");
+        String username = requestMap.get("userId");
         // System.out.println("유저 네임 : " + username);
-
+        System.out.println("유저이름은 : " + username);
         // 유저가 참여한 채팅 다 가져와서
         List<ChatRoomCollection> chats = chatRoomService.getFindNameInUsers(username);
         // 
@@ -183,6 +208,7 @@ public class ChatRoomController {
         //     roomIds.add(c.getRoomId());
         // }   
         // System.out.println("룸아이디 : " + roomIds);
+
         Map<String, Integer> notReadCount = chatContentService.checkNotReadMessage(chats,username);
         Map<String, Object> data = new HashMap<>();
         data.put("notReadCount", notReadCount);
@@ -190,5 +216,5 @@ public class ChatRoomController {
         return data;
     }
 
-
+   
 }

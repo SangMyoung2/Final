@@ -28,6 +28,24 @@ public class GatchiServiceImpl implements GatchiService{
 	}
 
 	@Override
+	public List<Integer> getMeetListNumByUserEmail(String userEmail) throws Exception {
+		
+		return gatchiMapper.getMeetListNumByUserEmail(userEmail);
+	}
+
+	@Override
+	public List<GatchiDTO> getGatchiByMeetListNums(List<Integer> meetListNums) {
+        return gatchiMapper.getGatchiByMeetListNums(meetListNums);
+	}
+
+
+	@Override
+	public List<MeetInfoDTO> getMeetInfo() throws Exception {
+		
+		return gatchiMapper.getMeetInfo();
+	}
+
+	@Override
 	public int maxNum() throws Exception {
 		return gatchiMapper.maxNum();
 	}
@@ -118,6 +136,8 @@ public class GatchiServiceImpl implements GatchiService{
 		return gatchiMapper.sortByDdayMeet();
 	}
 
+	
+
 
 /*
 	@Override
@@ -167,6 +187,35 @@ public class GatchiServiceImpl implements GatchiService{
 		boardMapper.deleteData(num);
 	}
 */
+
+
+	
+@Override
+public void plusMeetCount(int meetListNum) throws Exception {
+	gatchiMapper.plusMeetCount(meetListNum);
+}
+
+@Override
+public void minusMeetCount(int meetListNum) throws Exception{
+	gatchiMapper.minusMeetCount(meetListNum);
+}
+
+@Override
+public List<GatchiDTO> getReadDataInUser(String useremail) throws Exception{
+	return gatchiMapper.getReadDataInUser(useremail);
+}
+
+@Override
+public List<GatchiDTO> getReadDataInListNum(int meetListNum) throws Exception{
+	return gatchiMapper.getReadDataInListNum(meetListNum);
+}
+
+@Override
+public void updateChatRoom(GatchiDTO dto) throws Exception{
+	gatchiMapper.updateChatRoom(dto);
+}
+
+
 }
 
 
