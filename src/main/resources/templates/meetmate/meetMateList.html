@@ -74,12 +74,13 @@
     <button type="button" id="createBtn" class="createBtn" 
       onclick="javascript:location.href='/gatchiChoice.action';"> 생성하기 </button>
 
-    <form action="" method="get" name="sortForm" class="sortBox">
-      <select name="sortOrder" id="sortOrder" class="selectFiled" onchange="changeSortOrder()" style="vertical-align: middle;">
-        <option>　--정렬--</option>
-        <option value="meetHitCount">　조회순</option>
-        <option value="meetLikeCount">　좋아요순</option>
-        <option value="meetDday">　일자순</option>
+    <form action="/meetMateList.action" method="post" name="sortForm" class="sortBox">
+      <select name="sortOrder" id="sortOrder" class="selectFiled" 
+        onchange="changeSortOrder();" style="vertical-align: middle;">
+        <option> --정렬-- </option>
+        <option value="meetHitCount"> 조회순</option>
+        <option value="meetLikeCount"> 좋아요순</option>
+        <option value="meetDday"> 만남일순</option>
       </select>
     </form>
 
@@ -110,9 +111,9 @@
 
   <div class="c2" style="margin-top: 100px;">
     <ul class="cards">
-      <li name="meetLists" class="meetList_hidden" th:each="items : ${searchMeetMateList}" 
+      <li name="meetLists" class="meetList_hidden" th:each="items : ${#lists.isEmpty(searchMeetMateList) ? sortLists : searchMeetMateList}" 
         th:style="${items.meetStatus == 2 ? 'border-radius: 40px;' : ''}" 
-        th:unless="${items.meetStatus == 3}">
+        th:unless="${items.meetStatus == 0}">
           <div class="card">
             <input type="checkbox" th:id="'heartBtn' + ${items.meetListNum}" class="heartBtn" name="likeBtn" th:value="${items.meetListNum}">
             <label th:for="'heartBtn' + ${items.meetListNum}" th:id="'likeBtnLabel' + ${items.meetListNum}" class="heart"></label>

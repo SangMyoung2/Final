@@ -123,17 +123,17 @@ public class GatchiServiceImpl implements GatchiService{
 	
 	@Override
 	public List<GatchiDTO> sortByLikeCountFind() throws Exception {
-		return gatchiMapper.sortByLikeCountMeet();
+		return gatchiMapper.sortByLikeCountFind();
 	}
 		
 	@Override
 	public List<GatchiDTO> sortByHitCountFind() throws Exception {
-		return gatchiMapper.sortByHitCountMeet();
+		return gatchiMapper.sortByHitCountFind();
 	}
 	
 	@Override
 	public List<GatchiDTO> sortByDdayFind() throws Exception {
-		return gatchiMapper.sortByDdayMeet();
+		return gatchiMapper.sortByDdayFind();
 	}
 
 	
@@ -189,31 +189,31 @@ public class GatchiServiceImpl implements GatchiService{
 */
 
 
-	
-@Override
-public void plusMeetCount(int meetListNum) throws Exception {
-	gatchiMapper.plusMeetCount(meetListNum);
-}
 
-@Override
-public void minusMeetCount(int meetListNum) throws Exception{
-	gatchiMapper.minusMeetCount(meetListNum);
-}
+	@Override
+	public void plusMeetCount(int meetListNum) throws Exception {
+		gatchiMapper.plusMeetCount(meetListNum);
+	}
 
-@Override
-public List<GatchiDTO> getReadDataInUser(String useremail) throws Exception{
-	return gatchiMapper.getReadDataInUser(useremail);
-}
+	@Override
+	public void minusMeetCount(int meetListNum) throws Exception{
+		gatchiMapper.minusMeetCount(meetListNum);
+	}
 
-@Override
-public List<GatchiDTO> getReadDataInListNum(int meetListNum) throws Exception{
-	return gatchiMapper.getReadDataInListNum(meetListNum);
-}
+	@Override
+	public List<GatchiDTO> getReadDataInUser(String useremail) throws Exception{
+		return gatchiMapper.getReadDataInUser(useremail);
+	}
 
-@Override
-public void updateChatRoom(GatchiDTO dto) throws Exception{
-	gatchiMapper.updateChatRoom(dto);
-}
+	@Override
+	public List<GatchiDTO> getReadDataInListNum(int meetListNum) throws Exception{
+		return gatchiMapper.getReadDataInListNum(meetListNum);
+	}
+
+	@Override
+	public void updateChatRoom(GatchiDTO dto) throws Exception{
+		gatchiMapper.updateChatRoom(dto);
+	}
 
 
 }
