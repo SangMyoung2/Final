@@ -48,14 +48,6 @@
         SELECT * FROM PAYMENTINFO WHERE email = #{email} ORDER BY paid_at DESC
     </select>
 
-    <!-- 특정 날짜 사이의 결제 내역을 가져오는 SQL -->
-    <select id="findByEmailBetweenDates" resultType="com.spring.boot.dto.PaymentInfoDTO" parameterType="map">
-        SELECT * FROM PAYMENTINFO 
-        WHERE email = #{email} 
-        AND paid_at BETWEEN #{startDate} AND #{endDate}
-        ORDER BY paid_at DESC
-    </select>
-
     <!-- 사용자 포인트 사용시 감소 -->
     <update id="updateUserUsePoint" parameterType="com.spring.boot.dto.userPointDTO">
         update userPoint set pointBalance = pointBalance - #{pointBalance}

@@ -13,7 +13,6 @@
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script type="text/javascript" src="https://service.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script type="text/javascript" src="http://localhost:8080/js/pay/paymentInfo.js"></script>
 
 </head>
 <body>
@@ -26,14 +25,6 @@
         <div th:if="${#lists.isEmpty(paymentInfo)}">
             <p style="text-align: center;">결제 내역이 없습니다.</p>
         </div>
-
-        <form id="dateRangeForm">
-            <label for="startDate">시작 날짜:</label>
-            <input type="date" id="startDate" name="startDate">
-            <label for="endDate">종료 날짜:</label>
-            <input type="date" id="endDate" name="endDate">
-            <button type="button" onclick="getPaymentInfo()">조회</button>
-        </form>
     
         <!-- paymentInfo 데이터를 반복하여 각 결제 내역을 div로 표시 -->
         <div th:each="payment : ${paymentInfo}" class="paymentinfocontainer" th:unless="${#lists.isEmpty(paymentInfo)}">

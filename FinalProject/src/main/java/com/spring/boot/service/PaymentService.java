@@ -20,10 +20,6 @@ public interface PaymentService {
     // 주어진 이메일의 사용자의 결제 내역을 조회합니다.
     public List<PaymentInfoDTO> findByEmail(String email) throws Exception;
 
-    // 시작날짜와 종료날짜를 받아서 사용자의 결제 내역을 조회합니다.
-    List<PaymentInfoDTO> findByEmailBetweenDates(String email, String startDate, String endDate) throws Exception;
-
-
     public void updateUserPoint(userPointDTO userPointDTO);
     public void updateUserUsePoint(userPointDTO userPointDTO);
     // 이후 필요한 추가적인 비즈니스 로직 메서드를 여기에 추가할 수 있습니다.
