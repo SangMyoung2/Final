@@ -17,15 +17,13 @@ public interface GatchiMapper {
 
 	public List<MeetInfoDTO> getMeetInfo()throws Exception;
 
-	public List<Integer> getMeetListNumByUserEmail(String userEmail)throws Exception;
+	//public List<Integer> getMeetListNumByUserEmail(String userEmail)throws Exception;
 
 	public List<GatchiDTO> getGatchiByMeetListNums(List<Integer> meetListNums);
 
 	public int maxNum() throws Exception;
 
-	//상우가 준 부분
-	public int getMeetListNumByGatchi() throws Exception;
-	public int getMeetListNumByMeetInfo() throws Exception;
+	public String getProfileByUsers(int meetListNum) throws Exception;//방장 프로필부분
 
 	public List<GatchiDTO> getMeetMateLists() throws Exception;
 
@@ -40,8 +38,6 @@ public interface GatchiMapper {
     public List<GatchiDTO> searchCommuniFindList(@Param("searchKey")String searchKey, @Param("searchValue")String searchValue);
 
 	public List<GatchiDTO> getRownumList(int end) throws Exception;
-
-    
 	
 	public List<GatchiDTO> sortByLikeCountMeet() throws Exception;
 

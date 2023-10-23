@@ -22,44 +22,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     insert into meetInfo(meetListNum,email,meetMemStatus) values (#{meetListNum},#{email},1)
 </insert>
 
-<!-- <select id="getMypageInfo" parameterType="int" resultType="com.spring.boot.dto.GatchiDTO">
-SELECT g.meetImage,g.meettitle,g.meetCtgNum,g.meetDday,g.meetPlace,g.meetMemCnt,g.meetMaxMemCnt
-FROM gatchi g
-JOIN meetInfo mi ON g.meetListNum = mi.meetListNum
-WHERE mi.meetListNum = #{meetListNum}
-</select> -->
-
 <select id="getMeetInfo" parameterType="com.spring.boot.dto.MeetInfoDTO">
     select * from meetInfo where meetMemStatus = 1 or meetMemStatus = 2
-</select>
-
-<select id="getMeetListNumByUserEmail" parameterType="String" resultType="int">
-    SELECT meetListNum
-    FROM meetInfo
-    WHERE email = #{userEmail}
-</select>
-
-<select id="getGatchiByMeetListNums" parameterType="java.util.List" resultType="com.spring.boot.dto.GatchiDTO">
-    SELECT *
-    FROM gatchi
-    WHERE meetListNum IN
-    <foreach item="item" collection="list" open="(" separator="," close=")">
-        #{item}
-    </foreach>
-    ORDER BY meetListNum DESC
 </select>
 
 <select id="maxNum" resultType="int">
 	select nvl(max(meetListNum),0) from gatchi
 </select>
 
-<select id="masterPicture" resultType="String">
-	select picture from users where email = #{email}
+<select id="getProfileByUsers" parameterType="int" resultType="String">
+	SELECT users.picture FROM users
+	JOIN meetInfo ON users.email = meetInfo.email
+	WHERE meetInfo.meetListNum = ${meetListNum};
 </select>
 
 
-<!-- 방장프로필사진진 -->
-<select id="getMeetListNumByUserEmail" parameterType="String" resultType="int">
+<!-- 방장프로필사진 불러오기 -->
+<select id="getMeetListNumByUserEmail" parameterType="int" resultType="String">
 	SELECT users.picture FROM users
 	JOIN meetInfo ON users.email = meetInfo.email
 	WHERE meetInfo.meetListNum = ${meetListNum};

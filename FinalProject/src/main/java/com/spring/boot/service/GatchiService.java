@@ -15,15 +15,14 @@ public interface GatchiService {
 
 	public List<MeetInfoDTO> getMeetInfo() throws Exception;
 
-	public List<Integer> getMeetListNumByUserEmail(String userEmail)throws Exception;
+	// public List<Integer> getMeetListNumByUserEmail(String userEmail)throws Exception;
 
 	public List<GatchiDTO> getGatchiByMeetListNums(List<Integer> meetListNums);
 
 	public int maxNum() throws Exception;
 
-	//상우가 준 부분
-	public int getMeetListNumByGatchi() throws Exception;
-	public int getMeetListNumByMeetInfo() throws Exception;
+	//방장프로필
+	public String getProfileByUsers(int meetListNum) throws Exception;
 	
 	public List<GatchiDTO> getMeetMateLists() throws Exception;
 	
@@ -80,8 +79,12 @@ public interface GatchiService {
 	
 
 	public void plusMeetCount(int meetListNum) throws Exception;
+
 	public void minusMeetCount(int meetListNum) throws Exception;
+
 	public List<GatchiDTO> getReadDataInUser(String useremail) throws Exception;
+
 	public List<GatchiDTO> getReadDataInListNum(int meetListNum) throws Exception;
+	
 	public void updateChatRoom(GatchiDTO dto) throws Exception;
 }

@@ -269,9 +269,15 @@ public class MeetmateController {
 		@RequestParam(name = "searchKey", required = false, defaultValue = "meetTitle") String searchKey,
 		@RequestParam(name = "searchValue", required = false) String searchValue, 
 		@RequestParam(name = "sortOrder", required = false) String sortOrder,
+		MeetInfoDTO meetInfoDTO,
 		HttpServletRequest request) throws Exception {
 		
 		ModelAndView mav = new ModelAndView();
+		
+		//방장 프로필 사진 불러오기
+		int meetListNum = meetInfoDTO.getMeetListNum();
+		String masterProfile = gatchiService.getProfileByUsers(meetListNum);
+
 		
 		//HttpSession session = request.getSession();**************프로필사진
 		//String picture = (String) session.getAttribute("picture");******************
@@ -332,6 +338,7 @@ public class MeetmateController {
 		mav.addObject("searchCommuniFindList", searchCommuniFindList);		
 		mav.addObject("communiFindSlideLists", communiFindSlideLists);		
 		mav.addObject("communiLists", communiFindLists);
+		mav.addObject("masterProfile", masterProfile);
 		mav.setViewName("meetmate/communiFindList");
 		
 		return mav;		
