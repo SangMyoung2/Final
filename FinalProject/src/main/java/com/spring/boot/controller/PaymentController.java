@@ -38,23 +38,34 @@ public class PaymentController {
 		return mav;
 	}
 
-    @GetMapping("/paymentInfo.action") // 결제 내역 페이지
-    public ModelAndView paymentInfo(HttpServletRequest req){
+    @GetMapping("/paymentInfo.action")
+    public ModelAndView paymentInfo(
+        @RequestParam(required = false) String startDate,
+        @RequestParam(required = false) String endDate,
+        HttpServletRequest req) {
+        
         ModelAndView mav = new ModelAndView();
-
+    
         // 세션에서 email 값을 가져온다.
         HttpSession session = req.getSession();
-        Users user1 = (Users)session.getAttribute("user1"); // 일반 로그인
-        SessionUser sessionUser = (SessionUser)session.getAttribute("user"); // 소셜 로그인
-
+        Users user1 = (Users) session.getAttribute("user1"); // 일반 로그인
+        SessionUser sessionUser = (SessionUser) session.getAttribute("user"); // 소셜 로그인
+    
         if (sessionUser != null) {
             email = sessionUser.getEmail();
         } else if (user1 != null) {
             email = user1.getEmail();
         }
-
+    
         try {
-            List<PaymentInfoDTO> paymentInfo = paymentService.findByEmail(email);
+            List<PaymentInfoDTO> paymentInfo;
+            
+            if (startDate != null && endDate != null) {
+                paymentInfo = paymentService.findByEmailBetweenDates(email, startDate, endDate);
+            } else {
+                paymentInfo = paymentService.findByEmail(email);
+            }
+            
             mav.addObject("paymentInfo", paymentInfo);
             mav.setViewName("pay/paymentInfo");
         } catch (Exception e) {

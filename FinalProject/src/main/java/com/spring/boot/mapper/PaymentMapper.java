@@ -19,5 +19,8 @@ public interface PaymentMapper {
     public int getUserPoint(String email) throws Exception; // 사용자의 포인트 잔액 조회
 
     public List<PaymentInfoDTO> findByEmail(String email) throws Exception; // 사용자의 결제내역 조회
+
+    // 특정 날짜 사이의 결제내역 조회
+    public List<PaymentInfoDTO> findByEmailBetweenDates(String email, String startDate, String endDate) throws Exception; 
     
 }

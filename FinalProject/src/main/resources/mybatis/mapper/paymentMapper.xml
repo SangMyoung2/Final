@@ -38,7 +38,15 @@
 
     <!-- 해당 email의 결제 내역을 가져오는 SQL -->
     <select id="findByEmail" resultType="com.spring.boot.dto.PaymentInfoDTO" parameterType="String">
-        SELECT * FROM PAYMENTINFO WHERE email = #{email}
+        SELECT * FROM PAYMENTINFO WHERE email = #{email} ORDER BY paid_at DESC
+    </select>
+
+    <!-- 특정 날짜 사이의 결제 내역을 가져오는 SQL -->
+    <select id="findByEmailBetweenDates" resultType="com.spring.boot.dto.PaymentInfoDTO" parameterType="map">
+        SELECT * FROM PAYMENTINFO 
+        WHERE email = #{email} 
+        AND paid_at BETWEEN #{startDate} AND #{endDate}
+        ORDER BY paid_at DESC
     </select>
 
 

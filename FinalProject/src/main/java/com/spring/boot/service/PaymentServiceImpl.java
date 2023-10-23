@@ -34,5 +34,11 @@ public class PaymentServiceImpl implements PaymentService{
         return paymentMapper.findByEmail(email);
     }
 
+	@Override
+	public List<PaymentInfoDTO> findByEmailBetweenDates(String email, String startDate, String endDate) throws Exception {
+    return paymentMapper.findByEmailBetweenDates(email, startDate, endDate);
+}
+
+
 	// 이후 필요한 추가적인 비즈니스 로직 메서드의 구현을 여기에 추가할 수 있습니다.
 }
