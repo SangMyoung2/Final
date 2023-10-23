@@ -114,9 +114,8 @@
         th:style="${items.meetStatus == 2 ? 'border-radius: 40px;' : ''}" 
         th:unless="${items.meetStatus == 0}">
           <div class="card">
-            <div id="heart" class="heart" name="likeBtn">
-              <input type="hidden" th:value="${items.meetListNum}">
-            </div>
+            <input type="checkbox" th:id="'heartBtn' + ${items.meetListNum}" class="heartBtn" name="likeBtn" th:value="${items.meetListNum}">
+            <label th:for="'heartBtn' + ${items.meetListNum}" th:id="'likeBtnLabel' + ${items.meetListNum}" class="heart"></label>
             <a th:href="@{'/meetArticle.action?meetListNum=' + ${items.meetListNum}}">
               <img th:src="@{|/image/gatchiImage/${items.meetImage}|}" class="card__image" alt=""/>
             </a>

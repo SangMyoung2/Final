@@ -198,15 +198,13 @@ function chkRoomUserCnt(roomId){
 
 
 setInterval(checkNotReadMessage, 700);
-let username;
+let userId;
 function checkNotReadMessage(){
 
-    username = document.getElementById("userName").value;
-
+    userId = document.getElementById("userId").value;
+    console.log("유저 이름 : " + userId);
     
-
-    console.log("유저 이름 : " + username);
-    let user = {'username': username};
+    let user = {'userId': userId};
 
     let requestOption = {
         method:'POST',

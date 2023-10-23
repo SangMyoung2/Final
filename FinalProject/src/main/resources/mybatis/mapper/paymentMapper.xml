@@ -9,6 +9,13 @@
         VALUES (#{email}, #{paid_amount}, #{paid_at}, #{pay_method,jdbcType=VARCHAR}, #{card_name,jdbcType=VARCHAR}, #{card_number,jdbcType=VARCHAR}, #{apply_num,jdbcType=VARCHAR}, #{name}, #{status})
     </insert>
 
+    <!-- 결제 성공 후 결제 금액에 맞게 User의 Point가 증가 -->
+    <update id="updateUserPoint" parameterType="com.spring.boot.dto.userPointDTO">
+        UPDATE userPoint
+        SET pointBalance = pointBalance + #{pointBalance}
+        WHERE email = #{email}
+    </update>
+    
     <update id="updateOrInsertUserPointWithMap" parameterType="java.util.Map">
     <!-- 해당 이메일 레코드가 존재하는지 확인 -->
     <selectKey resultType="int" keyProperty="count" order="BEFORE">
@@ -41,7 +48,11 @@
         SELECT * FROM PAYMENTINFO WHERE email = #{email}
     </select>
 
-
+    <!-- 사용자 포인트 사용시 감소 -->
+    <update id="updateUserUsePoint" parameterType="com.spring.boot.dto.userPointDTO">
+        update userPoint set pointBalance = pointBalance - #{pointBalance}
+        where email = #{email}
+    </update>
     <!-- 추가적인 결제 관련 SQL 문장을 작성할 수 있습니다. -->
 
 </mapper>

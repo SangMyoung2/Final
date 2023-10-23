@@ -69,47 +69,47 @@
         document.querySelector('.meet-mypage').style.display = 'none';
     }
 
-    document.addEventListener('DOMContentLoaded', function() {
+    // document.addEventListener('DOMContentLoaded', function() {
 
-        var joinButton = document.querySelector('.join-button');
+    //     var joinButton = document.querySelector('.join-button');
         
-            joinButton.addEventListener('click', function() {
-            alert('가입 신청이 완료되었습니다.');
-            });
-    });
+    //         joinButton.addEventListener('click', function() {
+    //         alert('가입 신청이 완료되었습니다.');
+    //         });
+    // });
 
-    document.addEventListener('DOMContentLoaded', function() {
+    // document.addEventListener('DOMContentLoaded', function() {
 
-        var outButton = document.querySelector('.out-button');
+    //     var outButton = document.querySelector('.out-button');
         
-        outButton.addEventListener('click', function() {
-            alert('모임을 나가시겠습니까?');
-            });
-    });
+    //     outButton.addEventListener('click', function() {
+    //         alert('모임을 나가시겠습니까?');
+    //         });
+    // });
 
-    document.addEventListener('DOMContentLoaded', function() {
+    // document.addEventListener('DOMContentLoaded', function() {
 
-        var deleteButton = document.querySelector('.delete-button');
+    //     var deleteButton = document.querySelector('.delete-button');
         
-        deleteButton.addEventListener('click', function() {
-            alert('모임을 삭제하시겠습니까?');
-            });
-    });
+    //     deleteButton.addEventListener('click', function() {
+    //         alert('모임을 삭제하시겠습니까?');
+    //         });
+    // });
 
     document.addEventListener('DOMContentLoaded', function() {
 
         var reviewForm = document.querySelector('.review-form');
         var reviewWriteButton = document.querySelector('.review-write');
-
-        reviewWriteButton.addEventListener('click', function() {
-            if (reviewForm.style.display === 'block') {
-                reviewForm.style.display = 'none';
-            } else {
-                reviewForm.style.display = 'block';
-            }
-            
-        });
-
+        if(reviewWriteButton != null){
+            reviewWriteButton.addEventListener('click', function() {
+                if (reviewForm.style.display === 'block') {
+                    reviewForm.style.display = 'none';
+                } else {
+                    reviewForm.style.display = 'block';
+                }
+                
+            });
+        }
         document.querySelector('#submit-review').addEventListener('click', function(e) {
         e.preventDefault(); // 기본 이벤트 동작 방지 (페이지 새로고침 방지)
 
@@ -249,6 +249,156 @@ function deleteReview(email, meetListNum, meetReviewNum) {
             percentElement.text(percentage + "%");
         });
     });
+
+    
+function joinMeet(){
+
+let title = document.getElementById('meetTitle').textContent;
+let money = document.getElementById('meetMoney').textContent;
+
+let checkJoin = confirm(title + ' 모임의 가입비는 ' + money + '입니다.' + '\n' + title + ' 모임에 가입하시겠습니까?');
+
+let meetListNum = document.getElementById('meetListNum').value;
+if(checkJoin){
+    $.ajax({
+            type: "POST",
+            url: "/checkuserpoint",
+            data: {
+                meetListNum: meetListNum
+            },
+            success: function (response) {
+                alert(response);
+                if(response){
+                    location.href = '/join-meet?meetListNum='+meetListNum;
+                }else{
+                    alert('포인트가 부족합니다.');
+                }
+            },
+            error: function () {
+                alert('다시 시도 해주세요..');
+            }
+        });
+}
+}
+
+function joinCancel(){
+let meetListNum = document.getElementById('meetListNum').value;
+let title = document.getElementById('meetTitle').textContent;
+
+let joincancel = confirm(title + ' 모임의 가입을 취소하시겠습니까?');
+if(joincancel){
+    $.ajax({
+            type: "POST",
+            url: "/joincancel",
+            data: {
+                meetListNum: meetListNum
+            },
+            success: function (response) {
+                if(response){
+                    location.href = '/meetArticle.action?meetListNum='+meetListNum;
+                }else{
+                    alert('이미 가입되셨습니다...');
+                }
+            },
+            error: function () {
+                alert('다시 시도 해주세요..');
+            }
+        });
+}
+}
+
+function deleteMeet() {
+let meetListNum = document.getElementById('meetListNum').value;
+let title = document.getElementById('meetTitle').textContent;
+
+let joincancel = confirm(title + ' 모임을 삭제하시겠습니까?');
+if(joincancel){
+    $.ajax({
+            type: "POST",
+            url: "/meettimecheck",
+            data: {
+                meetListNum: meetListNum
+            },
+            success: function (response) {
+                if(response == 1){
+                    alert('취소 되었습니다.');
+                    location.href = '/delete-meet?meetListNum='+meetListNum;
+                }else if(response === 2){
+                    alert('모임 시간이 지났습니다.');
+                }
+                else{
+                    alert('다시 시도해 주세요..');
+                }
+            },
+            error: function () {
+                alert('다시 시도 해주세요..');
+            }
+        });
+}
+}
+
+function outmeet(){
+let meetListNum = document.getElementById('meetListNum').value;
+let title = document.getElementById('meetTitle').textContent;
+
+let joincancel = confirm(title + ' 모임을 탈퇴 하시겠습니까?');
+if(joincancel){
+    $.ajax({
+            type: "POST",
+            url: "/meettimecheck",
+            data: {
+                meetListNum: meetListNum
+            },
+            success: function (response) {
+                if(response == 1){
+                    alert('탈퇴 되었습니다.');
+                    location.href = '/out-meet?meetListNum='+meetListNum;
+                }else if(response === 2){
+                    alert('모임 시간이 지났습니다.');
+                }
+                else{
+                    alert('다시 시도해 주세요..');
+                }
+            },
+            error: function () {
+                alert('다시 시도 해주세요..');
+            }
+        });
+}
+}
+
+function testMeet() {
+let meetListNum = document.getElementById('meetListNum').value;
+let reqMoney = confirm(title + ' 모임 정산을 멤버들에게 요청할까요?');
+
+if(reqMoney){
+    $.ajax({
+            type: "POST",
+            url: "/meetMoneyReq",
+            data: {
+                meetListNum: meetListNum
+            },
+            success: function (response) {
+                if(response == 1){
+                    alert('멤버들에게 정산요청을 하였습니다.');
+                    location.href = '/articleYj.action?meetListNum='+meetListNum;
+                }else if(response === 2){
+                    alert('....');
+                }
+                else{
+                    alert('다시 시도해 주세요..');
+                }
+            },
+            error: function () {
+                alert('알수없는 에러 입니다.. 고객센터에게 문의해주세요');
+            }
+        });
+
+}
+}
+
+
+
 </script>
 
 </head>
@@ -347,7 +497,7 @@ function deleteReview(email, meetListNum, meetReviewNum) {
                             <img th:src="@{/image/gatchiImage/1111.jpg}" alt="방장프사(임의)"/>
                         </div>
                         <div class="Yj-master" th:each="meetMaster : ${meetMaster}" th:text="${meetMaster.name}"></div>
-                        <p class="Yj-title" th:text="${meetListInfo.meetTitle}"></p>
+                        <p class="Yj-title" id="meetTitle" th:text="${meetListInfo.meetTitle}"></p>
                         <div class="centered-content">
                             <div class="like-hitCount">
                                 <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Beating%20Heart.png" alt="Beating Heart" style="width: 30px; height: 30px;"/>
@@ -382,14 +532,20 @@ function deleteReview(email, meetListNum, meetReviewNum) {
                         <div class="yj-money">가입비 (회비)</div>
                         <div class="text-container" th:if="${meetListInfo.meetEntryfee == 1}">
                             <p class="Yj-text4 meet-money" th:text="${meetListInfo.meetMoney}"></p>원
+                            <input id="meetMoney" type="hidden" th:value="${meetListInfo.meetMoney}"/>
                         </div>
                         <div class="text-container" th:if="${meetListInfo.meetEntryfee == 2}">
                             <p class="Yj-text4 meet-money">무료</p>
                         </div>
                         
                         <form th:if="${meetMemStatus < 0} and ${meetStatus == 1} and ${meetListInfo.meetMemCnt<meetListInfo.meetMaxMemCnt}">
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button form="joinForm" type="submit" class="join-button">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button form="joinForm" type="button" class="join-button" onclick="joinMeet()">
                                가입하기
+                            </button>
+                        </form>
+                        <form th:with="meetMemStatus=${meetMemStatus}" th:if="${meetMemStatus == 0}">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="join-button" onclick="joinCancel()">
+                               가입취소
                             </button>
                         </form>
 
@@ -400,26 +556,26 @@ function deleteReview(email, meetListNum, meetReviewNum) {
                         <th:block th:if="${meetStatus == 2}">
                             <p style="font-size: 18px; color: red;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;이미 종료된 모임입니다.</p>
                         </th:block>
-                        <form id="joinForm" action="/join-meet" method="post">
-                            <input type="hidden" name="meetListNum" th:value="${meetListNum}"/>
+                        <form id="joinForm" method="post">
+                            <input type="hidden" name="meetListNum" id="meetListNum" th:value="${meetListNum}"/>
                         </form>
 
                         <form th:if="${meetMemStatus == 2} and ${meetStatus == 1}">
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button form="outForm" type="submit" class="out-button">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button form="outForm" type="button" class="out-button" onclick="outmeet()">
                                 모임 나가기
                             </button>
                         </form>
-                        <form id="outForm" action="/out-meet" method="post">
+                        <form id="outForm" method="post">
                             <input type="hidden" name="meetListNum" th:value="${meetListNum}"/>
                             <input type="hidden" name="email" th:value="${dto.email}"/>
                         </form>
                         
                         <form th:with="meetMemStatus=${meetMemStatus}" th:if="${meetMemStatus == 1} and ${meetStatus == 1}">
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button form="deleteForm" type="submit" class="delete-button">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button form="deleteForm" type="button" class="delete-button" onclick="deleteMeet()">
                                 모임 삭제
                             </button>
                         </form>
-                        <form id="deleteForm" action="/delete-meet" method="post">
+                        <form id="deleteForm" method="post">
                             <input type="hidden" name="meetListNum" th:value="${meetListNum}"/>
                         </form>
                         <th:block th:if="${meetStatus == 1 and meetMemStatus == 0}">

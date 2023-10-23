@@ -173,6 +173,35 @@ public class GatchiServiceImpl implements GatchiService{
 		boardMapper.deleteData(num);
 	}
 */
+
+
+	
+@Override
+public void plusMeetCount(int meetListNum) throws Exception {
+	gatchiMapper.plusMeetCount(meetListNum);
+}
+
+@Override
+public void minusMeetCount(int meetListNum) throws Exception{
+	gatchiMapper.minusMeetCount(meetListNum);
+}
+
+@Override
+public List<GatchiDTO> getReadDataInUser(String useremail) throws Exception{
+	return gatchiMapper.getReadDataInUser(useremail);
+}
+
+@Override
+public List<GatchiDTO> getReadDataInListNum(int meetListNum) throws Exception{
+	return gatchiMapper.getReadDataInListNum(meetListNum);
+}
+
+@Override
+public void updateChatRoom(GatchiDTO dto) throws Exception{
+	gatchiMapper.updateChatRoom(dto);
+}
+
+
 }
 
 

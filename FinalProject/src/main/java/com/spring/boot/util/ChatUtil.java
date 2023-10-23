@@ -35,5 +35,8 @@ public class ChatUtil {
         return LocalDateTime.parse(day, formatter);
     }
 
-
+    public String emailSubString(String useremail){
+        int dot = useremail.lastIndexOf('.');
+        return useremail.substring(0, dot);
+    }
 }

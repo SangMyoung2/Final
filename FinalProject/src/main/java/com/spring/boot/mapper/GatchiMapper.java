@@ -67,5 +67,15 @@ public interface GatchiMapper {
 	// public void updateData(MeetmateDTO dto) throws Exception;
 	
 	// public void deleteData(int num) throws Exception;
+
+
+	public void plusMeetCount(int meetListNum) throws Exception;
     
+	public void minusMeetCount(int meetListNum) throws Exception;
+
+	public List<GatchiDTO> getReadDataInUser(String useremail) throws Exception;
+
+	public List<GatchiDTO> getReadDataInListNum(int meetListNum) throws Exception;
+	
+	public void updateChatRoom(GatchiDTO dto) throws Exception;
 }

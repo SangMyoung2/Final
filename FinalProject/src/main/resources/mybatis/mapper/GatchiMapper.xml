@@ -60,7 +60,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	resultType="com.spring.boot.dto.GatchiDTO">
 <![CDATA[
 	SELECT * FROM (
-    	SELECT * FROM gatchi WHERE meetCheck = 1 ORDER BY DBMS_RANDOM.VALUE
+    	SELECT * FROM gatchi WHERE meetCheck = 1 AND meetStatus = 1 ORDER BY DBMS_RANDOM.VALUE
 	) WHERE ROWNUM <= ${count}
 ]]>
 </select>
@@ -69,7 +69,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	resultType="com.spring.boot.dto.GatchiDTO">
 <![CDATA[
 	SELECT * FROM (
-    	SELECT * FROM gatchi WHERE meetCheck = 2 ORDER BY DBMS_RANDOM.VALUE
+    	SELECT * FROM gatchi WHERE meetCheck = 2 AND meetStatus = 1 ORDER BY DBMS_RANDOM.VALUE
 	) WHERE ROWNUM <= ${count}
 ]]>
 </select>
@@ -83,7 +83,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	where rnum >= 1 and rnum <= ${end}
 ]]>
 </select>
-
 
 <select id="searchMeetMateList" parameterType="map" resultType="com.spring.boot.dto.GatchiDTO">
     SELECT * FROM gatchi
@@ -114,7 +113,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	UPDATE GATCHI
 	SET meetStatus = 2
 	WHERE TO_DATE(meetDday, 'YYYY-MM-DD HH24:MI:SS') < SYSDATE and meetCheck = 1
-]]>	
+]]>   
 </update>
 
 <update id="updateMeetStatusFind" parameterType="com.spring.boot.dto.GatchiDTO">
@@ -183,7 +182,6 @@ map이나 hashMap이나 모두 사용가능
 	delete board where num=#{num}
 </delete>
 
-
 -->
 
 <select id="sortByHitCountMeet" parameterType="map" resultType="com.spring.boot.dto.GatchiDTO">
@@ -221,6 +219,33 @@ map이나 hashMap이나 모두 사용가능
 	WHERE meetCheck = 2 AND meetStatus != 2
 	ORDER BY TO_DATE(meetDday, 'YYYY-MM-DD HH24:MI') - TO_DATE(SYSDATE, 'YYYY-MM-DD HH24:MI') ASC
 </select>
+
+<update id="plusMeetCount" parameterType="int">
+	update gatchi set meetlikecount = meetlikecount + 1
+	where meetListNum = #{meetListNum}
+</update>
+
+<update id="minusMeetCount" parameterType="int">
+	update gatchi set meetlikecount = meetlikecount - 1
+	where meetListNum = #{meetListNum} and
+	<![CDATA[
+	(select MEETLIKECOUNT from gatchi where meetListNum = #{meetListNum}) > 0
+	]]>
+</update>
+
+<select id="getReadDataInUser" parameterType="String" resultType="com.spring.boot.dto.GatchiDTO">
+	select * from gatchi
+	where MEETLISTNUM = (select MEETLISTNUM from gatchiLike where useremail = #{useremail})
+</select>
+
+<select id="getReadDataInListNum" parameterType="int" resultType="com.spring.boot.dto.GatchiDTO">
+	select * from GATCHI
+	where meetListNum = #{meetListNum}
+</select>
+
+<update id="updateChatRoom" parameterType="com.spring.boot.dto.GatchiDTO">
+	update gatchi set chatRoomNum = #{chatRoomNum} where meetListNum = #{meetListNum}
+</update>
 
 
 </mapper>
