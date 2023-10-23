@@ -17,7 +17,11 @@ public interface GatchiMapper {
 
 	public List<MeetInfoDTO> getMeetInfo()throws Exception;
 
+<<<<<<< HEAD
 	//public List<Integer> getMeetListNumByUserEmail(String userEmail)throws Exception;
+=======
+	public List<Integer> getMeetListNumByUserEmail(String email)throws Exception;
+>>>>>>> origin/develop
 
 	public List<GatchiDTO> getGatchiByMeetListNums(List<Integer> meetListNums);
 
