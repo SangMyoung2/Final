@@ -9,12 +9,15 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -26,8 +29,10 @@ import org.springframework.web.servlet.ModelAndView;
 import com.spring.boot.dao.UserRepository;
 import com.spring.boot.dto.GatchiDTO;
 import com.spring.boot.dto.MeetInfoDTO;
+import com.spring.boot.dto.SessionUser;
 import com.spring.boot.model.Users;
 import com.spring.boot.service.GatchiService;
+import com.spring.boot.service.PaymentService;
 import com.spring.boot.service.UserService;
 import lombok.RequiredArgsConstructor;
 
@@ -44,6 +49,9 @@ public class BaseAuthController {
 	@Autowired
 	private GatchiService gatchiService;
 
+	@Autowired
+	private PaymentService paymentService;
+
 	@GetMapping("/")
 	public ModelAndView main() throws Exception {
 
@@ -52,6 +60,8 @@ public class BaseAuthController {
 	List<GatchiDTO> meetMateLists = new ArrayList<>();
 
 	meetMateLists = gatchiService.getMeetMateLists();
+
+	
 
 	mav.addObject("meetLists", meetMateLists);	
 
@@ -195,20 +205,56 @@ public class BaseAuthController {
 	}
 
 	@GetMapping("/mypage.action")
-	public ModelAndView mypage() throws Exception {
+	public ModelAndView mypage(HttpServletRequest req) throws Exception {
 		ModelAndView mav = new ModelAndView();
 
-		List<MeetInfoDTO> meetInfoList = new ArrayList<>();
+		HttpSession session = req.getSession();
+		Users user1 = (Users) session.getAttribute("user1"); // 일반 로그인
+		SessionUser sessionUser = (SessionUser)session.getAttribute("user"); // 소셜 로그인
 
-		meetInfoList = gatchiService.getMeetInfo(null);
-
-		mav.addObject("meetinfolist", meetInfoList);	
 		
-		mav.setViewName("login/mypage");
-			
-	return mav;
-	}
+		String email = null;
 
+		if (sessionUser != null) {
+            email = sessionUser.getEmail();
+        } else if (user1 != null) {
+            email = user1.getEmail();
+        }
+		
+		if (email != null) {
+			try {
+				// 포인트 잔액 조회
+				int pointBalance = paymentService.getUserPoint(email);
+				mav.addObject("pointBalance", pointBalance);
+				
+				mav.setViewName("login/mypage");
+
+			} catch (Exception e) {
+				mav.setViewName("login/errorPage"); // 적절한 에러 페이지로 변경해야 합니다.
+			}
+			
+		} 
+
+    List<Integer> userMeetList = gatchiService.getMeetListNumByUserEmail(email);
+
+   
+    if (userMeetList == null || userMeetList.isEmpty()) {
+		
+        mav.setViewName("login/mypage");
+        return mav;
+    }
+
+    if(userMeetList != null){
+    List<GatchiDTO> gatchiList = gatchiService.getGatchiByMeetListNums(userMeetList);
+    List<MeetInfoDTO> meetInfoList = gatchiService.getMeetInfo();
+
+    mav.addObject("meetinfolist", meetInfoList);
+    mav.addObject("gatchiList", gatchiList);
+	}
+	mav.setViewName("login/mypage");
+    return mav;
+}
+	
 
 	@GetMapping("/userupdate.action")
 	public ModelAndView userupdate() {

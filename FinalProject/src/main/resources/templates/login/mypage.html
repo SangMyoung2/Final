@@ -3,6 +3,9 @@
     <head>
         <meta charset="UTF-8">
         <title>My Page</title>
+
+
+               
       
         <link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/structure/reset.css}"/>
      
@@ -99,9 +102,8 @@
                     <br/>
                     <div class="level-item">
                         <div>
-                        <p style="border: 1px;" >
-                            포인트
-                           </p>
+                          <p style="border: 1px;" th:if="${pointBalance != null}" th:text="${pointBalance} + 포인트">
+                          </p>
                         </div>
                     </div>
                   </div>
@@ -119,16 +121,16 @@
           </div>
           <div style="display: flex; flex-direction: column;" class="column is-2 followers has-text-centered">
             <p style="color: #00d1b2; font-size: 30px;">MeetMate</p><br/>
-            <p class="stat-val">2</p>
+            <p class="stat-val" th:if="${gatchiList != null}" th:text="${#lists.size(gatchiList)}"></p>
             
           </div>
           <div style="display: flex; flex-direction: column; width: 210px;" class="column is-2 following has-text-centered">
             <p style="color: #00d1b2; font-size: 30px; ">CommuniFind</p><br/>
-            <p class="stat-val">5</p>
+            <p class="stat-val" th:if="${gatchiList != null}" th:text="${#lists.size(gatchiList)}"></p>
           </div>
           <div style="display: flex; flex-direction: column;" class="column is-2 likes has-text-centered">
             <p style="color: #00d1b2; font-size: 30px;">Challenge</p><br/>
-            <p class="stat-val">3</p>
+            <p class="stat-val" th:if="${gatchiList != null}" th:text="${#lists.size(gatchiList)}"></p>
           </div>
         </div>
       </div>
@@ -136,11 +138,12 @@
         <div class="tabs is-fullwidth">
           <ul>
            
-            <li class="link"><a href="#" id="meetmate-link"><span class="icon"><i class="fa fa-list"></i></span> <span>MeetMate</span></a></li>
-            <li class="link"><a href="#" id="communifind-link"><span class="icon"><i class="fa fa-th"></i></span> <span></span>CommuniFind</a></li>
-            <li class="link"><a href="#" id="challenge-link"><span class="icon"><i class="fa fa-th"></i></span> <span></span>Challenge</a></li>
-            <li class="link"><a href="#" id="mylikes-link"><span class="icon"><i class="fa fa-heart"></i></span> <span>My Likes</span></a></li>
-            <li class="link"><a href="#" id="mychat-link"><span class="icon"><i class="fa fa-bookmark"></i></span> <span>My Chat</span></a></li>
+            
+            <li class="link"><a href="#"  id="meetmate-link"><span class="icon"><i class="fa fa-list"></i></span> <span>MeetMate</span></a></li>
+            <li class="link"><a href="#"  id="communifind-link"><span class="icon"><i class="fa fa-th"></i></span> <span></span>CommuniFind</a></li>
+            <li class="link"><a href="#"  id="challenge-link"><span class="icon"><i class="fa fa-th"></i></span> <span></span>Challenge</a></li>
+            <li class="link"><a href="#"  id="mylikes-link"><span class="icon"><i class="fa fa-heart"></i></span> <span>My Likes</span></a></li>
+            <li class="link"><a href="#" ><span class="icon"><i class="fa fa-bookmark"></i></span> <span>My Chat</span></a></li>
           </ul>
         </div>
       </div>
@@ -148,50 +151,222 @@
    <br/> <br/> <br/>
   
 
-        <!-- 소셜버튼  -->
-    
-      <div class="columns">
-        <div class="column is-3">
+        <!-- meetmate 버튼  -->
+    <div id="meetmate-content">
+      <div class="columns" >
+        <div class="column is-3" >
           
           <!-- 리스트 1번째 줄 -->
-          <div class="card" th:each="items : ${meetinfolist}">
-            <div class="card-image">
+          <div class="card" th:if="${gatchiList != null}" th:each="items : ${gatchiList}" >
+            <div class="card-image" >
               <figure class="image is-4by3">
-                <!-- <img th:src="@{|/image/gatchiImage/${items.meetImage}|}" alt=""> -->
+                <img th:src="@{|/image/gatchiImage/${items.meetImage}|}" alt="">
               </figure>
             </div>
             <div class="card-content">
               <div class="content">
-                <span class="tag is-dark">#webdev</span>
-                <strong class="timestamp">2 d</strong>
+                <span th:switch="${items.meetCtgNum}">
+                  <span th:case="1" class="category-button">
+                    <button class="ctgButton" disabled="disabled">문화</button>
+                    <p class="card__title" th:text="${items.meetTitle}">글제목</p>
+                  </span>
+                  <span th:case="2" class="category-button">
+                    <button class="ctgButton" disabled="disabled">맛집</button>
+                    <p class="card__title" th:text="${items.meetTitle}">글제목</p>    
+                  </span>
+                  <span th:case="3" class="category-button">
+                    <button class="ctgButton" disabled="disabled">취미</button>
+                    <p class="card__title" th:text="${items.meetTitle}">글제목</p>    
+                  </span>
+                  <span th:case="4" class="category-button">
+                    <button class="ctgButton" disabled="disabled">여행</button>
+                    <p class="card__title" th:text="${items.meetTitle}">글제목</p>    
+                  </span>
+                  <span th:case="5" class="category-button">
+                    <button class="ctgButton" disabled="disabled">운동</button>
+                    <p class="card__title" th:text="${items.meetTitle}">글제목</p>    
+                  </span>
+              </span>
+            
               </div>
             </div>
             <footer class="card-footer">
-              <a class="card-footer-item">제목</a>
-              <a class="card-footer-item">Edit</a>
-              <a class="card-footer-item">Delete</a>
-              <a class="card-footer-item">Delete</a>
+             
+              <a class="card-footer-item" th:text="'일시: ' + ${items.meetDday} + ', 장소: ' + ${items.meetPlace.replaceAll('.*?([^ ]+구).*', '$1')}"></a>
+              <a class="card-footer-item" th:text="' 참여인원 : ' + ${items.meetMemCnt} + ' / ' + ${items.meetMaxMemCnt}"></a>
+          
             </footer>
             </footer>
           </div>
           
         </div>
         </div>
-  
+      </div>
+
+
+        <!-- communifind 버튼  -->
+    <div id="communifind-content">
+      <div class="columns" >
+        <div class="column is-3" >
           
+          <!-- 리스트 1번째 줄 -->
+          <div class="card" th:if="${gatchiList != null}" th:each="items : ${gatchiList}" >
+            <div class="card-image" >
+              <figure class="image is-4by3">
+                <img th:src="@{|/image/gatchiImage/${items.meetImage}|}" alt="">
+              </figure>
+            </div>
+            <div class="card-content">
+              <div class="content">
+                <span th:switch="${items.meetCtgNum}">
+                  <span th:case="1" class="category-button">
+                    <button class="ctgButton" disabled="disabled">문화</button>
+                    <p class="card__title" th:text="${items.meetTitle}">글제목</p>
+                  </span>
+                  <span th:case="2" class="category-button">
+                    <button class="ctgButton" disabled="disabled">맛집</button>
+                    <p class="card__title" th:text="${items.meetTitle}">글제목</p>    
+                  </span>
+                  <span th:case="3" class="category-button">
+                    <button class="ctgButton" disabled="disabled">취미</button>
+                    <p class="card__title" th:text="${items.meetTitle}">글제목</p>    
+                  </span>
+                  <span th:case="4" class="category-button">
+                    <button class="ctgButton" disabled="disabled">여행</button>
+                    <p class="card__title" th:text="${items.meetTitle}">글제목</p>    
+                  </span>
+                  <span th:case="5" class="category-button">
+                    <button class="ctgButton" disabled="disabled">운동</button>
+                    <p class="card__title" th:text="${items.meetTitle}">글제목</p>    
+                  </span>
+              </span>
+            
+              </div>
+            </div>
+            <footer class="card-footer">
+             
+              <!-- <a class="card-footer-item" th:text="'일시: ' + ${items.meetDday} + ', 장소: ' + ${items.meetPlace.replaceAll('.*?([^ ]+구).*', '$1')}"></a> -->
+              <a class="card-footer-item" th:text="' 참여인원 : ' + ${items.meetMemCnt} + ' / ' + ${items.meetMaxMemCnt}"></a>
+          
+            </footer>
+            </footer>
+          </div>
+        </div>
+        </div>
+      </div>
+
+
+  <!-- challenge 버튼  -->
+  <div id="challenge-content">
+    <div class="columns" >
+      <div class="column is-3" >
+        
+        <!-- 리스트 1번째 줄 -->
+        <div class="card" th:if="${gatchiList != null}" th:each="items : ${gatchiList}" >
+          <div class="card-image" >
+            <figure class="image is-4by3">
+              <img th:src="@{|/image/gatchiImage/${items.meetImage}|}" alt="">
+            </figure>
+          </div>
+          <div class="card-content">
+            <div class="content">
+              <span th:switch="${items.meetCtgNum}">
+                <span th:case="1" class="category-button">
+                  <button class="ctgButton" disabled="disabled">문화</button>
+                  <p class="card__title" th:text="${items.meetTitle}">글제목</p>
+                </span>
+                <span th:case="2" class="category-button">
+                  <button class="ctgButton" disabled="disabled">맛집</button>
+                  <p class="card__title" th:text="${items.meetTitle}">글제목</p>    
+                </span>
+                <span th:case="3" class="category-button">
+                  <button class="ctgButton" disabled="disabled">취미</button>
+                  <p class="card__title" th:text="${items.meetTitle}">글제목</p>    
+                </span>
+                <span th:case="4" class="category-button">
+                  <button class="ctgButton" disabled="disabled">여행</button>
+                  <p class="card__title" th:text="${items.meetTitle}">글제목</p>    
+                </span>
+                <span th:case="5" class="category-button">
+                  <button class="ctgButton" disabled="disabled">운동</button>
+                  <p class="card__title" th:text="${items.meetTitle}">글제목</p>    
+                </span>
+            </span>
+          
+            </div>
+          </div>
+          <footer class="card-footer">
+           
+            <a class="card-footer-item" th:text="'일시: ' + ${items.meetDday} + ', 장소: ' + ${items.meetPlace.replaceAll('.*?([^ ]+구).*', '$1')}"></a>
+            <!-- <a class="card-footer-item" th:text="' 참여인원 : ' + ${items.meetMemCnt} + ' / ' + ${items.meetMaxMemCnt}"></a> -->
+        
+          </footer>
+          </footer>
+        </div>
+      </div>
+      </div>
+    </div>
+
+
+    <!-- mylikes 버튼  -->
+  <div id="mylikes-content">
+    <div class="columns" >
+      <div class="column is-3" >
+        
+        <!-- 리스트 1번째 줄 -->
+        <div class="card" th:if="${gatchiList != null}" th:each="items : ${gatchiList}" >
+          <div class="card-image" >
+            <figure class="image is-4by3">
+              <img th:src="@{|/image/gatchiImage/${items.meetImage}|}" alt="">
+            </figure>
+          </div>
+          <div class="card-content">
+            <div class="content">
+              <span th:switch="${items.meetCtgNum}">
+                <span th:case="1" class="category-button">
+                  <button class="ctgButton" disabled="disabled">문화</button>
+                  <p class="card__title" th:text="${items.meetTitle}">글제목</p>
+                </span>
+                <span th:case="2" class="category-button">
+                  <button class="ctgButton" disabled="disabled">맛집</button>
+                  <p class="card__title" th:text="${items.meetTitle}">글제목</p>    
+                </span>
+                <span th:case="3" class="category-button">
+                  <button class="ctgButton" disabled="disabled">취미</button>
+                  <p class="card__title" th:text="${items.meetTitle}">글제목</p>    
+                </span>
+                <span th:case="4" class="category-button">
+                  <button class="ctgButton" disabled="disabled">여행</button>
+                  <p class="card__title" th:text="${items.meetTitle}">글제목</p>    
+                </span>
+                <span th:case="5" class="category-button">
+                  <button class="ctgButton" disabled="disabled">운동</button>
+                  <p class="card__title" th:text="${items.meetTitle}">글제목</p>    
+                </span>
+            </span>
+          
+            </div>
+          </div>
+          <footer class="card-footer">
+           
+            <a class="card-footer-item" th:text="'일시: ' + ${items.meetDday} + ', 장소: ' + ${items.meetPlace.replaceAll('.*?([^ ]+구).*', '$1')}"></a>
+            <a class="card-footer-item" th:text="' 참여인원 : ' + ${items.meetMemCnt} + ' / ' + ${items.meetMaxMemCnt}"></a>
+        
+          </footer>
+          </footer>
+        </div>
+      </div>
+      </div>
+    </div>
 
             <br/><br/><br/><br/>
         </div>
-
-
       </div>
    
-
-
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" src="http://localhost:8080/js/signup/mypage.js"></script>
   <script src="https://unpkg.com/vue/dist/vue.js"></script>
-    
+ 
   
   
   </body>

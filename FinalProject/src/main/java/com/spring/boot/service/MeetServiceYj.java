@@ -67,4 +67,5 @@ public interface MeetServiceYj {
 
     public void updateReject(MeetInfoDTO dto) throws Exception;
 
+    public List<MeetInfoDTO> getMeetInfo(int meetListNum) throws Exception;
 }
