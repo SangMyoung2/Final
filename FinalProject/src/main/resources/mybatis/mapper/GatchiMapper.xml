@@ -34,13 +34,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     WHERE email = #{email}
 </select>
 
-<select id="getGatchiByMeetListNums" parameterType="java.util.List" resultType="com.spring.boot.dto.GatchiDTO">
+<select id="getGatchiByMeetMateListNums" parameterType="java.util.List" resultType="com.spring.boot.dto.GatchiDTO">
     SELECT *
     FROM gatchi
     WHERE meetListNum IN
     <foreach item="item" collection="list" open="(" separator="," close=")">
         #{item}
     </foreach>
+	AND MEETCHECK = 1
     ORDER BY meetListNum DESC
 </select>
 

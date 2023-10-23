@@ -34,8 +34,8 @@ public class GatchiServiceImpl implements GatchiService{
 	}
 
 	@Override
-	public List<GatchiDTO> getGatchiByMeetListNums(List<Integer> meetListNums) {
-        return gatchiMapper.getGatchiByMeetListNums(meetListNums);
+	public List<GatchiDTO> getGatchiByMeetMateListNums(List<Integer> meetListNums) {
+        return gatchiMapper.getGatchiByMeetMateListNums(meetListNums);
 	}
 
 
