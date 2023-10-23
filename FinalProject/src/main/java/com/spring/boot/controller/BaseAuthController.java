@@ -205,17 +205,22 @@ public class BaseAuthController {
 		
 		String userEmail = userDetails.getUsername();
 		
-		List<Integer> userMeetList = gatchiService.getMeetListNumByUserEmail(userEmail);
-		
-		List<MeetInfoDTO> meetInfoList = new ArrayList<>();
 
+		
+		List<Integer> userMeetList = gatchiService.getMeetListNumByUserEmail(userEmail);
+
+		
 		List<GatchiDTO> gatchiList = gatchiService.getGatchiByMeetListNums(userMeetList);
 		
+		List<MeetInfoDTO> meetInfoList = new ArrayList<>();
 		meetInfoList = gatchiService.getMeetInfo();
 			
 		mav.addObject("meetinfolist", meetInfoList);	
 		mav.addObject("gatchiList", gatchiList);
+
+		
 		mav.setViewName("login/mypage");
+		
 			
 	return mav;
 	}
