@@ -23,8 +23,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </insert>
 
 
+
 <select id="getMeetInfo" parameterType="com.spring.boot.dto.MeetInfoDTO">
     select * from meetInfo where meetMemStatus = 1 or meetMemStatus = 2
+</select>
+
+<select id="getMeetListNumByUserEmail" parameterType="String" resultType="int">
+    SELECT meetListNum
+    FROM meetInfo
+    WHERE email = #{email}
+</select>
+
+<select id="getGatchiByMeetMateListNums" parameterType="java.util.List" resultType="com.spring.boot.dto.GatchiDTO">
+    SELECT *
+    FROM gatchi
+    WHERE meetListNum IN
+    <foreach item="item" collection="list" open="(" separator="," close=")">
+        #{item}
+    </foreach>
+	AND MEETCHECK = 1
+    ORDER BY meetListNum DESC
 </select>
 
 <select id="maxNum" resultType="int">
@@ -169,14 +187,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	values (#{meetListNum}, #{likecount}=#{likecount}+1, #{userEmail})
 </insert>
 -->
-
+<update id="updateHitCount" parameterType="int">
+   update gatchi set meetHitCount = meetHitCount + 1 where meetListNum = #{meetListNum}
+</update>
 <!--
 public void createMeetmate(MeetmateDTO dto) throws Exception;
 
-
-<update id="updateHitCount" parameterType="int">
-	update board set hitCount=hitCount+1 where num=#{num}
-</update>
 
 <insert id="insertData" parameterType="com.spring.boot.dto.BoardDTO">
 	insert into board(num,name,pwd,email,subject,content,ipAddr,

@@ -1,54 +1,28 @@
-// 버튼을 클릭할 때 Ajax 요청을 보내는 함수
-function sendRequest(endpoint) {
-    $.ajax({
-        url: endpoint,
-        method: 'GET',
-        dataType: 'json',
-        data:{
-            
-        },
-        success: function(data) {
-            updateUI(data);
-        },
-        error: function(error) {
-            console.error('Error:', error);
-        }
-    });
-}
+$(document).ready(function(){
+     
+    $(".card").hide();
 
-
-function updateUI(data) {
    
-}
+    $("#meetmate-link").click(function(){
+        $("#meetmate-content .card").show();
+        $("#communifind-content .card, #challenge-content .card, #mylikes-content .card").hide();
+    });
 
+   
+    $("#communifind-link").click(function(){
+        $("#communifind-content .card").show();
+        $("#meetmate-content .card, #challenge-content .card, #mylikes-content .card").hide();
+    });
 
-$('#meetmate-link').on('click', function(event) {
-    event.preventDefault();
-    sendRequest('/meetmate');
+   
+    $("#challenge-link").click(function(){
+        $("#challenge-content .card").show();
+        $("#meetmate-content .card, #communifind-content .card, #mylikes-content .card").hide();
+    });
+
+  
+    $("#mylikes-link").click(function(){
+        $("#mylikes-content .card").show();
+        $("#meetmate-content .card, #communifind-content .card, #challenge-content .card").hide();
+    });
 });
-
-
-$('#communifind-link').on('click', function(event) {
-    event.preventDefault();
-    sendRequest('/communifind');
-});
-
-
-$('#challenge-link').on('click', function(event) {
-    event.preventDefault();
-    sendRequest('/challenge');
-});
-
-
-$('#mylikes-link').on('click', function(event) {
-    event.preventDefault();
-    sendRequest('/mylikes');
-});
-
-
-$('#mychat-link').on('click', function(event) {
-    event.preventDefault();
-    sendRequest('/mychat');
-});
-
-

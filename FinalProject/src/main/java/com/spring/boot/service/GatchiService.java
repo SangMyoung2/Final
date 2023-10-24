@@ -13,7 +13,11 @@ public interface GatchiService {
 
 	public void createMeetInfo(MeetInfoDTO infoDTO) throws Exception;
 
-	public List<MeetInfoDTO> getMeetInfo(MeetInfoDTO infoDTO) throws Exception;
+	public List<MeetInfoDTO> getMeetInfo() throws Exception;
+
+	public List<Integer> getMeetListNumByUserEmail(String email)throws Exception;
+
+	public List<GatchiDTO> getGatchiByMeetMateListNums(List<Integer> meetListNums);
 
 	public int maxNum() throws Exception;
 
@@ -68,7 +72,7 @@ public interface GatchiService {
 	
 	// public BoardDTO getReadData(int num) throws Exception;
 	
-	// public void updateHitCount(int num) throws Exception;
+	public void updateHitCount(int meetListNum) throws Exception;
 	
 	// public void updateData(BoardDTO dto) throws Exception;
 	
