@@ -40,7 +40,8 @@ public class GatchiServiceImpl implements GatchiService{
 
 
 	@Override
-	public List<MeetInfoDTO> getMeetInfo() throws Exception {		
+	public List<MeetInfoDTO> getMeetInfo() throws Exception {
+		
 		return gatchiMapper.getMeetInfo();
 	}
 
@@ -136,9 +137,9 @@ public class GatchiServiceImpl implements GatchiService{
 	}
 
 	@Override
-	public void updateHitCount(int meetListNum) throws Exception {
-		gatchiMapper.updateHitCount(meetListNum);
-	}
+   public void updateHitCount(int meetListNum) throws Exception {
+      gatchiMapper.updateHitCount(meetListNum);
+   }
 
 
 /*
@@ -150,8 +151,10 @@ public class GatchiServiceImpl implements GatchiService{
 	
 
 	@Override
-	public void insertData(BoardDTO dto) throws Exception {		
-		boardMapper.insertData(dto);		
+	public void insertData(BoardDTO dto) throws Exception {
+		
+		boardMapper.insertData(dto);
+		
 	}
 
 	@Override
@@ -182,36 +185,31 @@ public class GatchiServiceImpl implements GatchiService{
 */
 
 
-		
-	@Override
-	public void plusMeetCount(int meetListNum) throws Exception {
-		gatchiMapper.plusMeetCount(meetListNum);
-	}
+	
+@Override
+public void plusMeetCount(int meetListNum) throws Exception {
+	gatchiMapper.plusMeetCount(meetListNum);
+}
 
-	@Override
-	public void minusMeetCount(int meetListNum) throws Exception{
-		gatchiMapper.minusMeetCount(meetListNum);
-	}
+@Override
+public void minusMeetCount(int meetListNum) throws Exception{
+	gatchiMapper.minusMeetCount(meetListNum);
+}
 
-	@Override
-	public List<GatchiDTO> getReadDataInUser(String useremail) throws Exception{
-		return gatchiMapper.getReadDataInUser(useremail);
-	}
+@Override
+public List<GatchiDTO> getReadDataInUser(String useremail) throws Exception{
+	return gatchiMapper.getReadDataInUser(useremail);
+}
 
-	@Override
-	public List<GatchiDTO> getReadDataInListNum(int meetListNum) throws Exception{
-		return gatchiMapper.getReadDataInListNum(meetListNum);
-	}
+@Override
+public List<GatchiDTO> getReadDataInListNum(int meetListNum) throws Exception{
+	return gatchiMapper.getReadDataInListNum(meetListNum);
+}
 
-	@Override
-	public void updateChatRoom(GatchiDTO dto) throws Exception{
-		gatchiMapper.updateChatRoom(dto);
-	}
-
-	@Override
-	public void updateHitCount(int meetListNum) throws Exception {
-		gatchiMapper.updateHitCount(meetListNum);
-	}
+@Override
+public void updateChatRoom(GatchiDTO dto) throws Exception{
+	gatchiMapper.updateChatRoom(dto);
+}
 
 
 }

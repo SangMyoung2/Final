@@ -6,7 +6,7 @@ import lombok.Setter;
 @Setter
 public class GatchiDTO {
     private int meetListNum; //index
-    private int meetCheck; //1 meetMate 2 communiFind
+    private int meetCheck; //1소셜링 2클럽
     private int meetCtgNum; //1문화예술 2맛집 3취미 4여행 5운동
     private String meetName; //모임명
     private String meetTitle; //게시글제목

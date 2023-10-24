@@ -1,0 +1,7 @@
+
+<!-- ${#fields.hasAnyErrors()}필드에 모든 에러가 발생하면 에러메세지를 띄운다.
+					에러를 찾기위해 반복문으로 돌려서 모든 값을 확인해본다.
+					 -->
+                     <div th:fragment="formErrorsFragment" class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
+                        <div th:each="err : ${#fields.allErrors()}" th:text="${err}"></div>
+                    </div>

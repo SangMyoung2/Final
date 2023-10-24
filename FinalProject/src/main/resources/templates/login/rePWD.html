@@ -1,0 +1,92 @@
+<html layout:decorate="~{layout}">
+    <head>
+<meta charset="UTF-8">
+
+<title>가치</title>
+
+
+
+<link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/index.css}"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+<link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/login/signup.css}"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="js/util.js"></script>
+<script type="text/javascript" src="http://localhost:8080/js/signup/rePWD.js"></script>
+
+
+</head>
+<body>
+<div class="container">
+<div layout:fragment="content" >
+  <br/><br/><br/><br/><br/>
+  
+  <div class="container">
+    <div class="row">
+        <form action="" name="myForm" method="post">
+         
+            <h3>비밀번호 변경</h3>
+
+            <div th:if="${email != null}">
+              <p style="color: blue; font-size: 18px;" th:text="${email} + ' 님 안녕하세요! 새로운 비밀번호를 설정해 주세요!'"></p>
+          </div>
+
+            <div class="row">
+              <div class="input-field col s12">
+                <input id="password" name="password" type="password" class="validate" minlength="6" required>
+                <label style="font-size: 23px;" for="password">비밀번호(6자리 이상)</label>
+                <div id="ErrorMessage" style="display: none;">
+                  <p style='color: red; font-size: 18px;'>비밀번호를 6자리 이상 입력 하세요</p>
+               </div>
+              </div>
+            </div>
+            
+            <div class="row">
+              <div class="input-field col s12">
+                <input id="password2" name="password2" type="password" class="validate" minlength="6" required>
+                <label style="font-size: 23px;" for="password2">비밀번호 확인</label>
+                <div id="pwdErrorMessage" style="display: none;">
+                  <p style='color: red; font-size: 18px;'>비밀번호 확인 칸을 입력 하세요</p>
+               </div>
+               <div id="pwdErrorMessage2" style="display: none;">
+                <p style='color: red; font-size: 18px;'>비밀번호와 비밀번호 확인이 일치하지 않습니다.</p>
+             </div>
+              </div>
+            </div>
+
+            <input type="hidden" name="email" th:value="${email}">
+        </div>
+
+
+        
+      <div th:if="${error != null}">
+          <p style='color: red; font-size: 18px;' th:text="${error}"></p>
+      </div>
+      
+      </form>
+
+      
+
+            <div class="row">
+      <div class="input-field col s6">
+        <button class="btn btn-large btn-register waves-effect waves-light" type="button" onclick="ok();">비밀번호 수정</button>
+      </div>
+      <div class="input-field col s6">
+
+        <button class="btn btn-large btn-register waves-effect waves-light" type="button" onclick="window.location.href='/login.action'">로그인</button>
+        
+      </div>
+    </div>
+     
+            </div>
+           
+          </div>
+      
+         
+         
+</div>
+
+<br/><br/><br/><br/><br/><br/><br/>
+
+</body>
+</html>

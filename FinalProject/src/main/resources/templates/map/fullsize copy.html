@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>전체 화면 지도와 미니 맵 표시하기</title>
+    <script th:src="@{http://localhost:8080/js/map/jquery-1.9.1.js}"></script>
+    <script type="text/javascript" th:src="@{http://localhost:8080/js/map/examples-base.js}"></script>
+    <script type="text/javascript" th:src="@{http://localhost:8080/js/map/highlight.min.js}"></script>
+    <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=83bfuniegk"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/map/examples-base.css}" />
+
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+    <!-- 위도 경도 좌표가져오는 모듈 -->
+    <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=YOUR_CLIENT_ID&submodules=geocoder"></script>
+
+    <!-- @category Map -->
+
+    <style type="text/css">
+        html, body { height:100%; }
+    </style>
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css">
+
+<style>
+
+.layout {
+  min-height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  position: relative;
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1; }
+  .layout.has-sidebar {
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row; }
+  .layout .header {
+    -webkit-transition: width, 0.3s;
+    transition: width, 0.3s;
+    height: 64px;
+    min-height: 64px;
+    position: relative; }
+  .layout .sidebar {
+    width: 400px;
+    min-width: 400px;
+    -webkit-transition: width, left, right, 0.3s;
+    transition: width, left, right, 0.3s; }
+    .layout .sidebar.collapsed {
+      width: 80px;
+      min-width: 80px; }
+    @media (max-width: 480px) {
+      .layout .sidebar.break-point-xs {
+        position: fixed;
+        left: -280px;
+        height: 100%;
+        top: 0;
+        z-index: 100; }
+        .layout .sidebar.break-point-xs.collapsed {
+          left: -80px; }
+        .layout .sidebar.break-point-xs.toggled {
+          left: 0; }
+          .layout .sidebar.break-point-xs.toggled ~ .overlay {
+            display: block; }
+        .layout .sidebar.break-point-xs ~ .layout .header {
+          width: 100% !important;
+          -webkit-transition: none;
+          transition: none; } }
+    @media (max-width: 576px) {
+      .layout .sidebar.break-point-sm {
+        position: fixed;
+        left: -280px;
+        height: 100%;
+        top: 0;
+        z-index: 100; }
+        .layout .sidebar.break-point-sm.collapsed {
+          left: -80px; }
+        .layout .sidebar.break-point-sm.toggled {
+          left: 0; }
+          .layout .sidebar.break-point-sm.toggled ~ .overlay {
+            display: block; }
+        .layout .sidebar.break-point-sm ~ .layout .header {
+          width: 100% !important;
+          -webkit-transition: none;
+          transition: none; } }
+    @media (max-width: 768px) {
+      .layout .sidebar.break-point-md {
+        position: fixed;
+        left: -280px;
+        height: 100%;
+        top: 0;
+        z-index: 100; }
+        .layout .sidebar.break-point-md.collapsed {
+          left: -80px; }
+        .layout .sidebar.break-point-md.toggled {
+          left: 0; }
+          .layout .sidebar.break-point-md.toggled ~ .overlay {
+            display: block; }
+        .layout .sidebar.break-point-md ~ .layout .header {
+          width: 100% !important;
+          -webkit-transition: none;
+          transition: none; } }
+    @media (max-width: 992px) {
+      .layout .sidebar.break-point-lg {
+        position: fixed;
+        left: -280px;
+        height: 100%;
+        top: 0;
+        z-index: 100; }
+        .layout .sidebar.break-point-lg.collapsed {
+          left: -80px; }
+        .layout .sidebar.break-point-lg.toggled {
+          left: 0; }
+          .layout .sidebar.break-point-lg.toggled ~ .overlay {
+            display: block; }
+        .layout .sidebar.break-point-lg ~ .layout .header {
+          width: 100% !important;
+          -webkit-transition: none;
+          transition: none; } }
+    @media (max-width: 1200px) {
+      .layout .sidebar.break-point-xl {
+        position: fixed;
+        left: -280px;
+        height: 100%;
+        top: 0;
+        z-index: 100; }
+        .layout .sidebar.break-point-xl.collapsed {
+          left: -80px; }
+        .layout .sidebar.break-point-xl.toggled {
+          left: 0; }
+          .layout .sidebar.break-point-xl.toggled ~ .overlay {
+            display: block; }
+        .layout .sidebar.break-point-xl ~ .layout .header {
+          width: 100% !important;
+          -webkit-transition: none;
+          transition: none; } }
+    @media (max-width: 1600px) {
+      .layout .sidebar.break-point-xxl {
+        position: fixed;
+        left: -280px;
+        height: 100%;
+        top: 0;
+        z-index: 100; }
+        .layout .sidebar.break-point-xxl.collapsed {
+          left: -80px; }
+        .layout .sidebar.break-point-xxl.toggled {
+          left: 0; }
+          .layout .sidebar.break-point-xxl.toggled ~ .overlay {
+            display: block; }
+        .layout .sidebar.break-point-xxl ~ .layout .header {
+          width: 100% !important;
+          -webkit-transition: none;
+          transition: none; } }
+  .layout .footer {
+    height: 64px;
+    min-height: 64px; }
+  .layout .content {
+    -webkit-box-flex: 1;
+        -ms-flex-positive: 1;
+            flex-grow: 1; }
+  .layout .overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: 99;
+    display: none; }
+  .layout .sidebar-toggler {
+    display: none; }
+    @media (max-width: 480px) {
+      .layout .sidebar-toggler.break-point-xs {
+        display: initial; } }
+    @media (max-width: 576px) {
+      .layout .sidebar-toggler.break-point-sm {
+        display: initial; } }
+    @media (max-width: 768px) {
+      .layout .sidebar-toggler.break-point-md {
+        display: initial; } }
+    @media (max-width: 992px) {
+      .layout .sidebar-toggler.break-point-lg {
+        display: initial; } }
+    @media (max-width: 1200px) {
+      .layout .sidebar-toggler.break-point-xl {
+        display: initial; } }
+    @media (max-width: 1600px) {
+      .layout .sidebar-toggler.break-point-xxl {
+        display: initial; } }
+  .layout.fixed-sidebar {
+    height: 100%; }
+    .layout.fixed-sidebar .sidebar {
+      height: 100%;
+      overflow: auto; }
+      .layout.fixed-sidebar .sidebar ~ .layout {
+        height: 100%;
+        overflow: auto; }
+  .layout.fixed-header .header {
+    position: fixed;
+    width: 100%;
+    z-index: 2; }
+    .layout.fixed-header .header ~ .layout,
+    .layout.fixed-header .header ~ .content {
+      margin-top: 64px; }
+  .layout.fixed-header.fixed-sidebar .header {
+    width: calc(100% - 280px); }
+  .layout.fixed-header.fixed-sidebar .sidebar.collapsed ~ .layout .header {
+    width: calc(100% - 80px); }
+  .layout.rtl {
+    direction: rtl; }
+    @media (max-width: 480px) {
+      .layout.rtl .sidebar.break-point-xs {
+        left: auto;
+        right: -280px; }
+        .layout.rtl .sidebar.break-point-xs.collapsed {
+          left: auto;
+          right: -80px; }
+        .layout.rtl .sidebar.break-point-xs.toggled {
+          left: auto;
+          right: 0; } }
+    @media (max-width: 576px) {
+      .layout.rtl .sidebar.break-point-sm {
+        left: auto;
+        right: -280px; }
+        .layout.rtl .sidebar.break-point-sm.collapsed {
+          left: auto;
+          right: -80px; }
+        .layout.rtl .sidebar.break-point-sm.toggled {
+          left: auto;
+          right: 0; } }
+    @media (max-width: 768px) {
+      .layout.rtl .sidebar.break-point-md {
+        left: auto;
+        right: -280px; }
+        .layout.rtl .sidebar.break-point-md.collapsed {
+          left: auto;
+          right: -80px; }
+        .layout.rtl .sidebar.break-point-md.toggled {
+          left: auto;
+          right: 0; } }
+    @media (max-width: 992px) {
+      .layout.rtl .sidebar.break-point-lg {
+        left: auto;
+        right: -280px; }
+        .layout.rtl .sidebar.break-point-lg.collapsed {
+          left: auto;
+          right: -80px; }
+        .layout.rtl .sidebar.break-point-lg.toggled {
+          left: auto;
+          right: 0; } }
+    @media (max-width: 1200px) {
+      .layout.rtl .sidebar.break-point-xl {
+        left: auto;
+        right: -280px; }
+        .layout.rtl .sidebar.break-point-xl.collapsed {
+          left: auto;
+          right: -80px; }
+        .layout.rtl .sidebar.break-point-xl.toggled {
+          left: auto;
+          right: 0; } }
+    @media (max-width: 1600px) {
+      .layout.rtl .sidebar.break-point-xxl {
+        left: auto;
+        right: -280px; }
+        .layout.rtl .sidebar.break-point-xxl.collapsed {
+          left: auto;
+          right: -80px; }
+        .layout.rtl .sidebar.break-point-xxl.toggled {
+          left: auto;
+          right: 0; } }
+
+</style>
+
+<style>
+  .layout {
+    z-index: 1;
+    width: 10px;
+  }
+  .layout .header {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+  }
+  .layout .content {
+    padding: 12px 50px;
+    display: flex;
+    flex-direction: column;
+  }
+  .layout .footer {
+    text-align: center;
+    margin-top: auto;
+    margin-bottom: 20px;
+    padding: 20px;
+  }
+  
+  .sidebar {
+    color: #7d84ab;
+    overflow-x: hidden !important;
+    position: relative;
+  }
+  .sidebar::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+  }
+  .sidebar:hover::-webkit-scrollbar-thumb {
+    background-color: #5CA8B5;
+  }
+  .sidebar::-webkit-scrollbar {
+    width: 5px;
+    background-color: #FFFFFF;
+  }
+  .sidebar .image-wrapper {
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    display: none;
+  }
+  .sidebar .image-wrapper > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+  .sidebar.has-bg-image .image-wrapper {
+    display: block;
+  }
+
+
+
+  
+.sidebar .sidebar-layout {
+  height: auto;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background-color: #ffffff; 
+  z-index: 2;
+}
+
+
+.sidebar .sidebar-layout .sidebar-header {
+  height: 100px;
+  min-height: 100px;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+}
+
+
+.sidebar .sidebar-layout .sidebar-header > span {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.sidebar .sidebar-layout .sidebar-content {
+  flex-grow: 1;
+  padding: 10px 0;
+}
+.sidebar .sidebar-layout .sidebar-footer {
+    height: 230px;
+    min-height: 230px;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+  }
+  .sidebar .sidebar-layout .sidebar-footer > span {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+
+@keyframes swing {
+  0%, 30%, 50%, 70%, 100% {
+    transform: rotate(0deg);
+  }
+  10% {
+    transform: rotate(10deg);
+  }
+  40% {
+    transform: rotate(-10deg);
+  }
+  60% {
+    transform: rotate(5deg);
+  }
+  80% {
+    transform: rotate(-5deg);
+  }
+}
+.layout .sidebar .menu ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+.layout .sidebar .menu .menu-header {
+  font-weight: 600;
+  padding: 10px 25px;
+  font-size: 0.8em;
+  letter-spacing: 2px;
+  transition: opacity 0.3s;
+
+}
+
+
+.layout .sidebar .menu .menu-item a {
+  display: flex;
+  align-items: center;
+  height: 50px;
+  padding: 0 20px;
+  color: #7d84ab;
+}
+.layout .sidebar .menu .menu-item a .menu-icon {
+  font-size: 1.2rem;
+  width: 35px;
+  min-width: 35px;
+  height: 35px;
+  line-height: 35px;
+  text-align: center;
+  display: inline-block;
+  margin-right: 10px;
+  border-radius: 2px;
+  transition: color 0.3s;
+}
+.layout .sidebar .menu .menu-item a .menu-icon i {
+  display: inline-block;
+}
+.layout .sidebar .menu .menu-item a .menu-title {
+  font-size: 0.9em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex-grow: 1;
+  transition: color 0.3s;
+}
+.layout .sidebar .menu .menu-item a .menu-prefix,
+.layout .sidebar .menu .menu-item a .menu-suffix {
+  display: inline-block;
+  padding: 5px;
+  opacity: 1;
+  transition: opacity 0.3s;
+}
+.layout .sidebar .menu .menu-item a:hover .menu-title {
+  color: #dee2ec;
+}
+.layout .sidebar .menu .menu-item a:hover .menu-icon {
+  color: #dee2ec;
+}
+.layout .sidebar .menu .menu-item a:hover .menu-icon i {
+  animation: swing ease-in-out 0.5s 1 alternate;
+}
+.layout .sidebar .menu .menu-item a:hover::after {
+  border-color: #dee2ec !important;
+}
+.layout .sidebar .menu .menu-item.sub-menu {
+  position: relative;
+}
+.layout .sidebar .menu .menu-item.sub-menu > a::after {
+  content: "";
+  transition: transform 0.3s;
+  border-right: 2px solid currentcolor;
+  border-bottom: 2px solid currentcolor;
+  width: 5px;
+  height: 5px;
+  transform: rotate(-45deg);
+}
+.layout .sidebar .menu .menu-item.sub-menu > .sub-menu-list {
+  padding-left: 20px;
+  display: none;
+  overflow: hidden;
+  z-index: 999;
+}
+.layout .sidebar .menu .menu-item.sub-menu.open > a {
+  color: #dee2ec;
+}
+.layout .sidebar .menu .menu-item.sub-menu.open > a::after {
+  transform: rotate(45deg);
+}
+.layout .sidebar .menu .menu-item.active > a .menu-title {
+  color: #dee2ec;
+}
+.layout .sidebar .menu .menu-item.active > a::after {
+  border-color: #dee2ec;
+}
+.layout .sidebar .menu .menu-item.active > a .menu-icon {
+  color: #dee2ec;
+}
+.layout .sidebar .menu > ul > .sub-menu > .sub-menu-list {
+  background-color: #0b1a2c;
+}
+.layout .sidebar .menu.icon-shape-circle .menu-item a .menu-icon, .layout .sidebar .menu.icon-shape-rounded .menu-item a .menu-icon, .layout .sidebar .menu.icon-shape-square .menu-item a .menu-icon {
+  background-color: #0b1a2c;
+}
+.layout .sidebar .menu.icon-shape-circle .menu-item a .menu-icon {
+  border-radius: 50%;
+}
+.layout .sidebar .menu.icon-shape-rounded .menu-item a .menu-icon {
+  border-radius: 4px;
+}
+.layout .sidebar .menu.icon-shape-square .menu-item a .menu-icon {
+  border-radius: 0;
+}
+.layout .sidebar:not(.collapsed) .menu > ul > .menu-item.sub-menu > .sub-menu-list {
+  visibility: visible !important;
+  position: static !important;
+  transform: translate(0, 0) !important;
+}
+.layout .sidebar.collapsed .menu > ul > .menu-header {
+  opacity: 0;
+}
+
+.layout .sidebar.collapsed .menu > ul > .menu-image {
+  opacity: 0;
+  transition: opacity 0.3s;
+  
+}
+
+.layout .sidebar.collapsed .menu > ul > .menu-item > a .menu-prefix,
+.layout .sidebar.collapsed .menu > ul > .menu-item > a .menu-suffix {
+  opacity: 0;
+}
+.layout .sidebar.collapsed .menu > ul > .menu-item.sub-menu > a::after {
+  content: "";
+  width: 5px;
+  height: 5px;
+  background-color: currentcolor;
+  border-radius: 50%;
+  display: inline-block;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  border: none;
+  transform: translateY(-50%);
+}
+.layout .sidebar.collapsed .menu > ul > .menu-item.sub-menu > a:hover::after {
+  background-color: #dee2ec;
+}
+.layout .sidebar.collapsed .menu > ul > .menu-item.sub-menu > .sub-menu-list {
+  transition: none !important;
+  width: 200px;
+  margin-left: 3px !important;
+  border-radius: 4px;
+  display: block !important;
+}
+.layout .sidebar.collapsed .menu > ul > .menu-item.active > a::after {
+  background-color: #dee2ec;
+}
+
+
+.layout.rtl .sidebar .menu .menu-item a .menu-icon {
+  margin-left: 10px;
+  margin-right: 0;
+}
+.layout.rtl .sidebar .menu .menu-item.sub-menu > a::after {
+  transform: rotate(135deg);
+}
+.layout.rtl .sidebar .menu .menu-item.sub-menu > .sub-menu-list {
+  padding-left: 0;
+  padding-right: 20px;
+}
+.layout.rtl .sidebar .menu .menu-item.sub-menu.open > a::after {
+  transform: rotate(45deg);
+}
+.layout.rtl .sidebar.collapsed .menu > ul > .menu-item.sub-menu a::after {
+  right: auto;
+  left: 10px;
+}
+.layout.rtl .sidebar.collapsed .menu > ul > .menu-item.sub-menu > .sub-menu-list {
+  margin-left: -3px !important;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  height: 100vh;
+  font-family: "Poppins", sans-serif;
+  color: #3f4750;
+  font-size: 1.2rem;
+}
+
+a {
+  text-decoration: none;
+}
+
+@media (max-width: 576px) {
+  #btn-collapse {
+    display: none;
+  }
+}
+.layout .sidebar .pro-sidebar-logo {
+  display: flex;
+  align-items: center;
+}
+.layout .sidebar .pro-sidebar-logo > div {
+  width: 45px;
+  min-width: 45px;
+  height: 45px;
+  min-height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  color: white;
+  font-size: 12px;
+  font-weight: 700;
+  background-color: #5CA8B5;
+  margin-right: 10px;
+}
+.layout .sidebar .pro-sidebar-logo > h5 {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 20px;
+  line-height: 30px;
+  transition: opacity 0.3s;
+  opacity: 1;
+}
+
+/* 접이 버튼  */
+.layout .sidebar .sidebar-collapser { 
+  transition: left, right, 0.3s;
+  position: fixed;
+  left: 375px;
+  top: 30%;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background-color: #5CA8B5;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2em;
+  transform: translateX(50%);
+  z-index: 111;
+  cursor: pointer;
+  color: white;
+  box-shadow: 1px 1px 4px #0c1e35;
+}
+.layout .sidebar.collapsed .pro-sidebar-logo > h5 {
+  opacity: 0;
+}
+.layout .sidebar.collapsed .footer-box {
+  display: none;
+}
+.layout .sidebar.collapsed .sidebar-collapser {
+  left: 55px;
+}
+.layout .sidebar.collapsed .sidebar-collapser i {
+  transform: rotate(180deg);
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.25em 0.4em;
+  font-size: 75%;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 0.25rem;
+  color: #fff;
+  background-color: #6c757d;
+}
+.badge.primary {
+  background-color: #ab2dff;
+}
+.badge.secondary {
+  background-color: #079b0b;
+}
+
+.sidebar-toggler {
+  position: fixed;
+  right: 20px;
+  top: 20px;
+}
+
+.social-links a {
+  margin: 0 10px;
+  color: #3f4750;
+}
+</style>
+  
+<script>
+    window.console = window.console || function(t) {};
+  </script>
+
+</head>
+
+<body>
+
+<!-- @category Overlay/Marker -->
+
+<!-- 맵출력 객체 -->
+<div id="map" style="width:100%;height:100%;">
+    <input type="hidden" id="hiddenData" th:value="${jsonArray}"/>
+
+
+    <div class="layout has-sidebar fixed-sidebar fixed-header">
+        <aside id="sidebar" class="sidebar break-point-sm has-bg-image">
+          <a id="btn-collapse" class="sidebar-collapser"><i class="ri-arrow-left-s-line"></i></a>
+
+          <div class="sidebar-layout">
+            <div class="sidebar-header">
+              <div class="pro-sidebar-logo">
+                <div>GATCHI</div>
+                <h5>GATCHI</h5>
+              </div>
+            </div>
+
+            <div class="sidebar-content">
+                <nav class="menu open-current-submenu">
+                    <ul>
+                      <li class="menu-header"><span> Title <span class="badge primary">Hot</span> <span class="badge secondary">Beta</span></span><hr/></li>
+
+                      <li class="menu-image">
+                        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                              <div class="carousel-item active">
+                                <img src="/image/map/cluster-marker-1.png" class="d-block w-100" alt="...">
+                              </div>
+                              <div class="carousel-item">
+                                <img src="/image/map/cluster-marker-2.png" class="d-block w-100" alt="...">
+                              </div>
+                              <div class="carousel-item">
+                                <img src="/image/map/cluster-marker-3.png" class="d-block w-100" alt="...">
+                              </div>
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                              <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                              <span class="visually-hidden">Next</span>
+                            </button>
+                          </div>
+                    </li>
+
+ 
+
+                     
+                      <li class="menu-header" style="padding-top: 20px"><span> EXTRA </span><hr/></li>
+                      <li class="menu-item">
+                        <a href="#">
+                          <span class="menu-icon">
+                            <i class="ri-book-2-fill"></i>
+                          </span>
+                          <span class="menu-title">Documentation</span>
+                          
+                          <span class="menu-suffix">
+                            <span class="badge secondary">Beta</span>
+                          </span>
+                        </a>
+                      </li>
+                      <li class="menu-item">
+                        <a href="#">
+                          <span class="menu-icon">
+                            <i class="ri-calendar-fill"></i>
+                          </span>
+                          <span class="menu-title">Calendar</span>
+                        </a>
+                      </li>
+                      <li class="menu-item">
+                        <a href="#">
+                          <span class="menu-icon">
+                            <i class="ri-service-fill"></i>
+                          </span>
+                          <span class="menu-title">Examples</span>
+                        </a>
+                      </li>
+                    </ul>
+                  </nav>
+            </div>
+            
+          </div>
+        </aside>
+      </div>
+</div>
+
+
+<script id="code">
+var HOME_PATH = window.HOME_PATH || '.';
+
+// 데이터 받기
+var hiddenData = document.getElementById("hiddenData").value;
+var jsonArray = JSON.parse(hiddenData);
+
+
+
+var map = new naver.maps.Map('map', {
+    zoom: 15,
+    minZoom: 8, //지도의 최소 줌 레벨
+    zoomControl: true, //줌 컨트롤의 표시 여부
+    zoomControlOptions: { //줌 컨트롤의 옵션
+        position: naver.maps.Position.TOP_RIGHT
+    },
+    
+    mapTypeControl: true,
+    mapDataControl: false
+});
+
+
+
+
+var markers = [],
+    infoWindows = [];
+
+
+    //반복문으로 데이터 하나씩 꺼내기
+for (var key in jsonArray) {
+
+    //넘어오는 데이터 확인
+
+    console.log(key)
+    console.log(jsonArray[key].lat)
+    console.log(jsonArray[key].lng)
+
+    getClickHandler(jsonArray[key])
+
+    var position = new naver.maps.LatLng(
+        jsonArray[key].lat, jsonArray[key].lng
+        );
+
+    var marker = new naver.maps.Marker({
+        map: map,
+        position: position,
+        title: key,
+        icon: {
+            url: HOME_PATH +'/image/map/logo_200x200.png',
+            size: new naver.maps.Size(50, 52),
+            origin: new naver.maps.Point(jsonArray[key].lat, jsonArray[key].lng)
+        },
+        zIndex: 100
+    });
+
+
+    var contentString = [
+        '<div class="iw_inner">',
+        '   <h3>모임명'+ key +'</h3>',
+        '       <img src="'+ HOME_PATH +'/image/map/marker-default.png" width="55" height="55" alt="서울시청" class="thumb" /><br/>',
+        jsonArray[key].lat+'</br>',
+        jsonArray[key].lng+'</br>',
+        '</div>'
+    ].join('');
+
+
+    var infoWindow = new naver.maps.InfoWindow({
+        content: contentString
+    });
+
+    markers.push(marker);
+    infoWindows.push(infoWindow);
+};
+
+naver.maps.Event.addListener(map, 'idle', function() {
+    updateMarkers(map, markers);
+});
+
+function updateMarkers(map, markers) {
+
+    var mapBounds = map.getBounds();
+    var marker, position;
+
+    for (var i = 0; i < markers.length; i++) {
+
+        marker = markers[i]
+        position = marker.getPosition();
+
+        if (mapBounds.hasLatLng(position)) {
+            showMarker(map, marker);
+        } else {
+            hideMarker(map, marker);
+        }
+    }
+}
+
+function showMarker(map, marker) {
+
+    if (marker.setMap()) return;
+    marker.setMap(map);
+}
+
+function hideMarker(map, marker) {
+
+    if (!marker.setMap()) return;
+    marker.setMap(null);
+}
+
+// 해당 마커의 인덱스를 seq라는 클로저 변수로 저장하는 이벤트 핸들러를 반환합니다.
+function getClickHandler(seq) {
+    return function(e) {
+        var marker = markers[seq],
+            infoWindow = infoWindows[seq];
+
+        alert(seq)
+
+
+        
+        if (infoWindow.getMap()) {
+            infoWindow.close();
+        } else {
+            infoWindow.open(map, marker);
+        }
+    }
+}
+
+for (var i=0, ii=markers.length; i<ii; i++) {
+    naver.maps.Event.addListener(markers[i], 'click', getClickHandler(i));
+}
+</script>
+
+
+
+
+
+<script>
+var infowindow = new naver.maps.InfoWindow({
+    borderWidth: 0,
+    disableAnchor: true,
+    backgroundColor: 'transparent'
+});
+
+function onSuccessGeolocation(position) {//현재위치 가져오기 성공
+    var location = new naver.maps.LatLng(position.coords.latitude,
+                                         position.coords.longitude);
+
+
+
+
+    map.setCenter(location); // 얻은 좌표를 지도의 중심으로 설정합니다.
+    map.setZoom(15); // 지도의 줌 레벨을 변경합니다.
+
+    
+
+
+
+    var contentString = [
+        
+    ].join('');
+
+
+    infowindow.setContent('<img src="'+ HOME_PATH +'/image/map/marker-default.png"/>');
+
+    infowindow.open(map, location);
+    console.log('Coordinates: ' + location.toString());
+}
+
+function onErrorGeolocation() {
+    var center = map.getCenter();
+
+    infowindow.setContent('<div style="padding:20px;">' +
+        '<h5 style="margin-bottom:5px;color:#f00;">위치정보를 불러올 수 없습니다.</h5>'+ "latitude: "+ center.lat() +"<br />longitude: "+ center.lng() +'</div>');
+
+    infowindow.open(map, center);
+}
+
+$(window).on("load", function() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(onSuccessGeolocation, onErrorGeolocation);
+    } else {
+        var center = map.getCenter();
+        infowindow.setContent('<div style="padding:20px;"><h5 style="margin-bottom:5px;color:#f00;">Geolocation not supported</h5></div>');
+        infowindow.open(map, center);
+    }
+});
+</script>
+
+
+
+<script id="rendered-js">
+    function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}const ANIMATION_DURATION = 300;
+    
+    const SIDEBAR_EL = document.getElementById("sidebar");
+    
+  
+    
+    
+    
+    
+    class PopperObject {
+    
+      constructor(reference, popperTarget) {_defineProperty(this, "instance", null);_defineProperty(this, "reference", null);_defineProperty(this, "popperTarget", null);
+        this.init(reference, popperTarget);
+      }
+    
+      init(reference, popperTarget) {
+        this.reference = reference;
+        this.popperTarget = popperTarget;
+        this.instance = Popper.createPopper(this.reference, this.popperTarget, {
+          placement: "right",
+          strategy: "fixed",
+          resize: true,
+          modifiers: [
+          {
+            name: "computeStyles",
+            options: {
+              adaptive: false } },
+    
+    
+          {
+            name: "flip",
+            options: {
+              fallbackPlacements: ["left", "right"] } }] });
+    
+    
+    
+    
+    
+        document.addEventListener(
+        "click",
+        e => this.clicker(e, this.popperTarget, this.reference),
+        false);
+    
+    
+        const ro = new ResizeObserver(() => {
+          this.instance.update();
+        });
+    
+        ro.observe(this.popperTarget);
+        ro.observe(this.reference);
+      }
+    
+      clicker(event, popperTarget, reference) {
+        if (
+        SIDEBAR_EL.classList.contains("collapsed") &&
+        !popperTarget.contains(event.target) &&
+        !reference.contains(event.target))
+        {
+          this.hide();
+        }
+      }
+    
+      hide() {
+        this.instance.state.elements.popper.style.visibility = "hidden";
+      }}
+    
+    
+  
+  
+    class Poppers {}
+  
+    const PoppersInstance = new Poppers();
+    
+    /**
+     * wait for the current animation to finish and update poppers position
+     */
+    const updatePoppersTimeout = () => {
+      setTimeout(() => {
+      }, ANIMATION_DURATION);
+    };
+    
+    /**
+     * sidebar collapse handler
+     */
+    document.getElementById("btn-collapse").addEventListener("click", () => {
+      SIDEBAR_EL.classList.toggle("collapsed");
+    
+      updatePoppersTimeout();
+    });
+
+    document.getElementById("btn-collapse2").addEventListener("click", () => {
+
+
+      SIDEBAR_EL.classList.toggle("collapsed");
+    
+      updatePoppersTimeout();
+    });
+    
+    
+  
+    
+  
+    
+   
+    
+  
+  
+</script>
+
+</body>
+</html>

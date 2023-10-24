@@ -1,0 +1,157 @@
+<html layout:decorate="~{layout}">
+    <head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="http://localhost:8080/css/chat/service.css"/>
+
+
+<title>가치</title>
+
+<link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/index.css}"/>
+<style>
+    :root {
+        --panel-background-color: #5CA8B5;
+        --panel-box-shadow: 0 0 4px rgba(204, 204, 204, 0.75);
+        --panel-width: 160px;
+        --panel-text-color: #fff;
+        --panel-hover-item-background-color: #f4f6fa;
+        --panel-hover-item-color: #385074;
+        --panel-icon-width: 13px;
+        --panel-separator-color: #dfe3eb;
+}
+
+
+    #containerj {
+        position: fixed;
+        bottom: 100px;
+        right: 10px;
+    }
+
+    #panel-controller {
+        width: 55px;
+        height: 55px;
+        border-radius: 50%;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        background-color: #fff;
+        border: 5px solid #5CA8B5;
+        box-shadow: 0 0 3px rgba(204, 204, 204, 0.75);
+        color: #5CA8B5;
+        font-size: 40px;
+        transition: transform 200ms ease;
+        
+    }
+
+    #panel-controller[aria-expanded="true"] {
+        transform: rotate(45deg);
+    }
+</style>
+</head>
+<body>
+
+<div layout:fragment="content">
+    
+<div class="container">
+    <div id="mainArticle">
+        <div class="notice">
+            <div class="page-title">
+                <div class="container">
+                    <h3>무엇을 도와드릴까요?</h3>
+                </div>
+            </div>
+
+            <!-- board search area -->
+            <div id="board-search">
+                <div class="container">
+                    <div class="search-window">
+                        <form action="" name="searchForm">
+                            <div class="search-wrap">
+                                <input type="search" id="search" name="searchValue" placeholder="궁금하신 점이 있다면, 검색 또는 도움말 카테고리를 선택하세요." />
+                                <input type="button" value=" 검 색 " class="btn btn-dark" onclick="sendIt();" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <form action="" name="buttonForm">
+                    <button class="eggButton" style="vertical-align: middle" name="searchKey" value="입출금" onclick="sendIt();">
+                        <span>입출금</span>
+                    </button>
+                    <button class="eggButton" style="vertical-align: middle" name="searchKey" value="대출" onclick="sendIt();">
+                        <span>대출</span>
+                    </button>
+                    <button class="eggButton" style="vertical-align: middle" name="searchKey" value="인증/보안" onclick="sendIt();">
+                        <span>인증/보안</span>
+                    </button>
+                    <button class="eggButton" style="vertical-align: middle" name="searchKey" value="기타" onclick="sendIt();">
+                        <span>기타</span>
+                    </button>
+                </form>
+            </div>
+
+
+            <!-- board list area -->
+
+
+            <div id="lists">
+                    <button class="accordion-btn" type="button" name="searchValue" value="">
+                        <span class="pc-onlys-block" style="padding-left: 1%"></span>
+                        
+                        <p></p>
+                    </button>
+
+                    <div class="panel-content">
+
+
+                    </div>
+            </div>
+            <div class="pagination pagination-style-three m-t-20">
+
+                
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+    <div>
+        
+    </div>
+</div>
+
+    
+</div>
+
+<script>
+    
+	function sendIt(){
+		var f = document.searchForm;
+		
+		f.action = "<%=cp %>/eggplant/board.do";
+		f.submit();
+	}
+	
+
+	
+	var acc = document.getElementsByClassName("accordion-btn");
+	var i;
+
+	for (i = 0; i < acc.length; i++) {
+	  acc[i].addEventListener("click", function() {
+	    this.classList.toggle("accordion-active");
+	    var panel = this.nextElementSibling;
+	    if (panel.style.maxHeight) {
+	      panel.style.maxHeight = null;
+	    } else {
+	      panel.style.maxHeight = panel.scrollHeight + "px";
+	    }
+	  });
+	}
+	
+</script>
+</body>
+</html>

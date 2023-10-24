@@ -1,0 +1,499 @@
+.yj-img {
+    width: 100%;
+    height: auto;
+    display: flex;
+    margin: 0 auto;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
+    background-color: #fefefe;
+    max-width: 800px;
+    display: block;
+    border: #E4EEF7 solid 1px;
+    margin-bottom: 50px;
+
+}
+
+.yj-img2 {
+    width: 100%;
+    height: auto;
+    display: flex;
+    margin: 0 auto;
+    margin-bottom: 80px;
+    padding-bottom: 80px;
+    padding-top: 30px;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
+    background-color: #E4EEF7;
+    max-width: 800px;
+    display: none;
+}
+
+.yj-img img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    position: relative;
+}
+
+.Main_content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: #fefefe;
+    position: relative;
+    width: calc(100% - 28px);
+    top: -25px;
+    height: auto;
+    border-radius: 16px;
+    z-index: 100;
+    text-align: center;
+    padding: 20px;
+    margin: 0 auto;
+}
+
+.Yj-title {
+    font-size: 25px;
+    color: #171616;
+    font-weight: bold;
+    margin-top: -8px;
+    margin-bottom: -5px;
+}
+
+.Yj-master {
+    font-size: 15px;
+    color: #383535;
+}
+
+.Yj-text1 {
+    position: relative;
+    height: auto;
+    background-color: #fefefe;
+    padding: 0px 45px 10px; /*위/양사이드/아래*/ 
+    color: #383535;
+    font-size: 18px;
+    line-height: 20px;
+    letter-spacing: -.6px;
+}
+
+.Yj-text2 {
+    position: relative;
+    height: auto;
+    background-color: #fefefe;
+    color: #383535;
+    font-size: 18px;
+    line-height: 20px;
+    letter-spacing: -.6px;
+}
+
+.Yj-text3 {
+    position: relative;
+    height: auto;
+    background-color: #fefefe;
+    color: #383535;
+    font-size: 18px;
+    line-height: 20px;
+    letter-spacing: -.6px;
+}
+
+.Yj-text4 {
+    position: relative;
+    height: auto;
+    background-color: #fefefe;
+    color: #383535;
+    font-size: 18px;
+    line-height: 25px;
+    letter-spacing: -.6px;
+}
+
+.text-with-hyphen::before {
+    content: "- ";
+    position: relative;
+    height: auto;
+    background-color: #fefefe;
+    padding-left: 35px;
+    color: #383535;
+    font-size: 16px;
+    line-height: 20px;
+    letter-spacing: -.6px;
+}
+
+.text-container {
+    display: flex;
+    gap: 5px;
+    padding-left: 40px;
+    padding-bottom: 30px;
+}
+
+.round-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.round-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.yj-info {
+    padding: 50px 30px 10px; /*위/양사이드/아래*/
+    color: #1d65b2;
+}
+
+.yj-inwon {
+    padding: 35px 30px 10px; /*위/양사이드/아래*/
+    color: #1d65b2;
+}
+
+.yj-money {
+    padding: 5px 30px 10px; /*위/양사이드/아래*/
+    color: #1d65b2;
+}
+
+.main-text {
+    display: flex;
+    justify-content: center;
+    align-items: first baseline;
+    flex-direction: column;
+    position: relative;
+    height: auto;
+    border-radius: 16px;
+    z-index: 100;
+    padding: 50px 15px 50px;
+    text-align: left;
+}
+
+.review-title {
+    text-align: center;
+    padding-top: 70px;
+    padding-bottom: 5px;
+    font-size: 23px;
+    color: #171616;
+    font-weight: bold;
+}
+
+.review-sub {
+    text-align: center;
+    padding-bottom: 50px;
+    font-size: 16px;
+    color: #AAAAAA;
+}
+
+.review-write {
+    text-align: right;
+    color: #777777;
+    margin-right: 120px;
+    padding-bottom: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 17px;
+}
+.review-write:hover {
+    text-decoration: underline;
+    color: #505050;
+}
+
+.review-content {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    background-color: #fefefe;
+    position: relative;
+    width: calc(65% - 8px);
+    height: auto;
+    border-radius: 16px;
+    z-index: 100;
+    text-align: center;
+    padding: 50px 30px 30px; /*위/양사이드/아래*/
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+}
+
+.no-review {
+    text-align: center;
+    margin-top: 150px;
+    font-size: 20px;
+}
+
+.memid {
+    text-align: left;
+    color: #383535;
+    font-weight: bold;
+    margin-top: -25px;
+    margin-left: 40px;
+    font-size: 15px;
+    display: inline-block;
+}
+
+.yj-content {
+    text-align: left;
+    color: #383535;
+    margin-top: 25px;
+    font-size: 17px;
+    width: calc(70% - 8px);
+}
+
+.round-image-user {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: inline-block;
+    margin-top: -30px;
+}
+
+.round-image-user img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.review-img {
+    display: flex;
+    flex-direction: row;
+    align-items: right;
+    justify-content: flex-end;
+    width: 100%;
+    height: auto;
+    margin-top: -35px;
+    z-index: 1;
+}
+
+.review-img img {
+    width: 130px;
+    height: auto;
+    display: inline-block;
+    margin-top: auto;
+}
+
+.join-button,.out-button,.delete-button {
+    display: inline-block;
+    padding: 8px 18px;
+    font-size: 18px;
+    background-color: #1d65b2;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+    margin-right: 10px;
+}
+
+.join-button:hover,.out-button:hover,.delete-button:hover {
+    background-color: #4992df;
+}
+
+.icon {
+    margin-right: 8px;
+}
+
+.btn-custom {
+    border: none !important;
+    position: relative;
+}
+
+.underline {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background-color: #000;
+    transition: width 0.3s ease;
+    transform: translateX(-50%);
+}
+
+.btn-check:checked + .btn::before {
+    border-radius: 0;
+}
+.btn-check:checked + .btn .underline {
+    width: 100%;
+}
+
+.meet-members {
+    position: fixed;
+    width: 190px;
+    height: 30%;
+    background-color: #F9F9F9;
+    overflow-y: auto;
+    padding: 15px 0px 15px 15px;
+    border: 1px solid #E4EEF7;
+}
+
+.meet-mypage {
+    position: fixed;
+    margin-left: 20px;
+    width: 500px;
+    height: 500px;
+    background-color: #F9F9F9;
+    padding: 15px 0px 15px 15px;
+    border: 1px solid #E4EEF7;
+    left: 0;
+}
+
+.badge {
+    display: inline-block;
+    padding: 0.4em 0.5em;
+    font-size: 0.6em;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0.25rem;
+    color: #fff;
+    background-color: #6c757d;
+    margin-bottom: 20px;
+  }
+  .badge.primary {
+    background-color: #807373;
+  }
+  .badge.meetMate {
+    background-color: #1d65b2;
+  }
+  .badge.communiFind {
+    background-color: #00824a;
+  }
+
+.user-info-container {
+    display: flex;
+    align-items: center; /* 수직 정렬 설정 (센터) */
+}
+
+.round-image-login {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 10px;
+}
+
+.round-image-login img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.login-user-email {
+    font-size: 18px;
+    color: #383535;
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+.meet-mem-list {
+    list-style-type:none;
+    width: 100px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    background-color: #F9F9F9;
+    flex-direction: row;
+    padding-left: 20px;
+    margin-bottom: 3px;
+}
+
+.fixed-width-col {
+    width: 800px !important;
+}
+
+.custom-li {
+    margin-top: 5px;
+}
+
+.review-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.review-input {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#review-content {
+    width: 71%;
+    margin-bottom: 10px;
+    height: 100px;
+}
+
+#submit-review {
+    width: 10%;
+    margin-left: 490px;
+    background-color: #fff;
+    color: #333;
+    border: 1px solid #333;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.1s ease, color 0.1s ease;
+}
+
+#submit-review:hover {
+    background-color: #333;
+    color: #fff;
+}
+
+.delete-review:hover {
+    cursor: pointer;
+}
+
+/* 모달 스타일 */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+/* 모달 이미지 스타일 */
+.modal-content {
+    display: block;
+    max-width: 70%;
+    max-height: 70%;
+    object-fit: contain; /* 이미지 비율 유지 */
+    margin: 0 auto;
+}
+
+.homeaticle{
+    min-width: 800px;
+    width: 100%;
+    position: relative;
+    right: 25px;
+}
+
+@media screen and (max-width: 1400px) {
+    .homeaticle{
+        min-width: 800px;
+    width: 100%;
+    position: relative;
+    right: -35px;
+    }
+}
+
+@media screen and (max-width: 1200px){
+    .homeaticle{
+        min-width: 800px;
+    width: 100%;
+    position: relative;
+    right: 60px;
+    }
+}
+
+
+
+

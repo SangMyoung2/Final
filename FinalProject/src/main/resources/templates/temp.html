@@ -1,0 +1,43 @@
+<html layout:decorate="~{layout}">
+    <head>
+<meta charset="UTF-8">
+
+<title>가치</title>
+
+<link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/index.css}"/>
+<script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=83bfuniegk"></script>
+</head>
+<body>
+
+<div layout:fragment="content">
+   
+    <div id="map" style="width:100%; height:500px;"></div>
+    <script id="code">
+        
+        var HOME_PATH = window.HOME_PATH || '.';
+        var position = new naver.maps.LatLng(37.4988487, 127.0316082);
+        
+        var map = new naver.maps.Map('map', {
+        center: position, //지도의 초기 중심 좌표
+        zoom: 18, //지도의 초기 줌 레벨
+      
+
+    });
+
+    var markerOptions = {
+    position: position.destinationPoint(0, 0),
+    map: map,
+    icon: {
+        url: HOME_PATH+'/image/map/marker-nowLocation.png',
+        
+        origin: new naver.maps.Point(0, 0),
+        anchor: new naver.maps.Point(25, 26)
+    }
+    };
+    var marker = new naver.maps.Marker(markerOptions);
+
+    </script>
+</div>
+
+</body>
+</html>
