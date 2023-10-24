@@ -147,7 +147,7 @@
                 </span>
             </div> 
             
-            <label th:text="|${dto.meetCheck == 1 ? 'MeetMate' : 'CommuniFind'} 기본참가비|"></label>
+            <!-- <label th:text="|${dto.meetCheck == 1 ? 'MeetMate' : 'CommuniFind'} 기본참가비|"></label>
             <div id="wrap_entryfee"> 
                 <span id="wrap_yes" class="entryfee">
                     <input type="radio" id="yes" value="1" name="meetEntryfee" required onclick="entryfee();">
@@ -164,11 +164,11 @@
                 <label style="color: rgba(145, 142, 142, 0.808); font-weight: 150;">
                     참가비가 있는 경우, 마스터에게 환급되어 추후 모임액으로 사용하실 수 있습니다.</label>
                 <input type="text" id="meetMoney" name="meetMoney" required placeholder="0" class="t3"/>
-            </div>       
+            </div>        -->
         </div>
         
-                    <!-- <input type="hidden" id="no" name="meetEntryfee" value="2">
-                    <input type="hidden" id="meetMoney" name="meetMoney" value="0"> -->
+                    <input type="hidden" id="no" name="meetEntryfee" value="2">
+                    <input type="hidden" id="meetMoney" name="meetMoney" value="0">
 
         <input type="hidden" id="meetDday" name="meetDday" value=""> 
         <input type="hidden" id="meetCheck" th:name="meetCheck" th:value="${dto.meetCheck}">
@@ -338,14 +338,25 @@
 
     const sendIt = () => {
 
+        const categories = ["culture", "food", "hobby", "trip", "sport"];
+        const selectedCategories = categories.filter(category => document.getElementById(category).checked);
+
+        if (selectedCategories.length === 0) {
+            alert('카테고리를 선택해주세요.');
+            return;
+        }
+
         createMeetDate();
+
         if(!DdayCheck()){
             return;
         }        
+
         ctgNum();
 
         if (!imageCheck()) {
             alert('메인으로 보여질 사진을 업로드해주세요.');
+            
         } else {
             how();
             entryfee();

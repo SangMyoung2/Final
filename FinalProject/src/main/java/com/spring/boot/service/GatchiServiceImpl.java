@@ -39,8 +39,7 @@ public class GatchiServiceImpl implements GatchiService{
 
 
 	@Override
-	public List<MeetInfoDTO> getMeetInfo() throws Exception {
-		
+	public List<MeetInfoDTO> getMeetInfo() throws Exception {		
 		return gatchiMapper.getMeetInfo();
 	}
 
@@ -152,6 +151,11 @@ public class GatchiServiceImpl implements GatchiService{
 	@Override
 	public void updateChatRoom(GatchiDTO dto) throws Exception{
 		gatchiMapper.updateChatRoom(dto);
+	}
+
+	@Override
+	public void updateHitCount(int meetListNum) throws Exception {
+		gatchiMapper.updateHitCount(meetListNum);
 	}
 
 

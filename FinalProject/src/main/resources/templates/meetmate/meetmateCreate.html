@@ -336,14 +336,25 @@
     
     const sendIt = () => {
         
-        createMeetDate();        
+        const categories = ["culture", "food", "hobby", "trip", "sport"];
+        const selectedCategories = categories.filter(category => document.getElementById(category).checked);
+
+        if (selectedCategories.length === 0) {
+            alert('카테고리를 선택해주세요.');
+            return;
+        }
+
+        createMeetDate(); 
+
         if(!DdayCheck()){
             return;
         } 
+
         ctgNum();
 
         if (!imageCheck()) {
             alert('메인으로 보여질 사진을 업로드해주세요.');
+            
         } else {
             how();
             entryfee();
