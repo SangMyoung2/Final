@@ -40,8 +40,6 @@ public interface GatchiMapper {
     public List<GatchiDTO> searchCommuniFindList(@Param("searchKey")String searchKey, @Param("searchValue")String searchValue);
 
 	public List<GatchiDTO> getRownumList(int end) throws Exception;
-
-    
 	
 	public List<GatchiDTO> sortByLikeCountMeet() throws Exception;
 
@@ -72,7 +70,6 @@ public interface GatchiMapper {
 	
 	// public void deleteData(int num) throws Exception;
 
-
 	public void plusMeetCount(int meetListNum) throws Exception;
     
 	public void minusMeetCount(int meetListNum) throws Exception;
@@ -82,4 +79,7 @@ public interface GatchiMapper {
 	public List<GatchiDTO> getReadDataInListNum(int meetListNum) throws Exception;
 	
 	public void updateChatRoom(GatchiDTO dto) throws Exception;
+
+	public void getProfileByUsers(int meetListNum) throws Exception;
+	
 }

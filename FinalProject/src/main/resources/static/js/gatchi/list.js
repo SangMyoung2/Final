@@ -43,7 +43,7 @@ function slide() {
   function autoPlay() {
     auto = setInterval(function() {
       nextChkPlay();
-    }, 20000000);
+    }, 3000);
   }
 
   // 자동실행 멈춤
@@ -59,7 +59,7 @@ function slide() {
     $panelLi.mouseleave(function() {
       auto = setInterval(function() {
         nextChkPlay();
-      }, 20000000);
+      }, 3000);
     });
   }
 
@@ -255,7 +255,7 @@ function plusLike(num){
   }
 
 
-//안좋아요
+//좋아요 취소
 function minusLike(num){
 
   // let heartElements = document.getElementsByName('likeBtn')
@@ -337,12 +337,41 @@ window.onload = function() {
 
 
 
- //검색
- function sendIt(){
+
+
+
+
+//정렬 버튼
+function changeSortOrder() {
+  //var sortOrder = document.getElementById("sortOrder").value;
+  var form = document.sortForm;
+  
+  //alert(sortOrder);
+  
+  form.submit();
+}
+
+  
+
+
+//검색
+function sendIt(){
 
   var f = document.searchForm;
   
   f.action = "/meetMateList.action";
+  f.submit();
+  
+}
+
+
+
+//검색
+function sendIt1(){
+
+  var f = document.searchForm;
+  
+  f.action = "/communiFindList.action";
   f.submit();
   
 }

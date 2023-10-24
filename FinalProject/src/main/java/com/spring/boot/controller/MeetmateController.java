@@ -70,6 +70,7 @@ public class MeetmateController {
 	}
 
 
+
 	@PostMapping("/gatchiChoice.action")
 	public ModelAndView gatchiChoice_ok(@RequestParam("meetCheck") String meetCheck, HttpServletRequest request, GatchiDTO dto) throws Exception{
 
@@ -91,6 +92,8 @@ public class MeetmateController {
 		}	
 		return mav;
 	}
+
+
 
 	@PostMapping("/meetMateCreate.action")
 	public ModelAndView meetMateCreate_ok(HttpServletRequest request, 
@@ -136,8 +139,10 @@ public class MeetmateController {
 		mav.addObject("meetListNum", dto.getMeetListNum());
 		//mav.setViewName("redirect:/meetMateList.action");
 		mav.setViewName("redirect:/createroom.action");
+
 		return mav;
 	}
+
 
 
 	@PostMapping("/communiFindCreate.action")
@@ -155,8 +160,6 @@ public class MeetmateController {
 			infoDTO.setEmail(user1.getEmail()); 
 		}
 
-
-		
 		// Resource resource = new ClassPathResource("static");
         // String resourcePath = resource.getFile().getAbsolutePath() + "/image/gatchiImage";
 		String resourcePath = "C:\\VSCode\\Final\\FinalProject\\src\\main\\resources\\static\\image\\gatchiImage";
@@ -187,16 +190,20 @@ public class MeetmateController {
 		return mav;
 	}
 		
+
+
 	@GetMapping("/meetMateList.action")
 	public ModelAndView meetMateList(
 		@RequestParam(name = "searchKey", required = false, defaultValue = "meetTitle") String searchKey,
 		@RequestParam(name = "searchValue", required = false) String searchValue, 
-		HttpServletRequest request) throws Exception {
+		MeetInfoDTO meetInfoDTO, HttpServletRequest request) throws Exception {
 		
 		ModelAndView mav = new ModelAndView();
-		
-		//HttpSession session = request.getSession();**************프로필사진
-		//String picture = (String) session.getAttribute("picture");******************
+
+		// 방장 프로필 사진 불러오기
+		int meetListNum = meetInfoDTO.getMeetListNum();
+		String masterProfile = gatchiService.getProfileByUsers(meetListNum);
+
 
 		List<GatchiDTO> meetMateLists = new ArrayList<>();
 		List<GatchiDTO> meetMateSlideLists = new ArrayList<>();
@@ -232,49 +239,13 @@ public class MeetmateController {
 		mav.addObject("searchMeetMateList", searchMeetMateList);
 		mav.addObject("meetMateSlideLists", meetMateSlideLists);		
 		mav.addObject("meetLists", meetMateLists);	
+		mav.addObject("masterProfile", masterProfile);	
 		mav.setViewName("meetmate/meetMateList");
 		
 		return mav;		
 	}
 
 
-/* 이거 필요한지 모르겠음..... 일단 주석처리
-	@PostMapping("/meetMateList.action")
-	public ModelAndView meetMateList(@RequestParam(name = "searchKey", required = false) String searchKey,
-        @RequestParam(name = "searchValue", required = false) String searchValue) throws Exception {
-		
-// 		ModelAndView mav = new ModelAndView();
-		
-// 		List<GatchiDTO> meetMateLists = new ArrayList<>();
-// 		List<GatchiDTO> meetMateSlideLists = new ArrayList<>();
-		
-// 		// // String searchKey = request.getParameter("searchKey");
-// 		// // String searchValue = request.getParameter("searchValue");
-// 		// if (searchValue == null) {
-// 		// 	searchKey = "meetTitle";
-// 		// 	searchValue = "";
-		
-// 		// } else {
-// 		// 	if (request.getMethod().equalsIgnoreCase("GET")) {
-// 		// 		searchValue = URLDecoder.decode(searchValue, "UTF-8");
-// 		// 	}
-// 		// }   ******************************************
-		
-// 		System.out.println("searchKey 내용 : " + searchKey);
-// 		System.out.println("searchValue 내용 : " + searchValue);
-
-		meetMateLists = gatchiService.searchMeetMateList(searchKey, searchValue);
-		meetMateSlideLists = gatchiService.getMeetMateRandomList(9); // 9개의 랜덤 모임을 가져옴
-
-// 		//System.out.println("모임 DB 가져온 내용 : " + meetLists);
-
-		mav.addObject("meetMateSlideLists", meetMateSlideLists);		
-		mav.addObject("meetLists", meetMateLists);		
-		mav.setViewName("/meetmate/meetMateList");
-		
-		return mav;
-	}
- */
 
 	@GetMapping("/communiFindList.action")
 	public ModelAndView communiFindList(
@@ -283,9 +254,11 @@ public class MeetmateController {
 		HttpServletRequest request) throws Exception {
 		
 		ModelAndView mav = new ModelAndView();
-		
-		//HttpSession session = request.getSession();**************프로필사진
-		//String picture = (String) session.getAttribute("picture");******************
+
+		// 방장 프로필 사진 불러오기
+		int meetListNum = MeetInfoDTO.getMeetListNum();
+		String masterProfile = gatchiService.getProfileByUsers(meetListNum);
+
 
 		List<GatchiDTO> communiFindLists = new ArrayList<>();
 		List<GatchiDTO> communiFindSlideLists = new ArrayList<>();
@@ -316,74 +289,16 @@ public class MeetmateController {
 				gatchiService.updateMeetStatusFind(communiFindList);//업데이트된 GatchiDTO 저장
 			}
 		}
-
-		//mav.addObject("picture", picture);********************
 		mav.addObject("searchCommuniFindList", searchCommuniFindList);		
 		mav.addObject("communiFindSlideLists", communiFindSlideLists);		
 		mav.addObject("communiLists", communiFindLists);
+		mav.addObject("masterProfile", masterProfile);
 		mav.setViewName("/meetmate/communiFindList");
 		
 		return mav;		
 	}
-	
-/*
-	@GetMapping("/selectSort") //meetMateList
-	public String selectSort(@RequestParam("selectBox") String selectBox, Model model) throws Exception{
-
-		Gson gson = new Gson();
-		List<GatchiDTO> lists;
-        
-		if (selectBox.equals("meetHitCount")) { //조회수순
-			//System.out.println(selectBox);
-			lists = gatchiService.sortByHitCountMeet();
-			//String searchData = gson.toJson(lists);
-			//return searchData;
-
-		} else if (selectBox.equals("meetLikeCount")) { //좋아요순
-			lists = gatchiService.sortByLikeCountMeet();
-			//String searchData = gson.toJson(lists);
-			//System.out.println(lists);
-			//return searchData;
-
-		} else if (selectBox.equals("meetDday")) { //모임 가장 가까운순
-			lists = gatchiService.sortByDdayMeet();
-			//String searchData = gson.toJson(lists);
-			//return searchData;
-		}
-
-		String searchData = gson.toJson(lists);
-   		model.addAttribute("meetSortedLists", lists); // 변경된 이름으로 데이터를 모델에 추가
-
-    	return "meetmate/meetMateList :: meetCardContainer"; // 변경된 데이터를 반환
-	}
 
 
-	@GetMapping("/selectSort1") //communiFind
-	public String selectSort1(@RequestParam("selectBox1") String selectBox) throws Exception{
-
-		Gson gson = new Gson();
-        
-		if (selectBox.equals("meetHitCount")) { //조회수순
-			System.out.println(selectBox);
-			List<GatchiDTO> lists = gatchiService.sortByHitCountFind();
-			String searchData = gson.toJson(lists);
-			return searchData;
-
-		} else if (selectBox.equals("meetLikeCount")) { //좋아요순
-			List<GatchiDTO> lists = gatchiService.sortByLikeCountFind();
-			String searchData = gson.toJson(lists);
-			System.out.println(lists);
-			return searchData;
-
-		} else if (selectBox.equals( "meetDday")) { //모임 가장 가까운순
-			List<GatchiDTO> lists = gatchiService.sortByDdayFind();
-			String searchData = gson.toJson(lists);
-			return searchData;
-		}
-		return null;
-	}
-
-*/
 
 	@RequestMapping(value = "/reFindList", method = RequestMethod.POST, consumes = "application/json")
 	public Map<String,Object> reFindList(@RequestBody Map<String, String> requestMap) throws Exception {
@@ -402,6 +317,8 @@ public class MeetmateController {
 		return data;
 	}
 	
+
+
 	@PostMapping("/meet/plusLike")
 	public String plusLike(@RequestBody Map<String, String> data,HttpServletRequest req) throws Exception {
 		
@@ -432,6 +349,8 @@ public class MeetmateController {
 		return "SUCCESS";
 	}
 	
+
+
 	@PostMapping("/meet/minusLike")
 	public String minusLike(@RequestBody Map<String, String> data,HttpServletRequest req) throws Exception {
 		
@@ -460,6 +379,8 @@ public class MeetmateController {
 
 		return "SUCCESS";
 	}
+
+	
 
 	@PostMapping("/meet/loadLikeData")
 	public List<Integer> loadLikeData(HttpServletRequest req) throws Exception {

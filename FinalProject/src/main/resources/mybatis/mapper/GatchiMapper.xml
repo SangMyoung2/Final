@@ -187,7 +187,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </insert>
 -->
 <update id="updateHitCount" parameterType="int">
-   update gatchi set meetHitCount = meetHitCount + 1 where meetListNum = #{meetListNum}
+	update gatchi set meetHitCount = meetHitCount + 1 where meetListNum = #{meetListNum}
 </update>
 <!--
 public void createMeetmate(MeetmateDTO dto) throws Exception;
@@ -255,5 +255,10 @@ map이나 hashMap이나 모두 사용가능
 	update gatchi set chatRoomNum = #{chatRoomNum} where meetListNum = #{meetListNum}
 </update>
 
+<select id="getProfileByUsers" parameterType="int" resultType="String">
+	SELECT users.picture FROM users
+	JOIN meetInfo ON users.email = meetInfo.email
+	WHERE meetInfo.meetListNum = ${meetListNum};
+</select>
 
 </mapper>
