@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 여기있는 sql을 호출할 인터페이스 패키지 위치를 정확하게 입력해야 사용이 가능하다. -->
+<mapper namespace="com.spring.boot.mapper.GatchiLikeMapper">
+
+<insert id="insertGatchiLike" parameterType="com.spring.boot.dto.GatchiLikeDTO">
+	insert into gatchilike values (#{meetListNum}, #{useremail})
+</insert>
+
+<delete id="deleteGatchiLike" parameterType="com.spring.boot.dto.GatchiLikeDTO">
+	delete gatchilike where useremail = #{useremail} and meetlistnum = #{meetListNum}
+</delete>
+
+<select id="getReadDataGatchiLike" parameterType="String" resultType="com.spring.boot.dto.GatchiLikeDTO">
+	select * from gatchilike where useremail = #{useremail}	
+</select>
+
+<select id="getReadDataInLike" parameterType="com.spring.boot.dto.GatchiLikeDTO" resultType="com.spring.boot.dto.GatchiLikeDTO">
+	select * from gatchilike where useremail = #{useremail} and meetlistnum = #{meetListNum}
+</select>
+
+</mapper>
