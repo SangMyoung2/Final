@@ -115,6 +115,7 @@
 
             var meetListNum = document.querySelector('#meet-listnum').value;
             var reviewContent = document.querySelector('#review-content').value;
+            reviewContent = reviewContent.replace(/\n/g, '\n');
             var reviewImage = document.querySelector('#review-image').files[0];
 
             // 리뷰 내용과 이미지 모두 필수로 입력되어야 함
@@ -588,7 +589,6 @@ if(reqMoney){
 
                     <button class="chat-btn" th:if="${meetMemStatus == 1 or meetMemStatus == 2}">
                         <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Speech%20Balloon.png" alt="Speech Balloon" width="25px" height="25px" /> 채팅 바로가기
-                        <input type="hidden" id="meet-memStatus" name="meetMemStatus" th:value="${meetMemStatus}" />
                     </button>
                     
                     <div class="approval-back" th:if="${meetMemStatus == 1}"> 
@@ -676,7 +676,7 @@ if(reqMoney){
                         <p class="Yj-title" id="meetTitle" th:text="${meetListInfo.meetTitle}"></p>
                         <div class="centered-content">
                             <div class="like-hitCount">
-                                <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Beating%20Heart.png" alt="Beating Heart" style="width: 35px; height: 35px;"/>
+                                <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Beating%20Heart.png" alt="Beating Heart" style="width: 30px; height: 30px;"/>
                                 <div style="color: #383535; font-size: 17px;">좋아요
                                     <span style="color: #5CA8B5; font-weight: bold;" th:text="${meetListInfo.meetLikeCount}">
                                     </span>
@@ -684,7 +684,7 @@ if(reqMoney){
                             </div>
                         
                             <div class="like-hitCount">
-                                <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Eye%20in%20Speech%20Bubble.png" alt="Eye in Speech Bubble" style="width: 35px; height: 35px;"/>
+                                <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Eye%20in%20Speech%20Bubble.png" alt="Eye in Speech Bubble" style="width: 30px; height: 30px;"/>
                                 <div style="color: #383535; font-size: 17px;">조회수
                                     <span style="color: #5CA8B5; font-weight: bold;" th:text="${meetListInfo.meetHitCount}">
                                     </span>
@@ -699,7 +699,8 @@ if(reqMoney){
 
                        
                         <div class="yj-intro">모임 소개</div>
-                        <p class="Yj-text1" th:text="${meetListInfo.meetContent}"></p>
+                        <p class="Yj-text1" th:utext="${meetListInfo.meetContent.replaceAll('\n', '<br>')}"></p>
+
 
                         <div class="yj-info">상세 정보</div>
                         <p class="text-with-hyphen Yj-text2" th:text="${meetListInfo.meetPlace}"></p>
@@ -779,7 +780,7 @@ if(reqMoney){
                         </a>
                     </p>
 
-                    <div div class="meet-mem-back" >
+                    <div div class="meet-mem-back">
                         <div class="meet-mem-list" th:each="meetMember : ${meetMembers}">
                             <li class="round-image-user mt-2" style="margin-right: 10px; margin-left: -10px;">
                                 <img th:if="${meetMember.role == 'GUEST'}" th:src="@{${meetMember.picture}}">
@@ -788,7 +789,6 @@ if(reqMoney){
                             <li class="custom-li" th:text="${meetMember.name}"></li>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -829,7 +829,8 @@ if(reqMoney){
                                 <img th:src="@{${'/image/reviewImage/' + meetReview.meetReviewImg}}" class="img-fluid rounded-start" alt="리뷰사진" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;" onclick="openModal(this);">
                             </div>
                         </div>
-                        <p class="card-text" th:text="${meetReview.meetReviewContent}" style="padding-left: 10px; padding-right: 10px; text-align: justify; font-size: 18px; margin-bottom: 5px;"></p>
+                        
+                        <p class="card-text" th:utext="${meetReview.meetReviewContent.replaceAll('\n', '<br>')}" style="padding-left: 10px; padding-right: 10px; text-align: justify; font-size: 18px; margin-bottom: 5px; line-height: 22px;"></p>
                         <p class="card-text d-flex" th:text="${#strings.substring(meetReview.meetReviewDate, 0, 16)}" style="color: #AAAAAA; font-size: 13px; position: absolute; top: 0; right: 0; margin-top: 31px; margin-right: 20px;"></p>
 
                         <span class="card-text d-flex delete-review" th:if="${#httpSession.getAttribute('user1') != null} and ${session.user1.email == meetReview.email}" th:data-email="${meetReview.email}" th:data-meetListNum="${meetListNum}" th:data-meetReviewNum="${meetReview.meetReviewNum}" onclick="deleteReview(this.getAttribute('data-email'), this.getAttribute('data-meetListNum'), this.getAttribute('data-meetReviewNum'))">삭제</span>

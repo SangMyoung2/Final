@@ -64,7 +64,7 @@
 .Yj-master {
     font-size: 17px;
     color: #383535;
-    margin-top: 5px;
+    margin-bottom: 10px;
 }
 
 .Yj-text1 {
@@ -73,10 +73,9 @@
     background-color: #fefefe;
     padding: 0px 45px 10px; /*위/양사이드/아래*/ 
     color: #383535;
-    font-size: 18px;
-    line-height: 20px;
     letter-spacing: -.6px;
     font-size: 20px;
+    line-height: 32px;
 }
 
 .Yj-text2 {
@@ -342,9 +341,25 @@
     transition: background-color 0.15s ease;
     margin-right: 10px;
 }
-
 .join-button:hover,.out-button:hover,.delete-button:hover {
     background-color: #4992df;
+}
+
+.c-join-button,.c-out-button,.c-delete-button {
+    display: inline-block;
+    padding: 8px 18px;
+    font-size: 18px;
+    background-color: #00824a;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+    margin-right: 10px;
+}
+.c-join-button:hover,.c-out-button:hover,.c-delete-button:hover {
+    background-color: #0da161;
 }
 
 .icon {
@@ -382,20 +397,20 @@
     background-color: #eff5fc;
     /* overflow-y: auto; */
     padding: 15px 14px 15px 15px;
-    border-top: 7px solid #dde6ff;
+    border-top: 7px solid #5b5e67;
     border-radius: 2px;
 }
-/* 스크롤 바의 트랙(배경) 스타일 */
-/* .meet-members::-webkit-scrollbar {
-    width: 8px;
-} */
 
-/* 스크롤 바의 슬라이더(스크롤 핸들) 스타일 */
-/* .meet-members::-webkit-scrollbar-thumb {
-    background-color: #5CA8B5;
-    border-radius: 5px;
-} */
-
+.c-meet-members {
+    position: fixed;
+    width: 255px;
+    height: 670px;
+    background-color: #eff5fc;
+    /* overflow-y: auto; */
+    padding: 15px 14px 15px 15px;
+    border-top: 7px solid #5b5e67;
+    border-radius: 2px;
+}
 
 .meet-mem-back {
     border: 1px solid #f4f4f4;
@@ -406,7 +421,7 @@
     background-color: #f8f8f8;
     display: flex;
     flex-direction: column;
-    overflow-x: hidden; /* 가로 스크롤 숨김 */
+    overflow-x: hidden;
     overflow-y: scroll;
     height: 230px;
     border-radius: 3px;
@@ -417,23 +432,43 @@
 }
 /* 스크롤 바의 트랙(배경) 스타일 */
 .meet-mem-back::-webkit-scrollbar {
-    width: 11px; /* 스크롤 바의 너비 설정 */
-    background-color: #5ca8b51c;
+    width: 11px;
+    background-color: #cfd8f242;
 }
 /* 스크롤 바의 슬라이더(스크롤 핸들) 스타일 */
 .meet-mem-back::-webkit-scrollbar-thumb {
-    background-color: #5ca8b565; /* 검정색으로 변경 */
-    border-radius: 6px; /* 슬라이더의 둥근 모양을 위한 속성 */
+    background-color: #ffffff;
+    border-radius: 6px;
 }
 
-/* .meet-mem-back {
-    border: 1px solid #ededed;
-    background-color: #E4EEF7;
+.meetmate-back {
+    border: 1px solid #f4f4f4;
+    padding-right: 20px;
+    padding-left: 15px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    background-color: #f8f8f8;
     display: flex;
     flex-direction: column;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    height: 200px;
     border-radius: 3px;
-    padding: 10px;
-} */
+}
+.meetmate-back .content {
+    flex: 1;
+    overflow: auto;
+}
+/* 스크롤 바의 트랙(배경) 스타일 */
+.meetmate-back::-webkit-scrollbar {
+    width: 11px;
+    background-color: #cfd8f242;
+}
+/* 스크롤 바의 슬라이더(스크롤 핸들) 스타일 */
+.meetmate-back::-webkit-scrollbar-thumb {
+    background-color: #ffffff;
+    border-radius: 6px;
+}
 
 .meet-mypage {
     position: fixed;
@@ -572,13 +607,33 @@
     text-decoration: none;
     display: block;
     margin: 0 auto;
-    font-size: 16px;
     border-radius: 7px;
     cursor: pointer;
     font-size: 20px;
     margin-top: -40px;
     margin-bottom: 30px;
 }
+
+.meetmate-btn {
+    background-color: #ffffff;
+    border: 2px solid #5b5e67;
+    color: rgb(0, 0, 0);
+    padding: 10px 43px;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    margin: 0 auto;
+    font-size: 16px;
+    border-radius: 2px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: border-color 0.3s ease;
+}
+
+.meetmate-btn:hover {
+    border-color: #00824a;
+}
+
 
 .approval-back {
     padding: 20px;

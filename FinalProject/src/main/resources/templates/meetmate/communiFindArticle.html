@@ -57,7 +57,7 @@
     function showHomeContent() {
         document.querySelector('.yj-img').style.display = 'block';
         document.querySelector('.yj-img2').style.display = 'none';
-        document.querySelector('.meet-members').style.display = 'block';
+        document.querySelector('.c-meet-members').style.display = 'block';
         document.querySelector('.meet-mypage').style.display = 'block';
     }
 
@@ -65,7 +65,7 @@
     function showReviewContent() {
         document.querySelector('.yj-img').style.display = 'none';
         document.querySelector('.yj-img2').style.display = 'block';
-        document.querySelector('.meet-members').style.display = 'none';
+        document.querySelector('.c-meet-members').style.display = 'none';
         document.querySelector('.meet-mypage').style.display = 'none';
     }
 
@@ -115,6 +115,7 @@
 
             var meetListNum = document.querySelector('#meet-listnum').value;
             var reviewContent = document.querySelector('#review-content').value;
+            reviewContent = reviewContent.replace(/\n/g, '\n');
             var reviewImage = document.querySelector('#review-image').files[0];
 
             // 리뷰 내용과 이미지 모두 필수로 입력되어야 함
@@ -676,7 +677,7 @@ if(reqMoney){
                         <p class="Yj-title" id="meetTitle" th:text="${meetListInfo.meetTitle}"></p>
                         <div class="centered-content">
                             <div class="like-hitCount">
-                                <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Beating%20Heart.png" alt="Beating Heart" style="width: 35px; height: 35px;"/>
+                                <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Beating%20Heart.png" alt="Beating Heart" style="width: 30px; height: 30px;"/>
                                 <div style="color: #383535; font-size: 17px;">좋아요
                                     <span style="color: #5CA8B5; font-weight: bold;" th:text="${meetListInfo.meetLikeCount}">
                                     </span>
@@ -684,7 +685,7 @@ if(reqMoney){
                             </div>
                         
                             <div class="like-hitCount">
-                                <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Eye%20in%20Speech%20Bubble.png" alt="Eye in Speech Bubble" style="width: 35px; height: 35px;"/>
+                                <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Eye%20in%20Speech%20Bubble.png" alt="Eye in Speech Bubble" style="width: 30px; height: 30px;"/>
                                 <div style="color: #383535; font-size: 17px;">조회수
                                     <span style="color: #5CA8B5; font-weight: bold;" th:text="${meetListInfo.meetHitCount}">
                                     </span>
@@ -699,7 +700,8 @@ if(reqMoney){
 
                        
                         <div class="c-intro">모임 소개</div>
-                        <p class="Yj-text1" th:text="${meetListInfo.meetContent}"></p>
+                        <p class="Yj-text1" th:utext="${meetListInfo.meetContent.replaceAll('\n', '<br>')}"></p>
+
 
                         <div class="c-info">상세 정보</div>
                         <p class="text-with-hyphen Yj-text2" th:text="${meetListInfo.meetPlace}"></p>
@@ -721,12 +723,12 @@ if(reqMoney){
                         </div>
                         
                         <form th:if="${meetMemStatus < 0} and ${meetStatus == 1} and ${meetListInfo.meetMemCnt<meetListInfo.meetMaxMemCnt}">
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button form="joinForm" type="button" class="join-button" onclick="joinMeet()">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button form="joinForm" type="button" class="c-join-button" onclick="joinMeet()">
                                가입하기
                             </button>
                         </form>
                         <form th:with="meetMemStatus=${meetMemStatus}" th:if="${meetMemStatus == 0}">
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="join-button" onclick="joinCancel()">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="c-join-button" onclick="joinCancel()">
                                가입취소
                             </button>
                         </form>
@@ -743,7 +745,7 @@ if(reqMoney){
                         </form>
 
                         <form th:if="${meetMemStatus == 2} and ${meetStatus == 1}">
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button form="outForm" type="button" class="out-button" onclick="outmeet()">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button form="outForm" type="button" class="c-out-button" onclick="outmeet()">
                                 모임 나가기
                             </button>
                         </form>
@@ -753,7 +755,7 @@ if(reqMoney){
                         </form>
                         
                         <form th:with="meetMemStatus=${meetMemStatus}" th:if="${meetMemStatus == 1} and ${meetStatus == 1}">
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button form="deleteForm" type="button" class="delete-button" onclick="deleteMeet()">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button form="deleteForm" type="button" class="c-delete-button" onclick="deleteMeet()">
                                 모임 삭제
                             </button>
                         </form>
@@ -768,7 +770,7 @@ if(reqMoney){
             </div>
 
             <div class="col-md-2">
-                <div class="meet-members">
+                <div class="c-meet-members">
                     <p style="margin-top: 10px; margin-bottom: 5px;">
                         <span style="margin-left: 12px;">멤버목록</span>
                         <span th:each="meetListInfo : ${meetListInfo}" style="margin-left: 5px; color: #5CA8B5; font-weight: bold;" th:text="${meetListInfo.meetMemCnt}"></span>
@@ -788,12 +790,21 @@ if(reqMoney){
                             <li class="custom-li" th:text="${meetMember.name}"></li>
                         </div>
                     </div>
+                    <hr style="width: 225px; border-width: 2px; border-color: #84A5FF;">
+                    <p style="margin-left: 12px;">meetmate 목록</p>
+                    <div div class="meetmate-back">
+                        ㄷㄷ
+                    </div>
+
+                    <button class="meetmate-btn" th:if="${meetMemStatus == 1}">
+                        meetmate 생성하기
+                    </button>
 
                 </div>
             </div>
         </div>
     </div>
-
+    
     <div class="yj-img2">
         <div class="review-title">REVIEW</div>
         <div class="review-sub">이 모임 유저의 생생한 후기를 만나보세요!</div>
@@ -829,7 +840,8 @@ if(reqMoney){
                                 <img th:src="@{${'/image/reviewImage/' + meetReview.meetReviewImg}}" class="img-fluid rounded-start" alt="리뷰사진" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;" onclick="openModal(this);">
                             </div>
                         </div>
-                        <p class="card-text" th:text="${meetReview.meetReviewContent}" style="padding-left: 10px; padding-right: 10px; text-align: justify; font-size: 18px; margin-bottom: 5px;"></p>
+                        
+                        <p class="card-text" th:utext="${meetReview.meetReviewContent.replaceAll('\n', '<br>')}" style="padding-left: 10px; padding-right: 10px; text-align: justify; font-size: 18px; margin-bottom: 5px; line-height: 22px;"></p>
                         <p class="card-text d-flex" th:text="${#strings.substring(meetReview.meetReviewDate, 0, 16)}" style="color: #AAAAAA; font-size: 13px; position: absolute; top: 0; right: 0; margin-top: 31px; margin-right: 20px;"></p>
 
                         <span class="card-text d-flex delete-review" th:if="${#httpSession.getAttribute('user1') != null} and ${session.user1.email == meetReview.email}" th:data-email="${meetReview.email}" th:data-meetListNum="${meetListNum}" th:data-meetReviewNum="${meetReview.meetReviewNum}" onclick="deleteReview(this.getAttribute('data-email'), this.getAttribute('data-meetListNum'), this.getAttribute('data-meetReviewNum'))">삭제</span>
