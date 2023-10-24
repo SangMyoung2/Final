@@ -143,6 +143,10 @@ public class GatchiServiceImpl implements GatchiService{
 
 	
 
+	@Override
+	public void updateHitCount(int meetListNum) throws Exception {
+		gatchiMapper.updateHitCount(meetListNum);
+	}
 
 /*
 	@Override
@@ -152,10 +156,6 @@ public class GatchiServiceImpl implements GatchiService{
 
 	
 
-	@Override
-	public void updateHitCount(int num) throws Exception {
-		boardMapper.updateHitCount(num);
-	}
 
 
 

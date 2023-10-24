@@ -440,7 +440,7 @@ if(reqMoney){
                     <div class="badge primary" th:text="${meetListInfo.meetCtgNum}">취미</div>
                     <div class="user-info-container">
                         <div class="round-image-login">
-                            <img th:src="@{/image/gatchiImage/1111.jpg}" alt="로그인유저프사(임의)"/>
+                            <img th:src="@{|/image/login/${masterProfile}|}" alt="User Picture" id="masterProfile"/>
                         </div>
                         <div class="login-user-email" th:if="${#httpSession.getAttribute('user1') != null}" 
                         th:text="|${session.user1.name}"></div>
@@ -494,7 +494,7 @@ if(reqMoney){
                     <img th:src="@{${'/image/gatchiImage/' + meetListInfo.meetImage}}" alt="n번방의 대표사진">
                     <div class="Main_content" >
                         <div class="round-image">
-                            <img th:src="@{/image/gatchiImage/1111.jpg}" alt="방장프사(임의)"/>
+                            <img th:src="@{|/image/login/${masterProfile}|}" alt="User Picture" id="masterProfile"/>
                         </div>
                         <div class="Yj-master" th:each="meetMaster : ${meetMaster}" th:text="${meetMaster.name}"></div>
                         <p class="Yj-title" id="meetTitle" th:text="${meetListInfo.meetTitle}"></p>
@@ -598,7 +598,7 @@ if(reqMoney){
                     </p>
                     <div class="meet-mem-list" th:each="meetMember : ${meetMembers}">
                         <li class="round-image-user mt-2" style="margin-right: 10px; margin-left: -10px;">
-                            <img th:src="@{/image/gatchiImage/1111.jpg}" alt="유저프사(임의)"/>
+                            <img th:src="@{|/image/login/${masterProfile}|}" alt="User Picture" id="masterProfile"/>
                         </li>
                         <li class="custom-li" th:text="${meetMember.name}"></li>
                     </div>

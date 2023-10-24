@@ -74,7 +74,7 @@ public interface GatchiService {
 	
 	// public BoardDTO getReadData(int num) throws Exception;
 	
-	// public void updateHitCount(int num) throws Exception;
+	public void updateHitCount(int meetListNum) throws Exception;
 	
 	// public void updateData(BoardDTO dto) throws Exception;
 	

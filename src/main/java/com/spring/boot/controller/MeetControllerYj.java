@@ -77,7 +77,9 @@ public class MeetControllerYj {
 		GatchiDTO GatchiDTO = new GatchiDTO();
 		GatchiDTO.setMeetListNum(Integer.parseInt(request.getParameter("meetListNum")));
         meetServiceYj.meetStatusCompletion(GatchiDTO);
-
+		
+		gatchiService.updateHitCount(meetListNum);//조회수 증가
+		
 		GatchiDTO meetListInfo = meetServiceYj.getMeetListInfo(Integer.parseInt(request.getParameter("meetListNum")));
 		List<MeetInfoDTO> meetMembers = meetServiceYj.getMeetMembers(Integer.parseInt(request.getParameter("meetListNum")));
 		List<MeetReviewDTO> meetReview = meetServiceYj.getReview(Integer.parseInt(request.getParameter("meetListNum")));
@@ -86,6 +88,11 @@ public class MeetControllerYj {
 		
 		ModelAndView mav = new ModelAndView();
 		MeetInfoDTO MeetInfoDTO = new MeetInfoDTO();
+
+		// 방장 프로필 사진 불러오기
+		meetListNum = MeetInfoDTO.getMeetListNum();
+		String masterProfile = gatchiService.getProfileByUsers(meetListNum);
+
 
 		HttpSession session = request.getSession();
 		// Users social = (Users)session.getAttribute("user");
@@ -120,6 +127,7 @@ public class MeetControllerYj {
 		mav.addObject("meetMaster", meetMaster);
         mav.addObject("meetStatus", meetStatus);
 		mav.addObject("meetListNum", request.getParameter("meetListNum"));
+		mav.addObject("masterProfile", masterProfile);
 		mav.addObject("meetListInfo", meetListInfo);
 		mav.addObject("meetMembers", meetMembers);
 		mav.addObject("meetReview", meetReview);

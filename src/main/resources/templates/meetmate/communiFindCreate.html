@@ -338,7 +338,16 @@
 
     const sendIt = () => {
 
+        const categories = ["culture", "food", "hobby", "trip", "sport"];
+        const selectedCategories = categories.filter(category => document.getElementById(category).checked);
+
+        if (selectedCategories.length === 0) {
+            alert('카테고리를 선택해주세요.');
+            return;
+        }
+
         createMeetDate();
+
         if(!DdayCheck()){
             return;
         }        
