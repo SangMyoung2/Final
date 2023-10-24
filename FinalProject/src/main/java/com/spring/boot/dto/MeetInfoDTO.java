@@ -11,4 +11,6 @@ public class MeetInfoDTO {
     private int approvalStatus; //0승인대기중 1승인함 2기각함
     
     private String name;
+    private String picture;
+    private String role;
 }

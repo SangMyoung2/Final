@@ -67,7 +67,8 @@ public class MeetControllerYj {
 		int meetStatus = meetServiceYj.getMeetStatus(Integer.parseInt(request.getParameter("meetListNum")));
 		MeetInfoDTO meetMaster = meetServiceYj.getMeetMaster(Integer.parseInt(request.getParameter("meetListNum")));
 		List<MeetCategoryDTO> meetCategory = meetServiceYj.getAllCategories();
-		
+		gatchiService.updateHitCount(meetListNum);//조회수증가
+
 		ModelAndView mav = new ModelAndView();
 		MeetInfoDTO meetInfoDTO = new MeetInfoDTO();
 
@@ -120,8 +121,10 @@ public class MeetControllerYj {
             @RequestParam("meetReviewContent") String meetReviewContent,
             @RequestParam("meetReviewImg") MultipartFile meetReviewImg) throws Exception {
         
-		Resource resource = new ClassPathResource("static");
-      	String resourcePath = resource.getFile().getAbsolutePath() + "/image/reviewImage";
+		 String resourcePath = "C:\\VSCode\\Final\\FinalProject\\src\\main\\resources\\static\\image\\reviewImage";
+
+		// Resource resource = new ClassPathResource("static");
+      	// String resourcePath = resource.getFile().getAbsolutePath() + "/image/reviewImage";
 
         MeetReviewDTO meetReviewDTO = new MeetReviewDTO();
 		MeetInfoDTO meetInfoDTO = new MeetInfoDTO();
@@ -139,7 +142,6 @@ public class MeetControllerYj {
 			meetReviewDTO.setEmail(user1.getEmail());
 		}
 		
-		
 		String useremail = user1.getEmail();
 
 		meetReviewDTO.setMeetListNum(meetListNum);
@@ -153,13 +155,14 @@ public class MeetControllerYj {
 
 			if (!meetReviewImg.isEmpty()) {
 				String originalFilename = meetReviewImg.getOriginalFilename();
-				String saveFileName = originalFilename + UUID.randomUUID();
+				String saveFileName = UUID.randomUUID() + originalFilename;
 				System.out.println(saveFileName);
 				Path filePath = Paths.get(resourcePath, saveFileName);
             	// 파일 저장
             	Files.write(filePath, meetReviewImg.getBytes());
 				// File destFile = new File(resourcePath, saveFileName);
 				// meetReviewImg.transferTo(destFile);
+				// Resource resource = new ClassPathResource("static");
 
 				meetReviewDTO.setMeetReviewImg(saveFileName);
 				meetReviewDTO.setMeetReviewContent(meetReviewContent);

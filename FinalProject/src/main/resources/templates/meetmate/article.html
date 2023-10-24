@@ -547,15 +547,12 @@ if(reqMoney){
                     <div class="badge primary" th:text="${meetCategory[meetListInfo.meetCtgNum - 1].meetCtgName}"></div>
 
                     <div class="user-info-container">
-                        <div class="round-image-login">
-                            <div th:if="${#httpSession.getAttribute('user') != null}">
+                            <div class="round-image-login" th:if="${#httpSession.getAttribute('user') != null}">
                                 <img th:src="@{${session.user.picture}}">
                             </div>
-                            <div th:if="${#httpSession.getAttribute('user1') != null}">
-                                <img th:src="@{${session.user1.picture}}">
+                            <div class="round-image-login" th:if="${#httpSession.getAttribute('user1') != null}">
+                                <img th:src="@{image/login/__${session.user1.picture}__}">
                             </div>
-                            <!-- <img th:src="@{/image/gatchiImage/1111.jpg}" alt="로그인유저프사(임의)"/> -->
-                        </div>
                         <div class="login-user-email" th:if="${#httpSession.getAttribute('user1') != null}" 
                         th:text="|${session.user1.name}"></div>
                         <div class="login-user-email" th:if="${#httpSession.getAttribute('user') != null}" 
@@ -596,14 +593,17 @@ if(reqMoney){
                         <div class="approval-mem-back" id="expandable-content" style="display: none;" th:if="${membersExMaster.isEmpty()}">
                             <div style="text-align: center; margin-top: 45px; margin-left: 10px; font-size: 18px;">가입 중인 회원이 없습니다.</div>
                         </div>
+                        
                         <div class="approval-mem-back" id="expandable-content" style="display: none;">
                             <div style="margin-left: auto; cursor: pointer; margin-right: 9px; color: #AAAAAA;" onclick="toggleAll()">전체선택</div>
                             <div style="margin-top: -10px;"></div>
                             <hr style="width: 95%; margin-left: 10px;">
                             <div class="approval-mem-list" th:each="membersExMaster : ${membersExMaster}">
-                                <li class="round-image-user mt-2" style="margin-right: 10px; margin-left: -10px;">
-                                    <img th:src="@{/image/gatchiImage/1111.jpg}" alt="유저프사(임의)" />
+                                <li class="round-image-user mt-2" style="margin-right: 10px;  margin-left: -10px;">
+                                    <img th:if="${membersExMaster.role == 'GUEST'}" th:src="@{${membersExMaster.picture}}">
+                                    <img th:if="${membersExMaster.role != 'GUEST'}" th:src="@{image/login/__${membersExMaster.picture}__}">
                                 </li>
+                                
                                 <li class="approval-li" th:text="${membersExMaster.name}"></li>
                                 <span class="approval-action" th:data-email="${membersExMaster.email}" th:data-meetListNum="${meetListNum}" th:data-name="${membersExMaster.name}" onclick="toggleAccept(this)">
                                     <span th:if="${membersExMaster.approvalStatus == -1}">√</span>
@@ -621,8 +621,6 @@ if(reqMoney){
                     </div>
                     
 
-
-
                     <div class="approval-back2" th:if="${meetMemStatus == 2 and approvalStatus >= 0}"> 
                         <div style="display: flex; align-items: center;">
                             <div style="margin-left: 6px; font-size: 18px;">승인요청</div>
@@ -631,7 +629,6 @@ if(reqMoney){
                         <div class="approval-mem-back2" id="expandable-content">
                             <div class="approval-mem-q">
                                     
-                                
                                 👑 <span class="approval-name" th:text="${meetMaster.name}"></span> 님이 요청하셨습니다. 승인하시겠습니까?
                             </div>
 
@@ -666,7 +663,8 @@ if(reqMoney){
                     <img th:src="@{${'/image/gatchiImage/' + meetListInfo.meetImage}}" alt="n번방의 대표사진">
                     <div class="Main_content" >
                         <div class="round-image">
-                            <img th:src="@{/image/gatchiImage/1111.jpg}" alt="방장프사(임의)"/>
+                            <!-- <img th:src="@{/image/gatchiImage/1111.jpg}" alt="방장프사(임의)"/> -->
+                            <img th:src="@{|/image/login/${meetMaster.picture}|}" alt="방장프사"/>
                         </div>
                         <div class="Yj-master" th:each="meetMaster : ${meetMaster}" th:text="${meetMaster.name}"></div>
                         <p class="Yj-title" id="meetTitle" th:text="${meetListInfo.meetTitle}"></p>
@@ -759,21 +757,26 @@ if(reqMoney){
 
             <div class="col-md-2">
                 <div class="meet-members">
-                    <p>
+                    <p style="margin-top: 10px; margin-bottom: 5px;">
                         <span style="margin-left: 12px;">멤버목록</span>
-                        <span th:each="meetListInfo : ${meetListInfo}" style="margin-left: 5px; color: #5CA8B5;" th:text="${meetListInfo.meetMemCnt}"></span>
-                        <span style="margin-right: 20px; color: #5CA8B5;">명</span>
+                        <span th:each="meetListInfo : ${meetListInfo}" style="margin-left: 5px; color: #5CA8B5; font-weight: bold;" th:text="${meetListInfo.meetMemCnt}"></span>
+                        <span style="margin-right: 86px; color: #5CA8B5; font-weight: bold;">명</span>
                         <a th:if="${meetMemStatus == 1}" th:href="@{'/meetManager.action?meetListNum=' + ${meetListInfo.meetListNum}}" style="text-decoration: none;">
                             <span style="color: #adadad;">관리</span>
                             <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Chains.png" alt="Chains" width="17" height="17" />
                         </a>
                     </p>
-                    <div class="meet-mem-list" th:each="meetMember : ${meetMembers}">
-                        <li class="round-image-user mt-2" style="margin-right: 10px; margin-left: -10px;">
-                            <img th:src="@{/image/gatchiImage/1111.jpg}" alt="유저프사(임의)"/>
-                        </li>
-                        <li class="custom-li" th:text="${meetMember.name}"></li>
+
+                    <div div class="meet-mem-back" >
+                        <div class="meet-mem-list" th:each="meetMember : ${meetMembers}">
+                            <li class="round-image-user mt-2" style="margin-right: 10px; margin-left: -10px;">
+                                <img th:if="${meetMember.role == 'GUEST'}" th:src="@{${meetMember.picture}}">
+                                <img th:if="${meetMember.role != 'GUEST'}" th:src="@{image/login/__${meetMember.picture}__}">
+                            </li>
+                            <li class="custom-li" th:text="${meetMember.name}"></li>
+                        </div>
                     </div>
+
                 </div>
             </div>
         </div>

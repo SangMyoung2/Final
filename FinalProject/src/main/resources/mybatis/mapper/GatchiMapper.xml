@@ -186,14 +186,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	values (#{meetListNum}, #{likecount}=#{likecount}+1, #{userEmail})
 </insert>
 -->
-
+<update id="updateHitCount" parameterType="int">
+   update gatchi set meetHitCount = meetHitCount + 1 where meetListNum = #{meetListNum}
+</update>
 <!--
 public void createMeetmate(MeetmateDTO dto) throws Exception;
 
-
-<update id="updateHitCount" parameterType="int">
-	update board set hitCount=hitCount+1 where num=#{num}
-</update>
 
 <insert id="insertData" parameterType="com.spring.boot.dto.BoardDTO">
 	insert into board(num,name,pwd,email,subject,content,ipAddr,
