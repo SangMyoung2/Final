@@ -38,6 +38,11 @@ public class MeetServiceImplYj implements MeetServiceYj {
     }
     
     @Override
+    public List<MeetInfoDTO> getMembersExMaster(int meetListNum) throws Exception {
+        return meetMapperYj.getMembersExMaster(meetListNum);
+    }
+    
+    @Override
     public List<MeetReviewDTO> getReview(int meetListNum) throws Exception {
         return meetMapperYj.getReview(meetListNum);
     }
@@ -65,6 +70,11 @@ public class MeetServiceImplYj implements MeetServiceYj {
     @Override
     public Integer getMemberStatus(MeetInfoDTO dto) throws Exception {
         return meetMapperYj.getMemberStatus(dto);
+    }
+
+    @Override
+    public Integer getApprovalStatus(MeetInfoDTO dto) throws Exception {
+        return meetMapperYj.getApprovalStatus(dto);
     }
 
     @Override
@@ -136,6 +146,21 @@ public class MeetServiceImplYj implements MeetServiceYj {
     @Override
     public void releaseFromBlacklist(MeetInfoDTO dto) throws Exception {
         meetMapperYj.releaseFromBlacklist(dto);
+    }
+    
+    @Override
+    public void updateApprovalReq(MeetInfoDTO dto) throws Exception {
+        meetMapperYj.updateApprovalReq(dto);
+    }
+    
+    @Override
+    public void updateApprovalOk(MeetInfoDTO dto) throws Exception {
+        meetMapperYj.updateApprovalOk(dto);
+    }
+    
+    @Override
+    public void updateReject(MeetInfoDTO dto) throws Exception {
+        meetMapperYj.updateReject(dto);
     }
 
     @Override
