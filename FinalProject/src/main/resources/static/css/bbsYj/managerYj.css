@@ -6,6 +6,7 @@
 .manager-container {
     /* border: 1px solid #171616; */
     max-width: 600px;
+    min-width: 600px;
     margin: 0 50px 100px 100px;
     display: flex;
     flex-direction: column;
@@ -24,7 +25,7 @@
 }
 
 .req-title {
-    text-align: left;
+    text-align: center;
     margin-top: 50px;
     margin-left: -400px;
     font-size: 18px;
@@ -143,7 +144,8 @@
     border: 1px solid #E4EEF7;
     width: 250px;
     height: 300px;
-    margin-top: 110px;
+    margin-top: 80px;
+    margin-bottom: 70px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -157,11 +159,11 @@
 
 .blacklist-title {
     text-align: left;
-    margin-top: 20px;
+    margin-top: 10px;
     font-size: 18px;
     color: #171616;
     margin-bottom: 10px;
-    margin-left: 15px;
+    font-weight: bold;
 }
 
 .black-background {

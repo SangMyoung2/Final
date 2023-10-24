@@ -6,7 +6,7 @@
 
 <link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/index.css}"/>
 <link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/bbsYj/listYj.css}"/>
-<link rel="icon" type="image/png" th:href="@{http://localhost:8080/image/Icon2-removebg.png}"/>
+<link rel="icon" type="image/png" th:href="@{http://localhost:8080/image/로고.png}"/>
 
 </head>
 <body>
@@ -14,10 +14,10 @@
     <div class="yj-div">
         <ul class="yj-ul">
             <!-- 카테고리 목록 출력 -->
-            <th:block th:each="category : ${listYj}">
+            <th:block th:each="category : ${meetLists}">
                 <li class="yj-li"
-                    th:text="${category.meet_ctgname}"
-                    th:data-category="${category.meet_ctgname}"></li>
+                    th:text="${category.meetCtgName}"
+                    th:data-category="${category.meetCtgName}"></li>
             </th:block>
         </ul>
     

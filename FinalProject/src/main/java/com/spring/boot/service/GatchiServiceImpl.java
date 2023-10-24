@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.boot.dto.GatchiDTO;
+import com.spring.boot.dto.MeetInfoDTO;
 import com.spring.boot.mapper.GatchiMapper;
 
 @Service
@@ -17,8 +18,31 @@ public class GatchiServiceImpl implements GatchiService{
 	private GatchiMapper gatchiMapper;
 
 	@Override
-	public void createMeetmate(GatchiDTO dto) throws Exception {		
-		gatchiMapper.createMeetmate(dto);
+	public void createGatchi(GatchiDTO dto) throws Exception {		
+		gatchiMapper.createGatchi(dto);
+	}
+	
+	@Override
+	public void createMeetInfo(MeetInfoDTO infoDTO) throws Exception {
+		gatchiMapper.createMeetInfo(infoDTO);
+	}
+
+	@Override
+	public List<Integer> getMeetListNumByUserEmail(String email) throws Exception {
+		
+		return gatchiMapper.getMeetListNumByUserEmail(email);
+	}
+
+	@Override
+	public List<GatchiDTO> getGatchiByMeetMateListNums(List<Integer> meetListNums) {
+        return gatchiMapper.getGatchiByMeetMateListNums(meetListNums);
+	}
+
+
+	@Override
+	public List<MeetInfoDTO> getMeetInfo() throws Exception {
+		
+		return gatchiMapper.getMeetInfo();
 	}
 
 	@Override
@@ -26,10 +50,95 @@ public class GatchiServiceImpl implements GatchiService{
 		return gatchiMapper.maxNum();
 	}
 	
+	
 	@Override
-	public List<GatchiDTO> getMeetLists() throws Exception{
-		return gatchiMapper.getMeetLists();
+	public String masterPicture() throws Exception {
+		return gatchiMapper.masterPicture();
 	}
+
+	// @Override
+	// public GatchiDTO getReadData(int meetListNum) throws Exception {
+	// 	return gatchiMapper.getReadData(meetListNum);	
+	// }
+
+	@Override
+	public List<GatchiDTO> getMeetMateLists() throws Exception{
+		return gatchiMapper.getMeetMateLists();
+	}
+
+	@Override
+	public List<GatchiDTO> getCommuniFindLists() throws Exception{
+		return gatchiMapper.getCommuniFindLists();
+	}
+
+	@Override
+	public List<GatchiDTO> getMeetMateRandomList(int count) throws Exception {
+		return gatchiMapper.getMeetMateRandomList(count);
+	}
+
+	@Override
+	public List<GatchiDTO> getCommuniFindRandomList(int count) throws Exception {
+		return gatchiMapper.getCommuniFindRandomList(count);
+	}
+
+	@Override
+	public List<GatchiDTO> getRownumList(int end) throws Exception {
+		return gatchiMapper.getRownumList(end);
+	}
+
+	@Override
+	public List<GatchiDTO> searchMeetMateList(String searchKey, String searchValue) throws Exception {
+		return gatchiMapper.searchMeetMateList(searchKey, searchValue);
+	}
+	
+	@Override
+	public List<GatchiDTO> searchCommuniFindList(String searchKey, String searchValue) throws Exception {
+		return gatchiMapper.searchCommuniFindList(searchKey, searchValue);
+	}
+	
+	@Override
+	public void updateMeetStatusMate(GatchiDTO gatchiDTO) throws Exception {
+		gatchiMapper.updateMeetStatusMate(gatchiDTO);
+	}
+	
+	@Override
+	public void updateMeetStatusFind(GatchiDTO gatchiDTO) throws Exception {
+		gatchiMapper.updateMeetStatusFind(gatchiDTO);
+	}
+	
+	@Override
+	public List<GatchiDTO> sortByLikeCountMeet() throws Exception {
+		return gatchiMapper.sortByLikeCountMeet();
+	}
+		
+	@Override
+	public List<GatchiDTO> sortByHitCountMeet() throws Exception {
+		return gatchiMapper.sortByHitCountMeet();
+	}
+	
+	@Override
+	public List<GatchiDTO> sortByDdayMeet() throws Exception {
+		return gatchiMapper.sortByDdayMeet();
+	}
+	
+	@Override
+	public List<GatchiDTO> sortByLikeCountFind() throws Exception {
+		return gatchiMapper.sortByLikeCountMeet();
+	}
+		
+	@Override
+	public List<GatchiDTO> sortByHitCountFind() throws Exception {
+		return gatchiMapper.sortByHitCountMeet();
+	}
+	
+	@Override
+	public List<GatchiDTO> sortByDdayFind() throws Exception {
+		return gatchiMapper.sortByDdayMeet();
+	}
+
+	
+
+
 /*
 	@Override
 	public void meetLikes(int meetListNum) throws Exception {
@@ -77,6 +186,36 @@ public class GatchiServiceImpl implements GatchiService{
 	public void deleteData(int num) throws Exception {
 		boardMapper.deleteData(num);
 	}
-	*/
+*/
+
+
+	
+@Override
+public void plusMeetCount(int meetListNum) throws Exception {
+	gatchiMapper.plusMeetCount(meetListNum);
+}
+
+@Override
+public void minusMeetCount(int meetListNum) throws Exception{
+	gatchiMapper.minusMeetCount(meetListNum);
+}
+
+@Override
+public List<GatchiDTO> getReadDataInUser(String useremail) throws Exception{
+	return gatchiMapper.getReadDataInUser(useremail);
+}
+
+@Override
+public List<GatchiDTO> getReadDataInListNum(int meetListNum) throws Exception{
+	return gatchiMapper.getReadDataInListNum(meetListNum);
+}
+
+@Override
+public void updateChatRoom(GatchiDTO dto) throws Exception{
+	gatchiMapper.updateChatRoom(dto);
+}
+
 
 }
+
+

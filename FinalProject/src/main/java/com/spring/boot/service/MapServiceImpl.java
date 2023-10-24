@@ -41,4 +41,9 @@ public class MapServiceImpl implements MapService{
         return mapMapper.getCategory(meetCtgNum);
     }
 
+    @Override
+    public void insertMapData(MapDTO dto) throws Exception {
+        mapMapper.insertMapData(dto);
+    }
+
 }

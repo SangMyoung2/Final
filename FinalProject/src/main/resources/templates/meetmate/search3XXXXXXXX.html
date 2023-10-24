@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Insert title here</title>
+    <style type="text/css">
+        .suggest {
+            display: none;
+            position: absolute;
+            left: 11px;
+            top: 141px;
+        }
+
+        .searchForm{
+            margin-left: 72%;
+        }
+
+        header > .search-input-box {
+            flex-grow: 1;
+        }
+
+        header > .search-input-box > form {
+        margin: 0 auto;
+        height: 100%;
+        position: relative;
+        width: 400px;
+        }
+
+        header > .search-input-box > form > input {
+        width: 400px;
+        outline: none;
+        border: 1px solid #5CA8B5;
+        height: 100%;
+        box-sizing: border-box;
+        border-radius: 5px;
+        padding: 0 8px;
+        }
+
+        header > .search-input-box > form > button {
+        position: absolute;
+        right: 0;
+        top: 0;
+        border: none;
+        height: 100%;
+        background-color: transparent;
+        }
+
+
+        /*아이콘*/
+        header > .icon-box {
+        display: flex;
+        align-items: center;
+        justify-content: end;
+        width: 266px;
+        }
+        header > .icon-box > svg {
+        margin: 0 10px;
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="search-input-box">
+
+        <form action="" method="get" name="searchForm">
+            <select name="searchKey" class="selectFiled">
+				<option value="meetTitle">제목</option>
+				<option value="meetDday">모임일</option>
+				<option value="meetPlace">장소</option>			
+			</select>
+
+            <input type="text" name="searchValue" placeholder="search.." onkeyup="sendKeyword();"/>
+                <input type="button" onclick="sendIt();"/>      
+                    <svg width="15" height="12" viewBox="0 0 34 30" xmlns="http://www.w3.org/2000/svg">
+                    <g fill="none" fill-rule="evenodd">
+                        <path fill="none" d="M0 0h36v36H0z"/>
+                        <g stroke="#5F0080" stroke-linecap="round" stroke-width="2">
+                        <path d="m26.081 26.081-4.12-4.12M16.467 23.334a6.867 6.867 0 1 0 0-13.734 6.867 6.867 0 0 0 0 13.734z"/>
+                        </g>
+                    </g>
+                    </svg>
+                </input>
+            <div id="suggestDiv" class="suggest">
+                <div id="suggestListDiv"></div>
+            </div>
+        </form>
+    </div>
+    <script type="text/javascript">
+	
+        function sendIt(){
+            var f = document.searchForm;
+            
+            f.action = "/meetMateList";
+            f.submit();
+        }
+
+        function sendKeyword() {
+        var userKeyword = document.myForm.userKeyword.value;
+        if (userKeyword == "") {
+            hide();
+            return;
+        }
+        fetch('http://localhost:8080/meetMateList', {
+        method: 'POST',
+        body: JSON.stringify({ userKeyword: userKeyword }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.count > 0) {
+            var keywordList = data.keywordList;
+            var html = "";
+            for (var i = 0; i < keywordList.length; i++) {
+                html += "<a href=\"javascript:select('" + keywordList[i] + "');\">" + keywordList[i] + "</a><br/>";
+            }
+            var suggestListDiv = document.getElementById("suggestListDiv");
+            suggestListDiv.innerHTML = html;
+            show();
+        } else {
+            hide();
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        hide();
+    });
+}
+
+
+
+    function select(selectKeyword) {
+        document.myForm.userKeyword.value = selectKeyword;
+        hide();
+    }
+    function show() {
+        var suggestDiv = document.getElementById("suggestDiv");
+        suggestDiv.style.display = "block";
+    }
+    function hide() {
+        var suggestDiv = document.getElementById("suggestDiv");
+        suggestDiv.style.display = "none";
+    }
+    window.onload = function () {
+        hide();
+    }
+    </script>
+</body>
+</html>

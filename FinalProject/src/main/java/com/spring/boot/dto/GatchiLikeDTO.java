@@ -5,8 +5,7 @@ import lombok.Data;
 @Data
 public class GatchiLikeDTO {
 
-	private int meetListNum; //글번호
-	private int likeCount; //좋아요 수
-	private String userEmail; //회원Email
+	private int meetListNum; //글번호 li_boardidx
+	private String useremail; //회원Email li_userid
 
 }

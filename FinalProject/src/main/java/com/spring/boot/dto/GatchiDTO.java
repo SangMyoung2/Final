@@ -17,9 +17,11 @@ public class GatchiDTO {
     private int meetMemCnt; //현재참석인원수
     private int meetMaxMemCnt; //최대참석인원수
     private int meetHitCount; //게시글 조회수
-    private int meetLike; //게시글 좋아요수
+    private int meetLikeCount; //게시글 좋아요수
     private int meetHow; //1선착순 2승인제
     private int meetEntryfee; //1기본참가비있음 2없음
-    public int meetMoney; //참가비금액
+    private int meetMoney; //참가비금액
     private String meetPlace; //모임장소
+    private int meetStatus; //0삭제 1현재 2완료
+    private String chatRoomNum;
 }

@@ -1,7 +1,5 @@
 package com.spring.boot;
-
-
-
+   
 import javax.sql.DataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
 
@@ -14,17 +12,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-
-
 import net.nurigo.java_sdk.exceptions.CoolsmsException;
 
 @SpringBootApplication
 @EnableMongoRepositories
-@EnableScheduling
+// @EnableScheduling
 public class FinalProjectApplication {
-
-	
-
 
 	//주석대신 사용하려면 의존성주입을 여기서 해줘야한다.
 	@Autowired

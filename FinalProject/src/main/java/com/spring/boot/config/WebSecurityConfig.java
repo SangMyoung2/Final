@@ -11,8 +11,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-
 import com.spring.boot.model.BaseAuthRole;
 import com.spring.boot.service.BaseCustomOAuth2UserService;
 import com.spring.boot.service.UserSecurityService;
@@ -53,7 +51,7 @@ public class WebSecurityConfig {
 			.and()
 			.authorizeRequests()
 			.antMatchers
-			("/","/rePWD.action","/image/**","/sendSMS","/css/**","/js/**","/signup.action","/signup_ok.action","/login_ok.action","/findID.action","/findPWD.action","/login.action")
+			("/","/rePWD.action","/image/**","/sendSMS","/css/**","/js/**","/signup.action","/signup_ok.action","/login_ok.action","/findID.action","/findPWD.action","/login.action","/reFindList")
 			.permitAll()
 			
 		

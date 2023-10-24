@@ -31,7 +31,7 @@ label {
 
 .t1 {
   display: block;
-  width: 360px;
+  width: 580px;
   height: 36px;
   padding: 0 12px;
   border-radius: 7px;
@@ -152,6 +152,8 @@ h1 {
   margin-bottom: 1em;
   color: #101010;
   letter-spacing: -.05em;
+
+  text-align: center; /*중앙*/
 }
 
 label {
@@ -161,7 +163,7 @@ label {
   line-height: 22px;
   font-weight: bold;
 }
-
+/* 
 .t1 {
   display: block;
   width: 360px;
@@ -172,7 +174,7 @@ label {
   font-size: 14px;
   border: 1px solid #d3dce6;
   transition: border-color 200ms ease-in-out;
-}
+} */
 
 input:focus,
 input:hover,
@@ -315,7 +317,7 @@ input[type=radio]{
 }
 
 #wrap_gatchiCheck {
-  width: 360px;
+  width: 580px;
   display: flex;
   border-radius: 7px;
   border: 1px solid #d3dce6;  
@@ -364,3 +366,45 @@ input[type=radio]{
 #meetCheckDiv {
   display: none;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 맵 관련 css */
+.sidebar-custom { 
+  position: absolute;
+  top: 410px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #5CA8B5;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2em;
+  transform: translateX(50%);
+  z-index: 1000;
+  cursor: pointer;
+  color: white;
+  box-shadow: 1px 1px 4px #0c1e35;
+}
+
+
+.search { position:absolute;z-index:1000;top:20px;left:20px; }
+.search #address { width:150px;height:20px;line-height:20px;border:solid 1px #555;padding:5px;font-size:12px;box-sizing:content-box; }
+.search #submit1 { height:30px;line-height:30px;padding:0 10px;font-size:12px;border:solid 1px #555;border-radius:3px;cursor:pointer;box-sizing:content-box; }

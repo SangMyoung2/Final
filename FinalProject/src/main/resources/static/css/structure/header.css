@@ -99,18 +99,19 @@ label[for="sidebar-btn"] {
     align-items: center;
     background-color: white;
     /* justify-content: center; */
-	padding-left: 3%;
+	padding-left: 5%;
 	
 }
 
 .menu {
 	    display: flex;
     justify-content: space-around;
-    gap: 100px;
+    gap: 42px;
     list-style: none;
     margin: auto;
     margin-left: 0px;
     margin-right: 0px;
+	margin-top: 14px;
 }
 
 
@@ -158,11 +159,11 @@ label[for="sidebar-btn"] {
 	display: flex;
 	align-items: center;
     text-decoration: none;
-	width: 100vw;
+	width: 60vw;
 }
 
 .subbody2{
 	display: flex;
 	z-index: 1000;
-    width: 319.2pxpx;
+    width: 400px;
 }

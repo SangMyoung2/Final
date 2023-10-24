@@ -1,0 +1,48 @@
+<html layout:decorate="~{layout}">
+<head>
+<title>고객센터 페이지</title>
+<style>
+    footer {
+        position: static !important;
+    }
+</style>
+<link rel="icon" type="image/png" th:href="@{http://localhost:8080/image/로고.png}"/>
+<link rel="stylesheet" type="text/css" href="css/customercenter/customercenter.css"/>
+<link rel="stylesheet" type="text/css" href="css/customercenter/customercenterButton.css"/>
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+<script type="text/javascript" src="http://localhost:8080/js/customercenter/customerCenter.js"></script>
+</head>
+<body>
+
+<div layout:fragment="content">
+    
+    <p class="title">무엇을 도와드릴까요?</p>
+
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="검색해보실?" class="search-bar">    
+        <button id="searchBtn" class="search-button">🔎</button>
+    </div>
+
+    <br/><br/>
+
+    <div class="subject-container">
+        <button class="custom-btn btn-16" data-subject="모임">모임</button>
+        <button class="custom-btn btn-16" data-subject="결제">결제</button>
+        <button class="custom-btn btn-16" data-subject="인증/보안">인증/보안</button>
+        <button class="custom-btn btn-16" data-subject="기타">기타</button>
+    </div>
+
+    <p id="noResults" style="display:none; text-align: center;">검색 결과가 없습니다. 다시 검색어를 입력해주세요.</p>
+    
+    <div class="faq-container" th:each="data : ${customerCenterData}" th:attr="data-subject=${data.centerSubject}">
+        <button class="faq-question" th:text="' [' + ${data.centerSubject} + '] ' + ${data.centerQuestion}"></button>
+        <div class="faq-answer" th:text="'▶️  ' + ${data.centerAnswer}"></div>
+    </div>
+
+</div>
+
+
+</body>
+
+</html>
