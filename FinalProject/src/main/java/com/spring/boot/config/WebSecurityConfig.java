@@ -14,7 +14,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import com.spring.boot.model.BaseAuthRole;
 import com.spring.boot.service.BaseCustomOAuth2UserService;
 import com.spring.boot.service.UserSecurityService;
-
 import lombok.RequiredArgsConstructor;
 
 

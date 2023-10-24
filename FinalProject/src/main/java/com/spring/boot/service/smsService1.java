@@ -2,9 +2,7 @@ package com.spring.boot.service;
 
 import java.util.HashMap;
 import java.util.Random;
-
 import org.springframework.stereotype.Service;
-
 import net.nurigo.java_sdk.api.Message;
 import net.nurigo.java_sdk.exceptions.CoolsmsException;
 
