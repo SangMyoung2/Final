@@ -80,6 +80,6 @@ public interface GatchiMapper {
 	
 	public void updateChatRoom(GatchiDTO dto) throws Exception;
 
-	public void getProfileByUsers(int meetListNum) throws Exception;
+	public String getProfileByUsers(int meetListNum) throws Exception;
 	
 }

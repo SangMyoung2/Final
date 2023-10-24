@@ -212,8 +212,8 @@ public class GatchiServiceImpl implements GatchiService{
 	}
 
 	@Override
-	public void getProfileByUsers(int meetListNum) throws Exception {
-		gatchiMapper.getProfileByUsers(meetListNum);
+	public String getProfileByUsers(int meetListNum) throws Exception {
+		return gatchiMapper.getProfileByUsers(meetListNum);
 	}
 
 }

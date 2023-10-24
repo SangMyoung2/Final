@@ -204,7 +204,6 @@ public class MeetmateController {
 		int meetListNum = meetInfoDTO.getMeetListNum();
 		String masterProfile = gatchiService.getProfileByUsers(meetListNum);
 
-
 		List<GatchiDTO> meetMateLists = new ArrayList<>();
 		List<GatchiDTO> meetMateSlideLists = new ArrayList<>();
 
@@ -234,8 +233,6 @@ public class MeetmateController {
 				gatchiService.updateMeetStatusMate(meetMateList);//업데이트된 GatchiDTO 저장
 			}
 		}
-
-		//mav.addObject("picture", picture);********************
 		mav.addObject("searchMeetMateList", searchMeetMateList);
 		mav.addObject("meetMateSlideLists", meetMateSlideLists);		
 		mav.addObject("meetLists", meetMateLists);	
@@ -251,12 +248,12 @@ public class MeetmateController {
 	public ModelAndView communiFindList(
 		@RequestParam(name = "searchKey", required = false, defaultValue = "meetTitle") String searchKey,
 		@RequestParam(name = "searchValue", required = false) String searchValue, 
-		HttpServletRequest request) throws Exception {
+		MeetInfoDTO meetInfoDTO, HttpServletRequest request) throws Exception {
 		
 		ModelAndView mav = new ModelAndView();
 
 		// 방장 프로필 사진 불러오기
-		int meetListNum = MeetInfoDTO.getMeetListNum();
+		int meetListNum = meetInfoDTO.getMeetListNum();
 		String masterProfile = gatchiService.getProfileByUsers(meetListNum);
 
 

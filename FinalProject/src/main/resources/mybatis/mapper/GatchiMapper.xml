@@ -256,9 +256,9 @@ map이나 hashMap이나 모두 사용가능
 </update>
 
 <select id="getProfileByUsers" parameterType="int" resultType="String">
-	SELECT users.picture FROM users
+	SELECT picture FROM users
 	JOIN meetInfo ON users.email = meetInfo.email
-	WHERE meetInfo.meetListNum = ${meetListNum};
+	WHERE meetInfo.meetListNum = ${meetListNum}
 </select>
 
 </mapper>
