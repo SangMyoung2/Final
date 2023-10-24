@@ -546,7 +546,7 @@ if(reqMoney){
         <div class="row justify-content-end homeaticle">
             <div class="col-md-2">
                 <div class="meet-mypage">
-                    <div class="badge meetMate" th:text="${meetListInfo.meetCheck == 1 ? 'meetmate' : 'communifind'}"></div>
+                    <div class="badge communiFind" th:text="${meetListInfo.meetCheck == 1 ? 'meetmate' : 'communifind'}"></div>
                     <div class="badge meetHow" th:text="${meetListInfo.meetHow == 1 ? '선착순' : '승인제'}"></div>
                     <div class="badge primary" th:text="${meetCategory[meetListInfo.meetCtgNum - 1].meetCtgName}"></div>
 
@@ -698,20 +698,20 @@ if(reqMoney){
 
 
                        
-                        <div class="yj-intro">모임 소개</div>
+                        <div class="c-intro">모임 소개</div>
                         <p class="Yj-text1" th:text="${meetListInfo.meetContent}"></p>
 
-                        <div class="yj-info">상세 정보</div>
+                        <div class="c-info">상세 정보</div>
                         <p class="text-with-hyphen Yj-text2" th:text="${meetListInfo.meetPlace}"></p>
                         <p class="text-with-hyphen Yj-text2" th:text="${meetListInfo.meetDday}"></p>
 
-                        <div class="yj-inwon">모집 인원</div>
+                        <div class="c-inwon">모집 인원</div>
                         <div class="text-container">
                             <p class="Yj-text3" th:text="${meetListInfo.meetMemCnt}"></p>/
                             <p class="Yj-text3" th:text="${meetListInfo.meetMaxMemCnt}"></p>
                         </div>
 
-                        <div class="yj-money">가입비 (회비)</div>
+                        <div class="c-money">가입비 (회비)</div>
                         <div class="text-container" th:if="${meetListInfo.meetEntryfee == 1}">
                             <p class="Yj-text4 meet-money" th:text="${meetListInfo.meetMoney}"></p>원
                             <input id="meetMoney" type="hidden" th:value="${meetListInfo.meetMoney}"/>

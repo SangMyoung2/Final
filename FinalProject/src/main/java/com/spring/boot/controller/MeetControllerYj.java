@@ -1,5 +1,6 @@
 package com.spring.boot.controller;
 
+import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -109,7 +110,16 @@ public class MeetControllerYj {
 		mav.addObject("approvalStatus", approvalStatus);
 		mav.addObject("dto", meetInfoDTO);
 
-		mav.setViewName("meetmate/article");
+		if (meetListInfo.getMeetCheck() == 1) {
+
+			meetListInfo.setMeetName(""); // 모임명을 ""로 설정
+			mav.setViewName("meetmate/article");
+			return mav;
+
+		} else if (meetListInfo.getMeetCheck() == 2) {
+			mav.setViewName("meetmate/communiFindArticle");
+			return mav;
+		}	
 		
 		return mav;
 	}
@@ -121,7 +131,9 @@ public class MeetControllerYj {
             @RequestParam("meetReviewContent") String meetReviewContent,
             @RequestParam("meetReviewImg") MultipartFile meetReviewImg) throws Exception {
         
-		 String resourcePath = "C:\\VSCode\\Final\\FinalProject\\src\\main\\resources\\static\\image\\reviewImage";
+		//  String resourcePath = "C:\\VSCode\\Final\\FinalProject\\src\\main\\resources\\static\\image\\reviewImage";
+
+		
 
 		// Resource resource = new ClassPathResource("static");
       	// String resourcePath = resource.getFile().getAbsolutePath() + "/image/reviewImage";
@@ -154,12 +166,29 @@ public class MeetControllerYj {
 		if (hasReviewed<=0) { // 리뷰는 한 이메일당 하나만 작성 가능
 
 			if (!meetReviewImg.isEmpty()) {
-				String originalFilename = meetReviewImg.getOriginalFilename();
-				String saveFileName = UUID.randomUUID() + originalFilename;
-				System.out.println(saveFileName);
-				Path filePath = Paths.get(resourcePath, saveFileName);
-            	// 파일 저장
-            	Files.write(filePath, meetReviewImg.getBytes());
+
+				String absolutePath = new File("").getAbsolutePath() + "\\";
+				String path = "FinalProject/src/main/resources/static/image/reviewImage";
+				File file = new File(path);
+				System.out.println("앱솔루트패스 : " + absolutePath);
+
+				String originalFileName = meetReviewImg.getOriginalFilename();
+
+				 // 폴더가 없다면 생성
+				 if (!file.exists()) {
+				    file.mkdirs();
+				 }
+
+				 String saveFileName = UUID.randomUUID() + originalFileName;
+				 file = new File(absolutePath + path + "/" + saveFileName);
+				 meetReviewImg.transferTo(file);
+
+				// String originalFilename = meetReviewImg.getOriginalFilename();
+				// String saveFileName = UUID.randomUUID() + originalFilename;
+				// System.out.println(saveFileName);
+				// Path filePath = Paths.get(resourcePath, saveFileName);
+            	// // 파일 저장
+            	// Files.write(filePath, meetReviewImg.getBytes());
 				// File destFile = new File(resourcePath, saveFileName);
 				// meetReviewImg.transferTo(destFile);
 				// Resource resource = new ClassPathResource("static");
