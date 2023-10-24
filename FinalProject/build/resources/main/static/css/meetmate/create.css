@@ -556,7 +556,7 @@ form .terms :nth-child(6) div img {
 }
 
 input[type=radio]{
-  display: none;
+ display: none;
 }
 
 .entryfee_act{
@@ -574,6 +574,7 @@ input[type=radio]{
   font-size: 14px;
   color: #fff;
 }
+
 
 
 
