@@ -56,7 +56,7 @@
                 th:value="${session.user1.name}" name="meetMemId" class="t1" readonly/>
 
             <label th:text="|${dto.meetCheck == 1 ? 'MeetMate' : 'CommuniFind'} 제목|"></label>
-            <input type="text" id="meetTitle" name="meetTitle" required placeholder="Title" class="t1" size="22" maxlength="22"/>
+            <input type="text" id="meetTitle" name="meetTitle" required placeholder="Title" class="t1" size="16" maxlength="16"/>
             
             <label th:text="|${dto.meetCheck == 1 ? 'MeetMate' : 'CommuniFind'} 내용|"></label>
             <div class="flex_wrap">
@@ -293,7 +293,11 @@
             document.getElementById("wrap_yes").className='entry_fee';
 
             meetMoneyInput.value = "0"
+<<<<<<< HEAD
             meetMoneyInput.readOnly = true; // '없음' 선택 시 금액 입력 불가 설정
+=======
+            meetMoneyInput.readOnly = true; //'없음' 선택 시 금액 입력 불가 설정
+>>>>>>> develop
         }    
     } 
     
@@ -322,6 +326,7 @@
 
     function DdayCheck() { //모임일자와 현재일자 비교(이전일자 입력되지 않도록)
 
+<<<<<<< HEAD
         let meetDday = document.getElementById('meetDday').value;
         let currentDate = new Date().getTime();
         let selectedDate = new Date(meetDday).getTime();
@@ -332,29 +337,74 @@
         }
         return true;
     }
+=======
+    let meetDday = document.getElementById('meetDday').value;
+    let currentDate = new Date().getTime();
+    let selectedDate = new Date(meetDday).getTime();
 
-    
+    if (selectedDate < currentDate) {
+    alert('날짜 및 시간을 현재 시간 이후로 입력해주세요.');
+    return false; //날짜가 현재 날짜보다 이전인 경우
+    }
+    return true;
+    }
+
+>>>>>>> develop
+
     const sendIt = () => {
         
-        createMeetDate();        
+        const categories = ["culture", "food", "hobby", "trip", "sport"];
+        const selectedCategories = categories.filter(category => document.getElementById(category).checked);
+
+        if (selectedCategories.length === 0) {
+            alert('카테고리를 선택해주세요.');
+            return;
+        }
+
+        createMeetDate(); 
+
         if(!DdayCheck()){
             return;
         } 
+
+<<<<<<< HEAD
+=======
+        const categories = ["culture", "food", "hobby", "trip", "sport"];
+        const selectedCategories = categories.filter(category => document.getElementById(category).checked);
+
+        if (selectedCategories.length === 0) {
+            alert('카테고리를 선택해주세요.');
+            return;
+        }
+
+        createMeetDate();
+
+        if(!DdayCheck()){
+            return;
+        }
+        
+>>>>>>> develop
         ctgNum();
 
         if (!imageCheck()) {
             alert('메인으로 보여질 사진을 업로드해주세요.');
+            
         } else {
             how();
             entryfee();
-        
+
             var meetCheck = parseInt(document.getElementById("meetCheck").value);
 
-            var meetContent = document.getElementById('meetContent').value; 
+            var meetContent = document.getElementById('meetContent').value;
             meetContent = meetContent.replace(/\n/g, '<br/>');
 
+<<<<<<< HEAD
             myForm.action = "/meetMateList.action";
+=======
+            myForm.action = "/meetMateCreate.action";
+>>>>>>> develop
             myForm.submit();
+            
         }
     }
 
@@ -362,8 +412,3 @@
 
 </body>
 </html>
-
-
-
-
-
