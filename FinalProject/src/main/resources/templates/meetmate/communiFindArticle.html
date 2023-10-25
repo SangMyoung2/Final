@@ -16,7 +16,6 @@
 <link rel="icon" type="image/png" th:href="@{http://localhost:8080/image/로고.png}"/>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"/>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=83bfuniegk"></script>
 
 <script>
 
@@ -58,7 +57,7 @@
     function showHomeContent() {
         document.querySelector('.yj-img').style.display = 'block';
         document.querySelector('.yj-img2').style.display = 'none';
-        document.querySelector('.meet-members').style.display = 'block';
+        document.querySelector('.c-meet-members').style.display = 'block';
         document.querySelector('.meet-mypage').style.display = 'block';
     }
 
@@ -66,7 +65,7 @@
     function showReviewContent() {
         document.querySelector('.yj-img').style.display = 'none';
         document.querySelector('.yj-img2').style.display = 'block';
-        document.querySelector('.meet-members').style.display = 'none';
+        document.querySelector('.c-meet-members').style.display = 'none';
         document.querySelector('.meet-mypage').style.display = 'none';
     }
 
@@ -483,103 +482,49 @@ if(joincancel){
 }
 
 function testMeet() {
-    let meetListNum = document.getElementById('meetListNum').value;
-    let title = document.getElementById('meetTitle').textContent;
+let meetListNum = document.getElementById('meetListNum').value;
+let reqMoney = confirm(title + ' 모임 정산을 멤버들에게 요청할까요?');
 
-    let reqMoney = confirm(title + ' 모임 정산을 멤버들에게 요청할까요?');
-
-    if(reqMoney){
-        $.ajax({
-                type: "POST",
-                url: "/sendCalculate",
-                data: {
-                    meetListNum: meetListNum
-                },
-                success: function (response) {
-                    if(response == 1){
-                        alert('멤버들에게 정산요청을 하였습니다.');
-                        location.href = '/articleYj.action?meetListNum='+meetListNum;
-                    }else if(response === 2){
-                        alert('....');
-                    }
-                    else{
-                        alert('다시 시도해 주세요..');
-                    }
-                },
-                error: function () {
-                    alert('알수없는 에러 입니다.. 고객센터에게 문의해주세요');
+if(reqMoney){
+    $.ajax({
+            type: "POST",
+            url: "/meetMoneyReq",
+            data: {
+                meetListNum: meetListNum
+            },
+            success: function (response) {
+                if(response == 1){
+                    alert('멤버들에게 정산요청을 하였습니다.');
+                    location.href = '/articleYj.action?meetListNum='+meetListNum;
+                }else if(response === 2){
+                    alert('....');
                 }
-            });
-
-    }
-}
-
-function test2Meet(){
-    let meetListNum = document.getElementById('meetListNum').value;
-    let title = document.getElementById('meetTitle').textContent;
-
-    let reqMoney = confirm(title + ' 모임 정산을 멤버들에게 요청할까요?');
-
-    if(reqMoney){
-        $.ajax({
-                type: "POST",
-                url: "/reqCalculate",
-                data: {
-                    meetListNum: meetListNum
-                },
-                success: function (response) {
-                    if(response == 1){
-                        alert('멤버들에게 정산요청을 하였습니다.');
-                        location.href = '/articleYj.action?meetListNum='+meetListNum;
-                    }else if(response === 2){
-                        alert('....');
-                    }
-                    else{
-                        alert('다시 시도해 주세요..');
-                    }
-                },
-                error: function () {
-                    alert('알수없는 에러 입니다.. 고객센터에게 문의해주세요');
+                else{
+                    alert('다시 시도해 주세요..');
                 }
-            });
+            },
+            error: function () {
+                alert('알수없는 에러 입니다.. 고객센터에게 문의해주세요');
+            }
+        });
 
-    }
+}
 }
 
-function chatRoom(){
-    let meetListNum = document.getElementById('meetListNum').value;
-
-    var options = 'width=600px,height=700px,scrollbars=yes'
-            popupChat = window.open("articleChatRoom.action?meetListNum=" + meetListNum,"_blacnk",options);
+//툴팁
+function showTooltip() {
+    var tooltip = document.getElementById('tooltip');
+    tooltip.style.display = 'block';
+    tooltip.style.top = '555px';
+    tooltip.style.width = '305px'
 }
 
-function transformNumber(number) {
-  // 주어진 숫자를 100으로 나누고 100을 곱하여 변환
-  return Math.floor(number / 100) * 100;
+function hideTooltip() {
+    var tooltip = document.getElementById('tooltip');
+    tooltip.style.display = 'none';
 }
 
-$(window).on('scroll', function () {
-    var $fbw = $('.meet-mypage');
-
-    let winScr = transformNumber(500 + window.scrollY);
-    let contentH = document.getElementById("article-content");
-    let h = transformNumber(contentH.offsetHeight);
-    console.log("winScr : " + winScr);
-    console.log("h : " + h);
-    //위치
-    if (winScr > h) {
-        $fbw.css({
-            'margin-top': h - winScr
-        })
-    } else {
-        $fbw.css({
-            'margin-top': 'auto'
-        })
-    }
-});
 </script>
-
-
 
 </head>
 <body>
@@ -614,8 +559,8 @@ $(window).on('scroll', function () {
     <div class="container">
         <div class="row justify-content-end homeaticle">
             <div class="col-md-2">
-                <div class="meet-mypage" id="meet-mypage">
-                    <div class="badge meetMate" th:text="${meetListInfo.meetCheck == 1 ? 'meetmate' : 'communifind'}"></div>
+                <div class="meet-mypage">
+                    <div class="badge communiFind" th:text="${meetListInfo.meetCheck == 1 ? 'meetMate' : 'communiFind'}"></div>
                     <div class="badge meetHow" th:text="${meetListInfo.meetHow == 1 ? '선착순' : '승인제'}"></div>
                     <div class="badge primary" th:text="${meetCategory[meetListInfo.meetCtgNum - 1].meetCtgName}"></div>
 
@@ -659,86 +604,16 @@ $(window).on('scroll', function () {
                         </div>
                     </div>
 
-                    <button class="chat-btn" th:if="${meetMemStatus == 1 or meetMemStatus == 2}" id="chatRoom" onclick="chatRoom()">
+                    <button class="chat-btn" th:if="${meetMemStatus == 1 or meetMemStatus == 2}">
                         <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Speech%20Balloon.png" alt="Speech Balloon" width="25px" height="25px" /> 채팅 바로가기
+                        <input type="hidden" id="meet-memStatus" name="meetMemStatus" th:value="${meetMemStatus}" />
                     </button>
-                    
-                    <div class="approval-back" th:if="${meetMemStatus == 1 and meetStatus == 2}"> 
-                        <div style="display: flex; align-items: center;">
-                            <div style="margin-left: 6px; font-size: 18px;">승인요청</div>
-                            <div class="approval-mem" id="expand-button">ⅴ펼치기</div>
-                        </div>
-                        <div style="margin-top: 10px;"></div>
-                        <div class="approval-mem-back" id="expandable-content" style="display: none;" th:if="${membersExMaster.isEmpty()}">
-                            <div style="text-align: center; margin-top: 45px; margin-left: 10px; font-size: 18px;">가입 중인 회원이 없습니다.</div>
-                        </div>
-                        
-                        <div class="approval-mem-back" id="expandable-content" style="display: none;">
-                            <div style="margin-left: auto; cursor: pointer; margin-right: 9px; color: #AAAAAA;" onclick="toggleAll()">전체선택</div>
-                            <div style="margin-top: -10px;"></div>
-                            <hr style="width: 95%; margin-left: 10px;">
-                            <div class="approval-mem-list" th:each="membersExMaster : ${membersExMaster}">
-                                <li class="round-image-user mt-2" style="margin-right: 10px;  margin-left: -10px;">
-                                    <img th:if="${membersExMaster.role == 'GUEST'}" th:src="@{${membersExMaster.picture}}">
-                                    <img th:if="${membersExMaster.role != 'GUEST'}" th:src="@{image/login/__${membersExMaster.picture}__}">
-                                </li>
-                                
-                                <li class="approval-li" th:text="${membersExMaster.name}"></li>
-                                <span class="approval-action" th:data-email="${membersExMaster.email}" th:data-meetListNum="${meetListNum}" th:data-name="${membersExMaster.name}" onclick="toggleAccept(this)">
-                                    <span th:if="${membersExMaster.approvalStatus == -1}">√</span>
-                                </span>
-                                <span th:if="${membersExMaster.approvalStatus == 0}">대기</span>
-                                <span th:if="${membersExMaster.approvalStatus == 1}" style="color: #2077d4;">승인</span>
-                                <span th:if="${membersExMaster.approvalStatus == 2}" style="color: #e9194d;">기각</span>
-                                
-                            </div>
-                        </div>
-
-                        <input type="hidden" id="meet-listnum" name="meetListNum" th:value="${meetListNum}" />
-                        <div id="request-text" th:if="${not membersExMaster.isEmpty()}" onclick="sendRequest()">요청하기</div>
-
-                    </div>
-                    
-
-                    <div class="approval-back2" th:if="${meetMemStatus == 2 and approvalStatus >= 0}"> 
-                        <div style="display: flex; align-items: center;">
-                            <div style="margin-left: 6px; font-size: 18px;">승인요청</div>
-                        </div>
-                        <div style="margin-top: 10px;"></div>
-                        <div class="approval-mem-back2" id="expandable-content">
-                            <div class="approval-mem-q">
-                                    
-                                👑 <span class="approval-name" th:text="${meetMaster.name}"></span> 님이 요청하셨습니다. 승인하시겠습니까?
-                            </div>
-
-                            <div class="d-flex req-actions" th:each="member : ${membersExMaster}" th:if="${approvalStatus == 0}">
-                                <span class="card-text d-flex req-approval" th:if="${#httpSession.getAttribute('user1') != null} and ${session.user1.email == member.email}" th:data-email="${member.email}" th:data-meetListNum="${meetListNum}" onclick="reqApproval(this.getAttribute('data-email'), this.getAttribute('data-meetListNum'))">승인</span>
-
-                                <span class="card-text d-flex req-approval" th:if="${#httpSession.getAttribute('user') != null} and ${session.user.email == member.email}" th:data-email="${member.email}" th:data-meetListNum="${meetListNum}" onclick="reqApproval(this.getAttribute('data-email'), this.getAttribute('data-meetListNum'))">승인</span>
-
-                                <span class="card-text d-flex req-reject" th:if="${#httpSession.getAttribute('user1') != null} and ${session.user1.email == member.email}" th:data-email="${member.email}" th:data-meetListNum="${meetListNum}" onclick="reqReject(this.getAttribute('data-email'), this.getAttribute('data-meetListNum'))">기각</span>
-
-                                <span class="card-text d-flex req-reject" th:if="${#httpSession.getAttribute('user') != null} and ${session.user.email == member.email}" th:data-email="${member.email}" th:data-meetListNum="${meetListNum}" onclick="reqReject(this.getAttribute('data-email'), this.getAttribute('data-meetListNum'))">기각</span>
-                            </div>
-                            <div class="d-flex req-actions" th:if="${approvalStatus == 1}">
-                                <div style="text-align: center; font-size: 18px; color: #2077d4;">승인되었습니다.</div>
-                            </div>
-                            <div class="d-flex req-actions" th:if="${approvalStatus == 2}">
-                                <div style="text-align: center; font-size: 18px; color: #e9194d;">기각되었습니다.</div>
-                            </div>
-
-                        </div>
-                    </div>
-
-                   
-
-
-                    
+                      
                 </div>
             </div>
 
             <div class="col-8 mx-2 fixed-width-col" th:each="meetListInfo : ${meetListInfo}">
-                <div class="yj-img" id="article-content">
+                <div class="yj-img">
                     <img th:src="@{${'/image/gatchiImage/' + meetListInfo.meetImage}}" alt="n번방의 대표사진">
                     <div class="Main_content" >
                         <div class="round-image">
@@ -769,29 +644,22 @@ $(window).on('scroll', function () {
                     <div class="main-text">
 
 
-                        <div style="width: 750px; height: 600px; background-color:#ffffff; margin: 0 auto 0 -2px; text-align: center;">
-                            <h3>모임 장소</h3>
-                            <div id="map" style="width:100%; height:500px;"></div>
-                          </div>
-
-                        
-                        <input type="hidden" id="lat" name="lat" th:value="${mapDto.lat}"/>
-                        <input type="hidden" id="lng" name="lng" th:value="${mapDto.lng}"/>
-
-                        <div class="yj-intro">모임 소개</div>
+                       
+                        <div class="c-intro">모임 소개</div>
                         <p class="Yj-text1" th:utext="${meetListInfo.meetContent.replaceAll('\n', '<br>')}"></p>
 
-                        <div class="yj-info">상세 정보</div>
+
+                        <div class="c-info">상세 정보</div>
                         <p class="text-with-hyphen Yj-text2" th:text="${meetListInfo.meetPlace}"></p>
                         <p class="text-with-hyphen Yj-text2" th:text="${meetListInfo.meetDday}"></p>
 
-                        <div class="yj-inwon">모집 인원</div>
+                        <div class="c-inwon">모집 인원</div>
                         <div class="text-container">
                             <p class="Yj-text3" th:text="${meetListInfo.meetMemCnt}"></p>/
                             <p class="Yj-text3" th:text="${meetListInfo.meetMaxMemCnt}"></p>
                         </div>
 
-                        <div class="yj-money">가입비 (회비)</div>
+                        <div class="c-money">가입비 (회비)</div>
                         <div class="text-container" th:if="${meetListInfo.meetEntryfee == 1}">
                             <p class="Yj-text4 meet-money" th:text="${meetListInfo.meetMoney}"></p>원
                             <input id="meetMoney" type="hidden" th:value="${meetListInfo.meetMoney}"/>
@@ -801,12 +669,12 @@ $(window).on('scroll', function () {
                         </div>
                         
                         <form th:if="${meetMemStatus < 0} and ${meetStatus == 1} and ${meetListInfo.meetMemCnt<meetListInfo.meetMaxMemCnt}">
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button form="joinForm" type="button" class="join-button" onclick="joinMeet()">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button form="joinForm" type="button" class="c-join-button" onclick="joinMeet()">
                                가입하기
                             </button>
                         </form>
                         <form th:with="meetMemStatus=${meetMemStatus}" th:if="${meetMemStatus == 0}">
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="join-button" onclick="joinCancel()">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="c-join-button" onclick="joinCancel()">
                                가입취소
                             </button>
                         </form>
@@ -822,8 +690,8 @@ $(window).on('scroll', function () {
                             <input type="hidden" name="meetListNum" id="meetListNum" th:value="${meetListNum}"/>
                         </form>
 
-                        <form th:if="${meetMemStatus == 2} and ${meetStatus == 1} and ${approvalStatus !=0}">
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button form="outForm" type="button" class="out-button" onclick="outmeet()">
+                        <form th:if="${meetMemStatus == 2} and ${meetStatus == 1}">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button form="outForm" type="button" class="c-out-button" onclick="outmeet()">
                                 모임 나가기
                             </button>
                         </form>
@@ -833,7 +701,7 @@ $(window).on('scroll', function () {
                         </form>
                         
                         <form th:with="meetMemStatus=${meetMemStatus}" th:if="${meetMemStatus == 1} and ${meetStatus == 1}">
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button form="deleteForm" type="button" class="delete-button" onclick="deleteMeet()">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button form="deleteForm" type="button" class="c-delete-button" onclick="deleteMeet()">
                                 모임 삭제
                             </button>
                         </form>
@@ -843,13 +711,12 @@ $(window).on('scroll', function () {
                         <th:block th:if="${meetStatus == 1 and meetMemStatus == 0}">
                             <p style="font-size: 18px; color: rgb(0, 68, 255);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;가입 승인 대기 중입니다.</p>
                         </th:block>
-                        
                     </div>
                 </div>
             </div>
 
             <div class="col-md-2">
-                <div class="meet-members">
+                <div class="c-meet-members">
                     <p style="margin-top: 10px; margin-bottom: 5px;">
                         <span style="margin-left: 12px;">멤버목록</span>
                         <span th:each="meetListInfo : ${meetListInfo}" style="margin-left: 5px; color: #5CA8B5; font-weight: bold;" th:text="${meetListInfo.meetMemCnt}"></span>
@@ -860,7 +727,7 @@ $(window).on('scroll', function () {
                         </a>
                     </p>
 
-                    <div div class="meet-mem-back">
+                    <div div class="meet-mem-back" >
                         <div class="meet-mem-list" th:each="meetMember : ${meetMembers}">
                             <li class="round-image-user mt-2" style="margin-right: 10px; margin-left: -10px;">
                                 <img th:if="${meetMember.role == 'GUEST'}" th:src="@{${meetMember.picture}}">
@@ -869,11 +736,29 @@ $(window).on('scroll', function () {
                             <li class="custom-li" th:text="${meetMember.name}"></li>
                         </div>
                     </div>
+                    <hr style="width: 225px; border-width: 2px; border-color: #84A5FF;">
+                    <p style="margin-left: 12px;">meetMate 목록</p>
+                    <div div class="meetmate-back">
+                        ㄷㄷ
+                    </div>
+
+                    <button class="meetmate-btn" th:if="${meetMemStatus == 1}" onclick="javascript:location.href='/communiFindGatchiChoice.action';">
+                        meetMate 생성하기
+                    </button>
+                    <input type="hidden" name="meetListNum" id="meetListNum" th:value="${meetListNum}"/>
+
+                    <div class="only-communifind" th:if="${meetMemStatus <= 0 or meetMemStatus == 2}" onmouseover="showTooltip()" onmouseout="hideTooltip()">
+                        ⓘ
+                    </div>
+                    <div id="tooltip" style="display: none; position: absolute; background: #fff; border: 1px solid #ccc; padding: 10px; z-index: 999;">
+                        communiFind 내의 meetMate에 참여하실 경우 해당 communiFind 가입 먼저 해주시길 바랍니다.
+                    </div>
+
                 </div>
             </div>
         </div>
     </div>
-
+    
     <div class="yj-img2">
         <div class="review-title">REVIEW</div>
         <div class="review-sub">이 모임 유저의 생생한 후기를 만나보세요!</div>
@@ -922,36 +807,8 @@ $(window).on('scroll', function () {
     </div>
 
 
-   
-      
-    <script id="code">
 
-        var lat = document.getElementById("lat").value;
-        var lng = document.getElementById("lng").value;
-    
-        var HOME_PATH = window.HOME_PATH || '.';
-        var position = new naver.maps.LatLng(lat, lng);
-        
-        var map = new naver.maps.Map('map', {
-        center: position, //지도의 초기 중심 좌표
-        zoom: 18, //지도의 초기 줌 레벨
-      
-    
-    });
-    
-    var markerOptions = {
-    position: position.destinationPoint(0, 0),
-    map: map,
-    icon: {
-        url: HOME_PATH+'/image/map/marker-nowLocation.png',
-        
-        origin: new naver.maps.Point(0, 0),
-        anchor: new naver.maps.Point(25, 26)
-    }
-    };
-    var marker = new naver.maps.Marker(markerOptions);
-    
-    </script>
+
 
 
         
