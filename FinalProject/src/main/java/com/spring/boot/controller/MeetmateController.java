@@ -1,7 +1,11 @@
 package com.spring.boot.controller;
 
 import java.io.File;
+import java.net.URL;
 import java.net.URLDecoder;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -11,6 +15,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -110,18 +115,25 @@ public class MeetmateController {
 			infoDTO.setEmail(user1.getEmail()); 
 		}
 
-		String resourcePath = "C:\\VSCode\\Final\\FinalProject\\src\\main\\resources\\static\\image\\gatchiImage";
-		// Resource resource = new ClassPathResource("static");
-        // String resourcePath = resource.getFile().getAbsolutePath() + "/image/gatchiImage";
-
+		String absolutePath = new File("").getAbsolutePath() + "\\";
+		String path = "FinalProject/src/main/resources/static/image/gatchiImage";
+        File file = new File(path);
+		System.out.println("앱솔루트패스 : " + absolutePath);
 		if (!meetImage.isEmpty()) {
 			String originalFileName = meetImage.getOriginalFilename();
-			File destFile = new File(resourcePath, originalFileName);
 
-			meetImage.transferTo(destFile);
+			// 폴더가 없다면 생성
+			if (!file.exists()) {
+				file.mkdirs();
+			}
+
+			String saveFileName = UUID.randomUUID() + originalFileName;
+			file = new File(absolutePath + path + "/" + saveFileName);
+			meetImage.transferTo(file);
+
 			int maxNum = gatchiService.maxNum();
 			dto.setMeetListNum(maxNum + 1);
-			dto.setMeetImage(originalFileName);
+			dto.setMeetImage(saveFileName);
 			gatchiService.createGatchi(dto);
 
 			infoDTO.setMeetListNum(maxNum + 1);			

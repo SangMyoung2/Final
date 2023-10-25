@@ -545,6 +545,30 @@ function chatRoom(){
             popupChat = window.open("articleChatRoom.action?meetListNum=" + meetListNum,"_blacnk",options);
 }
 
+function transformNumber(number) {
+  // 주어진 숫자를 100으로 나누고 100을 곱하여 변환
+  return Math.floor(number / 100) * 100;
+}
+
+$(window).on('scroll', function () {
+    var $fbw = $('.meet-mypage');
+
+    let winScr = transformNumber(500 + window.scrollY);
+    let contentH = document.getElementById("article-content");
+    let h = transformNumber(contentH.offsetHeight);
+    console.log("winScr : " + winScr);
+    console.log("h : " + h);
+    //위치
+    if (winScr > h) {
+        $fbw.css({
+            'margin-top': h - winScr
+        })
+    } else {
+        $fbw.css({
+            'margin-top': 'auto'
+        })
+    }
+});
 </script>
 
 </head>
@@ -580,7 +604,7 @@ function chatRoom(){
     <div class="container">
         <div class="row justify-content-end homeaticle">
             <div class="col-md-2">
-                <div class="meet-mypage">
+                <div class="meet-mypage" id="meet-mypage">
                     <div class="badge meetMate" th:text="${meetListInfo.meetCheck == 1 ? 'meetmate' : 'communifind'}"></div>
                     <div class="badge meetHow" th:text="${meetListInfo.meetHow == 1 ? '선착순' : '승인제'}"></div>
                     <div class="badge primary" th:text="${meetCategory[meetListInfo.meetCtgNum - 1].meetCtgName}"></div>
@@ -698,7 +722,7 @@ function chatRoom(){
             </div>
 
             <div class="col-8 mx-2 fixed-width-col" th:each="meetListInfo : ${meetListInfo}">
-                <div class="yj-img">
+                <div class="yj-img" id="article-content">
                     <img th:src="@{${'/image/gatchiImage/' + meetListInfo.meetImage}}" alt="n번방의 대표사진">
                     <div class="Main_content" >
                         <div class="round-image">
