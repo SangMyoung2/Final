@@ -104,7 +104,6 @@ public class MeetControllerYj {
 		Integer ret2 = meetServiceYj.getApprovalStatus(meetInfoDTO);
 		if (ret2 != null) approvalStatus = ret2.intValue();
 
-		
 		MapDTO mapDto = meetServiceYj.getlatlng(meetListNum);
 		mav.addObject("mapDto", mapDto);
 
@@ -177,6 +176,9 @@ public class MeetControllerYj {
 		int approvalStatus = -1;
 		Integer ret2 = meetServiceYj.getApprovalStatus(meetInfoDTO);
 		if (ret2 != null) approvalStatus = ret2.intValue();
+
+		MapDTO mapDto = meetServiceYj.getlatlng(meetListNum);
+		mav.addObject("mapDto", mapDto);
 		
 		mav.addObject("meetCategory", meetCategory);
 		mav.addObject("meetMaster", meetMaster);
