@@ -15,7 +15,14 @@ $(document).ready(function() {
         }
 
         var startDate = new Date(startDateInput).getTime();
-        var endDate = new Date(endDateInput).setHours(23, 59, 59, 999); // 종료 날짜의 시간을 23시 59분 59초로 설정
+        var endDate = new Date(endDateInput).setHours(23, 59, 59, 999);
+
+        // 시작 날짜가 종료 날짜보다 늦은 경우 alert 메시지 표시 후 모든 결제 내역을 보여줌
+        if (startDate > endDate) {
+            alert("시작 날짜는 종료 날짜보다 늦을 수 없습니다.");
+            $('.paymentinfocontainer').show();  // 모든 결제 내역을 보여줍니다.
+            return;
+        }
 
         // 선택한 범위 내의 결제 내역만 표시
         $('.paymentinfocontainer').each(function() {
