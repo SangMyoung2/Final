@@ -104,4 +104,9 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById('loadMore').addEventListener('click', function() {
         loadMore();
     });
+
+    document.getElementById('clearBtn').addEventListener('click', function() {
+        document.getElementById('searchInput').value = '';
+    });
+
 });
