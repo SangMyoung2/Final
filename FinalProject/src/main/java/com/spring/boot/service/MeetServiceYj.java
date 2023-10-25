@@ -3,6 +3,7 @@ package com.spring.boot.service;
 import java.util.List;
 
 import com.spring.boot.dto.GatchiDTO;
+import com.spring.boot.dto.MapDTO;
 import com.spring.boot.dto.MeetCategoryDTO;
 import com.spring.boot.dto.MeetInfoDTO;
 import com.spring.boot.dto.MeetReviewDTO;
@@ -68,4 +69,6 @@ public interface MeetServiceYj {
     public void updateReject(MeetInfoDTO dto) throws Exception;
 
     public List<MeetInfoDTO> getMeetInfo(int meetListNum) throws Exception;
+
+    public MapDTO getlatlng(int meetListNum) throws Exception;
 }

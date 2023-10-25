@@ -160,4 +160,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     select * from meetinfo where meetListNum = #{meetListNum}
 </select>
 
+<select id="getlatlng" parameterType="int" resultType="com.spring.boot.dto.MapDTO">
+    select l.* from latlng l, gatchi gc where gc.meetListNum = #{meetListNum} and gc.meetListNum = l.meetListNum
+</select>
+
 </mapper>

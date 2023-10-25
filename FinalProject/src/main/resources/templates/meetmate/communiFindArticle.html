@@ -511,6 +511,19 @@ if(reqMoney){
 }
 }
 
+//툴팁
+function showTooltip() {
+    var tooltip = document.getElementById('tooltip');
+    tooltip.style.display = 'block';
+    tooltip.style.top = '555px';
+    tooltip.style.width = '305px'
+}
+
+function hideTooltip() {
+    var tooltip = document.getElementById('tooltip');
+    tooltip.style.display = 'none';
+}
+
 </script>
 
 </head>
@@ -547,7 +560,7 @@ if(reqMoney){
         <div class="row justify-content-end homeaticle">
             <div class="col-md-2">
                 <div class="meet-mypage">
-                    <div class="badge communiFind" th:text="${meetListInfo.meetCheck == 1 ? 'meetmate' : 'communifind'}"></div>
+                    <div class="badge communiFind" th:text="${meetListInfo.meetCheck == 1 ? 'meetMate' : 'communiFind'}"></div>
                     <div class="badge meetHow" th:text="${meetListInfo.meetHow == 1 ? '선착순' : '승인제'}"></div>
                     <div class="badge primary" th:text="${meetCategory[meetListInfo.meetCtgNum - 1].meetCtgName}"></div>
 
@@ -562,11 +575,15 @@ if(reqMoney){
                         th:text="|${session.user1.name}"></div>
                         <div class="login-user-email" th:if="${#httpSession.getAttribute('user') != null}" 
                         th:text="|${session.user.name}"></div>
-                        <div style="font-size: 17px;">님</div>
-                        <div th:if="${meetMemStatus == 1}" style="margin-left: 30px; color: #adadad; font-size: 17px;">👑 방장</div>
-                        <div th:if="${meetMemStatus == 2}" style="margin-left: 30px; color: #adadad; font-size: 17px;">🤗 회원</div>
-                        <div th:if="${meetMemStatus == 0}" style="margin-left: 30px; color: #adadad; font-size: 17px;">⌛ 승인대기중..</div>
-                        <div th:if="${meetMemStatus < 0}" style="margin-left: 30px; color: #adadad; font-size: 17px;">👤 손님</div>
+                        <div style="font-size: 17px; margin-top: 3px;">님</div>
+                        <div th:if="${meetMemStatus == 1}" style="margin-left: 30px; color: #adadad; font-size: 17px;">👑</div>
+                        <div th:if="${meetMemStatus == 1}" style="margin-left: 2px; color: #adadad; font-size: 17px; margin-top: 3px;">방장</div>
+                        <div th:if="${meetMemStatus == 2}" style="margin-left: 30px; color: #adadad; font-size: 17px; margin-top: 3px;">🤗</div>
+                        <div th:if="${meetMemStatus == 2}" style="margin-left: 2px; color: #adadad; font-size: 17px; margin-top: 3px;">회원</div>
+                        <div th:if="${meetMemStatus == 0}" style="margin-left: 30px; color: #adadad; font-size: 17px;">⌛</div>
+                        <div th:if="${meetMemStatus == 0}" style="margin-left: 2px; color: #adadad; font-size: 17px; margin-top: 3px;">승인대기중..</div>
+                        <div th:if="${meetMemStatus < 0}" style="margin-left: 30px; color: #adadad; font-size: 17px; margin-top: 3px;">👤</div>
+                        <div th:if="${meetMemStatus < 0}" style="margin-left: 2px; color: #adadad; font-size: 17px; margin-top: 3px;">손님</div>
                     </div>
 
                     <hr/>
@@ -591,78 +608,7 @@ if(reqMoney){
                         <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Speech%20Balloon.png" alt="Speech Balloon" width="25px" height="25px" /> 채팅 바로가기
                         <input type="hidden" id="meet-memStatus" name="meetMemStatus" th:value="${meetMemStatus}" />
                     </button>
-                    
-                    <div class="approval-back" th:if="${meetMemStatus == 1}"> 
-                        <div style="display: flex; align-items: center;">
-                            <div style="margin-left: 6px; font-size: 18px;">승인요청</div>
-                            <div class="approval-mem" id="expand-button">ⅴ펼치기</div>
-                        </div>
-                        <div style="margin-top: 10px;"></div>
-                        <div class="approval-mem-back" id="expandable-content" style="display: none;" th:if="${membersExMaster.isEmpty()}">
-                            <div style="text-align: center; margin-top: 45px; margin-left: 10px; font-size: 18px;">가입 중인 회원이 없습니다.</div>
-                        </div>
-                        
-                        <div class="approval-mem-back" id="expandable-content" style="display: none;">
-                            <div style="margin-left: auto; cursor: pointer; margin-right: 9px; color: #AAAAAA;" onclick="toggleAll()">전체선택</div>
-                            <div style="margin-top: -10px;"></div>
-                            <hr style="width: 95%; margin-left: 10px;">
-                            <div class="approval-mem-list" th:each="membersExMaster : ${membersExMaster}">
-                                <li class="round-image-user mt-2" style="margin-right: 10px;  margin-left: -10px;">
-                                    <img th:if="${membersExMaster.role == 'GUEST'}" th:src="@{${membersExMaster.picture}}">
-                                    <img th:if="${membersExMaster.role != 'GUEST'}" th:src="@{image/login/__${membersExMaster.picture}__}">
-                                </li>
-                                
-                                <li class="approval-li" th:text="${membersExMaster.name}"></li>
-                                <span class="approval-action" th:data-email="${membersExMaster.email}" th:data-meetListNum="${meetListNum}" th:data-name="${membersExMaster.name}" onclick="toggleAccept(this)">
-                                    <span th:if="${membersExMaster.approvalStatus == -1}">√</span>
-                                </span>
-                                <span th:if="${membersExMaster.approvalStatus == 0}">대기</span>
-                                <span th:if="${membersExMaster.approvalStatus == 1}" style="color: #2077d4;">승인</span>
-                                <span th:if="${membersExMaster.approvalStatus == 2}" style="color: #e9194d;">기각</span>
-                                
-                            </div>
-                        </div>
-
-                        <input type="hidden" id="meet-listnum" name="meetListNum" th:value="${meetListNum}" />
-                        <div id="request-text" th:if="${not membersExMaster.isEmpty()}" onclick="sendRequest()">요청하기</div>
-
-                    </div>
-                    
-
-                    <div class="approval-back2" th:if="${meetMemStatus == 2 and approvalStatus >= 0}"> 
-                        <div style="display: flex; align-items: center;">
-                            <div style="margin-left: 6px; font-size: 18px;">승인요청</div>
-                        </div>
-                        <div style="margin-top: 10px;"></div>
-                        <div class="approval-mem-back2" id="expandable-content">
-                            <div class="approval-mem-q">
-                                    
-                                👑 <span class="approval-name" th:text="${meetMaster.name}"></span> 님이 요청하셨습니다. 승인하시겠습니까?
-                            </div>
-
-                            <div class="d-flex req-actions" th:each="member : ${membersExMaster}" th:if="${approvalStatus == 0}">
-                                <span class="card-text d-flex req-approval" th:if="${#httpSession.getAttribute('user1') != null} and ${session.user1.email == member.email}" th:data-email="${member.email}" th:data-meetListNum="${meetListNum}" onclick="reqApproval(this.getAttribute('data-email'), this.getAttribute('data-meetListNum'))">승인</span>
-
-                                <span class="card-text d-flex req-approval" th:if="${#httpSession.getAttribute('user') != null} and ${session.user.email == member.email}" th:data-email="${member.email}" th:data-meetListNum="${meetListNum}" onclick="reqApproval(this.getAttribute('data-email'), this.getAttribute('data-meetListNum'))">승인</span>
-
-                                <span class="card-text d-flex req-reject" th:if="${#httpSession.getAttribute('user1') != null} and ${session.user1.email == member.email}" th:data-email="${member.email}" th:data-meetListNum="${meetListNum}" onclick="reqReject(this.getAttribute('data-email'), this.getAttribute('data-meetListNum'))">기각</span>
-
-                                <span class="card-text d-flex req-reject" th:if="${#httpSession.getAttribute('user') != null} and ${session.user.email == member.email}" th:data-email="${member.email}" th:data-meetListNum="${meetListNum}" onclick="reqReject(this.getAttribute('data-email'), this.getAttribute('data-meetListNum'))">기각</span>
-                            </div>
-                            <div class="d-flex req-actions" th:if="${approvalStatus == 1}">
-                                <div style="text-align: center; font-size: 18px; color: #2077d4;">승인되었습니다.</div>
-                            </div>
-                            <div class="d-flex req-actions" th:if="${approvalStatus == 2}">
-                                <div style="text-align: center; font-size: 18px; color: #e9194d;">기각되었습니다.</div>
-                            </div>
-
-                        </div>
-                    </div>
-
-                   
-
-
-                    
+                      
                 </div>
             </div>
 
@@ -791,14 +737,22 @@ if(reqMoney){
                         </div>
                     </div>
                     <hr style="width: 225px; border-width: 2px; border-color: #84A5FF;">
-                    <p style="margin-left: 12px;">meetmate 목록</p>
+                    <p style="margin-left: 12px;">meetMate 목록</p>
                     <div div class="meetmate-back">
                         ㄷㄷ
                     </div>
 
-                    <button class="meetmate-btn" th:if="${meetMemStatus == 1}">
-                        meetmate 생성하기
+                    <button class="meetmate-btn" th:if="${meetMemStatus == 1}" onclick="javascript:location.href='/communiFindGatchiChoice.action';">
+                        meetMate 생성하기
                     </button>
+                    <input type="hidden" name="meetListNum" id="meetListNum" th:value="${meetListNum}"/>
+
+                    <div class="only-communifind" th:if="${meetMemStatus <= 0 or meetMemStatus == 2}" onmouseover="showTooltip()" onmouseout="hideTooltip()">
+                        ⓘ
+                    </div>
+                    <div id="tooltip" style="display: none; position: absolute; background: #fff; border: 1px solid #ccc; padding: 10px; z-index: 999;">
+                        communiFind 내의 meetMate에 참여하실 경우 해당 communiFind 가입 먼저 해주시길 바랍니다.
+                    </div>
 
                 </div>
             </div>
