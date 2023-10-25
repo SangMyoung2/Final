@@ -1,5 +1,6 @@
 package com.spring.boot.controller;
 
+import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -24,10 +25,12 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.boot.dto.GatchiDTO;
+import com.spring.boot.dto.MapDTO;
 import com.spring.boot.dto.PointHistoryDTO;
 import com.spring.boot.dto.userPointDTO;
 import com.spring.boot.model.Users;
 import com.spring.boot.service.GatchiService;
+import com.spring.boot.service.MapService;
 import com.spring.boot.dto.MeetCategoryDTO;
 import com.spring.boot.dto.MeetInfoDTO;
 import com.spring.boot.dto.MeetReviewDTO;
@@ -51,8 +54,86 @@ public class MeetControllerYj {
 	@Autowired
 	private GatchiService gatchiService;
 
+	@Autowired
+	private MapService mapService;
+
+	// meetMate 아티클
 	@GetMapping("/meetArticle.action")
 	public ModelAndView meetArticle(HttpServletRequest request,
+			@RequestParam("meetListNum") int meetListNum) throws Exception {
+
+		// 날짜 종료된 모임이면 meetStatus( 1 => 2로 변경 )
+		GatchiDTO gatchiDTO = new GatchiDTO();
+		gatchiDTO.setMeetListNum(Integer.parseInt(request.getParameter("meetListNum")));
+        meetServiceYj.meetStatusCompletion(gatchiDTO);
+
+		GatchiDTO meetListInfo = meetServiceYj.getMeetListInfo(Integer.parseInt(request.getParameter("meetListNum")));
+		List<MeetInfoDTO> meetMembers = meetServiceYj.getMeetMembers(Integer.parseInt(request.getParameter("meetListNum")));
+		List<MeetInfoDTO> membersExMaster = meetServiceYj.getMembersExMaster(Integer.parseInt(request.getParameter("meetListNum")));
+		List<MeetReviewDTO> meetReview = meetServiceYj.getReview(Integer.parseInt(request.getParameter("meetListNum")));
+		int meetStatus = meetServiceYj.getMeetStatus(Integer.parseInt(request.getParameter("meetListNum")));
+		MeetInfoDTO meetMaster = meetServiceYj.getMeetMaster(Integer.parseInt(request.getParameter("meetListNum")));
+		List<MeetCategoryDTO> meetCategory = meetServiceYj.getAllCategories();
+		gatchiService.updateHitCount(meetListNum);//조회수증가
+
+		ModelAndView mav = new ModelAndView();
+		MeetInfoDTO meetInfoDTO = new MeetInfoDTO();
+
+		HttpSession session = request.getSession();
+		// Users social = (Users)session.getAttribute("user");
+		Users user1 = (Users)session.getAttribute("user1");
+		SessionUser sessionUser = (SessionUser) session.getAttribute("user");
+
+		if (sessionUser != null) {
+			meetInfoDTO.setEmail(sessionUser.getEmail()); 
+		} else if (user1 != null) {
+			meetInfoDTO.setEmail(user1.getEmail()); 
+		}
+
+		mav.addObject("loginEmail", meetInfoDTO.getEmail());  // 로그인된 email
+
+		meetInfoDTO.setMeetListNum(Integer.parseInt(request.getParameter("meetListNum")));
+
+		// 떠돌이 유저(meetMemStatus)
+		int memberStatus = -1;
+		Integer ret = meetServiceYj.getMemberStatus(meetInfoDTO);
+		if (ret != null) memberStatus = ret.intValue();
+
+		// 떠돌이 유저(approvalStatus)
+		int approvalStatus = -1;
+		Integer ret2 = meetServiceYj.getApprovalStatus(meetInfoDTO);
+		if (ret2 != null) approvalStatus = ret2.intValue();
+
+		
+		MapDTO mapDto = meetServiceYj.getlatlng(meetListNum);
+		mav.addObject("mapDto", mapDto);
+
+		mav.addObject("meetCategory", meetCategory);
+		mav.addObject("meetMaster", meetMaster);
+        mav.addObject("meetStatus", meetStatus);
+		mav.addObject("meetListNum", request.getParameter("meetListNum"));
+		mav.addObject("meetListInfo", meetListInfo);
+		mav.addObject("meetMembers", meetMembers);
+		mav.addObject("membersExMaster", membersExMaster);
+		mav.addObject("meetReview", meetReview);
+		mav.addObject("meetMemStatus", memberStatus);
+		mav.addObject("approvalStatus", approvalStatus);
+		mav.addObject("dto", meetInfoDTO);
+
+		if (meetListInfo.getMeetCheck() == 1) {
+
+			meetListInfo.setMeetName(""); // 모임명을 ""로 설정
+			mav.setViewName("meetmate/article");
+			return mav;
+
+		}
+		
+		return mav;
+	}
+
+	// communiFind 아티클
+	@GetMapping("/communiArticle.action")
+	public ModelAndView communiArticle(HttpServletRequest request,
 			@RequestParam("meetListNum") int meetListNum) throws Exception {
 
 		// 날짜 종료된 모임이면 meetStatus( 1 => 2로 변경 )
@@ -109,8 +190,101 @@ public class MeetControllerYj {
 		mav.addObject("approvalStatus", approvalStatus);
 		mav.addObject("dto", meetInfoDTO);
 
-		mav.setViewName("meetmate/article");
+		if (meetListInfo.getMeetCheck() == 2) {
+			mav.setViewName("meetmate/communiFindArticle");
+			return mav;
+		}	
 		
+		return mav;
+	}
+
+	// communiFind 내에 방 생성은 meetMate만 만들어야됨, meetMate 생성하기 버튼 누르면 이거 타야됨
+	@GetMapping("/communiFindGatchiChoice.action")
+	public ModelAndView communiFindGatchiChoice(
+			@RequestParam("meetListNum") int meetListNum) throws Exception{
+				System.out.println(meetListNum + "^^^^^^^^^^^^^^^^^^^^^^^");
+
+		ModelAndView mav = new ModelAndView();
+
+		mav.addObject("meetListNum", meetListNum);
+
+		mav.setViewName("meetmate/communiFindGatchiChoice");
+		
+		return mav;		
+	}
+
+	@PostMapping("/communiFindGatchiChoice.action")
+	public ModelAndView communiFindGatchiChoice_ok(HttpServletRequest request, GatchiDTO dto) throws Exception{
+
+		ModelAndView mav = new ModelAndView();
+
+		int meetListNum = Integer.parseInt(request.getParameter("meetListNum"));
+
+		mav.addObject("dto", dto);
+		mav.addObject("lat", request.getParameter("lat"));
+		mav.addObject("lng", request.getParameter("lng"));
+		mav.addObject("meetListNum", meetListNum);
+
+		if (dto.getMeetCheck() == 1) {
+
+			dto.setMeetName(""); // 모임명을 ""로 설정
+			mav.setViewName("meetmate/meetInCommuniCreate");
+			return mav;
+		}
+
+		return mav;
+	}
+
+	@PostMapping("/meetInCommuniCreate.action")
+	public ModelAndView meetInCommuniCreate_ok(HttpServletRequest request, 
+			GatchiDTO dto, MeetInfoDTO infoDTO,
+			@RequestParam("meetImage1") MultipartFile meetImage,
+			@RequestParam("meetListNum") int meetListNum) throws Exception{
+
+		ModelAndView mav = new ModelAndView("redirect:/communiArticle.action?meetListNum=" + meetListNum);
+		HttpSession session = request.getSession();
+		Users social = (Users)session.getAttribute("user");
+		Users user1 = (Users)session.getAttribute("user1");
+
+		if (social != null) {
+			infoDTO.setEmail(social.getEmail()); 
+		} else if (user1 != null) {
+			infoDTO.setEmail(user1.getEmail()); 
+		}
+
+		// 암호에 communiFind 방번호 넣어줌
+		GatchiDTO gatchiDTO = new GatchiDTO();
+		gatchiDTO.setCode(Integer.parseInt(request.getParameter("meetListNum")));
+
+		String resourcePath = "C:\\VSCode\\Final\\FinalProject\\src\\main\\resources\\static\\image\\gatchiImage";
+		// Resource resource = new ClassPathResource("static");
+        // String resourcePath = resource.getFile().getAbsolutePath() + "/image/gatchiImage";
+
+		if (!meetImage.isEmpty()) {
+			String originalFileName = meetImage.getOriginalFilename();
+			File destFile = new File(resourcePath, originalFileName);
+
+			meetImage.transferTo(destFile);
+			int maxNum = gatchiService.maxNum();
+			dto.setMeetListNum(maxNum + 1);
+			dto.setMeetImage(originalFileName);
+			gatchiService.createGatchi(dto);
+
+			infoDTO.setMeetListNum(maxNum + 1);			
+			gatchiService.createMeetInfo(infoDTO);
+			
+			MapDTO mapDTO = new MapDTO();
+			mapDTO.setLat(Double.parseDouble(request.getParameter("lat")));
+			mapDTO.setLng(Double.parseDouble(request.getParameter("lng")));
+			mapDTO.setMeetListNum(maxNum + 1);
+			
+			mapService.insertMapData(mapDTO);
+		}
+		mav.addObject("roomName", dto.getMeetTitle());
+		mav.addObject("roomType", "MEET");
+		mav.addObject("meetListNum", meetListNum);
+		//mav.setViewName("redirect:/meetMateList.action");
+		mav.setViewName("redirect:/createroom.action");
 		return mav;
 	}
 
@@ -121,7 +295,9 @@ public class MeetControllerYj {
             @RequestParam("meetReviewContent") String meetReviewContent,
             @RequestParam("meetReviewImg") MultipartFile meetReviewImg) throws Exception {
         
-		 String resourcePath = "C:\\VSCode\\Final\\FinalProject\\src\\main\\resources\\static\\image\\reviewImage";
+		//  String resourcePath = "C:\\VSCode\\Final\\FinalProject\\src\\main\\resources\\static\\image\\reviewImage";
+
+		
 
 		// Resource resource = new ClassPathResource("static");
       	// String resourcePath = resource.getFile().getAbsolutePath() + "/image/reviewImage";
@@ -154,12 +330,29 @@ public class MeetControllerYj {
 		if (hasReviewed<=0) { // 리뷰는 한 이메일당 하나만 작성 가능
 
 			if (!meetReviewImg.isEmpty()) {
-				String originalFilename = meetReviewImg.getOriginalFilename();
-				String saveFileName = UUID.randomUUID() + originalFilename;
-				System.out.println(saveFileName);
-				Path filePath = Paths.get(resourcePath, saveFileName);
-            	// 파일 저장
-            	Files.write(filePath, meetReviewImg.getBytes());
+
+				String absolutePath = new File("").getAbsolutePath() + "\\";
+				String path = "FinalProject/src/main/resources/static/image/reviewImage";
+				File file = new File(path);
+				System.out.println("앱솔루트패스 : " + absolutePath);
+
+				String originalFileName = meetReviewImg.getOriginalFilename();
+
+				 // 폴더가 없다면 생성
+				 if (!file.exists()) {
+				    file.mkdirs();
+				 }
+
+				 String saveFileName = UUID.randomUUID() + originalFileName;
+				 file = new File(absolutePath + path + "/" + saveFileName);
+				 meetReviewImg.transferTo(file);
+
+				// String originalFilename = meetReviewImg.getOriginalFilename();
+				// String saveFileName = UUID.randomUUID() + originalFilename;
+				// System.out.println(saveFileName);
+				// Path filePath = Paths.get(resourcePath, saveFileName);
+            	// // 파일 저장
+            	// Files.write(filePath, meetReviewImg.getBytes());
 				// File destFile = new File(resourcePath, saveFileName);
 				// meetReviewImg.transferTo(destFile);
 				// Resource resource = new ClassPathResource("static");
@@ -603,6 +796,5 @@ public class MeetControllerYj {
 		pointHistoryService.insertPointHistory(pointDto);
 		//여기까지 환불 코드
 	}
-
 
 }

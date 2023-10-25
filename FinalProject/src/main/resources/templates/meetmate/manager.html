@@ -135,14 +135,15 @@
                     <input type="hidden" id="meetMaxMemCnt" th:value="${meetListInfo.meetMaxMemCnt}">
                 </div>
                 <div th:if="${meetWait.size() == 0}">
-                    <p class="no-members-message" style="margin-top: 40px; margin-bottom: 40px;">대기 중인 멤버가 없습니다.</p>
+                    <p style="margin-top: 40px; margin-bottom: 40px;">대기 중인 멤버가 없습니다.</p>
                 </div>
             </div>
 
             <div class="mem-title">참여 멤버</div>
             <div class="mem-background" th:each="meetMember : ${meetMembers}">
                 <div class="round-image">
-                    <img th:src="@{/image/gatchiImage/1111.jpg}" alt="회원 프사(임의)"/>
+                    <img th:if="${meetMember.role == 'GUEST'}" th:src="@{${meetMember.picture}}">
+                    <img th:if="${meetMember.role != 'GUEST'}" th:src="@{image/login/__${meetMember.picture}__}">
                 </div>
                 <div class="mem-request" th:text="${meetMember.name}"></div>
                 <div class="actions">
@@ -157,14 +158,19 @@
             <div class="blacklist-container">
                 <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Skull%20and%20Crossbones.png" alt="Skull and Crossbones" style="width: 35px; height: 35px; margin-top: 25px;"/>
                 <div class="blacklist-title">블랙리스트</div>
+                <hr style="width: 200px; height: 1px;">
                 <div class="black-background" th:each="meetBlack : ${meetBlack}">
                     <div class="round-image2">
-                        <img th:src="@{/image/gatchiImage/1111.jpg}" alt="회원 프사(임의)"/>
+                        <img th:if="${meetBlack.role == 'GUEST'}" th:src="@{${meetBlack.picture}}">
+                        <img th:if="${meetBlack.role != 'GUEST'}" th:src="@{image/login/__${meetBlack.picture}__}">
                     </div>
                     <div class="black-request" th:text="${meetBlack.name}"></div>
                     <div class="actions">
                         <span class="release-action" th:data-email="${meetBlack.email}" th:data-meetListNum="${meetListNum}" th:data-name="${meetBlack.name}" onclick="release(this.getAttribute('data-email'), this.getAttribute('data-meetListNum'), this.getAttribute('data-name'))">해제</span>
                     </div>
+                </div>
+                <div th:if="${meetBlack.size() == 0}">
+                    <p style="margin-top: 75px;">등록된 멤버가 없습니다.</p>
                 </div>
             </div>
         </div>

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.boot.dto.GatchiDTO;
+import com.spring.boot.dto.MapDTO;
 import com.spring.boot.dto.MeetCategoryDTO;
 import com.spring.boot.dto.MeetInfoDTO;
 import com.spring.boot.dto.MeetReviewDTO;
@@ -166,5 +167,10 @@ public class MeetServiceImplYj implements MeetServiceYj {
     @Override
     public List<MeetInfoDTO> getMeetInfo(int meetListNum) throws Exception{
         return meetMapperYj.getMeetInfo(meetListNum);
+    }
+
+     @Override
+    public MapDTO getlatlng(int meetListNum) throws Exception {
+        return meetMapperYj.getlatlng(meetListNum);
     }
 }
