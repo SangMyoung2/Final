@@ -751,10 +751,18 @@ function hideTooltip() {
                         ㄷㄷ
                     </div>
 
-                    <button class="meetmate-btn" th:if="${meetMemStatus == 1}" onclick="javascript:location.href='/communiFindGatchiChoice.action';">
-                        meetMate 생성하기
-                    </button>
-                    <input type="hidden" name="meetListNum" id="meetListNum" th:value="${meetListNum}"/>
+                    <!-- <form>
+                        <button class="meetmate-btn" th:if="${meetMemStatus == 1}" onclick="javascript:location.href='';">
+                            meetMate 생성하기
+                        </button>
+                        <input type="hidden" name="meetListNum" id="meetListNum" th:value="${meetListNum}"/>
+                    </form> -->
+
+
+                    <form action="/communiFindGatchiChoice.action" method="GET">
+                        <input type="hidden" name="meetListNum" id="meetListNum" th:value="${meetListNum}"/>
+                        <button type="submit" class="meetmate-btn" th:if="${meetMemStatus == 1}">meetMate 생성하기</button>
+                    </form>
 
                     <div class="only-communifind" th:if="${meetMemStatus <= 0 or meetMemStatus == 2}" onmouseover="showTooltip()" onmouseout="hideTooltip()">
                         ⓘ
