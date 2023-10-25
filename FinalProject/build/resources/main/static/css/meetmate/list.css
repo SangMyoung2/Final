@@ -678,11 +678,3 @@ margin: 0 10px;
   margin-left: 20px;
   vertical-align: middle;
 }
-
-
-#masterProfile {
-  width: 90px;
-  height: 90px;
-  border-radius: 50%;
-  border: solid 0.1px white;
-}

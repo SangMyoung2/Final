@@ -22,6 +22,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     insert into meetInfo(meetListNum,email,meetMemStatus) values (#{meetListNum},#{email},1)
 </insert>
 
+
+
 <select id="getMeetInfo" parameterType="com.spring.boot.dto.MeetInfoDTO">
     select * from meetInfo where meetMemStatus = 1 or meetMemStatus = 2
 </select>
@@ -32,14 +34,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     WHERE email = #{email}
 </select>
 
-<select id="getGatchiByMeetMateListNums" parameterType="java.util.List" resultType="com.spring.boot.dto.GatchiDTO">
+<select id="getGatchiByMeetListNums" parameterType="java.util.List" resultType="com.spring.boot.dto.GatchiDTO">
     SELECT *
     FROM gatchi
     WHERE meetListNum IN
     <foreach item="item" collection="list" open="(" separator="," close=")">
         #{item}
     </foreach>
-	AND MEETCHECK = 1
     ORDER BY meetListNum DESC
 </select>
 
@@ -47,11 +48,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	select nvl(max(meetListNum),0) from gatchi
 </select>
 
-<!-- 방장프로필사진 불러오기 -->
-<select id="getProfileByUsers" parameterType="int" resultType="String">
-	SELECT users.picture FROM users
-	JOIN meetInfo ON users.email = meetInfo.email
-	WHERE meetInfo.meetListNum = ${meetListNum}
+<select id="masterPicture" resultType="String">
+	select picture from users where email = #{email}
 </select>
 
 <!-- <select id="getReadData" parameterType="int" resultType="com.spring.boot.dto.GatchiDTO">
@@ -60,33 +58,34 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </select> -->
 
 <select id="getMeetMateLists" resultType="com.spring.boot.dto.GatchiDTO">
-   select * from gatchi where meetCheck = 1
+	select * from gatchi where meetCheck = 1
 </select>
 
 <select id="getCommuniFindLists" resultType="com.spring.boot.dto.GatchiDTO">
-   select * from gatchi where meetCheck = 2
+	select * from gatchi where meetCheck = 2
 </select>
 
 <select id="getMeetMateRandomList" parameterType="int" 
 	resultType="com.spring.boot.dto.GatchiDTO">
 <![CDATA[
-   SELECT * FROM (
-       SELECT * FROM gatchi WHERE meetCheck = 1 AND meetStatus = 1 ORDER BY DBMS_RANDOM.VALUE
+	SELECT * FROM (
+    	SELECT * FROM gatchi WHERE meetCheck = 1 AND meetStatus = 1 ORDER BY DBMS_RANDOM.VALUE
 	) WHERE ROWNUM <= ${count}
 ]]>
 </select>
 
-<select id="getCommuniFindRandomList" parameterType="int" resultType="com.spring.boot.dto.GatchiDTO">
+<select id="getCommuniFindRandomList" parameterType="int" 
+	resultType="com.spring.boot.dto.GatchiDTO">
 <![CDATA[
 	SELECT * FROM (
-       SELECT * FROM gatchi WHERE meetCheck = 2 AND meetStatus = 1 ORDER BY DBMS_RANDOM.VALUE
+    	SELECT * FROM gatchi WHERE meetCheck = 2 AND meetStatus = 1 ORDER BY DBMS_RANDOM.VALUE
 	) WHERE ROWNUM <= ${count}
 ]]>
 </select>
 
 <select id="getRownumList" parameterType="int" resultType="com.spring.boot.dto.GatchiDTO">
-<![CDATA[
 	select * from
+<![CDATA[
 	(select ROWNUM rnum, data.* from (
 	select * from GATCHI
 	where MEETTITLE like '%%') data)
@@ -132,8 +131,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <select id="sortByDdayMeet" parameterType="map" resultType="com.spring.boot.dto.GatchiDTO">
 	SELECT * FROM gatchi
-	WHERE meetCheck = 1 AND meetStatus != 2
-	ORDER BY TO_DATE(meetDday, 'YYYY-MM-DD HH24:MI') - TO_DATE(SYSDATE, 'YYYY-MM-DD HH24:MI') ASC
+	WHERE meetCheck = 1
+	ORDER BY meetDday - TO_DATE(SYSDATE, 'YYYY-MM-DD HH24:MI:SS') ASC
 </select>
 
 <select id="sortByLikeCountFind" parameterType="map" resultType="com.spring.boot.dto.GatchiDTO">
@@ -150,15 +149,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <select id="sortByDdayFind" parameterType="map" resultType="com.spring.boot.dto.GatchiDTO">
 	SELECT * FROM gatchi
-	WHERE meetCheck = 2 AND meetStatus != 2
-	ORDER BY TO_DATE(meetDday, 'YYYY-MM-DD HH24:MI') - TO_DATE(SYSDATE, 'YYYY-MM-DD HH24:MI') ASC
+	WHERE meetCheck = 2
+	ORDER BY meetDday - TO_DATE(SYSDATE, 'YYYY-MM-DD HH24:MI:SS') ASC
 </select>
 
 <update id="updateMeetStatusMate" parameterType="com.spring.boot.dto.GatchiDTO">
 <![CDATA[
-	UPDATE GATCHI
-	SET meetStatus = 2
-	WHERE TO_DATE(meetDday, 'YYYY-MM-DD HH24:MI:SS') < SYSDATE and meetCheck = 1
+   UPDATE GATCHI
+   SET meetStatus = 2
+   WHERE TO_DATE(meetDday, 'YYYY-MM-DD HH24:MI:SS') < SYSDATE and meetCheck = 1
 ]]>   
 </update>
 
@@ -167,7 +166,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	UPDATE GATCHI
 	SET meetStatus = 2
 	WHERE TO_DATE(meetDday, 'YYYY-MM-DD HH24:MI:SS') < SYSDATE and meetCheck = 2
-]]>   
+]]>	
 </update>
 
 
@@ -187,14 +186,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	values (#{meetListNum}, #{likecount}=#{likecount}+1, #{userEmail})
 </insert>
 -->
-
 <update id="updateHitCount" parameterType="int">
-	update gatchi set meetHitCount = meetHitCount + 1 where meetListNum = #{meetListNum}
+   update gatchi set meetHitCount = meetHitCount + 1 where meetListNum = #{meetListNum}
 </update>
-
 <!--
-public void createMeetmate(MeetmateDTO dto) throws Exception
-
+public void createMeetmate(MeetmateDTO dto) throws Exception;
 
 
 <insert id="insertData" parameterType="com.spring.boot.dto.BoardDTO">
@@ -240,9 +236,9 @@ map이나 hashMap이나 모두 사용가능
 <update id="minusMeetCount" parameterType="int">
 	update gatchi set meetlikecount = meetlikecount - 1
 	where meetListNum = #{meetListNum} and
-<![CDATA[
+	<![CDATA[
 	(select MEETLIKECOUNT from gatchi where meetListNum = #{meetListNum}) > 0
-]]>
+	]]>
 </update>
 
 <select id="getReadDataInUser" parameterType="String" resultType="com.spring.boot.dto.GatchiDTO">

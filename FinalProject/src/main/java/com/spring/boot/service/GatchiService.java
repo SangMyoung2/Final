@@ -21,7 +21,9 @@ public interface GatchiService {
 
 	public int maxNum() throws Exception;
 
-	public String masterPicture() throws Exception;
+	public String getProfileByUsers(int meetListNum) throws Exception;
+	
+	// public String masterPicture() throws Exception;
 	
 	// public GatchiDTO getReadData(int meetListNum) throws Exception;
 
@@ -88,7 +90,4 @@ public interface GatchiService {
 	public List<GatchiDTO> getReadDataInListNum(int meetListNum) throws Exception;
 
 	public void updateChatRoom(GatchiDTO dto) throws Exception;
-
-	public String getProfileByUsers(int meetListNum) throws Exception;
-	
 }

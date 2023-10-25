@@ -38,7 +38,6 @@ public class GatchiServiceImpl implements GatchiService{
         return gatchiMapper.getGatchiByMeetListNums(meetListNums);
 	}
 
-
 	@Override
 	public List<MeetInfoDTO> getMeetInfo() throws Exception {
 		
@@ -52,8 +51,8 @@ public class GatchiServiceImpl implements GatchiService{
 	
 	
 	@Override
-	public String masterPicture() throws Exception {
-		return gatchiMapper.masterPicture();
+		public String getProfileByUsers(int meetListNum) throws Exception {
+		return gatchiMapper.getProfileByUsers(meetListNum);
 	}
 
 	// @Override
@@ -123,17 +122,17 @@ public class GatchiServiceImpl implements GatchiService{
 	
 	@Override
 	public List<GatchiDTO> sortByLikeCountFind() throws Exception {
-		return gatchiMapper.sortByLikeCountMeet();
+		return gatchiMapper.sortByLikeCountFind();
 	}
 		
 	@Override
 	public List<GatchiDTO> sortByHitCountFind() throws Exception {
-		return gatchiMapper.sortByHitCountMeet();
+		return gatchiMapper.sortByHitCountFind();
 	}
 	
 	@Override
 	public List<GatchiDTO> sortByDdayFind() throws Exception {
-		return gatchiMapper.sortByDdayMeet();
+		return gatchiMapper.sortByDdayFind();
 	}
 
 	@Override
@@ -185,7 +184,7 @@ public class GatchiServiceImpl implements GatchiService{
 */
 
 
-	
+		
 	@Override
 	public void plusMeetCount(int meetListNum) throws Exception {
 		gatchiMapper.plusMeetCount(meetListNum);
@@ -211,10 +210,8 @@ public class GatchiServiceImpl implements GatchiService{
 		gatchiMapper.updateChatRoom(dto);
 	}
 
-	@Override
-	public String getProfileByUsers(int meetListNum) throws Exception {
-		return gatchiMapper.getProfileByUsers(meetListNum);
-	}
+
+
 
 }
 
