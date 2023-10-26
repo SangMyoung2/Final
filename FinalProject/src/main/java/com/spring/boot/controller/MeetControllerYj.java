@@ -26,7 +26,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.boot.dto.GatchiDTO;
 import com.spring.boot.dto.MeetCalculateDTO;
-import com.spring.boot.dto.MeetDTOYj;
 import com.spring.boot.dto.MapDTO;
 import com.spring.boot.dto.PointHistoryDTO;
 import com.spring.boot.dto.userPointDTO;
@@ -101,6 +100,7 @@ public class MeetControllerYj {
 		int memberStatus = -1;
 		Integer ret = meetServiceYj.getMemberStatus(meetInfoDTO);
 		if (ret != null) memberStatus = ret.intValue();
+		System.out.println("memberStatus : " + memberStatus);
 
 		// 떠돌이 유저(approvalStatus)
 		int approvalStatus = -1;
@@ -646,6 +646,20 @@ public class MeetControllerYj {
 
 		meetServiceYj.updateApprovalOk(meetInfoDTO);
 
+		int meetMemberCount = meetServiceYj.getMeetInfoCount(meetListNum);
+		int meetApprovalCount = meetServiceYj.getMeetInfoApprovalstatusCount(meetListNum);
+
+		if((meetMemberCount-1) == meetApprovalCount){
+			// 모두 승인했을 경우
+			GatchiDTO dto = meetServiceYj.getMeetListInfo(meetListNum);
+			int money = dto.getMeetMoney();
+			money = money * meetApprovalCount;
+
+			MeetInfoDTO masterDto = meetServiceYj.getMeetMaster(meetListNum);
+			String master = masterDto.getEmail();
+			masterPoint(master,meetListNum,money);
+		}
+
 		return new ModelAndView("redirect:/meetManager.action?meetListNum=" + meetListNum);
 	}
 
@@ -841,4 +855,30 @@ public class MeetControllerYj {
 		//여기까지 환불 코드
 	}
 
+	//방장에게 돈주기
+	private void masterPoint(String useremail, int meetListNum, int money) throws Exception{
+		// 해당 방 정보 가져오기
+		GatchiDTO gatchiDTO = meetServiceYj.getMeetListInfo(meetListNum);
+
+		//방장 포인트 추가
+		int userPoint = paymentService.getUserPoint(useremail);
+		userPointDTO userpointDTO = new userPointDTO();
+		userpointDTO.setEmail(useremail);
+		userpointDTO.setPointBalance(money);
+		System.out.println(userpointDTO.getPointBalance());
+		paymentService.updateUserPoint(userpointDTO);
+
+		System.out.println("정산 포인트 : " + money);
+		// 히스토리 업데이트(모임끝 4번으로 추가)
+		PointHistoryDTO pointDto = new PointHistoryDTO();
+		pointDto.setUseremail(useremail);
+		pointDto.setUseType(4); // 1:사용 2:충전 3:환불 4:모임끝정산
+		pointDto.setUsePoint(money);
+		pointDto.setPointUseHistory(gatchiDTO.getMeetTitle());
+		pointDto.setAfterPoint(userPoint + money);
+		pointDto.setBeforPoint(userPoint);
+		pointDto.setMeetListNum(meetListNum);
+		pointHistoryService.insertPointHistory(pointDto);
+		
+	}
 }
