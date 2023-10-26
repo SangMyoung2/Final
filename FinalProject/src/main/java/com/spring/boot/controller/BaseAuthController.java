@@ -19,9 +19,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import com.spring.boot.dao.UserRepository;
 import com.spring.boot.dto.GatchiDTO;
+import com.spring.boot.dto.MeetReviewDTO;
 import com.spring.boot.dto.SessionUser;
 import com.spring.boot.model.Users;
 import com.spring.boot.service.GatchiService;
+import com.spring.boot.service.MeetServiceYj;
 import com.spring.boot.service.PaymentService;
 import com.spring.boot.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -41,6 +43,9 @@ public class BaseAuthController {
 
 	@Autowired
 	private PaymentService paymentService;
+
+	@Autowired
+	private MeetServiceYj meetServiceYj;
 
 	@GetMapping("/")
 	public ModelAndView main() throws Exception {
@@ -300,8 +305,14 @@ public class BaseAuthController {
 		}
 
 		@GetMapping("/mainReview.action")
-		public ModelAndView mainReview() {
+		public ModelAndView mainReview() throws Exception {
 			ModelAndView mav = new ModelAndView();
+
+		List<MeetReviewDTO> allreview = new ArrayList<>();
+			allreview = meetServiceYj.getAllMeetReviews();
+
+
+		mav.addObject("allreview", allreview);	
 			
 		mav.setViewName("login/mainReview");
 				

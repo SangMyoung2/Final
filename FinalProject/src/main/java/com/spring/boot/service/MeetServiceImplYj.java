@@ -142,4 +142,10 @@ public class MeetServiceImplYj implements MeetServiceYj {
     public List<MeetInfoDTO> getMeetInfo(int meetListNum) throws Exception{
         return meetMapperYj.getMeetInfo(meetListNum);
     }
+
+    @Override
+    public List<MeetReviewDTO> getAllMeetReviews() throws Exception {
+        return meetMapperYj.getAllMeetReviews();
+       
+    }
 }

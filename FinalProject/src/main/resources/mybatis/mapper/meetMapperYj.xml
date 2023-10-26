@@ -133,4 +133,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     select * from meetinfo where meetListNum = #{meetListNum}
 </select>
 
+
+<select id="getAllMeetReviews"  resultType="com.spring.boot.dto.MeetReviewDTO">
+    select * from meetreview order by meetlistnum DESC
+</select>
+
 </mapper>

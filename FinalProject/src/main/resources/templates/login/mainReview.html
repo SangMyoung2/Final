@@ -32,10 +32,10 @@
 
  
     <div style="display: flex; flex-direction: column; flex-wrap: wrap; align-content: center; height: 800px; background-color:#F5F5F5;">
-      <div class="card-item">
+      <div class="card-item" th:if="${allreview != null}" th:each="items : ${allreview}">
         <div class="item-content">
           <div class="image-container">
-            <img src="http://localhost:8080/image/main/jbal.jpg" alt="">
+            <img th:src="@{|/image/reviewImage/${items.email}|}" alt="">
             
           </div>
 
@@ -48,91 +48,8 @@
       </div>
       
       
-      
-      <div class="card-item">
-        <div class="item-content">
-          <div class="image-container">
-            <img src="http://localhost:8080/image/main/jbal.jpg" alt="">
-          </div>
-          <div >
-            <a>후기내용</a>
-            
-            
-          </div>
-        </div>
-      </div>
+   
 
-      <div class="card-item">
-        <div class="item-content">
-          <div class="image-container">
-            <img src="http://localhost:8080/image/main/jbal.jpg" alt="">
-          </div>
-          <div >
-            <a>후기내용</a>
-            
-            
-          </div>
-        </div>
-      </div>
-
-      <div class="card-item">
-        <div class="item-content">
-          <div class="image-container">
-            <img src="http://localhost:8080/image/main/jbal.jpg" alt="">
-          </div>
-          <div >
-            <a>후기내용</a>
-            
-            
-          </div>
-        </div>
-      </div>
-
-
-      <div class="card-item">
-        <div class="item-content">
-          <div class="image-container">
-            <img src="http://localhost:8080/image/main/jbal.jpg" alt="">
-          </div>
-          <div >
-            <a>후기내용</a>
-            
-            
-          </div>
-        </div>
-      </div>
-
-
-      <div class="card-item">
-        <div class="item-content">
-          <div class="image-container">
-            <img src="http://localhost:8080/image/main/jbal.jpg" alt="">
-          </div>
-          <div >
-            <a>후기내용</a>
-            
-            
-          </div>
-        </div>
-      </div>
-
-
-      <div class="card-item">
-        <div class="item-content">
-          <div class="image-container">
-            <img src="http://localhost:8080/image/main/jbal.jpg" alt="">
-          </div>
-          <div >
-            <a>후기내용</a>
-            
-            
-          </div>
-        </div>
-      </div>
-      </div>
-         
-    
-    
  
 
        
