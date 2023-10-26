@@ -83,6 +83,7 @@ public class MeetControllerYj {
 	meetServiceYj.meetStatusCompletion(gatchiDTO);
 
 	GatchiDTO meetListInfo = meetServiceYj.getMeetListInfo(meetListNum);
+	List<GatchiDTO> onlyMeetListInfo = meetServiceYj.getOnlyMeetListInfo();
 	List<MeetInfoDTO> meetMembers = meetServiceYj.getMeetMembers(meetListNum);
 	List<MeetInfoDTO> membersExMaster = meetServiceYj.getMembersExMaster(meetListNum);
 	List<MeetReviewDTO> meetReview = meetServiceYj.getReview(meetListNum);
@@ -126,6 +127,7 @@ public class MeetControllerYj {
 	mav.addObject("meetStatus", meetStatus);
 	mav.addObject("meetListNum", meetListNum);
 	mav.addObject("meetListInfo", meetListInfo);
+	mav.addObject("onlyMeetListInfo", onlyMeetListInfo);
 	mav.addObject("meetMembers", meetMembers);
 	mav.addObject("membersExMaster", membersExMaster);
 	mav.addObject("meetReview", meetReview);
@@ -133,7 +135,6 @@ public class MeetControllerYj {
 	mav.addObject("approvalStatus", approvalStatus);
 	mav.addObject("dto", meetInfoDTO);
 
-	meetListInfo.setMeetName(""); // 모임명을 ""로 설정
 	mav.setViewName(rurl);
 	return mav;
 
@@ -193,9 +194,9 @@ public class MeetControllerYj {
 			infoDTO.setEmail(user1.getEmail()); 
 		}
 
-		// 암호에 communiFind 방번호 넣어줌
-		dto.setCode(meetListNum);
-		meetServiceYj.updateCode(dto.getCode());
+		// // 암호에 communiFind 방번호 넣어줌
+		// dto.setCode(meetListNum);
+		// meetServiceYj.updateCode(dto.getCode());
 		
 		String resourcePath = "C:\\VSCode\\Final\\FinalProject\\src\\main\\resources\\static\\image\\gatchiImage";
 		// Resource resource = new ClassPathResource("static");
@@ -209,7 +210,8 @@ public class MeetControllerYj {
 			int maxNum = gatchiService.maxNum();
 			dto.setMeetListNum(maxNum + 1);
 			dto.setMeetImage(originalFileName);
-			gatchiService.createGatchi(dto);
+			dto.setCode(meetListNum);
+			meetServiceYj.createMeetInCommuni(dto);
 
 			infoDTO.setMeetListNum(maxNum + 1);			
 			gatchiService.createMeetInfo(infoDTO);

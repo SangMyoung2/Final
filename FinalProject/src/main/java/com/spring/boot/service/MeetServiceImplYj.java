@@ -34,9 +34,14 @@ public class MeetServiceImplYj implements MeetServiceYj {
     }
 
     @Override
-    public void updateCode(int meetListNum) throws Exception {
-        meetMapperYj.updateCode(meetListNum);
+    public List<GatchiDTO> getOnlyMeetListInfo() throws Exception {
+        return meetMapperYj.getOnlyMeetListInfo();
     }
+
+    @Override
+	public void createMeetInCommuni(GatchiDTO dto) throws Exception {		
+		meetMapperYj.createMeetInCommuni(dto);
+	}
     
     @Override
     public List<MeetInfoDTO> getMeetMembers(int meetListNum) throws Exception {
