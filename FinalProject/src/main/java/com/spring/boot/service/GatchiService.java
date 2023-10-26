@@ -17,7 +17,13 @@ public interface GatchiService {
 
 	public List<Integer> getMeetListNumByUserEmail(String email)throws Exception;
 
+	public List<Integer> getMeetLikeNumByUserEmail(String email)throws Exception;
+
+	public List<GatchiDTO> getGatchiByLikeNums(List<Integer> meetListNums);
+
 	public List<GatchiDTO> getGatchiByMeetMateListNums(List<Integer> meetListNums);
+
+	public List<GatchiDTO> getGatchiByMeetcommuListNums(List<Integer> meetListNums);
 
 	public int maxNum() throws Exception;
 

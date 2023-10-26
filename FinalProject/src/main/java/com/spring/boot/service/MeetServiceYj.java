@@ -72,5 +72,7 @@ public interface MeetServiceYj {
 
     public List<MeetInfoDTO> getMeetInfo(int meetListNum) throws Exception;
 
+    public List<MeetReviewDTO> getAllMeetReviews() throws Exception;
+    
     public MapDTO getlatlng(int meetListNum) throws Exception;
 }

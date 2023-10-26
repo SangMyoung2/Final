@@ -174,6 +174,11 @@ public class MeetServiceImplYj implements MeetServiceYj {
         return meetMapperYj.getMeetInfo(meetListNum);
     }
 
+    @Override
+    public List<MeetReviewDTO> getAllMeetReviews() throws Exception {
+        return meetMapperYj.getAllMeetReviews();
+    }
+       
      @Override
     public MapDTO getlatlng(int meetListNum) throws Exception {
         return meetMapperYj.getlatlng(meetListNum);
