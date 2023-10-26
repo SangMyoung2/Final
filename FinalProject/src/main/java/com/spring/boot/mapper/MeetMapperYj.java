@@ -78,4 +78,8 @@ public interface MeetMapperYj {
     public List<MeetReviewDTO> getAllMeetReviews() throws Exception;
     
     public MapDTO getlatlng(int meetListNum) throws Exception;
+
+    public int getMeetInfoCount(int meetListNum) throws Exception;
+
+    public int getMeetInfoApprovalstatusCount(int meetListNum) throws Exception;
 }

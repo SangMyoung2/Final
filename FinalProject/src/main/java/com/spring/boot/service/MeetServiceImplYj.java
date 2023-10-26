@@ -183,4 +183,16 @@ public class MeetServiceImplYj implements MeetServiceYj {
     public MapDTO getlatlng(int meetListNum) throws Exception {
         return meetMapperYj.getlatlng(meetListNum);
     }
+
+    @Override
+    public int getMeetInfoCount(int meetListNum) throws Exception{
+        return meetMapperYj.getMeetInfoCount(meetListNum);
+    }
+
+    @Override
+    public int getMeetInfoApprovalstatusCount(int meetListNum) throws Exception{
+        return meetMapperYj.getMeetInfoApprovalstatusCount(meetListNum);
+    }
+
+
 }

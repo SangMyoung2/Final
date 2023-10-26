@@ -25,11 +25,13 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.boot.dto.GatchiDTO;
+import com.spring.boot.dto.MeetCalculateDTO;
 import com.spring.boot.dto.MapDTO;
 import com.spring.boot.dto.PointHistoryDTO;
 import com.spring.boot.dto.userPointDTO;
 import com.spring.boot.model.Users;
 import com.spring.boot.service.GatchiService;
+import com.spring.boot.service.MeetCalculateService;
 import com.spring.boot.service.MapService;
 import com.spring.boot.dto.MeetCategoryDTO;
 import com.spring.boot.dto.MeetInfoDTO;
@@ -551,6 +553,8 @@ public class MeetControllerYj {
 
 		meetServiceYj.addToBlacklist(meetInfoDTO);
 		meetServiceYj.decrementMeetMemCnt(meetListNum);
+		
+		refundPoint(email, meetListNum);
 
 		return new ModelAndView("redirect:/meetManager.action?meetListNum=" + meetListNum);
 	}
@@ -600,6 +604,20 @@ public class MeetControllerYj {
 		meetInfoDTO.setEmail(email);
 
 		meetServiceYj.updateApprovalOk(meetInfoDTO);
+
+		int meetMemberCount = meetServiceYj.getMeetInfoCount(meetListNum);
+		int meetApprovalCount = meetServiceYj.getMeetInfoApprovalstatusCount(meetListNum);
+
+		if((meetMemberCount-1) == meetApprovalCount){
+			// 모두 승인했을 경우
+			GatchiDTO dto = meetServiceYj.getMeetListInfo(meetListNum);
+			int money = dto.getMeetMoney();
+			money = money * meetApprovalCount;
+
+			MeetInfoDTO masterDto = meetServiceYj.getMeetMaster(meetListNum);
+			String master = masterDto.getEmail();
+			masterPoint(master,meetListNum,money);
+		}
 
 		return new ModelAndView("redirect:/meetManager.action?meetListNum=" + meetListNum);
 	}
@@ -706,6 +724,43 @@ public class MeetControllerYj {
 		return 1;
 	}
 
+	// @PostMapping("/sendCalculate")
+	// public Boolean sendCalculate(HttpServletRequest req, @RequestParam("meetListNum") int meetListNum) throws Exception{
+	// 	// 정산 메세지 보내는 곳
+	// 	System.out.println("정산 하러 들어 왔음");
+
+	// 	List<MeetInfoDTO> lists = meetServiceYj.getMeetInfo(meetListNum);
+		
+	// 	HttpSession session = req.getSession();
+	// 	Users user = (Users) session.getAttribute("user1");
+	// 	String useremail = user.getEmail();
+
+	// 	if(lists == null || lists.isEmpty() || lists.size() <= 1) return false;
+
+	// 	for (MeetInfoDTO m : lists) {
+	// 		if(m.getEmail() == useremail || m.getEmail().equals(useremail)) continue;
+
+	// 		//방장이 아니라면 실행할 코드
+	// 		MeetCalculateDTO calculateDTO = new MeetCalculateDTO();
+	// 		calculateDTO.setMeetListNum(meetListNum);
+	// 		calculateDTO.setSenderUserEmail(useremail);
+	// 		calculateDTO.setTargetUserEmail(m.getEmail());
+	// 		calculateDTO.setStatus(0);
+	// 		meetCalculateService.insertData(calculateDTO);
+	// 	}
+
+	// 	return true;
+	// }
+
+	@PostMapping("/reqCalculate")
+	public Boolean reqCalculate() throws Exception{
+		// 방장 아닌 멤버가 수락 눌러주는 곳
+
+		
+
+		return false;
+	}
+
 	// 포인트 감소(입장) 메서드
 	private void paymentPoint(String useremail, int meetListNum) throws Exception{
 		int userPoint = paymentService.getUserPoint(useremail);
@@ -759,4 +814,30 @@ public class MeetControllerYj {
 		//여기까지 환불 코드
 	}
 
+	//방장에게 돈주기
+	private void masterPoint(String useremail, int meetListNum, int money) throws Exception{
+		// 해당 방 정보 가져오기
+		GatchiDTO gatchiDTO = meetServiceYj.getMeetListInfo(meetListNum);
+
+		//방장 포인트 추가
+		int userPoint = paymentService.getUserPoint(useremail);
+		userPointDTO userpointDTO = new userPointDTO();
+		userpointDTO.setEmail(useremail);
+		userpointDTO.setPointBalance(money);
+		System.out.println(userpointDTO.getPointBalance());
+		paymentService.updateUserPoint(userpointDTO);
+
+		System.out.println("정산 포인트 : " + money);
+		// 히스토리 업데이트(모임끝 4번으로 추가)
+		PointHistoryDTO pointDto = new PointHistoryDTO();
+		pointDto.setUseremail(useremail);
+		pointDto.setUseType(4); // 1:사용 2:충전 3:환불 4:모임끝정산
+		pointDto.setUsePoint(money);
+		pointDto.setPointUseHistory(gatchiDTO.getMeetTitle());
+		pointDto.setAfterPoint(userPoint + money);
+		pointDto.setBeforPoint(userPoint);
+		pointDto.setMeetListNum(meetListNum);
+		pointHistoryService.insertPointHistory(pointDto);
+		
+	}
 }

@@ -175,4 +175,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     select l.* from latlng l, gatchi gc where gc.meetListNum = #{meetListNum} and gc.meetListNum = l.meetListNum
 </select>
 
+<select id="getMeetInfoCount" parameterType="int" resultType="int">
+    select count(*) from meetinfo where meetListNum = #{meetListNum}
+</select>
+
+<select id="getMeetInfoApprovalstatusCount" parameterType="int" resultType="int">
+    select count(*) from meetinfo where meetListnum = #{meetListNum} and APPROVALSTATUS = 1
+</select>
+
 </mapper>

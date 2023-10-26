@@ -36,6 +36,7 @@ import com.spring.boot.service.ChatContentService;
 import com.spring.boot.service.ChatRoomService;
 import com.spring.boot.service.GatchiLikeService;
 import com.spring.boot.service.GatchiService;
+import com.spring.boot.service.MeetServiceYj;
 import com.spring.boot.util.ChatUtil;
 
 import lombok.RequiredArgsConstructor;
@@ -53,6 +54,9 @@ public class ChatRoomController {
 
     @Autowired
     private GatchiService gatchiService;
+
+    @Autowired
+    private MeetServiceYj meetServiceYj;
 
     @Autowired
     private ChatUtil chatUtil;
@@ -86,7 +90,19 @@ public class ChatRoomController {
         
         HttpSession session = req.getSession();
         Users user = (Users) session.getAttribute("user1");
-        String userId = user.getEmail();
+        SessionUser sessionUser = (SessionUser)session.getAttribute("user");
+        
+        String userName = "";
+        String userId = "";
+
+        if(user != null){
+            userName = user.getName();
+            userId = user.getEmail();
+        }else if(sessionUser != null){
+            userName = sessionUser.getName();
+            userId = sessionUser.getEmail();
+        }
+
         System.out.println("유저 이름 : " + userId);
 
         List<ChatRoomCollection> lists = chatRoomService.getFindNameInUsers(userId);
@@ -119,9 +135,20 @@ public class ChatRoomController {
 
         HttpSession session = req.getSession();
         Users user = (Users) session.getAttribute("user1");
+        SessionUser sessionUser = (SessionUser)session.getAttribute("user");
         
-        String userName = user.getName();
-        String userId = user.getEmail();
+        String userName = "";
+        String userId = "";
+
+        if(user != null){
+            userName = user.getName();
+            userId = user.getEmail();
+        }else if(sessionUser != null){
+            userName = sessionUser.getName();
+            userId = sessionUser.getEmail();
+        }
+
+        
         System.out.println("채팅방 이름 : " + roomName);
         System.out.println("방장 이름 : " + userName);
 
@@ -168,8 +195,18 @@ public class ChatRoomController {
         
         HttpSession session = req.getSession();
         Users user = (Users) session.getAttribute("user1");
-        String userName = user.getName();
-        String userId = user.getEmail();
+        SessionUser sessionUser = (SessionUser)session.getAttribute("user");
+        
+        String userName = "";
+        String userId = "";
+
+        if(user != null){
+            userName = user.getName();
+            userId = user.getEmail();
+        }else if(sessionUser != null){
+            userName = sessionUser.getName();
+            userId = sessionUser.getEmail();
+        }
         
         System.out.println("세션에 올라간 아이디 : " + userName);
         System.out.println("Room Detail 화면 입니다.");
@@ -218,5 +255,15 @@ public class ChatRoomController {
         return data;
     }
 
-   
+    @RequestMapping("/articleChatRoom.action")
+    public ModelAndView articleChatRoom(@RequestParam("meetListNum") int meetListNum) throws Exception{
+
+        GatchiDTO dto = meetServiceYj.getMeetListInfo(meetListNum);
+        if(dto == null) return null;
+        String roomId = dto.getChatRoomNum();
+
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("redirect:/chat/room?roomId=" + roomId);
+        return mav;
+    }
 }

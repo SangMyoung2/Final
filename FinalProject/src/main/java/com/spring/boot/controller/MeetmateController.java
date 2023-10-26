@@ -1,7 +1,11 @@
 package com.spring.boot.controller;
 
 import java.io.File;
+import java.net.URL;
 import java.net.URLDecoder;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -11,6 +15,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -110,18 +115,25 @@ public class MeetmateController {
 			infoDTO.setEmail(user1.getEmail()); 
 		}
 
-		String resourcePath = "C:\\VSCode\\Final\\FinalProject\\src\\main\\resources\\static\\image\\gatchiImage";
-		// Resource resource = new ClassPathResource("static");
-        // String resourcePath = resource.getFile().getAbsolutePath() + "/image/gatchiImage";
-
+		String absolutePath = new File("").getAbsolutePath() + "\\";
+		String path = "FinalProject/src/main/resources/static/image/gatchiImage";
+        File file = new File(path);
+		System.out.println("앱솔루트패스 : " + absolutePath);
 		if (!meetImage.isEmpty()) {
 			String originalFileName = meetImage.getOriginalFilename();
-			File destFile = new File(resourcePath, originalFileName);
 
-			meetImage.transferTo(destFile);
+			// 폴더가 없다면 생성
+			if (!file.exists()) {
+				file.mkdirs();
+			}
+
+			String saveFileName = UUID.randomUUID() + originalFileName;
+			file = new File(absolutePath + path + "/" + saveFileName);
+			meetImage.transferTo(file);
+
 			int maxNum = gatchiService.maxNum();
 			dto.setMeetListNum(maxNum + 1);
-			dto.setMeetImage(originalFileName);
+			dto.setMeetImage(saveFileName);
 			gatchiService.createGatchi(dto);
 
 			infoDTO.setMeetListNum(maxNum + 1);			
@@ -149,7 +161,7 @@ public class MeetmateController {
 
 		ModelAndView mav = new ModelAndView();
 		HttpSession session = request.getSession();
-		Users social = (Users)session.getAttribute("user");
+		SessionUser social = (SessionUser)session.getAttribute("user");
 		Users user1 = (Users)session.getAttribute("user1");
 
 		if (social != null) {
@@ -411,8 +423,17 @@ public class MeetmateController {
 		System.out.println("좋아요 버튼을 누르셨군요?");
 
 		HttpSession session = req.getSession();
-		Users user = (Users) session.getAttribute("user1");
-		String useremail = user.getEmail();
+		SessionUser social = (SessionUser)session.getAttribute("user");
+		Users user1 = (Users)session.getAttribute("user1");
+
+		String useremail = "";
+
+		if (social != null) {
+			useremail = social.getEmail();
+		} else if (user1 != null) {
+			useremail = user1.getEmail(); 
+		}
+		
 
 		System.out.println("유저이메일 : " + useremail);
 
@@ -441,8 +462,16 @@ public class MeetmateController {
 		System.out.println("좋아요 버튼을 취소했다.");
 
 		HttpSession session = req.getSession();
-		Users user = (Users) session.getAttribute("user1");
-		String useremail = user.getEmail();
+		SessionUser social = (SessionUser)session.getAttribute("user");
+		Users user1 = (Users)session.getAttribute("user1");
+
+		String useremail = "";
+		
+		if (social != null) {
+			useremail = social.getEmail();
+		} else if (user1 != null) {
+			useremail = user1.getEmail(); 
+		}
 
 		System.out.println("유저이메일 : " + useremail);
 
@@ -468,8 +497,16 @@ public class MeetmateController {
 	public List<Integer> loadLikeData(HttpServletRequest req) throws Exception {
 
 		HttpSession session = req.getSession();
-		Users user = (Users) session.getAttribute("user1");
-		String useremail = user.getEmail();
+		SessionUser social = (SessionUser)session.getAttribute("user");
+		Users user1 = (Users)session.getAttribute("user1");
+
+		String useremail = "";
+		
+		if (social != null) {
+			useremail = social.getEmail();
+		} else if (user1 != null) {
+			useremail = user1.getEmail(); 
+		}
 
 		List<GatchiLikeDTO> lists = gatchiLikeService.getReadDataGatchiLike(useremail);
 		if(lists == null) return null;

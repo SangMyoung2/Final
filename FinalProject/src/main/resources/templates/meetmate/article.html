@@ -483,35 +483,100 @@ if(joincancel){
 }
 
 function testMeet() {
-let meetListNum = document.getElementById('meetListNum').value;
-let reqMoney = confirm(title + ' 모임 정산을 멤버들에게 요청할까요?');
+    let meetListNum = document.getElementById('meetListNum').value;
+    let title = document.getElementById('meetTitle').textContent;
 
-if(reqMoney){
-    $.ajax({
-            type: "POST",
-            url: "/meetMoneyReq",
-            data: {
-                meetListNum: meetListNum
-            },
-            success: function (response) {
-                if(response == 1){
-                    alert('멤버들에게 정산요청을 하였습니다.');
-                    location.href = '/articleYj.action?meetListNum='+meetListNum;
-                }else if(response === 2){
-                    alert('....');
+    let reqMoney = confirm(title + ' 모임 정산을 멤버들에게 요청할까요?');
+
+    if(reqMoney){
+        $.ajax({
+                type: "POST",
+                url: "/sendCalculate",
+                data: {
+                    meetListNum: meetListNum
+                },
+                success: function (response) {
+                    if(response == 1){
+                        alert('멤버들에게 정산요청을 하였습니다.');
+                        location.href = '/articleYj.action?meetListNum='+meetListNum;
+                    }else if(response === 2){
+                        alert('....');
+                    }
+                    else{
+                        alert('다시 시도해 주세요..');
+                    }
+                },
+                error: function () {
+                    alert('알수없는 에러 입니다.. 고객센터에게 문의해주세요');
                 }
-                else{
-                    alert('다시 시도해 주세요..');
+            });
+
+    }
+}
+
+function test2Meet(){
+    let meetListNum = document.getElementById('meetListNum').value;
+    let title = document.getElementById('meetTitle').textContent;
+
+    let reqMoney = confirm(title + ' 모임 정산을 멤버들에게 요청할까요?');
+
+    if(reqMoney){
+        $.ajax({
+                type: "POST",
+                url: "/reqCalculate",
+                data: {
+                    meetListNum: meetListNum
+                },
+                success: function (response) {
+                    if(response == 1){
+                        alert('멤버들에게 정산요청을 하였습니다.');
+                        location.href = '/articleYj.action?meetListNum='+meetListNum;
+                    }else if(response === 2){
+                        alert('....');
+                    }
+                    else{
+                        alert('다시 시도해 주세요..');
+                    }
+                },
+                error: function () {
+                    alert('알수없는 에러 입니다.. 고객센터에게 문의해주세요');
                 }
-            },
-            error: function () {
-                alert('알수없는 에러 입니다.. 고객센터에게 문의해주세요');
-            }
-        });
+            });
 
-}
+    }
 }
 
+function chatRoom(){
+    let meetListNum = document.getElementById('meetListNum').value;
+
+    var options = 'width=600px,height=700px,scrollbars=yes'
+            popupChat = window.open("articleChatRoom.action?meetListNum=" + meetListNum,"_blacnk",options);
+}
+
+function transformNumber(number) {
+  // 주어진 숫자를 100으로 나누고 100을 곱하여 변환
+  return Math.floor(number / 100) * 100;
+}
+
+$(window).on('scroll', function () {
+    var $fbw = $('.meet-mypage');
+
+    let winScr = transformNumber(500 + window.scrollY);
+    let contentH = document.getElementById("article-content");
+    let h = transformNumber(contentH.offsetHeight);
+    console.log("winScr : " + winScr);
+    console.log("h : " + h);
+    //위치
+    if (winScr > h) {
+        $fbw.css({
+            'margin-top': h - winScr
+        })
+    } else {
+        $fbw.css({
+            'margin-top': 'auto'
+        })
+    }
+});
 </script>
 
 
@@ -549,8 +614,8 @@ if(reqMoney){
     <div class="container">
         <div class="row justify-content-end homeaticle">
             <div class="col-md-2">
-                <div class="meet-mypage">
-                    <div class="badge meetMate" th:text="${meetListInfo.meetCheck == 1 ? 'meetMate' : 'communiFind'}"></div>
+                <div class="meet-mypage" id="meet-mypage">
+                    <div class="badge meetMate" th:text="${meetListInfo.meetCheck == 1 ? 'meetmate' : 'communifind'}"></div>
                     <div class="badge meetHow" th:text="${meetListInfo.meetHow == 1 ? '선착순' : '승인제'}"></div>
                     <div class="badge primary" th:text="${meetCategory[meetListInfo.meetCtgNum - 1].meetCtgName}"></div>
 
@@ -594,7 +659,7 @@ if(reqMoney){
                         </div>
                     </div>
 
-                    <button class="chat-btn" th:if="${meetMemStatus == 1 or meetMemStatus == 2}">
+                    <button class="chat-btn" th:if="${meetMemStatus == 1 or meetMemStatus == 2}" id="chatRoom" onclick="chatRoom()">
                         <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Speech%20Balloon.png" alt="Speech Balloon" width="25px" height="25px" /> 채팅 바로가기
                     </button>
                     
@@ -673,7 +738,7 @@ if(reqMoney){
             </div>
 
             <div class="col-8 mx-2 fixed-width-col" th:each="meetListInfo : ${meetListInfo}">
-                <div class="yj-img">
+                <div class="yj-img" id="article-content">
                     <img th:src="@{${'/image/gatchiImage/' + meetListInfo.meetImage}}" alt="n번방의 대표사진">
                     <div class="Main_content" >
                         <div class="round-image">
@@ -778,6 +843,7 @@ if(reqMoney){
                         <th:block th:if="${meetStatus == 1 and meetMemStatus == 0}">
                             <p style="font-size: 18px; color: rgb(0, 68, 255);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;가입 승인 대기 중입니다.</p>
                         </th:block>
+                        
                     </div>
                 </div>
             </div>
