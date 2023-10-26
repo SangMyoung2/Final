@@ -30,8 +30,12 @@
 
 .faq-answer {
     display: none;
-    padding: 10px;
+    padding: 10px 10px 10px 0;
     border-top: 1px solid #f1f1f1;
     background-color: #fff;
     margin-left: 10px;
+    white-space: pre-line;
+    text-indent: -15px; /* 값을 조절하여 첫 줄의 시작 위치를 정확하게 조절 */
 }
+
+
