@@ -20,12 +20,12 @@
 
     <div layout:fragment="content">
         <br/>
-        <p class="paytitle">결제 내역 / 포인트 사용 내역</p>
+        <p class="paytitle" th:if="${historyType == 'pay'}">결제 내역</p>
+        <p class="paytitle" th:if="${historyType == 'point'}">포인트 사용 내역</p>
+        <input type="hidden" value="pay" name="historyType"/>
         <br/><br/>
 
-        <div th:if="${#lists.isEmpty(paymentInfo)}">
-            <p style="text-align: center;">결제 내역이 없습니다.</p>
-        </div>
+        
 
         <div class="date-filter">
             <label for="start-date">시작 날짜:</label>
@@ -39,6 +39,10 @@
 
         <br/><br/>
 
+        <div th:if="${#lists.isEmpty(paymentInfo)}">
+            <p style="text-align: center;">결제 내역이 없습니다.</p>
+        </div>
+        
         <div id="no-results-message" style="display: none; text-align: center;">
             해당 날짜의 결제 내역이 없습니다.
         </div>
