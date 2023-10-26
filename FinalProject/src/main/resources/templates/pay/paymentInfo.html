@@ -21,7 +21,7 @@
     <div layout:fragment="content">
         <br/>
         <p class="paytitle">결제 내역 / 포인트 사용 내역</p>
-        <br/>
+        <br/><br/>
 
         <div th:if="${#lists.isEmpty(paymentInfo)}">
             <p style="text-align: center;">결제 내역이 없습니다.</p>
@@ -36,6 +36,8 @@
         
             <button class="filterBtn" id="filter-btn">조회</button>
         </div>
+
+        <br/><br/>
 
         <div id="no-results-message" style="display: none; text-align: center;">
             해당 날짜의 결제 내역이 없습니다.
