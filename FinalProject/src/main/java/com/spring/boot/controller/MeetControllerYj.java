@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -25,13 +26,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.boot.dto.GatchiDTO;
-import com.spring.boot.dto.MeetCalculateDTO;
 import com.spring.boot.dto.MapDTO;
 import com.spring.boot.dto.PointHistoryDTO;
 import com.spring.boot.dto.userPointDTO;
 import com.spring.boot.model.Users;
 import com.spring.boot.service.GatchiService;
-import com.spring.boot.service.MeetCalculateService;
 import com.spring.boot.service.MapService;
 import com.spring.boot.dto.MeetCategoryDTO;
 import com.spring.boot.dto.MeetInfoDTO;
@@ -83,7 +82,7 @@ public class MeetControllerYj {
 	meetServiceYj.meetStatusCompletion(gatchiDTO);
 
 	GatchiDTO meetListInfo = meetServiceYj.getMeetListInfo(meetListNum);
-	List<GatchiDTO> onlyMeetListInfo = meetServiceYj.getOnlyMeetListInfo();
+	List<GatchiDTO> onlyMeetListInfo = meetServiceYj.getOnlyMeetListInfo(meetListNum);
 	List<MeetInfoDTO> meetMembers = meetServiceYj.getMeetMembers(meetListNum);
 	List<MeetInfoDTO> membersExMaster = meetServiceYj.getMembersExMaster(meetListNum);
 	List<MeetReviewDTO> meetReview = meetServiceYj.getReview(meetListNum);

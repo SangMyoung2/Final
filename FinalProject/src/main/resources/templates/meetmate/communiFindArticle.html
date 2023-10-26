@@ -517,10 +517,9 @@ if(reqMoney){
 function showTooltip() {
     var tooltip = document.getElementById('tooltip');
     tooltip.style.display = 'block';
-    tooltip.style.top = '555px';
+    tooltip.style.top = '525px';
     tooltip.style.width = '305px'
 }
-
 function hideTooltip() {
     var tooltip = document.getElementById('tooltip');
     tooltip.style.display = 'none';
@@ -731,11 +730,11 @@ function hideTooltip() {
             <div class="col-md-2">
                 <div class="c-meet-members">
                     <p style="margin-top: 10px; margin-bottom: 5px;">
-                        <span style="margin-left: 12px;">멤버목록</span>
-                        <span th:each="meetListInfo : ${meetListInfo}" style="margin-left: 5px; color: #5CA8B5; font-weight: bold;" th:text="${meetListInfo.meetMemCnt}"></span>
-                        <span style="margin-right: 86px; color: #5CA8B5; font-weight: bold;">명</span>
+                        <span style="margin-left: 12px; font-size: 17px;">멤버목록</span>
+                        <span th:each="meetListInfo : ${meetListInfo}" style="margin-left: 5px; color: #5CA8B5; font-size: 17px; font-weight: bold;" th:text="${meetListInfo.meetMemCnt}"></span>
+                        <span style="margin-right: 86px; color: #5CA8B5; font-size: 17px; font-weight: bold;">명</span>
                         <a th:if="${meetMemStatus == 1}" th:href="@{'/meetManager.action?meetListNum=' + ${meetListInfo.meetListNum}}" style="text-decoration: none;">
-                            <span style="color: #adadad;">관리</span>
+                            <span style="color: #adadad; font-size: 17px;">관리</span>
                             <i class="fa-solid fa-gear" style="color: #c3c3c3; font-size: 13px;"></i>
                         </a>
                     </p>
@@ -750,25 +749,29 @@ function hideTooltip() {
                         </div>
                     </div>
                     <hr style="width: 225px; border-width: 2px; border-color: #84A5FF;">
-                    <p style="margin-left: 12px;">meetMate 목록</p>
+
+                    <div style="margin-left: 12px; display: flex; align-items: center;">
+                        <p style="font-size: 17px; margin-right: 10px;">meetMate 목록</p>
+                        <select id="sortOption">
+                            <option value="default" selected disabled>선택</option>
+                            <option value="upcoming">모임임박순</option>
+                            <option value="latest">최신순</option>
+                            <option value="oldest">오래된순</option>
+                        </select>
+                    </div>
+                    
                     <div class="meetmate-back">
-                        <div class="meet-title-list" th:each="onlyMeetListInfo : ${onlyMeetListInfo}" th:if="${onlyMeetListInfo.code} == ${meetListNum}">
-                            <a class="pretty-link" th:href="@{'/communiArticle.action?meetListNum=' + ${onlyMeetListInfo.meetListNum}}">
+                        <div class="meet-title-list" th:each="onlyMeetListInfo : ${onlyMeetListInfo}" th:if="${onlyMeetListInfo.code} == ${meetListNum} and ${onlyMeetListInfo.meetStatus == 1}">
+                            <a class="pretty-link" th:href="@{'/meetArticle.action?meetListNum=' + ${onlyMeetListInfo.meetListNum}}">
                                 <div class="pretty-link-content">
                                     <div class="only-meetTitle" th:text="${onlyMeetListInfo.meetTitle}"></div>
                                 </div>
                             </a>
                         </div>
-                        <!-- <div th:unless="${onlyMeetListInfo.code}">
-                            <p style="margin-top: 40px; margin-bottom: 40px;">대기 중인 멤버가 없습니다.</p>
-                        </div> -->
+                        <div th:if="${#lists.size(onlyMeetListInfo) == 0}">
+                            <p style="margin-top: 79px; font-size: 16px;">생성된 meetMate가 없습니다.</p>
+                        </div>
                     </div>
-                    <!-- <form>
-                        <button class="meetmate-btn" th:if="${meetMemStatus == 1}" onclick="javascript:location.href='';">
-                            meetMate 생성하기
-                        </button>
-                        <input type="hidden" name="meetListNum" id="meetListNum" th:value="${meetListNum}"/>
-                    </form> -->
 
 
                     <form action="/communiFindGatchiChoice.action" method="GET">
@@ -777,7 +780,7 @@ function hideTooltip() {
                     </form>
 
                     <div class="only-communifind" th:if="${meetMemStatus <= 0 or meetMemStatus == 2}" onmouseover="showTooltip()" onmouseout="hideTooltip()">
-                        ⓘ
+                        <i class="fa-solid fa-circle-info fa-lg" style="color: #c0ddff;"></i>
                     </div>
                     <div id="tooltip" style="display: none; position: absolute; background: #fff; border: 1px solid #ccc; padding: 10px; z-index: 999;">
                         communiFind 내의 meetMate에 참여하실 경우 해당 communiFind 가입 먼저 해주시길 바랍니다.
