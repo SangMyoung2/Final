@@ -72,7 +72,7 @@ public interface GatchiMapper {
 	
 	// public List<MeetmateDTO> getLists(int start, int end, String searchKey, String searchValue);
 		
-	// public void updateHitCount(int meetListNum) throws Exception;	
+	public void updateHitCount(int meetListNum) throws Exception;	
 	
 	// public void updateData(MeetmateDTO dto) throws Exception;
 	

@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.spring.boot.dto.GatchiDTO;
+import com.spring.boot.dto.MapDTO;
 import com.spring.boot.dto.MeetCategoryDTO;
 import com.spring.boot.dto.MeetInfoDTO;
 import com.spring.boot.dto.MeetReviewDTO;
@@ -18,7 +19,11 @@ public interface MeetMapperYj {
 
     public GatchiDTO getMeetListInfo(int meetListNum) throws Exception;
 
+    public void updateCode(int meetListNum) throws Exception;
+
     public List<MeetInfoDTO> getMeetMembers(int meetListNum) throws Exception;
+    
+    public List<MeetInfoDTO> getMembersExMaster(int meetListNum) throws Exception;
 
     public List<MeetReviewDTO> getReview(int meetListNum) throws Exception;
 
@@ -31,6 +36,8 @@ public interface MeetMapperYj {
     public void deleteMeetReview(MeetReviewDTO dto) throws Exception;
 
     public Integer getMemberStatus(MeetInfoDTO dto) throws Exception;
+
+    public Integer getApprovalStatus(MeetInfoDTO dto) throws Exception;
     
     public int getMeetHow(int meetListNum) throws Exception;
 
@@ -60,7 +67,15 @@ public interface MeetMapperYj {
 
     public void releaseFromBlacklist(MeetInfoDTO dto) throws Exception;
 
+    public void updateApprovalReq(MeetInfoDTO dto) throws Exception;
+
+    public void updateApprovalOk(MeetInfoDTO dto) throws Exception;
+
+    public void updateReject(MeetInfoDTO dto) throws Exception;
+
     public List<MeetInfoDTO> getMeetInfo(int meetListNum) throws Exception;
 
     public List<MeetReviewDTO> getAllMeetReviews() throws Exception;
+    
+    public MapDTO getlatlng(int meetListNum) throws Exception;
 }

@@ -2,6 +2,8 @@ package com.spring.boot.controller;
 
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -11,6 +13,8 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -19,11 +23,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.spring.boot.dto.ChallengeAuthDTO;
 import com.spring.boot.dto.ChallengeDTO;
 import com.spring.boot.dto.ChallengeInfoDTO;
 import com.spring.boot.dto.GatchiDTO;
@@ -76,7 +82,7 @@ public class ChallengeController {
 
         // Resource resource = new ClassPathResource("static");
         // String resourcePath = resource.getFile().getAbsolutePath() + "/image/challenge";
-        String resourcePath ="C:\\VSCode\\Final\\FinalProject\\src\\main\\resources\\static\\image\\challenge";
+        String resourcePath ="C:\\VSCode\\Final\\FinalProject\\src\\main\\resources\\static\\image\\challenge\\challengeList";
 
 		if (!imageMain.isEmpty()) {
 			String originalFileName = imageMain.getOriginalFilename();
@@ -125,6 +131,7 @@ public class ChallengeController {
 		}
 
         int maxNum = challengeService.maxNum();
+        System.out.println(maxNum);
         infoDTO.setChallengeListNum(maxNum+1);
         dto.setChallengeListNum(maxNum+1);
 
@@ -143,44 +150,252 @@ public class ChallengeController {
 
 		ModelAndView mav = new ModelAndView();
 		ChallengeInfoDTO challengeInfoDTO = new ChallengeInfoDTO();
+		ChallengeInfoDTO masterInfoDTO = new ChallengeInfoDTO();
 
         //게시글 번호로 1개의 게시글 불러옴
         int challengeListNum = Integer.parseInt( request.getParameter("challengeListNum"));
+        
+
+        List<ChallengeAuthDTO> allReviewList = challengeService.getAllReviewList(challengeListNum);
+        List<ChallengeInfoDTO> lists = challengeService.getUserListData(challengeListNum);
 		ChallengeDTO challengeDTO = challengeService.getReadData(challengeListNum);
+        
 
         //user session정보 가져오기
         HttpSession session = request.getSession();
 		SessionUser social = (SessionUser)session.getAttribute("user");
 		Users user1 = (Users)session.getAttribute("user1");
+        String email ="";
 
         //접속한 user 정보 데이터 담기  
         if (social != null) { //소셜유저의 정보
-            
-            challengeInfoDTO = challengeService.getUserEmailData(social.getEmail(),challengeListNum);
-            
-            if(challengeInfoDTO==null){
-                System.out.println("일치하는 유저 정보 없음");
-            }
-
+            email = social.getEmail();
 		} else if (user1 != null) { //홈페이지 가입 정보
-			challengeInfoDTO = challengeService.getUserEmailData(user1.getEmail(),challengeListNum);
-            
-            if(challengeInfoDTO==null){
-                System.out.println("일치하는 유저 정보 없음");
-            }
+            email = user1.getEmail();
 		}
 
+		
+
+        challengeInfoDTO.setChallengeListNum(challengeListNum);
+        challengeInfoDTO.setEmail(email);
+        masterInfoDTO = challengeService.getMasterData(challengeListNum);
         
-        
-      
+        int ChallengeMemberStatus = -1;
+
+		Integer ret = challengeService.getMemberStatus(challengeInfoDTO);
+     
+		if (ret != null) {
+          
+            ChallengeMemberStatus = ret.intValue();
+        }
+        mav.addObject("challengeInfoDTO",challengeInfoDTO);
+        mav.addObject("ChallengeMemberStatus", ChallengeMemberStatus);
+        mav.addObject("allReviewList", allReviewList);
+        mav.addObject("lists", lists);
+        mav.addObject("masterInfoDTO",masterInfoDTO);
         mav.addObject("challengeDTO", challengeDTO);
-        mav.addObject("challengeInfoDTO", challengeInfoDTO);
+        
 		mav.setViewName("challenge/ChallengeArticle");
 		
 		return mav;
 	}
 
 
+
+
+
+
+	// 리뷰 올리기
+	@RequestMapping("/uploadAuth")
+    public String uploadAuth(HttpServletRequest request,
+            @RequestParam("challengeListNum") int challengeListNum,
+            @RequestParam("challengeAuthContent") String challengeAuthContent,
+            @RequestParam("challengeAuthImage") MultipartFile challengeAuthImage) throws Exception {
+                  
+
+        ChallengeAuthDTO authDTO = new ChallengeAuthDTO();
+		HttpSession session = request.getSession();
+		Users user1 = (Users)session.getAttribute("user1");
+		SessionUser sessionUser = (SessionUser) session.getAttribute("user");
+
+        int maxNum = challengeService.authMaxNum();
+
+		if (sessionUser != null) {
+			authDTO.setEmail(sessionUser.getEmail());
+		} else if (user1 != null) {
+			authDTO.setEmail(user1.getEmail());
+		}
+
+		String email = authDTO.getEmail();
+
+        authDTO.setChallengeListNum(challengeListNum);
+        authDTO.setChallengeAuthListNum(maxNum+1);
+        authDTO.setEmail(email);
+        authDTO.setChallengeAuthContent(challengeAuthContent);
+		// 중복 리뷰 작성 여부 확인
+		ChallengeAuthDTO hasReviewed = challengeService.getNoneAuthReview(authDTO);
+		String response = "";
+        
+		if (hasReviewed == null) { // 리뷰는 한 이메일당 하루에 하나만 작성 가능 인증안되었으면 다시 작성가능
+            
+			if (!challengeAuthImage.isEmpty()) {
+
+                String resourcePath ="C:\\VSCode\\Final\\FinalProject\\src\\main\\resources\\static\\image\\challenge\\challengeCheck";
+				String originalFilename = challengeAuthImage.getOriginalFilename();
+				String saveFileName = UUID.randomUUID() + originalFilename;
+				
+				Path filePath = Paths.get(resourcePath, saveFileName);
+            	
+            	Files.write(filePath, challengeAuthImage.getBytes());
+
+
+                authDTO.setChallengeAuthImage(saveFileName);
+
+				
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+				authDTO.setChallengeAuthCreateDate(sdf.format(new Date()));
+
+                authDTO.setChallengeAuthStatus(0);
+				
+				challengeService.insertAuthReview(authDTO);
+				response = "success";
+				return response; // 리뷰 작성 성공 시 success 페이지로 리다이렉트
+        } 
+
+		}else{
+			response = "already-reviewed";
+            return response; // 이미 리뷰를 작성한 경우 already-reviewed 페이지로 리다이렉트
+		}
+        response = "already-reviewed";
+		return response;
+    }
+
+
+	// 리뷰 삭제
+	@PostMapping("/deleteChallengeReview")
+	public ModelAndView deleteReview(
+			@RequestParam("email") String email,
+			@RequestParam("challengeListNum") int challengeListNum,
+			@RequestParam("challengeAuthListNum") int challengeAuthListNum,
+			@RequestParam("challengeAuthImage") String challengeAuthImage
+			) throws Exception {
+
+		ChallengeAuthDTO challengeAuthDTO = new ChallengeAuthDTO();
+		
+		challengeAuthDTO.setChallengeAuthImage(challengeAuthImage);
+
+		System.out.println(challengeAuthImage + "여기왔야!!!!!!!!!!!!!!!!");
+		String srcFileName = null;
+
+        // try{
+        //     srcFileName = URLDecoder.decode(challengeAuthImage,"UTF-8");
+        //     //UUID가 포함된 파일이름을 디코딩해줍니다.
+        //     File file = new File(uploadPath +File.separator + srcFileName);
+        //     boolean result = file.delete();
+
+        //     File thumbnail = new File(file.getParent(),"s_"+file.getName());
+        //     //getParent() - 현재 File 객체가 나태내는 파일의 디렉토리의 부모 디렉토리의 이름 을 String으로 리턴해준다.
+        //     result = thumbnail.delete();
+            
+        // }catch (UnsupportedEncodingException e){
+        //     e.printStackTrace();
+        // }
+
+
+		challengeAuthDTO.setChallengeListNum(challengeListNum);
+		challengeAuthDTO.setChallengeAuthListNum(challengeAuthListNum);
+		challengeAuthDTO.setEmail(email);
+
+		challengeService.deleteChallengeReview(challengeAuthDTO);		
+
+		return new ModelAndView("redirect:/meetArticle.action?meetListNum=" + challengeListNum);
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+    @PostMapping("/joinChallenge.action")
+	public ModelAndView joinChallenge(HttpServletRequest request, ChallengeInfoDTO infoDTO) throws Exception {
+		
+		ModelAndView mav = new ModelAndView();
+
+        HttpSession session = request.getSession();
+		SessionUser social = (SessionUser)session.getAttribute("user");
+		Users user1 = (Users)session.getAttribute("user1");
+
+		if (social != null) {
+			infoDTO.setEmail(social.getEmail()); 
+		} else if (user1 != null) {
+			infoDTO.setEmail(user1.getEmail()); 
+		}
+
+		int challengeListNum =  Integer.parseInt(request.getParameter("challengeListNum"));
+        
+         
+        infoDTO.setChallengeMemberStatus(2); //회원 설정
+        infoDTO.setChallengeListNum(challengeListNum);
+
+        challengeService.insertChallengeInfo(infoDTO);
+
+
+		mav.setViewName("redirect:/challengeArticle.action?challengeListNum=" + challengeListNum);
+		
+		return mav;		
+	}
+
+
+    @PostMapping("/deleteChallenge.action")
+	public ModelAndView deleteChallenge(HttpServletRequest request) throws Exception {
+
+        ModelAndView mav = new ModelAndView();
+	
+        int challengeListNum =  Integer.parseInt(request.getParameter("challengeListNum"));
+
+        challengeService.deleteChallengeStatus(challengeListNum);
+
+        mav.setViewName("redirect:/challengeList.action");
+
+		return mav;
+	}
+
+    
+    @PostMapping("/giveUpChallenge")
+	public ModelAndView giveUpChallenge(HttpServletRequest request,ChallengeInfoDTO challengeInfoDTO) throws Exception {
+
+        ModelAndView mav = new ModelAndView();
+	
+        int challengeListNum =  Integer.parseInt(request.getParameter("challengeListNum"));
+
+
+
+        HttpSession session = request.getSession();
+		SessionUser social = (SessionUser)session.getAttribute("user");
+		Users user1 = (Users)session.getAttribute("user1");
+        String email = "";
+
+		if (social != null) {
+			email = social.getEmail();
+		} else if (user1 != null) {
+			email = user1.getEmail(); 
+		}
+       
+      
+
+        challengeService.deleteChallengeInfo(challengeListNum,email);
+       
+
+        mav.setViewName("redirect:/challengeArticle.action?challengeListNum=" + challengeListNum);
+
+		return mav;
+	}
 
 
 
@@ -193,6 +408,17 @@ public class ChallengeController {
 		
 		ModelAndView mav = new ModelAndView();
 		
+        // for (GatchiDTO meetMateList : meetMateLists2) {			
+		// 	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		// 	Date meetDday = dateFormat.parse(meetMateList.getMeetDday());
+
+		// 	if (meetMateList.getMeetCheck() == 1 && meetDday.before(currentDate)) {// meetCheck가 1이고 meetDday 지나면
+		// 		meetMateList.setMeetStatus(2);//meetStatus를 2로 업데이트				
+		// 		gatchiService.updateMeetStatusMate(meetMateList);//업데이트된 GatchiDTO 저장
+		// 	}
+		// }
+
+
 		mav.setViewName("challenge/ChallengeList");
 		
 		return mav;		
@@ -203,6 +429,13 @@ public class ChallengeController {
     @GetMapping("/test1.action")
     public ModelAndView test() throws Exception {
         ModelAndView mav = new ModelAndView();
+		int meetListNum = 1;
+		MapDTO dto = challengeService.getlatlng(meetListNum);
+mav.addObject("dto", dto);
+		System.out.println(dto+"duddddddddddddddddddddddddddddd");
+
+
+		
 
 		mav.setViewName("challenge/test");
 		
@@ -211,14 +444,12 @@ public class ChallengeController {
 
 
     @PostMapping("/test1.action")
-    public ModelAndView testResult(ChallengeDTO dto) throws Exception {
+    public ModelAndView testResult() throws Exception {
         ModelAndView mav = new ModelAndView();
 
-        challengeService.test(dto);
 
-        System.out.println(dto.getChallengeStartDate()+"여기?");
-        System.out.println(dto.getChallengeEndDate()+"여기?");
-
+        System.out.println("여기?");
+        System.out.println("여기?");
 
         mav.setViewName("redirect:/challengeList.action");
         return mav;	

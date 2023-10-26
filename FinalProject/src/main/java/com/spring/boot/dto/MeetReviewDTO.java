@@ -13,4 +13,6 @@ public class MeetReviewDTO {
     private String meetReviewImg;
 
     private String name;
+    private String picture;
+    private String role;
 }

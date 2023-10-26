@@ -2,21 +2,22 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 20px 0; /* 상하 패딩 추가하여 좀 더 깔끔하게 보이게 함 */
+    padding: 20px 0;
+    position: relative; 
 }
 
 .search-bar {
-    width: 20%;
+    width: 20%;  /* 원하는 길이의 백분율로 조정하세요 */
     padding: 10px 15px;
     border-radius: 25px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     border: 1px solid #e0e0e0;
-    /* margin: 0 auto; <-- 이 부분은 제거 */
+    position: relative;
 }
 
 .search-button {
     padding: 10px 20px;
-    margin-left: 10px;
+    margin-left: 10px; /* 검색창과 버튼 사이의 간격 */
     border-radius: 25px;
     background-color: white;
     color: white;
@@ -25,6 +26,12 @@
 }
 
 .subject-container {
+    width: 50%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.seemore-container {
     width: 50%;
     margin: 0 auto;
     text-align: center;
@@ -49,8 +56,6 @@
     margin: 3px 50px 50px 3px;
 }
 
-
-/* 16 */
 .btn-16 {
     border: 1px;
     background-color: #5CA8B5;
@@ -86,4 +91,30 @@
 
 .btn-16:active {
     top: 2px;
+}
+
+#loadMore {
+    padding: 10px 20px;
+    background-color: transparent;
+    color: #5CA8B5;
+    border: 2px solid #5CA8B5;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.clear-button {
+    position: absolute; 
+    top: 50%; 
+    right: 10px; 
+    transform: translateY(-50%); 
+    background-color: #cccccc00; 
+    border-radius: 50%; 
+    width: 24px;
+    height: 24px;
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    border: none;
+    cursor: pointer;
 }

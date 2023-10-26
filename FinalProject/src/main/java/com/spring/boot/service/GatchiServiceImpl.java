@@ -151,7 +151,10 @@ public class GatchiServiceImpl implements GatchiService{
 		return gatchiMapper.sortByDdayMeet();
 	}
 
-	
+	@Override
+   public void updateHitCount(int meetListNum) throws Exception {
+      gatchiMapper.updateHitCount(meetListNum);
+   }
 
 
 /*
@@ -161,13 +164,6 @@ public class GatchiServiceImpl implements GatchiService{
 	}
 
 	
-
-	@Override
-	public void updateHitCount(int num) throws Exception {
-		boardMapper.updateHitCount(num);
-	}
-
-
 
 	@Override
 	public void insertData(BoardDTO dto) throws Exception {
