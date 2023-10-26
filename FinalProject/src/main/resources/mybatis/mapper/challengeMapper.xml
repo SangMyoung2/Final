@@ -31,16 +31,95 @@ challengeListNum,challengeTitle,challengeImageMain,challengeWeekCheck,challengeD
 	select * from challenge
 </select>
 
+<update id="deleteChallengeStatus" parameterType="int">
+    update challenge
+    set challengeStatus = 0
+    where challengeListNum = #{challengeListNum}
+</update>
+
+<update id="giveUpChallengeStatus" parameterType="int">
+    update challenge
+    set challengeStatus = 0
+    where challengeListNum = #{challengeListNum}
+</update>
+
+
 <!-- challengeInfo -->
 <insert id="insertChallengeInfo" parameterType="com.spring.boot.dto.ChallengeInfoDTO">
     insert into challengeInfo(
-	challengeListNum,email,challengeLike,challengeMemberStatus) values (#{challengeListNum},#{email},0,#{challengeMemberStatus})
+	challengeListNum,email,challengeMemberStatus) values (#{challengeListNum},#{email},#{challengeMemberStatus})
 </insert>
 
-<!-- 총멤버 구하기 -->
 <select id="getUserEmailData" parameterType="map" resultType="com.spring.boot.dto.ChallengeInfoDTO">
 	select * from challengeinfo
-	where email like #{email} and challengelistnum = #{challengelistnum}
+	where email like #{email} and challengelistnum = #{challengeListNum}
+</select>
+
+<select id="getUserListData" parameterType="map" resultType="com.spring.boot.dto.ChallengeInfoDTO">
+	select u.email,u.name,u.picture
+    from users u
+    join challengeInfo ci on u.email = ci.email
+    where ci.challengeListNum = #{challengeListNum}
+    and (ci.challengeMemberStatus = 1 or ci.challengeMemberStatus = 2)
+</select>
+
+<select id="getMemberStatus" parameterType="com.spring.boot.dto.ChallengeInfoDTO" resultType="Integer">
+    select challengeMemberStatus from ChallengeInfo where challengeListNum = #{challengeListNum} and email = #{email}
+</select>
+
+<!-- users에서 master 정보 가져오기 -->
+<select id="getMasterData" parameterType="int" resultType="com.spring.boot.dto.ChallengeInfoDTO">
+    select u.email,u.name,u.picture
+    from users u
+    join challengeInfo ci on u.email = ci.email
+    where ci.challengeListNum = #{challengeListNum}
+    and ci.challengeMemberStatus = 1
+</select>
+
+<update id="updateChallengeInfoStatus" parameterType="map">
+    update challengeinfo
+    set challengeMemberStatus = #{challengeMemberStatus}
+    where challengeListNum = #{challengeListNum} and email = #{email}
+</update>
+
+<delete id="deleteChallengeInfo" parameterType="map">
+	delete challengeInfo
+	where challengeListNum =#{challengeListNum} and email =#{email}
+</delete>
+
+<!-- challengeReview -->
+<select id="authMaxNum" resultType="int">
+	select nvl(max(challengeListNum),0) from challengeAuth
+</select>
+
+<select id="getNoneAuthReview" parameterType="com.spring.boot.dto.ChallengeAuthDTO" resultType="com.spring.boot.dto.ChallengeAuthDTO">
+select * from challengeauth
+where challengeListNum = #{challengeListNum}
+  and email = #{email}
+  and challengeAuthStatus = 0
+  and TO_DATE(challengeAuthCreateDate, 'YYYY-MM-DD') = TO_DATE(SYSDATE, 'YYYY-MM-DD')
+
+</select>
+
+<insert id="insertAuthReview" parameterType="com.spring.boot.dto.ChallengeAuthDTO">
+    insert into challengeAuth (challengeListNum, challengeAuthListNum, email, challengeAuthContent, challengeAuthCreateDate, challengeAuthImage, challengeAuthStatus)
+    values (#{challengeListNum}, #{challengeAuthListNum}, #{email}, #{challengeAuthContent}, TO_DATE(#{challengeAuthCreateDate}, 'YYYY-MM-DD'), #{challengeAuthImage}, #{challengeAuthStatus})
+</insert>
+
+<select id="getAllReviewList" parameterType="int" resultType="com.spring.boot.dto.ChallengeAuthDTO">
+    select CA.*, U.picture, U.name 
+    from challengeAuth CA inner join users U
+    on CA.email = U.email
+    where CA.challengeListNum = ${challengeListNum}
+</select>
+
+<delete id="deleteChallengeReview" parameterType="com.spring.boot.dto.ChallengeAuthDTO">
+    delete from challengeAuth where challengeListNum = #{challengeListNum} and challengeAuthListNum = #{challengeAuthListNum} and email = #{email}
+</delete>
+
+<select id="getlatlng" parameterType="int" resultType="com.spring.boot.dto.MapDTO">
+select l.* from latlng l, gatchi gc where gc.meetListNum = #{meetListNum} and gc.meetListNum = l.meetListNum
+
 </select>
 
 </mapper>
