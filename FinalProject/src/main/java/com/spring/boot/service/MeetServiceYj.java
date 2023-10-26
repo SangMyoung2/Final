@@ -16,6 +16,8 @@ public interface MeetServiceYj {
 
     public GatchiDTO getMeetListInfo(int meetListNum) throws Exception;
 
+    public void updateCode(int meetListNum) throws Exception;
+
     public List<MeetInfoDTO> getMeetMembers(int meetListNum) throws Exception;
 
     public List<MeetInfoDTO> getMembersExMaster(int meetListNum) throws Exception;

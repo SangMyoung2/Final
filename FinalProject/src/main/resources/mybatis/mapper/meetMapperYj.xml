@@ -21,6 +21,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     select * from gatchi where meetListNum = #{meetListNum}
 </select>
 
+<update id="updateCode" parameterType="int">
+    update gatchi set code = #{meetListNum} where meetListNum = #{meetListNum}
+</update>
+
 <select id="getMeetMembers" parameterType="int" resultType="com.spring.boot.dto.MeetInfoDTO">
     select u.email,u.name,u.picture,u.role
     from users u
