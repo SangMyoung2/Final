@@ -87,33 +87,30 @@ public class BaseAuthController {
 	}
 	
 	@PostMapping("/signup.action")
-	public String signup(Users dto, BindingResult bindResult,Model model,
-	@RequestParam("userName") String userName,
-	@RequestParam("picture") String picture) {
-		
+	public String signup(Users dto, BindingResult bindResult, Model model,
+                    @RequestParam("userName") String userName,
+                    @RequestParam("picture") String picture) {
 
-		try {
-			
-			userService.create(dto.getUserName(), dto.getName(),
-					dto.getPassword(),dto.getTel(),dto.getPicture());
+    try {
+        userService.create(dto.getUserName(), dto.getName(),
+                dto.getPassword(),dto.getTel(),dto.getPicture());
+        
+        // 회원가입 완료 후 사용자의 이메일 주소로 포인트 잔액 데이터베이스 초기화
+        paymentService.insertUserAfterSignUp(dto.getUserName());
 
-					
-			return "login/signup_ok";
+        return "login/signup_ok";
 
-		} catch (DataIntegrityViolationException e) {
-			e.printStackTrace();
-			model.addAttribute("error", "이미 등록된 사용자입니다.");
-			return "login/signup";
+    } catch (DataIntegrityViolationException e) {
+        e.printStackTrace();
+        model.addAttribute("error", "이미 등록된 사용자입니다.");
+        return "login/signup";
 
-		} catch (Exception e) {
-			e.printStackTrace();
-			model.addAttribute("error", e.getMessage());
-			return "login/signup";
-		}
-
-		
-	}
-
+    } catch (Exception e) {
+        e.printStackTrace();
+        model.addAttribute("error", e.getMessage());
+        return "login/signup";
+    }
+}
 
 	@GetMapping("/findID.action")
 	public ModelAndView findID() throws Exception {
