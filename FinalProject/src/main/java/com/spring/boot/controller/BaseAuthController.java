@@ -95,7 +95,7 @@ public class BaseAuthController {
         userService.create(dto.getUserName(), dto.getName(),
                 dto.getPassword(),dto.getTel(),dto.getPicture());
         
-        // 회원가입 완료 후 사용자의 이메일 주소로 포인트 잔액 데이터베이스 초기화
+        // 회원가입 완료 후 사용자의 이메일 주소로 포인트 잔액 0으로 초기화
         paymentService.insertUserAfterSignUp(dto.getUserName());
 
         return "login/signup_ok";
