@@ -192,13 +192,9 @@ public class MeetControllerYj {
 		}
 
 		// 암호에 communiFind 방번호 넣어줌
-		// GatchiDTO meetListInfo = meetServiceYj.getMeetListInfo(meetListNum);
-		// meetListInfo.setCode(meetListNum);
-
-		// dto.setCode(meetListNum);
+		dto.setCode(meetListNum);
+		meetServiceYj.updateCode(dto.getCode());
 		
-// System.out.println(dto.getCode() + "#########################");
-
 		String resourcePath = "C:\\VSCode\\Final\\FinalProject\\src\\main\\resources\\static\\image\\gatchiImage";
 		// Resource resource = new ClassPathResource("static");
         // String resourcePath = resource.getFile().getAbsolutePath() + "/image/gatchiImage";
