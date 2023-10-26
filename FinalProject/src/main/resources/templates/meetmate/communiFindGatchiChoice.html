@@ -4,6 +4,7 @@
 
 <title>함께 GATCHI</title>
 
+<link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/meetmate/gatchiChoice.css}"/>
 <link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/meetmate/communiFindGatchiChoice.css}"/>
 <link rel="icon" type="image/png" th:href="@{http://localhost:8080/image/로고.png}"/>
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
@@ -402,11 +403,8 @@
         var meetListNum = document.getElementById("meetListNum").value;
         var meetMate = document.getElementById("meetMate");
 
-        if (meetMate.checked) {
             location.href = '/communiArticle.action?meetListNum=' + meetListNum;
-        } else {
-            location.href = '/';
-        }
+     
     }
 
 

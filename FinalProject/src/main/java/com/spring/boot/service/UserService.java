@@ -1,22 +1,10 @@
 package com.spring.boot.service;
-
 import java.util.Optional;
-
-import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
-
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-
 import com.spring.boot.dao.UserRepository;
-import com.spring.boot.dto.SessionUser;
-
 import com.spring.boot.model.Users;
-
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor

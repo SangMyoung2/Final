@@ -2,31 +2,42 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-
 </head>
+<script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=83bfuniegk"></script>
 <body>
-    <form action="" method="POST" name="myForm" enctype="multipart/form-data">
+    <div id="map" style="width:100%; height:500px;"></div>
+    <input type="hidden" id="lat" name="lat" th:value="${dto.lat}"/>
+    <input type="hidden" id="lng" name="lng" th:value="${dto.lng}"/>
+    <script id="code">
 
-        <input type="date" id="challengeStartDate" name="challengeStartDate"  min="" onchange="calEndDate()"/>
-        <input class="btn-check" type="radio" name="challengeDateCheck" id="date4" value="1month" autocomplete="off" onclick="calEndDate(this.value)"/>
-        <label class="btn btn-outline-primary" for="date4"><h7>1달 동안</h7></label>
-        <input type="date" id="challengeEndDate" name="challengeEndDate" readonly></div>
-        <p class="Yj-master" th:text="${challengeDTO.challengeImageMain}"></p>
-        <button type="button" class="btn btn-dark mx-auto" style="width:45%" onclick="sendIt();">Challenge 시작하기</button>
-    </form>
+        var lat = document.getElementById("lat").value;
+        var lng = document.getElementById("lng").value;
 
-    <script type="text/javascript" src="/js/challenge/challenge.js"></script>
-    <script>
-    function sendIt() {
+        var HOME_PATH = window.HOME_PATH || '.';
+        var position = new naver.maps.LatLng(lat, lng);
         
-        myForm.action = "/test1.action";
-        myForm.submit();
+        var map = new naver.maps.Map('map', {
+        center: position, //지도의 초기 중심 좌표
+        zoom: 18, //지도의 초기 줌 레벨
+      
+
+    });
+
+    var markerOptions = {
+    position: position.destinationPoint(0, 0),
+    map: map,
+    icon: {
+        url: HOME_PATH+'/image/map/marker-nowLocation.png',
+        
+        origin: new naver.maps.Point(0, 0),
+        anchor: new naver.maps.Point(25, 26)
     }
-</script>
+    };
+    var marker = new naver.maps.Marker(markerOptions);
 
+    </script>
+    
 </body>
-
-
 </html>

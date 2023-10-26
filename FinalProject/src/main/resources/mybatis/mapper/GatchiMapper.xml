@@ -28,10 +28,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     select * from meetInfo where meetMemStatus = 1 or meetMemStatus = 2
 </select>
 
+
+<select id="getMeetLikeNumByUserEmail" parameterType="String" resultType="int">
+    SELECT meetListNum
+    FROM gatchiLike
+    WHERE useremail = #{email}
+</select>
+
 <select id="getMeetListNumByUserEmail" parameterType="String" resultType="int">
     SELECT meetListNum
     FROM meetInfo
     WHERE email = #{email}
+</select>
+
+<select id="getGatchiByLikeNums" parameterType="java.util.List" resultType="com.spring.boot.dto.GatchiDTO">
+    SELECT *
+    FROM gatchi
+    WHERE meetListNum IN
+    <foreach item="item" collection="list" open="(" separator="," close=")">
+        #{item}
+    </foreach>
+    ORDER BY meetListNum DESC
 </select>
 
 <select id="getGatchiByMeetMateListNums" parameterType="java.util.List" resultType="com.spring.boot.dto.GatchiDTO">
@@ -42,6 +59,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         #{item}
     </foreach>
 	AND MEETCHECK = 1
+    ORDER BY meetListNum DESC
+</select>
+
+<select id="getGatchiByMeetcommuListNums" parameterType="java.util.List" resultType="com.spring.boot.dto.GatchiDTO">
+    SELECT *
+    FROM gatchi
+    WHERE meetListNum IN
+    <foreach item="item" collection="list" open="(" separator="," close=")">
+        #{item}
+    </foreach>
+	AND MEETCHECK = 2
     ORDER BY meetListNum DESC
 </select>
 

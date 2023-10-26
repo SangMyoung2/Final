@@ -15,7 +15,7 @@ function requestPay(amount) {
         console.log('결제 응답:', rsp);
         if (rsp.success) {
             const payMethodUsed = rsp.pay_method; // 실제로 사용된 결제 수단을 가져옵니다.
-        
+            
             let dataToSend = {
                 paid_amount: amount,
                 paid_at: convertUnixToReadableDate(rsp.paid_at),

@@ -35,8 +35,7 @@ public class PaymentServiceImpl implements PaymentService{
         return paymentMapper.findByEmail(email);
     }
 
-
-    @Override
+	@Override
     public void updateUserPoint(userPointDTO userPointDTO) {
         paymentMapper.updateUserPoint(userPointDTO);
     }
@@ -45,5 +44,8 @@ public class PaymentServiceImpl implements PaymentService{
     public void updateUserUsePoint(userPointDTO userPointDTO){
         paymentMapper.updateUserUsePoint(userPointDTO);
     }
+
+	
+	
 	// 이후 필요한 추가적인 비즈니스 로직 메서드의 구현을 여기에 추가할 수 있습니다.
 }

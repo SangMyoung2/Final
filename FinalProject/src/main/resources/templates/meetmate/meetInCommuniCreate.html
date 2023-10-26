@@ -171,15 +171,15 @@
         <input type="hidden" id="meetDday" name="meetDday" value=""> 
         <input type="hidden" th:name="meetCheck" th:value="${dto.meetCheck}">
         <input type="hidden" id="meetName" name="meetName" th:value="${dto.meetName}">
-        <input type="hidden" name="meetListNum" id="meetListNum" th:value="${meetListNum}"/>
 
         <div class="Btn2">
             <button type="submit" class="createBtn" onclick="sendIt();">생성</button>
-            <button type="button" class="cancelBtn" onclick="javascript:location.href='/communiArticle.action?meetListNum=' + meetListNum;">취소</button>
+            <button type="button" class="cancelBtn" onclick="cancelAction();">취소</button>
         </div>
         <input type="hidden" th:value="${lat}" id="lat" name="lat"/>
         <input type="hidden" th:value="${lng}" id="lng" name="lng"/>
         <input type="hidden" th:value="${dto.meetPlace}" id="meetPlace" name="meetPlace"/>
+        <input type="hidden" name="meetListNum" id="meetListNum" th:value="${meetListNum}"/>
         
         </form>
     </div>
@@ -376,6 +376,14 @@
             myForm.submit();
         }
     }
+
+    function cancelAction() {
+            var meetListNum = document.getElementById("meetListNum").value;
+            var meetMate = document.getElementById("meetMate");
+    
+                location.href = '/communiArticle.action?meetListNum=' + meetListNum;
+         
+        }
 
 </script>
 

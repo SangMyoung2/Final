@@ -32,6 +32,11 @@ public class MeetServiceImplYj implements MeetServiceYj {
     public GatchiDTO getMeetListInfo(int meetListNum) throws Exception {
         return meetMapperYj.getMeetListInfo(meetListNum);
     }
+
+    @Override
+    public void updateCode(int meetListNum) throws Exception {
+        meetMapperYj.updateCode(meetListNum);
+    }
     
     @Override
     public List<MeetInfoDTO> getMeetMembers(int meetListNum) throws Exception {
@@ -169,6 +174,11 @@ public class MeetServiceImplYj implements MeetServiceYj {
         return meetMapperYj.getMeetInfo(meetListNum);
     }
 
+    @Override
+    public List<MeetReviewDTO> getAllMeetReviews() throws Exception {
+        return meetMapperYj.getAllMeetReviews();
+    }
+       
      @Override
     public MapDTO getlatlng(int meetListNum) throws Exception {
         return meetMapperYj.getlatlng(meetListNum);

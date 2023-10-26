@@ -21,6 +21,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     select * from gatchi where meetListNum = #{meetListNum}
 </select>
 
+<update id="updateCode" parameterType="int">
+    update gatchi set code = #{meetListNum} where meetListNum = #{meetListNum}
+</update>
+
 <select id="getMeetMembers" parameterType="int" resultType="com.spring.boot.dto.MeetInfoDTO">
     select u.email,u.name,u.picture,u.role
     from users u
@@ -159,6 +163,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <select id="getMeetInfo" parameterType="int" resultType="com.spring.boot.dto.MeetInfoDTO">
     select * from meetinfo where meetListNum = #{meetListNum}
 </select>
+
+
+<select id="getAllMeetReviews"  resultType="com.spring.boot.dto.MeetReviewDTO">
+    select * from meetreview order by meetlistnum DESC
+</select>
+
+
 
 <select id="getlatlng" parameterType="int" resultType="com.spring.boot.dto.MapDTO">
     select l.* from latlng l, gatchi gc where gc.meetListNum = #{meetListNum} and gc.meetListNum = l.meetListNum
