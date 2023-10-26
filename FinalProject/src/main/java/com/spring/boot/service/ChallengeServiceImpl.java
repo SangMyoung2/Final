@@ -5,8 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.spring.boot.dto.ChallengeAuthDTO;
 import com.spring.boot.dto.ChallengeDTO;
 import com.spring.boot.dto.ChallengeInfoDTO;
+import com.spring.boot.dto.MapDTO;
 import com.spring.boot.mapper.ChallengeMapper;
 
 @Service
@@ -46,13 +48,13 @@ public class ChallengeServiceImpl implements ChallengeService{
     }
 
     @Override
-    public ChallengeInfoDTO getUserEmailData(String email, int challengelistnum) throws Exception {
-        return challengeMapper.getUserEmailData(email,challengelistnum);
+    public ChallengeInfoDTO getUserEmailData(String email, int challengeListNum) throws Exception {
+        return challengeMapper.getUserEmailData(email,challengeListNum);
     }
 
     @Override
-    public ChallengeInfoDTO getMasterData(int challengelistnum) throws Exception {
-        return challengeMapper.getMasterData(challengelistnum); 
+    public ChallengeInfoDTO getMasterData(int challengeListNum) throws Exception {
+        return challengeMapper.getMasterData(challengeListNum); 
     }
 
     @Override
@@ -69,6 +71,46 @@ public class ChallengeServiceImpl implements ChallengeService{
     @Override
     public void deleteChallengeInfo(int challengeListNum, String email) throws Exception {
         challengeMapper.deleteChallengeInfo(challengeListNum, email);
+    }
+
+    @Override
+    public List<ChallengeInfoDTO> getUserListData(int challengeListNum) throws Exception {
+        return challengeMapper.getUserListData(challengeListNum);
+    }
+
+    @Override
+    public int authMaxNum() throws Exception {
+        return challengeMapper.authMaxNum();
+    }
+
+    @Override
+    public ChallengeAuthDTO getNoneAuthReview(ChallengeAuthDTO authDTO) throws Exception {
+        return challengeMapper.getNoneAuthReview(authDTO);
+    }
+
+    @Override
+    public void insertAuthReview(ChallengeAuthDTO authDTO) throws Exception {
+        challengeMapper.insertAuthReview(authDTO);
+    }
+
+    @Override
+    public List<ChallengeAuthDTO> getAllReviewList(int challengeListNum) throws Exception {
+        return challengeMapper.getAllReviewList(challengeListNum);
+    }
+
+    @Override
+    public Integer getMemberStatus(ChallengeInfoDTO infoDTO) throws Exception {
+        return challengeMapper.getMemberStatus(infoDTO);
+    }
+
+    @Override
+    public void deleteChallengeReview(ChallengeAuthDTO authDTO) throws Exception {
+        challengeMapper.deleteChallengeReview(authDTO);
+    }
+
+    @Override
+    public MapDTO getlatlng(int meetListNum) throws Exception {
+        return challengeMapper.getlatlng(meetListNum);
     }
 
     
