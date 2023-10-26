@@ -20,7 +20,11 @@
     <p class="title">무엇을 도와드릴까요?</p>
 
     <div class="search-container">
-        <input type="text" id="searchInput" placeholder="검색해보실?" class="search-bar">    
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="검색해보실?"
+            style="border: 0; width: 90%;"> 
+            <button id="clearBtn" class="clear-button">X</button>
+        </div>
         <button id="searchBtn" class="search-button">🔎</button>
     </div>
 
@@ -39,6 +43,11 @@
         <button class="faq-question" th:text="' [' + ${data.centerSubject} + '] ' + ${data.centerQuestion}"></button>
         <div class="faq-answer" th:text="'▶️  ' + ${data.centerAnswer}"></div>
     </div>
+
+    <div class="seemore-container">
+        <button id="loadMore" style="display:none;">더보기 + </button>
+    </div>
+
 
 </div>
 

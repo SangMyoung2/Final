@@ -1,0 +1,20 @@
+.paymentinfocontainer {
+    width: 40%;
+    margin: 0 auto;
+}
+
+.date-filter {
+    text-align: center;
+}
+
+.filterBtn {
+    width: 60px;
+    height: 25px; /* 높이 조절 */
+    padding: 2px 2px; /* 패딩 조절 */
+    background-color: transparent;
+    color: #5CA8B5;
+    border: 2px solid #5CA8B5;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
