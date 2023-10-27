@@ -49,5 +49,9 @@ public interface ChallengeService {
     
     public MapDTO getlatlng(int meetListNum) throws Exception;
 
+    public void successChallengeAuth(String challengeAuthImage) throws Exception;
 
+    public void updateChallengeStatus() throws Exception;
+
+    public void failChallengeAuth() throws Exception;
 }

@@ -113,5 +113,20 @@ public class ChallengeServiceImpl implements ChallengeService{
         return challengeMapper.getlatlng(meetListNum);
     }
 
+    @Override
+    public void successChallengeAuth(String challengeAuthImage) throws Exception {
+        challengeMapper.successChallengeAuth(challengeAuthImage);
+    }
+
+    @Override
+    public void updateChallengeStatus() throws Exception {
+        challengeMapper.updateChallengeStatus();
+    }
+
+    @Override
+    public void failChallengeAuth() throws Exception {
+        challengeMapper.failChallengeAuth();
+    }
+
     
 }
