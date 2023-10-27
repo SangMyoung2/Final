@@ -43,7 +43,7 @@
                       <!-- <img th:src="@{|/image/gatchiImage/${meet.meetImage}|}" class="card__image" alt=""/> -->
                       <h3 th:text="${communi.meetTitle}"></h3>
                       <h4 th:text="${communi.meetContent}"></h4>
-                      <button>more ⇁</button>
+                      <button th:attr="data-meetlistnum=${communi.meetListNum}" onclick="location.href='/communiArticle.action?meetListNum=' + this.getAttribute('data-meetlistnum')">more ⇁</button>
                     </section>
                   </div>
                 </div>
@@ -118,7 +118,7 @@
             <div id="heart" class="heart" name="likeBtn">
               <input type="hidden" th:value="${items.meetListNum}">
             </div>
-              <a th:href="@{'/meetArticle.action?meetListNum=' + ${items.meetListNum}}">
+              <a th:href="@{'/communiArticle.action?meetListNum=' + ${items.meetListNum}}">
               <img th:src="@{|/image/gatchiImage/${items.meetImage}|}" class="card__image" alt=""/>  <!-- 클릭하면 article로 넘어가게 -->
             </a>
             <div class="card__overlay">

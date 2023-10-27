@@ -111,6 +111,7 @@ where challengeListNum = #{challengeListNum}
     from challengeAuth CA inner join users U
     on CA.email = U.email
     where CA.challengeListNum = ${challengeListNum}
+    order by challengeAuthCreateDate desc
 </select>
 
 <delete id="deleteChallengeReview" parameterType="com.spring.boot.dto.ChallengeAuthDTO">
@@ -119,7 +120,47 @@ where challengeListNum = #{challengeListNum}
 
 <select id="getlatlng" parameterType="int" resultType="com.spring.boot.dto.MapDTO">
 select l.* from latlng l, gatchi gc where gc.meetListNum = #{meetListNum} and gc.meetListNum = l.meetListNum
+</select>
 
+<update id="successChallengeAuth" parameterType="map">
+    update challengeAuth
+    set challengeAuthStatus = 1
+    where challengeAuthImage = #{challengeAuthImage}
+</update>
+
+<update id="failChallengeAuth" parameterType="map">
+    update challengeAuth
+    set challengeAuthStatus = 2
+    where challengeAuthImage = #{challengeAuthImage}
+</update>
+
+<update id="updateChallengeStatus">
+    update challenge
+    set challengeStatus = 2
+    <![CDATA[
+    where TO_DATE(challengeEndDate, 'YYYY-MM-DD') < TRUNC(SYSDATE)
+    ]]>
+</update>
+
+
+
+<!-- myPage -->
+
+<select id="getChallengeListNumByUserEmail" parameterType="String" resultType="int">
+    SELECT challengeListNum
+    FROM challengeInfo
+    WHERE email = #{email}
+</select>
+
+
+<select id="getChallengeByChallengeListNums" parameterType="java.util.List" resultType="com.spring.boot.dto.ChallengeDTO">
+    SELECT *
+    FROM challenge
+    WHERE challengeListNum  IN
+    <foreach item="item" collection="list" open="(" separator="," close=")">
+        #{item}
+    </foreach>
+    ORDER BY challengeListNum DESC
 </select>
 
 <update id="plusChallengeCount" parameterType="int">
