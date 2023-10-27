@@ -21,9 +21,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     select * from gatchi where meetListNum = #{meetListNum}
 </select>
 
-<update id="updateCode" parameterType="int">
-    update gatchi set code = #{meetListNum} where meetListNum = #{meetListNum}
-</update>
+<select id="getOnlyMeetListInfo" parameterType="int" resultType="com.spring.boot.dto.GatchiDTO">
+    select * from gatchi where meetCheck = 1 and code = #{meetListNum}
+</select>
+
+<select id="selectUpcomingDates" parameterType="int" resultType="com.spring.boot.dto.GatchiDTO">
+    select * from gatchi where meetCheck = 1 and code = #{meetListNum} order by meetDday asc
+</select>
+
+<select id="selectLatestDates" parameterType="int" resultType="com.spring.boot.dto.GatchiDTO">
+    select * from gatchi where meetCheck = 1 and code = #{meetListNum} order by meetDate desc
+</select>
+
+<select id="selectOldestDates" parameterType="int" resultType="com.spring.boot.dto.GatchiDTO">
+    select * from gatchi where meetCheck = 1 and code = #{meetListNum} order by meetDate asc
+</select>
 
 <select id="getMeetMembers" parameterType="int" resultType="com.spring.boot.dto.MeetInfoDTO">
     select u.email,u.name,u.picture,u.role
@@ -32,6 +44,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     where mi.meetListNum = #{meetListNum}
     and (mi.meetMemStatus = 1 or mi.meetMemStatus = 2) order by u.name asc
 </select>
+
+<insert id="createMeetInCommuni" parameterType="com.spring.boot.dto.GatchiDTO">
+    insert into gatchi(
+	meetListNum,meetCheck,meetCtgNum,meetName,
+    meetTitle,meetContent,meetImage,meetDate,meetDday,
+    meetMemCnt,meetMaxMemCnt,meetHitCount,meetLikeCount,
+    meetHow,meetEntryfee,meetMoney,meetPlace,meetStatus,code) values (
+	#{meetListNum},#{meetCheck},#{meetCtgNum},#{meetName},
+	#{meetTitle},#{meetContent},#{meetImage},sysdate,#{meetDday},
+    1,#{meetMaxMemCnt},0,0,
+	#{meetHow},#{meetEntryfee},#{meetMoney},#{meetPlace},1,#{code})
+</insert>
 
 <select id="getMembersExMaster" parameterType="int" resultType="com.spring.boot.dto.MeetInfoDTO">
     select u.email,u.name,u.picture,u.role,mi.approvalStatus

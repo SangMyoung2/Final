@@ -102,7 +102,6 @@
     text-decoration: none;
 }
 .release-action:hover {
-    text-decoration: underline;
     color: #df0509;
 }
 
@@ -111,7 +110,6 @@
     text-decoration: none;
 }
 .accept-action:hover, .reject-action:hover, .out-action:hover {
-    text-decoration: underline;
     color: #686868;
 }
 
