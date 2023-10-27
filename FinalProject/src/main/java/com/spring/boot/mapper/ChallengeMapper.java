@@ -51,4 +51,9 @@ public interface ChallengeMapper {
 
     public MapDTO getlatlng(int meetListNum) throws Exception;
 
+    public void plusChallengeCount(int challengeListNum) throws Exception;
+
+    public void minusChallengeCount(int challengeListNum) throws Exception;
+
+    public List<ChallengeDTO> getListsSerchValue(String searchValue) throws Exception;
 }

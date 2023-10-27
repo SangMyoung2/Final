@@ -113,5 +113,18 @@ public class ChallengeServiceImpl implements ChallengeService{
         return challengeMapper.getlatlng(meetListNum);
     }
 
-    
+    @Override
+    public void plusChallengeCount(int challengeListNum) throws Exception{
+        challengeMapper.plusChallengeCount(challengeListNum);
+    }
+
+    @Override
+    public void minusChallengeCount(int challengeListNum) throws Exception{
+        challengeMapper.minusChallengeCount(challengeListNum);
+    }
+
+    @Override
+    public List<ChallengeDTO> getListsSerchValue(String searchValue) throws Exception{
+        return challengeMapper.getListsSerchValue(searchValue);
+    }
 }

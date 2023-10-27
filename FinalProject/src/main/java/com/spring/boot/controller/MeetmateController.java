@@ -227,7 +227,7 @@ public class MeetmateController {
 
 		List<GatchiDTO> searchMeetMateList = gatchiService.searchMeetMateList(searchKey, searchValue);
 
- 		//여기서부터 meetStatus 값 변경 위한 작업		
+ 		//여기서부터 meetStatus 값 변경 위한 작업
 		Date currentDate = new Date();//현재 날짜, 시간 가져오기
 		
 		List<GatchiDTO> meetMateLists2 = gatchiService.getMeetMateLists();//meetMateLists로 GatchiDTO 가져오기
