@@ -59,4 +59,22 @@ $(document).ready(function() {
             }
         }
     }
+
+    // useType 값에 따른 텍스트 변환
+    $('.pointinfocontainer').each(function() {
+    var useTypeText = $(this).find('.label:contains("구분:")').next().text();
+
+    switch(useTypeText) {
+        case '1':
+            $(this).find('.label:contains("구분:")').next().text('사용');
+            break;
+        case '2':
+            $(this).find('.label:contains("구분:")').next().text('충전');
+            break;
+        case '3':
+            $(this).find('.label:contains("구분:")').next().text('환불');
+            break;
+    }
+});
+
 });
