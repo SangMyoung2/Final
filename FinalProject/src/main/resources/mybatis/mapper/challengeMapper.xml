@@ -163,4 +163,21 @@ select l.* from latlng l, gatchi gc where gc.meetListNum = #{meetListNum} and gc
     ORDER BY challengeListNum DESC
 </select>
 
+<update id="plusChallengeCount" parameterType="int">
+	update challenge set CHALLENGELIKECOUNT = CHALLENGELIKECOUNT + 1
+	where CHALLENGELISTNUM = #{CHALLENGELISTNUM}
+</update>
+
+<update id="minusChallengeCount" parameterType="int">
+	update challenge set CHALLENGELIKECOUNT = CHALLENGELIKECOUNT - 1
+	where CHALLENGELISTNUM = #{CHALLENGELISTNUM} and
+	<![CDATA[
+	(select CHALLENGELIKECOUNT from challenge where CHALLENGELISTNUM = #{CHALLENGELISTNUM}) > 0
+	]]>
+</update>
+
+<select id="getListsSerchValue" parameterType="String" resultType="com.spring.boot.dto.ChallengeDTO">
+    select * from CHALLENGE where challengetitle like '%' || #{searchValue} || '%'
+</select>
+
 </mapper>
