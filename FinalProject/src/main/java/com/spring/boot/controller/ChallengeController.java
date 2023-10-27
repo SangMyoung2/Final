@@ -8,8 +8,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.core.io.Resource;
@@ -23,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,12 +35,15 @@ import org.springframework.web.servlet.ModelAndView;
 import com.spring.boot.dto.ChallengeAuthDTO;
 import com.spring.boot.dto.ChallengeDTO;
 import com.spring.boot.dto.ChallengeInfoDTO;
+import com.spring.boot.dto.ChallengeLikeDTO;
 import com.spring.boot.dto.GatchiDTO;
+import com.spring.boot.dto.GatchiLikeDTO;
 import com.spring.boot.dto.MapDTO;
 import com.spring.boot.dto.MeetInfoDTO;
 import com.spring.boot.dto.MeetReviewDTO;
 import com.spring.boot.dto.SessionUser;
 import com.spring.boot.model.Users;
+import com.spring.boot.service.ChallengeLikeService;
 import com.spring.boot.service.ChallengeService;
 
 
@@ -48,6 +54,8 @@ public class ChallengeController {
 	@Autowired
     private ChallengeService challengeService;
 
+	@Autowired
+	private ChallengeLikeService challengeLikeService;
 
 	@GetMapping("/challengeCreate.action")
 	public ModelAndView challengeCreate() throws Exception{
@@ -80,17 +88,20 @@ public class ChallengeController {
 			infoDTO.setEmail(user1.getEmail()); 
 		}
 
-        // Resource resource = new ClassPathResource("static");
-        // String resourcePath = resource.getFile().getAbsolutePath() + "/image/challenge";
-        String resourcePath ="C:\\VSCode\\Final\\FinalProject\\src\\main\\resources\\static\\image\\challenge\\challengeList";
+        String absolutePath = new File("").getAbsolutePath() + "\\";
+		String path = "FinalProject/src/main/resources/static/image/challengeImage";
+        File file = new File(path);
+		// 폴더가 없다면 생성
+		if (!file.exists()) {
+			file.mkdirs();
+		}
 
 		if (!imageMain.isEmpty()) {
 			String originalFileName = imageMain.getOriginalFilename();
 			String saveFileName = UUID.randomUUID() + originalFileName;
 		    
-			Path filePath = Paths.get(resourcePath, saveFileName);
-
-            Files.write(filePath, imageMain.getBytes());
+			file = new File(absolutePath + path + "/" + saveFileName);
+			imageMain.transferTo(file);
             //challenge dto
             dto.setChallengeImageMain(saveFileName);
 
@@ -104,9 +115,8 @@ public class ChallengeController {
 			String originalFileName = imageSuccess.getOriginalFilename();
 			String saveFileName = UUID.randomUUID() + originalFileName;
 		    
-			Path filePath = Paths.get(resourcePath, saveFileName);
-
-            Files.write(filePath, imageSuccess.getBytes());
+			file = new File(absolutePath + path + "/" + saveFileName);
+			imageSuccess.transferTo(file);
             //challenge dto
             dto.setChallengeImageSuccess(saveFileName);
 
@@ -119,9 +129,8 @@ public class ChallengeController {
 			String originalFileName = imageFail.getOriginalFilename();
 			String saveFileName = UUID.randomUUID() + originalFileName;
 		    
-			Path filePath = Paths.get(resourcePath, saveFileName);
-
-            Files.write(filePath, imageFail.getBytes());
+			file = new File(absolutePath + path + "/" + saveFileName);
+			imageFail.transferTo(file);
             //challenge dto
             dto.setChallengeImageFail(saveFileName);
 
@@ -438,21 +447,24 @@ public class ChallengeController {
 
 
 		
-	@GetMapping("/challengeList.action")
-	public ModelAndView challengeList() throws Exception {
+	@RequestMapping("/challengeList.action")
+	public ModelAndView challengeList(
+		@RequestParam(name = "searchValue", required = false) String searchValue, 
+		HttpServletRequest request) throws Exception {
 		
 		ModelAndView mav = new ModelAndView();
 		
-        // for (GatchiDTO meetMateList : meetMateLists2) {			
-		// 	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-		// 	Date meetDday = dateFormat.parse(meetMateList.getMeetDday());
+		if(searchValue == null || searchValue.equals(null)){
+			searchValue = "";
+		}
 
-		// 	if (meetMateList.getMeetCheck() == 1 && meetDday.before(currentDate)) {// meetCheck가 1이고 meetDday 지나면
-		// 		meetMateList.setMeetStatus(2);//meetStatus를 2로 업데이트				
-		// 		gatchiService.updateMeetStatusMate(meetMateList);//업데이트된 GatchiDTO 저장
-		// 	}
-		// }
+        List<ChallengeDTO> challengeLists = challengeService.getListsSerchValue(searchValue);
+		
+		for (ChallengeDTO challengeDTO : challengeLists) {
+			System.out.println("챌린지 : " + challengeDTO.getChallengeTitle());
+		}
 
+		mav.addObject("challengeLists", challengeLists);
 
 		mav.setViewName("challenge/ChallengeList");
 		
@@ -490,5 +502,108 @@ mav.addObject("dto", dto);
         return mav;	
     }
 
+	@PostMapping("/challenge/plusLike")
+	public String plusLike(@RequestBody Map<String, String> data,HttpServletRequest req) throws Exception {
+
+		System.out.println("좋아요 버튼을 누르셨군요? 챌린지");
+
+		HttpSession session = req.getSession();
+		SessionUser social = (SessionUser)session.getAttribute("user");
+		Users user1 = (Users)session.getAttribute("user1");
+
+		String useremail = "";
+
+		if (social != null) {
+			useremail = social.getEmail();
+		} else if (user1 != null) {
+			useremail = user1.getEmail(); 
+		}
+		
+
+		System.out.println("유저이메일 : " + useremail);
+
+		System.out.println(data.get("challengeListNum"));
+		int listNum = Integer.parseInt(data.get("challengeListNum"));
+
+		ChallengeLikeDTO dto = new ChallengeLikeDTO();
+		dto.setChallengeListNum(listNum);
+		dto.setUseremail(useremail);
+
+		ChallengeLikeDTO isDto = challengeLikeService.getReadDataInChallengeLikeDTO(dto);
+		if(isDto != null) return null;
+
+		challengeService.plusChallengeCount(listNum);
+		challengeLikeService.insertChallengeLike(dto);
+
+		ChallengeDTO readData = challengeService.getReadData(listNum);
+		System.out.println(readData.getChallengeTitle() + "모임의 좋아요 수는 : " + readData.getChallengeLikeCount());
+
+		return "SUCCESS";
+	}
+	
+	@PostMapping("/challenge/minusLike")
+	public String minusLike(@RequestBody Map<String, String> data,HttpServletRequest req) throws Exception {
+		
+		System.out.println("좋아요 버튼을 취소했다.");
+
+		HttpSession session = req.getSession();
+		SessionUser social = (SessionUser)session.getAttribute("user");
+		Users user1 = (Users)session.getAttribute("user1");
+
+		String useremail = "";
+		
+		if (social != null) {
+			useremail = social.getEmail();
+		} else if (user1 != null) {
+			useremail = user1.getEmail(); 
+		}
+
+		System.out.println("유저이메일 : " + useremail);
+
+		System.out.println(data.get("challengeListNum"));
+		int listNum = Integer.parseInt(data.get("challengeListNum"));
+
+		challengeService.minusChallengeCount(listNum);
+		//gatchiService.deleteGatchiLike(listNum, useremail);
+
+		ChallengeLikeDTO dto = new ChallengeLikeDTO();
+		dto.setChallengeListNum(listNum);
+		dto.setUseremail(useremail);
+
+		challengeLikeService.deleteChallengeLike(dto);
+
+		ChallengeDTO readData = challengeService.getReadData(listNum);
+		System.out.println(readData.getChallengeTitle() + "모임의 좋아요 수는 : " + readData.getChallengeLikeCount());
+
+		return "SUCCESS";
+	}
+
+	@PostMapping("/challenge/loadLikeData")
+	public List<Integer> loadLikeData(HttpServletRequest req) throws Exception {
+
+		HttpSession session = req.getSession();
+		SessionUser social = (SessionUser)session.getAttribute("user");
+		Users user1 = (Users)session.getAttribute("user1");
+
+		String useremail = "";
+		
+		if (social != null) {
+			useremail = social.getEmail();
+		} else if (user1 != null) {
+			useremail = user1.getEmail(); 
+		}
+		System.out.println("??????");
+		List<ChallengeLikeDTO> lists = challengeLikeService.getReadDataChallengeLike(useremail);
+		System.out.println("null??? : " + lists);
+		if(lists == null) return null;
+
+		List<Integer> listNum = new ArrayList<>();
+		System.out.println("123123123123");
+		for(ChallengeLikeDTO g : lists){
+			listNum.add(g.getChallengeListNum());
+		}
+		System.out.println("좋아요 누른 방들 : " + listNum);
+		return listNum;
+	}
 
 }

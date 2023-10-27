@@ -452,7 +452,7 @@ public class MeetControllerYj {
 
 		//String email = (String) request.getSession().getAttribute("email"); //세션
 		
-		String useremail = user1.getEmail();
+		String useremail = meetInfoDTO.getEmail();
 
 		meetInfoDTO.setMeetListNum(meetListNum);
 		meetInfoDTO.setEmail(useremail);
