@@ -46,9 +46,14 @@
             <p style="text-align: center;">결제 내역이 없습니다.</p>
         </div>
 
-        <div id="no-results-message" style="display: none; text-align: center;">
-            해당 날짜의 결제 내역이 없습니다.
+        <div id="no-payment-results-message" style="display: none; text-align: center;">
+            해당 날짜의 충전 내역이 없습니다.
         </div>
+        
+        <div id="no-use-results-message" style="display: none; text-align: center;">
+            해당 날짜의 사용 내역이 없습니다.
+        </div>
+
     
         <!-- paymentInfo 데이터를 반복하여 각 결제 내역을 div로 표시 -->
         <div th:each="payment : ${paymentInfo}" class="paymentinfocontainer" th:unless="${#lists.isEmpty(paymentInfo)}">
@@ -103,11 +108,19 @@
             <br/><br/>
             <div>
                 <span class="label">사용 날짜/시간: </span>
-                <span th:text="${useInfo.useDate}"></span>
+                <span th:text="${useInfo.useTime}"></span>
             </div>
             <div>
                 <span class="label">사용한 포인트: </span>
                 <span th:text="${useInfo.usePoint} + 포인트"></span>
+            </div>
+            <div>
+                <span class="label">이전 포인트: </span>
+                <span th:text="${useInfo.beforPoint} + 포인트"></span>
+            </div>
+            <div>
+                <span class="label">이후 포인트: </span>
+                <span th:text="${useInfo.afterPoint} + 포인트"></span>
             </div>
             <!-- 필요한 경우, 다른 데이터 필드들도 추가 가능 -->
             <hr/>

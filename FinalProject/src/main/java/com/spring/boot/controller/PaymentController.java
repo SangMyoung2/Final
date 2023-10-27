@@ -66,7 +66,6 @@ public class PaymentController {
             PointHistoryDTO pointHistoryDTO = new PointHistoryDTO();
             pointHistoryDTO.setUseremail(email);
             
-            // 이 부분을 수정합니다.
             List<PointHistoryDTO> pointHistories = pointHistoryService.getUseReadData(pointHistoryDTO);
             mav.addObject("pointHistories", pointHistories); // pointHistories 리스트를 뷰로 전달
 
