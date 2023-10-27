@@ -49,5 +49,7 @@ public interface ChallengeService {
     
     public MapDTO getlatlng(int meetListNum) throws Exception;
 
+    public List<Integer> getChallengeListNumByUserEmail(String email)throws Exception;
 
+    public List<ChallengeDTO> getChallengeByChallengeListNums(List<Integer> challengeListNum);
 }
