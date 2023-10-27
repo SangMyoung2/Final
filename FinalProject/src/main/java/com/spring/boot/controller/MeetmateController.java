@@ -172,18 +172,25 @@ public class MeetmateController {
 
 
 		
-		// Resource resource = new ClassPathResource("static");
-        // String resourcePath = resource.getFile().getAbsolutePath() + "/image/gatchiImage";
-		String resourcePath = "C:\\VSCode\\Final\\FinalProject\\src\\main\\resources\\static\\image\\gatchiImage";
+		String absolutePath = new File("").getAbsolutePath() + "\\";
+		String path = "FinalProject/src/main/resources/static/image/gatchiImage";
+        File file = new File(path);
+		System.out.println("앱솔루트패스 : " + absolutePath);
 
 		if (!meetImage.isEmpty()) {
 			String originalFileName = meetImage.getOriginalFilename();
-			File destFile = new File(resourcePath, originalFileName);
 
-			meetImage.transferTo(destFile);
+			// 폴더가 없다면 생성
+			if (!file.exists()) {
+				file.mkdirs();
+			}
+
+			String saveFileName = UUID.randomUUID() + originalFileName;
+			file = new File(absolutePath + path + "/" + saveFileName);
+			meetImage.transferTo(file);
 			int maxNum = gatchiService.maxNum();
 			dto.setMeetListNum(maxNum + 1);
-			dto.setMeetImage(originalFileName);
+			dto.setMeetImage(saveFileName);
 			gatchiService.createGatchi(dto);
 
 			infoDTO.setMeetListNum(maxNum + 1);
