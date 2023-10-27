@@ -144,4 +144,23 @@ select l.* from latlng l, gatchi gc where gc.meetListNum = #{meetListNum} and gc
 
 
 
+<!-- myPage -->
+
+<select id="getChallengeListNumByUserEmail" parameterType="String" resultType="int">
+    SELECT challengeListNum
+    FROM challengeInfo
+    WHERE email = #{email}
+</select>
+
+
+<select id="getChallengeByChallengeListNums" parameterType="java.util.List" resultType="com.spring.boot.dto.ChallengeDTO">
+    SELECT *
+    FROM challenge
+    WHERE challengeListNum  IN
+    <foreach item="item" collection="list" open="(" separator="," close=")">
+        #{item}
+    </foreach>
+    ORDER BY challengeListNum DESC
+</select>
+
 </mapper>

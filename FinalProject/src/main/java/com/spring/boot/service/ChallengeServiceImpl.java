@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.spring.boot.dto.ChallengeAuthDTO;
 import com.spring.boot.dto.ChallengeDTO;
 import com.spring.boot.dto.ChallengeInfoDTO;
+import com.spring.boot.dto.GatchiDTO;
 import com.spring.boot.dto.MapDTO;
 import com.spring.boot.mapper.ChallengeMapper;
 
@@ -128,5 +129,13 @@ public class ChallengeServiceImpl implements ChallengeService{
         challengeMapper.failChallengeAuth();
     }
 
-    
+    @Override
+    public List<Integer> getChallengeListNumByUserEmail(String email) throws Exception {
+       return challengeMapper.getChallengeListNumByUserEmail(email);
+    }
+
+    @Override
+	public List<ChallengeDTO> getChallengeByChallengeListNums(List<Integer> challengeListNum) {
+        return challengeMapper.getChallengeByChallengeListNums(challengeListNum);
+	}
 }

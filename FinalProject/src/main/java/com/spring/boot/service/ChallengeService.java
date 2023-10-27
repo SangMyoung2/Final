@@ -6,8 +6,7 @@ import com.spring.boot.dto.ChallengeAuthDTO;
 import com.spring.boot.dto.ChallengeDTO;
 import com.spring.boot.dto.ChallengeInfoDTO;
 import com.spring.boot.dto.MapDTO;
-import com.spring.boot.dto.MeetInfoDTO;
-import com.spring.boot.dto.MeetReviewDTO;
+
 
 public interface ChallengeService {
     
@@ -54,4 +53,8 @@ public interface ChallengeService {
     public void updateChallengeStatus() throws Exception;
 
     public void failChallengeAuth() throws Exception;
+
+    public List<Integer> getChallengeListNumByUserEmail(String email)throws Exception;
+
+    public List<ChallengeDTO> getChallengeByChallengeListNums(List<Integer> challengeListNum);
 }

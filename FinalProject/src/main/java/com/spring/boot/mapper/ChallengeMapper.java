@@ -56,4 +56,9 @@ public interface ChallengeMapper {
     public void updateChallengeStatus() throws Exception;
     
     public void failChallengeAuth() throws Exception;
+
+    public List<Integer> getChallengeListNumByUserEmail(String email)throws Exception;
+
+    public List<ChallengeDTO> getChallengeByChallengeListNums(List<Integer> challengeListNum);
+
 }
