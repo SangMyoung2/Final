@@ -24,4 +24,5 @@ public class GatchiDTO {
     private String meetPlace; //모임장소
     private int meetStatus; //0삭제 1현재 2완료
     private String chatRoomNum;
+    private int code; //암호(communiFind 방번호)
 }

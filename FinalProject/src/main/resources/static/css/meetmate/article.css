@@ -62,7 +62,7 @@
 }
 
 .Yj-master {
-    font-size: 17px;
+    font-size: 19px;
     color: #383535;
     margin-bottom: 10px;
 }
@@ -227,7 +227,7 @@
     text-align: center;
     padding-top: 70px;
     padding-bottom: 5px;
-    font-size: 23px;
+    font-size: 30px;
     color: #171616;
     font-weight: bold;
 }
@@ -235,7 +235,7 @@
 .review-sub {
     text-align: center;
     padding-bottom: 50px;
-    font-size: 16px;
+    font-size: 18px;
     color: #AAAAAA;
 }
 
@@ -249,7 +249,6 @@
     font-size: 17px;
 }
 .review-write:hover {
-    text-decoration: underline;
     color: #505050;
 }
 
@@ -391,25 +390,28 @@
 }
 
 .meet-members {
-    position: fixed;
+    /* position: fixed; */
     width: 255px;
     height: 310px;
     background-color: #eff5fc;
-    /* overflow-y: auto; */
     padding: 15px 14px 15px 15px;
     border-top: 7px solid #5b5e67;
     border-radius: 2px;
 }
 
 .c-meet-members {
-    position: fixed;
+    /* position: fixed; */
     width: 255px;
-    height: 670px;
+    height: 634px;
     background-color: #eff5fc;
-    /* overflow-y: auto; */
     padding: 15px 14px 15px 15px;
     border-top: 7px solid #5b5e67;
     border-radius: 2px;
+}
+
+.only-communifind {
+    margin-top: 42px;
+    font-size: 18px;
 }
 
 .meet-mem-back {
@@ -454,6 +456,7 @@
     overflow-y: scroll;
     height: 200px;
     border-radius: 3px;
+    margin-top: -10px;
 }
 .meetmate-back .content {
     flex: 1;
@@ -471,13 +474,26 @@
 }
 
 .meet-mypage {
-    position: fixed;
-    margin-left: 20px;
+    /* position: fixed; */
+    margin-left: -300px;
     width: 500px;
     min-height: 0;
     background-color: #F9F9F9;
     padding: 35px 40px 30px 40px;
     left: 0;
+}
+
+.meetName-back {
+    background-color: #ffffff;
+    padding: 7px 17px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+}
+
+.meetName {
+    font-size: 17px;
+    font-weight: bold;
+    color: #383535;
 }
 
 .badge {
@@ -496,19 +512,19 @@
   }
   .badge.primary {
     background-color: #807373;
-    font-size: 13px;
+    font-size: 15px;
   }
   .badge.meetMate {
     background-color: #1d65b2;
-    font-size: 13px;
+    font-size: 15px;
   }
   .badge.communiFind {
     background-color: #00824a;
-    font-size: 13px;
+    font-size: 15px;
   }
   .badge.meetHow {
     background-color: rgb(165, 166, 199);
-    font-size: 13px;
+    font-size: 15px;
   }
 
 .user-info-container {
@@ -615,25 +631,20 @@
 }
 
 .meetmate-btn {
-    background-color: #ffffff;
-    border: 2px solid #5b5e67;
-    color: rgb(0, 0, 0);
-    padding: 10px 43px;
+    background-color: #5CA8B5;
+    border: 2px solid #5CA8B5;
+    color: #ffffff;
+    padding: 3px 43px;
     text-align: center;
     text-decoration: none;
     display: block;
     margin: 0 auto;
     font-size: 16px;
-    border-radius: 2px;
+    border-radius: 4px;
     cursor: pointer;
     margin-top: 20px;
     transition: border-color 0.3s ease;
 }
-
-.meetmate-btn:hover {
-    border-color: #00824a;
-}
-
 
 .approval-back {
     padding: 20px;
@@ -716,7 +727,6 @@
 }
  
 .approval-mem:hover {
-    text-decoration: underline;
     color: #929292;
 }
 
@@ -801,6 +811,44 @@
     flex-direction: row;
     padding-left: 20px;
     margin-bottom: 5px;
+}
+
+.meet-title-list {
+    list-style-type:none;
+    height: 40px;
+    display: block;
+    align-items: center;
+    position: relative;
+    background-color: #f8f8f8;
+    flex-direction: row;
+    margin-top: 10px;;
+    margin-bottom: -10px;
+}
+
+.only-meetTitle {
+    line-height: 1;
+    margin-bottom: -5px;
+    padding-left: 10px;
+}
+
+.pretty-link {
+    font-size: 14px;
+    text-decoration: none;
+    display: inline-block;
+    width: 184px;
+    padding-top: 8px;
+    padding-bottom: 13px;
+    padding-left: 5px;
+    padding-right: 12px;
+    /* border: 2px solid #84A5FF; */
+    border-radius: 7px;
+    background-color: #adadad;
+    color: #fff;
+    transition: background-color 0.3s ease;
+}
+
+.pretty-link:hover {
+    text-decoration: underline;
 }
 
 .fixed-width-col {
@@ -908,6 +956,10 @@
     }
 }
 
-
+@media screen and (max-width: 1400px){
+    #mypage{
+        display: none;
+    }
+}
 
 

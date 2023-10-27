@@ -1,0 +1,62 @@
+<html layout:decorate="~{layout}">
+    <head>
+<meta charset="UTF-8">
+
+<title>가치</title>
+
+<link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/index.css}"/>
+<link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/main/mainReview.css}"/>
+<script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=83bfuniegk"></script>
+</head>
+<body>
+
+<div layout:fragment="content">
+ 
+  <section style="background-color: #ffffff; height: 750px;" id="team">
+    <br/><br/><br/>
+    <div style="margin-bottom: -110px;"  class="container">
+        <h4 style="color:#5CA8B5;">Review</h4>
+        <div class="block"></div>
+        <h2>진행 되었던 모임들의  <br/>
+            생생한 후기를 확인해 보세요!</h2>
+      <br/><br/><br/>
+
+      <h5>정성스러운 후기를 남겨 주시는 분께<br/>
+      매주 추첨을 통해 소정의 선물을 드립니다! </h5>
+      
+    </div>
+  
+  
+  </section>
+  <h5>모임후기</h5>
+
+ <div style="background-color:#F5F5F5; margin-left: -50px;">
+  <div style="display: grid; padding: 0; list-style-type: none; margin: 4rem 15vw; grid-template-columns: repeat(auto-fit, minmax(225px, 1fr)); gap: 2rem; height: 800px; ">
+      <div class="card-item"  th:if="${allreview != null}" th:each="items : ${allreview}">
+        <div class="item-content">
+          <div class="image-container">
+            <a th:href="@{'/meetArticle.action?meetListNum=' + ${items.meetReviewNum}}">
+              <img th:src="@{'/image/reviewImage/' + ${items.meetReviewImg}}" alt="">
+          </a>
+          </div>
+
+          <div >
+            <a th:text="${items.meetReviewContent}">후기내용</a>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
+</div>
+
+       
+
+
+  
+
+
+
+
+</body>
+
+</html>

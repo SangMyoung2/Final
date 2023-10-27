@@ -15,7 +15,9 @@
 <link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/meetmate/article.css}"/>
 <link rel="icon" type="image/png" th:href="@{http://localhost:8080/image/로고.png}"/>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"/>
+<script src="https://kit.fontawesome.com/1f0cefbb8e.js" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=83bfuniegk"></script>
 
 <script>
 
@@ -395,6 +397,13 @@ if(checkJoin){
 }
 }
 
+function joinMeetInCommuni() {
+    alert('이 모임에 가입하실 경우 해당 communiFind 모임 먼저 가입해야합니다.\ncommuniFind 게시글로 이동하시겠습니까?')
+    var code = document.getElementById("code").value;
+
+    location.href = '/communiArticle.action?meetListNum=' + code;
+}
+
 function joinCancel(){
 let meetListNum = document.getElementById('meetListNum').value;
 let title = document.getElementById('meetTitle').textContent;
@@ -482,36 +491,103 @@ if(joincancel){
 }
 
 function testMeet() {
-let meetListNum = document.getElementById('meetListNum').value;
-let reqMoney = confirm(title + ' 모임 정산을 멤버들에게 요청할까요?');
+    let meetListNum = document.getElementById('meetListNum').value;
+    let title = document.getElementById('meetTitle').textContent;
 
-if(reqMoney){
-    $.ajax({
-            type: "POST",
-            url: "/meetMoneyReq",
-            data: {
-                meetListNum: meetListNum
-            },
-            success: function (response) {
-                if(response == 1){
-                    alert('멤버들에게 정산요청을 하였습니다.');
-                    location.href = '/articleYj.action?meetListNum='+meetListNum;
-                }else if(response === 2){
-                    alert('....');
+    let reqMoney = confirm(title + ' 모임 정산을 멤버들에게 요청할까요?');
+
+    if(reqMoney){
+        $.ajax({
+                type: "POST",
+                url: "/sendCalculate",
+                data: {
+                    meetListNum: meetListNum
+                },
+                success: function (response) {
+                    if(response == 1){
+                        alert('멤버들에게 정산요청을 하였습니다.');
+                        location.href = '/articleYj.action?meetListNum='+meetListNum;
+                    }else if(response === 2){
+                        alert('....');
+                    }
+                    else{
+                        alert('다시 시도해 주세요..');
+                    }
+                },
+                error: function () {
+                    alert('알수없는 에러 입니다.. 고객센터에게 문의해주세요');
                 }
-                else{
-                    alert('다시 시도해 주세요..');
+            });
+
+    }
+}
+
+function test2Meet(){
+    let meetListNum = document.getElementById('meetListNum').value;
+    let title = document.getElementById('meetTitle').textContent;
+
+    let reqMoney = confirm(title + ' 모임 정산을 멤버들에게 요청할까요?');
+
+    if(reqMoney){
+        $.ajax({
+                type: "POST",
+                url: "/reqCalculate",
+                data: {
+                    meetListNum: meetListNum
+                },
+                success: function (response) {
+                    if(response == 1){
+                        alert('멤버들에게 정산요청을 하였습니다.');
+                        location.href = '/articleYj.action?meetListNum='+meetListNum;
+                    }else if(response === 2){
+                        alert('....');
+                    }
+                    else{
+                        alert('다시 시도해 주세요..');
+                    }
+                },
+                error: function () {
+                    alert('알수없는 에러 입니다.. 고객센터에게 문의해주세요');
                 }
-            },
-            error: function () {
-                alert('알수없는 에러 입니다.. 고객센터에게 문의해주세요');
-            }
-        });
+            });
 
-}
+    }
 }
 
+function chatRoom(){
+    let meetListNum = document.getElementById('meetListNum').value;
+
+    var options = 'width=600px,height=700px,scrollbars=yes'
+            popupChat = window.open("articleChatRoom.action?meetListNum=" + meetListNum,"_blacnk",options);
+}
+
+function transformNumber(number) {
+  // 주어진 숫자를 100으로 나누고 100을 곱하여 변환
+  return Math.floor(number / 100) * 100;
+}
+
+$(window).on('scroll', function () {
+    var $fbw = $('.meet-mypage');
+
+    let winScr = transformNumber(500 + window.scrollY);
+    let contentH = document.getElementById("article-content");
+    let h = transformNumber(contentH.offsetHeight);
+    console.log("winScr : " + winScr);
+    console.log("h : " + h);
+    //위치
+    if (winScr > h) {
+        $fbw.css({
+            'margin-top': h - winScr
+        })
+    } else {
+        $fbw.css({
+            'margin-top': 'auto'
+        })
+    }
+});
 </script>
+
+
 
 </head>
 <body>
@@ -545,8 +621,8 @@ if(reqMoney){
 
     <div class="container">
         <div class="row justify-content-end homeaticle">
-            <div class="col-md-2">
-                <div class="meet-mypage">
+            <div class="col-md-2" id="mypage">
+                <div class="meet-mypage" id="meet-mypage">
                     <div class="badge meetMate" th:text="${meetListInfo.meetCheck == 1 ? 'meetmate' : 'communifind'}"></div>
                     <div class="badge meetHow" th:text="${meetListInfo.meetHow == 1 ? '선착순' : '승인제'}"></div>
                     <div class="badge primary" th:text="${meetCategory[meetListInfo.meetCtgNum - 1].meetCtgName}"></div>
@@ -562,11 +638,15 @@ if(reqMoney){
                         th:text="|${session.user1.name}"></div>
                         <div class="login-user-email" th:if="${#httpSession.getAttribute('user') != null}" 
                         th:text="|${session.user.name}"></div>
-                        <div style="font-size: 17px;">님</div>
-                        <div th:if="${meetMemStatus == 1}" style="margin-left: 30px; color: #adadad; font-size: 17px;">👑 방장</div>
-                        <div th:if="${meetMemStatus == 2}" style="margin-left: 30px; color: #adadad; font-size: 17px;">🤗 회원</div>
-                        <div th:if="${meetMemStatus == 0}" style="margin-left: 30px; color: #adadad; font-size: 17px;">⌛ 승인대기중..</div>
-                        <div th:if="${meetMemStatus < 0}" style="margin-left: 30px; color: #adadad; font-size: 17px;">👤 손님</div>
+                        <div style="font-size: 17px; margin-top: 3px;">님</div>
+                        <div th:if="${meetMemStatus == 1}" style="margin-left: 30px; color: #adadad; font-size: 17px;">👑</div>
+                        <div th:if="${meetMemStatus == 1}" style="margin-left: 2px; color: #adadad; font-size: 17px; margin-top: 3px;">방장</div>
+                        <div th:if="${meetMemStatus == 2}" style="margin-left: 30px; color: #adadad; font-size: 17px; margin-top: 3px;">🤗</div>
+                        <div th:if="${meetMemStatus == 2}" style="margin-left: 2px; color: #adadad; font-size: 17px; margin-top: 3px;">회원</div>
+                        <div th:if="${meetMemStatus == 0}" style="margin-left: 30px; color: #adadad; font-size: 17px;">⌛</div>
+                        <div th:if="${meetMemStatus == 0}" style="margin-left: 2px; color: #adadad; font-size: 17px; margin-top: 3px;">승인대기중..</div>
+                        <div th:if="${meetMemStatus < 0}" style="margin-left: 30px; color: #adadad; font-size: 17px; margin-top: 3px;">👤</div>
+                        <div th:if="${meetMemStatus < 0}" style="margin-left: 2px; color: #adadad; font-size: 17px; margin-top: 3px;">손님</div>
                     </div>
 
                     <hr/>
@@ -587,11 +667,11 @@ if(reqMoney){
                         </div>
                     </div>
 
-                    <button class="chat-btn" th:if="${meetMemStatus == 1 or meetMemStatus == 2}">
+                    <button class="chat-btn" th:if="${meetMemStatus == 1 or meetMemStatus == 2}" id="chatRoom" onclick="chatRoom()">
                         <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Speech%20Balloon.png" alt="Speech Balloon" width="25px" height="25px" /> 채팅 바로가기
                     </button>
                     
-                    <div class="approval-back" th:if="${meetMemStatus == 1}"> 
+                    <div class="approval-back" th:if="${meetMemStatus == 1 and meetStatus == 2}"> 
                         <div style="display: flex; align-items: center;">
                             <div style="margin-left: 6px; font-size: 18px;">승인요청</div>
                             <div class="approval-mem" id="expand-button">ⅴ펼치기</div>
@@ -666,7 +746,7 @@ if(reqMoney){
             </div>
 
             <div class="col-8 mx-2 fixed-width-col" th:each="meetListInfo : ${meetListInfo}">
-                <div class="yj-img">
+                <div class="yj-img" id="article-content">
                     <img th:src="@{${'/image/gatchiImage/' + meetListInfo.meetImage}}" alt="n번방의 대표사진">
                     <div class="Main_content" >
                         <div class="round-image">
@@ -677,6 +757,10 @@ if(reqMoney){
                         <div class="centered-content">
                             <div class="like-hitCount">
                                 <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Beating%20Heart.png" alt="Beating Heart" style="width: 30px; height: 30px;"/>
+                                <div style="color: #383535; font-size: 17px;">좋아요
+                                    <span style="color: #5CA8B5; font-weight: bold;" th:text="${meetListInfo.meetLikeCount}">
+                                    </span>
+                                </div>
                                 <div style="color: #383535; font-size: 17px;">좋아요
                                     <span style="color: #5CA8B5; font-weight: bold;" th:text="${meetListInfo.meetLikeCount}">
                                     </span>
@@ -697,7 +781,15 @@ if(reqMoney){
                     <div class="main-text">
 
 
-                       
+                        <div style="width: 750px; height: 600px; background-color:#ffffff; margin: 0 auto 0 -2px; text-align: center;">
+                            <h3>모임 장소</h3>
+                            <div id="map" style="width:100%; height:500px;"></div>
+                          </div>
+
+                        
+                        <input type="hidden" id="lat" name="lat" th:value="${mapDto.lat}"/>
+                        <input type="hidden" id="lng" name="lng" th:value="${mapDto.lng}"/>
+
                         <div class="yj-intro">모임 소개</div>
                         <p class="Yj-text1" th:utext="${meetListInfo.meetContent.replaceAll('\n', '<br>')}"></p>
 
@@ -726,12 +818,36 @@ if(reqMoney){
                                가입하기
                             </button>
                         </form>
+                   
+
+
+                        <!-- <input type="button" th:value="${session.user1.email}"> -->
+
+                        <!-- <div  th:if="${#httpSession.getAttribute('user1') != null} and ${session.user1.email == meetReview.email}">
+                    </div> -->
+
+
+
+
+
+
+                        <!-- and ${meetInfo.meetListNum == meetListInfo.code} -->
+                        <!-- <div th:each="meetInfo : ${meetInfo}">
+                            <input type="button" th:value="${meetInfo.meetListNum}">
+                        </div>
+                        <input type="button" th:value="${meetListInfo.code}"> -->
+                        <!-- <form th:if="${meetMemStatus < 0} and ${meetStatus == 1} and ${meetListInfo.meetMemCnt<meetListInfo.meetMaxMemCnt} and ${meetListInfo.code != 0}">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button form="joinForm" type="button" class="join-button" onclick="joinMeetInCommuni()">
+                               가입하기
+                            </button>
+                            <input type="hidden" name="code" id="code" th:value="${meetListInfo.code}"/>
+                        </form> -->
                         <form th:with="meetMemStatus=${meetMemStatus}" th:if="${meetMemStatus == 0}">
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="join-button" onclick="joinCancel()">
                                가입취소
                             </button>
                         </form>
-
+                        
                         <th:block th:if="${(meetListInfo.meetMemCnt >= meetListInfo.meetMaxMemCnt) and meetStatus == 1 and (meetMemStatus <0)}">
                             <p style="font-size: 18px; color: red;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;정원 초과로 인해 현재 가입 신청이 불가능합니다.</p>
                         </th:block>
@@ -743,7 +859,7 @@ if(reqMoney){
                             <input type="hidden" name="meetListNum" id="meetListNum" th:value="${meetListNum}"/>
                         </form>
 
-                        <form th:if="${meetMemStatus == 2} and ${meetStatus == 1}">
+                        <form th:if="${meetMemStatus == 2} and ${meetStatus == 1} and ${approvalStatus !=0}">
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button form="outForm" type="button" class="out-button" onclick="outmeet()">
                                 모임 나가기
                             </button>
@@ -754,7 +870,8 @@ if(reqMoney){
                         </form>
                         
                         <form th:with="meetMemStatus=${meetMemStatus}" th:if="${meetMemStatus == 1} and ${meetStatus == 1}">
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button form="deleteForm" type="button" class="delete-button" onclick="deleteMeet()">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <button form="deleteForm" type="button" class="delete-button" onclick="deleteMeet()">
                                 모임 삭제
                             </button>
                         </form>
@@ -764,6 +881,7 @@ if(reqMoney){
                         <th:block th:if="${meetStatus == 1 and meetMemStatus == 0}">
                             <p style="font-size: 18px; color: rgb(0, 68, 255);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;가입 승인 대기 중입니다.</p>
                         </th:block>
+                        
                     </div>
                 </div>
             </div>
@@ -776,7 +894,7 @@ if(reqMoney){
                         <span style="margin-right: 86px; color: #5CA8B5; font-weight: bold;">명</span>
                         <a th:if="${meetMemStatus == 1}" th:href="@{'/meetManager.action?meetListNum=' + ${meetListInfo.meetListNum}}" style="text-decoration: none;">
                             <span style="color: #adadad;">관리</span>
-                            <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Chains.png" alt="Chains" width="17" height="17" />
+                            <i class="fa-solid fa-gear" style="color: #c3c3c3; font-size: 13px;"></i>
                         </a>
                     </p>
 
@@ -842,8 +960,36 @@ if(reqMoney){
     </div>
 
 
+   
+      
+    <script id="code">
 
-
+        var lat = document.getElementById("lat").value;
+        var lng = document.getElementById("lng").value;
+    
+        var HOME_PATH = window.HOME_PATH || '.';
+        var position = new naver.maps.LatLng(lat, lng);
+        
+        var map = new naver.maps.Map('map', {
+        center: position, //지도의 초기 중심 좌표
+        zoom: 18, //지도의 초기 줌 레벨
+      
+    
+    });
+    
+    var markerOptions = {
+    position: position.destinationPoint(0, 0),
+    map: map,
+    icon: {
+        url: HOME_PATH+'/image/map/marker-nowLocation.png',
+        
+        origin: new naver.maps.Point(0, 0),
+        anchor: new naver.maps.Point(25, 26)
+    }
+    };
+    var marker = new naver.maps.Marker(markerOptions);
+    
+    </script>
 
 
         

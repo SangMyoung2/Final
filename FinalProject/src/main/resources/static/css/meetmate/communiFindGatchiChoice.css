@@ -1,0 +1,7 @@
+#wrap_meetMate {
+  width: 580px;
+  display: flex;
+  border-radius: 7px;
+  border: 1px solid #d3dce6;  
+  justify-content: space-evenly;
+}

@@ -1,23 +1,14 @@
 package com.spring.boot.controller;
-
+import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -27,11 +18,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import com.spring.boot.dao.UserRepository;
+import com.spring.boot.dto.ChallengeDTO;
 import com.spring.boot.dto.GatchiDTO;
-import com.spring.boot.dto.MeetInfoDTO;
+import com.spring.boot.dto.MeetReviewDTO;
 import com.spring.boot.dto.SessionUser;
 import com.spring.boot.model.Users;
+import com.spring.boot.service.ChallengeService;
 import com.spring.boot.service.GatchiService;
+import com.spring.boot.service.MeetServiceYj;
 import com.spring.boot.service.PaymentService;
 import com.spring.boot.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -52,19 +46,31 @@ public class BaseAuthController {
 	@Autowired
 	private PaymentService paymentService;
 
+	@Autowired
+	private MeetServiceYj meetServiceYj;
+
+	@Autowired
+	private ChallengeService challengeService;
+
 	@GetMapping("/")
 	public ModelAndView main() throws Exception {
 
 	ModelAndView mav = new ModelAndView();
 
 	List<GatchiDTO> meetMateLists = new ArrayList<>();
-
+	List<GatchiDTO> communiLists = new ArrayList<>();
+	List<ChallengeDTO> challengeList = new ArrayList<>();
+	List<MeetReviewDTO> allreview = new ArrayList<>();
+	challengeList = challengeService.getChallengeLists();
 	meetMateLists = gatchiService.getMeetMateLists();
-
+	communiLists = gatchiService.getCommuniFindLists();
+	allreview = meetServiceYj.getAllMeetReviews();
 	
 
 	mav.addObject("meetLists", meetMateLists);	
-
+	mav.addObject("communiLists", communiLists);	
+	mav.addObject("challengeList", challengeList);	
+	mav.addObject("allreview", allreview);	
 	mav.setViewName("index");
 		
 	return mav;
@@ -89,19 +95,23 @@ public class BaseAuthController {
 		
 	}
 	
-	@PostMapping("/signup.action")
-	public String signup(Users dto, BindingResult bindResult,Model model,
-	@RequestParam("userName") String userName,
-	@RequestParam("picture") String picture) {
+		@PostMapping("/signup.action")
+		public String signup(Users dto,BindingResult bindResult,Model model,
+		@RequestParam("userName") String userName,
+		@RequestParam("picture") String picture) {
 		
+		
+
 
 		try {
 			
 			userService.create(dto.getUserName(), dto.getName(),
 					dto.getPassword(),dto.getTel(),dto.getPicture());
 
+			
 					
-			return "login/signup_ok";
+		
+					return "login/signup_ok";
 
 		} catch (DataIntegrityViolationException e) {
 			e.printStackTrace();
@@ -236,21 +246,40 @@ public class BaseAuthController {
 		} 
 
     List<Integer> userMeetList = gatchiService.getMeetListNumByUserEmail(email);
+	List<Integer> userMeetLike = gatchiService.getMeetLikeNumByUserEmail(email);
+	List<Integer> userChallengeList = challengeService.getChallengeListNumByUserEmail(email);
+	
 
-   
+	 if (userChallengeList == null || userChallengeList.isEmpty()) {
+		
+		mav.setViewName("login/mypage");
+	} else {
+		List<ChallengeDTO> challengeList = challengeService.getChallengeByChallengeListNums(userChallengeList);
+	
+		mav.addObject("challengeList", challengeList);
+	}
+
     if (userMeetList == null || userMeetList.isEmpty()) {
 		
-        mav.setViewName("login/mypage");
-        return mav;
-    }
-
-    if(userMeetList != null){
-    List<GatchiDTO> gatchiList = gatchiService.getGatchiByMeetListNums(userMeetList);
-    List<MeetInfoDTO> meetInfoList = gatchiService.getMeetInfo();
-
-    mav.addObject("meetinfolist", meetInfoList);
-    mav.addObject("gatchiList", gatchiList);
+		mav.setViewName("login/mypage");
+	} else {
+		List<GatchiDTO> gatchiList = gatchiService.getGatchiByMeetMateListNums(userMeetList);
+		List<GatchiDTO> gatchicommuList = gatchiService.getGatchiByMeetcommuListNums(userMeetList);
+	
+		mav.addObject("gatchiList", gatchiList);
+		mav.addObject("gatchicommuList", gatchicommuList);
 	}
+
+
+	if (userMeetLike == null || userMeetLike.isEmpty()) {
+		mav.setViewName("login/mypage");
+	} else {
+		List<GatchiDTO> gatchlike = gatchiService.getGatchiByLikeNums(userMeetLike);
+
+	 mav.addObject("gatchlike", gatchlike);
+	}
+	
+	
 	mav.setViewName("login/mypage");
     return mav;
 }
@@ -276,18 +305,21 @@ public class BaseAuthController {
 
 			ModelAndView mav = new ModelAndView();
 
-		// Resource resource = new ClassPathResource("static");
-      	// String resourcePath = resource.getFile().getAbsolutePath() + "\\image\\login";
-		  String resourcePath = "C:\\VSCode\\Final\\FinalProject\\src\\main\\resources\\static\\image\\login";
-		
+			String absolutePath = new File("").getAbsolutePath() + "\\";
+			String path = "FinalProject/src/main/resources/static/image/login";
+			File file = new File(path);
 		
 
-		String originalFilename = userImg.getOriginalFilename();
-				String saveFileName = originalFilename + UUID.randomUUID();
-				Path filePath = Paths.get(resourcePath, saveFileName);
-            	
-				
-            	Files.write(filePath, userImg.getBytes());
+			String originalFileName = userImg.getOriginalFilename();
+
+		// 폴더가 없다면 생성
+		if (!file.exists()) {
+		   file.mkdirs();
+		}
+
+		String saveFileName = UUID.randomUUID() + originalFileName;
+		file = new File(absolutePath + path + "/" + saveFileName);
+		userImg.transferTo(file);
 				
 			userService.userupDate(email,password,name,saveFileName);
 		
@@ -296,27 +328,40 @@ public class BaseAuthController {
 		return mav;
 		}
 
+		@GetMapping("/mainReview.action")
+		public ModelAndView mainReview() throws Exception {
+			ModelAndView mav = new ModelAndView();
 
-	
+		List<MeetReviewDTO> allreview = new ArrayList<>();
+		allreview = meetServiceYj.getAllMeetReviews();
 
- @GetMapping("/test.action")
- public ModelAndView test() {
-	ModelAndView mav = new ModelAndView();
-    
-   mav.setViewName("login/test");
-		
-		return mav;
-}
 
-@GetMapping("/temp.action")
-	public ModelAndView temp() throws Exception {
-		
-		ModelAndView mav = new ModelAndView();
-		
-		mav.setViewName("temp");
-		
-		return mav;
-		
-	}
-}
+		mav.addObject("allreview", allreview);	
+			
+		mav.setViewName("login/mainReview");
+				
+				return mav;
+		}
+			
+
+		@GetMapping("/test.action")
+		public ModelAndView test() {
+			ModelAndView mav = new ModelAndView();
+			
+		mav.setViewName("login/test");
+				
+				return mav;
+		}
+
+		@GetMapping("/temp.action")
+			public ModelAndView temp() throws Exception {
+				
+				ModelAndView mav = new ModelAndView();
+				
+				mav.setViewName("temp");
+				
+				return mav;
+				
+			}
+		}
 	

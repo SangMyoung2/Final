@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.spring.boot.mapper.MeetCalculateMapper">
+
+    <insert id="insertData" parameterType="com.spring.boot.dto.MeetCalculateDTO">
+        insert into meetcalculate values (#{meetListNum}, #{senderUserEmail},#{targetUserEmail},#{status})
+    </insert>
+
+    <select id="getLists" parameterType="int" resultType="com.spring.boot.dto.MeetCalculateDTO">
+        select * from meetcalculate where meetListNum = #{meetListNum}
+    </select>
+
+    <update id="updateStatus" parameterType="com.spring.boot.dto.MeetCalculateDTO">
+        update meetcalculate set status = #{status} where meetListNum = #{meetListNum}
+        and targetUserEmail = #{targetUserEmail}
+    </update>
+
+
+
+</mapper>

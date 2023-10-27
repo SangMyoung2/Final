@@ -21,22 +21,43 @@ public class GatchiServiceImpl implements GatchiService{
 	public void createGatchi(GatchiDTO dto) throws Exception {		
 		gatchiMapper.createGatchi(dto);
 	}
+
+	@Override
+	public void createCommuni(GatchiDTO dto) throws Exception {		
+		gatchiMapper.createCommuni(dto);
+	}
 	
 	@Override
 	public void createMeetInfo(MeetInfoDTO infoDTO) throws Exception {
 		gatchiMapper.createMeetInfo(infoDTO);
 	}
 
+	
 	@Override
 	public List<Integer> getMeetListNumByUserEmail(String email) throws Exception {
-		
 		return gatchiMapper.getMeetListNumByUserEmail(email);
 	}
 
 	@Override
-	public List<GatchiDTO> getGatchiByMeetListNums(List<Integer> meetListNums) {
-        return gatchiMapper.getGatchiByMeetListNums(meetListNums);
+	public List<Integer> getMeetLikeNumByUserEmail(String email) throws Exception {
+		return gatchiMapper.getMeetLikeNumByUserEmail(email);
 	}
+
+	@Override
+	public List<GatchiDTO> getGatchiByLikeNums(List<Integer> meetListNums) {
+        return gatchiMapper.getGatchiByLikeNums(meetListNums);
+	}
+
+	@Override
+	public List<GatchiDTO> getGatchiByMeetMateListNums(List<Integer> meetListNums) {
+        return gatchiMapper.getGatchiByMeetMateListNums(meetListNums);
+	}
+
+	@Override
+	public List<GatchiDTO> getGatchiByMeetcommuListNums(List<Integer> meetListNums) {
+        return gatchiMapper.getGatchiByMeetcommuListNums(meetListNums);
+	}
+
 
 	@Override
 	public List<MeetInfoDTO> getMeetInfo() throws Exception {
@@ -212,7 +233,10 @@ public class GatchiServiceImpl implements GatchiService{
 
 
 
-
+	// @Override
+	// public String getProfileByUsers(int meetListNum) throws Exception {
+	// 	return gatchiMapper.getProfileByUsers(meetListNum);
+	// }
 }
 
 

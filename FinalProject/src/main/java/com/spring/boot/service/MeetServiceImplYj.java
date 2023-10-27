@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.boot.dto.GatchiDTO;
+import com.spring.boot.dto.MapDTO;
 import com.spring.boot.dto.MeetCategoryDTO;
 import com.spring.boot.dto.MeetInfoDTO;
 import com.spring.boot.dto.MeetReviewDTO;
@@ -31,6 +32,31 @@ public class MeetServiceImplYj implements MeetServiceYj {
     public GatchiDTO getMeetListInfo(int meetListNum) throws Exception {
         return meetMapperYj.getMeetListInfo(meetListNum);
     }
+
+    @Override
+    public List<GatchiDTO> getOnlyMeetListInfo(int meetListNum) throws Exception {
+        return meetMapperYj.getOnlyMeetListInfo(meetListNum);
+    }
+
+    @Override
+    public List<GatchiDTO> selectUpcomingDates(int meetListNum) throws Exception {
+        return meetMapperYj.selectUpcomingDates(meetListNum);
+    }
+
+    @Override
+    public List<GatchiDTO> selectLatestDates(int meetListNum) throws Exception {
+        return meetMapperYj.selectLatestDates(meetListNum);
+    }
+
+    @Override
+    public List<GatchiDTO> selectOldestDates(int meetListNum) throws Exception {
+        return meetMapperYj.selectOldestDates(meetListNum);
+    }
+
+    @Override
+	public void createMeetInCommuni(GatchiDTO dto) throws Exception {		
+		meetMapperYj.createMeetInCommuni(dto);
+	}
     
     @Override
     public List<MeetInfoDTO> getMeetMembers(int meetListNum) throws Exception {
@@ -92,10 +118,15 @@ public class MeetServiceImplYj implements MeetServiceYj {
     public void deleteMeetOut(MeetInfoDTO dto) throws Exception {
         meetMapperYj.deleteMeetOut(dto);
     }
-
+    
     @Override
     public void updateMeetStatus(GatchiDTO dto) throws Exception {
         meetMapperYj.updateMeetStatus(dto);
+    }
+    
+    @Override
+    public void updateCode(GatchiDTO dto) throws Exception {
+        meetMapperYj.updateCode(dto);
     }
 
     @Override
@@ -167,4 +198,26 @@ public class MeetServiceImplYj implements MeetServiceYj {
     public List<MeetInfoDTO> getMeetInfo(int meetListNum) throws Exception{
         return meetMapperYj.getMeetInfo(meetListNum);
     }
+
+    @Override
+    public List<MeetReviewDTO> getAllMeetReviews() throws Exception {
+        return meetMapperYj.getAllMeetReviews();
+    }
+       
+     @Override
+    public MapDTO getlatlng(int meetListNum) throws Exception {
+        return meetMapperYj.getlatlng(meetListNum);
+    }
+
+    @Override
+    public int getMeetInfoCount(int meetListNum) throws Exception{
+        return meetMapperYj.getMeetInfoCount(meetListNum);
+    }
+
+    @Override
+    public int getMeetInfoApprovalstatusCount(int meetListNum) throws Exception{
+        return meetMapperYj.getMeetInfoApprovalstatusCount(meetListNum);
+    }
+
+
 }

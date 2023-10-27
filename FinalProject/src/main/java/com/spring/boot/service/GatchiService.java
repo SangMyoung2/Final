@@ -10,6 +10,8 @@ public interface GatchiService {
 	//BoardMapper로 연결된다.
 	
 	public void createGatchi(GatchiDTO dto) throws Exception;
+	
+	public void createCommuni(GatchiDTO dto) throws Exception;
 
 	public void createMeetInfo(MeetInfoDTO infoDTO) throws Exception;
 
@@ -17,7 +19,13 @@ public interface GatchiService {
 
 	public List<Integer> getMeetListNumByUserEmail(String email)throws Exception;
 
-	public List<GatchiDTO> getGatchiByMeetListNums(List<Integer> meetListNums);
+	public List<Integer> getMeetLikeNumByUserEmail(String email)throws Exception;
+
+	public List<GatchiDTO> getGatchiByLikeNums(List<Integer> meetListNums);
+
+	public List<GatchiDTO> getGatchiByMeetMateListNums(List<Integer> meetListNums);
+
+	public List<GatchiDTO> getGatchiByMeetcommuListNums(List<Integer> meetListNums);
 
 	public int maxNum() throws Exception;
 
@@ -90,4 +98,8 @@ public interface GatchiService {
 	public List<GatchiDTO> getReadDataInListNum(int meetListNum) throws Exception;
 
 	public void updateChatRoom(GatchiDTO dto) throws Exception;
+
+	// public String getProfileByUsers(int meetListNum) throws Exception;
+
+
 }

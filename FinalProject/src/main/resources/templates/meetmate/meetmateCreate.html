@@ -320,6 +320,8 @@
     }
 
 
+
+
     function DdayCheck() { //모임일자와 현재일자 비교(이전일자 입력되지 않도록)
 
         let meetDday = document.getElementById('meetDday').value;
@@ -332,7 +334,6 @@
         }
         return true;
     }
-
     
     const sendIt = () => {
 
@@ -345,11 +346,11 @@
         }
 
         createMeetDate();
-        
+
         if(!DdayCheck()){
             return;
-        }
-        
+        } 
+
         ctgNum();
 
         if (!imageCheck()) {

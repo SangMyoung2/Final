@@ -13,7 +13,6 @@
 <link rel="icon" type="image/png" th:href="@{http://localhost:8080/image/로고.png}"/>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="http://localhost:8080/js/gatchi/list.js"></script>
-<script src="js/includeHTML.js"></script>
 
 
 </head>
@@ -44,7 +43,7 @@
                     <!-- <img th:src="@{|/image/gatchiImage/${meet.meetImage}|}" class="card__image" alt=""/> -->
                     <h3 th:text="${meet.meetTitle}"></h3>
                     <h4 th:text="${meet.meetContent}"></h4>
-                    <button>more ⇁</button>
+                    <button th:attr="data-meetlistnum=${meet.meetListNum}" onclick="location.href='/meetArticle.action?meetListNum=' + this.getAttribute('data-meetlistnum')">more ⇁</button>
                   </section>
                 </div>
               </div>
@@ -70,39 +69,38 @@
 <br/>
 
   <div class="search-input-box" style="display: flex; align-items: center;     margin-top: 50px;">
-
     <button type="button" id="createBtn" class="createBtn" 
       onclick="javascript:location.href='/gatchiChoice.action';"> 생성하기 </button>
+    <div class="searchBoxContainer">
+      <form action="" method="get" name="sortForm" class="sortBox">
+        <select name="sortOrder" id="sortOrder" class="selectFiled" onchange="changeSortOrder()" style="vertical-align: middle;">
+          <option>　--정렬--</option>
+          <option value="meetHitCount">　조회순</option>
+          <option value="meetLikeCount">　좋아요순</option>
+          <option value="meetDday">　일자순</option>
+        </select>
+      </form>
 
-    <form action="/meetMateList.action" method="post" name="sortForm" class="sortBox">
-      <select name="sortOrder" id="sortOrder" class="selectFiled" 
-        onchange="changeSortOrder();" style="vertical-align: middle;">
-        <option> --정렬-- </option>
-        <option value="meetHitCount"> 조회순</option>
-        <option value="meetLikeCount"> 좋아요순</option>
-        <option value="meetDday"> 만남일순</option>
-      </select>
-    </form>
-
-    <form action="redirect:/meetMateList.action" method="post" name="searchForm" class="searchBox">
-      <select name="searchKey" class="selectFiled" style="display: inline;">
-        <option value="meetTitle">　제목</option>
-        <option value="meetDday">　모임일</option>
-        <option value="meetPlace">　장소</option>
-      </select>
-  
-      <input type="text" name="searchValue" placeholder="search.." onkeydown="if (event.keyCode === 13) sendIt();"/>
-      <button type="button" onclick="sendIt();" style="background-color: transparent;">
-        <svg width="20" height="15" viewBox="4 7 30 20" xmlns="http://www.w3.org/2000/svg">
-          <g fill="none" fill-rule="evenodd">
-            <path fill="none" d="M0 0h36v36H0z"/>
-            <g stroke="#5F0080" stroke-linecap="round" stroke-width="2">
-              <path d="m26.081 26.081-4.12-4.12M16.467 23.334a6.867 6.867 0 1 0 0-13.734 6.867 6.867 0 0 0 0 13.734z"/>
+      <form action="redirect:/meetMateList.action" method="post" name="searchForm" class="searchBox">
+        <select name="searchKey" class="selectFiled" style="display: inline;">
+          <option value="meetTitle">　제목</option>
+          <option value="meetDday">　모임일</option>
+          <option value="meetPlace">　장소</option>
+        </select>
+    
+        <input type="text" name="searchValue" placeholder="search.." onkeydown="if (event.keyCode === 13) sendIt();"/>
+        <button type="button" onclick="sendIt();" style="background-color: transparent;">
+          <svg width="20" height="15" viewBox="4 7 30 20" xmlns="http://www.w3.org/2000/svg">
+            <g fill="none" fill-rule="evenodd">
+              <path fill="none" d="M0 0h36v36H0z"/>
+              <g stroke="#5F0080" stroke-linecap="round" stroke-width="2">
+                <path d="m26.081 26.081-4.12-4.12M16.467 23.334a6.867 6.867 0 1 0 0-13.734 6.867 6.867 0 0 0 0 13.734z"/>
+              </g>
             </g>
-          </g>
-        </svg>
-      </button>
-    </form>
+          </svg>
+        </button>
+      </form>
+    </div>
   </div>
 
 
@@ -111,9 +109,8 @@
 
   <div class="c2" style="margin-top: 100px;">
     <ul class="cards">
-      <li name="meetLists" class="meetList_hidden" th:each="items : ${#lists.isEmpty(searchMeetMateList) ? sortLists : searchMeetMateList}" 
-        th:style="${items.meetStatus == 2 ? 'border-radius: 40px;' : ''}" 
-        th:unless="${items.meetStatus == 0}">
+      <li name="meetLists" class="meetList_hidden" th:each="items : ${#lists.isEmpty(searchMeetMateList) ? sortLists : searchMeetMateList}"
+        th:style="${items.meetStatus == 2 ? 'border-radius: 40px;' : ''}" th:unless="${items.meetStatus == 0}">
           <div class="card">
             <input type="checkbox" th:id="'heartBtn' + ${items.meetListNum}" class="heartBtn" name="likeBtn" th:value="${items.meetListNum}">
             <label th:for="'heartBtn' + ${items.meetListNum}" th:id="'likeBtnLabel' + ${items.meetListNum}" class="heart"></label>
