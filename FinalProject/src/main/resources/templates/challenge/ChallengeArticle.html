@@ -343,40 +343,29 @@ tr{
                         th:text="|${session.user.name}"></div>
                         <div style="font-size: 17px; margin-top: 3px;">님</div>
                         <div th:if="${meetMemStatus == 1}" style="margin-left: 30px; color: #adadad; font-size: 17px;">👑</div>
-                        <div th:if="${meetMemStatus == 1}" style="margin-left: 2px; color: #adadad; font-size: 17px; margin-top: 3px;">방장</div>
-                        <div th:if="${meetMemStatus == 2}" style="margin-left: 30px; color: #adadad; font-size: 17px; margin-top: 3px;">🤗</div>
-                        <div th:if="${meetMemStatus == 2}" style="margin-left: 2px; color: #adadad; font-size: 17px; margin-top: 3px;">회원</div>
-                        <div th:if="${meetMemStatus == 0}" style="margin-left: 30px; color: #adadad; font-size: 17px;">⌛</div>
-                        <div th:if="${meetMemStatus == 0}" style="margin-left: 2px; color: #adadad; font-size: 17px; margin-top: 3px;">승인대기중..</div>
-                        <div th:if="${meetMemStatus < 0}" style="margin-left: 30px; color: #adadad; font-size: 17px; margin-top: 3px;">👤</div>
-                        <div th:if="${meetMemStatus < 0}" style="margin-left: 2px; color: #adadad; font-size: 17px; margin-top: 3px;">손님</div>
+                        <div th:if="${ChallengeMemberStatus == 1}" style="margin-left: 2px; color: #adadad; font-size: 17px; margin-top: 3px;">방장</div>
+                        <div th:if="${ChallengeMemberStatus == 2}" style="margin-left: 30px; color: #adadad; font-size: 17px; margin-top: 3px;">🤗</div>
+                        <div th:if="${ChallengeMemberStatus == 2}" style="margin-left: 2px; color: #adadad; font-size: 17px; margin-top: 3px;">회원</div>
+                        <div th:if="${ChallengeMemberStatus == 0}" style="margin-left: 30px; color: #adadad; font-size: 17px;">⌛</div>
+                        <div th:if="${ChallengeMemberStatus == 0}" style="margin-left: 2px; color: #adadad; font-size: 17px; margin-top: 3px;">승인대기중..</div>
+                        <div th:if="${ChallengeMemberStatus < 0}" style="margin-left: 30px; color: #adadad; font-size: 17px; margin-top: 3px;">👤</div>
+                        <div th:if="${ChallengeMemberStatus < 0}" style="margin-left: 2px; color: #adadad; font-size: 17px; margin-top: 3px;">손님</div>
                     </div>
 
                     <hr/>
 
-                    <div id="countdown-wrap" th:each="meetListInfo : ${meetListInfo}">
-                        <div id="goal"></div>
-                        <div id="glass">
-                            <div id="progress">
-                            </div>
-                        </div>
-                        <div class="goal-stat">
-                            <span class="goal-number" id="current-amount" th:text="${meetListInfo.meetMemCnt}"></span>
-                            <span class="goal-label">현재 인원</span>
-                        </div>
-                        <div class="goal-stat" style="margin-left: 187px;">
-                            <span class="goal-number" id="max-amount" th:text="${meetListInfo.meetMaxMemCnt}"></span>
-                            <span class="goal-label">모집 인원</span>
-                        </div>
-                    </div>
 
-                    <button class="chat-btn" th:if="${meetMemStatus == 1 or meetMemStatus == 2}">
+
+                    <button class="chat-btn" th:if="${ChallengeMemberStatus == 1 or ChallengeMemberStatus == 2}">
                         <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Speech%20Balloon.png" alt="Speech Balloon" width="25px" height="25px" /> 채팅 바로가기
-                        <input type="hidden" id="meet-memStatus" name="meetMemStatus" th:value="${meetMemStatus}" />
+                        <input type="hidden" id="ChallengeMemberStatus" name="ChallengeMemberStatus" th:value="${ChallengeMemberStatus}" />
                     </button>
                       
                 </div>
             </div>
+
+
+
 
             <div class="col-8 mx-2 fixed-width-col">
     
@@ -507,7 +496,7 @@ tr{
                     </p>
                     <div class="meet-mem-list" th:each="challengeMember : ${lists}">
                         <li class="round-image-rev mt-2" style="margin-right: 10px; margin-left: -10px;">
-                            <!-- <img th:src="@{/image/gatchiImage/1111.jpg}" alt="유저프사(임의)"/> -->
+                            <img th:src="@{/image/gatchiImage/1111.jpg}" alt="유저프사(임의)"/>
                         </li>
                         <li class="custom-li" th:text="${challengeMember.name}"></li>
                     </div>
