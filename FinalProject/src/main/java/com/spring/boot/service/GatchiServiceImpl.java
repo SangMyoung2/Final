@@ -21,6 +21,11 @@ public class GatchiServiceImpl implements GatchiService{
 	public void createGatchi(GatchiDTO dto) throws Exception {		
 		gatchiMapper.createGatchi(dto);
 	}
+
+	@Override
+	public void createCommuni(GatchiDTO dto) throws Exception {		
+		gatchiMapper.createCommuni(dto);
+	}
 	
 	@Override
 	public void createMeetInfo(MeetInfoDTO infoDTO) throws Exception {

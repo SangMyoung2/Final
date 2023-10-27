@@ -52,8 +52,10 @@ public interface MeetMapperYj {
     public void insertMeetJoinOk(MeetInfoDTO dto) throws Exception;
 
     public void deleteMeetOut(MeetInfoDTO dto) throws Exception;
-
+    
     public void updateMeetStatus(GatchiDTO dto) throws Exception;
+    
+    public void updateCode(GatchiDTO dto) throws Exception;
 
     public void meetStatusCompletion(GatchiDTO dto) throws Exception;
 

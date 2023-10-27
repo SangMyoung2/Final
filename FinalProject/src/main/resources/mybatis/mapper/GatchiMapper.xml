@@ -11,11 +11,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	meetListNum,meetCheck,meetCtgNum,meetName,
     meetTitle,meetContent,meetImage,meetDate,meetDday,
     meetMemCnt,meetMaxMemCnt,meetHitCount,meetLikeCount,
-    meetHow,meetEntryfee,meetMoney,meetPlace,meetStatus) values (
+    meetHow,meetEntryfee,meetMoney,meetPlace,meetStatus,code) values (
 	#{meetListNum},#{meetCheck},#{meetCtgNum},#{meetName},
 	#{meetTitle},#{meetContent},#{meetImage},sysdate,#{meetDday},
-    1,#{meetMaxMemCnt},0,0,
-	#{meetHow},#{meetEntryfee},#{meetMoney},#{meetPlace},1)
+    1,#{meetMaxMemCnt},1,0,
+	#{meetHow},#{meetEntryfee},#{meetMoney},#{meetPlace},1,0)
+</insert>
+
+<insert id="createCommuni" parameterType="com.spring.boot.dto.GatchiDTO">
+    insert into gatchi(
+	meetListNum,meetCheck,meetCtgNum,meetName,
+    meetTitle,meetContent,meetImage,meetDate,
+    meetMemCnt,meetMaxMemCnt,meetHitCount,meetLikeCount,
+    meetHow,meetPlace,meetStatus,code) values (
+	#{meetListNum},#{meetCheck},#{meetCtgNum},#{meetName},
+	#{meetTitle},#{meetContent},#{meetImage},sysdate,
+    1,#{meetMaxMemCnt},1,0,
+	#{meetHow},#{meetPlace},1,0)
 </insert>
 
 <insert id="createMeetInfo" parameterType="com.spring.boot.dto.MeetInfoDTO">
@@ -190,13 +202,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 ]]>   
 </update>
 
-<update id="updateMeetStatusFind" parameterType="com.spring.boot.dto.GatchiDTO">
+<!-- <update id="updateMeetStatusFind" parameterType="com.spring.boot.dto.GatchiDTO">
 <![CDATA[
 	UPDATE GATCHI
 	SET meetStatus = 2
 	WHERE TO_DATE(meetDday, 'YYYY-MM-DD HH24:MI:SS') < SYSDATE and meetCheck = 2
 ]]>	
-</update>
+</update> -->
 
 
 <!--

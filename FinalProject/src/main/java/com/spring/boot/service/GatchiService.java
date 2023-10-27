@@ -10,6 +10,8 @@ public interface GatchiService {
 	//BoardMapper로 연결된다.
 	
 	public void createGatchi(GatchiDTO dto) throws Exception;
+	
+	public void createCommuni(GatchiDTO dto) throws Exception;
 
 	public void createMeetInfo(MeetInfoDTO infoDTO) throws Exception;
 

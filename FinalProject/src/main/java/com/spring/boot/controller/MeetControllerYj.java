@@ -459,7 +459,7 @@ public class MeetControllerYj {
 
 		meetServiceYj.deleteMeetOut(meetInfoDTO);
 		meetServiceYj.decrementMeetMemCnt(meetListNum);
-	
+		
 		refundPoint(useremail, meetListNum);
 
 		if (meetCheck == 1) {
@@ -481,6 +481,7 @@ public class MeetControllerYj {
 		gatchiDTO.setMeetListNum(meetListNum);
 
 		meetServiceYj.updateMeetStatus(gatchiDTO);
+		meetServiceYj.updateCode(gatchiDTO); // 커뮤니방 삭제되면 그 속에 미트방도 삭제
 		
 		// TODO : 방 인원들 싹다 불러와서 금액 환불
 		// 1. 방인원 싹 불러오기(리스트로)
