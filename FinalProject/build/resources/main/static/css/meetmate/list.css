@@ -392,20 +392,14 @@
     text-decoration: none;
   }
   
-  .card__image {      
+  .card__image{
     max-width: 100%;
     max-height: 100%;
-    min-width: 400px; /* 최소 가로 크기 지정 */
-    min-height: 500px; /* 최소 세로 크기 지정 */
-    width: auto;
-    height: auto;
-    object-fit: contain; /* 이미지 비율 유지 최대한 맞춤 */
-    object-position: center 40%; /* 이미지 가운데의 40%위치 */
-    background-color: floralwhite; /*사진크기 작을 경우 대비 배경색깔아줌*/
-    
-    border-bottom-left-radius: 50px;
-    border-bottom-right-radius: 50px;
-    border-bottom: 90px; /*아래 사진이 너무 짤려서 기본 공간 넣어줌*/
+    min-height: 400px;
+    width: 100%;
+    object-fit: contain;
+    object-position: top;
+    background-color: #767676;
   }
   
   .card__overlay {
@@ -594,8 +588,11 @@
   height: 150px;
 } */
 .search-input-box {
-  flex-grow: 1;
-  height: 30px;
+  display: flex;
+    align-items: center;
+    margin-top: 50px;
+    justify-content: space-around;
+    height: 50px;
 }
 /* 
 .search-input-box > form {
@@ -635,7 +632,12 @@ width: 266px;
 margin: 0 10px;
 }
 
-
+#masterProfile {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border: solid 0.1px white;
+}
 
 
 
@@ -648,11 +650,10 @@ margin: 0 10px;
 
 /*모임생성버튼 */
 .createBtn {
-  margin-left: 300px;
   background: #5CA8B5;
   color: #fff;
   width: 90px;
-  height: 25px;
+  height: 40px;
   font-size: 1rem;
   font-weight: bold;
   border-radius: 6px;
@@ -660,13 +661,17 @@ margin: 0 10px;
 
 
 .sortBox {
-  margin-left: 870px; 
   border: groove; 
   border-radius: 6px;
   width: 90px;
   vertical-align: middle;
+  display: flex;
+  justify-content: center;
 }
 
+.searchBoxContainer{
+  display: flex;
+}
 
 .searchBox {
   border: groove;
@@ -677,4 +682,12 @@ margin: 0 10px;
   justify-content: space-around;
   margin-left: 20px;
   vertical-align: middle;
+  height: 40px;
+}
+
+#masterProfile {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border: solid 0.1px white;
 }

@@ -3,6 +3,12 @@
   margin: 0 auto;
 }
 
+.priceButtonContainer {
+  width: 50%;
+  margin: 0 auto;
+  text-align: center;
+}
+
 .custom-btn {
   width: 300px;
   height: 80px;
@@ -19,7 +25,9 @@
   7px 7px 20px 0px rgba(0,0,0,.1),
   4px 4px 5px 0px rgba(0,0,0,.1);
   outline: none;
+  margin: 20px 10px;
 }
+
 
 /* 1 */
 .btn-1 {

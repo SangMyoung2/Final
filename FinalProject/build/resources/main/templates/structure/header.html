@@ -9,32 +9,34 @@
 		<ul class="menu">
 			<li class="menu_item_logo"><a href="/" class="link"><p class="textLogo">GATCHI</p></a></li>
 		<div id="subbody" class="sbody">
-			<div class="subbody1">
+			<div class="subbody1" id="subbody1">
 			<li class="menu_item"><a href="http://localhost:8080/meetMateList.action" class="link">Meet Mate</a></li>
 			<li class="menu_item"><a href="http://localhost:8080/communiFindList.action" class="link">Communi Find</a></li>
-			<li class="menu_item"><a href="#" class="link">Challenge</a></li>
-			<li class="menu_item"><a href="#" class="link">Review</a></li>
-			<li class="menu_item"><a href="#" class="link">Discovery</a></li>
-			<li class="menu_item"><a href="#" class="link">Service</a></li>
+			<li class="menu_item"><a href="http://localhost:8080/challengeList.action" class="link">Challenge</a></li>
+			<li class="menu_item"><a href="http://localhost:8080/mainReview.action" class="link">Review</a></li>
+			<li class="menu_item"><a href="http://localhost:8080/mainMap.action" class="link">Discovery</a></li>
+			<li class="menu_item"><a href="http://localhost:8080/customercenter.action" class="link">Service</a></li>
 			
 		</div>
 		<div class="subbody2">
 
 			
 			<!-- 사용자 정보가 있는 경우 (로그인된 상태) -->
-			<li style="width: 245px; margin-left: 40px;" class="menu_item" th:if="${#httpSession.getAttribute('user') != null}">
-			<b style="color: black;" th:text="${session.user.name}+ ' 님 안녕하세요!'"></b>
+			<li style="margin-left: 40px; display: flex; flex-direction: column;" class="menu_item" th:if="${#httpSession.getAttribute('user') != null}">
+			<b style="color: black;" th:text="${session.user.name}+ ' 님'"></b>
+			<b style="color: black;">안녕하세요!</b>
 			</li>
 
-			<li style="width: 245px; margin-left: 40px;" class="menu_item" th:if="${#httpSession.getAttribute('user1') != null}">
-				<b style="color: black;" th:text="${session.user1.name}+ ' 님 안녕하세요!'"></b>
+			<li style="margin-left: 40px; display: flex; flex-direction: column;" class="menu_item" th:if="${#httpSession.getAttribute('user1') != null}">
+				<b style="color: black;" th:text="${session.user1.name}+ ' 님'"></b>
+				<b style="color: black;">안녕하세요!</b>
 				</li>
 
-				<li style="margin-right: -60px;" class="menu_item" th:if="${#httpSession.getAttribute('user') != null} or ${#httpSession.getAttribute('user1') != null}">
+				<li class="menu_item" th:if="${#httpSession.getAttribute('user') != null} or ${#httpSession.getAttribute('user1') != null}">
 					<a href="/mypage.action" class="link">마이페이지</a>
 				</li>
 
-			<li style="margin-right: -40px; margin-left: 20px;" class="menu_item" th:if="${#httpSession.getAttribute('user') != null} or ${#httpSession.getAttribute('user1') != null}">
+			<li class="menu_item" th:if="${#httpSession.getAttribute('user') != null} or ${#httpSession.getAttribute('user1') != null}">
 				<a href="/logout" class="link">로그아웃</a>
 			</li>
 
@@ -50,5 +52,39 @@
 		</div>
 		</ul>
 	</div>
+
+	
 </header>
+
+<div id="menubarBody">
+	<ul class="menubar">
+		<li class="menubarsub">
+	<a>☰</a>
+	<ul class="submenubar">
+		<li class="menu_item"><a href="http://localhost:8080/meetMateList.action" class="link">Meet Mate</a></li>
+		<li class="menu_item"><a href="http://localhost:8080/communiFindList.action" class="link">Communi Find</a></li>
+		<li class="menu_item"><a href="http://localhost:8080/challengeList.action" class="link">Challenge</a></li>
+		<li class="menu_item"><a href="http://localhost:8080/mainReview.action" class="link">Review</a></li>
+		<li class="menu_item"><a href="http://localhost:8080/mainMap.action" class="link">Discovery</a></li>
+		<li class="menu_item"><a href="http://localhost:8080/customercenter.action" class="link">Service</a></li>
+		<li class="menu_item" th:if="${#httpSession.getAttribute('user') != null} or ${#httpSession.getAttribute('user1') != null}">
+			<a href="/mypage.action" class="link">마이페이지</a>
+		</li>
+
+		<li class="menu_item" th:if="${#httpSession.getAttribute('user') != null} or ${#httpSession.getAttribute('user1') != null}">
+			<a href="/logout" class="link">로그아웃</a>
+		</li>
+
+		<!-- 사용자 정보가 없는 경우 (비로그인 상태) -->
+		<li style="width: 110px; margin-left: 225px;" class="menu_item" th:unless="${#httpSession.getAttribute('user') != null} or ${#httpSession.getAttribute('user1') != null}">
+			<a href="/signup.action" class="link">회원가입</a>
+		</li>
+		<li style="width: 44px" class="menu_item" th:unless="${#httpSession.getAttribute('user') != null} or ${#httpSession.getAttribute('user1') != null}">
+			<a href="/login.action" class="link">로그인</a>
+		</li>
+	</ul>
+</li>
+</ul>
+</div>
+
 </div>

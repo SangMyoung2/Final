@@ -28,12 +28,12 @@
           
           <div style="display: flex; width: 875px; font-size: 20px; margin-top: 20px; ">
            
-            <p style="width: 160px; font-weight: 100;" class="menu_item"><a href="#" class="link">MeetMate</a></p>
-            <b style="width: 160px; font-weight: 100;" class="menu_item"><a href="#" class="link">CommuniFind</a></b>
-            <b style="width: 160px; font-weight: 100;" class="menu_item"><a href="#" class="link">Challenge</a></b>
-            <b style="width: 160px; font-weight: 100;" class="menu_item"><a href="#" class="link">Review</a></b>
-            <b style="width: 160px; font-weight: 100;" class="menu_item"><a href="#" class="link">Discovery</a></b>
-            <b style="width: 160px; font-weight: 100;" class="menu_item"><a href="#" class="link">Service</a></b>
+            <p style="width: 160px; font-weight: 100;" class="menu_item"><a href="http://localhost:8080/meetMateList.action" class="link">MeetMate</a></p>
+            <b style="width: 160px; font-weight: 100;" class="menu_item"><a href="http://localhost:8080/communiFindList.action" class="link">CommuniFind</a></b>
+            <b style="width: 160px; font-weight: 100;" class="menu_item"><a href="http://localhost:8080/challengeList.action" class="link">Challenge</a></b>
+            <b style="width: 160px; font-weight: 100;" class="menu_item"><a href="http://localhost:8080/mainReview.action" class="link">Review</a></b>
+            <b style="width: 160px; font-weight: 100;" class="menu_item"><a href="http://localhost:8080/mainMap.action" class="link">Discovery</a></b>
+            <b style="width: 160px; font-weight: 100;" class="menu_item"><a href="http://localhost:8080/customercenter.action" class="link">Service</a></b>
              
               
               </div>
@@ -67,14 +67,14 @@
 
             <div th:if="${#httpSession.getAttribute('user') != null}" class="image is-128x128 avatar">
                 <img style="margin-bottom: 30px;" th:src="@{${session.user.picture}}">
-                <a  style=" color: #00d1b2; margin-left: -3px; font-size: 23px;" href="">포인트 상세 조회</a>
+                <a  style=" color: #00d1b2; margin-left: -3px; font-size: 23px;" href="http://localhost:8080/paymentInfo.action">포인트 상세 조회</a>
               </div>
 
             <div th:if="${#httpSession.getAttribute('user1') != null}"  class="image is-128x128 avatar">
             <img style="margin-bottom: 30px;" th:src="@{image/login/__${session.user1.picture}__}">
           
               <a th:if="${#httpSession.getAttribute('user1') != null}" style=" color: #00d1b2; margin-left: 15px; font-size: 23px;" href="/userupdate.action">회원정보 수정 </a>
-              <a  style=" color: #00d1b2; margin-left: -3px; font-size: 23px;" href="">포인트 상세 조회</a>
+              <a  style=" color: #00d1b2; margin-left: -3px; font-size: 23px;" href="http://localhost:8080/paymentInfo.action">포인트 상세 조회</a>
             </div>
            
           </div>
@@ -126,11 +126,11 @@
           </div>
           <div style="display: flex; flex-direction: column; width: 210px;" class="column is-2 following has-text-centered">
             <p style="color: #00d1b2; font-size: 30px; ">CommuniFind</p><br/>
-            <p class="stat-val" th:if="${gatchiList != null}" th:text="${#lists.size(gatchiList)}"></p>
+            <p class="stat-val" th:if="${gatchicommuList != null}" th:text="${#lists.size(gatchicommuList)}"></p>
           </div>
           <div style="display: flex; flex-direction: column;" class="column is-2 likes has-text-centered">
             <p style="color: #00d1b2; font-size: 30px;">Challenge</p><br/>
-            <p class="stat-val" th:if="${gatchiList != null}" th:text="${#lists.size(gatchiList)}"></p>
+            <p class="stat-val" th:if="${challengeList != null}" th:text="${#lists.size(challengeList)}"></p>
           </div>
         </div>
       </div>
@@ -143,7 +143,7 @@
             <li class="link"><a href="#"  id="communifind-link"><span class="icon"><i class="fa fa-th"></i></span> <span></span>CommuniFind</a></li>
             <li class="link"><a href="#"  id="challenge-link"><span class="icon"><i class="fa fa-th"></i></span> <span></span>Challenge</a></li>
             <li class="link"><a href="#"  id="mylikes-link"><span class="icon"><i class="fa fa-heart"></i></span> <span>My Likes</span></a></li>
-            <li class="link"><a href="#" ><span class="icon"><i class="fa fa-bookmark"></i></span> <span>My Chat</span></a></li>
+            <li class="link"><a onclick="myChat()"><span class="icon"><i class="fa fa-bookmark"></i></span> <span>My Chat</span></a></li>
           </ul>
         </div>
       </div>
@@ -160,7 +160,11 @@
           <div class="card" th:if="${gatchiList != null}" th:each="items : ${gatchiList}" >
             <div class="card-image" >
               <figure class="image is-4by3">
-                <img th:src="@{|/image/gatchiImage/${items.meetImage}|}" alt="">
+
+                <a th:href="@{'/meetArticle.action?meetListNum=' + ${items.meetListNum}}">
+                  <img th:src="@{|/image/gatchiImage/${items.meetImage}|}" alt="">
+              </a>
+              
               </figure>
             </div>
             <div class="card-content">
@@ -210,10 +214,13 @@
         <div class="column is-3" >
           
           <!-- 리스트 1번째 줄 -->
-          <div class="card" th:if="${gatchiList != null}" th:each="items : ${gatchiList}" >
+          <div class="card" th:if="${gatchicommuList != null}" th:each="items : ${gatchicommuList}" >
             <div class="card-image" >
               <figure class="image is-4by3">
-                <img th:src="@{|/image/gatchiImage/${items.meetImage}|}" alt="">
+
+                <a th:href="@{'/meetArticle.action?meetListNum=' + ${items.meetListNum}}">
+                  <img th:src="@{|/image/gatchiImage/${items.meetImage}|}" alt="">
+              </a>
               </figure>
             </div>
             <div class="card-content">
@@ -245,7 +252,7 @@
             </div>
             <footer class="card-footer">
              
-              <!-- <a class="card-footer-item" th:text="'일시: ' + ${items.meetDday} + ', 장소: ' + ${items.meetPlace.replaceAll('.*?([^ ]+구).*', '$1')}"></a> -->
+              <a class="card-footer-item" th:text="'일시: ' + ${items.meetDday} + ', 장소: ' + ${items.meetPlace.replaceAll('.*?([^ ]+구).*', '$1')}"></a>
               <a class="card-footer-item" th:text="' 참여인원 : ' + ${items.meetMemCnt} + ' / ' + ${items.meetMaxMemCnt}"></a>
           
             </footer>
@@ -262,10 +269,12 @@
       <div class="column is-3" >
         
         <!-- 리스트 1번째 줄 -->
-        <div class="card" th:if="${gatchiList != null}" th:each="items : ${gatchiList}" >
+        <div class="card" th:if="${challengeList != null}" th:each="items : ${challengeList}" >
           <div class="card-image" >
             <figure class="image is-4by3">
-              <img th:src="@{|/image/gatchiImage/${items.meetImage}|}" alt="">
+              <a th:href="@{'/meetArticle.action?meetListNum=' + ${items.meetListNum}}">
+                <img th:src="@{|/image/gatchiImage/${items.meetImage}|}" alt="">
+            </a>
             </figure>
           </div>
           <div class="card-content">
@@ -298,7 +307,7 @@
           <footer class="card-footer">
            
             <a class="card-footer-item" th:text="'일시: ' + ${items.meetDday} + ', 장소: ' + ${items.meetPlace.replaceAll('.*?([^ ]+구).*', '$1')}"></a>
-            <!-- <a class="card-footer-item" th:text="' 참여인원 : ' + ${items.meetMemCnt} + ' / ' + ${items.meetMaxMemCnt}"></a> -->
+            <a class="card-footer-item" th:text="' 참여인원 : ' + ${items.meetMemCnt} + ' / ' + ${items.meetMaxMemCnt}"></a>
         
           </footer>
           </footer>
@@ -314,10 +323,12 @@
       <div class="column is-3" >
         
         <!-- 리스트 1번째 줄 -->
-        <div class="card" th:if="${gatchiList != null}" th:each="items : ${gatchiList}" >
+        <div class="card" th:if="${gatchlike != null}" th:each="items : ${gatchlike}" >
           <div class="card-image" >
             <figure class="image is-4by3">
-              <img th:src="@{|/image/gatchiImage/${items.meetImage}|}" alt="">
+              <a th:href="@{'/meetArticle.action?meetListNum=' + ${items.meetListNum}}">
+                <img th:src="@{|/image/gatchiImage/${items.meetImage}|}" alt="">
+            </a>
             </figure>
           </div>
           <div class="card-content">
