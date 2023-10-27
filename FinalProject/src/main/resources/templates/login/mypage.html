@@ -3,19 +3,18 @@
     <head>
         <meta charset="UTF-8">
         <title>My Page</title>
-
+      
 
                
-      
+        <script src="https://kit.fontawesome.com/f1e715a543.js" crossorigin="anonymous"></script>
         <link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/structure/reset.css}"/>
-     
       <link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/login/mypage.css}"/>
       <link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/login/mypage2.css}"/> 
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     </head>
 
     <body>
-
+      
     
     <div style="height: 15px; background-color: #5CA8B5;"> </div>
     <nav  class="nav has-shadow" id="top">
@@ -139,9 +138,9 @@
           <ul>
            
             
-            <li class="link"><a href="#"  id="meetmate-link"><span class="icon"><i class="fa fa-list"></i></span> <span>MeetMate</span></a></li>
+            <li class="link"><a href="#"  id="meetmate-link"><span class="icon"><i class="fas fa-users"></i></span> <span>MeetMate</span></a></li>
             <li class="link"><a href="#"  id="communifind-link"><span class="icon"><i class="fa fa-th"></i></span> <span></span>CommuniFind</a></li>
-            <li class="link"><a href="#"  id="challenge-link"><span class="icon"><i class="fa fa-th"></i></span> <span></span>Challenge</a></li>
+            <li class="link"><a href="#"  id="challenge-link"><span class="icon"><i class="fas fa-fire-alt"></i></span> <span>Challenge</span></a></li>
             <li class="link"><a href="#"  id="mylikes-link"><span class="icon"><i class="fa fa-heart"></i></span> <span>My Likes</span></a></li>
             <li class="link"><a onclick="myChat()"><span class="icon"><i class="fa fa-bookmark"></i></span> <span>My Chat</span></a></li>
           </ul>
@@ -272,42 +271,23 @@
         <div class="card" th:if="${challengeList != null}" th:each="items : ${challengeList}" >
           <div class="card-image" >
             <figure class="image is-4by3">
-              <a th:href="@{'/meetArticle.action?meetListNum=' + ${items.meetListNum}}">
-                <img th:src="@{|/image/gatchiImage/${items.meetImage}|}" alt="">
+              <a th:href="@{'/challengeArticle.action?challengeListNum=' + ${items.challengeListNum}}">
+                <img th:src="@{|/image/challengeimage/${items.challengeImageMain}|}" alt="">
             </a>
             </figure>
           </div>
           <div class="card-content">
             <div class="content">
-              <span th:switch="${items.meetCtgNum}">
-                <span th:case="1" class="category-button">
-                  <button class="ctgButton" disabled="disabled">문화</button>
-                  <p class="card__title" th:text="${items.meetTitle}">글제목</p>
-                </span>
-                <span th:case="2" class="category-button">
-                  <button class="ctgButton" disabled="disabled">맛집</button>
-                  <p class="card__title" th:text="${items.meetTitle}">글제목</p>    
-                </span>
-                <span th:case="3" class="category-button">
-                  <button class="ctgButton" disabled="disabled">취미</button>
-                  <p class="card__title" th:text="${items.meetTitle}">글제목</p>    
-                </span>
-                <span th:case="4" class="category-button">
-                  <button class="ctgButton" disabled="disabled">여행</button>
-                  <p class="card__title" th:text="${items.meetTitle}">글제목</p>    
-                </span>
-                <span th:case="5" class="category-button">
-                  <button class="ctgButton" disabled="disabled">운동</button>
-                  <p class="card__title" th:text="${items.meetTitle}">글제목</p>    
-                </span>
-            </span>
+              <span >
+                <p class="card__title" th:text="${items.challengeTitle}">글제목</p>
+          </span><br/>
           
             </div>
           </div>
           <footer class="card-footer">
            
-            <a class="card-footer-item" th:text="'일시: ' + ${items.meetDday} + ', 장소: ' + ${items.meetPlace.replaceAll('.*?([^ ]+구).*', '$1')}"></a>
-            <a class="card-footer-item" th:text="' 참여인원 : ' + ${items.meetMemCnt} + ' / ' + ${items.meetMaxMemCnt}"></a>
+            <a class="card-footer-item" th:text="'시작: ' + ${items.challengeStartDate} + ', 마감: ' + ${items.challengeEndDate}"></a>
+            <a class="card-footer-item" th:text="' 참여인원 : ' + ${items.challengeMemberCount} + ' / ' + ${items.challengeCreateDate}"></a>
         
           </footer>
           </footer>
@@ -373,9 +353,9 @@
             <br/><br/><br/><br/>
         </div>
       </div>
-   
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script type="text/javascript" src="http://localhost:8080/js/signup/mypage.js"></script>
+
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+      <script type="text/javascript" src="http://localhost:8080/js/signup/mypage.js"></script>
   <script src="https://unpkg.com/vue/dist/vue.js"></script>
  
   

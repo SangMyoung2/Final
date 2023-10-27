@@ -310,6 +310,7 @@ public class BaseAuthController {
 			File file = new File(path);
 		
 
+			System.out.println(absolutePath);
 			String originalFileName = userImg.getOriginalFilename();
 
 		// 폴더가 없다면 생성
@@ -333,9 +334,11 @@ public class BaseAuthController {
 			ModelAndView mav = new ModelAndView();
 
 		List<MeetReviewDTO> allreview = new ArrayList<>();
+		List<ChallengeDTO> challengeList = new ArrayList<>();
+		challengeList = challengeService.getChallengeLists();
 		allreview = meetServiceYj.getAllMeetReviews();
 
-
+		mav.addObject("challengeList", challengeList);	
 		mav.addObject("allreview", allreview);	
 			
 		mav.setViewName("login/mainReview");
