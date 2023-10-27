@@ -632,7 +632,12 @@ width: 266px;
 margin: 0 10px;
 }
 
-
+#masterProfile {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border: solid 0.1px white;
+}
 
 
 

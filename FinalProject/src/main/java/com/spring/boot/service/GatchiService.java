@@ -92,4 +92,8 @@ public interface GatchiService {
 	public List<GatchiDTO> getReadDataInUser(String useremail) throws Exception;
 	public List<GatchiDTO> getReadDataInListNum(int meetListNum) throws Exception;
 	public void updateChatRoom(GatchiDTO dto) throws Exception;
+
+	public String getProfileByUsers(int meetListNum) throws Exception;
+
+
 }
