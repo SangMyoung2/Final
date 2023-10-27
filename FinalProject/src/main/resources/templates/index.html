@@ -237,7 +237,7 @@
                   
                 </div>
               </section>
-  
+              <div th:if="${allreview != null and #lists.size(communiLists) > 0}">
               <div style="background-color:#F5F5F5; margin-left: -50px;">
                 <div style="display: grid; padding: 0; list-style-type: none; margin: 0rem 14vw; grid-template-columns: repeat(auto-fit, minmax(225px, 1fr)); gap: 2rem; height: 800px; ">
                     <div class="card-item2" th:each="items, iterStat : ${allreview}" th:if="${iterStat.index < 8}" >
@@ -255,31 +255,23 @@
                     </div>
                 </div>
               </div>
+              </div>
 
 
-
-
-
-
-
-
- 
-
-
-              <div style="display: flex; justify-content: center; background-color:#F5F5F5; margin-bottom: 100px;">
+              <div style="display: flex; justify-content: center; background-color:#F5F5F5; ">
                 <div class="card-item" style="width: 200px;">
                 <a style=" text-decoration: none;" href="/mainReview.action"> 더보기</a>
                 </div>
                 </div>
   
-          <header id="footer1" style="margin-bottom: 50px;">
+          <header id="footer1" style="margin-bottom: 20px;">
 
            
            </header>
   
  
   
-  <section style="background-color: #ffffff; margin-top: 50px;" id="team">
+  <section style="background-color: #ffffff;" id="team">
     <div style="margin-bottom: -110px;" class="container">
         <h4 style="color:#5CA8B5;">회사 위치</h4>
         <div class="block"></div>
