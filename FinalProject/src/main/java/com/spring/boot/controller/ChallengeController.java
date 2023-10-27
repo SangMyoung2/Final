@@ -166,6 +166,7 @@ public class ChallengeController {
         //게시글 번호로 1개의 게시글 불러옴
         int challengeListNum = Integer.parseInt( request.getParameter("challengeListNum"));
         
+		int challengeDay = challengeService.getChallengeDay(challengeListNum);
 
         List<ChallengeAuthDTO> allReviewList = challengeService.getAllReviewList(challengeListNum);
         List<ChallengeInfoDTO> lists = challengeService.getUserListData(challengeListNum);
@@ -199,6 +200,7 @@ public class ChallengeController {
           
             ChallengeMemberStatus = ret.intValue();
         }
+        mav.addObject("challengeDay",challengeDay);
         mav.addObject("challengeInfoDTO",challengeInfoDTO);
         mav.addObject("ChallengeMemberStatus", ChallengeMemberStatus);
         mav.addObject("allReviewList", allReviewList);
@@ -365,7 +367,7 @@ public class ChallengeController {
 
 
 
-
+	//챌린지 가입
     @PostMapping("/joinChallenge.action")
 	public ModelAndView joinChallenge(HttpServletRequest request, ChallengeInfoDTO infoDTO) throws Exception {
 		
@@ -383,7 +385,7 @@ public class ChallengeController {
 
 		int challengeListNum =  Integer.parseInt(request.getParameter("challengeListNum"));
         
-         
+        challengeService.updateChallengeMemCnt(challengeListNum);
         infoDTO.setChallengeMemberStatus(2); //회원 설정
         infoDTO.setChallengeListNum(challengeListNum);
 
@@ -395,7 +397,7 @@ public class ChallengeController {
 		return mav;		
 	}
 
-
+	//챌린지 삭제
     @PostMapping("/deleteChallenge.action")
 	public ModelAndView deleteChallenge(HttpServletRequest request) throws Exception {
 
@@ -410,7 +412,7 @@ public class ChallengeController {
 		return mav;
 	}
 
-    
+    //챌린지 포기
     @PostMapping("/giveUpChallenge.action")
 	public ModelAndView giveUpChallenge(HttpServletRequest request,ChallengeInfoDTO challengeInfoDTO) throws Exception {
 
@@ -418,7 +420,7 @@ public class ChallengeController {
 	
         int challengeListNum =  Integer.parseInt(request.getParameter("challengeListNum"));
 
-
+		
 
         HttpSession session = request.getSession();
 		SessionUser social = (SessionUser)session.getAttribute("user");
@@ -431,7 +433,7 @@ public class ChallengeController {
 			email = user1.getEmail(); 
 		}
        
-      
+      	challengeService.downChallengeMemCnt(challengeListNum);
 
         challengeService.deleteChallengeInfo(challengeListNum,email);
        

@@ -151,4 +151,19 @@ public class ChallengeServiceImpl implements ChallengeService{
 	public List<ChallengeDTO> getChallengeByChallengeListNums(List<Integer> challengeListNum) {
         return challengeMapper.getChallengeByChallengeListNums(challengeListNum);
 	}
+
+    @Override
+    public void updateChallengeMemCnt(int challengeListNum) throws Exception {
+        challengeMapper.updateChallengeMemCnt(challengeListNum);
+    }
+
+    @Override
+    public void downChallengeMemCnt(int challengeListNum) throws Exception {
+        challengeMapper.downChallengeMemCnt(challengeListNum);
+    }
+
+    @Override
+    public int getChallengeDay(int challengeListNum) throws Exception {
+        return challengeMapper.getChallengeDay(challengeListNum);
+    }
 }

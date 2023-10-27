@@ -59,11 +59,17 @@ public interface ChallengeMapper {
     public void successChallengeAuth(String challengeAuthImage) throws Exception;
 
     public void updateChallengeStatus() throws Exception;
+
+    public void updateChallengeMemCnt(int challengeListNum) throws Exception;
+
+    public void downChallengeMemCnt(int challengeListNum) throws Exception;
     
     public void failChallengeAuth() throws Exception;
 
     public List<Integer> getChallengeListNumByUserEmail(String email)throws Exception;
 
     public List<ChallengeDTO> getChallengeByChallengeListNums(List<Integer> challengeListNum);
+
+    public int getChallengeDay(@Param("challengeListNum")int challengeListNum) throws Exception;
 
 }

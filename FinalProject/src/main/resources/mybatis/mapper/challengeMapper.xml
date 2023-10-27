@@ -180,4 +180,25 @@ select l.* from latlng l, gatchi gc where gc.meetListNum = #{meetListNum} and gc
     select * from CHALLENGE where challengetitle like '%' || #{searchValue} || '%'
 </select>
 
+<update id="updateChallengeMemCnt" parameterType="int">
+    update challenge
+    set challengeMemberCount = challengeMemberCount + 1
+    where challengeListNum = #{challengeListNum}
+</update>
+
+<update id="downChallengeMemCnt" parameterType="int">
+    update challenge
+    set challengeMemberCount = challengeMemberCount - 1
+    where challengeListNum = #{challengeListNum}
+</update>
+
+<select id="getChallengeDay" parameterType="int" resultType="int">
+    select
+    TO_DATE(challengeEndDate, 'YYYY-MM-DD') - TO_DATE(challengeStartDate, 'YYYY-MM-DD') + 1 AS day_count
+    from challenge
+    where challengeListNum = ${challengeListNum}
+</select>
+
+
+
 </mapper>
