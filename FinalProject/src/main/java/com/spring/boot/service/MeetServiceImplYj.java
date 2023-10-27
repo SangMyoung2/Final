@@ -118,10 +118,15 @@ public class MeetServiceImplYj implements MeetServiceYj {
     public void deleteMeetOut(MeetInfoDTO dto) throws Exception {
         meetMapperYj.deleteMeetOut(dto);
     }
-
+    
     @Override
     public void updateMeetStatus(GatchiDTO dto) throws Exception {
         meetMapperYj.updateMeetStatus(dto);
+    }
+    
+    @Override
+    public void updateCode(GatchiDTO dto) throws Exception {
+        meetMapperYj.updateCode(dto);
     }
 
     @Override
