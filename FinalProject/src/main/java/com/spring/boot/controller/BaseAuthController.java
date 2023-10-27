@@ -18,10 +18,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import com.spring.boot.dao.UserRepository;
+import com.spring.boot.dto.ChallengeDTO;
 import com.spring.boot.dto.GatchiDTO;
 import com.spring.boot.dto.MeetReviewDTO;
 import com.spring.boot.dto.SessionUser;
 import com.spring.boot.model.Users;
+import com.spring.boot.service.ChallengeService;
 import com.spring.boot.service.GatchiService;
 import com.spring.boot.service.MeetServiceYj;
 import com.spring.boot.service.PaymentService;
@@ -47,6 +49,9 @@ public class BaseAuthController {
 	@Autowired
 	private MeetServiceYj meetServiceYj;
 
+	@Autowired
+	private ChallengeService challengeService;
+
 	@GetMapping("/")
 	public ModelAndView main() throws Exception {
 
@@ -54,14 +59,18 @@ public class BaseAuthController {
 
 	List<GatchiDTO> meetMateLists = new ArrayList<>();
 	List<GatchiDTO> communiLists = new ArrayList<>();
+	List<ChallengeDTO> challengeList = new ArrayList<>();
+	List<MeetReviewDTO> allreview = new ArrayList<>();
+	challengeList = challengeService.getChallengeLists();
 	meetMateLists = gatchiService.getMeetMateLists();
 	communiLists = gatchiService.getCommuniFindLists();
-
+	allreview = meetServiceYj.getAllMeetReviews();
 	
 
 	mav.addObject("meetLists", meetMateLists);	
-		mav.addObject("communiLists", communiLists);	
-
+	mav.addObject("communiLists", communiLists);	
+	mav.addObject("challengeList", challengeList);	
+	mav.addObject("allreview", allreview);	
 	mav.setViewName("index");
 		
 	return mav;
@@ -86,19 +95,23 @@ public class BaseAuthController {
 		
 	}
 	
-	@PostMapping("/signup.action")
-	public String signup(Users dto, BindingResult bindResult,Model model,
-	@RequestParam("userName") String userName,
-	@RequestParam("picture") String picture) {
+		@PostMapping("/signup.action")
+		public String signup(Users dto,BindingResult bindResult,Model model,
+		@RequestParam("userName") String userName,
+		@RequestParam("picture") String picture) {
 		
+		
+
 
 		try {
 			
 			userService.create(dto.getUserName(), dto.getName(),
 					dto.getPassword(),dto.getTel(),dto.getPicture());
 
+			
 					
-			return "login/signup_ok";
+		
+					return "login/signup_ok";
 
 		} catch (DataIntegrityViolationException e) {
 			e.printStackTrace();
@@ -234,7 +247,18 @@ public class BaseAuthController {
 
     List<Integer> userMeetList = gatchiService.getMeetListNumByUserEmail(email);
 	List<Integer> userMeetLike = gatchiService.getMeetLikeNumByUserEmail(email);
-   
+	List<Integer> userChallengeList = challengeService.getChallengeListNumByUserEmail(email);
+	
+
+	 if (userChallengeList == null || userChallengeList.isEmpty()) {
+		
+		mav.setViewName("login/mypage");
+	} else {
+		List<ChallengeDTO> challengeList = challengeService.getChallengeByChallengeListNums(userChallengeList);
+	
+		mav.addObject("challengeList", challengeList);
+	}
+
     if (userMeetList == null || userMeetList.isEmpty()) {
 		
 		mav.setViewName("login/mypage");
@@ -309,7 +333,7 @@ public class BaseAuthController {
 			ModelAndView mav = new ModelAndView();
 
 		List<MeetReviewDTO> allreview = new ArrayList<>();
-			allreview = meetServiceYj.getAllMeetReviews();
+		allreview = meetServiceYj.getAllMeetReviews();
 
 
 		mav.addObject("allreview", allreview);	

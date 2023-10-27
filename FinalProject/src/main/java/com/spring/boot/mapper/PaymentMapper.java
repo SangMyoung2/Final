@@ -25,6 +25,5 @@ public interface PaymentMapper {
     
     public void updateUserUsePoint(userPointDTO userPointDTO); 
 
-    
-
+  
 }

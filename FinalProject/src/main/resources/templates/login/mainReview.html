@@ -30,27 +30,24 @@
   </section>
   <h5>모임후기</h5>
 
- 
-    <div style="display: flex; flex-direction: column; flex-wrap: wrap; align-content: center; height: 800px; background-color:#F5F5F5;">
-      <div class="card-item" th:if="${allreview != null}" th:each="items : ${allreview}">
+ <div style="background-color:#F5F5F5; margin-left: -50px;">
+  <div style="display: grid; padding: 0; list-style-type: none; margin: 4rem 15vw; grid-template-columns: repeat(auto-fit, minmax(225px, 1fr)); gap: 2rem; height: 800px; ">
+      <div class="card-item"  th:if="${allreview != null}" th:each="items : ${allreview}">
         <div class="item-content">
           <div class="image-container">
-            <img th:src="@{|/image/reviewImage/${items.email}|}" alt="">
-            
+            <a th:href="@{'/meetArticle.action?meetListNum=' + ${items.meetReviewNum}}">
+              <img th:src="@{'/image/reviewImage/' + ${items.meetReviewImg}}" alt="">
+          </a>
           </div>
 
           <div >
-            <a>후기내용</a>
-            
-            
+            <a th:text="${items.meetReviewContent}">후기내용</a>
           </div>
         </div>
       </div>
-      
-      
-   
-
- 
+  </div>
+</div>
+</div>
 
        
 
