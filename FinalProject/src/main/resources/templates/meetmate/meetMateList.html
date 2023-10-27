@@ -44,7 +44,7 @@
                     <!-- <img th:src="@{|/image/gatchiImage/${meet.meetImage}|}" class="card__image" alt=""/> -->
                     <h3 th:text="${meet.meetTitle}"></h3>
                     <h4 th:text="${meet.meetContent}"></h4>
-                    <button>more ⇁</button>
+                    <button th:attr="data-meetlistnum=${meet.meetListNum}" onclick="location.href='/meetArticle.action?meetListNum=' + this.getAttribute('data-meetlistnum')">more ⇁</button>
                   </section>
                 </div>
               </div>

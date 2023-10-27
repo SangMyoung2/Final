@@ -16,7 +16,15 @@ public interface MeetServiceYj {
 
     public GatchiDTO getMeetListInfo(int meetListNum) throws Exception;
 
-    public void updateCode(int meetListNum) throws Exception;
+    public List<GatchiDTO> getOnlyMeetListInfo(int meetListNum) throws Exception;
+
+    public List<GatchiDTO> selectUpcomingDates(int meetListNum) throws Exception;
+
+    public List<GatchiDTO> selectLatestDates(int meetListNum) throws Exception;
+
+    public List<GatchiDTO> selectOldestDates(int meetListNum) throws Exception;
+
+    public void createMeetInCommuni(GatchiDTO dto) throws Exception;
 
     public List<MeetInfoDTO> getMeetMembers(int meetListNum) throws Exception;
 
@@ -79,4 +87,5 @@ public interface MeetServiceYj {
     public int getMeetInfoCount(int meetListNum) throws Exception;
 
     public int getMeetInfoApprovalstatusCount(int meetListNum) throws Exception;
+
 }

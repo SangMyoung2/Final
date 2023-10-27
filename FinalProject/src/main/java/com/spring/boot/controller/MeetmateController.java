@@ -197,6 +197,9 @@ public class MeetmateController {
 			mapService.insertMapData(mapDTO);
 		}
 
+		mav.addObject("roomName", dto.getMeetTitle());
+		mav.addObject("roomType", "MEET");
+		mav.addObject("meetListNum", dto.getMeetListNum());
 		// mav.setViewName("redirect:/communiFindList.action");
 		mav.setViewName("redirect:/createroom.action");
 		return mav;
