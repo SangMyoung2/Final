@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -25,13 +26,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.boot.dto.GatchiDTO;
-import com.spring.boot.dto.MeetCalculateDTO;
 import com.spring.boot.dto.MapDTO;
 import com.spring.boot.dto.PointHistoryDTO;
 import com.spring.boot.dto.userPointDTO;
 import com.spring.boot.model.Users;
 import com.spring.boot.service.GatchiService;
-import com.spring.boot.service.MeetCalculateService;
 import com.spring.boot.service.MapService;
 import com.spring.boot.dto.MeetCategoryDTO;
 import com.spring.boot.dto.MeetInfoDTO;
@@ -83,6 +82,7 @@ public class MeetControllerYj {
 	meetServiceYj.meetStatusCompletion(gatchiDTO);
 
 	GatchiDTO meetListInfo = meetServiceYj.getMeetListInfo(meetListNum);
+	List<GatchiDTO> onlyMeetListInfo = meetServiceYj.getOnlyMeetListInfo(meetListNum);
 	List<MeetInfoDTO> meetMembers = meetServiceYj.getMeetMembers(meetListNum);
 	List<MeetInfoDTO> membersExMaster = meetServiceYj.getMembersExMaster(meetListNum);
 	List<MeetReviewDTO> meetReview = meetServiceYj.getReview(meetListNum);
@@ -126,6 +126,7 @@ public class MeetControllerYj {
 	mav.addObject("meetStatus", meetStatus);
 	mav.addObject("meetListNum", meetListNum);
 	mav.addObject("meetListInfo", meetListInfo);
+	mav.addObject("onlyMeetListInfo", onlyMeetListInfo);
 	mav.addObject("meetMembers", meetMembers);
 	mav.addObject("membersExMaster", membersExMaster);
 	mav.addObject("meetReview", meetReview);
@@ -133,7 +134,6 @@ public class MeetControllerYj {
 	mav.addObject("approvalStatus", approvalStatus);
 	mav.addObject("dto", meetInfoDTO);
 
-	meetListInfo.setMeetName(""); // 모임명을 ""로 설정
 	mav.setViewName(rurl);
 	return mav;
 
@@ -193,9 +193,9 @@ public class MeetControllerYj {
 			infoDTO.setEmail(user1.getEmail()); 
 		}
 
-		// 암호에 communiFind 방번호 넣어줌
-		dto.setCode(meetListNum);
-		meetServiceYj.updateCode(dto.getCode());
+		// // 암호에 communiFind 방번호 넣어줌
+		// dto.setCode(meetListNum);
+		// meetServiceYj.updateCode(dto.getCode());
 		
 		String resourcePath = "C:\\VSCode\\Final\\FinalProject\\src\\main\\resources\\static\\image\\gatchiImage";
 		// Resource resource = new ClassPathResource("static");
@@ -209,7 +209,8 @@ public class MeetControllerYj {
 			int maxNum = gatchiService.maxNum();
 			dto.setMeetListNum(maxNum + 1);
 			dto.setMeetImage(originalFileName);
-			gatchiService.createGatchi(dto);
+			dto.setCode(meetListNum);
+			meetServiceYj.createMeetInCommuni(dto);
 
 			infoDTO.setMeetListNum(maxNum + 1);			
 			gatchiService.createMeetInfo(infoDTO);

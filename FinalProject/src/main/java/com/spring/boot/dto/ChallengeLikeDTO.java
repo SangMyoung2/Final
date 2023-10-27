@@ -6,5 +6,5 @@ import lombok.Setter;
 @Setter
 public class ChallengeLikeDTO {
     private int challengeListNum; 
-	private String email; 
+	private String useremail; 
 }
