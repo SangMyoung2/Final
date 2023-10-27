@@ -56,7 +56,7 @@ challengeListNum,challengeTitle,challengeImageMain,challengeWeekCheck,challengeD
 </select>
 
 <select id="getUserListData" parameterType="map" resultType="com.spring.boot.dto.ChallengeInfoDTO">
-	select u.email,u.name,u.picture
+	select u.email,u.name,u.picture,u.role
     from users u
     join challengeInfo ci on u.email = ci.email
     where ci.challengeListNum = #{challengeListNum}

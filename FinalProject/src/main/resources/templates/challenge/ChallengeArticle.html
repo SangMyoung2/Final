@@ -50,6 +50,7 @@
         document.querySelector('.yj-img').style.display = 'block';
         document.querySelector('.yj-img2').style.display = 'none';
         document.querySelector('.meet-members').style.display = 'block';
+        document.querySelector('.meet-mypage').style.display = 'block';
     }
 
     // 리뷰 내용 표시 함수
@@ -57,6 +58,7 @@
         document.querySelector('.yj-img').style.display = 'none';
         document.querySelector('.yj-img2').style.display = 'block';
         document.querySelector('.meet-members').style.display = 'none';
+        document.querySelector('.meet-mypage').style.display = 'none';
     }
 
 
@@ -245,6 +247,38 @@
             document.getElementById('giveUpChallengeForm').submit();
         }
     }
+
+    function chatRoom(){
+    let meetListNum = document.getElementById('meetListNum').value;
+
+    var options = 'width=600px,height=700px,scrollbars=yes'
+            popupChat = window.open("articleChatRoom.action?meetListNum=" + meetListNum,"_blacnk",options);
+}
+
+function transformNumber(number) {
+  // 주어진 숫자를 100으로 나누고 100을 곱하여 변환
+  return Math.floor(number / 100) * 100;
+}
+
+$(window).on('scroll', function () {
+    var $fbw = $('.meet-mypage');
+
+    let winScr = transformNumber(500 + window.scrollY);
+    let contentH = document.getElementById("article-content");
+    let h = transformNumber(contentH.offsetHeight);
+    console.log("winScr : " + winScr);
+    console.log("h : " + h);
+    //위치
+    if (winScr > h) {
+        $fbw.css({
+            'margin-top': h - winScr
+        })
+    } else {
+        $fbw.css({
+            'margin-top': 'auto'
+        })
+    }
+});
 
 
 </script>
@@ -491,12 +525,16 @@ tr{
             </div>
             <div class="col-md-2">
                 <div class="meet-members">
-                    <p>
-                        <span style="margin-right: 37px; margin-left: 12px;">멤버목록</span>
+                    <p style="margin-top: 10px; margin-bottom: 5px;">
+                        <span style="margin-left: 12px;">멤버목록</span>
+                        <span style="margin-left: 5px; color: #5CA8B5; font-weight: bold;" th:text="${challengeDTO.challengeMemberCount}"></span>
+                        <span style="margin-right: 86px; color: #5CA8B5; font-weight: bold;">명</span>
                     </p>
+
                     <div class="meet-mem-list" th:each="challengeMember : ${lists}">
-                        <li class="round-image-rev mt-2" style="margin-right: 10px; margin-left: -10px;">
-                            <img th:src="@{/image/gatchiImage/1111.jpg}" alt="유저프사(임의)"/>
+                        <li class="round-image-user mt-2" style="margin-right: 10px; margin-left: -10px;">
+                            <img th:if="${challengeMember.role == 'GUEST'}" th:src="@{${challengeMember.picture}}">
+                            <img th:if="${challengeMember.role != 'GUEST'}" th:src="@{image/login/__${challengeMember.picture}__}">
                         </li>
                         <li class="custom-li" th:text="${challengeMember.name}"></li>
                     </div>
