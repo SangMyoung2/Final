@@ -21,7 +21,6 @@ public interface PaymentService {
     public List<PaymentInfoDTO> findByEmail(String email) throws Exception; 
 
     public void updateUserPoint(userPointDTO userPointDTO);
-    public void updateUserUsePoint(userPointDTO userPointDTO);
 
     public void insertUserAfterSignUp(String email) throws Exception;
 

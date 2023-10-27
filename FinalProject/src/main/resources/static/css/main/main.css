@@ -16,6 +16,44 @@
 	color:  rgb(153, 150, 150);
 font-size: 23px;
   }
+
+  .card-item2 {
+	border: none;
+	overflow: hidden;
+    text-overflow: ellipsis;
+    width: 274px;
+    height: 340px;
+    background-color: #F5F5F5;
+    box-sizing: border-box;
+
+    
+    text-align: center;
+    margin: 17px;
+
+    border-radius: 15px;
+   
+}
+.card-item2 .item-content2 {
+    /* width: 555px;
+    
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    margin-left: 60px;
+     */
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+  
+.card-item2 .item-content2 img {
+    width: 274px; 
+	height: 274px;
+
+	border-radius: 15px;
+}
+
+
+  
   
   .card-item {
 	overflow: hidden;
@@ -23,7 +61,6 @@ font-size: 23px;
     width: 560px;
 	background-color: white;
     box-sizing: border-box;
-    border: 1px solid #ccc;
     padding: 20px;
     text-align: center;
     margin: 10px;
@@ -187,17 +224,42 @@ a:hover {
     justify-content: center;
     width: 100%;
     height: 80vh;
+	background-image: url('/image/main/main.jpg'); /* 이미지 파일의 경로를 여기에 넣어주세요 */
+    background-size: cover; /* 이미지가 헤더에 맞게 조절되도록 설정 */
+    background-position: center; /* 이미지를 가운데 정렬 */
 
-    background: #e55d87;
+    /* background: #e55d87;
     background: -moz-linear-gradient(-45deg, #e55d87 0%, #5fc3e4 100%);
     background: -webkit-linear-gradient(-45deg, #e55d87 0%, #5fc3e4 100%);
     background: linear-gradient(135deg, #e55d87 0%, #5fc3e4 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e55d87', endColorstr='#5fc3e4', GradientType=1 );
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e55d87', endColorstr='#5fc3e4', GradientType=1 ); */
 
     /* background: url(http://localhost:8080/image/login/aaaccc.jpg) no-repeat center center/cover;
     background-size: cover; */
 
   
+}
+
+#footer1{
+    background-color: #F5F5F5;
+    display: flex;
+    -webkit-box-pack: center;
+    justify-content: center;
+    width: 100%;
+    height: 61vh;
+	background-image: url('/image/main/footer2.jpg'); /* 이미지 파일의 경로를 여기에 넣어주세요 */
+    background-size: cover; /* 이미지가 헤더에 맞게 조절되도록 설정 */
+    background-position: center; /* 이미지를 가운데 정렬 */
+  
+}
+
+.title1 {
+	-webkit-align-self: center;
+	-ms-flex-item-align: center;
+	align-self: center;
+	padding: 2rem;
+	max-width: 960px;
+	text-align: center;
 }
 
 .title {
@@ -216,23 +278,54 @@ a:hover {
 	margin-top: 30px;
 	margin-bottom: 30px;
 }
-.title h1 {
-	font-size: 80px;
+
+  
+  .title1 h1 {
+	font-size: 100px;
+	text-transform: uppercase;
+	line-height: 0.85;
+	margin-bottom: 20px;
+	margin: 0;
+	padding: 0;
+	color: #FFFFFF;
+
+  }
+
+
+
+@keyframes fadeInOut {
+	0% {
+	  opacity: 1;
+	}
+	50% {
+	  opacity: 0;
+	}
+	100% {
+	  opacity: 1;
+	}
+  }
+  
+  .title h1 {
+	font-size: 150px;
 	font-weight: 300;
 	text-transform: uppercase;
 	line-height: 0.85;
 	margin-bottom: 28px;
 	margin: 0;
 	padding: 0;
+	color: #6fe4dc;
+	animation: fadeInOut 6s infinite; /* 2초 동안 fadeInOut 애니메이션을 반복 */
+  }
+
+
+
+.title1 h2 {
 	color: #FFFFFF;
-}
-.title h2 {
-	color: #FFFFFF;
-	font-size: 16px;
+	font-size: 20px;
 	font-weight: 400;
 	text-transform: uppercase;
 	letter-spacing: 5px;
-	margin-top: 50px;
+	margin-top: 15px;
 }
 
 @media only screen and (max-height: 700px) {
@@ -332,7 +425,7 @@ li {
 button, .button {
 	background-color: #e3eaec;
 	margin-bottom: 1rem;
-	margin-left: -185px;
+	margin-left: -225px;
 	width: 85px;
     height: 30px;
 	font-size: 15px;
