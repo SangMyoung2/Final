@@ -525,6 +525,39 @@ function hideTooltip() {
     tooltip.style.display = 'none';
 }
 
+// $(document).ready(function () {
+//     // 선택 상자 변경 이벤트 처리
+//     $("#sortOption").change(function () {
+//         var selectedOption = $(this).val();
+//         var meetListNum = $("#meetListNum").val();
+//         $.ajax({
+//             type: "GET", // 또는 "POST", 요청 유형에 따라 변경
+//             url: "/sortMeetMateList", // 요청을 처리할 컨트롤러 엔드포인트 URL
+//             data: {
+//                 meetListNum: meetListNum,
+//                 sortOption: selectedOption
+//             },
+//             success: function (data) {
+//                 // 서버에서 받은 HTML을 목록 영역에 삽입
+//                 $("#meetmateList").html(data);
+//             },
+//             error: function (error) {
+//                 console.log("에러 발생: " + error);
+//             }
+//         });
+//     });
+// });
+
+//정렬 버튼
+// function changeSortOrder() {
+//   // var sortOrder = document.getElementById("sortOrder").value;
+//   var form = document.sortForm;
+  
+//   // alert(sortOrder);
+  
+//   form.submit();
+// }
+
 </script>
 
 </head>
@@ -707,6 +740,7 @@ function hideTooltip() {
                                 모임 삭제
                             </button>
                         </form>
+                        
                         <form id="deleteForm" method="post">
                             <input type="hidden" name="meetListNum" th:value="${meetListNum}"/>
                         </form>
@@ -742,14 +776,24 @@ function hideTooltip() {
 
                     <div style="margin-left: 12px; display: flex; align-items: center;">
                         <p style="font-size: 17px; margin-right: 10px;">meetMate 목록</p>
-                        <select id="sortOption">
+                        <!-- <select id="sortOption">
                             <option value="default" selected disabled>선택</option>
                             <option value="upcoming">모임임박순</option>
                             <option value="latest">최신순</option>
                             <option value="oldest">오래된순</option>
-                        </select>
+                        </select> -->
+                        <form action="" method="get" name="sortForm" class="sortBox">
+                            <select name="sortOrder" id="sortOrder" class="selectFiled" onchange="changeSortOrder()">
+                                <option value="default" selected disabled>--선택--</option>
+                                <option value="upcoming">모임임박순</option>
+                                <option value="latest">최신순</option>
+                                <option value="oldest">오래된순</option>
+                            </select>
+                        </form>
+                        
                     </div>
-                    
+                    <!-- <input type="hidden" name="meetListNum" id="meetListNum" th:value="${meetListNum}"/> -->
+
                     <div class="meetmate-back">
                         <div th:if="${#lists.size(onlyMeetListInfo) > 0}">
                             <div class="meet-title-list" th:each="onlyMeetListInfo : ${onlyMeetListInfo}">

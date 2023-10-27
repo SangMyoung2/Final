@@ -18,7 +18,10 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -229,6 +232,25 @@ public class MeetControllerYj {
 		mav.setViewName("redirect:/createroom.action");
 		return mav;
 	}
+
+
+	// @GetMapping("/sortMeetMateList")
+    // public String sortMeetMateList(@RequestParam int meetListNum, @RequestParam String sortOption, Model model) throws Exception {
+    //     List<GatchiDTO> meetMateList = null;
+        
+    //     // sortOption에 따라 정렬된 데이터를 가져오기 위해 해당 서비스 또는 리포지터리 메서드를 호출합니다.
+    //     if ("upcoming".equals(sortOption)) {
+    //         meetMateList = meetServiceYj.selectUpcomingDates(meetListNum);
+    //     } else if ("latest".equals(sortOption)) {
+    //         meetMateList = meetServiceYj.selectLatestDates(meetListNum);
+    //     } else if ("oldest".equals(sortOption)) {
+    //         meetMateList = meetServiceYj.selectOldestDates(meetListNum);
+    //     }
+		
+    //     model.addAttribute("meetMateList", meetMateList);
+    //     return "meetMateList"; // 페이지에 표시할 뷰 이름을 반환합니다.
+    // }
+
 
 	//리뷰 올리기
 	@PostMapping("/upload-review")
