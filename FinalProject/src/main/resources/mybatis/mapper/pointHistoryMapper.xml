@@ -11,8 +11,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </insert>
 
     <select id="getUseReadData">
-        select * from pointhistory where usetype = 1 and
-        useremail = #{useremail} and meetListNum = #{meetListNum}
+        select * from pointhistory where useremail = #{useremail}
     </select>
 
 
