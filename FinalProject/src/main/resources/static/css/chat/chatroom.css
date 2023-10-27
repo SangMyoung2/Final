@@ -204,7 +204,7 @@ button.accent {
     justify-content: left;
     flex-direction: column;
     align-items: flex-end;
-
+    padding: 5px 20px;
 }
 
 #chat-page .chat-myMessage-ok{
@@ -213,6 +213,7 @@ padding-left: 68px;
     display: flex;
     justify-content: right;
     align-items: center;
+    padding: 5px 20px;
 }
 
 #chat-page .chat-message .profile {

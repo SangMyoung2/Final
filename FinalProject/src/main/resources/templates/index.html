@@ -184,7 +184,7 @@
           </section>
 
           <div style="flex-wrap: wrap; display: flex;  flex-direction: row;  justify-content: center; background-color:#F5F5F5;">
-            <div class="card-item" th:each="items, iterStat : ${challengeList}" th:if="${iterStat.index < 6}">
+            <!-- <div class="card-item" th:each="items, iterStat : ${challengeList}" th:if="${iterStat.index < 6}">
               <div class="item-content">
               <div class="image-container">
                 <img th:src="@{|/image/gatchiImage/${items.challengeImageMain}|}" alt="">
@@ -217,7 +217,7 @@
                 <span class="card__status" th:text="' 참여인원 : ' + ${items.challengeMemberCount} + ' / ' + ${items.challengeCreateDate}">현재 참석인원 / 최대인원</span>
               </div>
         
-            </div>
+            </div> -->
            
           </div>
         
@@ -243,7 +243,7 @@
   
               <div style="background-color:#F5F5F5; margin-left: -50px;">
                 <div style="display: grid; padding: 0; list-style-type: none; margin: 0rem 14vw; grid-template-columns: repeat(auto-fit, minmax(225px, 1fr)); gap: 2rem; height: 800px; ">
-                    <div class="card-item2" th:each="items, iterStat : ${allreview}" th:if="${iterStat.index < 8}" >
+                    <!-- <div class="card-item2" th:each="items, iterStat : ${allreview}" th:if="${iterStat.index < 8}" >
                       <div class="item-content2">
                         <div class="image-container2">
                           <a th:href="@{'/meetArticle.action?meetListNum=' + ${items.meetReviewNum}}">
@@ -255,7 +255,7 @@
                           <a style="color: rgb(56, 53, 53);" th:text="${items.meetReviewContent}">후기내용</a>
                         </div>
                       </div>
-                    </div>
+                    </div> -->
                 </div>
               </div>
 

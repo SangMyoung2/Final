@@ -112,6 +112,7 @@ label[for="sidebar-btn"] {
     margin-left: 0px;
     margin-right: 0px;
 	margin-top: 14px;
+	align-items: center;
 }
 
 
@@ -158,11 +159,121 @@ label[for="sidebar-btn"] {
 	display: flex;
 	align-items: center;
     text-decoration: none;
-	width: 60vw;
+	min-width: 600px;
 }
 
 .subbody2{
 	display: flex;
 	z-index: 1000;
     width: 400px;
+	align-items: center;
 }
+
+@media screen and (max-width: 1100px) {
+	.textLogo{
+		font-size: 25px;
+	}
+	.menu_item{
+		font-size: 15px;
+	}
+	.menu{
+		gap: 10px;
+	}
+	.hbody{
+		padding-left: 1%;
+	}
+	.subbody1{
+		min-width: 500px;
+	}
+}
+
+@media screen and (max-width: 1000px){
+	.subbody1{
+		min-width: 400px;
+	}
+}
+
+@media screen and (max-width: 900px){
+	.subbody1{
+		min-width: 400px;
+	}
+}
+
+.menubar{
+	display: none;
+}
+@media screen and (max-width: 850px){
+	
+	.hbody{
+		display: none;
+	}
+
+	#menubarBody{
+		display: flex;
+		justify-content: end;
+	}
+
+	.menubar {
+		display: block;
+		overflow: hidden;
+		list-style: none;
+	}
+	
+	.menubar > li {
+		float: left;
+		text-align: center;
+		line-height: 40px;
+		background-color: #5778ff;
+	}
+	
+	.menubar a {
+		color: #fff;
+	}
+	
+	.submenubar > li {
+		line-height: 50px;
+		background-color: #94a9ff;
+		list-style: none;
+	}
+	
+	.submenubar {
+		height: 0; /*ul의 높이를 안보이게 처리*/
+		overflow: hidden;
+		margin: 0px;
+	}
+	.menubar > li:hover {
+		background-color: #94a9ff;
+		transition-duration: 0.5s;
+	}
+	
+	.menubar > li:hover .submenubar {
+		height: 250px; /*서브메뉴 li한개의 높이 50*5*/
+		transition-duration: 1s;
+	}
+
+	.menubarsub{
+		margin: 0px;
+	}
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
