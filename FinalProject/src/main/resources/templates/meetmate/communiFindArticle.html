@@ -663,7 +663,6 @@ function hideTooltip() {
 
                         <div class="c-info">상세 정보</div>
                         <p class="text-with-hyphen Yj-text2" th:text="${meetListInfo.meetPlace}"></p>
-                        <p class="text-with-hyphen Yj-text2" th:text="${meetListInfo.meetDday}"></p>
 
                         <div class="c-inwon">모집 인원</div>
                         <div class="text-container">
@@ -671,15 +670,6 @@ function hideTooltip() {
                             <p class="Yj-text3" th:text="${meetListInfo.meetMaxMemCnt}"></p>
                         </div>
 
-                        <div class="c-money">가입비 (회비)</div>
-                        <div class="text-container" th:if="${meetListInfo.meetEntryfee == 1}">
-                            <p class="Yj-text4 meet-money" th:text="${meetListInfo.meetMoney}"></p>원
-                            <input id="meetMoney" type="hidden" th:value="${meetListInfo.meetMoney}"/>
-                        </div>
-                        <div class="text-container" th:if="${meetListInfo.meetEntryfee == 2}">
-                            <p class="Yj-text4 meet-money">무료</p>
-                        </div>
-                        
                         <form th:if="${meetMemStatus < 0} and ${meetStatus == 1} and ${meetListInfo.meetMemCnt<meetListInfo.meetMaxMemCnt}">
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button form="joinForm" type="button" class="c-join-button" onclick="joinMeet()">
                                가입하기
@@ -768,9 +758,9 @@ function hideTooltip() {
                                 </div>
                             </a>
                         </div>
-                        <div th:if="${#lists.isEmpty(getOnlyMeetListInfo) && meetStatus != 1}">
+                        <!-- <div th:if="${#lists.isEmpty(getOnlyMeetListInfo) and meetStatus != 1}">
                             <p style="margin-top: 79px; font-size: 16px;">생성된 meetMate가 없습니다.</p>
-                        </div>
+                        </div> -->
                     </div>
                     
                     <form action="/communiFindGatchiChoice.action" method="GET">

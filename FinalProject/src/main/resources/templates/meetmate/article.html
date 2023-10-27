@@ -834,7 +834,8 @@ $(window).on('scroll', function () {
                         </form>
                         
                         <form th:with="meetMemStatus=${meetMemStatus}" th:if="${meetMemStatus == 1} and ${meetStatus == 1}">
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button form="deleteForm" type="button" class="delete-button" onclick="deleteMeet()">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <button form="deleteForm" type="button" class="delete-button" onclick="deleteMeet()">
                                 모임 삭제
                             </button>
                         </form>
