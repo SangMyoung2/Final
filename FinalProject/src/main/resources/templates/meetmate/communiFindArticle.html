@@ -768,12 +768,11 @@ function hideTooltip() {
                                 </div>
                             </a>
                         </div>
-                        <div th:if="${#lists.size(onlyMeetListInfo) == 0}">
+                        <div th:if="${#lists.isEmpty(getOnlyMeetListInfo) && meetStatus != 1}">
                             <p style="margin-top: 79px; font-size: 16px;">생성된 meetMate가 없습니다.</p>
                         </div>
                     </div>
-
-
+                    
                     <form action="/communiFindGatchiChoice.action" method="GET">
                         <input type="hidden" name="meetListNum" id="meetListNum" th:value="${meetListNum}"/>
                         <button type="submit" class="meetmate-btn" th:if="${meetMemStatus == 1}">meetMate 생성하기</button>
