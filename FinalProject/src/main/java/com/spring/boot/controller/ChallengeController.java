@@ -152,6 +152,8 @@ public class ChallengeController {
 		ChallengeInfoDTO challengeInfoDTO = new ChallengeInfoDTO();
 		ChallengeInfoDTO masterInfoDTO = new ChallengeInfoDTO();
 
+		challengeService.updateChallengeStatus();
+
         //게시글 번호로 1개의 게시글 불러옴
         int challengeListNum = Integer.parseInt( request.getParameter("challengeListNum"));
         
@@ -312,6 +314,39 @@ public class ChallengeController {
 	}
 
 
+	//리뷰인증
+	@RequestMapping("/confirmReview.action")
+    public ModelAndView confirmReview(HttpServletRequest request,
+			@RequestParam("challengeListNum") int challengeListNum,
+            @RequestParam("challengeAuthImage") String challengeAuthImage) throws Exception {
+
+			
+			challengeService.successChallengeAuth(challengeAuthImage);
+
+			
+		
+
+			return new ModelAndView("redirect:/meetArticle.action?meetListNum=" + challengeListNum);
+				
+	}
+
+	//리뷰인증 실패
+	@RequestMapping("/failReview.action")
+    public ModelAndView failReview(HttpServletRequest request,
+			@RequestParam("challengeListNum") int challengeListNum,
+            @RequestParam("challengeAuthImage") String challengeAuthImage) throws Exception {
+
+			
+			challengeService.successChallengeAuth(challengeAuthImage);
+
+				
+
+			return new ModelAndView("redirect:/meetArticle.action?meetListNum=" + challengeListNum);
+				
+	}
+
+
+
 
 
 
@@ -367,7 +402,7 @@ public class ChallengeController {
 	}
 
     
-    @PostMapping("/giveUpChallenge")
+    @PostMapping("/giveUpChallenge.action")
 	public ModelAndView giveUpChallenge(HttpServletRequest request,ChallengeInfoDTO challengeInfoDTO) throws Exception {
 
         ModelAndView mav = new ModelAndView();

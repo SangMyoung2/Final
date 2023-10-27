@@ -8,7 +8,6 @@ import org.apache.ibatis.annotations.Param;
 import com.spring.boot.dto.ChallengeAuthDTO;
 import com.spring.boot.dto.ChallengeDTO;
 import com.spring.boot.dto.ChallengeInfoDTO;
-import com.spring.boot.dto.GatchiDTO;
 import com.spring.boot.dto.MapDTO;
 
 @Mapper
@@ -51,6 +50,12 @@ public interface ChallengeMapper {
     public void deleteChallengeReview(ChallengeAuthDTO authDTO) throws Exception;
 
     public MapDTO getlatlng(int meetListNum) throws Exception;
+
+    public void successChallengeAuth(String challengeAuthImage) throws Exception;
+
+    public void updateChallengeStatus() throws Exception;
+    
+    public void failChallengeAuth() throws Exception;
 
     public List<Integer> getChallengeListNumByUserEmail(String email)throws Exception;
 

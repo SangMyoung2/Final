@@ -115,6 +115,21 @@ public class ChallengeServiceImpl implements ChallengeService{
     }
 
     @Override
+    public void successChallengeAuth(String challengeAuthImage) throws Exception {
+        challengeMapper.successChallengeAuth(challengeAuthImage);
+    }
+
+    @Override
+    public void updateChallengeStatus() throws Exception {
+        challengeMapper.updateChallengeStatus();
+    }
+
+    @Override
+    public void failChallengeAuth() throws Exception {
+        challengeMapper.failChallengeAuth();
+    }
+
+    @Override
     public List<Integer> getChallengeListNumByUserEmail(String email) throws Exception {
        return challengeMapper.getChallengeListNumByUserEmail(email);
     }
