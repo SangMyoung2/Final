@@ -751,16 +751,18 @@ function hideTooltip() {
                     </div>
                     
                     <div class="meetmate-back">
-                        <div class="meet-title-list" th:each="onlyMeetListInfo : ${onlyMeetListInfo}" th:if="${onlyMeetListInfo.code} == ${meetListNum} and ${onlyMeetListInfo.meetStatus == 1}">
-                            <a class="pretty-link" th:href="@{'/meetArticle.action?meetListNum=' + ${onlyMeetListInfo.meetListNum}}">
-                                <div class="pretty-link-content">
-                                    <div class="only-meetTitle" th:text="${onlyMeetListInfo.meetTitle}"></div>
-                                </div>
-                            </a>
+                        <div th:if="${#lists.size(onlyMeetListInfo) > 0}">
+                            <div class="meet-title-list" th:each="onlyMeetListInfo : ${onlyMeetListInfo}">
+                                <a class="pretty-link" th:href="@{'/meetArticle.action?meetListNum=' + ${onlyMeetListInfo.meetListNum}}">
+                                    <div class="pretty-link-content">
+                                        <div class="only-meetTitle" th:text="${onlyMeetListInfo.meetTitle}"></div>
+                                    </div>
+                                </a>
+                            </div>
                         </div>
-                        <!-- <div th:if="${#lists.isEmpty(getOnlyMeetListInfo) and meetStatus != 1}">
+                        <div th:if="${#lists.size(onlyMeetListInfo) == 0}">
                             <p style="margin-top: 79px; font-size: 16px;">생성된 meetMate가 없습니다.</p>
-                        </div> -->
+                        </div>
                     </div>
                     
                     <form action="/communiFindGatchiChoice.action" method="GET">

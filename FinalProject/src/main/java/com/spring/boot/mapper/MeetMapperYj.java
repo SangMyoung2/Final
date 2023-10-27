@@ -15,6 +15,8 @@ public interface MeetMapperYj {
 
     public MeetInfoDTO getMeetMaster(int meetListNum) throws Exception;
 
+    public MeetInfoDTO getMeetInfoByEmail(MeetInfoDTO dto) throws Exception;
+
     public List<MeetCategoryDTO> getAllCategories() throws Exception;
 
     public GatchiDTO getMeetListInfo(int meetListNum) throws Exception;

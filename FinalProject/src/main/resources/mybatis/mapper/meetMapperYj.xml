@@ -26,7 +26,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </select>
 
 <select id="getOnlyMeetListInfo" parameterType="int" resultType="com.spring.boot.dto.GatchiDTO">
-    select * from gatchi where meetCheck = 1 and code = #{meetListNum}
+    select * from gatchi where meetCheck = 1 and meetStatus = 1 and code = #{meetListNum}
 </select>
 
 <select id="selectUpcomingDates" parameterType="int" resultType="com.spring.boot.dto.GatchiDTO">

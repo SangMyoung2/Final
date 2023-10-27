@@ -653,7 +653,7 @@ public class MeetControllerYj {
         }else if(sessionUser != null){
             useremail = sessionUser.getEmail();
         }
-
+		
 		int userPoint = paymentService.getUserPoint(useremail);
 
 		GatchiDTO dto = meetServiceYj.getMeetListInfo(meetListNum);
@@ -666,6 +666,40 @@ public class MeetControllerYj {
 			return false;
 		}
 		return true;
+	}
+
+	// 포인트 있는지, 커뮤에 가입된 사람인지 확인
+	@PostMapping("/checkBeforeJoin")
+	public int checkBeforeJoin(HttpServletRequest req, @RequestParam("meetListNum") int meetListNum) throws Exception{
+		HttpSession session = req.getSession();
+		
+		Users user1 = (Users)session.getAttribute("user1");
+		SessionUser sessionUser = (SessionUser) session.getAttribute("user");
+		String useremail = "";
+		if(user1 != null){
+            useremail = user1.getEmail();
+        }else if(sessionUser != null){
+            useremail = sessionUser.getEmail();
+        }
+		
+		GatchiDTO gatchiDTO = meetServiceYj.getMeetListInfo(meetListNum);
+		MeetInfoDTO meetInfoDTO = new MeetInfoDTO();
+		meetInfoDTO.setEmail(useremail);
+		meetInfoDTO.setMeetListNum(gatchiDTO.getCode());
+		MeetInfoDTO ret = meetServiceYj.getMeetInfoByEmail(meetInfoDTO);
+
+		int userPoint = paymentService.getUserPoint(useremail);
+		int meetMoney = gatchiDTO.getMeetMoney();
+
+		System.out.println("유저 포인트 : " + userPoint);
+		System.out.println("meetMoney = " + meetMoney);
+
+		if(ret==null) {
+			return 1;
+		}else if(userPoint < meetMoney){
+			return 2;
+		}
+		return 0;
 	}
 
 	// 가입 취소시

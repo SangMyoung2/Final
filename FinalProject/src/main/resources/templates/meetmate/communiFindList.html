@@ -120,7 +120,7 @@
         <div id="heart" class="heart" name="likeBtn">
         <input type="hidden" th:value="${items.meetListNum}">
         </div>
-        <a th:href="@{'/meetArticle.action?meetListNum='
+        <a th:href="@{'/communiArticle.action?meetListNum='
         + ${items.meetListNum}}">
         <img th:src="@{|/image/gatchiImage/${items.meetImage}|}" class="card__image" alt=""/>
         

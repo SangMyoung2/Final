@@ -24,6 +24,11 @@ public class MeetServiceImplYj implements MeetServiceYj {
     }
 
     @Override
+    public MeetInfoDTO getMeetInfoByEmail(MeetInfoDTO dto) throws Exception {
+        return meetMapperYj.getMeetInfoByEmail(dto);
+    }
+
+    @Override
     public List<MeetCategoryDTO> getAllCategories() throws Exception {
         return meetMapperYj.getAllCategories();
     }
