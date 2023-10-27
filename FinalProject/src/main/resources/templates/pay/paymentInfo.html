@@ -20,9 +20,10 @@
 
     <div layout:fragment="content">
         <br/>
-        <p class="paytitle" id="title-text">포인트 충전 내역</p>
+        <p class="paytitle">포인트 충전 내역</p>
+        
         <br/><br/>
-    
+
         <div class="history-selection-buttons">
             <button id="show-pay-history" class="btn-select">포인트 충전 내역</button>
             <button id="show-point-history" class="btn-select">포인트 사용 내역</button>
@@ -98,18 +99,17 @@
             <hr/>
         </div>
 
-        <!-- 포인트 사용 내역 -->
-        <div th:each="useInfo : ${pointUseInfo}" class="pointinfocontainer" th:if="${historyType == 'point'}">
+        <div th:each="useInfo : ${pointHistories}" class="pointinfocontainer">
             <br/><br/>
             <div>
                 <span class="label">사용 날짜/시간: </span>
-                <span th:text="${useInfo.useTime}"></span>
+                <span th:text="${useInfo.useDate}"></span>
             </div>
             <div>
                 <span class="label">사용한 포인트: </span>
-                <span th:text="${useInfo.usepoint} + 포인트"></span>
+                <span th:text="${useInfo.usePoint} + 포인트"></span>
             </div>
-            <!-- 추가로 필요한 정보를 이곳에 작성 -->
+            <!-- 필요한 경우, 다른 데이터 필드들도 추가 가능 -->
             <hr/>
         </div>
     

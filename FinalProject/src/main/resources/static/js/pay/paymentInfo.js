@@ -7,14 +7,14 @@ $(document).ready(function() {
     $('#show-pay-history').click(function() {
         $('.paymentinfocontainer').show();
         $('.pointinfocontainer').hide();
-        $('#title-text').text('포인트 충전 내역'); // 텍스트 변경
+        $('.paytitle').text('포인트 충전 내역'); // 여기에서 paytitle 텍스트를 변경
     });
 
     // 포인트 사용 내역 버튼 클릭 시
     $('#show-point-history').click(function() {
         $('.paymentinfocontainer').hide();
         $('.pointinfocontainer').show();
-        $('#title-text').text('포인트 사용 내역'); // 텍스트 변경
+        $('.paytitle').text('포인트 사용 내역'); // 여기에서 paytitle 텍스트를 변경
     });
 
     $('#filter-btn').click(function() {
