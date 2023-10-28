@@ -44,20 +44,12 @@
 
         <br/><br/>
 
-        <div th:if="${paymentInfo == null || paymentInfo.isEmpty()}">
-            <p style="text-align: center;">충전 내역이 없습니다.</p>
-        </div>
-        
-        <div th:if="${pointHistories == null || pointHistories.isEmpty()}">
-            <p style="text-align: center;">사용 내역이 없습니다.</p>
-        </div>
-
         <div id="no-payment-results-message" style="display: none; text-align: center;">
-            해당 날짜의 충전 내역이 없습니다.
+            충전 내역이 없습니다.
         </div>
         
         <div id="no-use-results-message" style="display: none; text-align: center;">
-            해당 날짜의 사용 내역이 없습니다.
+            사용 내역이 없습니다.
         </div>
 
     
