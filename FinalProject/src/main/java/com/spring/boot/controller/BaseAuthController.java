@@ -23,6 +23,7 @@ import com.spring.boot.dto.GatchiDTO;
 import com.spring.boot.dto.MeetReviewDTO;
 import com.spring.boot.dto.SessionUser;
 import com.spring.boot.model.Users;
+import com.spring.boot.service.ChallengeLikeService;
 import com.spring.boot.service.ChallengeService;
 import com.spring.boot.service.GatchiService;
 import com.spring.boot.service.MeetServiceYj;
@@ -51,6 +52,9 @@ public class BaseAuthController {
 
 	@Autowired
 	private ChallengeService challengeService;
+
+	@Autowired
+	private ChallengeLikeService challengeLikeService;
 
 	@GetMapping("/")
 	public ModelAndView main() throws Exception {
@@ -95,38 +99,31 @@ public class BaseAuthController {
 		
 	}
 	
-		@PostMapping("/signup.action")
-		public String signup(Users dto,BindingResult bindResult,Model model,
-		@RequestParam("userName") String userName,
-		@RequestParam("picture") String picture) {
-		
-		
+	@PostMapping("/signup.action")
+	public String signup(Users dto, BindingResult bindResult, Model model,
+                    @RequestParam("userName") String userName,
+                    @RequestParam("picture") String picture) {
 
+    try {
+        userService.create(dto.getUserName(), dto.getName(),
+                dto.getPassword(),dto.getTel(),dto.getPicture());
+        
+        // 회원가입 완료 후 사용자의 이메일 주소로 포인트 잔액 0으로 초기화
+        paymentService.insertUserAfterSignUp(dto.getUserName());
 
-		try {
-			
-			userService.create(dto.getUserName(), dto.getName(),
-					dto.getPassword(),dto.getTel(),dto.getPicture());
+        return "login/signup_ok";
 
-			
-					
-		
-					return "login/signup_ok";
+    } catch (DataIntegrityViolationException e) {
+        e.printStackTrace();
+        model.addAttribute("error", "이미 등록된 사용자입니다.");
+        return "login/signup";
 
-		} catch (DataIntegrityViolationException e) {
-			e.printStackTrace();
-			model.addAttribute("error", "이미 등록된 사용자입니다.");
-			return "login/signup";
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			model.addAttribute("error", e.getMessage());
-			return "login/signup";
-		}
-
-		
-	}
-
+    } catch (Exception e) {
+        e.printStackTrace();
+        model.addAttribute("error", e.getMessage());
+        return "login/signup";
+    }
+}
 
 	@GetMapping("/findID.action")
 	public ModelAndView findID() throws Exception {
@@ -247,6 +244,7 @@ public class BaseAuthController {
 
     List<Integer> userMeetList = gatchiService.getMeetListNumByUserEmail(email);
 	List<Integer> userMeetLike = gatchiService.getMeetLikeNumByUserEmail(email);
+	List<Integer> userChallengeLike = challengeLikeService.getChallengeLikeNumByUserEmail(email);
 	List<Integer> userChallengeList = challengeService.getChallengeListNumByUserEmail(email);
 	
 
@@ -278,11 +276,21 @@ public class BaseAuthController {
 
 	 mav.addObject("gatchlike", gatchlike);
 	}
+
+	if (userChallengeLike == null || userChallengeLike.isEmpty()) {
+		mav.setViewName("login/mypage");
+	} else {
+		List<ChallengeDTO> challengelike = challengeLikeService.getChallengeLikeNums(userChallengeList);
+
+	 mav.addObject("challengelike", challengelike);
+	}
 	
 	
 	mav.setViewName("login/mypage");
     return mav;
 }
+
+
 	
 
 	@GetMapping("/userupdate.action")
@@ -310,6 +318,7 @@ public class BaseAuthController {
 			File file = new File(path);
 		
 
+			System.out.println(absolutePath);
 			String originalFileName = userImg.getOriginalFilename();
 
 		// 폴더가 없다면 생성
@@ -333,9 +342,11 @@ public class BaseAuthController {
 			ModelAndView mav = new ModelAndView();
 
 		List<MeetReviewDTO> allreview = new ArrayList<>();
+		List<ChallengeDTO> challengeList = new ArrayList<>();
+		challengeList = challengeService.getChallengeLists();
 		allreview = meetServiceYj.getAllMeetReviews();
 
-
+		mav.addObject("challengeList", challengeList);	
 		mav.addObject("allreview", allreview);	
 			
 		mav.setViewName("login/mainReview");

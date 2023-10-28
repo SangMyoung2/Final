@@ -22,4 +22,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	select * from challengelike where useremail = #{useremail} and challengeListNum = #{challengeListNum}
 </select>
 
+
+
+<select id="getChallengeLikeNumByUserEmail" parameterType="String" resultType="int">
+    SELECT challengeListNum
+    FROM ChallengeLike
+    WHERE useremail = #{email}
+</select>
+
+
+
+<select id="getChallengeLikeNums" parameterType="java.util.List" resultType="com.spring.boot.dto.ChallengeDTO">
+    SELECT *
+    FROM challenge
+    WHERE challengeListNum IN
+    <foreach item="item" collection="list" open="(" separator="," close=")">
+        #{item}
+    </foreach>
+    ORDER BY challengeListNum DESC
+</select>
+
 </mapper>

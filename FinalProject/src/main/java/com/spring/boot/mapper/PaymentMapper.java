@@ -25,5 +25,6 @@ public interface PaymentMapper {
     
     public void updateUserUsePoint(userPointDTO userPointDTO); 
 
-  
+    public void insertUserAfterSignUp(String email) throws Exception;
+
 }

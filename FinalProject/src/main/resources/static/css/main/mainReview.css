@@ -48,7 +48,7 @@ font-size: 23px;
 .card-item .item-content img {
     width: 274px; 
 	height: 274px;
-
+	margin-top: 20px;
 	border-radius: 15px;
 }
   
