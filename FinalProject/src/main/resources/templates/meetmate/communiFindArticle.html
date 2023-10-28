@@ -548,16 +548,6 @@ function hideTooltip() {
 //     });
 // });
 
-//정렬 버튼
-// function changeSortOrder() {
-//   // var sortOrder = document.getElementById("sortOrder").value;
-//   var form = document.sortForm;
-  
-//   // alert(sortOrder);
-  
-//   form.submit();
-// }
-
 </script>
 
 </head>
@@ -773,27 +763,8 @@ function hideTooltip() {
                         </div>
                     </div>
                     <hr style="width: 225px; border-width: 2px; border-color: #84A5FF;">
-
-                    <div style="margin-left: 12px; display: flex; align-items: center;">
-                        <p style="font-size: 17px; margin-right: 10px;">meetMate 목록</p>
-                        <!-- <select id="sortOption">
-                            <option value="default" selected disabled>선택</option>
-                            <option value="upcoming">모임임박순</option>
-                            <option value="latest">최신순</option>
-                            <option value="oldest">오래된순</option>
-                        </select> -->
-                        <form action="" method="get" name="sortForm" class="sortBox">
-                            <select name="sortOrder" id="sortOrder" class="selectFiled" onchange="changeSortOrder()">
-                                <option value="default" selected disabled>--선택--</option>
-                                <option value="upcoming">모임임박순</option>
-                                <option value="latest">최신순</option>
-                                <option value="oldest">오래된순</option>
-                            </select>
-                        </form>
-                        
-                    </div>
-                    <!-- <input type="hidden" name="meetListNum" id="meetListNum" th:value="${meetListNum}"/> -->
-
+             
+                    <p style="font-size: 17px; margin-right: 10px;">meetMate 목록</p>
                     <div class="meetmate-back">
                         <div th:if="${#lists.size(onlyMeetListInfo) > 0}">
                             <div class="meet-title-list" th:each="onlyMeetListInfo : ${onlyMeetListInfo}">

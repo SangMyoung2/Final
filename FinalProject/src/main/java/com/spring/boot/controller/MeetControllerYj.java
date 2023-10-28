@@ -233,25 +233,6 @@ public class MeetControllerYj {
 		return mav;
 	}
 
-
-	// @GetMapping("/sortMeetMateList")
-    // public String sortMeetMateList(@RequestParam int meetListNum, @RequestParam String sortOption, Model model) throws Exception {
-    //     List<GatchiDTO> meetMateList = null;
-        
-    //     // sortOption에 따라 정렬된 데이터를 가져오기 위해 해당 서비스 또는 리포지터리 메서드를 호출합니다.
-    //     if ("upcoming".equals(sortOption)) {
-    //         meetMateList = meetServiceYj.selectUpcomingDates(meetListNum);
-    //     } else if ("latest".equals(sortOption)) {
-    //         meetMateList = meetServiceYj.selectLatestDates(meetListNum);
-    //     } else if ("oldest".equals(sortOption)) {
-    //         meetMateList = meetServiceYj.selectOldestDates(meetListNum);
-    //     }
-		
-    //     model.addAttribute("meetMateList", meetMateList);
-    //     return "meetMateList"; // 페이지에 표시할 뷰 이름을 반환합니다.
-    // }
-
-
 	//리뷰 올리기
 	@PostMapping("/upload-review")
     public String uploadReview(HttpServletRequest request,

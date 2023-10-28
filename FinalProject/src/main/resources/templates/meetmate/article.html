@@ -415,9 +415,10 @@ function joinMeetInCommuni() {
             },
             success: function (response) {
                 alert(response);
-                if(0){
+                if(response == 0){
+                    alert('가입이 완료되었습니다');
                     location.href = '/join-meet?meetListNum='+meetListNum;
-                }else if(1){
+                }else if(response == 1){
                     alert('이 모임에 가입하실 경우 해당 communiFind 모임 먼저 가입해야합니다.\ncommuniFind 게시글로 이동하시겠습니까?');
 
                     location.href = '/communiArticle.action?meetListNum=' + code;
@@ -845,7 +846,7 @@ $(window).on('scroll', function () {
                    
                         <form th:if="${meetMemStatus < 0} and ${meetStatus == 1} and ${meetListInfo.meetMemCnt<meetListInfo.meetMaxMemCnt} and ${meetListInfo.code > 0}">
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button form="joinForm" type="button" class="join-button" onclick="joinMeetInCommuni()">
-                               가입하기1
+                               가입하기
                             </button>
                         </form>
                         <input type="hidden" name="code" id="code" th:value="${meetListInfo.code}"/>

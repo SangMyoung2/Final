@@ -44,21 +44,6 @@ public class MeetServiceImplYj implements MeetServiceYj {
     }
 
     @Override
-    public List<GatchiDTO> selectUpcomingDates(int meetListNum) throws Exception {
-        return meetMapperYj.selectUpcomingDates(meetListNum);
-    }
-
-    @Override
-    public List<GatchiDTO> selectLatestDates(int meetListNum) throws Exception {
-        return meetMapperYj.selectLatestDates(meetListNum);
-    }
-
-    @Override
-    public List<GatchiDTO> selectOldestDates(int meetListNum) throws Exception {
-        return meetMapperYj.selectOldestDates(meetListNum);
-    }
-
-    @Override
 	public void createMeetInCommuni(GatchiDTO dto) throws Exception {		
 		meetMapperYj.createMeetInCommuni(dto);
 	}

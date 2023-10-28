@@ -29,18 +29,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     select * from gatchi where meetCheck = 1 and meetStatus = 1 and code = #{meetListNum}
 </select>
 
-<select id="selectUpcomingDates" parameterType="int" resultType="com.spring.boot.dto.GatchiDTO">
-    select * from gatchi where meetCheck = 1 and meetStatus = 1 and code = #{meetListNum} order by meetDday asc
-</select>
-
-<select id="selectLatestDates" parameterType="int" resultType="com.spring.boot.dto.GatchiDTO">
-    select * from gatchi where meetCheck = 1 and meetStatus = 1 and code = #{meetListNum} order by meetDate desc
-</select>
-
-<select id="selectOldestDates" parameterType="int" resultType="com.spring.boot.dto.GatchiDTO">
-    select * from gatchi where meetCheck = 1 and meetStatus = 1 and code = #{meetListNum} order by meetDate asc
-</select>
-
 <select id="getMeetMembers" parameterType="int" resultType="com.spring.boot.dto.MeetInfoDTO">
     select u.email,u.name,u.picture,u.role
     from users u
