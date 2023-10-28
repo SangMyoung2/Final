@@ -2,7 +2,7 @@
     <head>
 <meta charset="UTF-8">
 
-<title>GATCHI 로그인</title>
+<title>가치</title>
 
 
 
@@ -22,25 +22,25 @@
     
         <div class="heading" style="font-size: 20px;">L O G I N</div>
         <div class="left">
-          <label for="userName">EMAIL</label> 
-          <input  type="text" name="username" id="username" /> 
-          <label for="password" style="margin-top: 15px;">PASSWORD</label> 
-          <input type="password" name="password" id="password" />
+          <label for="userName">이 메 일</label> <br />
+          <input  type="text" name="username" id="username" /> <br />
+          <label for="password">비 밀 번 호</label> <br />
+          <input type="password" name="password" id="password" /> <br />
 
           <div th:if="${param.error}">
-            <div class="alert alert-danger" id="error-message">일치하는 회원이 없습니다. 다시 확인해주세요.</div>
+            <div class="alert alert-danger" id="error-message">사용자 이메일 또는 비밀번호를 확인해 주세요.</div>
         </div>
 
         
       
 
-          <input style="width: 230px; width: 116%;" type="submit" value="로 그 인" />
+          <input style="width: 230px;" type="submit" value="로 그 인" />
           <div style="width: 277px;">
-            <a style="color:#0070ff; margin-right: 10px; margin-left: 12px; font-size: 18px; text-decoration: none;" href="/signup.action">회원가입</a>
-            <a style="color:#0070ff; margin-right: 10px; font-size: 18px; text-decoration: none;" href="/findID.action">아이디 찾기</a>
-            <a style="color:#0070ff; font-size: 18px; text-decoration: none;" href="/findPWD.action">비밀번호 찾기</a>
+            <a style="color:#0070ff; margin-right: 10px; margin-left: 12px; font-size: 18px;" href="/signup.action">회원가입</a>
+            <a style="color:#0070ff; margin-right: 10px; font-size: 18px;" href="/findID.action">아이디 찾기</a>
+            <a style="color:#0070ff; font-size: 18px;" href="/findPWD.action">비밀번호 찾기</a>
 
-            <h3 style="margin-left: 80px; margin-top: 40px; margin-bottom: 30px; font-size: 25px; color: gray; font-weight: 700;">소셜 로그인</h3>
+            <h3 style="margin-left: 80px; margin-top: 40px; margin-bottom: 30px; font-size: 25px; color: gray;">소셜 로그인</h3>
             
         </div>
           
@@ -62,7 +62,7 @@
 
          
          
-      <br/><br/><br/><br/>
+      <br/><br/><br/><br/><br/> 
         </div>
       </form>  
       
