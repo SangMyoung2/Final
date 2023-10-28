@@ -343,12 +343,47 @@
             <a class="card-footer-item" th:text="'일시: ' + ${items.meetDday} + ', 장소: ' + ${items.meetPlace.replaceAll('.*?([^ ]+구).*', '$1')}"></a>
             <a class="card-footer-item" th:text="' 참여인원 : ' + ${items.meetMemCnt} + ' / ' + ${items.meetMaxMemCnt}"></a>
         
-          </footer>
-          </footer>
+         
         </div>
+
+
+
+
+
+ <!-- 리스트 1번째 줄 -->
+ <div class="card" th:if="${challengelike != null}" th:each="items : ${challengelike}" >
+  <div class="card-image" >
+    <figure class="image is-4by3">
+      <a th:href="@{'/challengeArticle.action?challengeListNum=' + ${items.challengeListNum}}">
+        <img th:src="@{|/image/challengeimage/${items.challengeImageMain}|}" alt="">
+    </a>
+    </figure>
+  </div>
+  <div class="card-content">
+    <div class="content">
+      <span >
+        <p class="card__title" th:text="${items.challengeTitle}">글제목</p>
+  </span><br/>
+  
+    </div>
+  </div>
+  <footer class="card-footer">
+   
+    <a class="card-footer-item" th:text="'시작: ' + ${items.challengeStartDate} + ', 마감: ' + ${items.challengeEndDate}"></a>
+    <a class="card-footer-item" th:text="' 참여인원 : ' + ${items.challengeMemberCount} + ' / ' + ${items.challengeCreateDate}"></a>
+
+</div>
+
+
       </div>
       </div>
     </div>
+
+          
+         
+        </div>
+        </div>
+      </div>
 
             <br/><br/><br/><br/>
         </div>

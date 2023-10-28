@@ -225,8 +225,8 @@ a:hover {
     -webkit-box-pack: center;
     justify-content: center;
     width: 100%;
-    height: 80vh;
-	background-image: url('/image/main/main.jpg'); /* 이미지 파일의 경로를 여기에 넣어주세요 */
+    height: 90vh;
+	background-image: url('/image/main/main2.jpg'); /* 이미지 파일의 경로를 여기에 넣어주세요 */
     background-size: cover; /* 이미지가 헤더에 맞게 조절되도록 설정 */
     background-position: center; /* 이미지를 가운데 정렬 */
 
@@ -242,6 +242,19 @@ a:hover {
   
 }
 
+#main2{
+    background-color: #F5F5F5;
+    display: flex;
+    -webkit-box-pack: center;
+    justify-content: center;
+    width: 100%;
+    height: 87vh;
+	background-image: url('/image/main/main3.jpg'); /* 이미지 파일의 경로를 여기에 넣어주세요 */
+    background-size: cover; /* 이미지가 헤더에 맞게 조절되도록 설정 */
+    background-position: center; /* 이미지를 가운데 정렬 */
+  
+}
+
 #footer1{
     background-color: #F5F5F5;
     display: flex;
@@ -249,7 +262,7 @@ a:hover {
     justify-content: center;
     width: 100%;
     height: 87vh;
-	background-image: url('/image/main/footer.jpg'); /* 이미지 파일의 경로를 여기에 넣어주세요 */
+	background-image: url('/image/main/footer6.jpg'); /* 이미지 파일의 경로를 여기에 넣어주세요 */
     background-size: cover; /* 이미지가 헤더에 맞게 조절되도록 설정 */
     background-position: center; /* 이미지를 가운데 정렬 */
   

@@ -21,37 +21,24 @@
 
     <div class="title1">
       <div><span class="typcn typcn-heart-outline icon heading"></span></div>
-      <h1 class="heading"> 가치(GATCHI) </h1>
-      <h2 class="heading">Omnium Rerum Principia Parva Sunt. </h2>
+      <!-- <h1 class="heading"> 가치(GATCHI) </h1>
+      <h2 class="heading">Omnium Rerum Principia Parva Sunt. </h2> -->
       </a> </div>
     </a> </header>
   
   <!-- About Section
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->  
     
-  <section style="height: 1200px;" id="about">
+  <section  id="about">
     <div class="container">
       <div class="row">
         <h4 style="color:#5CA8B5;" >가치(GATCHI) 란?</h4>
         <div style="width: 285px;" class="block"></div>
         
       </div>
-      <div class="row">
-        <div style="text-align: center; " class="six columns">
-          <h5><span class="typcn typcn-device-desktop icon"></span>내 주변 친구들과 함께 만들어 가는<br/> 즐거운 모임 생활 가치(GATCHI)  !</h5>
-         
-         <img style="height: 600px; width: 650px;" src="http://localhost:8080/image/main/123123.jpg"/><br/><br/><br/>
-         
-          <p style="text-align: center; font-size: 35px;">같이 먹고! 같이 놀고! 같이 하고!<br/>
-            함께의 가치를 가치(GATCHI)와 함께! </p>
-           
-        </div>
-       
-        
-      </div>
     </div>
   </section>
-  
+  <header id="main2" style="margin-bottom: 180px;"> </header>
   <!-- Team Section
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->  
   
@@ -218,7 +205,7 @@
                   
                 </div>
               </section>
-              <div th:if="${allreview != null and #lists.size(communiLists) > 0}">
+            
               <div style="background-color:#F5F5F5; margin-left: -50px;">
                 <div style="display: grid; padding: 0; list-style-type: none; margin: 0rem 14vw; grid-template-columns: repeat(auto-fit, minmax(225px, 1fr)); gap: 2rem; height: 650px; ">
                     <div class="card-item2" th:each="items, iterStat : ${allreview}" th:if="${iterStat.index < 8}" >
@@ -236,10 +223,10 @@
                     </div>
                 </div>
               </div>
-              </div>
+              
 
 
-              <div style="display: flex; justify-content: center; background-color:#F5F5F5; ">
+              <div style="display: flex; margin-bottom: 115px; justify-content: center; background-color:#F5F5F5; ">
                 <div class="card-item" style="width: 200px;">
                 <a style=" text-decoration: none;" href="/mainReview.action"> 더보기</a>
                 </div>
@@ -253,7 +240,7 @@
  
   
   <section style="background-color: #ffffff;" id="team">
-    <div style="margin-bottom: -110px;" class="container">
+    <div style="margin-bottom: -164px;" class="container">
         <h4 style="color:#5CA8B5;">회사 위치</h4>
         <div class="block"></div>
         <h5></h5>
@@ -264,7 +251,7 @@
 
  
 
-  <div id="map" style="width:100%; height:500px;"></div>
+  <div id="map" style="width:100%; height:500px; margin-bottom: 130px;"></div>
   
 
 
