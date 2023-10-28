@@ -2,6 +2,9 @@ $(document).ready(function() {
     // 초기 설정
     checkAndDisplayNoResultsMessage();
 
+    $('.paymentinfocontainer').show();
+    $('.pointinfocontainer').hide();
+
     // 포인트 충전 내역 버튼 클릭 시
     $('#show-pay-history').click(function() {
         resetFilters();
@@ -9,6 +12,8 @@ $(document).ready(function() {
         $('.pointinfocontainer').hide();
         $('.paytitle').text('포인트 충전 내역');
         checkAndDisplayNoResultsMessage();
+        resetLoadMore();
+        loadMore();
     });
 
     // 포인트 사용 내역 버튼 클릭 시
@@ -18,35 +23,52 @@ $(document).ready(function() {
         $('.pointinfocontainer').show();
         $('.paytitle').text('포인트 사용 내역');
         checkAndDisplayNoResultsMessage();
+        resetLoadMore();
+        loadMore();
     });
 
     $('#filter-btn').click(function() {
         var startDateInput = $('#start-date').val();
         var endDateInput = $('#end-date').val();
-    
-        // 날짜 필터가 설정되지 않았을 경우 전체 데이터를 표시
+
         if (!startDateInput && !endDateInput) {
-            resetFilters();
-            if ($('.paytitle').text() === '포인트 충전 내역') {
-                $('.paymentinfocontainer').show();
-            } else {
-                $('.pointinfocontainer').show();
-            }
-            checkAndDisplayNoResultsMessage();
-            return; // 여기서 함수 실행을 종료합니다.
+            displayAllData();
+            return;
         }
-    
+
         var startDate = new Date(startDateInput).getTime();
         var endDate = new Date(endDateInput).getTime();
-    
+
+        if (startDate > endDate) {
+            alert('시작 날짜가 종료 날짜보다 늦게 설정될 수 없습니다.');
+            displayAllData();
+            return;
+        }
+
         resetFilters();
         if ($('.paytitle').text() === '포인트 충전 내역') {
+            $('.pointinfocontainer').hide(); // 포인트 사용 내역 숨김
             filterResults('.paymentinfocontainer', '.label:contains("결제 날짜/시간:")', startDate, endDate);
         } else {
+            $('.paymentinfocontainer').hide(); // 포인트 충전 내역 숨김
             filterResults('.pointinfocontainer', '.label:contains("사용 날짜/시간:")', startDate, endDate);
         }
+        resetLoadMore();
     });
-    
+
+    function displayAllData() {
+        resetFilters();
+        if ($('.paytitle').text() === '포인트 충전 내역') {
+            $('.paymentinfocontainer').show();
+            $('.pointinfocontainer').hide(); // 포인트 사용 내역 숨김
+        } else {
+            $('.pointinfocontainer').show();
+            $('.paymentinfocontainer').hide(); // 포인트 충전 내역 숨김
+        }
+        checkAndDisplayNoResultsMessage();
+        resetLoadMore();
+        loadMore();
+    }
 
     function resetFilters() {
         $('.paymentinfocontainer, .pointinfocontainer').hide();
@@ -84,7 +106,8 @@ $(document).ready(function() {
         }
     }
 
-    // useType 값에 따른 텍스트 변환
+
+
     $('.pointinfocontainer').each(function() {
         var useTypeText = $(this).find('.label:contains("구분:")').next().text();
         switch(useTypeText) {
