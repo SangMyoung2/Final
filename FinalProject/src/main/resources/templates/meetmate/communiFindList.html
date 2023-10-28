@@ -69,10 +69,10 @@
       style="text-align: center; font-weight: normal; margin-top: 100px;"></h2>
 <br/>
   
-  <div class="search-input-box" style="display: flex; align-items: center;     margin-top: 50px;">
-
+  <div class="search-input-box" style="display: flex; align-items: center; margin-top: 50px;">
     <button type="button" id="createBtn" class="createBtn" 
       onclick="javascript:location.href='/gatchiChoice.action';"> 생성하기 </button>
+      <div class="searchBoxContainer">
       <form action="/communiFindList.action" method="post" name="sortForm" class="sortBox">
         <select name="sortOrder" id="sortOrder" class="selectFiled" onchange="changeSortOrder();" style="vertical-align: middle;">
         <option> --정렬--</option>
@@ -83,26 +83,26 @@
         </form>
         
         <form action="redirect:/communiFindList.action" method="post" name="searchForm" class="searchBox">
-        <select name="searchKey" class="selectFiled" style="display: inline;">
-        <option value="meetTitle"> 제목</option>
-        <option value="meetDday"> 모임일</option>
-        <option value="meetPlace"> 장소</option>
-        </select>
+      	 <select name="searchKey" class="selectFiled" style="display: inline;">
+	        <option value="meetTitle"> 제목</option>
+	        <option value="meetDday"> 모임일</option>
+	        <option value="meetPlace"> 장소</option>
+         </select>
         
         <input type="text" name="searchValue" placeholder="search.." onkeydown="if (event.keyCode === 13) sendIt1();"/>
         <button type="button" onclick="sendIt1();" style="background-color: transparent;">
-        <svg width="20" height="15" viewBox="4 7 30 20" xmlns="http://www.w3.org/2000/svg">
-        <g fill="none" fill-rule="evenodd">
-        <path fill="none" d="M0 0h36v36H0z"/>
-        <g stroke="#5F0080" stroke-linecap="round" stroke-width="2">
-        <path d="m26.081 26.081-4.12-4.12M16.467 23.334a6.867 6.867 0 1 0 0-13.734 6.867 6.867 0 0 0 0 13.734z"/>
-        </g>
-        </g>
-        </svg>
+         <svg width="20" height="15" viewBox="4 7 30 20" xmlns="http://www.w3.org/2000/svg">
+          <g fill="none" fill-rule="evenodd">
+        	<path fill="none" d="M0 0h36v36H0z"/>
+        	<g stroke="#5F0080" stroke-linecap="round" stroke-width="2">
+        	 <path d="m26.081 26.081-4.12-4.12M16.467 23.334a6.867 6.867 0 1 0 0-13.734 6.867 6.867 0 0 0 0 13.734z"/>
+        	</g>
+          </g>
+         </svg>
         </button>
-        </form>
-        </div>
-        
+       </form>
+      </div>
+     </div>  
         
         
         
