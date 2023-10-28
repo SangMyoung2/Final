@@ -98,3 +98,7 @@
 .after-point {
     color: red;  /* 빨간색 */
 }
+
+.useType {
+    color: rgb(29, 170, 240);
+}

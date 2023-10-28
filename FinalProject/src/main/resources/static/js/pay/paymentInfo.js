@@ -20,13 +20,25 @@ $(document).ready(function() {
         checkAndDisplayNoResultsMessage();
     });
 
-    // 필터 적용
     $('#filter-btn').click(function() {
         var startDateInput = $('#start-date').val();
         var endDateInput = $('#end-date').val();
+    
+        // 날짜 필터가 설정되지 않았을 경우 전체 데이터를 표시
+        if (!startDateInput && !endDateInput) {
+            resetFilters();
+            if ($('.paytitle').text() === '포인트 충전 내역') {
+                $('.paymentinfocontainer').show();
+            } else {
+                $('.pointinfocontainer').show();
+            }
+            checkAndDisplayNoResultsMessage();
+            return; // 여기서 함수 실행을 종료합니다.
+        }
+    
         var startDate = new Date(startDateInput).getTime();
         var endDate = new Date(endDateInput).getTime();
-
+    
         resetFilters();
         if ($('.paytitle').text() === '포인트 충전 내역') {
             filterResults('.paymentinfocontainer', '.label:contains("결제 날짜/시간:")', startDate, endDate);
@@ -34,6 +46,7 @@ $(document).ready(function() {
             filterResults('.pointinfocontainer', '.label:contains("사용 날짜/시간:")', startDate, endDate);
         }
     });
+    
 
     function resetFilters() {
         $('.paymentinfocontainer, .pointinfocontainer').hide();
