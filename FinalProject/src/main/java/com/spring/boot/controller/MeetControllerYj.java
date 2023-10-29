@@ -10,6 +10,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,18 +19,23 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.spring.boot.collection.ChatRoomCollection;
 import com.spring.boot.dto.GatchiDTO;
 import com.spring.boot.dto.MapDTO;
 import com.spring.boot.dto.PointHistoryDTO;
 import com.spring.boot.dto.userPointDTO;
 import com.spring.boot.model.Users;
+import com.spring.boot.service.ChatRoomService;
 import com.spring.boot.service.GatchiService;
 import com.spring.boot.service.MapService;
 import com.spring.boot.dto.MeetCategoryDTO;
@@ -39,6 +45,7 @@ import com.spring.boot.dto.SessionUser;
 import com.spring.boot.service.MeetServiceYj;
 import com.spring.boot.service.PaymentService;
 import com.spring.boot.service.PointHistoryService;
+import com.spring.boot.util.ChatUtil;
 
 @RestController
 public class MeetControllerYj {
@@ -57,6 +64,12 @@ public class MeetControllerYj {
 
 	@Autowired
 	private MapService mapService;
+
+	@Autowired
+    private ChatRoomService chatRoomService;
+
+	@Autowired
+    private ChatUtil chatUtil;
 
 	// meetMate 아티클
 	@GetMapping("/meetArticle.action")
@@ -181,7 +194,7 @@ public class MeetControllerYj {
 			@RequestParam("meetImage1") MultipartFile meetImage,
 			@RequestParam("meetListNum") int meetListNum) throws Exception{
 
-		ModelAndView mav = new ModelAndView("redirect:/communiArticle.action?meetListNum=" + meetListNum);
+		ModelAndView mav = new ModelAndView();
 		
 		HttpSession session = request.getSession();
 		Users social = (Users)session.getAttribute("user");
@@ -197,16 +210,23 @@ public class MeetControllerYj {
 		// dto.setCode(meetListNum);
 		// meetServiceYj.updateCode(dto.getCode());
 		
-		String resourcePath = "C:\\VSCode\\Final\\FinalProject\\src\\main\\resources\\static\\image\\gatchiImage";
-		// Resource resource = new ClassPathResource("static");
-        // String resourcePath = resource.getFile().getAbsolutePath() + "/image/gatchiImage";
-
+		String absolutePath = new File("").getAbsolutePath() + "\\";
+		String path = "FinalProject/src/main/resources/static/image/gatchiImage";
+        File file = new File(path);
+		int maxNum = 0;
 		if (!meetImage.isEmpty()) {
 			String originalFileName = meetImage.getOriginalFilename();
-			File destFile = new File(resourcePath, originalFileName);
 
-			meetImage.transferTo(destFile);
-			int maxNum = gatchiService.maxNum();
+			// 폴더가 없다면 생성
+			if (!file.exists()) {
+				file.mkdirs();
+			}
+
+			String saveFileName = UUID.randomUUID() + originalFileName;
+			file = new File(absolutePath + path + "/" + saveFileName);
+			meetImage.transferTo(file);
+
+			maxNum = gatchiService.maxNum();
 			dto.setMeetListNum(maxNum + 1);
 			dto.setMeetImage(originalFileName);
 			dto.setCode(meetListNum);
@@ -224,8 +244,10 @@ public class MeetControllerYj {
 		}
 		mav.addObject("roomName", dto.getMeetTitle());
 		mav.addObject("roomType", "MEET");
-		mav.addObject("meetListNum", meetListNum);
+		mav.addObject("meetListNum", (maxNum + 1));
 		//mav.setViewName("redirect:/meetMateList.action");
+		mav.addObject("createType", 3);
+		mav.addObject("redirectNum", meetListNum);
 		mav.setViewName("redirect:/createroom.action");
 		return mav;
 	}
@@ -409,8 +431,23 @@ public class MeetControllerYj {
 			meetInfoDTO.setMeetMemStatus(2); // 선착순
 			meetServiceYj.incrementMeetMemCnt(meetListNum);
 			meetInfoDTO.setApprovalStatus(-1);
+			
 			//채팅방 가입
+			Optional<ChatRoomCollection> room = chatRoomService.getReadDate(meetListInfo.getChatRoomNum());
+        	ChatRoomCollection rooms = (ChatRoomCollection)room.get();
+        
+			// 여기는 신규유저 인지 아닌지 확인 하는곳
+			if(!rooms.getUsers().contains(useremail)){
+				System.out.println("신규 유저 입장!");
 
+				rooms.getUsers().add(useremail);
+				String entryDate = chatUtil.todayYMDAndTime();
+				String newUser = chatUtil.emailSubString(useremail);
+				rooms.setEntryDate(newUser, entryDate);
+				int userCnt = rooms.getUserCount();
+				rooms.setUserCount(userCnt + 1);
+				chatRoomService.updateChatRoom(rooms);
+			}
 
 		} else if (meetHow == 2) {
 			meetInfoDTO.setMeetMemStatus(0); // 승인대기
@@ -426,6 +463,7 @@ public class MeetControllerYj {
 		} else if (meetCheck == 2) {
 			return new ModelAndView("redirect:/communiArticle.action?meetListNum=" + meetListNum);
 		}
+		
 		return mav;
 	}
 
@@ -433,6 +471,8 @@ public class MeetControllerYj {
 	@GetMapping("/out-meet")
 	public ModelAndView outMeet(HttpServletRequest request,
 			@RequestParam("meetListNum") int meetListNum) throws Exception {
+		
+		System.out.println("유저가 방나가기 누른곳");
 
 		ModelAndView mav = new ModelAndView();
 		GatchiDTO meetListInfo = meetServiceYj.getMeetListInfo(meetListNum);
@@ -462,11 +502,28 @@ public class MeetControllerYj {
 		
 		refundPoint(useremail, meetListNum);
 
+		// 채팅방 나가기
+		String chatRoomNum = meetListInfo.getChatRoomNum();
+		ChatRoomCollection chatRoom = chatRoomService.findByRoomId(chatRoomNum);
+		
+		List<String> users = chatRoom.getUsers();
+		for(int i=0; i<users.size(); i++){
+			if(users.get(i).equals(useremail) || users.get(i) == useremail){
+				System.out.println("같은 유저 찾아서 삭제");
+				users.remove(i);
+				break;
+			}
+		}
+		chatRoom.setUsers(users);
+		chatRoom.setUserCount(chatRoom.getUserCount() - 1);
+		chatRoomService.updateChatRoom(chatRoom);
+
 		if (meetCheck == 1) {
 			return new ModelAndView("redirect:/meetArticle.action?meetListNum=" + meetListNum);
 		} else if (meetCheck == 2) {
 			return new ModelAndView("redirect:/communiArticle.action?meetListNum=" + meetListNum);
 		}
+
 		return mav;
 	}
 
@@ -483,19 +540,28 @@ public class MeetControllerYj {
 		meetServiceYj.updateMeetStatus(gatchiDTO);
 		meetServiceYj.updateCode(gatchiDTO); // 커뮤니방 삭제되면 그 속에 미트방도 삭제
 		
-		// TODO : 방 인원들 싹다 불러와서 금액 환불
+		//채팅 삭제 (타입 2로 변경해서 안나오게)
+		gatchiDTO = meetServiceYj.getMeetListInfo(meetListNum);
+		String chatRoomNum = gatchiDTO.getChatRoomNum();
+		System.out.println("chatRoomNum : " + chatRoomNum);
+		ChatRoomCollection chatRoom = chatRoomService.findByRoomId(chatRoomNum);
+		System.out.println("룸 타입 : " + chatRoom.getRoomType());
+		chatRoom.setRoomType(2);
+		chatRoomService.updateChatRoom(chatRoom);
+
+		// TODO : 방 인원들 싹다 불러와서 금액 환불 MeetMate만
 		// 1. 방인원 싹 불러오기(리스트로)
 		// 2. 리스트 돌면서 환불해주기 하면 끗
-		List<MeetInfoDTO> lists = meetServiceYj.getMeetInfo(meetListNum);
-		
-		if(lists == null || lists.isEmpty()) return mav;
-
-		for (MeetInfoDTO m : lists) {
-			refundPoint(m.getEmail(), meetListNum);
+		if(gatchiDTO.getMeetCheck() == 1){
+			List<MeetInfoDTO> lists = meetServiceYj.getMeetInfo(meetListNum);
+			if(lists == null || lists.isEmpty()) return mav;
+			
+			for (MeetInfoDTO m : lists) {
+				refundPoint(m.getEmail(), meetListNum);
+			}
 		}
-
-		//채팅 삭제
 		
+
 		return mav;
 	}
 
@@ -653,7 +719,7 @@ public class MeetControllerYj {
         }else if(sessionUser != null){
             useremail = sessionUser.getEmail();
         }
-
+		
 		int userPoint = paymentService.getUserPoint(useremail);
 
 		GatchiDTO dto = meetServiceYj.getMeetListInfo(meetListNum);
@@ -666,6 +732,40 @@ public class MeetControllerYj {
 			return false;
 		}
 		return true;
+	}
+
+	// 포인트 있는지, 커뮤에 가입된 사람인지 확인
+	@PostMapping("/checkBeforeJoin")
+	public int checkBeforeJoin(HttpServletRequest req, @RequestParam("meetListNum") int meetListNum) throws Exception{
+		HttpSession session = req.getSession();
+		
+		Users user1 = (Users)session.getAttribute("user1");
+		SessionUser sessionUser = (SessionUser) session.getAttribute("user");
+		String useremail = "";
+		if(user1 != null){
+            useremail = user1.getEmail();
+        }else if(sessionUser != null){
+            useremail = sessionUser.getEmail();
+        }
+		
+		GatchiDTO gatchiDTO = meetServiceYj.getMeetListInfo(meetListNum);
+		MeetInfoDTO meetInfoDTO = new MeetInfoDTO();
+		meetInfoDTO.setEmail(useremail);
+		meetInfoDTO.setMeetListNum(gatchiDTO.getCode());
+		MeetInfoDTO ret = meetServiceYj.getMeetInfoByEmail(meetInfoDTO);
+
+		int userPoint = paymentService.getUserPoint(useremail);
+		int meetMoney = gatchiDTO.getMeetMoney();
+
+		System.out.println("유저 포인트 : " + userPoint);
+		System.out.println("meetMoney = " + meetMoney);
+
+		if(ret==null) {
+			return 1;
+		}else if(userPoint < meetMoney){
+			return 2;
+		}
+		return 0;
 	}
 
 	// 가입 취소시
@@ -753,15 +853,6 @@ public class MeetControllerYj {
 
 	// 	return true;
 	// }
-
-	@PostMapping("/reqCalculate")
-	public Boolean reqCalculate() throws Exception{
-		// 방장 아닌 멤버가 수락 눌러주는 곳
-
-		
-
-		return false;
-	}
 
 	// 포인트 감소(입장) 메서드
 	private void paymentPoint(String useremail, int meetListNum) throws Exception{

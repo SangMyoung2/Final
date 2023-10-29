@@ -1,6 +1,8 @@
 package com.spring.boot.dto;
 
 
+import java.sql.Date;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,8 +15,8 @@ public class ChallengeDTO {
     private String challengeImageMain;
     private String challengeWeekCheck;
     private String challengeDateCheck;
-    private String challengeStartDate;
-    private String challengeEndDate;
+    private Date challengeStartDate;
+    private Date challengeEndDate;
     private String challengeImageSuccess;
     private String challengeImageFail;
     private int challengeLikeCount;

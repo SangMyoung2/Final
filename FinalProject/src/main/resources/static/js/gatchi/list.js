@@ -309,6 +309,7 @@ function checkLike(data){
   for(let i=0; i<data.length; i++){
     console.log(data[i]);
     let likeBtn = document.getElementById("likeBtnLabel" + data[i]);
+    if(likeBtn == null) continue;
     let likecheck = document.getElementById("heartBtn" + data[i]);
 
     likeBtn.classList.add('like');

@@ -173,6 +173,10 @@ label[for="sidebar-btn"] {
 	align-items: center;
 }
 
+.menubar{
+	display: none;
+}
+
 @media screen and (max-width: 1100px) {
 	.textLogo{
 		font-size: 25px;
@@ -203,62 +207,100 @@ label[for="sidebar-btn"] {
 	}
 }
 
-.menubar{
+#menubarBody{
 	display: none;
 }
+
 @media screen and (max-width: 850px){
 	
 	.hbody{
 		display: none;
 	}
-
+	.menu_item{
+		font-size: 20px;
+		margin-bottom: 0px !important;
+	}
 	#menubarBody{
+		display: block;
 		display: flex;
-		justify-content: end;
+		height: 40px;
+		background-color: #5ca8b5;
 	}
 
 	.menubar {
-		display: block;
-		overflow: hidden;
-		list-style: none;
+		display: block !important;
+		overflow: hidden !important;
+		list-style: none !important;
+		position: absolute !important;
+    	right: 0 !important;
+		z-index: 9999;
 	}
 	
 	.menubar > li {
-		float: left;
-		text-align: center;
-		line-height: 40px;
-		background-color: #5778ff;
+		float: left !important;
+		text-align: center !important;
+		line-height: 40px !important;
+		background-color: #5ca8b5 !important;
+		
 	}
 	
 	.menubar a {
-		color: #fff;
+		color: #fff !important;
 	}
 	
 	.submenubar > li {
-		line-height: 50px;
-		background-color: #94a9ff;
-		list-style: none;
+		line-height: 50px !important;
+		background-color: #5ca8b5 !important;
+		list-style: none !important;
 	}
 	
 	.submenubar {
+<<<<<<< HEAD
 		height: 0; /*ul�쓽 �넂�씠瑜� �븞蹂댁씠寃� 泥섎━*/
 		overflow: hidden;
 		margin: 0px;
+=======
+		height: 0 !important; /*ul의 높이를 안보이게 처리*/
+		overflow: hidden !important;
+		margin: 0px !important;
+>>>>>>> d4c0ff578cbfdd9b1a3f4766f8678c570c3a8533
 	}
 	.menubar > li:hover {
-		background-color: #94a9ff;
-		transition-duration: 0.5s;
+		background-color: #5ca8b5 !important;
+		transition-duration: 0.5s !important;
 	}
 	
 	.menubar > li:hover .submenubar {
+<<<<<<< HEAD
 		height: 250px; /*�꽌釉뚮찓�돱 li�븳媛쒖쓽 �넂�씠 50*5*/
 		transition-duration: 1s;
+=======
+		height: 400px !important; /*서브메뉴 li한개의 높이 50*5*/
+		transition-duration: 1s !important;
+>>>>>>> d4c0ff578cbfdd9b1a3f4766f8678c570c3a8533
 	}
 
 	.menubarsub{
-		margin: 0px;
+		margin: 0px !important;
+	}
+	.menu_item_logo{
+		text-align: center !important;
+		width: auto !important;
+	}
+	.textLogo{
+		font-weight: bold !important;
+		color: white !important;
+		font-size: 30px !important;
+		margin-left: 15px !important;
 	}
 
+	.userName {
+		display: flex !important;
+		position: relative !important;
+		justify-content: flex-end !important;
+		align-items: center !important;
+		width: 55% !important;
+	}
 }
 
 

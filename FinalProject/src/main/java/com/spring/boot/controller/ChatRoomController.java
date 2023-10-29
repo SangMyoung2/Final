@@ -61,22 +61,7 @@ public class ChatRoomController {
     @Autowired
     private ChatUtil chatUtil;
 
-    @RequestMapping("/chatbutton.action")
-    public ModelAndView chatButton(){
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("chat/chatbutton");
-        
-        return mav;
-    }
-
-    @RequestMapping("/chatlogin.action")
-    public ModelAndView chatLogin(){
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("chat/chatlogin");
-        
-        return mav;
-    }
-
+    
     //채팅 리스트 화면
     @RequestMapping("/chatlist.action")
     public ModelAndView chatRooms(HttpServletRequest req){
@@ -127,6 +112,8 @@ public class ChatRoomController {
     public ModelAndView createRoom(@RequestParam("roomName") String roomName, 
     @RequestParam("roomType") String roomType,
     @RequestParam("meetListNum") int meetListNum,
+    @RequestParam("createType") int createType,
+    @RequestParam(name = "redirectNum", required = false, defaultValue = "0") int redirectNum,
     HttpServletRequest req) throws Exception{
 
         //chatDAO.createChatRoom(roomName, roomMaster);
@@ -164,8 +151,9 @@ public class ChatRoomController {
         chatRoomCollection.setRoomMaster(userId);
         chatRoomCollection.setCreateDate(formattedDateTime);
         chatRoomCollection.setType(roomType);
+        chatRoomCollection.setRoomType(1);
         chatRoomCollection.setUserCount(1);
-
+        
         chatRoomCollection.setLists(userId);
 
         // map에는 '.' 이 저장 안되서 aaa@naver 까지 잘라서 저장
@@ -183,7 +171,15 @@ public class ChatRoomController {
         
         ModelAndView mav = new ModelAndView();
         //mav.addObject("roomName", room);
-        mav.setViewName("redirect:/meetMateList.action");
+        if(createType == 1){
+            mav.setViewName("redirect:/meetMateList.action");
+        }
+        else if(createType == 2){
+            mav.setViewName("redirect:/communiArticle.action");
+        }
+        else if(createType == 3){
+            mav.setViewName("redirect:/communiArticle.action?meetListNum=" + redirectNum);
+        }
         return mav;
     }
 
