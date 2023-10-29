@@ -12,17 +12,13 @@ public interface MeetServiceYj {
 
     public MeetInfoDTO getMeetMaster(int meetListNum) throws Exception;
 
+    public MeetInfoDTO getMeetInfoByEmail(MeetInfoDTO dto) throws Exception;
+
     public List<MeetCategoryDTO> getAllCategories() throws Exception;
 
     public GatchiDTO getMeetListInfo(int meetListNum) throws Exception;
 
     public List<GatchiDTO> getOnlyMeetListInfo(int meetListNum) throws Exception;
-
-    public List<GatchiDTO> selectUpcomingDates(int meetListNum) throws Exception;
-
-    public List<GatchiDTO> selectLatestDates(int meetListNum) throws Exception;
-
-    public List<GatchiDTO> selectOldestDates(int meetListNum) throws Exception;
 
     public void createMeetInCommuni(GatchiDTO dto) throws Exception;
 

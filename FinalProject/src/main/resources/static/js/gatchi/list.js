@@ -338,12 +338,37 @@ window.onload = function() {
 
 
 
- //검색
- function sendIt(){
+//정렬 버튼
+function changeSortOrder() {
+  // var sortOrder = document.getElementById("sortOrder").value;
+  var form = document.sortForm;
+  
+  // alert(sortOrder);
+  
+  form.submit();
+}
+
+  
+
+
+//검색
+function sendIt(){
 
   var f = document.searchForm;
   
   f.action = "/meetMateList.action";
+  f.submit();
+  
+}
+
+
+
+//검색
+function sendIt1(){
+
+  var f = document.searchForm;
+  
+  f.action = "/communiFindList.action";
   f.submit();
   
 }

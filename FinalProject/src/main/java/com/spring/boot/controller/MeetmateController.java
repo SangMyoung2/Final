@@ -212,16 +212,18 @@ public class MeetmateController {
 		return mav;
 	}
 		
-	@GetMapping("/meetMateList.action")
+	@RequestMapping("/meetMateList.action")
 	public ModelAndView meetMateList(
 		@RequestParam(name = "searchKey", required = false, defaultValue = "meetTitle") String searchKey,
 		@RequestParam(name = "searchValue", required = false) String searchValue, 
-		HttpServletRequest request) throws Exception {
+		@RequestParam(name = "sortOrder", required = false) String sortOrder,
+		MeetInfoDTO meetInfoDTO, HttpServletRequest request) throws Exception {
 		
 		ModelAndView mav = new ModelAndView();
 		
-		//HttpSession session = request.getSession();**************프로필사진
-		//String picture = (String) session.getAttribute("picture");******************
+		 // 방장 프로필 사진 불러오기
+		 int meetListNum = meetInfoDTO.getMeetListNum();
+		 String masterProfile = gatchiService.getProfileByUsers(meetListNum);
 
 		List<GatchiDTO> meetMateLists = new ArrayList<>();
 		List<GatchiDTO> meetMateSlideLists = new ArrayList<>();
@@ -237,64 +239,66 @@ public class MeetmateController {
 
 		List<GatchiDTO> searchMeetMateList = gatchiService.searchMeetMateList(searchKey, searchValue);
 
+		//정렬 버튼 클릭 시
+		if (sortOrder != null) {
+			List<GatchiDTO> sortLists = new ArrayList<>();
+	  
+			if ("meetHitCount".equals(sortOrder)){
+				sortLists = gatchiService.sortByHitCountMeet();
+				// System.out.println(sortLists);
+			} else if ("meetLikeCount".equals(sortOrder)) {
+				sortLists = gatchiService.sortByLikeCountMeet();
+				// System.out.println(sortLists);
+			} else if ("meetDday".equals(sortOrder)) {
+				sortLists = gatchiService.sortByDdayMeet();
+				// System.out.println(sortLists);
+			}
+			mav.addObject("sortLists", sortLists);
+			mav.setViewName("meetmate/meetMateList");
+	  
+			return mav;
+			}
+	  
+
+ 		//여기서부터 meetStatus 값 변경 위한 작업
+		Date currentDate = new Date();//현재 날짜, 시간 가져오기
+		
+		List<GatchiDTO> meetMateLists2 = gatchiService.getMeetMateLists();//meetMateLists로 GatchiDTO 가져오기
+
+		// meetMateLists를 하나씩 꺼내면서 날짜 비교 및 업데이트
+		for (GatchiDTO meetMateList : meetMateLists2) {			
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+			Date meetDday = dateFormat.parse(meetMateList.getMeetDday());
+
+			if (meetMateList.getMeetCheck() == 1 && meetDday.before(currentDate)) {// meetCheck가 1이고 meetDday 지나면
+				meetMateList.setMeetStatus(2);//meetStatus를 2로 업데이트				
+				gatchiService.updateMeetStatusMate(meetMateList);//업데이트된 GatchiDTO 저장
+			}
+		}
+
 		//mav.addObject("picture", picture);********************
 		mav.addObject("searchMeetMateList", searchMeetMateList);
 		mav.addObject("meetMateSlideLists", meetMateSlideLists);		
 		mav.addObject("meetLists", meetMateLists);	
+		mav.addObject("masterProfile", masterProfile);
 		mav.setViewName("meetmate/meetMateList");
 		
 		return mav;		
 	}
 
 
-/* 이거 필요한지 모르겠음..... 일단 주석처리
-	@PostMapping("/meetMateList.action")
-	public ModelAndView meetMateList(@RequestParam(name = "searchKey", required = false) String searchKey,
-        @RequestParam(name = "searchValue", required = false) String searchValue) throws Exception {
-		
-// 		ModelAndView mav = new ModelAndView();
-		
-// 		List<GatchiDTO> meetMateLists = new ArrayList<>();
-// 		List<GatchiDTO> meetMateSlideLists = new ArrayList<>();
-		
-// 		// // String searchKey = request.getParameter("searchKey");
-// 		// // String searchValue = request.getParameter("searchValue");
-// 		// if (searchValue == null) {
-// 		// 	searchKey = "meetTitle";
-// 		// 	searchValue = "";
-		
-// 		// } else {
-// 		// 	if (request.getMethod().equalsIgnoreCase("GET")) {
-// 		// 		searchValue = URLDecoder.decode(searchValue, "UTF-8");
-// 		// 	}
-// 		// }   ******************************************
-		
-// 		System.out.println("searchKey 내용 : " + searchKey);
-// 		System.out.println("searchValue 내용 : " + searchValue);
-
-		meetMateLists = gatchiService.searchMeetMateList(searchKey, searchValue);
-		meetMateSlideLists = gatchiService.getMeetMateRandomList(9); // 9개의 랜덤 모임을 가져옴
-
-// 		//System.out.println("모임 DB 가져온 내용 : " + meetLists);
-
-		mav.addObject("meetMateSlideLists", meetMateSlideLists);		
-		mav.addObject("meetLists", meetMateLists);		
-		mav.setViewName("/meetmate/meetMateList");
-		
-		return mav;
-	}
- */
-
-	@GetMapping("/communiFindList.action")
+	@RequestMapping("/communiFindList.action")
 	public ModelAndView communiFindList(
 		@RequestParam(name = "searchKey", required = false, defaultValue = "meetTitle") String searchKey,
 		@RequestParam(name = "searchValue", required = false) String searchValue, 
-		HttpServletRequest request) throws Exception {
+		@RequestParam(name = "sortOrder", required = false) String sortOrder,
+		MeetInfoDTO meetInfoDTO, HttpServletRequest request) throws Exception {
 		
 		ModelAndView mav = new ModelAndView();
-		
-		//HttpSession session = request.getSession();**************프로필사진
-		//String picture = (String) session.getAttribute("picture");******************
+
+		 // 방장 프로필 사진 불러오기
+		 int meetListNum = meetInfoDTO.getMeetListNum();
+		 String masterProfile = gatchiService.getProfileByUsers(meetListNum);
 
 		List<GatchiDTO> communiFindLists = new ArrayList<>();
 		List<GatchiDTO> communiFindSlideLists = new ArrayList<>();
@@ -309,6 +313,24 @@ public class MeetmateController {
 		}
 
 		List<GatchiDTO> searchCommuniFindList = gatchiService.searchCommuniFindList(searchKey, searchValue);
+
+		//정렬 버튼 클릭 시
+		if (sortOrder != null) {
+			List<GatchiDTO> sortLists = new ArrayList<>();
+
+			if ("meetHitCount".equals(sortOrder)){
+			sortLists = gatchiService.sortByHitCountMeet();
+			} else if ("meetLikeCount".equals(sortOrder)) {
+			sortLists = gatchiService.sortByLikeCountMeet();
+			} else if ("meetDday".equals(sortOrder)) {
+			sortLists = gatchiService.sortByDdayMeet();
+			}
+			mav.addObject("sortLists", sortLists);
+			mav.setViewName("meetmate/communiFindList");
+
+			return mav;
+		}
+
 
 		//여기서부터 meetStatus 값 변경 위한 작업		
 		Date currentDate = new Date();//현재 날짜, 시간 가져오기
@@ -330,6 +352,7 @@ public class MeetmateController {
 		mav.addObject("searchCommuniFindList", searchCommuniFindList);		
 		mav.addObject("communiFindSlideLists", communiFindSlideLists);		
 		mav.addObject("communiLists", communiFindLists);
+		mav.addObject("masterProfile", masterProfile);
 		mav.setViewName("/meetmate/communiFindList");
 		
 		return mav;		
