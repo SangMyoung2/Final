@@ -53,19 +53,12 @@
         where email = #{email}
     </update>
 
-<<<<<<< HEAD
-    <update id="updateUserPoint" parameterType="com.spring.boot.dto.userPointDTO">
-        update userPoint set pointBalance = pointBalance + #{pointBalance}
-        where email = #{email}
-    </update>
-=======
     <!-- 회원 가입 시 포인트 잔액을 0으로 초기화 -->
     <insert id="insertUserAfterSignUp" parameterType="String">
         INSERT INTO userPoint (email, pointBalance)
         VALUES (#{email}, 0)
     </insert>
 
->>>>>>> develop
     
     <!-- 추가적인 결제 관련 SQL 문장을 작성할 수 있습니다. -->
 
