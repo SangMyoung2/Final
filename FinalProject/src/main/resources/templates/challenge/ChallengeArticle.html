@@ -397,15 +397,31 @@ tr{
                     </button>
 
                     <br/>
-                    <h6><b>Challenge Record : </b><span th:text="${challengeDTO.challengeStartDate + ' ~ ' + challengeDTO.challengeEndDate}"></span> (총 <span th:text="${challengeDay}"></span>일)</h5>
-                        <div th:if="${not #lists.isEmpty(authStatus)}">
-                            <div th:each="status, iterStat : ${authStatus}" style="display: inline-block;">
-                                <div th:if="${status==0}" class="square gray"></div>
-                                <div th:if="${status==1}" class="square green"></div>
-                                <!-- 5개 요소마다 줄 바꿈 -->
-                                <div th:if="${iterStat.index % 5 == 4}" style="display: block;"></div>
+                    <h6><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Challenge Record : </b><span th:text="${challengeDTO.challengeStartDate + ' ~ ' + challengeDTO.challengeEndDate}"></span> (총 <span th:text="${challengeDay}"></span>일)</h5>
+
+                        <div id="countdown-wrap" style="height: 100px;">
+                            <div id="goal"></div>
+                            <div id="glass">
+                                <div id="progress">
+                                </div>
+                            </div>
+                            <div class="goal-stat">
+                                <span class="goal-number" id="current-amount" th:text="${userAuthCnt}"></span>
+                                <span class="goal-label" style="width: 100px;">현재 인증 횟수</span>
+                            </div>
+                            <div class="goal-stat" style="margin-left: 187px;">
+                                <span class="goal-number" id="max-amount" th:text="${challengeDay}"></span>
+                                <span class="goal-label" style="width: 100px;">챌린지 총 횟수</span>
                             </div>
                         </div>
+                        <br/>
+                        <h4>챌린지 진행상황</h2>
+                        <th:block th:unless="${#lists.isEmpty(authStatus)}">
+                            <div th:each="authStatus : ${authStatus}" style="display: inline-block; align-content: center;">
+                                <div th:if="${authStatus==0}" class="square gray"></div>
+                                <div th:if="${authStatus==1}" class="square green"></div>
+                            </div>
+                        </th:block>
                 </div>
             </div>
 

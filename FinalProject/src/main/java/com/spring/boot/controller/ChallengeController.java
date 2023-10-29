@@ -210,7 +210,7 @@ public class ChallengeController {
 		// System.out.println(userAuthList.get(0).getChallengeAuthCreateDate());
 		// System.out.println(userAuthList.get(1).getChallengeAuthCreateDate());
 		// System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++");
-			
+		
 		if (!userAuthList.isEmpty()) {
 
 			LocalDate dummy = LocalDate.of(2023, 10, 7);
@@ -274,8 +274,8 @@ public class ChallengeController {
 			mav.addObject("authStatus", authStatus);
 		}
 
-
-		
+		int userAuthCnt = userAuthList.size();
+		mav.addObject("userAuthCnt",userAuthCnt);
         mav.addObject("challengeDay",challengeDay);
         mav.addObject("challengeInfoDTO",challengeInfoDTO);
         mav.addObject("ChallengeMemberStatus", ChallengeMemberStatus);
