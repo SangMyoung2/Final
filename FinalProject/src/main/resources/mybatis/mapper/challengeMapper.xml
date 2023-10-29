@@ -177,7 +177,7 @@ select l.* from latlng l, gatchi gc where gc.meetListNum = #{meetListNum} and gc
 </update>
 
 <select id="getListsSerchValue" parameterType="String" resultType="com.spring.boot.dto.ChallengeDTO">
-    select * from CHALLENGE where challengetitle like '%' || #{searchValue} || '%'
+    select * from CHALLENGE where challengetitle like '%' || #{searchValue} || '%' order by CHALLENGECREATEDATE desc
 </select>
 
 </mapper>

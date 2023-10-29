@@ -146,22 +146,22 @@
 
 .yj-intro {
     padding: 20px 30px 10px; /*위/양사이드/아래*/
-    color: #1d65b2;
+    color: #00824a;
     font-size: 20px;
 }
 .yj-info {
     padding: 30px 30px 10px; /*위/양사이드/아래*/
-    color: #1d65b2;
+    color: #00824a;
     font-size: 20px;
 }
 .yj-inwon {
     padding: 35px 30px 10px; /*위/양사이드/아래*/
-    color: #1d65b2;
+    color: #00824a;
     font-size: 20px;
 }
 .yj-money {
     padding: 5px 30px 10px; /*위/양사이드/아래*/
-    color: #1d65b2;
+    color: #00824a;
     font-size: 20px;
 }
 
@@ -331,7 +331,7 @@
     display: inline-block;
     padding: 8px 18px;
     font-size: 18px;
-    background-color: #1d65b2;
+    background-color: #00824a;
     color: #fff;
     border: none;
     border-radius: 10px;
@@ -395,7 +395,7 @@
     height: 310px;
     background-color: #eff5fc;
     padding: 15px 14px 15px 15px;
-    border-top: 7px solid #1d65b2;
+    border-top: 7px solid #00824a;
     border-radius: 2px;
 }
 
@@ -405,7 +405,7 @@
     height: 634px;
     background-color: #eff5fc;
     padding: 15px 14px 15px 15px;
-    border-top: 7px solid #5b5e67;
+    border-top: 7px solid #00824a;
     border-radius: 2px;
 }
 
@@ -481,7 +481,7 @@
     background-color: #F9F9F9;
     padding: 35px 40px 30px 40px;
     left: 0;
-    border-top: 7px solid #1d65b2;
+    border-top: 7px solid #00824a;
 }
 
 .meetName-back {
@@ -587,7 +587,7 @@
     float: left;
     width: 16%;
     height: 20px;
-    background: #1d65b2;
+    background: #00824a;
     z-index: 333;
     border-radius: 5px;
   }

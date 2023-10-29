@@ -89,7 +89,7 @@ public class ChallengeController {
 		}
 
         String absolutePath = new File("").getAbsolutePath() + "\\";
-		String path = "FinalProject/src/main/resources/static/image/challengeImage";
+		String path = "FinalProject/src/main/resources/static/image/challenge/challengeList";
         File file = new File(path);
 		// 폴더가 없다면 생성
 		if (!file.exists()) {
@@ -147,6 +147,7 @@ public class ChallengeController {
         challengeService.createChallenge(dto);
         challengeService.insertChallengeInfo(infoDTO);
 
+		Thread.sleep(2000);
 		mav.setViewName("redirect:/challengeList.action");
 		
 		return mav;	
@@ -251,14 +252,18 @@ public class ChallengeController {
             
 			if (!challengeAuthImage.isEmpty()) {
 
-                String resourcePath ="C:\\VSCode\\Final\\FinalProject\\src\\main\\resources\\static\\image\\challenge\\challengeCheck";
-				String originalFilename = challengeAuthImage.getOriginalFilename();
-				String saveFileName = UUID.randomUUID() + originalFilename;
+                String absolutePath = new File("").getAbsolutePath() + "\\";
+				String path = "FinalProject/src/main/resources/static/image/challenge/challengeCheck";
+				File file = new File(path);
+				// 폴더가 없다면 생성
+				if (!file.exists()) {
+					file.mkdirs();
+				}
+				String originalFileName = challengeAuthImage.getOriginalFilename();
+				String saveFileName = UUID.randomUUID() + originalFileName;
 				
-				Path filePath = Paths.get(resourcePath, saveFileName);
-            	
-            	Files.write(filePath, challengeAuthImage.getBytes());
-
+				file = new File(absolutePath + path + "/" + saveFileName);
+				challengeAuthImage.transferTo(file);
 
                 authDTO.setChallengeAuthImage(saveFileName);
 

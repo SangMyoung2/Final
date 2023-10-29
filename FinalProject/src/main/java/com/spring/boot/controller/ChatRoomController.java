@@ -61,22 +61,7 @@ public class ChatRoomController {
     @Autowired
     private ChatUtil chatUtil;
 
-    @RequestMapping("/chatbutton.action")
-    public ModelAndView chatButton(){
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("chat/chatbutton");
-        
-        return mav;
-    }
-
-    @RequestMapping("/chatlogin.action")
-    public ModelAndView chatLogin(){
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("chat/chatlogin");
-        
-        return mav;
-    }
-
+    
     //채팅 리스트 화면
     @RequestMapping("/chatlist.action")
     public ModelAndView chatRooms(HttpServletRequest req){
@@ -164,8 +149,9 @@ public class ChatRoomController {
         chatRoomCollection.setRoomMaster(userId);
         chatRoomCollection.setCreateDate(formattedDateTime);
         chatRoomCollection.setType(roomType);
+        chatRoomCollection.setRoomType(1);
         chatRoomCollection.setUserCount(1);
-
+        
         chatRoomCollection.setLists(userId);
 
         // map에는 '.' 이 저장 안되서 aaa@naver 까지 잘라서 저장
