@@ -45,6 +45,10 @@ public class PaymentServiceImpl implements PaymentService{
         paymentMapper.updateUserUsePoint(userPointDTO);
     }
 
+	@Override
+    public void insertUserAfterSignUp(String email) throws Exception {
+        paymentMapper.insertUserAfterSignUp(email);
+    }
 	
 	// 이후 필요한 추가적인 비즈니스 로직 메서드의 구현을 여기에 추가할 수 있습니다.
 }

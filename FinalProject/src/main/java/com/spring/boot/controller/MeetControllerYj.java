@@ -487,7 +487,7 @@ public class MeetControllerYj {
 
 		meetServiceYj.deleteMeetOut(meetInfoDTO);
 		meetServiceYj.decrementMeetMemCnt(meetListNum);
-	
+		
 		refundPoint(useremail, meetListNum);
 
 		// 채팅방 나가기
@@ -526,6 +526,7 @@ public class MeetControllerYj {
 		gatchiDTO.setMeetListNum(meetListNum);
 
 		meetServiceYj.updateMeetStatus(gatchiDTO);
+		meetServiceYj.updateCode(gatchiDTO); // 커뮤니방 삭제되면 그 속에 미트방도 삭제
 		
 		//채팅 삭제 (타입 2로 변경해서 안나오게)
 		gatchiDTO = meetServiceYj.getMeetListInfo(meetListNum);

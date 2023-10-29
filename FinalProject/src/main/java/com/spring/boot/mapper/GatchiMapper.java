@@ -13,6 +13,8 @@ public interface GatchiMapper {
 	
 	public void createGatchi(GatchiDTO dto) throws Exception;
 
+	public void createCommuni(GatchiDTO dto) throws Exception;
+
 	public void createMeetInfo(MeetInfoDTO dto) throws Exception;
 
 	public List<MeetInfoDTO> getMeetInfo()throws Exception;

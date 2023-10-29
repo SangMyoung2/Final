@@ -15,15 +15,20 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.boot.dto.PaymentInfoDTO;
+import com.spring.boot.dto.PointHistoryDTO;
 import com.spring.boot.dto.SessionUser;
 import com.spring.boot.model.Users;
 import com.spring.boot.service.PaymentService;
+import com.spring.boot.service.PointHistoryService;
 
 @Controller // RestController를 사용하면 결제 성공 후 페이지가 안 뜨고, Controller 쓰면 뜬다
 public class PaymentController {
 
     @Autowired
     private PaymentService paymentService;
+
+    @Autowired
+    private PointHistoryService pointHistoryService;
     
     String userEmail;
     String email;
@@ -56,6 +61,14 @@ public class PaymentController {
         try {
             List<PaymentInfoDTO> paymentInfo = paymentService.findByEmail(email);
             mav.addObject("paymentInfo", paymentInfo);
+
+            // 포인트 사용 내역 불러오기
+            PointHistoryDTO pointHistoryDTO = new PointHistoryDTO();
+            pointHistoryDTO.setUseremail(email);
+            
+            List<PointHistoryDTO> pointHistories = pointHistoryService.getUseReadData(pointHistoryDTO);
+            mav.addObject("pointHistories", pointHistories); // pointHistories 리스트를 뷰로 전달
+
             mav.setViewName("pay/paymentInfo");
         } catch (Exception e) {
             mav.setViewName("pay/paymentErrorPage");

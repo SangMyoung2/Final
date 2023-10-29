@@ -190,7 +190,7 @@ public class MeetmateController {
 			int maxNum = gatchiService.maxNum();
 			dto.setMeetListNum(maxNum + 1);
 			dto.setMeetImage(saveFileName);
-			gatchiService.createGatchi(dto);
+			gatchiService.createCommuni(dto);
 
 			infoDTO.setMeetListNum(maxNum + 1);
 			gatchiService.createMeetInfo(infoDTO);
@@ -316,15 +316,15 @@ public class MeetmateController {
 		List<GatchiDTO> getCommuniFindLists2 = gatchiService.getCommuniFindLists();//meetMateLists로 GatchiDTO 가져오기
 
 		//meetMateLists를 하나씩 꺼내면서 날짜 비교 및 업데이트
-		for (GatchiDTO communiFindList : getCommuniFindLists2) {			
-			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-			Date meetDday = dateFormat.parse(communiFindList.getMeetDday());
+		// for (GatchiDTO communiFindList : getCommuniFindLists2) {			
+		// 	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		// 	Date meetDday = dateFormat.parse(communiFindList.getMeetDday());
 
-			if (communiFindList.getMeetCheck() == 2 && meetDday.before(currentDate)) {// meetCheck가 1이고 meetDday 지나면
-				communiFindList.setMeetStatus(2);//meetStatus를 2로 업데이트				
-				gatchiService.updateMeetStatusFind(communiFindList);//업데이트된 GatchiDTO 저장
-			}
-		}
+		// 	if (communiFindList.getMeetCheck() == 2 && meetDday.before(currentDate)) {// meetCheck가 1이고 meetDday 지나면
+		// 		communiFindList.setMeetStatus(2);//meetStatus를 2로 업데이트				
+		// 		gatchiService.updateMeetStatusFind(communiFindList);//업데이트된 GatchiDTO 저장
+		// 	}
+		// }
 
 		//mav.addObject("picture", picture);********************
 		mav.addObject("searchCommuniFindList", searchCommuniFindList);		

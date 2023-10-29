@@ -121,6 +121,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     update gatchi set meetStatus = 0 where meetListNum = #{meetListNum}
 </update>
 
+<update id="updateCode" parameterType="com.spring.boot.dto.GatchiDTO">
+    update gatchi set code = 0 where code = #{meetListNum}
+</update>
+
 <update id="meetStatusCompletion" parameterType="com.spring.boot.dto.GatchiDTO">
     <![CDATA[
     update gatchi set meetstatus = 2 where to_char(to_date(meetdday,'yyyy-mm-dd hh24:mi'),'yyyymmdd') < to_char(sysdate, 'yyyymmdd') and meetlistnum = #{meetListNum}
