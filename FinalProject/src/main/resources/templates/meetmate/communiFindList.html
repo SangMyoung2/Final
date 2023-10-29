@@ -115,9 +115,8 @@
           th:style="${items.meetStatus == 2 ? 'outline: inset #000000; border-radius: 40px;' : ''}" 
           th:unless="${items.meetStatus == 3}">
           <div class="card">
-            <div id="heart" class="heart" name="likeBtn">
-              <input type="hidden" th:value="${items.meetListNum}">
-            </div>
+            <input type="checkbox" th:id="'heartBtn' + ${items.meetListNum}" class="heartBtn" name="likeBtn" th:value="${items.meetListNum}">
+            <label th:for="'heartBtn' + ${items.meetListNum}" th:id="'likeBtnLabel' + ${items.meetListNum}" class="heart"></label>
               <a th:href="@{'/communiArticle.action?meetListNum=' + ${items.meetListNum}}">
               <img th:src="@{|/image/gatchiImage/${items.meetImage}|}" class="card__image" alt=""/>  <!-- 클릭하면 article로 넘어가게 -->
             </a>
@@ -192,8 +191,8 @@
       <li name="communiLists" class="communiLists_hidden" th:each="items : ${communiLists}" th:style="${items.meetStatus == 2 ? 'outline: inset #000000; border-radius: 40px;' : ''}" 
         th:unless="${items.meetStatus == 3}">
           <div class="card">
-            <div id="heart" class="heart" name="likeCount"></div>    
-          <div id="heart" class="button__like"></div>  
+            <input type="checkbox" th:id="'heartBtn' + ${items.meetListNum}" class="heartBtn" name="likeBtn" th:value="${items.meetListNum}">
+            <label th:for="'heartBtn' + ${items.meetListNum}" th:id="'likeBtnLabel' + ${items.meetListNum}" class="heart"></label>
             <a href="#">
               <img th:src="@{|/image/gatchiImage/${items.meetImage}|}" class="card__image" alt=""/>  <!-- 클릭하면 article로 넘어가게 -->
             </a>

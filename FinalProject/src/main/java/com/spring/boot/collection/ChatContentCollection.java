@@ -32,6 +32,7 @@ public class ChatContentCollection {
     @Data
     public static class ChatMessage{
         private String userId;
+        private String picture;
         private String sender;
         private String message;
         private String time;

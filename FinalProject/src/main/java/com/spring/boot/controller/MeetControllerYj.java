@@ -10,6 +10,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,11 +26,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.spring.boot.collection.ChatRoomCollection;
 import com.spring.boot.dto.GatchiDTO;
 import com.spring.boot.dto.MapDTO;
 import com.spring.boot.dto.PointHistoryDTO;
 import com.spring.boot.dto.userPointDTO;
 import com.spring.boot.model.Users;
+import com.spring.boot.service.ChatRoomService;
 import com.spring.boot.service.GatchiService;
 import com.spring.boot.service.MapService;
 import com.spring.boot.dto.MeetCategoryDTO;
@@ -39,6 +42,7 @@ import com.spring.boot.dto.SessionUser;
 import com.spring.boot.service.MeetServiceYj;
 import com.spring.boot.service.PaymentService;
 import com.spring.boot.service.PointHistoryService;
+import com.spring.boot.util.ChatUtil;
 
 @RestController
 public class MeetControllerYj {
@@ -57,6 +61,12 @@ public class MeetControllerYj {
 
 	@Autowired
 	private MapService mapService;
+
+	@Autowired
+    private ChatRoomService chatRoomService;
+
+	@Autowired
+    private ChatUtil chatUtil;
 
 	// meetMate 아티클
 	@GetMapping("/meetArticle.action")
@@ -409,8 +419,23 @@ public class MeetControllerYj {
 			meetInfoDTO.setMeetMemStatus(2); // 선착순
 			meetServiceYj.incrementMeetMemCnt(meetListNum);
 			meetInfoDTO.setApprovalStatus(-1);
+			
 			//채팅방 가입
+			Optional<ChatRoomCollection> room = chatRoomService.getReadDate(meetListInfo.getChatRoomNum());
+        	ChatRoomCollection rooms = (ChatRoomCollection)room.get();
+        
+			// 여기는 신규유저 인지 아닌지 확인 하는곳
+			if(!rooms.getUsers().contains(useremail)){
+				System.out.println("신규 유저 입장!");
 
+				rooms.getUsers().add(useremail);
+				String entryDate = chatUtil.todayYMDAndTime();
+				String newUser = chatUtil.emailSubString(useremail);
+				rooms.setEntryDate(newUser, entryDate);
+				int userCnt = rooms.getUserCount();
+				rooms.setUserCount(userCnt + 1);
+				chatRoomService.updateChatRoom(rooms);
+			}
 
 		} else if (meetHow == 2) {
 			meetInfoDTO.setMeetMemStatus(0); // 승인대기
@@ -426,6 +451,7 @@ public class MeetControllerYj {
 		} else if (meetCheck == 2) {
 			return new ModelAndView("redirect:/communiArticle.action?meetListNum=" + meetListNum);
 		}
+		
 		return mav;
 	}
 
@@ -433,6 +459,8 @@ public class MeetControllerYj {
 	@GetMapping("/out-meet")
 	public ModelAndView outMeet(HttpServletRequest request,
 			@RequestParam("meetListNum") int meetListNum) throws Exception {
+		
+		System.out.println("유저가 방나가기 누른곳");
 
 		ModelAndView mav = new ModelAndView();
 		GatchiDTO meetListInfo = meetServiceYj.getMeetListInfo(meetListNum);
@@ -462,11 +490,28 @@ public class MeetControllerYj {
 	
 		refundPoint(useremail, meetListNum);
 
+		// 채팅방 나가기
+		String chatRoomNum = meetListInfo.getChatRoomNum();
+		ChatRoomCollection chatRoom = chatRoomService.findByRoomId(chatRoomNum);
+		
+		List<String> users = chatRoom.getUsers();
+		for(int i=0; i<users.size(); i++){
+			if(users.get(i).equals(useremail) || users.get(i) == useremail){
+				System.out.println("같은 유저 찾아서 삭제");
+				users.remove(i);
+				break;
+			}
+		}
+		chatRoom.setUsers(users);
+		chatRoom.setUserCount(chatRoom.getUserCount() - 1);
+		chatRoomService.updateChatRoom(chatRoom);
+
 		if (meetCheck == 1) {
 			return new ModelAndView("redirect:/meetArticle.action?meetListNum=" + meetListNum);
 		} else if (meetCheck == 2) {
 			return new ModelAndView("redirect:/communiArticle.action?meetListNum=" + meetListNum);
 		}
+
 		return mav;
 	}
 
@@ -482,19 +527,28 @@ public class MeetControllerYj {
 
 		meetServiceYj.updateMeetStatus(gatchiDTO);
 		
-		// TODO : 방 인원들 싹다 불러와서 금액 환불
+		//채팅 삭제 (타입 2로 변경해서 안나오게)
+		gatchiDTO = meetServiceYj.getMeetListInfo(meetListNum);
+		String chatRoomNum = gatchiDTO.getChatRoomNum();
+		System.out.println("chatRoomNum : " + chatRoomNum);
+		ChatRoomCollection chatRoom = chatRoomService.findByRoomId(chatRoomNum);
+		System.out.println("룸 타입 : " + chatRoom.getRoomType());
+		chatRoom.setRoomType(2);
+		chatRoomService.updateChatRoom(chatRoom);
+
+		// TODO : 방 인원들 싹다 불러와서 금액 환불 MeetMate만
 		// 1. 방인원 싹 불러오기(리스트로)
 		// 2. 리스트 돌면서 환불해주기 하면 끗
-		List<MeetInfoDTO> lists = meetServiceYj.getMeetInfo(meetListNum);
-		
-		if(lists == null || lists.isEmpty()) return mav;
-
-		for (MeetInfoDTO m : lists) {
-			refundPoint(m.getEmail(), meetListNum);
+		if(gatchiDTO.getMeetCheck() == 1){
+			List<MeetInfoDTO> lists = meetServiceYj.getMeetInfo(meetListNum);
+			if(lists == null || lists.isEmpty()) return mav;
+			
+			for (MeetInfoDTO m : lists) {
+				refundPoint(m.getEmail(), meetListNum);
+			}
 		}
-
-		//채팅 삭제
 		
+
 		return mav;
 	}
 
@@ -752,15 +806,6 @@ public class MeetControllerYj {
 
 	// 	return true;
 	// }
-
-	@PostMapping("/reqCalculate")
-	public Boolean reqCalculate() throws Exception{
-		// 방장 아닌 멤버가 수락 눌러주는 곳
-
-		
-
-		return false;
-	}
 
 	// 포인트 감소(입장) 메서드
 	private void paymentPoint(String useremail, int meetListNum) throws Exception{
