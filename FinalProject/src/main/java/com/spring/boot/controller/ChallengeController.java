@@ -145,6 +145,7 @@ public class ChallengeController {
         int maxNum = challengeService.maxNum();
         System.out.println(maxNum);
         infoDTO.setChallengeListNum(maxNum+1);
+		dto.setChallengeContent(dto.getChallengeContent().replace("\r\n", "<br/>"));
         dto.setChallengeListNum(maxNum+1);
 
         challengeService.createChallenge(dto);
@@ -265,6 +266,12 @@ public class ChallengeController {
 				flag = false;
 			}
 			mav.addObject("authStatus", authStatus);
+		}else if(userAuthList.isEmpty()){
+			int[] authStatus = new int[challengeDay];
+				for (int i = 0; i < challengeDay; i++) {
+					authStatus[i] = 0;
+				}
+			mav.addObject("authStatus", authStatus);
 		}
 
 
@@ -313,7 +320,7 @@ public class ChallengeController {
         authDTO.setChallengeListNum(challengeListNum);
         authDTO.setChallengeAuthListNum(maxNum+1);
         authDTO.setEmail(email);
-        authDTO.setChallengeAuthContent(challengeAuthContent);
+        authDTO.setChallengeAuthContent(challengeAuthContent.replace("\r\n", "<br/>"));
 		// 중복 리뷰 작성 여부 확인
 		ChallengeAuthDTO hasReviewed = challengeService.getNoneAuthReview(authDTO);
 		String response = "";

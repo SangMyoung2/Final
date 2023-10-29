@@ -320,10 +320,10 @@ tr{
     margin-right: 10px;
 }
 .square {
-      width: 30px;
-      height: 30px;
-      margin: 5px;
-      border-radius: 15%;
+      width: 40px;
+      height: 40px;
+      margin: 3px;
+      border-radius: 20%;
       display: inline-block;
     }
 .green {
@@ -398,12 +398,14 @@ tr{
 
                     <br/>
                     <h6><b>Challenge Record : </b><span th:text="${challengeDTO.challengeStartDate + ' ~ ' + challengeDTO.challengeEndDate}"></span> (총 <span th:text="${challengeDay}"></span>일)</h5>
-                    <th:block th:unless="${#lists.isEmpty(authStatus)}">
-                        <div th:each="authStatus : ${authStatus}" style="display: inline-block; align-content: center;">
-                            <div th:if="${authStatus==0}" class="square gray"></div>
-                            <div th:if="${authStatus==1}" class="square green"></div>
+                        <div th:if="${not #lists.isEmpty(authStatus)}">
+                            <div th:each="status, iterStat : ${authStatus}" style="display: inline-block;">
+                                <div th:if="${status==0}" class="square gray"></div>
+                                <div th:if="${status==1}" class="square green"></div>
+                                <!-- 5개 요소마다 줄 바꿈 -->
+                                <div th:if="${iterStat.index % 5 == 4}" style="display: block;"></div>
+                            </div>
                         </div>
-                    </th:block>
                 </div>
             </div>
 
