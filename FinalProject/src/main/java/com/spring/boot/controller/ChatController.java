@@ -5,6 +5,7 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Date;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -52,8 +53,10 @@ import com.spring.boot.collection.ChatContentCollection.ChatMessage;
 import com.spring.boot.dto.ChatDTO;
 import com.spring.boot.dto.ChatImageDTO;
 import com.spring.boot.dto.ChatDTO.MessageType;
+import com.spring.boot.model.Users;
 import com.spring.boot.service.ChatContentService;
 import com.spring.boot.service.ChatRoomService;
+import com.spring.boot.service.UserService;
 import com.spring.boot.util.ChatUtil;
 
 import lombok.RequiredArgsConstructor;
@@ -74,6 +77,9 @@ public class ChatController {
 
     @Autowired
     private final ChatRoomService chatRoomService;
+
+    @Autowired
+    private final UserService userService;
 
     @Autowired
     private ChatUtil chatUtil;
@@ -217,6 +223,10 @@ public class ChatController {
         System.out.println(chat.getMessage());
         //System.out.println(todayAndTime);
         
+        // 유저 사진 넣는 코드
+        Users user = userService.getUser(chat.getUserId());
+        chat.setPicture(user.getPicture());
+
         // 채팅내역 입력
         ChatMessage c = new ChatMessage();
         c.setUserId(chat.getUserId());
@@ -225,6 +235,8 @@ public class ChatController {
         c.setTime(todayAndTime);
         c.setType(chat.getType().toString());
         c.setReadCount(userCount - roomInUser);
+        c.setPicture(user.getPicture());
+        
         //System.out.println("현재 유저 (send) : " + roomInUserId);
         // List<String> readUserList = c.getReadUser();
         // readUserList.add(chat.getSender());
@@ -235,6 +247,8 @@ public class ChatController {
         System.out.println("새로운 채팅 내역 : " + c);
         chat.setReadCount(c.getReadCount());
 
+        String chatTime = chatUtil.todayChatContent();
+        chat.setTime(chatTime);
         // 채팅내역 추가
         chatMaps.get(chat.getRoomId()).addLists(c);
         // 채팅내역 추가해서 새로고침
@@ -250,54 +264,10 @@ public class ChatController {
 
         chatContentService.insertChat(chatMaps.get(chat.getRoomId()));
 
-        template.convertAndSend("/sub/chat/room/" + chat.getRoomId(), chat);
-    }
-
-    // 유저 퇴장 시에는 EventListener 을 통해서 유저 퇴장을 확인
-    // @EventListener
-    // public void webSocketDisconnectListener(SessionDisconnectEvent event) {
-    //     log.info("DisConnEvent {}", event);
-    //     StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
         
 
-
-    //     // // stomp 세션에 있던 uuid 와 roomId 를 확인해서 채팅방 유저 리스트와 room 에서 해당 유저를 삭제
-    //     // String userUUID = (String) headerAccessor.getSessionAttributes().get("userUUID");
-    //     // String roomId = (String) headerAccessor.getSessionAttributes().get("roomId");
-
-    //     log.info("headAccessor {}", headerAccessor);
-
-    //     // // 채팅방 유저 -1
-    //     // repository.minusUserRoom(roomId);
-
-    //     // // 채팅방 유저 리스트에서 UUID 유저 닉네임 조회 및 리스트에서 유저 삭제
-    //     // String username = repository.getUserName(roomId, userUUID);
-    //     // repository.delUser(roomId, userUUID);
-
-    //     // if (username != null) {
-    //     //     log.info("User Disconnected : " + username);
-
-    //     //     // builder 어노테이션 활용
-    //     //     ChatDTO chat = ChatDTO.builder()
-    //     //             .type(ChatDTO.MessageType.LEAVE)
-    //     //             .sender(username)
-    //     //             .message(username + " 님 퇴장!!")
-    //     //             .build();
-
-    //     //     template.convertAndSend("/sub/chat/room/" + roomId, chat);
-    //     // }
-    //     roomInUser--;
-    //     //roomInUserId.remove(chat.getsender());
-    //     System.out.println("현재 채팅치는 인원수(out) : " + roomInUser);
-    // }
-
-    // 채팅에 참여한 유저 리스트 반환
-    // @GetMapping("/chat/userlist")
-    // @ResponseBody
-    // public ArrayList<String> userList(String roomId) {
-
-    //     return repository.getUserList(roomId);
-    // }
+        template.convertAndSend("/sub/chat/room/" + chat.getRoomId(), chat);
+    }
 
     // 채팅에 참여한 유저 닉네임 중복 확인
     @GetMapping("/chat/duplicateName")
@@ -342,17 +312,6 @@ public class ChatController {
 
         // List<ChatMessage> chatLists = new ArrayList<>();
         List<ChatMessage> chatLists = chatContentService.findAllByRoomIdInTime(chat.getRoomId()+today,entryTime);
-
-        // List<ChatContentCollection> ccc = chatContentService.findAllByRoomIdIn(chat.getRoomId()+today);
-        
-        // System.out.println("DB에서 가져온 chat Size : " + ccc.size());
-        // for(int i=0; i<ccc.size(); i++){
-        //     for(ChatMessage chatMessage : ccc.get(i).getChats()){
-                
-        //         chatLists.add(chatMessage);
-        //         System.out.println(i + "번째 " + "chat 내용 : " + chatMessage);
-        //     }
-        // }
         
         Map<String, Object> data = new HashMap<>();
         data.put("data", chatLists);
@@ -386,6 +345,9 @@ public class ChatController {
 
             String src = "/uploadFile/" + saveFileName;
 
+            // 유저 사진 넣는 코드
+            Users user = userService.getUser(userId);
+
             ChatMessage c = new ChatMessage();
             c.setUserId(userId);
             c.setSender(sender);
@@ -396,19 +358,23 @@ public class ChatController {
             // 채팅내역 추가
             System.out.println("메세지 : " + c.getMessage());
             System.out.println("보낸이 : " + c.getSender());
+            System.out.println("시스템");
             c.setReadUser(new ArrayList<>(roomInUserId));
-
+            c.setPicture(user.getPicture());
             chatMaps.get(roomId).addLists(c);
             chatContentService.insertChat(chatMaps.get(roomId));
 
             ChatDTO chat = new ChatDTO();
-
             chat.setMessage(src);
             chat.setRoomId(roomId);
             chat.setUserId(userId);
             chat.setSender(sender);
             chat.setType(MessageType.IMAGE);
             chat.setReadCount(c.getReadCount());
+            chat.setPicture(user.getPicture());
+
+            String chatTime = chatUtil.todayChatContent();
+            chat.setTime(chatTime);
             template.convertAndSend("/sub/chat/room/" + chat.getRoomId(), chat);
 
         } catch (Exception e) {

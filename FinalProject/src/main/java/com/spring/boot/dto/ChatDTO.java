@@ -21,4 +21,5 @@ public class ChatDTO {
     private String message;
     private String time;
     private int readCount;
+    private String picture;
 }
