@@ -266,8 +266,22 @@
             popupChat = window.open("articleChatRoom.action?meetListNum=" + meetListNum,"_blacnk",options);
 }
 
+// 달성률 표시
+$(document).ready(function() {
+        $('#countdown-wrap').each(function() {
+            var currentAmount = parseInt($(this).find('#current-amount').text());
+            var maxAmount = parseInt($(this).find('#max-amount').text());
 
+            var percentage = Math.floor((currentAmount / maxAmount) * 100);
+            
+            var progressBar = $(this).find('#progress');
+            progressBar.css('width', percentage + '%');
+            progressBar.css('background-color', '#1d65b2');
 
+            var percentElement = $(this).find('#goal');
+            percentElement.text(percentage + "%");
+        });
+    });
 
 </script>
 <style>
@@ -397,6 +411,7 @@ tr{
                     </button>
 
                     <br/>
+                    <h4>챌린지 진행상황</h2>
                     <h6><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Challenge Record : </b><span th:text="${challengeDTO.challengeStartDate + ' ~ ' + challengeDTO.challengeEndDate}"></span> (총 <span th:text="${challengeDay}"></span>일)</h5>
 
                         <div id="countdown-wrap" style="height: 100px;">
@@ -407,22 +422,23 @@ tr{
                             </div>
                             <div class="goal-stat">
                                 <span class="goal-number" id="current-amount" th:text="${userAuthCnt}"></span>
-                                <span class="goal-label" style="width: 100px;">현재 인증 횟수</span>
+                                <span class="goal-label" style="width: fit-content;">현재 인증 횟수</span>
                             </div>
                             <div class="goal-stat" style="margin-left: 187px;">
                                 <span class="goal-number" id="max-amount" th:text="${challengeDay}"></span>
-                                <span class="goal-label" style="width: 100px;">챌린지 총 횟수</span>
+                                <span class="goal-label" style="width: fit-content;">챌린지 총 일수</span>
                             </div>
                         </div>
                         <br/>
-                        <h4>챌린지 진행상황</h2>
                         <th:block th:unless="${#lists.isEmpty(authStatus)}">
                             <div th:each="authStatus : ${authStatus}" style="display: inline-block; align-content: center;">
                                 <div th:if="${authStatus==0}" class="square gray"></div>
                                 <div th:if="${authStatus==1}" class="square green"></div>
                             </div>
                         </th:block>
+
                 </div>
+                
             </div>
 
 
@@ -585,8 +601,10 @@ tr{
     <div class="yj-img2">
         <div class="review-title">인증</div>
         <div class="review-sub">이 챌린지에서 당신의 생생한 후기를 남겨보세요!</div>
-        
-        <div class="review-write" th:if="${ChallengeMemberStatus == 2 or ChallengeMemberStatus == 1}">작성하기</div>
+
+        <div th:if="${challengeDTO.challengeStatus==1}">
+            <div class="review-write" th:if="${ChallengeMemberStatus == 2 or ChallengeMemberStatus == 1}">작성하기</div>
+        </div>
 
         <form action="uploadAuth" method="POST" enctype="multipart/form-data">
             <div class="review-form" style="display: none;">
