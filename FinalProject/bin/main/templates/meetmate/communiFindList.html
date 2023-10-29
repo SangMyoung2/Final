@@ -109,58 +109,51 @@
         
         
         
-        <div class="c2" style="margin-top: 100px;">
-        <ul class="cards">
-        <li name="communiLists"
-        class="communiLists_hidden" th:each="items : ${#lists.isEmpty(searchCommuniFindList) ? sortLists : searchCommuniFindList}"
-        
-        th:style="${items.meetStatus == 2 ? 'border-radius:
-        40px;' : ''}"
-        th:unless="${items.meetStatus == 0}">
-        
-        <div class="card">
-        <div id="heart" class="heart" name="likeBtn">
-        <input type="hidden" th:value="${items.meetListNum}">
-        </div>
-        <a th:href="@{'/meetArticle.action?meetListNum='
-        + ${items.meetListNum}}">
-        <img th:src="@{|/image/gatchiImage/${items.meetImage}|}" class="card__image" alt=""/>
-        
-        </a>
-        <div class="card__overlay">
-        <div class="card__header" th:style="${items.meetStatus == 2 ?
-        'background-image: linear-gradient(to right bottom, transparent calc(50% - 1px), red, transparent calc(50% + 1px));' : ''}">
-        <svg class="card__arc" xmlns="http://www.w3.org/2000/svg"><path /></svg>
-        <img src="https://i.imgur.com/7D7I6dI.png"  alt="User Picture" id="masterProfile"/>
-        <!-- <img th:src="@{|/image/login/${masterProfile}|}"
-        alt="User Picture" id="masterProfile"/> -->
-        
-        <div class="card__header-wrapper">
-        <div class="card__header-text">
-        <span class="card__status" >
-                        <span th:switch="${items.meetCtgNum}">
-                          <span th:case="1"><button class="ctgButton" disabled="disabled">문화·예술</button></span>
-                          <span th:case="2"><button class="ctgButton" disabled="disabled">맛집</button></span>
-                          <span th:case="3"><button class="ctgButton" disabled="disabled">취미</button></span>
-                          <span th:case="4"><button class="ctgButton" disabled="disabled">여행</button></span>
-                          <span th:case="5"><button class="ctgButton" disabled="disabled">운동·액티비티</button></span>
-                        </span>
-                        <h3 class="card__title" th:text="${items.meetTitle}">글제목</h3> <br/>   
-                      <span class="card__status" th:text="'일시: ' + ${items.meetDday} + ', 장소: ' + ${items.meetPlace.replaceAll('.*?([^ ]+구).*', '$1')}">일시, 좋아요</span><br/>
-                      <span class="card__status" th:text="' 참여인원 : ' + ${items.meetMemCnt} + ' / ' + ${items.meetMaxMemCnt}">현재 참석인원 / 최대인원</span>
-                  </div>
+	<div class="c2" style="margin-top: 100px;">
+		<ul class="cards">
+			<li name="communiLists"
+				class="communiLists_hidden" th:each="items : ${#lists.isEmpty(searchCommuniFindList) ? sortLists : searchCommuniFindList}"        
+				th:style="${items.meetStatus == 2 ? 'border-radius: 40px;' : ''}" th:unless="${items.meetStatus == 0}">
+  
+        	<div class="card">
+     			<input type="checkbox" th:id="'heartBtn' + ${items.meetListNum}" class="heartBtn" name="likeBtn" th:value="${items.meetListNum}">
+       			<label th:for="'heartBtn' + ${items.meetListNum}" th:id="'likeBtnLabel' + ${items.meetListNum}" class="heart"></label>
+        		<a th:href="@{'/communiArticle.action?meetListNum=' + ${items.meetListNum}}">
+       				<img th:src="@{|/image/gatchiImage/${items.meetImage}|}" class="card__image" alt=""/>
+       			</a>
+       			
+        		<div class="card__overlay">
+        		<div class="card__header" th:style="${items.meetStatus == 2 ?
+        			'background-image: linear-gradient(to right bottom, transparent calc(50% - 1px), red, transparent calc(50% + 1px));' : ''}">
+        		<svg class="card__arc" xmlns="http://www.w3.org/2000/svg"><path /></svg>
+        		<img src="https://i.imgur.com/7D7I6dI.png"  alt="User Picture" id="masterProfile"/>
+      
+		        <div class="card__header-wrapper">
+		        <div class="card__header-text">
+		        <span class="card__status" >
+	                <span th:switch="${items.meetCtgNum}">
+	                  <span th:case="1"><button class="ctgButton" disabled="disabled">문화·예술</button></span>
+	                  <span th:case="2"><button class="ctgButton" disabled="disabled">맛집</button></span>
+	                  <span th:case="3"><button class="ctgButton" disabled="disabled">취미</button></span>
+	                  <span th:case="4"><button class="ctgButton" disabled="disabled">여행</button></span>
+	                  <span th:case="5"><button class="ctgButton" disabled="disabled">운동·액티비티</button></span>
+	                </span>
+                	<h3 class="card__title" th:text="${items.meetTitle}">글제목</h3> <br/>   
+              		<span class="card__status" th:text="'일시: ' + ${items.meetDday} + ', 장소: ' + ${items.meetPlace.replaceAll('.*?([^ ]+구).*', '$1')}">일시, 좋아요</span><br/>
+              		<span class="card__status" th:text="' 참여인원 : ' + ${items.meetMemCnt} + ' / ' + ${items.meetMaxMemCnt}">현재 참석인원 / 최대인원</span>
                 </div>
-              </div>
-              <div class="description1">
-              <p class="card__description" th:text="${items.meetContent}">글 내용</p>
-              </div>
-            </div>
+                </div>
+              	</div>
+              
+	              <div class="description1">
+	              	<p class="card__description" th:text="${items.meetContent}">글 내용</p>
+	              </div>
+            	</div>
           </div>
         </li>
-      </div>
+      <!-- </div> -->
     </ul>
   </div>
-</div>
 
 
 </body>
