@@ -178,10 +178,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    ORDER BY meetHitCount DESC
 </select>
 
-<select id="sortByDdayFind" parameterType="map" resultType="com.spring.boot.dto.GatchiDTO">
+<select id="sortByCreatedFind" parameterType="map" resultType="com.spring.boot.dto.GatchiDTO">
    SELECT * FROM gatchi
-   WHERE meetCheck = 2 AND meetStatus != 2
-   ORDER BY TO_DATE(meetDday, 'YYYY-MM-DD HH24:MI') - TO_DATE(SYSDATE, 'YYYY-MM-DD HH24:MI') ASC
+   WHERE meetCheck = 2 AND meetStatus != 0
+   ORDER BY TO_DATE(SYSDATE, 'YYYY-MM-DD HH24:MI') - TO_DATE(meetDate, 'YYYY-MM-DD HH24:MI') DESC
 </select>
 
 <update id="updateMeetStatusMate" parameterType="com.spring.boot.dto.GatchiDTO">

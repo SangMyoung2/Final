@@ -61,7 +61,7 @@ public interface GatchiMapper {
 
 	public List<GatchiDTO> sortByHitCountFind() throws Exception;
 
-	public List<GatchiDTO> sortByDdayFind() throws Exception;
+	public List<GatchiDTO> sortByCreatedFind() throws Exception;
 
 	public void updateMeetStatusMate(GatchiDTO gatchiDTO) throws Exception;
 

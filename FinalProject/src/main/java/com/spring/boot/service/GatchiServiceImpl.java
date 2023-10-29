@@ -152,8 +152,8 @@ public class GatchiServiceImpl implements GatchiService{
 	}
 	
 	@Override
-	public List<GatchiDTO> sortByDdayFind() throws Exception {
-		return gatchiMapper.sortByDdayFind();
+	public List<GatchiDTO> sortByCreatedFind() throws Exception {
+		return gatchiMapper.sortByCreatedFind();
 	}
 
 	@Override

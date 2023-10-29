@@ -62,10 +62,10 @@
     </div>
     
     <h2 th:if="${#httpSession.getAttribute('user1') != null}" 
-      th:text="|${session.user1.name}님의 참여를 기다리는 CommuniFind List|" 
+      th:text="|${session.user1.name} 님의 참여를 기다리는 CommuniFind List|" 
       style="text-align: center; font-weight: normal; margin-top: 100px;"></h2>
     <h2 th:if="${#httpSession.getAttribute('user') != null}" 
-      th:text="|${session.user.name}님의 참여를 기다리는 CommuniFind List|" 
+      th:text="|${session.user.name} 님의 참여를 기다리는 CommuniFind List|" 
       style="text-align: center; font-weight: normal; margin-top: 100px;"></h2>
 	<br/>
   
@@ -79,7 +79,7 @@
 		<option> --정렬--</option>
 			<option value="meetHitCount"> 조회순</option>
 			<option value="meetLikeCount"> 좋아요순</option>
-			<option value="meetDday"> 만남일순</option>
+			<option value="meetDate"> 모임생성일순</option>
 		</select>
 		</form>
 	

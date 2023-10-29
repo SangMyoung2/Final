@@ -326,8 +326,8 @@ public class MeetmateController {
 			sortLists = gatchiService.sortByHitCountFind();
 			} else if ("meetLikeCount".equals(sortOrder)) {
 			sortLists = gatchiService.sortByLikeCountFind();
-			} else if ("meetDday".equals(sortOrder)) {
-			sortLists = gatchiService.sortByDdayFind();
+			} else if ("meetDate".equals(sortOrder)) {
+			sortLists = gatchiService.sortByCreatedFind();
 			}
 			mav.addObject("sortLists", sortLists);
 			mav.setViewName("meetmate/communiFindList");
