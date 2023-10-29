@@ -14,7 +14,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </select>
 
 <select id="getMeetInfoByEmail" parameterType="com.spring.boot.dto.MeetInfoDTO" resultType="com.spring.boot.dto.MeetInfoDTO">
-    select * from meetinfo where meetListNum = #{meetListNum} and email = #{email}
+    select * from meetinfo where meetListNum = #{meetListNum} and email = #{email} and meetMemStatus = 2
 </select>
 
 <select id="getAllCategories" resultType="com.spring.boot.dto.MeetCategoryDTO">
