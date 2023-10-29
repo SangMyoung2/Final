@@ -358,6 +358,7 @@ public class ChatController {
             // 채팅내역 추가
             System.out.println("메세지 : " + c.getMessage());
             System.out.println("보낸이 : " + c.getSender());
+            System.out.println("시스템");
             c.setReadUser(new ArrayList<>(roomInUserId));
             c.setPicture(user.getPicture());
             chatMaps.get(roomId).addLists(c);
