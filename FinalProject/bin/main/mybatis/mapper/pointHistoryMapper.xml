@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 여기있는 sql을 호출할 인터페이스 패키지 위치를 정확하게 입력해야 사용이 가능하다. -->
+<mapper namespace="com.spring.boot.mapper.PointHistoryMapper">
+
+    <insert id="insertPointHistory" parameterType="com.spring.boot.dto.PointHistoryDTO">
+        insert into pointhistory values (#{useremail},#{meetListNum},#{pointUseHistory},sysdate,#{usePoint},#{useType},#{afterPoint},#{beforPoint})
+    </insert>
+
+    <select id="getUseReadData">
+        select * from pointhistory where useremail = #{useremail} ORDER BY useTime DESC
+    </select>
+
+
+
+
+
+
+
+
+
+</mapper>

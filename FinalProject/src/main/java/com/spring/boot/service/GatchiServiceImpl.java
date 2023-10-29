@@ -72,8 +72,8 @@ public class GatchiServiceImpl implements GatchiService{
 	
 	
 	@Override
-	public String masterPicture() throws Exception {
-		return gatchiMapper.masterPicture();
+		public String getProfileByUsers(int meetListNum) throws Exception {
+		return gatchiMapper.getProfileByUsers(meetListNum);
 	}
 
 	// @Override
@@ -157,9 +157,9 @@ public class GatchiServiceImpl implements GatchiService{
 	}
 
 	@Override
-   public void updateHitCount(int meetListNum) throws Exception {
-      gatchiMapper.updateHitCount(meetListNum);
-   }
+	public void updateHitCount(int meetListNum) throws Exception {
+		gatchiMapper.updateHitCount(meetListNum);
+	}
 
 
 /*
@@ -205,36 +205,38 @@ public class GatchiServiceImpl implements GatchiService{
 */
 
 
-	
-@Override
-public void plusMeetCount(int meetListNum) throws Exception {
-	gatchiMapper.plusMeetCount(meetListNum);
-}
-
-@Override
-public void minusMeetCount(int meetListNum) throws Exception{
-	gatchiMapper.minusMeetCount(meetListNum);
-}
-
-@Override
-public List<GatchiDTO> getReadDataInUser(String useremail) throws Exception{
-	return gatchiMapper.getReadDataInUser(useremail);
-}
-
-@Override
-public List<GatchiDTO> getReadDataInListNum(int meetListNum) throws Exception{
-	return gatchiMapper.getReadDataInListNum(meetListNum);
-}
-
-@Override
-public void updateChatRoom(GatchiDTO dto) throws Exception{
-	gatchiMapper.updateChatRoom(dto);
-}
+		
+	@Override
+	public void plusMeetCount(int meetListNum) throws Exception {
+		gatchiMapper.plusMeetCount(meetListNum);
+	}
 
 	@Override
-	public String getProfileByUsers(int meetListNum) throws Exception {
-		return gatchiMapper.getProfileByUsers(meetListNum);
+	public void minusMeetCount(int meetListNum) throws Exception{
+		gatchiMapper.minusMeetCount(meetListNum);
 	}
+
+	@Override
+	public List<GatchiDTO> getReadDataInUser(String useremail) throws Exception{
+		return gatchiMapper.getReadDataInUser(useremail);
+	}
+
+	@Override
+	public List<GatchiDTO> getReadDataInListNum(int meetListNum) throws Exception{
+		return gatchiMapper.getReadDataInListNum(meetListNum);
+	}
+
+	@Override
+	public void updateChatRoom(GatchiDTO dto) throws Exception{
+		gatchiMapper.updateChatRoom(dto);
+	}
+
+
+
+	// @Override
+	// public String getProfileByUsers(int meetListNum) throws Exception {
+	// 	return gatchiMapper.getProfileByUsers(meetListNum);
+	// }
 }
 
 

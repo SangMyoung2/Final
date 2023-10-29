@@ -1,0 +1,363 @@
+<html layout:decorate="~{layout}">
+    <head>
+<meta charset="UTF-8">
+
+
+<title>가치</title>
+
+<link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/index.css}"/>
+<link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/main/main.css}"/>
+<script src="https://kit.fontawesome.com/f1e715a543.js" crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=83bfuniegk"></script>
+</head>
+<body>
+
+  
+<div layout:fragment="content">
+ 
+
+ 
+<header id="header">
+
+    <div class="title1">
+      <div><span class="typcn typcn-heart-outline icon heading"></span></div>
+      <h1 class="heading"> 가치(GATCHI) </h1>
+      <h2 class="heading">Omnium Rerum Principia Parva Sunt. </h2>
+      </a> </div>
+    </a> </header>
+  
+  <!-- About Section
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->  
+    
+  <section style="height: 1200px;" id="about">
+    <div class="container">
+      <div class="row">
+        <h4 style="color:#5CA8B5;" >가치(GATCHI) 란?</h4>
+        <div style="width: 285px;" class="block"></div>
+        
+      </div>
+      <div class="row">
+        <div style="text-align: center; " class="six columns">
+          <h5><span class="typcn typcn-device-desktop icon"></span>내 주변 친구들과 함께 만들어 가는<br/> 즐거운 모임 생활 가치(GATCHI)  !</h5>
+         
+         <img style="height: 600px; width: 650px;" src="http://localhost:8080/image/main/123123.jpg"/><br/><br/><br/>
+         
+          <p style="text-align: center; font-size: 35px;">같이 먹고! 같이 놀고! 같이 하고!<br/>
+            함께의 가치를 가치(GATCHI)와 함께! </p>
+           
+        </div>
+       
+        
+      </div>
+    </div>
+  </section>
+  
+  <!-- Team Section
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->  
+  
+  <section id="team">
+    <div style="margin-bottom: -110px;" class="container">
+        <h4 style="color:#5CA8B5;">Meet Mate</h4>
+        <div class="block"></div>
+        <h5>오늘 하루도 가치있게 <br/>
+            취향 별 원데이 모임</h5>
+      <br/>
+    </div>
+  </section>
+
+
+  <div style="flex-wrap: wrap; display: flex;  flex-direction: row;  justify-content: center; background-color:#F5F5F5;">
+    <div class="card-item" th:each="items, iterStat : ${meetLists}" th:if="${iterStat.index < 6}">
+      <div class="item-content">
+      <div class="image-container">
+        <img th:src="@{|/image/gatchiImage/${items.meetImage}|}" alt="">
+      </div>
+      <div class="text-content">
+      
+        <span th:switch="${items.meetCtgNum}">
+          <span th:case="1" class="category-button">
+            <button class="ctgButton" disabled="disabled">문화·예술</button>
+            <p class="card__title" th:text="${items.meetTitle}">글제목</p>
+          </span>
+          <span th:case="2" class="category-button">
+            <button class="ctgButton" disabled="disabled">맛집</button>
+            <p class="card__title" th:text="${items.meetTitle}">글제목</p>    
+          </span>
+          <span th:case="3" class="category-button">
+            <button class="ctgButton" disabled="disabled">취미</button>
+            <p class="card__title" th:text="${items.meetTitle}">글제목</p>    
+          </span>
+          <span th:case="4" class="category-button">
+            <button class="ctgButton" disabled="disabled">여행</button>
+            <p class="card__title" th:text="${items.meetTitle}">글제목</p>    
+          </span>
+          <span th:case="5" class="category-button">
+            <button class="ctgButton" disabled="disabled">액티비티</button>
+            <p class="card__title" th:text="${items.meetTitle}">글제목</p>    
+          </span>
+      </span><br/>
+        <span class="card__status" th:text="'일시: ' + ${items.meetDday} + ', 장소: ' + ${items.meetPlace.replaceAll('.*?([^ ]+구).*', '$1')}">일시, 좋아요</span><br/>
+        <span class="card__status" th:text="' 참여인원 : ' + ${items.meetMemCnt} + ' / ' + ${items.meetMaxMemCnt}">현재 참석인원 / 최대인원</span>
+      </div>
+
+    </div>
+   
+  </div>
+
+  </div>
+    
+
+    <div style="display: flex; justify-content: center; background-color:#F5F5F5;">
+      <div class="card-item" style="width: 200px;">
+      <a style=" text-decoration: none;" href="/meetMateList.action"> 더보기</a>
+      </div>
+      </div>
+    
+      <section id="team">
+        <div style="margin-bottom: -110px;" class="container">
+            <h4 style="color:#5CA8B5;">Meet Mate</h4>
+            <div class="block"></div>
+            <h5>지속적인 취미 활동 공유 <br/>
+              우리만의 커뮤니티</h5>
+          <br/>
+        </div>
+      </section>
+    
+    
+      <div style="flex-wrap: wrap; display: flex;  flex-direction: row;  justify-content: center; background-color:#F5F5F5;">
+        <div class="card-item" th:each="items, iterStat : ${communiLists}" th:if="${iterStat.index < 6}">
+          <div class="item-content">
+          <div class="image-container">
+            <img th:src="@{|/image/gatchiImage/${items.meetImage}|}" alt="">
+          </div>
+          <div class="text-content">
+          
+            <span th:switch="${items.meetCtgNum}">
+              <span th:case="1" class="category-button">
+                <button class="ctgButton" disabled="disabled">문화·예술</button>
+                <p class="card__title" th:text="${items.meetTitle}">글제목</p>
+              </span>
+              <span th:case="2" class="category-button">
+                <button class="ctgButton" disabled="disabled">맛집</button>
+                <p class="card__title" th:text="${items.meetTitle}">글제목</p>    
+              </span>
+              <span th:case="3" class="category-button">
+                <button class="ctgButton" disabled="disabled">취미</button>
+                <p class="card__title" th:text="${items.meetTitle}">글제목</p>    
+              </span>
+              <span th:case="4" class="category-button">
+                <button class="ctgButton" disabled="disabled">여행</button>
+                <p class="card__title" th:text="${items.meetTitle}">글제목</p>    
+              </span>
+              <span th:case="5" class="category-button">
+                <button class="ctgButton" disabled="disabled">액티비티</button>
+                <p class="card__title" th:text="${items.meetTitle}">글제목</p>    
+              </span>
+          </span><br/>
+            <span class="card__status" th:text="'일시: ' + ${items.meetDday} + ', 장소: ' + ${items.meetPlace.replaceAll('.*?([^ ]+구).*', '$1')}">일시, 좋아요</span><br/>
+            <span class="card__status" th:text="' 참여인원 : ' + ${items.meetMemCnt} + ' / ' + ${items.meetMaxMemCnt}">현재 참석인원 / 최대인원</span>
+          </div>
+    
+        </div>
+       
+      </div>
+    
+      </div>
+      <div style="display: flex; justify-content: center; background-color:#F5F5F5;">
+        <div class="card-item" style="width: 200px;">
+        <a style=" text-decoration: none;" href="/communiFindList.action"> 더보기</a>
+        </div>
+        </div>
+    
+    
+ 
+
+          <section id="team">
+            <div style="margin-bottom: -110px;" class="container">
+                <h4 style="color:#5CA8B5;">Challenge</h4>
+                <div class="block"></div>
+                <h5>함께 한다면 의지도 두 배!<br/>
+                    함께 목표를 달성해 보세요!</h5>
+              
+              <br/>
+            </div>
+          </section>
+
+          <div style="flex-wrap: wrap; display: flex;  flex-direction: row;  justify-content: center; background-color:#F5F5F5;">
+            <!-- <div class="card-item" th:each="items, iterStat : ${challengeList}" th:if="${iterStat.index < 6}">
+              <div class="item-content">
+              <div class="image-container">
+                <img th:src="@{|/image/gatchiImage/${items.challengeImageMain}|}" alt="">
+              </div>
+              <div class="text-content">
+              
+                <span th:switch="${items.meetCtgNum}">
+                  <span th:case="1" class="category-button">
+                    <button class="ctgButton" disabled="disabled">문화·예술</button>
+                    <p class="card__title" th:text="${items.challengeTitle}">글제목</p>
+                  </span>
+                  <span th:case="2" class="category-button">
+                    <button class="ctgButton" disabled="disabled">맛집</button>
+                    <p class="card__title" th:text="${items.challengeTitle}">글제목</p>    
+                  </span>
+                  <span th:case="3" class="category-button">
+                    <button class="ctgButton" disabled="disabled">취미</button>
+                    <p class="card__title" th:text="${items.challengeTitle}">글제목</p>    
+                  </span>
+                  <span th:case="4" class="category-button">
+                    <button class="ctgButton" disabled="disabled">여행</button>
+                    <p class="card__title" th:text="${items.challengeTitle}">글제목</p>    
+                  </span>
+                  <span th:case="5" class="category-button">
+                    <button class="ctgButton" disabled="disabled">액티비티</button>
+                    <p class="card__title" th:text="${items.challengeTitle}">글제목</p>    
+                  </span>
+              </span><br/>
+                <span class="card__status" th:text="'일시: ' + ${items.challengeStartDate} + ', 장소: ' + ${items.challengeEndDate}">일시, 좋아요</span><br/>
+                <span class="card__status" th:text="' 참여인원 : ' + ${items.challengeMemberCount} + ' / ' + ${items.challengeCreateDate}">현재 참석인원 / 최대인원</span>
+              </div>
+        
+            </div> -->
+           
+          </div>
+        
+          </div>
+          <div style="display: flex; justify-content: center; background-color:#F5F5F5;">
+            <div class="card-item" style="width: 200px;">
+            <a style=" text-decoration: none;" href="/mainReview.action"> 더보기</a>
+            </div>
+            </div>
+        
+            
+
+              <section id="team">
+                <div style="margin-bottom: -110px;" class="container">
+                    <h4 style="color:#5CA8B5;">Review</h4>
+                    <div class="block"></div>
+                    <h5>지난 모임들의 <br/>
+                        생생한 후기를 확인 하세요!</h5>
+                  
+                  
+                </div>
+              </section>
+  
+              <div style="background-color:#F5F5F5; margin-left: -50px;">
+                <div style="display: grid; padding: 0; list-style-type: none; margin: 0rem 14vw; grid-template-columns: repeat(auto-fit, minmax(225px, 1fr)); gap: 2rem; height: 800px; ">
+                    <!-- <div class="card-item2" th:each="items, iterStat : ${allreview}" th:if="${iterStat.index < 8}" >
+                      <div class="item-content2">
+                        <div class="image-container2">
+                          <a th:href="@{'/meetArticle.action?meetListNum=' + ${items.meetReviewNum}}">
+                            <img th:src="@{'/image/reviewImage/' + ${items.meetReviewImg}}" alt="">
+                        </a>
+                        </div>
+              
+                        <div >
+                          <a style="color: rgb(56, 53, 53);" th:text="${items.meetReviewContent}">후기내용</a>
+                        </div>
+                      </div>
+                    </div> -->
+                </div>
+              </div>
+
+
+
+
+
+
+
+
+  <!-- Skills Section
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->  
+
+
+              <div style="display: flex; justify-content: center; background-color:#F5F5F5; margin-bottom: 180px;">
+                <div class="card-item" style="width: 200px;">
+                <a style=" text-decoration: none;" href="/mainReview.action"> 더보기</a>
+                </div>
+                </div>
+  
+          <header id="footer1" style="margin-bottom: 180px;">
+
+            <div class="title">
+            
+              <h1 class="heading"> 일상의 즐거움 </h1>
+              <h1 class="heading">  가치(GATCHI)</h1>
+              
+            
+              </div>
+           </header>
+  
+ 
+  
+  <!-- <section style="background-color: #ffffff; margin-top: 180px;" id="team">
+    <div style="margin-bottom: -110px;" class="container">
+        <h4 style="color:#5CA8B5;">INFO</h4>
+        <div class="block"></div>
+        <h5></h5>
+      
+      <br/>
+    </div>
+  </section>
+
+ 
+<div style=" margin: 0 auto; width: 1083px; height: 700px; background-color:#ffffff;">
+  <div id="map" style="width:100%; height:500px;"></div>
+  
+</div> -->
+
+<i class="fas fa-angle-double-up" id="scrollToTopBtn"></i>
+
+
+
+<script>
+const scrollToTopButton = document.getElementById("scrollToTopBtn");
+
+window.addEventListener("scroll", () => {
+    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+        scrollToTopButton.style.display = "block";
+    } else {
+        scrollToTopButton.style.display = "none";
+    }
+});
+
+scrollToTopButton.addEventListener("click", () => {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+});
+
+</script>
+
+  
+  <script id="code">
+      
+      var HOME_PATH = window.HOME_PATH || '.';
+      var position = new naver.maps.LatLng(37.4988487, 127.0316082);
+      
+      var map = new naver.maps.Map('map', {
+      center: position, //지도의 초기 중심 좌표
+      zoom: 18, //지도의 초기 줌 레벨
+    
+
+  });
+
+  var markerOptions = {
+  position: position.destinationPoint(0, 0),
+  map: map,
+  icon: {
+      url: HOME_PATH+'/image/map/marker-nowLocation.png',
+      
+      origin: new naver.maps.Point(0, 0),
+      anchor: new naver.maps.Point(25, 26)
+  }
+  };
+  var marker = new naver.maps.Marker(markerOptions);
+
+  </script>
+  
+
+
+
+
+</body>
+
+</html>
