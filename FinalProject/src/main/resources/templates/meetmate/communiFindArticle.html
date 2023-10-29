@@ -746,7 +746,7 @@ function hideTooltip() {
                     <p style="margin-top: 10px; margin-bottom: 5px;">
                         <span style="margin-left: 12px; font-size: 17px;">멤버목록</span>
                         <span th:each="meetListInfo : ${meetListInfo}" style="margin-left: 5px; color: #5CA8B5; font-size: 17px; font-weight: bold;" th:text="${meetListInfo.meetMemCnt}"></span>
-                        <span style="margin-right: 86px; color: #5CA8B5; font-size: 17px; font-weight: bold;">명</span>
+                        <span style="margin-right: 82px; color: #5CA8B5; font-size: 17px; font-weight: bold;">명</span>
                         <a th:if="${meetMemStatus == 1}" th:href="@{'/meetManager.action?meetListNum=' + ${meetListInfo.meetListNum}}" style="text-decoration: none;">
                             <span style="color: #adadad; font-size: 17px;">관리</span>
                             <i class="fa-solid fa-gear" style="color: #c3c3c3; font-size: 13px;"></i>
