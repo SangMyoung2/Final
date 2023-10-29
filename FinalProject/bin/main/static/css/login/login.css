@@ -11,6 +11,11 @@
         margin: 2em auto;
         border-radius: 0.3em;
         box-shadow: 0 0 0.1em #000;
+        
+        border-bottom-left-radius: 10px;
+	    border-bottom-right-radius: 10px;
+	    border-top-right-radius: 10px;
+	    border-top-left-radius: 10px;
     }
     
     div.heading {
@@ -19,8 +24,12 @@
         text-align: center;
         text-transform: uppercase;
         font-weight: bold;
-        padding: 1.5em;
+        /* padding: 1.5em; */
+        padding: 1em; 
         font-size: 1.1em;
+        
+        border-top-right-radius: 10px; 
+	    border-top-left-radius: 10px; 
     }
     
     div.left {
@@ -33,6 +42,8 @@
         width: 52%;
         margin: 0px auto;
         box-sizing: border-box;
+        
+        margin-top: -15px;
     }
     
   
@@ -41,7 +52,10 @@
         display: inline-block;
         color: gray;
         font-size: 20px;
-        margin-top: 0.6em;
+        /* margin-top: 0.6em; */
+        
+        margin-top: 3em; 
+        margin-left: -10px; 
     }
     
     input[type="text"],
@@ -54,12 +68,20 @@
         border-radius: -0.8em;
         
         transition: 0.15s all ease-in-out;
+        
+        
+        margin-top: -2px;
+	    border-radius: 8pt;
+	    line-height: normal;
+        letter-spacing: 1pt;
     }
     
     input[type="email"]:focus,
     input[type="password"]:focus {
         outline: none;
         border: 0.1em solid darken(#aaa, 10%);
+        
+        letter-spacing: 0.7pt;
     }
     
     input[type="submit"] {
@@ -76,7 +98,11 @@
         border-radius: 0.4em;
         transition: 0.15s all ease-in-out;
         margin-top: 21px;
-         margin-left: 14px;
+        /* margin-left: 14px;  */
+         
+        margin-left: -20px;
+	    width: 116%;
+	    border-radius: 10px;
     }
     
     button {
@@ -147,3 +173,7 @@
     }
     
     
+input:-webkit-autofill {
+  background-color: transparent !important;
+  -webkit-text-fill-color: #333 !important;
+}

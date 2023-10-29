@@ -1,4 +1,8 @@
 
+a.link:hover {
+	text-decoration: none;
+}
+
 body{
 	
 	overflow: auto;
@@ -237,7 +241,7 @@ label[for="sidebar-btn"] {
 	}
 	
 	.submenubar {
-		height: 0; /*ul의 높이를 안보이게 처리*/
+		height: 0; /*ul�쓽 �넂�씠瑜� �븞蹂댁씠寃� 泥섎━*/
 		overflow: hidden;
 		margin: 0px;
 	}
@@ -247,7 +251,7 @@ label[for="sidebar-btn"] {
 	}
 	
 	.menubar > li:hover .submenubar {
-		height: 250px; /*서브메뉴 li한개의 높이 50*5*/
+		height: 250px; /*�꽌釉뚮찓�돱 li�븳媛쒖쓽 �넂�씠 50*5*/
 		transition-duration: 1s;
 	}
 

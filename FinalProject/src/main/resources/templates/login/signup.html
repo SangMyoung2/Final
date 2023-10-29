@@ -2,7 +2,7 @@
     <head>
 <meta charset="UTF-8">
 
-<title>가치</title>
+<title>GATCHI 회원가입</title>
 
 
 
@@ -21,14 +21,16 @@
   
   <div class="container">
     <div class="row">
+    
+    <h3 style="text-align: -webkit-center;">Gatchi 회원가입</h3>
         <form action="" name="myForm" th:object="${BaseAuthUser}" method="post">
           <div class="row" >
              <div class="input-field col s12" >
               <input id="picture" name="picture" type="hidden" value="defult.jpeg">
               <input id="name" name="name"  type="text" class="validate" maxlength="10" required>
-              <label style="font-size: 23px;" for="name" >이름(본명 혹은 닉네임 10글자 이하)</label>
+              <label style="font-size: 23px;" for="name" >닉네임(10글자 이하)</label>
               <div id="ErrorMessage" style="display: none;">
-                <p style='color: red; font-size: 18px;'>닉네임을 입력하세요</p>
+                <p style='color: red; font-size: 18px;'>닉네임을 입력해주세요.</p>
              </div>
             </div>
             
@@ -39,10 +41,10 @@
               <input id="userName" name="userName" type="email" class="validate" required>
               <label style="font-size: 23px;" for="userName">이메일</label>
               <div id="nameErrorMessage" style="display: none;">
-                <p style='color: red; font-size: 18px;'>이메일을 입력하세요</p>
+                <p style='color: red; font-size: 18px;'>이메일 주소를 입력해주세요.</p>
              </div>
              <div id="userNameErrorMessage" style="display: none;">
-              <p style='color: red; font-size: 18px;'>정상적인 이메일을 입력하세요</p>
+              <p style='color: red; font-size: 18px;'>정상적인 이메일 주소를 입력해주세요.</p>
            </div>
             </div>
           </div>
@@ -55,7 +57,7 @@
               <input id="password" name="password" type="password" class="validate" minlength="6" required>
               <label style="font-size: 23px;" for="password">비밀번호(6자리 이상)</label>
               <div id="ErrorMessage" style="display: none;">
-                <p style='color: red; font-size: 18px;'>비밀번호를 6자리 이상 입력 하세요</p>
+                <p style='color: red; font-size: 18px;'>비밀번호를 6자리 이상 입력해주세요.</p>
              </div>
             </div>
           </div>
@@ -65,44 +67,43 @@
               <input id="password2" name="password2" type="password" class="validate" minlength="6" required>
               <label style="font-size: 23px;" for="password2">비밀번호 확인</label>
               <div id="pwdErrorMessage" style="display: none;">
-                <p style='color: red; font-size: 18px;'>비밀번호 확인 칸을 입력 하세요</p>
+                <p style='color: red; font-size: 18px;'>비밀번호 확인 칸을 입력하세요.</p>
              </div>
              <div id="pwdErrorMessage2" style="display: none;">
-              <p style='color: red; font-size: 18px;'>비밀번호와 비밀번호 확인이 일치하지 않습니다.</p>
+              <p style='color: red; font-size: 18px;'>입력하신 비밀번호가 일치하지 않습니다. 다시 확인해주세요.</p>
            </div>
             </div>
           </div>
           
           <div class="row">
             <div class="input-field col s12">
-              <input  id="tel" name="tel" type="text" >
-              <label style="font-size: 23px;" for="tel" >휴대전화 번호</label>
-              <div id="pErrorMessage" style="display: none;">
-                <p style='color: red; font-size: 18px;' >휴대전화 번호를 입력해 주세요</p>
-             </div>
-             <div id="okMessage" style="display: none;">
-              <p style='color: red; font-size: 18px;' >인증 번호가 전송 되었습니다</p>
-           </div>
-            
-              <button style="height: 47px; line-height: 49px;" 
-              class="btn btn-large btn-register waves-effect waves-light" type="button" id="send">인증번호 전송</button>
-              <br/> <br/>
-              <div id="telErrorMessage" style="display: none;">
-                <p style='color: red; font-size: 18px;' >휴대전화 인증을 진행해 주세요</p>
-             </div>
-              <br/>
-              <br/>
-    
+              <input id="tel" name="tel" type="text" style="width: 60%; margin-right: 62px;">
+				<label style="font-size: 23px; width: 50%;" for="tel" >전화번호</label>
+              <button class="btn btn-large btn-register waves-effect waves-light" type="button"
+				id="send" style="margin-left: -45px;">인증번호 전송</button>
+			<div id="pErrorMessage" style="display: none;">
+				<p style='color: red; font-size: 18px;' >전화번호를 입력해주세요.</p>
+			</div>
+			<div id="okMessage" style="display: none;">
+				<p style='color: red; font-size: 18px;' >인증번호가 전송되었습니다.</p>
+			</div>
+			
+			<div id="telErrorMessage" style="display: none;">
+				<p style='color: red; font-size: 18px;'>전화번호 인증을 진행해주세요.</p>
+			</div>
+			
+				    
               <div class="row" id="secondBlock" style="display: none;">
-                <div class="input-field col s12">
-              <input type="text" id="userNum">   
-              <label style="font-size: 23px;" for="to" >인증 번호</label>
-                  <button style="height: 37px; line-height: 34px;"  class="btn btn-large btn-register waves-effect waves-light" type="button" id="enterBtn">확인</button>
+                <div class="input-field col s12" style="margin-left: 70px;">
+              <input type="text" id="userNum" style="width: 60%;">   
+              <label style="font-size: 23px; width: 70%;" for="to" >인증번호</label>
+                  <button style="height: 37px; line-height: 34px; border-radius: 5px;" id="enterBtn"
+                  	class="btn btn-large btn-register waves-effect waves-light" type="button">확인</button>
                   <div id="MessageOk" style="display: none;">
-                    <p style='color: red; font-size: 18px;' >인증이 완료 되었습니다</p>
+                    <p style='color: red; font-size: 18px;' >인증이 완료되었습니다.</p>
                  </div>
                  <div id="failMessage" style="display: none;">
-                  <p style='color: red; font-size: 18px;' >인증 번호가 일치 하지 않습니다</p>
+                  <p style='color: red; font-size: 18px;' >인증번호가 일치하지 않습니다. 다시 확인해주세요.</p>
                </div>
 
                <div th:if="${error}" class="error-message">

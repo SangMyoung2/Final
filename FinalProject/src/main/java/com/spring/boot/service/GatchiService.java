@@ -51,7 +51,7 @@ public interface GatchiService {
 
 	public void updateMeetStatusMate(GatchiDTO gatchiDTO) throws Exception;
 
-	public void updateMeetStatusFind(GatchiDTO gatchiDTO) throws Exception;
+	//public void updateMeetStatusFind(GatchiDTO gatchiDTO) throws Exception;
 
 	public List<GatchiDTO> sortByLikeCountMeet() throws Exception;
 

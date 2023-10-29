@@ -216,11 +216,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	insert into gatchiLike (meetListNum,likeCount,userEmail)
 	values (#{meetListNum}, #{likecount}=#{likecount}+1, #{userEmail})
 </insert>
--->
+
 <update id="updateHitCount" parameterType="int">
    update gatchi set meetHitCount = meetHitCount + 1 where meetListNum = #{meetListNum}
 </update>
-<!--
+
 public void createMeetmate(MeetmateDTO dto) throws Exception;
 
 
@@ -240,7 +240,7 @@ map이나 hashMap이나 모두 사용가능
 <![CDATA[
 	where rnum>=#{start} and rnum<=#{end}
 ]]>
-</update>
+</update> -->
 
 <update id="updateHitCount" parameterType="int">
 	update gatchi set meetHitCount = meetHitCount + 1 where meetListNum = #{meetListNum}
