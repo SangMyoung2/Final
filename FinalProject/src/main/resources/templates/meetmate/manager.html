@@ -20,8 +20,10 @@
     function accept(email, meetListNum, name) {
         var meetMemCnt = document.querySelector('#meetMemCnt').value;
         var meetMaxMemCnt = document.querySelector('#meetMaxMemCnt').value;
+alert(meetMemCnt)
+alert(meetMaxMemCnt)
 
-        if(meetMemCnt>=meetMaxMemCnt){
+if(parseInt(meetMemCnt) >= parseInt(meetMaxMemCnt)){
             alert('정원 초과로 인해 현재 수락이 불가능합니다.');
             return;
 
@@ -124,7 +126,9 @@
                 <div class="req-title">참여 대기 멤버</div>
                 <div class="req-background" th:each="meetWait : ${meetWait}">
                     <div class="round-image">
-                        <img th:src="@{/image/gatchiImage/1111.jpg}" alt="회원 프사(임의)"/>
+                        <!-- <img th:src="@{/image/gatchiImage/1111.jpg}" alt="회원 프사(임의)"/> -->
+                        <img th:if="${meetWait.role != 'GUEST'}" th:src="@{image/login/__${meetWait.picture}__}">
+
                     </div>
                     <div class="mem-request" th:text="${meetWait.name}"></div>
                     <div class="actions">
