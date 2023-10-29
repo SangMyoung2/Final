@@ -18,8 +18,8 @@ INSERT INTO challenge (
     challengeCreateDate, challengeStatus
 ) VALUES (
     #{challengeListNum}, #{challengeTitle}, #{challengeImageMain}, #{challengeWeekCheck},
-    #{challengeDateCheck}, TO_DATE(#{challengeStartDate}, 'YYYY-MM-DD'),
-    TO_DATE(#{challengeEndDate}, 'YYYY-MM-DD'), #{challengeImageSuccess},
+    #{challengeDateCheck}, #{challengeStartDate},
+    #{challengeEndDate}, #{challengeImageSuccess},
     #{challengeImageFail}, #{challengeLikeCount}, #{challengeContent},
     1, sysdate, 1
 )
@@ -105,7 +105,7 @@ INSERT INTO challenge (
 
 <!-- challengeReview -->
 <select id="authMaxNum" resultType="int">
-	select nvl(max(challengeListNum),0) from challengeAuth
+	select nvl(max(challengeAuthListNum),0) from challengeAuth
 </select>
 
 <!-- 확인!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->

@@ -168,17 +168,19 @@ public class ChallengeController {
 
         //게시글 번호로 1개의 게시글 불러옴
         int challengeListNum = Integer.parseInt( request.getParameter("challengeListNum"));
+
+		System.out.println("에러잡기 1번@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
     
         List<ChallengeAuthDTO> allReviewList = challengeService.getAllReviewList(challengeListNum);
         List<ChallengeInfoDTO> lists = challengeService.getUserListData(challengeListNum);
 		ChallengeDTO challengeDTO = challengeService.getReadData(challengeListNum);
-
+System.out.println("에러잡 2번@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
         //user session정보 가져오기
         HttpSession session = request.getSession();
 		SessionUser social = (SessionUser)session.getAttribute("user");
 		Users user1 = (Users)session.getAttribute("user1");
         String email ="";
-
+System.out.println("에러잡기 3번@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
         //접속한 user 정보 데이터 담기  
         if (social != null) { //소셜유저의 정보
             email = social.getEmail();
@@ -191,7 +193,7 @@ public class ChallengeController {
         challengeInfoDTO.setChallengeListNum(challengeListNum);
         challengeInfoDTO.setEmail(email);
         masterInfoDTO = challengeService.getMasterData(challengeListNum);
-        
+        System.out.println("에러잡기 4번@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
         int ChallengeMemberStatus = -1;
 
 		Integer ret = challengeService.getMemberStatus(challengeInfoDTO);
@@ -208,10 +210,11 @@ public class ChallengeController {
 
 		// System.out.println(challengeDay);
 		// System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++");
-		// System.out.println(userAuthList.get(0).getChallengeAuthCreateDate());
+		System.out.println(userAuthList.get(0).getChallengeAuthCreateDate());
 		// System.out.println(userAuthList.get(1).getChallengeAuthCreateDate());
 		// System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++");
-		
+		int userAuthCnt = userAuthList.size();
+		mav.addObject("userAuthCnt",userAuthCnt);
 		if (!userAuthList.isEmpty()) {
 
 			LocalDate dummy = LocalDate.of(2023, 10, 7);
@@ -240,22 +243,22 @@ public class ChallengeController {
 				startDate = startDate.plusDays(i); // i일만큼 증가
 				
 				for(int j = 0; j < challengeDay; j++){
-					System.out.println("====================================================");
-					System.out.println("2번 for문 돈다");
+					// System.out.println("====================================================");
+					// System.out.println("2번 for문 돈다");
 					System.out.println("startDate = i" + i + "식 증가했다" + startDate);
 
 
 
 					Date authDate = userAuthList.get(j).getChallengeAuthCreateDate();
-					System.out.println("authDate = j" + j + "식 증가한다." + authDate);
+					// System.out.println("authDate = j" + j + "식 증가한다." + authDate);
 					
-					System.out.println(authDate);
+					// System.out.println(authDate);
 					if (authDate.toLocalDate().isEqual(startDate)) {
 						System.out.println("true @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 						flag = true;
 						break;
 					}else{
-						System.out.println("false");
+						// System.out.println("false");
 					}
 				}
 
@@ -275,8 +278,7 @@ public class ChallengeController {
 			mav.addObject("authStatus", authStatus);
 		}
 
-		int userAuthCnt = userAuthList.size();
-		mav.addObject("userAuthCnt",userAuthCnt);
+		
         mav.addObject("challengeDay",challengeDay);
         mav.addObject("challengeInfoDTO",challengeInfoDTO);
         mav.addObject("ChallengeMemberStatus", ChallengeMemberStatus);
@@ -378,19 +380,19 @@ public class ChallengeController {
 		System.out.println(challengeAuthImage + "여기왔야!!!!!!!!!!!!!!!!");
 		String srcFileName = null;
 
-        // try{
-        //     srcFileName = URLDecoder.decode(challengeAuthImage,"UTF-8");
-        //     //UUID가 포함된 파일이름을 디코딩해줍니다.
-        //     File file = new File(uploadPath +File.separator + srcFileName);
-        //     boolean result = file.delete();
-
-        //     File thumbnail = new File(file.getParent(),"s_"+file.getName());
-        //     //getParent() - 현재 File 객체가 나태내는 파일의 디렉토리의 부모 디렉토리의 이름 을 String으로 리턴해준다.
-        //     result = thumbnail.delete();
+        try{
+            srcFileName = URLDecoder.decode(challengeAuthImage,"UTF-8");
+            //UUID가 포함된 파일이름을 디코딩
+			String absolutePath = new File("").getAbsolutePath() + "\\";
+			String path = "FinalProject/src/main/resources/static/image/challenge/challengeCheck";
+            File file = new File(absolutePath + path +File.separator + srcFileName);
+            boolean result = file.delete();
+			System.out.println(result + "11111111111111111111111111111111111111111111111111");
+           
             
-        // }catch (UnsupportedEncodingException e){
-        //     e.printStackTrace();
-        // }
+        }catch (UnsupportedEncodingException e){
+            e.printStackTrace();
+        }
 
 
 		challengeAuthDTO.setChallengeListNum(challengeListNum);
