@@ -15,9 +15,9 @@
 <link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/bbsYj/articleYj.css}"/>
 <link rel="icon" type="image/png" th:href="@{http://localhost:8080/image/로고.png}"/>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"/>
-<!-- <link rel="stylesheet" href="https://kit.fontawesome.com/1f0cefbb8e.css" crossorigin="anonymous"> -->
-<!-- <script src="https://kit.fontawesome.com/1f0cefbb8e.js" crossorigin="anonymous"></script> -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://kit.fontawesome.com/171f74c68f.js" crossorigin="anonymous"></script>
+
 
 <script>
 
@@ -25,7 +25,6 @@
     document.addEventListener('DOMContentLoaded', function() {
         var homeButton = document.querySelector('#btnradio1');
         var reviewButton = document.querySelector('#btnradio2');
-        var meetStatus = document.querySelector('#meetStatus').value;  // meetStatus를 가져옴
 
         if (window.location.hash === '#review') {
             // 리뷰 버튼이 선택된 상태로 초기화
@@ -43,16 +42,7 @@
             showHomeContent();
         });
 
-        reviewButton.addEventListener('click', function() {
-        if (meetStatus === "1") {
-            alert('현재 진행 중인 모임입니다. \n\n※리뷰는 모임이 완료된 후 작성하실 수 있습니다.');
-            homeButton.checked = true;
-            showHomeContent();
-        } else {
-            window.location.hash = '#review';
-            showReviewContent();
-        }
-    });
+
 });
 
     // 홈 내용 표시 함수
@@ -69,32 +59,6 @@
         document.querySelector('.meet-members').style.display = 'none';
     }
 
-    document.addEventListener('DOMContentLoaded', function() {
-
-        var joinButton = document.querySelector('.join-button');
-        
-            joinButton.addEventListener('click', function() {
-            alert('가입 신청이 완료되었습니다.');
-            });
-    });
-
-    document.addEventListener('DOMContentLoaded', function() {
-
-        var outButton = document.querySelector('.out-button');
-        
-        outButton.addEventListener('click', function() {
-            alert('모임을 나가시겠습니까?');
-            });
-    });
-
-    document.addEventListener('DOMContentLoaded', function() {
-
-        var deleteButton = document.querySelector('.delete-button');
-        
-        deleteButton.addEventListener('click', function() {
-            alert('모임을 삭제하시겠습니까?');
-            });
-    });
 
     document.addEventListener('DOMContentLoaded', function() {
 
@@ -110,43 +74,44 @@
             
         });
 
-        document.querySelector('#submit-review').addEventListener('click', function(e) {
+        //리뷰 등록
+    document.querySelector('#submit-review').addEventListener('click', function(e) {
         e.preventDefault(); // 기본 이벤트 동작 방지 (페이지 새로고침 방지)
-
-            var meetListNum = document.querySelector('#meet-listnum').value;
-            var reviewContent = document.querySelector('#review-content').value;
-            var reviewImage = document.querySelector('#review-image').files[0];
-
+        
+            var challengeListNum = document.querySelector('#challengeListNum').value;
+            var challengeAuthContent= document.querySelector('#challengeAuthContent').value;
+            var challengeAuthImage = document.querySelector('#challengeAuthImage').files[0];
+            
             // 리뷰 내용과 이미지 모두 필수로 입력되어야 함
-            if (reviewContent.trim() === '' && !reviewImage) {
+            if (challengeAuthContent.trim() === '' && !challengeAuthImage) {
                 alert('내용과 이미지를 모두 작성해주세요.');
-            } else if (!reviewImage) {
+            } else if (!challengeAuthImage) {
                 alert('이미지를 첨부해주세요.');
-            } else if (reviewContent.trim() === '') {
+            } else if (challengeAuthContent.trim() === '') {
                 alert('내용을 작성해주세요.');
             } else {
                 // 이미지 파일을 FormData에 추가
                 var formData = new FormData();
-                formData.append('meetListNum', meetListNum);
-                formData.append('meetReviewContent', reviewContent);
-                formData.append('meetReviewImg', reviewImage);
+                formData.append('challengeListNum', challengeListNum);
+                formData.append('challengeAuthContent', challengeAuthContent);
+                formData.append('challengeAuthImage', challengeAuthImage);
+
 
                 $.ajax({
-                    url: '/upload-review',
-                    type: 'POST',
+                    url: '/uploadAuth',
+                    method: 'POST',
                     data: formData,
-                    processData: false,
-                    contentType: false,
+                    processData: false, // 필수: formData 처리 비활성화
+                    contentType: false, // 필수: 콘텐츠 타입 비활성화
                     success: function(response) {
                         if (response === 'success') {
                             alert('리뷰가 게시되었습니다.');
-                            document.querySelector('#review-content').value = '';
-                            document.querySelector('#review-image').value = ''; // 이미지 파일 선택 초기화
-                            window.location.reload();
-
+                          // 이미지 파일 선택 초기화
+                          location.reload();
+                           
                         } else if (response === 'already-reviewed') {
                             alert('이미 리뷰를 작성하셨습니다.');
-                            window.location.reload();
+                            
                         }
                     },
                     error: function(xhr, status, error) {
@@ -155,14 +120,62 @@
                 });
 
             }
+            
         });
-
-
-        
     });
 
-// 모달 창 열기
-function openModal(imgElement) {
+
+    //리뷰 인증하기
+    function confirmReview(challengeListNum,challengeAuthImage) {
+
+        var ok = 'confirm' + challengeAuthImage;
+        var now = 'now'+ challengeAuthImage;
+        var select = 'selectAuth' + challengeAuthImage;
+
+        if (confirm('인증을 승인하시겠습니까?')) {
+            $.ajax({
+                type: "POST",
+                url: "/confirmReview.action",
+                data: {
+                    challengeListNum: challengeListNum,
+                    challengeAuthImage: challengeAuthImage
+                },
+                success: function (response) {
+                    alert('승인되었습니다.');
+                    document.getElementById(ok).style.display = "block";
+                    document.getElementById(select).style.display = "none";
+                    document.getElementById(now).style.display = "none";
+                },
+                error: function () {
+                    alert('승인에 실패했습니다.');
+                }
+            });
+        }
+    }
+
+    //리뷰 거부하기
+    function failReview(challengeListNum,challengeAuthImage) {
+        if (confirm('인증을 거부하시겠습니까?')) {
+            $.ajax({
+                type: "POST",
+                url: "/failReview.action",
+                data: {
+                    challengeListNum: challengeListNum,
+                    challengeAuthImage: challengeAuthImage
+                },
+                success: function (response) {
+                    alert('거부되었습니다.');
+                
+                },
+                error: function () {
+                    alert('거부에 실패했습니다.');
+                }
+            });
+        }
+    }
+
+    // 모달 창 열기
+    function openModal(imgElement) {
         // 모달 창 엘리먼트 생성
         var modal = document.createElement('div');
         modal.className = 'modal';
@@ -188,15 +201,20 @@ function openModal(imgElement) {
         };
     }
 
-function deleteReview(email, meetListNum, meetReviewNum) {
+    
+
+
+    //리뷰삭제
+    function deleteReview(email, challengeListNum, challengeAuthListNum ,challengeAuthImage) {
         if (confirm('리뷰를 삭제하시겠습니까?')) {
             $.ajax({
                 type: "POST",
-                url: "/delete-review",
+                url: "/deleteChallengeReview",
                 data: {
-                    meetListNum: meetListNum,
-                    meetReviewNum: meetReviewNum,
-                    email: email
+                    challengeListNum: challengeListNum,
+                    challengeAuthListNum: challengeAuthListNum,
+                    email: email,
+                    challengeAuthImage: challengeAuthImage
                 },
                 success: function (response) {
                     alert('삭제되었습니다.');
@@ -209,32 +227,82 @@ function deleteReview(email, meetListNum, meetReviewNum) {
         }
     }
 
-    function inputNumberWithComma(str) {
-        str = String(str);
-        return str.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    //챌린지 가입
+    function joinChallenge() {
+        if (confirm('챌린지에 가입하시겠습니까?')) {
+            document.getElementById('joinChallengeForm').submit();
+        }
+    }
+    //챌린지 삭제
+    function deleteChallenge() {
+        if (confirm('챌린지를 삭제하시겠습니까?')) {
+            document.getElementById('deleteChallengeForm').submit();
+        }
+    }
+    //챌린지 포기
+    function giveUpChallenge() {
+        if (confirm('챌린지를 포기하시겠습니까?')) {
+            document.getElementById('giveUpChallengeForm').submit();
+        }
     }
 
-    document.addEventListener('DOMContentLoaded', function() {
-        var meetMoneyElement = document.querySelector('.meet-money');
-        var meetMoneyValue = meetMoneyElement.textContent;
-        var formattedMeetMoney = inputNumberWithComma(meetMoneyValue);
-
-        meetMoneyElement.textContent = formattedMeetMoney;
-    });
 
 </script>
+<style>
+tr{
+    text-align: center;
+}
 
+            tr:first-child td {
+            font-size: 18px;
+            vertical-align: middle;
+            width: 300px;
+            height: 50px;
+            border-bottom: #c8c8c8 solid 4px;
+        }
+
+        /* 2행의 높이 스타일 */
+        tr:last-child {
+            height: 200px;
+        }
+
+        /* 테이블 테두리 제거 */
+        table {
+            border-collapse: separate;
+    border-spacing: 20px; 
+            align-self: center;
+            border: 0px ;
+            
+        }
+
+#challengeAuthContent {
+    width: 71%;
+    margin-bottom: 10px;
+    height: 100px;
+}
+
+.badge.challenge {
+    background-color: red;
+  }
+
+  .finish-button {
+    display: inline-block;
+    padding: 8px 18px;
+    font-size: 18px;
+    background-color: #b3b3b3;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.15s ease;
+    margin-right: 10px;
+}
+
+</style>
 </head>
 <body>
 
 <div layout:fragment="content">
-
-
-
-
-
-
-    
 
     <div class="text-center">
         <div class="btn-group" role="group" aria-label="Basic radio toggle button group" style="width: 800px; margin-bottom: 5px; margin-top: 20px;">
@@ -247,7 +315,7 @@ function deleteReview(email, meetListNum, meetReviewNum) {
             <!-- 리뷰 버튼 -->
             <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
             <label class="btn btn-custom" for="btnradio2" onclick="showReviewContent()">
-                <span style="color: black;">리뷰</span>
+                <span style="color: black;">인증하기</span>
                 <div class="underline"></div> <!-- 밑줄 요소 추가 -->
             </label>
            
@@ -256,85 +324,178 @@ function deleteReview(email, meetListNum, meetReviewNum) {
 
     <div class="container">
         <div class="row justify-content-end homeaticle">
+
+            <div class="col-md-2">
+                <div class="meet-mypage">
+                    <div class="badge challenge" th:text="challenge"></div>
+                
+
+                    <div class="user-info-container">
+                            <div class="round-image-login" th:if="${#httpSession.getAttribute('user') != null}">
+                                <img th:src="@{${session.user.picture}}">
+                            </div>
+                            <div class="round-image-login" th:if="${#httpSession.getAttribute('user1') != null}">
+                                <img th:src="@{image/login/__${session.user1.picture}__}">
+                            </div>
+                        <div class="login-user-email" th:if="${#httpSession.getAttribute('user1') != null}" 
+                        th:text="|${session.user1.name}"></div>
+                        <div class="login-user-email" th:if="${#httpSession.getAttribute('user') != null}" 
+                        th:text="|${session.user.name}"></div>
+                        <div style="font-size: 17px; margin-top: 3px;">님</div>
+                        <div th:if="${meetMemStatus == 1}" style="margin-left: 30px; color: #adadad; font-size: 17px;">👑</div>
+                        <div th:if="${meetMemStatus == 1}" style="margin-left: 2px; color: #adadad; font-size: 17px; margin-top: 3px;">방장</div>
+                        <div th:if="${meetMemStatus == 2}" style="margin-left: 30px; color: #adadad; font-size: 17px; margin-top: 3px;">🤗</div>
+                        <div th:if="${meetMemStatus == 2}" style="margin-left: 2px; color: #adadad; font-size: 17px; margin-top: 3px;">회원</div>
+                        <div th:if="${meetMemStatus == 0}" style="margin-left: 30px; color: #adadad; font-size: 17px;">⌛</div>
+                        <div th:if="${meetMemStatus == 0}" style="margin-left: 2px; color: #adadad; font-size: 17px; margin-top: 3px;">승인대기중..</div>
+                        <div th:if="${meetMemStatus < 0}" style="margin-left: 30px; color: #adadad; font-size: 17px; margin-top: 3px;">👤</div>
+                        <div th:if="${meetMemStatus < 0}" style="margin-left: 2px; color: #adadad; font-size: 17px; margin-top: 3px;">손님</div>
+                    </div>
+
+                    <hr/>
+
+                    <div id="countdown-wrap" th:each="meetListInfo : ${meetListInfo}">
+                        <div id="goal"></div>
+                        <div id="glass">
+                            <div id="progress">
+                            </div>
+                        </div>
+                        <div class="goal-stat">
+                            <span class="goal-number" id="current-amount" th:text="${meetListInfo.meetMemCnt}"></span>
+                            <span class="goal-label">현재 인원</span>
+                        </div>
+                        <div class="goal-stat" style="margin-left: 187px;">
+                            <span class="goal-number" id="max-amount" th:text="${meetListInfo.meetMaxMemCnt}"></span>
+                            <span class="goal-label">모집 인원</span>
+                        </div>
+                    </div>
+
+                    <button class="chat-btn" th:if="${meetMemStatus == 1 or meetMemStatus == 2}">
+                        <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Speech%20Balloon.png" alt="Speech Balloon" width="25px" height="25px" /> 채팅 바로가기
+                        <input type="hidden" id="meet-memStatus" name="meetMemStatus" th:value="${meetMemStatus}" />
+                    </button>
+                      
+                </div>
+            </div>
+
             <div class="col-8 mx-2 fixed-width-col">
     
                 <div class="yj-img">
-                    <img th:src="@{${'/image/challenge/' + challengeDTO.challengeImageMain}}" alt="">
+                    <img th:src="@{${'/image/challenge/challengeList/' + challengeDTO.challengeImageMain}}" alt="">
                     <div class="Main_content" >
 
                         <div class="round-image">
-                            <div th:if="${#httpSession.getAttribute('user') != null}">
-                                <img style="margin-bottom: 30px;" th:src="@{${session.user.picture}}">
-                            </div>
-                            <div th:if="${#httpSession.getAttribute('user1') != null}">
-                                <img style="margin-bottom: 30px;" th:src="@{${session.user1.picture}}">
-                            </div>
+                                <img style="margin-bottom: 30px;" th:src="@{|/image/login/${masterInfoDTO.picture}|}" alt="">
                         </div>
 
-                        <p class="Yj-master" th:text="${challengeInfoDTO.email}"></p>
+                        <p class="Yj-master" th:text="${masterInfoDTO.email}"></p>
                         <p class="Yj-title" th:text="${challengeDTO.challengeTitle}"></p>
                     </div>
                   
                     <div class="main-text">
                         <p class="Yj-text1" th:text="${challengeDTO.challengeContent}"></p>
+                        
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+
+                        <table>
+                            <tr>
+                                <td><i class="fa-solid fa-check" style="color: #e60f0f;"></i> 인증 성공 예시</td>
+                                <td><i class="fa-solid fa-xmark" style="color: #e60f0f;"></i> 인증 실패 예시</td>
+                            </tr>
+                            <tr style="width: 100%; height: 100%;">
+                                
+                                <td><img th:src="@{|/image/challenge/challengeList/${challengeDTO.challengeImageSuccess}|}" alt=""></td>
+                                <td><img th:src="@{|/image/challenge/challengeList/${challengeDTO.challengeImageFail}|}" alt=""></td>
+                            </tr>
+                        </table>
+                       
+
+
 
                         <div class="yj-info">상세 정보</div>
-                        <p class="text-with-hyphen Yj-text2" th:text="${challengeDTO.challengeWeekCheck}"></p>
-                        <p class="text-with-hyphen Yj-text2" th:text="${challengeDTO.challengeDateCheck}"></p>
+                        <p class="text-with-hyphen Yj-text2">
+                            인증 빈도 : <span th:text="${challengeDTO.challengeWeekCheck}"></span>
+                        </p>
 
-                        <p class="text-with-hyphen Yj-text2" th:text="${challengeDTO.challengeStartDate}"></p>
-                        <p class="text-with-hyphen Yj-text2" th:text="${challengeDTO.challengeEndDate}"></p>
+                        <div th:if="${challengeDTO.challengeDateCheck}==1week">
+                            <p class="text-with-hyphen Yj-text2">
+                                인증 기간 : 1주일 동안!
+                            </p>
+                        </div>
+                        <div th:if="${challengeDTO.challengeDateCheck}==2week">
+                            <p class="text-with-hyphen Yj-text2">
+                                인증 기간 : 2주일 동안!
+                            </p>
+                        </div>
+                        <div th:if="${challengeDTO.challengeDateCheck}==3week">
+                            <p class="text-with-hyphen Yj-text2">
+                                인증 기간 : 3주일 동안!
+                            </p>
+                        </div>
+                        <div th:if="${challengeDTO.challengeDateCheck}==1month">
+                            <p class="text-with-hyphen Yj-text2">
+                                인증 기간 : 1달 동안!
+                            </p>
+                        </div>
+                    
+                        <p class="text-with-hyphen Yj-text2">
+                            <span th:text="${challengeDTO.challengeStartDate}"></span> 부터 <span th:text="${challengeDTO.challengeEndDate}"></span> 까지!
+                        </p>
 
-                        <div class="yj-inwon">참가 인원</div>
+                        <div class="yj-inwon">현재참가 인원</div>
                         <div class="text-container">
-                            <p class="Yj-text3" th:text="${challengeDTO.challengeMemberCount}"></p>/
+                            <p class="Yj-text3" th:text="${challengeDTO.challengeMemberCount}"></p>
                         </div>
 
-                        <div class="yj-money">가입비 (회비)</div>
-                        <div class="text-container">
-                            <p class="Yj-text4 meet-money">돈은 안냄</p>
+
+                        
+
+
+                        <div th:switch="${ChallengeMemberStatus != null and challengeDTO.challengeStatus == 1}">
+                            <div th:case="true">
+                                <div th:switch="${ChallengeMemberStatus}">
+
+                                    <div th:case="-1">
+                                        <form action="/joinChallenge.action" id="joinChallengeForm" method="post">
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <button type="button" class="join-button" onclick="joinChallenge();">
+                                                가입하기
+                                            </button>
+                                            <input type="hidden" name="challengeListNum" id="challengeListnum" th:value="${challengeDTO.challengeListNum}"/>
+                                        </form>
+                                    </div>
+
+                                    <div th:case="1">
+                                        <form action="/deleteChallenge.action" id="deleteChallengeForm" method="post">
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <button type="button" class="delete-button" onclick="deleteChallenge();">
+                                                챌린지 삭제
+                                            </button>
+                                            <input type="hidden" name="challengeListNum" id="challengeListnum" th:value="${challengeDTO.challengeListNum}"/>
+                                        </form>                           
+                                    </div>
+
+                                    <div th:case="2">
+                                        <form action="/giveUpChallenge.action" id="giveUpChallengeForm" method="post">
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <button type="button" class="out-button" onclick="giveUpChallenge();">
+                                                챌린지 포기하기
+                                            </button>
+                                            <input type="hidden" name="challengeListNum" id="challengeListnum" th:value="${challengeDTO.challengeListNum}"/>
+                                        </form>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div th:case="false">
+                                <button type="button" class="finish-button" disabled>
+                                    마감된 챌린지
+                                </button>
+                            </div>
                         </div>
-                        
-                        <form>
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button form="joinForm" type="submit" class="join-button">
-                               가입하기
-                            </button>
-                        </form>
-
-                        <a href="" th:text="${challengeDTO.challengeTitle}">제목</a>
-
-                        <!-- <th:block th:if="${(meetStatus == 1 and (meetMemStatus <0)}">
-                            <p style="font-size: 18px; color: red;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;모집 인원이 마감되었습니다.</p>
-                        </th:block>
-                        
-                        <th:block th:if="${meetStatus == 2}">
-                            <p style="font-size: 18px; color: red;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;이미 종료된 모임입니다.</p>
-                        </th:block> -->
-                        <form id="joinForm" action="/joinChallenge" method="post">
-                            <input type="hidden" name="meetListNum" th:value="${meetListNum}"/>
-                        </form>
-
-                        <form th:if="${meetMemStatus == 2} and ${meetStatus == 1}">
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button form="outForm" type="submit" class="out-button">
-                                모임 나가기
-                            </button>
-                        </form>
-                        <form id="outForm" action="/out-meet" method="post">
-                            <input type="hidden" name="meetListNum" th:value="${meetListNum}"/>
-                            <input type="hidden" name="email" th:value="${dto.email}"/>
-                        </form>
-                        
-                        <form th:with="meetMemStatus=${meetMemStatus}" th:if="${meetMemStatus == 1} and ${meetStatus == 1}">
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button form="deleteForm" type="submit" class="delete-button">
-                                모임 삭제
-                            </button>
-                        </form>
-                        <form id="deleteForm" action="/delete-meet" method="post">
-                            <input type="hidden" name="meetListNum" th:value="${meetListNum}"/>
-                        </form>
-                        <th:block th:if="${meetStatus == 1 and meetMemStatus == 0}">
-                            <p style="font-size: 18px; color: rgb(0, 68, 255);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;가입 승인 대기 중입니다.</p>
-                        </th:block>
                         
                     </div>
                 </div>
@@ -343,16 +504,12 @@ function deleteReview(email, meetListNum, meetReviewNum) {
                 <div class="meet-members">
                     <p>
                         <span style="margin-right: 37px; margin-left: 12px;">멤버목록</span>
-                        <a th:if="${meetMemStatus == 1}" th:href="@{'/managerYj.action?meetListNum=' + ${meetListInfo.meetListNum}}" style="text-decoration: none;">
-                            <span style="color: #adadad;">관리</span>
-                            <i class="fa-solid fa-gear fa-sm" style="color: #adadad; vertical-align: 0px;"></i>
-                        </a>
                     </p>
-                    <div class="meet-mem-list" th:each="meetMember : ${meetMembers}">
+                    <div class="meet-mem-list" th:each="challengeMember : ${lists}">
                         <li class="round-image-rev mt-2" style="margin-right: 10px; margin-left: -10px;">
-                            <img th:src="@{/image/gatchiImage/1111.jpg}" alt="유저프사(임의)"/>
+                            <!-- <img th:src="@{/image/gatchiImage/1111.jpg}" alt="유저프사(임의)"/> -->
                         </li>
-                        <li class="custom-li" th:text="${meetMember}"></li>
+                        <li class="custom-li" th:text="${challengeMember.name}"></li>
                     </div>
                 </div>
             </div>
@@ -362,43 +519,115 @@ function deleteReview(email, meetListNum, meetReviewNum) {
     </div>
 
     <div class="yj-img2">
-        <div class="review-title">REVIEW</div>
-        <div class="review-sub">이 모임 유저의 생생한 후기를 만나보세요!</div>
-        <div class="review-write" th:if="${meetStatus == 2 and (meetMemStatus == 1 or meetMemStatus == 2)}">작성하기</div>
-        <form action="/upload-review" method="POST" enctype="multipart/form-data">
+        <div class="review-title">인증</div>
+        <div class="review-sub">이 챌린지에서 당신의 생생한 후기를 남겨보세요!</div>
+        
+        <div class="review-write" th:if="${ChallengeMemberStatus == 2 or ChallengeMemberStatus == 1}">작성하기</div>
+
+        <form action="uploadAuth" method="POST" enctype="multipart/form-data">
             <div class="review-form" style="display: none;">
                 <div class="review-input">
-                    <textarea name="meetReviewContent" id="review-content" placeholder=" 리뷰를 작성해주세요."></textarea>
-                    <input type="file" name="meetReviewImg" id="review-image" accept="image/*">
-                    <input type="hidden" id="meet-listnum" name="meetListNum" th:value="${meetListNum}" />
+                    <textarea name="challengeAuthContent" id="challengeAuthContent" placeholder=" 챌린지 인증내용을 작성해주세요."></textarea>
+                    <input type="file" name="challengeAuthImage" id="challengeAuthImage" accept="image/*">
+                    <input type="hidden" id="challengeListNum" name="challengeListNum" th:value="${challengeDTO.challengeListNum}" />
                     <button id="submit-review">등록하기</button>
                 </div>
             </div>
         </form>
 
-        <th:block th:if="${#lists.isEmpty(meetReview)}">
+        <th:block th:if="${#lists.isEmpty(allReviewList)}">
             <div class="no-review">
-                등록된 리뷰가 없습니다.
+                등록된 챌린지 인증이 없습니다.
             </div>
         </th:block>
 
-        <th:block th:unless="${#lists.isEmpty(meetReview)}">
-            <div class="d-flex justify-content-center mb-4" th:each="meetReview : ${meetReview}">
+        <th:block th:unless="${#lists.isEmpty(allReviewList)}">
+            <div class="d-flex justify-content-center mb-4" th:each="allReviewList : ${allReviewList}">
                 <div class="card" style="width: 36rem; margin-bottom: 20px; border:none;">
                     <div class="card-body">
                         <div class="d-flex flex-column mb-2">
-                            <div class="round-image-rev mt-2">
-                                <img th:src="@{/image/gatchiImage/1111.jpg}" alt="유저프사(임의)"/>
+                            <div class="round-image-user mt-2">
+                                <img th:src="@{${'/image/login/' + allReviewList.picture}}" alt="유저프사(임의)"/>
                             </div>
-                            <p class="memid" th:text="${meetReview.email}"></p>
+                            <p class="memid" th:text="${allReviewList.email}"></p>
                             <div class="col-md-4 mx-auto" style="width: 300px; height: 300px; overflow: hidden; border-radius: 5px; margin-bottom: 10px; margin-top: 10px;">
-                                <img th:src="@{${'/image/reviewImage/' + meetReview.meetReviewImg}}" class="img-fluid rounded-start" alt="리뷰사진" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;" onclick="openModal(this);">
+                                <img th:src="@{${'/image/challenge/challengeCheck/' + allReviewList.challengeAuthImage}}" class="img-fluid rounded-start" alt="리뷰사진" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;" onclick="openModal(this);">
                             </div>
                         </div>
-                        <p class="card-text" th:text="${meetReview.meetReviewContent}" style="padding-left: 10px; padding-right: 10px; text-align: justify; font-size: 18px; margin-bottom: 5px;"></p>
-                        <p class="card-text d-flex" th:text="${#strings.substring(meetReview.meetReviewDate, 0, 16)}" style="color: #AAAAAA; font-size: 13px; position: absolute; top: 0; right: 0; margin-top: 31px; margin-right: 20px;"></p>
+                        
+                            <div th:if="${ChallengeMemberStatus == 1 and allReviewList.challengeAuthStatus == 0}" style="text-align: center;" th:id="'selectAuth'+${allReviewList.challengeAuthImage}">
+                                    <span style="display: inline-block;">
+                                        <i class="fa-regular fa-circle-check" style="color: #008000;"></i>
+                                    </span>
+                                    <h5 style="display: inline; color: rgb(0, 128, 0); cursor: pointer;" th:data-challengeListNum="${allReviewList.challengeListNum}",
+                                    th:data-challengeAuthImage="${allReviewList.challengeAuthImage}"
+                                    onclick="confirmReview(
+                                        this.getAttribute('data-challengeListNum'),
+                                        this.getAttribute('data-challengeAuthImage'))">인증승인</h5>
+&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <span style="display: inline-block;">
+                                        <i class="fa-solid fa-triangle-exclamation" style="color: #ff0000;"></i>
+                                    </span>
+                                    <h5 style="display: inline; color: rgb(255, 0, 0); cursor: pointer;" th:data-challengeListNum="${allReviewList.challengeListNum}",
+                                    th:data-challengeAuthImage="${allReviewList.challengeAuthImage}"
+                                    onclick="failReview(
+                                        this.getAttribute('data-challengeListNum'),
+                                        this.getAttribute('data-challengeAuthImage'))">인증거부</h5>
+                            </div>  
+                    
+                        <div th:id="'now'+${allReviewList.challengeAuthImage}">
+                            <div th:if="${allReviewList.challengeAuthStatus==0}">
+                                <span style="display: inline-block;">
+                                    <i class="fa-solid fa-spinner" style="color: #929292;"></i>
+                                </span>
+                                <h5 style="display: inline; color: #929292;">인증중</h5>
+                            </div>
+                            <div th:if="${allReviewList.challengeAuthStatus==1}">
+                                <span style="display: inline-block;">
+                                    <i class="fa-regular fa-circle-check" style="color: #008000;"></i>
+                                </span>
+                                <h5 style="display: inline; color: rgb(0, 128, 0);">인증완료!</h5>
+                            </div>
+                            <div th:if="${allReviewList.challengeAuthStatus==2}">
+                                <span style="display: inline-block;">
+                                    <i class="fa-solid fa-triangle-exclamation" style="color: #ff0000;"></i>
+                                </span>
+                                <h5 style="display: inline; color: rgb(255, 0, 0);">인증실패..</h5>
+                            </div>
+                        </div>
 
-                        <span class="card-text d-flex delete-review" style="color: #AAAAAA; font-size: 13px; position: absolute; top: 0; right: 0; margin-top: 50px; margin-right: 20px;" th:if="${loginEmail == meetReview.email}" th:data-email="${meetReview.email}" th:data-meetListNum="${meetListNum}" th:data-meetReviewNum="${meetReview.meetReviewNum}" onclick="deleteReview(this.getAttribute('data-email'), this.getAttribute('data-meetListNum'), this.getAttribute('data-meetReviewNum'))">삭제</span>
+
+                        <div th:id="'confirm'+${allReviewList.challengeAuthImage}" style="display: none;">
+                            <span style="display: inline-block;">
+                                <i class="fa-regular fa-circle-check" style="color: #008000;"></i>
+                            </span>
+                            <h5 style="display: inline; color: rgb(0, 128, 0);">인증완료!</h5>
+                        </div>
+
+                        <div th:id="'fail'+${allReviewList.challengeAuthImage}" style="display: none;">
+                            <span style="display: inline-block;">
+                                <i class="fa-solid fa-triangle-exclamation" style="color: #ff0000;"></i>
+                            </span>
+                            <h5 style="display: inline; color: rgb(255, 0, 0);">인증실패..</h5>
+                        </div>
+                       
+
+                        <p class="card-text" th:text="${allReviewList.challengeAuthContent}" style="padding-left: 10px; padding-right: 10px; text-align: justify; font-size: 18px; margin-bottom: 5px;"></p>
+                        
+                        <p class="card-text d-flex" th:text="${allReviewList.challengeAuthCreateDate}" style="color: #AAAAAA; font-size: 13px; position: absolute; top: 0; right: 0; margin-top: 31px; margin-right: 20px;"></p>
+
+                        <span class="card-text d-flex delete-review" style="color: #AAAAAA; font-size: 13px; position: absolute; top: 0; right: 0; margin-top: 50px; margin-right: 20px;" 
+                        th:if="${allReviewList.email == challengeInfoDTO.email}" 
+                        th:data-email="${allReviewList.email}" 
+                        th:data-challengeListNum="${allReviewList.challengeListNum}" 
+                        th:data-challengeAuthListNum="${allReviewList.challengeAuthListNum}",
+                        th:data-challengeAuthImage="${allReviewList.challengeAuthImage}"
+
+                        onclick="deleteReview(
+                            this.getAttribute('data-email'), 
+                            this.getAttribute('data-challengeListNum'), 
+                            this.getAttribute('data-challengeAuthListNum'),
+                            this.getAttribute('data-challengeAuthImage'))">삭제</span>
 
                     </div>
                 </div>
