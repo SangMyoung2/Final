@@ -311,7 +311,7 @@ public class ChatController {
         String entryTime = rooms.getEntryDate().get(user);
 
         // List<ChatMessage> chatLists = new ArrayList<>();
-        List<ChatMessage> chatLists = chatContentService.findAllByRoomIdInTime(chat.getRoomId()+today,entryTime);
+        List<ChatMessage> chatLists = chatContentService.findAllByRoomIdInTime(chat.getRoomId(),entryTime);
         
         Map<String, Object> data = new HashMap<>();
         data.put("data", chatLists);

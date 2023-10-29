@@ -175,7 +175,7 @@ public class ChatRoomController {
             mav.setViewName("redirect:/meetMateList.action");
         }
         else if(createType == 2){
-            mav.setViewName("redirect:/communiArticle.action");
+            mav.setViewName("redirect:/communiFindList.action");
         }
         else if(createType == 3){
             mav.setViewName("redirect:/communiArticle.action?meetListNum=" + redirectNum);

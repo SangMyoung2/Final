@@ -815,7 +815,7 @@ public class MeetControllerYj {
 
 		LocalDateTime currentDateTime = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-
+		
 		LocalDateTime meetDateTime = LocalDateTime.parse(gatchiDTO.getMeetDday(), formatter);
 
 		if(currentDateTime.isAfter(meetDateTime)){
