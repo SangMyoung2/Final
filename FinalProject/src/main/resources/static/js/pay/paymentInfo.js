@@ -1,42 +1,125 @@
 $(document).ready(function() {
+    // 초기 설정
+    checkAndDisplayNoResultsMessage();
+
+    $('.paymentinfocontainer').show();
+    $('.pointinfocontainer').hide();
+
+    // 포인트 충전 내역 버튼 클릭 시
+    $('#show-pay-history').click(function() {
+        resetFilters();
+        $('.paymentinfocontainer').show();
+        $('.pointinfocontainer').hide();
+        $('.paytitle').text('포인트 충전 내역');
+        checkAndDisplayNoResultsMessage();
+        resetLoadMore();
+        loadMore();
+    });
+
+    // 포인트 사용 내역 버튼 클릭 시
+    $('#show-point-history').click(function() {
+        resetFilters();
+        $('.paymentinfocontainer').hide();
+        $('.pointinfocontainer').show();
+        $('.paytitle').text('포인트 사용 내역');
+        checkAndDisplayNoResultsMessage();
+        resetLoadMore();
+        loadMore();
+    });
+
     $('#filter-btn').click(function() {
         var startDateInput = $('#start-date').val();
         var endDateInput = $('#end-date').val();
-        var hasResults = false;
 
-        // 모든 paymentinfocontainer 요소와 메시지를 숨김
-        $('.paymentinfocontainer').hide();
-        $('#no-results-message').hide();
-
-        // 시작날짜나 종료날짜가 비어있으면 모든 결제 내역을 보여줌
-        if (!startDateInput || !endDateInput) {
-            $('.paymentinfocontainer').show();
+        if (!startDateInput && !endDateInput) {
+            displayAllData();
             return;
         }
 
         var startDate = new Date(startDateInput).getTime();
-        var endDate = new Date(endDateInput).setHours(23, 59, 59, 999);
+        var endDate = new Date(endDateInput).getTime();
 
-        // 시작 날짜가 종료 날짜보다 늦은 경우 alert 메시지 표시 후 모든 결제 내역을 보여줌
         if (startDate > endDate) {
-            alert("시작 날짜는 종료 날짜보다 늦을 수 없습니다.");
-            $('.paymentinfocontainer').show();  // 모든 결제 내역을 보여줍니다.
+            alert('시작 날짜가 종료 날짜보다 늦게 설정될 수 없습니다.');
+            displayAllData();
             return;
         }
 
-        // 선택한 범위 내의 결제 내역만 표시
-        $('.paymentinfocontainer').each(function() {
-            var paidDate = new Date($(this).find('.label:contains("결제 날짜/시간:")').next().text()).getTime();
+        resetFilters();
+        if ($('.paytitle').text() === '포인트 충전 내역') {
+            $('.pointinfocontainer').hide(); // 포인트 사용 내역 숨김
+            filterResults('.paymentinfocontainer', '.label:contains("결제 날짜/시간:")', startDate, endDate);
+        } else {
+            $('.paymentinfocontainer').hide(); // 포인트 충전 내역 숨김
+            filterResults('.pointinfocontainer', '.label:contains("사용 날짜/시간:")', startDate, endDate);
+        }
+        resetLoadMore();
+    });
 
-            if (paidDate >= startDate && paidDate <= endDate) {
+    function displayAllData() {
+        resetFilters();
+        if ($('.paytitle').text() === '포인트 충전 내역') {
+            $('.paymentinfocontainer').show();
+            $('.pointinfocontainer').hide(); // 포인트 사용 내역 숨김
+        } else {
+            $('.pointinfocontainer').show();
+            $('.paymentinfocontainer').hide(); // 포인트 충전 내역 숨김
+        }
+        checkAndDisplayNoResultsMessage();
+        resetLoadMore();
+        loadMore();
+    }
+
+    function resetFilters() {
+        $('.paymentinfocontainer, .pointinfocontainer').hide();
+        $('#no-payment-results-message, #no-use-results-message').hide();
+    }
+
+    function filterResults(containerClass, labelSelector, startDate, endDate) {
+        var hasResults = false;
+        $(containerClass).each(function() {
+            var dateText = $(this).find(labelSelector).next().text();
+            var date = new Date(dateText).getTime();
+
+            if (date >= startDate && date <= endDate) {
                 $(this).show();
                 hasResults = true;
             }
         });
 
-        // 결과가 없을 경우 메시지 표시
         if (!hasResults) {
-            $('#no-results-message').show();
+            if (containerClass === '.paymentinfocontainer') {
+                $('#no-payment-results-message').show();
+            } else {
+                $('#no-use-results-message').show();
+            }
+        }
+    }
+
+    function checkAndDisplayNoResultsMessage() {
+        if ($('.paymentinfocontainer:visible').length === 0 && $('.paytitle').text() === '포인트 충전 내역') {
+            $('#no-payment-results-message').show();
+        } else if ($('.pointinfocontainer:visible').length === 0 && $('.paytitle').text() === '포인트 사용 내역') {
+            $('#no-use-results-message').show();
+        } else {
+            $('#no-payment-results-message, #no-use-results-message').hide();
+        }
+    }
+
+
+
+    $('.pointinfocontainer').each(function() {
+        var useTypeText = $(this).find('.label:contains("구분:")').next().text();
+        switch(useTypeText) {
+            case '1':
+                $(this).find('.label:contains("구분:")').next().text('사용');
+                break;
+            case '2':
+                $(this).find('.label:contains("구분:")').next().text('충전');
+                break;
+            case '3':
+                $(this).find('.label:contains("구분:")').next().text('환불');
+                break;
         }
     });
 });

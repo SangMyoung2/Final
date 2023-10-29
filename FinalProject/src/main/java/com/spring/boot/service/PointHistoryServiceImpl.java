@@ -1,5 +1,7 @@
 package com.spring.boot.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +20,8 @@ public class PointHistoryServiceImpl implements PointHistoryService {
     }
 
     @Override
-    public PointHistoryDTO getUseReadData(PointHistoryDTO dto){
+    public List<PointHistoryDTO> getUseReadData(PointHistoryDTO dto){ // 반환 타입을 List로 변경합니다.
         return pointHistoryMapper.getUseReadData(dto);
     }
+
 }

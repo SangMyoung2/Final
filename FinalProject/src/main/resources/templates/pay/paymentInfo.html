@@ -9,6 +9,7 @@
 <link rel="stylesheet" type="text/css" href="css/pay/paybutton.css"/>
 <link rel="stylesheet" type="text/css" href="css/pay/paytext.css"/>
 <link rel="stylesheet" type="text/css" href="css/pay/paymentinfo.css"/>
+<link rel="stylesheet" type="text/css" href="css/customercenter/customercenterButton.css"/>
 <link rel="icon" type="image/png" th:href="@{http://localhost:8080/image/로고.png}"/>
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script type="text/javascript" src="https://service.iamport.kr/js/iamport.payment-1.1.5.js"></script>
@@ -20,12 +21,16 @@
 
     <div layout:fragment="content">
         <br/>
-        <p class="paytitle">결제 내역 / 포인트 사용 내역</p>
+
+        <p class="paytitle">포인트 충전 내역</p>
+        
         <br/><br/>
 
-        <div th:if="${#lists.isEmpty(paymentInfo)}">
-            <p style="text-align: center;">결제 내역이 없습니다.</p>
+        <div class="history-selection-buttons">
+            <button id="show-pay-history" class="center-button btn-16">포인트 충전 내역</button>
+            <button id="show-point-history" class="center-button btn-16">포인트 사용 내역</button>
         </div>
+        <br/>
 
         <div class="date-filter">
             <label for="start-date">시작 날짜:</label>
@@ -39,9 +44,14 @@
 
         <br/><br/>
 
-        <div id="no-results-message" style="display: none; text-align: center;">
-            해당 날짜의 결제 내역이 없습니다.
+        <div id="no-payment-results-message" style="display: none; text-align: center; margin-bottom: 200px;">
+            충전 내역이 없습니다.
         </div>
+        
+        <div id="no-use-results-message" style="display: none; text-align: center; margin-bottom: 200px;">
+            사용 내역이 없습니다.
+        </div>
+
     
         <!-- paymentInfo 데이터를 반복하여 각 결제 내역을 div로 표시 -->
         <div th:each="payment : ${paymentInfo}" class="paymentinfocontainer" th:unless="${#lists.isEmpty(paymentInfo)}">
@@ -61,6 +71,11 @@
                 <span th:text="${payment.paid_amount} + 원"></span>
             </div>
             
+            <div>
+                <span class="label">충전된 포인트 : </span>
+                <span th:text="${payment.paid_amount} + 포인트"></span>
+            </div>
+
             <div>
                 <span class="label">결제 방법: </span>
                 <span th:text="${payment.pay_method}"></span>
@@ -86,9 +101,41 @@
             <!-- 필요한 경우 다른 데이터 필드들도 추가 가능 -->
             <hr/>
         </div>
+
+        <div th:each="useInfo : ${pointHistories}" class="pointinfocontainer">
+            <br/><br/>
+            <div>
+                <span class="label">사용 날짜/시간: </span>
+                <span th:text="${useInfo.useTime}"></span>
+            </div>
+            <div>
+                <span class="label">모임: </span>
+                <span th:text="${useInfo.pointUseHistory}"></span>
+            </div>
+            <div>
+                <span class="label">구분: </span>
+                <span class="useType" th:text="${useInfo.useType}"></span>
+            </div>
+            <div>
+                <span class="label">변경된 포인트: </span>
+                <span th:text="${useInfo.usePoint} + 포인트"></span>
+            </div>
+            <div>
+                <span class="label before-point">이전 포인트: </span>
+                <span class="before-point" th:text="${useInfo.beforPoint} + 포인트"></span>
+            </div>
+            <div>
+                <span class="label after-point">이후 포인트: </span>
+                <span class="after-point" th:text="${useInfo.afterPoint} + 포인트"></span>
+            </div>
+            <!-- 필요한 경우, 다른 데이터 필드들도 추가 가능 -->
+            <hr/>
+        </div>
     
         <br/>
 
+
+        
     </div>
 
 
