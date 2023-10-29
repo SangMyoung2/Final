@@ -39,8 +39,8 @@
   .body7 {
     font-size: 0.9rem;
     letter-spacing: 0.1px;
-    height: 500px;
-    max-height: 500px;
+    height: 400px;
+    max-height: 400px;
   }
   
   h1 {
@@ -129,19 +129,19 @@
     min-width: 360px;
     /* background: #e8dcca; */
 
-    max-height: 500px;
+    max-height: 400px;
   }
   
   main .slide {
     position: relative;
     overflow: hidden;
-    max-height: 500px;
+    max-height: 400px;
   }
   
   main .panel {
     width: 300%;
     height: 100%;
-    max-height: 500px;
+    max-height: 400px;
     display: flex;
     justify-content: space-around;
     background-color: white;
@@ -165,7 +165,7 @@
   
 
 .li2_img{
-    max-height: 500px;
+    max-height: 400px;
     width: 11.111%;
     height: 800px;
     /* float: left; */
@@ -259,7 +259,7 @@
   main .dot {
     position: absolute;
     left: 50%;
-    bottom: 5%;
+    bottom: 0;
     transform: translateX(-50%);
   }
   

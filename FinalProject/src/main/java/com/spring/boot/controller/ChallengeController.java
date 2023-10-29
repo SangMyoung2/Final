@@ -7,9 +7,12 @@ import java.net.URLDecoder;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
+
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -89,7 +92,7 @@ public class ChallengeController {
 		}
 
         String absolutePath = new File("").getAbsolutePath() + "\\";
-		String path = "FinalProject/src/main/resources/static/image/challengeImage";
+		String path = "FinalProject/src/main/resources/static/image/challenge/challengeList";
         File file = new File(path);
 		// 폴더가 없다면 생성
 		if (!file.exists()) {
@@ -142,11 +145,13 @@ public class ChallengeController {
         int maxNum = challengeService.maxNum();
         System.out.println(maxNum);
         infoDTO.setChallengeListNum(maxNum+1);
+		dto.setChallengeContent(dto.getChallengeContent().replace("\r\n", "<br/>"));
         dto.setChallengeListNum(maxNum+1);
 
         challengeService.createChallenge(dto);
         challengeService.insertChallengeInfo(infoDTO);
 
+		Thread.sleep(2000);
 		mav.setViewName("redirect:/challengeList.action");
 		
 		return mav;	
@@ -161,16 +166,12 @@ public class ChallengeController {
 		ChallengeInfoDTO challengeInfoDTO = new ChallengeInfoDTO();
 		ChallengeInfoDTO masterInfoDTO = new ChallengeInfoDTO();
 
-		challengeService.updateChallengeStatus();
-
         //게시글 번호로 1개의 게시글 불러옴
         int challengeListNum = Integer.parseInt( request.getParameter("challengeListNum"));
-        
-
+    
         List<ChallengeAuthDTO> allReviewList = challengeService.getAllReviewList(challengeListNum);
         List<ChallengeInfoDTO> lists = challengeService.getUserListData(challengeListNum);
 		ChallengeDTO challengeDTO = challengeService.getReadData(challengeListNum);
-        
 
         //user session정보 가져오기
         HttpSession session = request.getSession();
@@ -185,7 +186,7 @@ public class ChallengeController {
             email = user1.getEmail();
 		}
 
-		
+
 
         challengeInfoDTO.setChallengeListNum(challengeListNum);
         challengeInfoDTO.setEmail(email);
@@ -199,6 +200,84 @@ public class ChallengeController {
           
             ChallengeMemberStatus = ret.intValue();
         }
+
+		//잔디심기
+		List<ChallengeAuthDTO> userAuthList = challengeService.getUserReview(challengeListNum,email);
+
+		int challengeDay = challengeService.getChallengeDay(challengeListNum); //8일
+
+		// System.out.println(challengeDay);
+		// System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++");
+		// System.out.println(userAuthList.get(0).getChallengeAuthCreateDate());
+		// System.out.println(userAuthList.get(1).getChallengeAuthCreateDate());
+		// System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++");
+		
+		if (!userAuthList.isEmpty()) {
+
+			LocalDate dummy = LocalDate.of(2023, 10, 7);
+			if(challengeDay!=userAuthList.size()){
+				ChallengeAuthDTO newAuthData = new ChallengeAuthDTO();
+				while (challengeDay > userAuthList.size()) {
+					
+					
+					newAuthData.setChallengeAuthCreateDate(Date.valueOf(dummy));
+					userAuthList.add(newAuthData);
+				}
+			}
+
+			// System.out.println(userAuthList.get(0).getChallengeAuthCreateDate());
+			// System.out.println(userAuthList.get(1).getChallengeAuthCreateDate());
+			// System.out.println(userAuthList.get(2).getChallengeAuthCreateDate());
+			// System.out.println(userAuthList.get(3).getChallengeAuthCreateDate());
+			// System.out.println(userAuthList.get(4).getChallengeAuthCreateDate());
+			// System.out.println(userAuthList.get(5).getChallengeAuthCreateDate());
+			
+			int[] authStatus = new int[challengeDay];
+			for (int i = 0; i < challengeDay; i++) {
+
+				LocalDate startDate = challengeDTO.getChallengeStartDate().toLocalDate(); // 시작 날짜를 LocalDate로 변환
+				boolean flag = false;
+				startDate = startDate.plusDays(i); // i일만큼 증가
+				
+				for(int j = 0; j < challengeDay; j++){
+					System.out.println("====================================================");
+					System.out.println("2번 for문 돈다");
+					System.out.println("startDate = i" + i + "식 증가했다" + startDate);
+
+
+
+					Date authDate = userAuthList.get(j).getChallengeAuthCreateDate();
+					System.out.println("authDate = j" + j + "식 증가한다." + authDate);
+					
+					System.out.println(authDate);
+					if (authDate.toLocalDate().isEqual(startDate)) {
+						System.out.println("true @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+						flag = true;
+						break;
+					}else{
+						System.out.println("false");
+					}
+				}
+
+				if(flag==true){
+					authStatus[i] = 1;
+				}else{
+					authStatus[i] = 0;
+				}
+				flag = false;
+			}
+			mav.addObject("authStatus", authStatus);
+		}else if(userAuthList.isEmpty()){
+			int[] authStatus = new int[challengeDay];
+				for (int i = 0; i < challengeDay; i++) {
+					authStatus[i] = 0;
+				}
+			mav.addObject("authStatus", authStatus);
+		}
+
+		int userAuthCnt = userAuthList.size();
+		mav.addObject("userAuthCnt",userAuthCnt);
+        mav.addObject("challengeDay",challengeDay);
         mav.addObject("challengeInfoDTO",challengeInfoDTO);
         mav.addObject("ChallengeMemberStatus", ChallengeMemberStatus);
         mav.addObject("allReviewList", allReviewList);
@@ -242,7 +321,7 @@ public class ChallengeController {
         authDTO.setChallengeListNum(challengeListNum);
         authDTO.setChallengeAuthListNum(maxNum+1);
         authDTO.setEmail(email);
-        authDTO.setChallengeAuthContent(challengeAuthContent);
+        authDTO.setChallengeAuthContent(challengeAuthContent.replace("\r\n", "<br/>"));
 		// 중복 리뷰 작성 여부 확인
 		ChallengeAuthDTO hasReviewed = challengeService.getNoneAuthReview(authDTO);
 		String response = "";
@@ -251,20 +330,21 @@ public class ChallengeController {
             
 			if (!challengeAuthImage.isEmpty()) {
 
-                String resourcePath ="C:\\VSCode\\Final\\FinalProject\\src\\main\\resources\\static\\image\\challenge\\challengeCheck";
-				String originalFilename = challengeAuthImage.getOriginalFilename();
-				String saveFileName = UUID.randomUUID() + originalFilename;
+                String absolutePath = new File("").getAbsolutePath() + "\\";
+				String path = "FinalProject/src/main/resources/static/image/challenge/challengeCheck";
+				File file = new File(path);
+				// 폴더가 없다면 생성
+				if (!file.exists()) {
+					file.mkdirs();
+				}
+				String originalFileName = challengeAuthImage.getOriginalFilename();
+				String saveFileName = UUID.randomUUID() + originalFileName;
 				
-				Path filePath = Paths.get(resourcePath, saveFileName);
-            	
-            	Files.write(filePath, challengeAuthImage.getBytes());
-
+				file = new File(absolutePath + path + "/" + saveFileName);
+				challengeAuthImage.transferTo(file);
 
                 authDTO.setChallengeAuthImage(saveFileName);
-
 				
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-				authDTO.setChallengeAuthCreateDate(sdf.format(new Date()));
 
                 authDTO.setChallengeAuthStatus(0);
 				
@@ -346,7 +426,7 @@ public class ChallengeController {
             @RequestParam("challengeAuthImage") String challengeAuthImage) throws Exception {
 
 			
-			challengeService.successChallengeAuth(challengeAuthImage);
+			challengeService.failChallengeAuth(challengeAuthImage);
 
 				
 
@@ -365,7 +445,7 @@ public class ChallengeController {
 
 
 
-
+	//챌린지 가입
     @PostMapping("/joinChallenge.action")
 	public ModelAndView joinChallenge(HttpServletRequest request, ChallengeInfoDTO infoDTO) throws Exception {
 		
@@ -383,7 +463,7 @@ public class ChallengeController {
 
 		int challengeListNum =  Integer.parseInt(request.getParameter("challengeListNum"));
         
-         
+        challengeService.updateChallengeMemCnt(challengeListNum);
         infoDTO.setChallengeMemberStatus(2); //회원 설정
         infoDTO.setChallengeListNum(challengeListNum);
 
@@ -395,7 +475,7 @@ public class ChallengeController {
 		return mav;		
 	}
 
-
+	//챌린지 삭제
     @PostMapping("/deleteChallenge.action")
 	public ModelAndView deleteChallenge(HttpServletRequest request) throws Exception {
 
@@ -410,7 +490,7 @@ public class ChallengeController {
 		return mav;
 	}
 
-    
+    //챌린지 포기
     @PostMapping("/giveUpChallenge.action")
 	public ModelAndView giveUpChallenge(HttpServletRequest request,ChallengeInfoDTO challengeInfoDTO) throws Exception {
 
@@ -418,7 +498,7 @@ public class ChallengeController {
 	
         int challengeListNum =  Integer.parseInt(request.getParameter("challengeListNum"));
 
-
+		
 
         HttpSession session = request.getSession();
 		SessionUser social = (SessionUser)session.getAttribute("user");
@@ -431,7 +511,7 @@ public class ChallengeController {
 			email = user1.getEmail(); 
 		}
        
-      
+      	challengeService.downChallengeMemCnt(challengeListNum);
 
         challengeService.deleteChallengeInfo(challengeListNum,email);
        

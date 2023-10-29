@@ -151,6 +151,7 @@ public class MeetmateController {
 		mav.addObject("meetListNum", dto.getMeetListNum());
 		//mav.setViewName("redirect:/meetMateList.action");
 		mav.setViewName("redirect:/createroom.action");
+		Thread.sleep(2000);
 		return mav;
 	}
 
@@ -169,9 +170,7 @@ public class MeetmateController {
 		} else if (user1 != null) {
 			infoDTO.setEmail(user1.getEmail()); 
 		}
-
-
-		
+	
 		String absolutePath = new File("").getAbsolutePath() + "\\";
 		String path = "FinalProject/src/main/resources/static/image/gatchiImage";
         File file = new File(path);
@@ -209,6 +208,7 @@ public class MeetmateController {
 		mav.addObject("meetListNum", dto.getMeetListNum());
 		// mav.setViewName("redirect:/communiFindList.action");
 		mav.setViewName("redirect:/createroom.action");
+		Thread.sleep(2000);
 		return mav;
 	}
 		

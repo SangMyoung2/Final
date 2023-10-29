@@ -229,7 +229,7 @@
             
             var progressBar = $(this).find('#progress');
             progressBar.css('width', percentage + '%');
-            progressBar.css('background-color', '#5CA8B5');
+            progressBar.css('background-color', '#1d65b2');
 
             var percentElement = $(this).find('#goal');
             percentElement.text(percentage + "%");
@@ -632,7 +632,7 @@ $(window).on('scroll', function () {
     
 
     <div class="text-center">
-        <div class="btn-group" role="group" aria-label="Basic radio toggle button group" style="width: 800px; margin-bottom: 5px; margin-top: 50px;">
+        <div class="btn-group" id="homeAndreviw" role="group" aria-label="Basic radio toggle button group">
             <!-- 홈 버튼 -->
             <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
             <label class="btn btn-custom" for="btnradio1" onclick="showHomeContent()">
@@ -691,7 +691,7 @@ $(window).on('scroll', function () {
                             <span class="goal-number" id="current-amount" th:text="${meetListInfo.meetMemCnt}"></span>
                             <span class="goal-label">현재 인원</span>
                         </div>
-                        <div class="goal-stat" style="margin-left: 187px;">
+                        <div class="goal-stat" style="margin-left: 160px; text-align: right;">
                             <span class="goal-number" id="max-amount" th:text="${meetListInfo.meetMaxMemCnt}"></span>
                             <span class="goal-label">모집 인원</span>
                         </div>
@@ -702,8 +702,8 @@ $(window).on('scroll', function () {
                     </button>
                     
                     <div class="approval-back" th:if="${meetMemStatus == 1 and meetStatus == 2}"> 
-                        <div style="display: flex; align-items: center;">
-                            <div style="margin-left: 6px; font-size: 18px;">승인요청</div>
+                        <div style="display: flex; align-items: center; justify-content: space-between;">
+                            <div style="font-size: 18px;">승인요청</div>
                             <div class="approval-mem" id="expand-button">ⅴ펼치기</div>
                         </div>
                         <div style="margin-top: 10px;"></div>
