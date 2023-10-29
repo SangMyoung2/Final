@@ -1,4 +1,6 @@
 package com.spring.boot.dto;
+import java.sql.Date;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,7 +11,7 @@ public class ChallengeAuthDTO {
     private int challengeAuthListNum; //인증 리스트 번호
     private String email;
     private String challengeAuthContent;
-    private String challengeAuthCreateDate;
+    private Date challengeAuthCreateDate;
     private String challengeAuthImage;
     private int challengeAuthStatus;
     
