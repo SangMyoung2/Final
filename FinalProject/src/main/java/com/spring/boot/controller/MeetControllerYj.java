@@ -191,7 +191,7 @@ public class MeetControllerYj {
 			@RequestParam("meetImage1") MultipartFile meetImage,
 			@RequestParam("meetListNum") int meetListNum) throws Exception{
 
-		ModelAndView mav = new ModelAndView("redirect:/communiArticle.action?meetListNum=" + meetListNum);
+		ModelAndView mav = new ModelAndView();
 		
 		HttpSession session = request.getSession();
 		Users social = (Users)session.getAttribute("user");
@@ -207,16 +207,23 @@ public class MeetControllerYj {
 		// dto.setCode(meetListNum);
 		// meetServiceYj.updateCode(dto.getCode());
 		
-		String resourcePath = "C:\\VSCode\\Final\\FinalProject\\src\\main\\resources\\static\\image\\gatchiImage";
-		// Resource resource = new ClassPathResource("static");
-        // String resourcePath = resource.getFile().getAbsolutePath() + "/image/gatchiImage";
-
+		String absolutePath = new File("").getAbsolutePath() + "\\";
+		String path = "FinalProject/src/main/resources/static/image/gatchiImage";
+        File file = new File(path);
+		int maxNum = 0;
 		if (!meetImage.isEmpty()) {
 			String originalFileName = meetImage.getOriginalFilename();
-			File destFile = new File(resourcePath, originalFileName);
 
-			meetImage.transferTo(destFile);
-			int maxNum = gatchiService.maxNum();
+			// 폴더가 없다면 생성
+			if (!file.exists()) {
+				file.mkdirs();
+			}
+
+			String saveFileName = UUID.randomUUID() + originalFileName;
+			file = new File(absolutePath + path + "/" + saveFileName);
+			meetImage.transferTo(file);
+
+			maxNum = gatchiService.maxNum();
 			dto.setMeetListNum(maxNum + 1);
 			dto.setMeetImage(originalFileName);
 			dto.setCode(meetListNum);
@@ -234,8 +241,10 @@ public class MeetControllerYj {
 		}
 		mav.addObject("roomName", dto.getMeetTitle());
 		mav.addObject("roomType", "MEET");
-		mav.addObject("meetListNum", meetListNum);
+		mav.addObject("meetListNum", (maxNum + 1));
 		//mav.setViewName("redirect:/meetMateList.action");
+		mav.addObject("createType", 3);
+		mav.addObject("redirectNum", meetListNum);
 		mav.setViewName("redirect:/createroom.action");
 		return mav;
 	}

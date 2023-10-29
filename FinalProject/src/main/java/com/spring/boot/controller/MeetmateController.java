@@ -149,6 +149,8 @@ public class MeetmateController {
 		mav.addObject("roomName", dto.getMeetTitle());
 		mav.addObject("roomType", "MEET");
 		mav.addObject("meetListNum", dto.getMeetListNum());
+		mav.addObject("createType", 1);
+
 		//mav.setViewName("redirect:/meetMateList.action");
 		mav.setViewName("redirect:/createroom.action");
 		Thread.sleep(2000);
@@ -204,8 +206,10 @@ public class MeetmateController {
 		}
 
 		mav.addObject("roomName", dto.getMeetTitle());
-		mav.addObject("roomType", "MEET");
+		mav.addObject("roomType", "CUMMUNITY");
 		mav.addObject("meetListNum", dto.getMeetListNum());
+		mav.addObject("createType", 2);
+
 		// mav.setViewName("redirect:/communiFindList.action");
 		mav.setViewName("redirect:/createroom.action");
 		Thread.sleep(2000);
