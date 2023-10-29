@@ -525,28 +525,12 @@ function hideTooltip() {
     tooltip.style.display = 'none';
 }
 
-// $(document).ready(function () {
-//     // 선택 상자 변경 이벤트 처리
-//     $("#sortOption").change(function () {
-//         var selectedOption = $(this).val();
-//         var meetListNum = $("#meetListNum").val();
-//         $.ajax({
-//             type: "GET", // 또는 "POST", 요청 유형에 따라 변경
-//             url: "/sortMeetMateList", // 요청을 처리할 컨트롤러 엔드포인트 URL
-//             data: {
-//                 meetListNum: meetListNum,
-//                 sortOption: selectedOption
-//             },
-//             success: function (data) {
-//                 // 서버에서 받은 HTML을 목록 영역에 삽입
-//                 $("#meetmateList").html(data);
-//             },
-//             error: function (error) {
-//                 console.log("에러 발생: " + error);
-//             }
-//         });
-//     });
-// });
+function chatRoom(){
+    let meetListNum = document.getElementById('meetListNum').value;
+
+    var options = 'width=600px,height=700px,scrollbars=yes'
+            popupChat = window.open("articleChatRoom.action?meetListNum=" + meetListNum,"_blacnk",options);
+}
 
 </script>
 
@@ -625,13 +609,13 @@ function hideTooltip() {
                             <span class="goal-number" id="current-amount" th:text="${meetListInfo.meetMemCnt}"></span>
                             <span class="goal-label">현재 인원</span>
                         </div>
-                        <div class="goal-stat">
+                        <div class="goal-stat" style="margin-left: 160px; text-align: right;">
                             <span class="goal-number" id="max-amount" th:text="${meetListInfo.meetMaxMemCnt}"></span>
                             <span class="goal-label">모집 인원</span>
                         </div>
                     </div>
 
-                    <button class="chat-btn" th:if="${meetMemStatus == 1 or meetMemStatus == 2}">
+                    <button class="chat-btn" th:if="${meetMemStatus == 1 or meetMemStatus == 2}" id="chatRoom" onclick="chatRoom()">
                         <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Speech%20Balloon.png" alt="Speech Balloon" width="25px" height="25px" /> 채팅 바로가기
                         <input type="hidden" id="meet-memStatus" name="meetMemStatus" th:value="${meetMemStatus}" />
                     </button>

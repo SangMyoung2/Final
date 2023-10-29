@@ -112,6 +112,8 @@ public class ChatRoomController {
     public ModelAndView createRoom(@RequestParam("roomName") String roomName, 
     @RequestParam("roomType") String roomType,
     @RequestParam("meetListNum") int meetListNum,
+    @RequestParam("createType") int createType,
+    @RequestParam(name = "redirectNum", required = false, defaultValue = "0") int redirectNum,
     HttpServletRequest req) throws Exception{
 
         //chatDAO.createChatRoom(roomName, roomMaster);
@@ -169,7 +171,15 @@ public class ChatRoomController {
         
         ModelAndView mav = new ModelAndView();
         //mav.addObject("roomName", room);
-        mav.setViewName("redirect:/meetMateList.action");
+        if(createType == 1){
+            mav.setViewName("redirect:/meetMateList.action");
+        }
+        else if(createType == 2){
+            mav.setViewName("redirect:/communiArticle.action");
+        }
+        else if(createType == 3){
+            mav.setViewName("redirect:/communiArticle.action?meetListNum=" + redirectNum);
+        }
         return mav;
     }
 
