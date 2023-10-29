@@ -11,4 +11,5 @@ public class ChallengeInfoDTO {
 
     private String name;
     private String picture;
+    private String role;
 }

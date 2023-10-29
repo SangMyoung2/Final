@@ -50,6 +50,7 @@
         document.querySelector('.yj-img').style.display = 'block';
         document.querySelector('.yj-img2').style.display = 'none';
         document.querySelector('.meet-members').style.display = 'block';
+        document.querySelector('.meet-mypage').style.display = 'block';
     }
 
     // 리뷰 내용 표시 함수
@@ -57,6 +58,7 @@
         document.querySelector('.yj-img').style.display = 'none';
         document.querySelector('.yj-img2').style.display = 'block';
         document.querySelector('.meet-members').style.display = 'none';
+        document.querySelector('.meet-mypage').style.display = 'none';
     }
 
 
@@ -155,6 +157,11 @@
 
     //리뷰 거부하기
     function failReview(challengeListNum,challengeAuthImage) {
+
+        var no = 'fail' + challengeAuthImage;
+        var now = 'now'+ challengeAuthImage;
+        var select = 'selectAuth' + challengeAuthImage;
+
         if (confirm('인증을 거부하시겠습니까?')) {
             $.ajax({
                 type: "POST",
@@ -165,6 +172,9 @@
                 },
                 success: function (response) {
                     alert('거부되었습니다.');
+                    document.getElementById(no).style.display = "block";
+                    document.getElementById(select).style.display = "none";
+                    document.getElementById(now).style.display = "none";
                 
                 },
                 error: function () {
@@ -231,20 +241,32 @@
     function joinChallenge() {
         if (confirm('챌린지에 가입하시겠습니까?')) {
             document.getElementById('joinChallengeForm').submit();
+            alert('챌린지에 가입되었습니다!')
         }
     }
     //챌린지 삭제
     function deleteChallenge() {
         if (confirm('챌린지를 삭제하시겠습니까?')) {
             document.getElementById('deleteChallengeForm').submit();
+            alert('챌린지에 삭제되었습니다!')
         }
     }
     //챌린지 포기
     function giveUpChallenge() {
         if (confirm('챌린지를 포기하시겠습니까?')) {
             document.getElementById('giveUpChallengeForm').submit();
+            alert('챌린지를 포기하였습니다!')
         }
     }
+
+    function chatRoom(){
+    let meetListNum = document.getElementById('meetListNum').value;
+
+    var options = 'width=600px,height=700px,scrollbars=yes'
+            popupChat = window.open("articleChatRoom.action?meetListNum=" + meetListNum,"_blacnk",options);
+}
+
+
 
 
 </script>
@@ -297,7 +319,20 @@ tr{
     transition: background-color 0.15s ease;
     margin-right: 10px;
 }
+.square {
+      width: 40px;
+      height: 40px;
+      margin: 3px;
+      border-radius: 20%;
+      display: inline-block;
+    }
+.green {
+    background-color: rgb(22, 222, 22);
+}
 
+.gray {
+    background-color: rgb(222, 222, 222);
+}
 </style>
 </head>
 <body>
@@ -343,40 +378,55 @@ tr{
                         th:text="|${session.user.name}"></div>
                         <div style="font-size: 17px; margin-top: 3px;">님</div>
                         <div th:if="${meetMemStatus == 1}" style="margin-left: 30px; color: #adadad; font-size: 17px;">👑</div>
-                        <div th:if="${meetMemStatus == 1}" style="margin-left: 2px; color: #adadad; font-size: 17px; margin-top: 3px;">방장</div>
-                        <div th:if="${meetMemStatus == 2}" style="margin-left: 30px; color: #adadad; font-size: 17px; margin-top: 3px;">🤗</div>
-                        <div th:if="${meetMemStatus == 2}" style="margin-left: 2px; color: #adadad; font-size: 17px; margin-top: 3px;">회원</div>
-                        <div th:if="${meetMemStatus == 0}" style="margin-left: 30px; color: #adadad; font-size: 17px;">⌛</div>
-                        <div th:if="${meetMemStatus == 0}" style="margin-left: 2px; color: #adadad; font-size: 17px; margin-top: 3px;">승인대기중..</div>
-                        <div th:if="${meetMemStatus < 0}" style="margin-left: 30px; color: #adadad; font-size: 17px; margin-top: 3px;">👤</div>
-                        <div th:if="${meetMemStatus < 0}" style="margin-left: 2px; color: #adadad; font-size: 17px; margin-top: 3px;">손님</div>
+                        <div th:if="${ChallengeMemberStatus == 1}" style="margin-left: 2px; color: #adadad; font-size: 17px; margin-top: 3px;">방장</div>
+                        <div th:if="${ChallengeMemberStatus == 2}" style="margin-left: 30px; color: #adadad; font-size: 17px; margin-top: 3px;">🤗</div>
+                        <div th:if="${ChallengeMemberStatus == 2}" style="margin-left: 2px; color: #adadad; font-size: 17px; margin-top: 3px;">회원</div>
+                        <div th:if="${ChallengeMemberStatus == 0}" style="margin-left: 30px; color: #adadad; font-size: 17px;">⌛</div>
+                        <div th:if="${ChallengeMemberStatus == 0}" style="margin-left: 2px; color: #adadad; font-size: 17px; margin-top: 3px;">승인대기중..</div>
+                        <div th:if="${ChallengeMemberStatus < 0}" style="margin-left: 30px; color: #adadad; font-size: 17px; margin-top: 3px;">👤</div>
+                        <div th:if="${ChallengeMemberStatus < 0}" style="margin-left: 2px; color: #adadad; font-size: 17px; margin-top: 3px;">손님</div>
                     </div>
 
-                    <hr/>
+                    <br/>
+                    <br/>
+                    <br/>
 
-                    <div id="countdown-wrap" th:each="meetListInfo : ${meetListInfo}">
-                        <div id="goal"></div>
-                        <div id="glass">
-                            <div id="progress">
+                    <button class="chat-btn" th:if="${ChallengeMemberStatus == 1 or ChallengeMemberStatus == 2}">
+                        <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Speech%20Balloon.png" alt="Speech Balloon" width="25px" height="25px" /> 채팅 바로가기
+                        <input type="hidden" id="ChallengeMemberStatus" name="ChallengeMemberStatus" th:value="${ChallengeMemberStatus}" />
+                    </button>
+
+                    <br/>
+                    <h6><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Challenge Record : </b><span th:text="${challengeDTO.challengeStartDate + ' ~ ' + challengeDTO.challengeEndDate}"></span> (총 <span th:text="${challengeDay}"></span>일)</h5>
+
+                        <div id="countdown-wrap" style="height: 100px;">
+                            <div id="goal"></div>
+                            <div id="glass">
+                                <div id="progress">
+                                </div>
+                            </div>
+                            <div class="goal-stat">
+                                <span class="goal-number" id="current-amount" th:text="${userAuthCnt}"></span>
+                                <span class="goal-label" style="width: 100px;">현재 인증 횟수</span>
+                            </div>
+                            <div class="goal-stat" style="margin-left: 187px;">
+                                <span class="goal-number" id="max-amount" th:text="${challengeDay}"></span>
+                                <span class="goal-label" style="width: 100px;">챌린지 총 횟수</span>
                             </div>
                         </div>
-                        <div class="goal-stat">
-                            <span class="goal-number" id="current-amount" th:text="${meetListInfo.meetMemCnt}"></span>
-                            <span class="goal-label">현재 인원</span>
-                        </div>
-                        <div class="goal-stat" style="margin-left: 187px;">
-                            <span class="goal-number" id="max-amount" th:text="${meetListInfo.meetMaxMemCnt}"></span>
-                            <span class="goal-label">모집 인원</span>
-                        </div>
-                    </div>
-
-                    <button class="chat-btn" th:if="${meetMemStatus == 1 or meetMemStatus == 2}">
-                        <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Speech%20Balloon.png" alt="Speech Balloon" width="25px" height="25px" /> 채팅 바로가기
-                        <input type="hidden" id="meet-memStatus" name="meetMemStatus" th:value="${meetMemStatus}" />
-                    </button>
-                      
+                        <br/>
+                        <h4>챌린지 진행상황</h2>
+                        <th:block th:unless="${#lists.isEmpty(authStatus)}">
+                            <div th:each="authStatus : ${authStatus}" style="display: inline-block; align-content: center;">
+                                <div th:if="${authStatus==0}" class="square gray"></div>
+                                <div th:if="${authStatus==1}" class="square green"></div>
+                            </div>
+                        </th:block>
                 </div>
             </div>
+
+
+
 
             <div class="col-8 mx-2 fixed-width-col">
     
@@ -500,6 +550,7 @@ tr{
                                 </div>
                             </div>
                             <div th:case="false">
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 <button type="button" class="finish-button" disabled>
                                     마감된 챌린지
                                 </button>
@@ -511,19 +562,23 @@ tr{
             </div>
             <div class="col-md-2">
                 <div class="meet-members">
-                    <p>
-                        <span style="margin-right: 37px; margin-left: 12px;">멤버목록</span>
+                    <p style="margin-top: 10px; margin-bottom: 5px;">
+                        <span style="margin-left: 12px;">멤버목록</span>
+                        <span style="margin-left: 5px; color: #5CA8B5; font-weight: bold;" th:text="${challengeDTO.challengeMemberCount}"></span>
+                        <span style="margin-right: 86px; color: #5CA8B5; font-weight: bold;">명</span>
                     </p>
+                <div div class="meet-mem-back">
                     <div class="meet-mem-list" th:each="challengeMember : ${lists}">
-                        <li class="round-image-rev mt-2" style="margin-right: 10px; margin-left: -10px;">
-                            <!-- <img th:src="@{/image/gatchiImage/1111.jpg}" alt="유저프사(임의)"/> -->
+                        <li class="round-image-user mt-2" style="margin-right: 10px; margin-left: -10px;">
+                            <img th:if="${challengeMember.role == 'GUEST'}" th:src="@{${challengeMember.picture}}">
+                            <img th:if="${challengeMember.role != 'GUEST'}" th:src="@{image/login/__${challengeMember.picture}__}">
                         </li>
                         <li class="custom-li" th:text="${challengeMember.name}"></li>
                     </div>
                 </div>
+                </div>
             </div>
         </div>
-
 
     </div>
 
