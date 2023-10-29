@@ -27,6 +27,8 @@ public interface ChallengeMapper {
 
     public List<ChallengeAuthDTO> getAllReviewList(int challengeListNum) throws Exception;
 
+    public List<ChallengeAuthDTO> getUserReview(@Param("challengeListNum")int challengeListNum, @Param("email")String email) throws Exception;
+
     public void insertChallengeInfo(ChallengeInfoDTO infoDto) throws Exception;
 
     public ChallengeInfoDTO getUserEmailData(@Param("email")String email,@Param("challengeListNum")int challengeListNum) throws Exception;
@@ -56,15 +58,16 @@ public interface ChallengeMapper {
     public void minusChallengeCount(int challengeListNum) throws Exception;
 
     public List<ChallengeDTO> getListsSerchValue(String searchValue) throws Exception;
-    public void successChallengeAuth(String challengeAuthImage) throws Exception;
-
+    
     public void updateChallengeStatus() throws Exception;
-
+    
     public void updateChallengeMemCnt(int challengeListNum) throws Exception;
-
+    
     public void downChallengeMemCnt(int challengeListNum) throws Exception;
     
-    public void failChallengeAuth() throws Exception;
+    public void successChallengeAuth(String challengeAuthImage) throws Exception;
+    
+    public void failChallengeAuth(String challengeAuthImage) throws Exception;
 
     public List<Integer> getChallengeListNumByUserEmail(String email)throws Exception;
 

@@ -138,8 +138,8 @@ public class ChallengeServiceImpl implements ChallengeService{
     }
 
     @Override
-    public void failChallengeAuth() throws Exception {
-        challengeMapper.failChallengeAuth();
+    public void failChallengeAuth(String challengeAuthImage) throws Exception {
+        challengeMapper.failChallengeAuth(challengeAuthImage);
     }
 
     @Override
@@ -165,5 +165,10 @@ public class ChallengeServiceImpl implements ChallengeService{
     @Override
     public int getChallengeDay(int challengeListNum) throws Exception {
         return challengeMapper.getChallengeDay(challengeListNum);
+    }
+
+    @Override
+    public List<ChallengeAuthDTO> getUserReview(int challengeListNum, String email) throws Exception {
+        return challengeMapper.getUserReview(challengeListNum, email);
     }
 }

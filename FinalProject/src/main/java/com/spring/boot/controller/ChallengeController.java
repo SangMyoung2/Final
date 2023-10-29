@@ -7,9 +7,12 @@ import java.net.URLDecoder;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
+
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -161,17 +164,12 @@ public class ChallengeController {
 		ChallengeInfoDTO challengeInfoDTO = new ChallengeInfoDTO();
 		ChallengeInfoDTO masterInfoDTO = new ChallengeInfoDTO();
 
-		challengeService.updateChallengeStatus();
-
         //게시글 번호로 1개의 게시글 불러옴
         int challengeListNum = Integer.parseInt( request.getParameter("challengeListNum"));
-        
-		int challengeDay = challengeService.getChallengeDay(challengeListNum);
-
+    
         List<ChallengeAuthDTO> allReviewList = challengeService.getAllReviewList(challengeListNum);
         List<ChallengeInfoDTO> lists = challengeService.getUserListData(challengeListNum);
 		ChallengeDTO challengeDTO = challengeService.getReadData(challengeListNum);
-        
 
         //user session정보 가져오기
         HttpSession session = request.getSession();
@@ -186,7 +184,7 @@ public class ChallengeController {
             email = user1.getEmail();
 		}
 
-		
+
 
         challengeInfoDTO.setChallengeListNum(challengeListNum);
         challengeInfoDTO.setEmail(email);
@@ -200,6 +198,77 @@ public class ChallengeController {
           
             ChallengeMemberStatus = ret.intValue();
         }
+
+		//잔디심기
+		List<ChallengeAuthDTO> userAuthList = challengeService.getUserReview(challengeListNum,email);
+
+		int challengeDay = challengeService.getChallengeDay(challengeListNum); //8일
+
+		// System.out.println(challengeDay);
+		// System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++");
+		// System.out.println(userAuthList.get(0).getChallengeAuthCreateDate());
+		// System.out.println(userAuthList.get(1).getChallengeAuthCreateDate());
+		// System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++");
+			
+		if (!userAuthList.isEmpty()) {
+
+			LocalDate dummy = LocalDate.of(2023, 10, 7);
+			if(challengeDay!=userAuthList.size()){
+				ChallengeAuthDTO newAuthData = new ChallengeAuthDTO();
+				while (challengeDay > userAuthList.size()) {
+					
+					
+					newAuthData.setChallengeAuthCreateDate(Date.valueOf(dummy));
+					userAuthList.add(newAuthData);
+				}
+			}
+
+			// System.out.println(userAuthList.get(0).getChallengeAuthCreateDate());
+			// System.out.println(userAuthList.get(1).getChallengeAuthCreateDate());
+			// System.out.println(userAuthList.get(2).getChallengeAuthCreateDate());
+			// System.out.println(userAuthList.get(3).getChallengeAuthCreateDate());
+			// System.out.println(userAuthList.get(4).getChallengeAuthCreateDate());
+			// System.out.println(userAuthList.get(5).getChallengeAuthCreateDate());
+			
+			int[] authStatus = new int[challengeDay];
+			for (int i = 0; i < challengeDay; i++) {
+
+				LocalDate startDate = challengeDTO.getChallengeStartDate().toLocalDate(); // 시작 날짜를 LocalDate로 변환
+				boolean flag = false;
+				startDate = startDate.plusDays(i); // i일만큼 증가
+				
+				for(int j = 0; j < challengeDay; j++){
+					System.out.println("====================================================");
+					System.out.println("2번 for문 돈다");
+					System.out.println("startDate = i" + i + "식 증가했다" + startDate);
+
+
+
+					Date authDate = userAuthList.get(j).getChallengeAuthCreateDate();
+					System.out.println("authDate = j" + j + "식 증가한다." + authDate);
+					
+					System.out.println(authDate);
+					if (authDate.toLocalDate().isEqual(startDate)) {
+						System.out.println("true @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+						flag = true;
+						break;
+					}else{
+						System.out.println("false");
+					}
+				}
+
+				if(flag==true){
+					authStatus[i] = 1;
+				}else{
+					authStatus[i] = 0;
+				}
+				flag = false;
+			}
+			mav.addObject("authStatus", authStatus);
+		}
+
+
+		
         mav.addObject("challengeDay",challengeDay);
         mav.addObject("challengeInfoDTO",challengeInfoDTO);
         mav.addObject("ChallengeMemberStatus", ChallengeMemberStatus);
@@ -263,10 +332,7 @@ public class ChallengeController {
 
 
                 authDTO.setChallengeAuthImage(saveFileName);
-
 				
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-				authDTO.setChallengeAuthCreateDate(sdf.format(new Date()));
 
                 authDTO.setChallengeAuthStatus(0);
 				
@@ -348,7 +414,7 @@ public class ChallengeController {
             @RequestParam("challengeAuthImage") String challengeAuthImage) throws Exception {
 
 			
-			challengeService.successChallengeAuth(challengeAuthImage);
+			challengeService.failChallengeAuth(challengeAuthImage);
 
 				
 

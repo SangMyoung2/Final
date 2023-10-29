@@ -22,27 +22,9 @@
 
 //     // @Scheduled(fixedRate = 10000) // 5초마다 실행
 //     public void challengeEndDateCheck() {
+        
 //         // System.out.println("스케쥴 시작--------------------------------------------------");
-//         List<ChatContentCollection> chatContentCollection = chatContentRepository.findAll();
-//         if(chatContentCollection == null){
-//             return;
-//         }
-
-//         Iterator it = chatContentCollection.iterator();
-//         while(it.hasNext()){
-//             ChatContentCollection chats = (ChatContentCollection) it.next();
-//             List<ChatMessage> chatMessage = chats.getChats();
-//             List<ChatMessage> result = new ArrayList<>();
-
-//             for(ChatMessage c : chatMessage){
-//                 if(c.getReadCount() <= 0){
-//                     c.setReadCount(-1);
-//                 }
-//                 result.add(c);
-//             }
-//             chats.setChats(result);
-//             chatContentRepository.save(chats);
-//         }
+//         challengeService.updateChallengeStatus();
 //     }
 
 // }

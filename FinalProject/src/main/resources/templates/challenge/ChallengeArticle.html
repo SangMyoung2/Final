@@ -157,6 +157,11 @@
 
     //리뷰 거부하기
     function failReview(challengeListNum,challengeAuthImage) {
+
+        var no = 'fail' + challengeAuthImage;
+        var now = 'now'+ challengeAuthImage;
+        var select = 'selectAuth' + challengeAuthImage;
+
         if (confirm('인증을 거부하시겠습니까?')) {
             $.ajax({
                 type: "POST",
@@ -167,6 +172,9 @@
                 },
                 success: function (response) {
                     alert('거부되었습니다.');
+                    document.getElementById(no).style.display = "block";
+                    document.getElementById(select).style.display = "none";
+                    document.getElementById(now).style.display = "none";
                 
                 },
                 error: function () {
@@ -233,52 +241,32 @@
     function joinChallenge() {
         if (confirm('챌린지에 가입하시겠습니까?')) {
             document.getElementById('joinChallengeForm').submit();
+            alert('챌린지에 가입되었습니다!')
         }
     }
     //챌린지 삭제
     function deleteChallenge() {
         if (confirm('챌린지를 삭제하시겠습니까?')) {
             document.getElementById('deleteChallengeForm').submit();
+            alert('챌린지에 삭제되었습니다!')
         }
     }
     //챌린지 포기
     function giveUpChallenge() {
         if (confirm('챌린지를 포기하시겠습니까?')) {
             document.getElementById('giveUpChallengeForm').submit();
+            alert('챌린지를 포기하였습니다!')
         }
     }
 
-//     function chatRoom(){
-//     let meetListNum = document.getElementById('meetListNum').value;
+    function chatRoom(){
+    let meetListNum = document.getElementById('meetListNum').value;
 
-//     var options = 'width=600px,height=700px,scrollbars=yes'
-//             popupChat = window.open("articleChatRoom.action?meetListNum=" + meetListNum,"_blacnk",options);
-// }
-
-function transformNumber(number) {
-  // 주어진 숫자를 100으로 나누고 100을 곱하여 변환
-  return Math.floor(number / 100) * 100;
+    var options = 'width=600px,height=700px,scrollbars=yes'
+            popupChat = window.open("articleChatRoom.action?meetListNum=" + meetListNum,"_blacnk",options);
 }
 
-$(window).on('scroll', function () {
-    var $fbw = $('.meet-mypage');
 
-    let winScr = transformNumber(500 + window.scrollY);
-    let contentH = document.getElementById("article-content");
-    let h = transformNumber(contentH.offsetHeight);
-    console.log("winScr : " + winScr);
-    console.log("h : " + h);
-    //위치
-    if (winScr > h) {
-        $fbw.css({
-            'margin-top': h - winScr
-        })
-    } else {
-        $fbw.css({
-            'margin-top': 'auto'
-        })
-    }
-});
 
 
 </script>
@@ -334,9 +322,17 @@ tr{
 .square {
       width: 30px;
       height: 30px;
-      background-color: #7a7a7a; /* 진회색 */
+      margin: 5px;
       border-radius: 15%;
+      display: inline-block;
     }
+.green {
+    background-color: rgb(22, 222, 22);
+}
+
+.gray {
+    background-color: rgb(222, 222, 222);
+}
 </style>
 </head>
 <body>
@@ -402,8 +398,12 @@ tr{
 
                     <br/>
                     <h6><b>Challenge Record : </b><span th:text="${challengeDTO.challengeStartDate + ' ~ ' + challengeDTO.challengeEndDate}"></span> (총 <span th:text="${challengeDay}"></span>일)</h5>
-                    <div class="square"></div>
-                      
+                    <th:block th:unless="${#lists.isEmpty(authStatus)}">
+                        <div th:each="authStatus : ${authStatus}" style="display: inline-block; align-content: center;">
+                            <div th:if="${authStatus==0}" class="square gray"></div>
+                            <div th:if="${authStatus==1}" class="square green"></div>
+                        </div>
+                    </th:block>
                 </div>
             </div>
 
@@ -523,6 +523,7 @@ tr{
                                 </div>
                             </div>
                             <div th:case="false">
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 <button type="button" class="finish-button" disabled>
                                     마감된 챌린지
                                 </button>

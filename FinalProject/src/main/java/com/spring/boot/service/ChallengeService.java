@@ -57,7 +57,7 @@ public interface ChallengeService {
 
     public void updateChallengeStatus() throws Exception;
 
-    public void failChallengeAuth() throws Exception;
+    public void failChallengeAuth(String challengeAuthImage) throws Exception;
 
     public List<Integer> getChallengeListNumByUserEmail(String email)throws Exception;
 
@@ -68,5 +68,7 @@ public interface ChallengeService {
     public void downChallengeMemCnt(int challengeListNum) throws Exception;
 
     public int getChallengeDay(int challengeListNum) throws Exception;
+
+    public List<ChallengeAuthDTO> getUserReview(int challengeListNum, String email) throws Exception;
 
 }
