@@ -12,7 +12,7 @@ footer {
 #pageFooter {
 	/* grid-area: footer;
 	
-    height: 300px; /* 푸터 높이 조정 */
+    height: 300px; /* �뫖�꽣 �넂�씠 議곗젙 */
     color: #000000;
 	background: #eeeeee;
 width: 100%;
@@ -29,9 +29,9 @@ position: relative;
 }
 
 .footer_title {
-    
+    line-height: 20px;
     font-weight: bold;
-
+	font-size: 18px;
 }
 
 .footer_a{

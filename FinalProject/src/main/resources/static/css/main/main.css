@@ -9,7 +9,7 @@
 	margin: 0 auto;
 	padding: 20px;
 	box-sizing: border-box;
-	flex-direction: column; /* 세로 정렬을 위한 추가 스타일 */
+	flex-direction: column; /* �꽭濡� �젙�젹�쓣 �쐞�븳 異붽� �뒪���씪 */
   }
 
   span{
@@ -58,7 +58,7 @@ font-size: 23px;
 .card-item {
     overflow: hidden;
     text-overflow: ellipsis;
-    width: 560px; /* 항상 560px로 고정 */
+    width: 560px; /* �빆�긽 560px濡� 怨좎젙 */
     background-color: white;
     box-sizing: border-box;
     padding: 20px;
@@ -226,9 +226,9 @@ a:hover {
     justify-content: center;
     width: 100%;
     height: 90vh;
-	background-image: url('/image/main/main2.jpg'); /* 이미지 파일의 경로를 여기에 넣어주세요 */
-    background-size: cover; /* 이미지가 헤더에 맞게 조절되도록 설정 */
-    background-position: center; /* 이미지를 가운데 정렬 */
+	background-image: url('/image/main/main2.jpg'); /* �씠誘몄� �뙆�씪�쓽 寃쎈줈瑜� �뿬湲곗뿉 �꽔�뼱二쇱꽭�슂 */
+    background-size: cover; /* �씠誘몄�媛� �뿤�뜑�뿉 留욊쾶 議곗젅�릺�룄濡� �꽕�젙 */
+    background-position: center; /* �씠誘몄�瑜� 媛��슫�뜲 �젙�젹 */
 
     /* background: #e55d87;
     background: -moz-linear-gradient(-45deg, #e55d87 0%, #5fc3e4 100%);
@@ -249,9 +249,9 @@ a:hover {
     justify-content: center;
     width: 100%;
     height: 87vh;
-	background-image: url('/image/main/main4.jpg'); /* 이미지 파일의 경로를 여기에 넣어주세요 */
-    background-size: cover; /* 이미지가 헤더에 맞게 조절되도록 설정 */
-    background-position: center; /* 이미지를 가운데 정렬 */
+	background-image: url('/image/main/main4.jpg'); /* �씠誘몄� �뙆�씪�쓽 寃쎈줈瑜� �뿬湲곗뿉 �꽔�뼱二쇱꽭�슂 */
+    background-size: cover; /* �씠誘몄�媛� �뿤�뜑�뿉 留욊쾶 議곗젅�릺�룄濡� �꽕�젙 */
+    background-position: center; /* �씠誘몄�瑜� 媛��슫�뜲 �젙�젹 */
   
 }
 
@@ -262,9 +262,9 @@ a:hover {
     justify-content: center;
     width: 100%;
     height: 87vh;
-	background-image: url('/image/main/footer6.jpg'); /* 이미지 파일의 경로를 여기에 넣어주세요 */
-    background-size: cover; /* 이미지가 헤더에 맞게 조절되도록 설정 */
-    background-position: center; /* 이미지를 가운데 정렬 */
+	background-image: url('/image/main/footer6.jpg'); /* �씠誘몄� �뙆�씪�쓽 寃쎈줈瑜� �뿬湲곗뿉 �꽔�뼱二쇱꽭�슂 */
+    background-size: cover; /* �씠誘몄�媛� �뿤�뜑�뿉 留욊쾶 議곗젅�릺�룄濡� �꽕�젙 */
+    background-position: center; /* �씠誘몄�瑜� 媛��슫�뜲 �젙�젹 */
   
 }
 
@@ -401,10 +401,10 @@ a:hover {
 ********************************************************************* */
 
 p{
-    font-size: 25px;
+    font-size: 15px;
     text-align: left;
 	color: #000000;
-	
+	line-height: 17px;
 }
 ul {
 	list-style: circle inside;
