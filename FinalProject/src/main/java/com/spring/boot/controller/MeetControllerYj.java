@@ -246,7 +246,7 @@ public class MeetControllerYj {
 		}
 		mav.addObject("roomName", dto.getMeetTitle());
 		mav.addObject("roomType", "MEET");
-		mav.addObject("meetListNum", (maxNum + 1));
+		mav.addObject("listNum", (maxNum + 1));
 		//mav.setViewName("redirect:/meetMateList.action");
 		mav.addObject("createType", 3);
 		mav.addObject("redirectNum", meetListNum);

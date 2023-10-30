@@ -39,8 +39,8 @@ INSERT INTO challenge (
         TO_CHAR(challengeEndDate, 'YYYY-MM-DD') AS challengeEndDate,
         challengeImageSuccess,challengeImageFail,challengeLikeCount,challengeContent,challengeMemberCount,
         challengeCreateDate,challengeStatus
-    from challenge
-	where challengeListNum=#{challengeListNum}
+        from challenge
+        where challengeListNum=#{challengeListNum}
 </select>
 
 <select id="getChallengeLists" parameterType="hashMap" resultType="com.spring.boot.dto.ChallengeDTO">
@@ -223,6 +223,13 @@ select l.* from latlng l, gatchi gc where gc.meetListNum = #{meetListNum} and gc
     where challengeListNum = ${challengeListNum}
 </select>
 
+<update id="updateChatRoomNum" parameterType="com.spring.boot.dto.ChallengeDTO">
+    update challenge set challengeChatRoomNum = #{challengeChatRoomNum}
+    where challengeListNum = #{challengeListNum}
+</update>
 
+<select id="getReadDataChatRoom" parameterType="int" resultType="com.spring.boot.dto.ChallengeDTO">
+    select CHALLENGETITLE,CHALLENGECHATROOMNUM from challenge where challengeListNum = #{challengeListNum}
+</select>
 
 </mapper>
