@@ -479,7 +479,7 @@
     width: 400px;
     min-height: 0;
     background-color: #F9F9F9;
-    padding: 35px 40px 30px 40px;
+    padding: 35px 37px 30px 37px;
     left: 0;
     border-top: 7px solid red;
 }
@@ -581,6 +581,7 @@
     border-radius: 10px;
     float: left;
     overflow: hidden;
+    margin-top: 10px;
   }
   
   #progress {

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+    
+<head>
+    <meta name="viewport" content="width=device-width-initial-scale=1,shrink-to-fit=no">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/reset.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/chat/chatlist.css}"/>
+
+
+</head>
+<body>
+
+<div id="chatlist-page" class="container">
+    <div class="listBox">
+        <p>MeetMate List</p>
+    </div>
+        <div class="content" id="content">
+            <div class="title">
+                <p class="item1">모임</p>
+                <p class="item1">인원</p>
+                <p class="item1">타입</p>
+            </div>
+                <th:block th:each="room : ${list}">
+                    <span class="hidden" th:id="${room.roomName}"></span>
+                    <div class="hover">
+                        <a th:href="@{/chat/room(roomId=${room.roomId})}" th:roomId="${room.roomId}" onclick="return chkRoomUserCnt(this.getAttribute('roomId'));" >
+                     <div class="chatRoom">
+                        
+                        <p class="item1">
+                        <!-- thymeleaf 의 변수를 onclick 에 넣는 방법 -->
+                        [[${room.roomName}]]
+                            <span class="notreadcount" name="room" th:attr="data-value=${room.roomId}">
+                                -
+                            </span>
+                        </p>
+                        
+                        <p class="item1">
+                            <span>[[${room.userCount}]]</span>
+                        </p>
+                        <p class="item1">
+                            <span>[[${room.type}]]</span>
+                        </p>
+                    </div>
+            </a>
+            </div>
+                </th:block>
+            <!-- <input type="hidden" id="userName" name="userName" th:value="${userName}"/> -->
+            <input type="hidden" id="userId" name="userId" th:value="${userId}"/>
+        </div>
+</div>
+
+<script src="http://localhost:8080/js/chat/chatlist.js"></script>
+</body>
+</html>

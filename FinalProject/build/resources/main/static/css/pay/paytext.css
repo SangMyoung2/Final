@@ -1,0 +1,21 @@
+.paytitle {
+    font-size: 45px;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.paycontent1 {
+    font-size: 30px;
+    padding-left: 300px;
+    padding-bottom: 10px;
+}
+
+.paycontent2 {
+    font-size: 20px;
+    padding-left: 330px
+}
+
+.paycontent3 {
+    font-size: 25px;
+    text-align: center;
+}

@@ -29,7 +29,9 @@ public interface GatchiService {
 
 	public int maxNum() throws Exception;
 
-	public String masterPicture() throws Exception;
+	public String getProfileByUsers(int meetListNum) throws Exception;
+	
+	// public String masterPicture() throws Exception;
 	
 	// public GatchiDTO getReadData(int meetListNum) throws Exception;
 
@@ -49,7 +51,7 @@ public interface GatchiService {
 
 	public void updateMeetStatusMate(GatchiDTO gatchiDTO) throws Exception;
 
-	public void updateMeetStatusFind(GatchiDTO gatchiDTO) throws Exception;
+	//public void updateMeetStatusFind(GatchiDTO gatchiDTO) throws Exception;
 
 	public List<GatchiDTO> sortByLikeCountMeet() throws Exception;
 
@@ -61,7 +63,7 @@ public interface GatchiService {
 
 	public List<GatchiDTO> sortByHitCountFind() throws Exception;
 
-	public List<GatchiDTO> sortByDdayFind() throws Exception;
+	public List<GatchiDTO> sortByCreatedFind() throws Exception;
 
 	//public void meetLikes(int meetListNum) throws Exception;
     //public GatchiLikeDTO meetLikes(String userEmail, int meetListNum);
@@ -88,12 +90,16 @@ public interface GatchiService {
 	
 
 	public void plusMeetCount(int meetListNum) throws Exception;
+
 	public void minusMeetCount(int meetListNum) throws Exception;
+
 	public List<GatchiDTO> getReadDataInUser(String useremail) throws Exception;
+
 	public List<GatchiDTO> getReadDataInListNum(int meetListNum) throws Exception;
+
 	public void updateChatRoom(GatchiDTO dto) throws Exception;
 
-	public String getProfileByUsers(int meetListNum) throws Exception;
+	// public String getProfileByUsers(int meetListNum) throws Exception;
 
 
 }

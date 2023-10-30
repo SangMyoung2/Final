@@ -1,0 +1,28 @@
+<html layout:decorate="~{layout}">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>결제 실패</title>
+<link rel="stylesheet" type="text/css" href="css/pay/paybutton.css"/>
+<link rel="stylesheet" type="text/css" href="css/pay/paytext.css"/>
+<link rel="stylesheet" href="https://kit.fontawesome.com/23ff144261.css" crossorigin="anonymous">
+<link rel="icon" type="image/png" th:href="@{http://localhost:8080/image/로고.png}"/>
+<script src="https://kit.fontawesome.com/23ff144261.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<div layout:fragment="content">
+    <br/><br/>
+    <p class="paytitle">결제 실패❌</p>
+    <br/>
+    <h3 class="paycontent3">결제 과정에 문제가 발생했습니다. 잠시 후 다시 시도하거나 다른 결제 방법을 선택해 보세요.</h3>
+
+    <div style="text-align: center; padding-top: 30px;">
+        <button onclick="window.location.href='/pay.action'"  class="snip1535">결제 화면으로 돌아가기 <i class="fa-solid fa-coins"></i></button>
+        <button onclick="window.location.href='/mypage.action'" class="snip1535">마이 페이지 <i class="fa-solid fa-user"></i></button>
+        <button onclick="window.location.href='/'" class="snip1535">홈으로 <i class="fa-solid fa-house"></i></button>
+    </div>
+
+</div>
+</body>
+</html>

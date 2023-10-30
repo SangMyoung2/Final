@@ -10,7 +10,7 @@ import com.spring.boot.dto.MeetInfoDTO;
 
 @Mapper
 public interface GatchiMapper {
-	
+
 	public void createGatchi(GatchiDTO dto) throws Exception;
 
 	public void createCommuni(GatchiDTO dto) throws Exception;
@@ -31,9 +31,11 @@ public interface GatchiMapper {
 
 	public int maxNum() throws Exception;
 
-	public String masterPicture() throws Exception;
-	
-	public GatchiDTO getReadData(int meetListNum) throws Exception;
+	public String getProfileByUsers(int meetListNum) throws Exception;
+
+	// public String masterPicture() throws Exception;
+
+	//public GatchiDTO getReadData(int meetListNum) throws Exception;
 
 	public List<GatchiDTO> getMeetMateLists() throws Exception;
 
@@ -43,14 +45,12 @@ public interface GatchiMapper {
 
 	public List<GatchiDTO> getCommuniFindRandomList(int count) throws Exception;
 
-    public List<GatchiDTO> searchMeetMateList(@Param("searchKey")String searchKey, @Param("searchValue")String searchValue);
+	public List<GatchiDTO> searchMeetMateList(@Param("searchKey")String searchKey, @Param("searchValue")String searchValue);
 
-    public List<GatchiDTO> searchCommuniFindList(@Param("searchKey")String searchKey, @Param("searchValue")String searchValue);
+	public List<GatchiDTO> searchCommuniFindList(@Param("searchKey")String searchKey, @Param("searchValue")String searchValue);
 
 	public List<GatchiDTO> getRownumList(int end) throws Exception;
 
-    
-	
 	public List<GatchiDTO> sortByLikeCountMeet() throws Exception;
 
 	public List<GatchiDTO> sortByHitCountMeet() throws Exception;
@@ -61,36 +61,36 @@ public interface GatchiMapper {
 
 	public List<GatchiDTO> sortByHitCountFind() throws Exception;
 
-	public List<GatchiDTO> sortByDdayFind() throws Exception;
+	public List<GatchiDTO> sortByCreatedFind() throws Exception;
 
 	public void updateMeetStatusMate(GatchiDTO gatchiDTO) throws Exception;
 
-	public void updateMeetStatusFind(GatchiDTO gatchiDTO) throws Exception;
+	//public void updateMeetStatusFind(GatchiDTO gatchiDTO) throws Exception;
 
-	
-    //public void meetLikes(int meetListNum) throws Exception;
+
+	//public void meetLikes(int meetListNum) throws Exception;
 
 	// public int getDataCount(String searchKey, String searchValue) throws Exception;
-	
+
 	// public List<MeetmateDTO> getLists(int start, int end, String searchKey, String searchValue);
-		
-	public void updateHitCount(int meetListNum) throws Exception;	
-	
+
+	public void updateHitCount(int meetListNum) throws Exception;
+
 	// public void updateData(MeetmateDTO dto) throws Exception;
-	
+
 	// public void deleteData(int num) throws Exception;
 
 
 	public void plusMeetCount(int meetListNum) throws Exception;
-    
+
 	public void minusMeetCount(int meetListNum) throws Exception;
 
 	public List<GatchiDTO> getReadDataInUser(String useremail) throws Exception;
 
 	public List<GatchiDTO> getReadDataInListNum(int meetListNum) throws Exception;
-	
+
 	public void updateChatRoom(GatchiDTO dto) throws Exception;
 
-	public String getProfileByUsers(int meetListNum) throws Exception;
+	// public String getProfileByUsers(int meetListNum) throws Exception;
 
 }

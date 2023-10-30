@@ -210,6 +210,7 @@ System.out.println("에러잡기 3번@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 		// System.out.println(challengeDay);
 		// System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++");
+        // System.out.println(userAuthList.get(0).getChallengeAuthCreateDate());
 		// System.out.println(userAuthList.get(0).getChallengeAuthCreateDate());
 		// System.out.println(userAuthList.get(1).getChallengeAuthCreateDate());
 		// System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++");

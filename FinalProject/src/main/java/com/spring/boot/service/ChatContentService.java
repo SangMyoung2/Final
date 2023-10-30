@@ -48,9 +48,21 @@ public class ChatContentService {
     }
 
     public List<ChatMessage> findAllByRoomIdInTime(String roomId, String entryTime){
+        
+        List<ChatContentCollection> chats = new ArrayList<>();
 
-        List<ChatContentCollection> chats = chatContentRepository.findAllByRoomIdIn(roomId);
-        if(chats == null) return null;
+        for(int i=10; i>=0; i--){
+            String roomDate = chatUtil.todayMinusDay(i);
+            System.out.println("날짜 : " + roomDate);
+            System.out.println("채팅방 id : " + roomId + roomDate);
+            ChatContentCollection chat = chatContentRepository.findByRoomIdIn(roomId+roomDate);
+            if(chat == null){
+                continue;
+            }
+            chats.add(chat);
+        }
+
+        if(chats == null || chats.isEmpty()) return null;
 
         LocalDateTime entry = chatUtil.formatterDateTime(entryTime);
 

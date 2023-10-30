@@ -1,0 +1,40 @@
+
+footer {
+    position: static;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+    z-index: 9999;
+    padding: 80px 0 116px;
+    background: #eeeeee;
+}
+
+#pageFooter {
+	/* grid-area: footer;
+	
+    height: 300px; /* 푸터 높이 조정 */
+    color: #000000;
+	background: #eeeeee;
+width: 100%;
+max-width: 1189px;
+display: flex;
+justify-content: space-between;
+margin: 0 auto;
+box-sizing: border-box;
+position: relative;
+}
+
+.content_p{
+	padding: 30px 50px;
+}
+
+.footer_title {
+    
+    font-weight: bold;
+
+}
+
+.footer_a{
+    text-decoration: none;
+    color: #000000;
+}
