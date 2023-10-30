@@ -66,6 +66,7 @@
 
             <div th:if="${#httpSession.getAttribute('user') != null}" class="image is-128x128 avatar">
                 <img style="margin-bottom: 30px;" th:src="@{${session.user.picture}}">
+                <a  style=" color: #00d1b2; margin-left: -3px; font-size: 23px;" href="http://localhost:8080/pay.action">포인트 충전 하기</a>
                 <a  style=" color: #00d1b2; margin-left: -3px; font-size: 23px;" href="http://localhost:8080/paymentInfo.action">포인트 상세 조회</a>
               </div>
 
@@ -73,6 +74,7 @@
             <img style="margin-bottom: 30px;" th:src="@{image/login/__${session.user1.picture}__}">
           
               <a th:if="${#httpSession.getAttribute('user1') != null}" style=" color: #00d1b2; margin-left: 15px; font-size: 23px;" href="/userupdate.action">회원정보 수정 </a>
+              <a  style=" color: #00d1b2; margin-left: -3px; font-size: 23px;" href="http://localhost:8080/pay.action">포인트 충전 하기</a>
               <a  style=" color: #00d1b2; margin-left: -3px; font-size: 23px;" href="http://localhost:8080/paymentInfo.action">포인트 상세 조회</a>
             </div>
            
