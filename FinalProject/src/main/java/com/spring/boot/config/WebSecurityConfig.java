@@ -50,7 +50,7 @@ public class WebSecurityConfig {
 			.and()
 			.authorizeRequests()
 			.antMatchers
-			("/","/rePWD.action","/image/**","/sendSMS","/css/**","/js/**","/signup.action","/signup_ok.action","/login_ok.action","/findID.action","/findPWD.action","/login.action","/reFindList")
+			("/","/rePWD.action","/mainReview.action","/mainMap.action","/challengeList.action","/communiFindList.action","/meetMateList.action","/customercenter.action","/image/**","/sendSMS","/css/**","/js/**","/signup.action","/signup_ok.action","/login_ok.action","/findID.action","/findPWD.action","/login.action","/reFindList")
 			.permitAll()
 			
 		

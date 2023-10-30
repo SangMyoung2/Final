@@ -155,7 +155,7 @@ public class ChallengeController {
         int maxNum = challengeService.maxNum();
         System.out.println(maxNum);
         infoDTO.setChallengeListNum(maxNum+1);
-		dto.setChallengeContent(dto.getChallengeContent().replace("\r\n", "<br/>"));
+		dto.setChallengeContent(dto.getChallengeContent());
         dto.setChallengeListNum(maxNum+1);
 
         challengeService.createChallenge(dto);
@@ -343,7 +343,7 @@ System.out.println("에러잡기 3번@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         authDTO.setChallengeListNum(challengeListNum);
         authDTO.setChallengeAuthListNum(maxNum+1);
         authDTO.setEmail(email);
-        authDTO.setChallengeAuthContent(challengeAuthContent.replace("\r\n", "<br/>"));
+        authDTO.setChallengeAuthContent(challengeAuthContent);
 		// 중복 리뷰 작성 여부 확인
 		ChallengeAuthDTO hasReviewed = challengeService.getNoneAuthReview(authDTO);
 		String response = "";
@@ -421,7 +421,7 @@ System.out.println("에러잡기 3번@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 		challengeService.deleteChallengeReview(challengeAuthDTO);		
 
-		return new ModelAndView("redirect:/meetArticle.action?meetListNum=" + challengeListNum);
+		return new ModelAndView("redirect:/challengeArticle.action?challengeListNum=" + challengeListNum);
 	}
 
 
@@ -437,7 +437,7 @@ System.out.println("에러잡기 3번@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 			
 		
 
-			return new ModelAndView("redirect:/meetArticle.action?meetListNum=" + challengeListNum);
+			return new ModelAndView("redirect:/challengeArticle.action?challengeListNum=" + challengeListNum);
 				
 	}
 
@@ -446,13 +446,10 @@ System.out.println("에러잡기 3번@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
     public ModelAndView failReview(HttpServletRequest request,
 			@RequestParam("challengeListNum") int challengeListNum,
             @RequestParam("challengeAuthImage") String challengeAuthImage) throws Exception {
-
 			
 			challengeService.failChallengeAuth(challengeAuthImage);
 
-				
-
-			return new ModelAndView("redirect:/meetArticle.action?meetListNum=" + challengeListNum);
+			return new ModelAndView("redirect:/challengeArticle.action?challengeListNum=" + challengeListNum);
 				
 	}
 

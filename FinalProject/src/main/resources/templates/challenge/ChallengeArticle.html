@@ -86,6 +86,8 @@
             var challengeAuthContent= document.querySelector('#challengeAuthContent').value;
             var challengeAuthImage = document.querySelector('#challengeAuthImage').files[0];
             
+            challengeAuthContent = challengeAuthContent.replace(/\n/g, '\n');
+            
             // 리뷰 내용과 이미지 모두 필수로 입력되어야 함
             if (challengeAuthContent.trim() === '' && !challengeAuthImage) {
                 alert('내용과 이미지를 모두 작성해주세요.');
@@ -525,7 +527,7 @@ tr{
                     </div>
                   
                     <div class="main-text">
-                        <p class="Yj-text1" th:text="${challengeDTO.challengeContent}"></p>
+                        <p class="Yj-text1" th:utext="${challengeDTO.challengeContent.replaceAll('\n', '<br>')}"></p>
                         
                         <br/>
                         <br/>
