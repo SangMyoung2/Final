@@ -13,13 +13,21 @@ public interface GatchiMapper {
 	
 	public void createGatchi(GatchiDTO dto) throws Exception;
 
+	public void createCommuni(GatchiDTO dto) throws Exception;
+
 	public void createMeetInfo(MeetInfoDTO dto) throws Exception;
 
 	public List<MeetInfoDTO> getMeetInfo()throws Exception;
 
 	public List<Integer> getMeetListNumByUserEmail(String email)throws Exception;
 
+	public List<Integer> getMeetLikeNumByUserEmail(String email)throws Exception;
+
+	public List<GatchiDTO> getGatchiByLikeNums(List<Integer> meetListNums);
+
 	public List<GatchiDTO> getGatchiByMeetMateListNums(List<Integer> meetListNums);
+
+	public List<GatchiDTO> getGatchiByMeetcommuListNums(List<Integer> meetListNums);
 
 	public int maxNum() throws Exception;
 
@@ -66,7 +74,7 @@ public interface GatchiMapper {
 	
 	// public List<MeetmateDTO> getLists(int start, int end, String searchKey, String searchValue);
 		
-	// public void updateHitCount(int meetListNum) throws Exception;	
+	public void updateHitCount(int meetListNum) throws Exception;	
 	
 	// public void updateData(MeetmateDTO dto) throws Exception;
 	
@@ -82,4 +90,7 @@ public interface GatchiMapper {
 	public List<GatchiDTO> getReadDataInListNum(int meetListNum) throws Exception;
 	
 	public void updateChatRoom(GatchiDTO dto) throws Exception;
+
+	public String getProfileByUsers(int meetListNum) throws Exception;
+
 }

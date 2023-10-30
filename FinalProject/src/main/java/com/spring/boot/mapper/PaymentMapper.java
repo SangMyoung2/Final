@@ -20,8 +20,11 @@ public interface PaymentMapper {
     public int getUserPoint(String email) throws Exception; // 사용자의 포인트 잔액 조회
 
     public List<PaymentInfoDTO> findByEmail(String email) throws Exception; // 사용자의 결제내역 조회
-    
+
     public void updateUserPoint(userPointDTO userPointDTO);  // 포인트 업데이트 메서드
     
-    public void updateUserUsePoint(userPointDTO userPointDTO);
+    public void updateUserUsePoint(userPointDTO userPointDTO); 
+
+    public void insertUserAfterSignUp(String email) throws Exception;
+
 }

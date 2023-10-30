@@ -337,6 +337,17 @@
     left: 0;
 }
 
+.meet-mypage-footer {
+    position: absolute;
+    margin-left: 20px;
+    width: 500px;
+    height: 500px;
+    background-color: #F9F9F9;
+    padding: 15px 0px 15px 15px;
+    border: 1px solid #E4EEF7;
+    left: 0;
+}
+
 .badge {
     display: inline-block;
     padding: 0.4em 0.5em;

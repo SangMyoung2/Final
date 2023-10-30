@@ -21,21 +21,41 @@ public class GatchiServiceImpl implements GatchiService{
 	public void createGatchi(GatchiDTO dto) throws Exception {		
 		gatchiMapper.createGatchi(dto);
 	}
+
+	@Override
+	public void createCommuni(GatchiDTO dto) throws Exception {		
+		gatchiMapper.createCommuni(dto);
+	}
 	
 	@Override
 	public void createMeetInfo(MeetInfoDTO infoDTO) throws Exception {
 		gatchiMapper.createMeetInfo(infoDTO);
 	}
 
+	
 	@Override
 	public List<Integer> getMeetListNumByUserEmail(String email) throws Exception {
-		
 		return gatchiMapper.getMeetListNumByUserEmail(email);
+	}
+
+	@Override
+	public List<Integer> getMeetLikeNumByUserEmail(String email) throws Exception {
+		return gatchiMapper.getMeetLikeNumByUserEmail(email);
+	}
+
+	@Override
+	public List<GatchiDTO> getGatchiByLikeNums(List<Integer> meetListNums) {
+        return gatchiMapper.getGatchiByLikeNums(meetListNums);
 	}
 
 	@Override
 	public List<GatchiDTO> getGatchiByMeetMateListNums(List<Integer> meetListNums) {
         return gatchiMapper.getGatchiByMeetMateListNums(meetListNums);
+	}
+
+	@Override
+	public List<GatchiDTO> getGatchiByMeetcommuListNums(List<Integer> meetListNums) {
+        return gatchiMapper.getGatchiByMeetcommuListNums(meetListNums);
 	}
 
 
@@ -123,20 +143,23 @@ public class GatchiServiceImpl implements GatchiService{
 	
 	@Override
 	public List<GatchiDTO> sortByLikeCountFind() throws Exception {
-		return gatchiMapper.sortByLikeCountMeet();
+		return gatchiMapper.sortByLikeCountFind();
 	}
 		
 	@Override
 	public List<GatchiDTO> sortByHitCountFind() throws Exception {
-		return gatchiMapper.sortByHitCountMeet();
+		return gatchiMapper.sortByHitCountFind();
 	}
 	
 	@Override
 	public List<GatchiDTO> sortByDdayFind() throws Exception {
-		return gatchiMapper.sortByDdayMeet();
+		return gatchiMapper.sortByDdayFind();
 	}
 
-	
+	@Override
+   public void updateHitCount(int meetListNum) throws Exception {
+      gatchiMapper.updateHitCount(meetListNum);
+   }
 
 
 /*
@@ -146,13 +169,6 @@ public class GatchiServiceImpl implements GatchiService{
 	}
 
 	
-
-	@Override
-	public void updateHitCount(int num) throws Exception {
-		boardMapper.updateHitCount(num);
-	}
-
-
 
 	@Override
 	public void insertData(BoardDTO dto) throws Exception {
@@ -215,7 +231,10 @@ public void updateChatRoom(GatchiDTO dto) throws Exception{
 	gatchiMapper.updateChatRoom(dto);
 }
 
-
+	@Override
+	public String getProfileByUsers(int meetListNum) throws Exception {
+		return gatchiMapper.getProfileByUsers(meetListNum);
+	}
 }
 
 

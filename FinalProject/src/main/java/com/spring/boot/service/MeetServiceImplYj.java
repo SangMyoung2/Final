@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.boot.dto.GatchiDTO;
+import com.spring.boot.dto.MapDTO;
 import com.spring.boot.dto.MeetCategoryDTO;
 import com.spring.boot.dto.MeetInfoDTO;
 import com.spring.boot.dto.MeetReviewDTO;
@@ -23,6 +24,11 @@ public class MeetServiceImplYj implements MeetServiceYj {
     }
 
     @Override
+    public MeetInfoDTO getMeetInfoByEmail(MeetInfoDTO dto) throws Exception {
+        return meetMapperYj.getMeetInfoByEmail(dto);
+    }
+
+    @Override
     public List<MeetCategoryDTO> getAllCategories() throws Exception {
         return meetMapperYj.getAllCategories();
     }
@@ -31,10 +37,25 @@ public class MeetServiceImplYj implements MeetServiceYj {
     public GatchiDTO getMeetListInfo(int meetListNum) throws Exception {
         return meetMapperYj.getMeetListInfo(meetListNum);
     }
+
+    @Override
+    public List<GatchiDTO> getOnlyMeetListInfo(int meetListNum) throws Exception {
+        return meetMapperYj.getOnlyMeetListInfo(meetListNum);
+    }
+
+    @Override
+	public void createMeetInCommuni(GatchiDTO dto) throws Exception {		
+		meetMapperYj.createMeetInCommuni(dto);
+	}
     
     @Override
     public List<MeetInfoDTO> getMeetMembers(int meetListNum) throws Exception {
         return meetMapperYj.getMeetMembers(meetListNum);
+    }
+    
+    @Override
+    public List<MeetInfoDTO> getMembersExMaster(int meetListNum) throws Exception {
+        return meetMapperYj.getMembersExMaster(meetListNum);
     }
     
     @Override
@@ -68,6 +89,11 @@ public class MeetServiceImplYj implements MeetServiceYj {
     }
 
     @Override
+    public Integer getApprovalStatus(MeetInfoDTO dto) throws Exception {
+        return meetMapperYj.getApprovalStatus(dto);
+    }
+
+    @Override
     public int getMeetHow(int meetListNum) throws Exception {
         return meetMapperYj.getMeetHow(meetListNum);
     }
@@ -82,10 +108,15 @@ public class MeetServiceImplYj implements MeetServiceYj {
     public void deleteMeetOut(MeetInfoDTO dto) throws Exception {
         meetMapperYj.deleteMeetOut(dto);
     }
-
+    
     @Override
     public void updateMeetStatus(GatchiDTO dto) throws Exception {
         meetMapperYj.updateMeetStatus(dto);
+    }
+    
+    @Override
+    public void updateCode(GatchiDTO dto) throws Exception {
+        meetMapperYj.updateCode(dto);
     }
 
     @Override
@@ -137,9 +168,46 @@ public class MeetServiceImplYj implements MeetServiceYj {
     public void releaseFromBlacklist(MeetInfoDTO dto) throws Exception {
         meetMapperYj.releaseFromBlacklist(dto);
     }
+    
+    @Override
+    public void updateApprovalReq(MeetInfoDTO dto) throws Exception {
+        meetMapperYj.updateApprovalReq(dto);
+    }
+    
+    @Override
+    public void updateApprovalOk(MeetInfoDTO dto) throws Exception {
+        meetMapperYj.updateApprovalOk(dto);
+    }
+    
+    @Override
+    public void updateReject(MeetInfoDTO dto) throws Exception {
+        meetMapperYj.updateReject(dto);
+    }
 
     @Override
     public List<MeetInfoDTO> getMeetInfo(int meetListNum) throws Exception{
         return meetMapperYj.getMeetInfo(meetListNum);
     }
+
+    @Override
+    public List<MeetReviewDTO> getAllMeetReviews() throws Exception {
+        return meetMapperYj.getAllMeetReviews();
+    }
+       
+     @Override
+    public MapDTO getlatlng(int meetListNum) throws Exception {
+        return meetMapperYj.getlatlng(meetListNum);
+    }
+
+    @Override
+    public int getMeetInfoCount(int meetListNum) throws Exception{
+        return meetMapperYj.getMeetInfoCount(meetListNum);
+    }
+
+    @Override
+    public int getMeetInfoApprovalstatusCount(int meetListNum) throws Exception{
+        return meetMapperYj.getMeetInfoApprovalstatusCount(meetListNum);
+    }
+
+
 }

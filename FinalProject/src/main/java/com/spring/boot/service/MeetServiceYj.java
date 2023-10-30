@@ -3,6 +3,7 @@ package com.spring.boot.service;
 import java.util.List;
 
 import com.spring.boot.dto.GatchiDTO;
+import com.spring.boot.dto.MapDTO;
 import com.spring.boot.dto.MeetCategoryDTO;
 import com.spring.boot.dto.MeetInfoDTO;
 import com.spring.boot.dto.MeetReviewDTO;
@@ -11,11 +12,19 @@ public interface MeetServiceYj {
 
     public MeetInfoDTO getMeetMaster(int meetListNum) throws Exception;
 
+    public MeetInfoDTO getMeetInfoByEmail(MeetInfoDTO dto) throws Exception;
+
     public List<MeetCategoryDTO> getAllCategories() throws Exception;
 
     public GatchiDTO getMeetListInfo(int meetListNum) throws Exception;
 
+    public List<GatchiDTO> getOnlyMeetListInfo(int meetListNum) throws Exception;
+
+    public void createMeetInCommuni(GatchiDTO dto) throws Exception;
+
     public List<MeetInfoDTO> getMeetMembers(int meetListNum) throws Exception;
+
+    public List<MeetInfoDTO> getMembersExMaster(int meetListNum) throws Exception;
     
     public List<MeetReviewDTO> getReview(int meetListNum) throws Exception;
 
@@ -28,6 +37,8 @@ public interface MeetServiceYj {
     public void deleteMeetReview(MeetReviewDTO dto) throws Exception;
     
     public Integer getMemberStatus(MeetInfoDTO dto) throws Exception;
+    
+    public Integer getApprovalStatus(MeetInfoDTO dto) throws Exception;
 
     public int getMeetHow(int meetListNum) throws Exception;
 
@@ -36,7 +47,9 @@ public interface MeetServiceYj {
     public void deleteMeetOut(MeetInfoDTO dto) throws Exception;
     
     public void updateMeetStatus(GatchiDTO dto) throws Exception;
-
+    
+    public void updateCode(GatchiDTO dto) throws Exception;
+        
     public void meetStatusCompletion(GatchiDTO dto) throws Exception;
 
     public int getMeetStatus(int meetListNum) throws Exception;
@@ -57,5 +70,20 @@ public interface MeetServiceYj {
 
     public void releaseFromBlacklist(MeetInfoDTO dto) throws Exception;
 
+    public void updateApprovalReq(MeetInfoDTO dto) throws Exception;
+    
+    public void updateApprovalOk(MeetInfoDTO dto) throws Exception;
+
+    public void updateReject(MeetInfoDTO dto) throws Exception;
+
     public List<MeetInfoDTO> getMeetInfo(int meetListNum) throws Exception;
+
+    public List<MeetReviewDTO> getAllMeetReviews() throws Exception;
+    
+    public MapDTO getlatlng(int meetListNum) throws Exception;
+
+    public int getMeetInfoCount(int meetListNum) throws Exception;
+
+    public int getMeetInfoApprovalstatusCount(int meetListNum) throws Exception;
+
 }

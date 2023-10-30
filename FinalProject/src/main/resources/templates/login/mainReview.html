@@ -1,0 +1,94 @@
+<html layout:decorate="~{layout}">
+    <head>
+<meta charset="UTF-8">
+
+<title>가치</title>
+
+
+<script src="https://kit.fontawesome.com/f1e715a543.js" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="http://localhost:8080/js/signup/mainreview.js"></script>
+<link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/index.css}"/>
+<link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/main/mainReview.css}"/>
+<script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=83bfuniegk"></script>
+</head>
+<body>
+
+<div layout:fragment="content">
+ 
+  <section style="background-color: #ffffff; height: 360px;" id="team">
+    <br/><br/><br/>
+    <div style="margin-bottom: -110px;"  class="container">
+        <h4 style="color:#5CA8B5;">Review</h4>
+        <div class="block"></div>
+        <h2>진행 되었던 모임들의  <br/>
+            생생한 후기를 확인해 보세요!</h2>
+      <br/><br/><br/>
+
+      <h5>정성스러운 후기를 남겨 주시는 분께<br/>
+      매주 추첨을 통해 소정의 선물을 드립니다! </h5>
+      
+    </div>
+    <br/><br/><br/><br/><br/><br/>
+    <br/><br/><br/><br/><br/><br/>
+    <div style="display: flex;
+    flex-direction: row;
+    justify-content: center; margin-bottom: -45px;">
+     <a style="text-decoration: none;" href="#" id="meetmate-link"><span class="icon"><i class="fas fa-users"></i></span><span>MeetMate</span></a>
+     <a style="text-decoration: none;" href="#" id="challenge-link"><span class="icon"><i class="fas fa-fire-alt" style="margin-left: 35px;"></i></span> <span>Challenge</span></a>
+  </div>
+  
+  </section>
+  <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+  <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+  <br/><br/><br/><br/>
+
+
+ <div id="meetmate-content" style="background-color:#F5F5F5; margin-left: -50px;">
+  <div class="card" style="display: grid; padding: 0; list-style-type: none; margin: 4rem 15vw; grid-template-columns: repeat(auto-fit, minmax(225px, 1fr)); gap: 2rem; height: 800px; ">
+    <div class="card-item"  th:if="${allreview != null}" th:each="items : ${allreview}">
+      <div class="item-content">
+        <div class="image-container">
+          <a th:href="@{'/meetArticle.action?meetListNum='  + ${items.meetListNum}+'#review'}">
+            <img th:src="@{'/image/reviewImage/' + ${items.meetReviewImg}}" alt="">
+        </a>
+        </div>
+
+        <div >
+          <a th:text="${items.meetReviewContent}">후기내용</a>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
+
+
+
+<div id="challenge-content" style="background-color:#F5F5F5; margin-left: -50px;">
+  <div class="card" style="display: grid; padding: 0; list-style-type: none; margin: 4rem 15vw; grid-template-columns: repeat(auto-fit, minmax(225px, 1fr)); gap: 2rem; height: 800px; ">
+    <div class="card-item"  th:if="${challengeList != null}" th:each="items : ${challengeList}">
+      <div class="item-content">
+        <div class="image-container">
+          <a th:href="@{'/challengeArticle.action?challengeListNum=' + ${items.challengeListNum}}">
+            <img th:src="@{|/image/challengeimage/${items.challengeImageMain}|}" alt="">
+        </a>
+        </div>
+
+        <div >
+          <a th:text="${items.challengeContent}">후기내용</a>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
+</div>
+
+
+  
+
+
+
+
+</body>
+
+</html>

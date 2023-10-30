@@ -1252,7 +1252,7 @@ for (var key in jsonArray) {
             <h2 class="card_title" id="meetTitle1">title</h2>
             <p class="card_text" id="meetContent1">content</p>
               <div>
-                <a href="http://localhost:8080/articleYj.action?meetListNum=${jsonArray[key].meetListNum}">
+                <a href="http://localhost:8080/meetArticle.action?meetListNum=${jsonArray[key].meetListNum}">
                   <button class="btn1 card_btn"><b>참 여 하 기</b>&nbsp;&nbsp;<i class="fa-solid fa-right-to-bracket" style="color: #c7c7c7;"></i></button>
                 </a>
               </div>
@@ -1418,7 +1418,7 @@ function getClickHandler(seq) {
           $('#meetName').html(data.meetName);
           $('#meetTitle').html(data.meetTitle);
           $('#meetContent').html(data.meetContent);
-          $('#meetImage').attr('src', '/image/map/' + data.meetImage);
+          $('#meetImage').attr('src', '/image/gatchiImage/' + data.meetImage);
           $('#meetDate').html(data.meetDate);
           $('#meetDday').html(data.meetDday);
           $('#meetMemCnt').html(data.meetMemCnt);
@@ -1470,7 +1470,7 @@ function getClickHandler(seq) {
           $('#meetName1').html(data1.meetName);
           $('#meetTitle1').html(data1.meetTitle);
           $('#meetContent1').html(data1.meetContent);
-          $('#meetImage1').attr('src', '/image/map/' + data1.meetImage);
+          $('#meetImage1').attr('src', '/image/gatchiImage/' + data1.meetImage);
           $('#meetDate1').html(data1.meetDate);
           $('#meetDday1').html(data1.meetDday);
           $('#meetMemCnt1').html(data1.meetMemCnt);
@@ -1644,7 +1644,7 @@ function onSuccessGeolocation(position) {//현재위치 가져오기 성공
           $('#meetName').html(data.meetName);
           $('#meetTitle').html(data.meetTitle);
           $('#meetContent').html(data.meetContent);
-          $('#meetImage').attr('src', '/image/map/' + data.meetImage);
+          $('#meetImage').attr('src', '/image/gatchiImage/' + data.meetImage);
           $('#meetDate').html(data.meetDate);
           $('#meetDday').html(data.meetDday);
           $('#meetMemCnt').html(data.meetMemCnt);
@@ -1943,7 +1943,7 @@ function searchItem2() {
                     $('#meetName').html(data.meetName);
                     $('#meetTitle').html(data.meetTitle);
                     $('#meetContent').html(data.meetContent);
-                    $('#meetImage').attr('src', '/image/map/' + data.meetImage);
+                    $('#meetImage').attr('src', '/image/gatchiImage/' + data.meetImage);
                     $('#meetDate').html(data.meetDate);
                     $('#meetDday').html(data.meetDday);
                     $('#meetMemCnt').html(data.meetMemCnt);
@@ -2023,7 +2023,7 @@ function searchItem2() {
                         $('#meetName1').html(data1.meetName);
                         $('#meetTitle1').html(data1.meetTitle);
                         $('#meetContent1').html(data1.meetContent);
-                        $('#meetImage1').attr('src', '/image/map/' + data1.meetImage);
+                        $('#meetImage1').attr('src', '/image/gatchiImage/' + data1.meetImage);
                         $('#meetDate1').html(data1.meetDate);
                         $('#meetDday1').html(data1.meetDday);
                         $('#meetMemCnt1').html(data1.meetMemCnt);
@@ -2053,7 +2053,7 @@ function searchItem2() {
             <div class="card mb-3" style="width:370px; max-height:150px; height:150px">
                 <div class="row g-0" style="overflow: hidden; height:100%;">
                     <div class="col-md-4" >
-                      <img src="/image/map/${item.meetImage}" class="img-fluid rounded-start" style="height:100%;" alt="...">
+                      <img src="/image/gatchiImage/${item.meetImage}" class="img-fluid rounded-start" style="height:100%;" alt="...">
                     </div>
                     <div class="col-md-8">
                         <div class="card-body">
@@ -2158,7 +2158,7 @@ function getClickListHandler(id) {
             $('#meetName').html(data.meetName);
             $('#meetTitle').html(data.meetTitle);
             $('#meetContent').html(data.meetContent);
-            $('#meetImage').attr('src', '/image/map/' + data.meetImage);
+            $('#meetImage').attr('src', '/image/gatchiImage/' + data.meetImage);
             $('#meetDate').html(data.meetDate);
             $('#meetDday').html(data.meetDday);
             $('#meetMemCnt').html(data.meetMemCnt);
@@ -2220,7 +2220,7 @@ function getClickListHandler(id) {
                           $('#meetName1').html(data1.meetName);
                           $('#meetTitle1').html(data1.meetTitle);
                           $('#meetContent1').html(data1.meetContent);
-                          $('#meetImage1').attr('src', '/image/map/' + data1.meetImage);
+                          $('#meetImage1').attr('src', '/image/gatchiImage/' + data1.meetImage);
                           $('#meetDate1').html(data1.meetDate);
                           $('#meetDday1').html(data1.meetDday);
                           $('#meetMemCnt1').html(data1.meetMemCnt);

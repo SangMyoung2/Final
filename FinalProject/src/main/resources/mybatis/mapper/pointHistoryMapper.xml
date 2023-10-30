@@ -7,12 +7,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.spring.boot.mapper.PointHistoryMapper">
 
     <insert id="insertPointHistory" parameterType="com.spring.boot.dto.PointHistoryDTO">
-        insert into pointhistory values (#{useremail},#{pointUseHistory},sysdate,#{usePoint},#{useType},#{afterPoint},#{beforPoint},#{meetListNum})
+        insert into pointhistory values (#{useremail},#{meetListNum},#{pointUseHistory},sysdate,#{usePoint},#{useType},#{afterPoint},#{beforPoint})
     </insert>
 
     <select id="getUseReadData">
-        select * from pointhistory where usetype = 1 and
-        useremail = #{useremail} and meetListNum = #{meetListNum}
+        select * from pointhistory where useremail = #{useremail} ORDER BY useTime DESC
     </select>
 
 

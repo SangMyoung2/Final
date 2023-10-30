@@ -1,6 +1,7 @@
 package com.spring.boot.service;
 
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -40,7 +41,13 @@ public class ChatRoomService {
     public List<ChatRoomCollection> getFindNameInUsers(String users){
         List<ChatRoomCollection> lists = chatRoomRepository.findByUsersIn(users);
         Collections.reverse(lists);
-        return lists;
+        List<ChatRoomCollection> lists2 = new ArrayList<>();
+        for (ChatRoomCollection chatRoomCollection : lists) {
+            if(chatRoomCollection.getRoomType() == 1){
+                lists2.add(chatRoomCollection);
+            }
+        }
+        return lists2;
     }
 
     public Optional<ChatRoomCollection> getReadDate(String roomId){
@@ -51,6 +58,8 @@ public class ChatRoomService {
         return chatRoomRepository.findAll();   
     }
 
-
+    public ChatRoomCollection findByRoomId(String roomId){
+        return chatRoomRepository.findByRoomId(roomId);
+    }
 
 }

@@ -139,12 +139,16 @@ button.accent {
     overflow: auto;
     overflow-y: scroll;
     padding: 0 0px 0px 30px;
-    height: calc(100% - 165px);
+    height: calc(100% - 180px);
     border-bottom: 1px solid #b7b7b7;
 }
 
 .emoticonArea {
     height: calc(100% - 300px) !important;
+}
+
+.emoticonAlign{
+    margin-left: 3%;
 }
 
 #chat-page #messageArea li {
@@ -173,8 +177,8 @@ button.accent {
     padding-left: 40px;
     position: relative;
     display: grid;
-    grid-template-areas: "profile ."
-                        "content readCount";
+    grid-template-areas: "profile . ."
+                        "content readCount date";
     justify-content: left;
     flex-direction: column;
     align-items: flex-end;
@@ -182,8 +186,18 @@ button.accent {
 
 .readCount{
     grid-area: readCount;
-    padding: 8px;
+    /* padding: 8px; */
+    height: 12px;
     color: #7ebbf2;
+}
+
+.myReadCount{
+    grid-area: readCount;
+    /* padding: 8px; */
+    height: 14px;
+    color: #7ebbf2;
+    text-align: right;
+
 }
 
 #chat-page .chat-myMessage{
@@ -199,12 +213,11 @@ button.accent {
     padding-left: 40px;
     position: relative;
     display: grid;
-    grid-template-areas: "profile ."
-                        "content readCount";
+    grid-template-areas: "profile profile ."
+                        "content readCount date";
     justify-content: left;
     flex-direction: column;
-    align-items: flex-end;
-
+    /* align-items: flex-end; */
 }
 
 #chat-page .chat-myMessage-ok{
@@ -213,6 +226,7 @@ padding-left: 68px;
     display: flex;
     justify-content: right;
     align-items: center;
+    padding: 5px 20px;
 }
 
 #chat-page .chat-message .profile {
@@ -238,6 +252,7 @@ padding-left: 68px;
     grid-area: profile;
     color: #333;
     font-weight: 600;
+    grid-column: 1 / 4;
 }
 
 #chat-page .chat-message .sendtext {
@@ -249,7 +264,7 @@ padding-left: 68px;
     text-align: left;
     background-color: var(--resv-bg-color);
     margin-left: 5px;
-    grid-area: content;
+    /* grid-area: content; */
 }
 
 
@@ -273,9 +288,10 @@ padding-left: 68px;
 }
 
 #chat-page .chat-Message-ok span {
-    grid-area: profile;
+    /* grid-area: profile; */
     color: #333;
     font-weight: 600;
+    grid-column: 1 / 4;
 }
 
 #chat-page .chat-Message-ok .sendtext {
@@ -287,7 +303,7 @@ padding-left: 68px;
     text-align: left;
     background-color: var(--resv-bg-color);
     margin-left: 5px;
-    grid-area: content;
+    /* grid-area: content; */
 }
 
 .chat-myMessage .sendtext {
@@ -326,11 +342,21 @@ padding-left: 68px;
     text-align: center;
     padding: 15px;
     border-bottom: 1px solid #b7b7b7;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .chat-header h2 {
     margin: 0;
     font-weight: 500;
+}
+
+#returnChatRoom{
+    display: none;
+}
+.returnRoom{
+    font-size: x-large;
 }
 
 .connecting {
@@ -352,73 +378,11 @@ padding-left: 68px;
     }
 }
 
-@media screen and (max-width: 480px) {
-    .chat-container {
-        height: calc(100% - 30px);
-    }
-
-    .username-page-container {
-        width: auto;
-        margin-left: 15px;
-        margin-right: 15px;
-        padding: 25px;
-    }
-
-    #chat-page #messageArea {
-        height: calc(100% - 120px);
-    }
-
-    #messageForm .input-group button {
-        width: 65px;
-    }
-
-    #messageForm .input-group input {
-        width: calc(100% - 70px);
-    }
-
-    .chat-header {
-        padding: 10px;
-    }
-
-    .connecting {
-        top: 60px;
-    }
-
-    .chat-header h2 {
-        font-size: 1.1em;
-    }
-
-    #menu{
-        width: 310px;
-    }
-    button#uploadFile {
-        margin-left: 225px;
-        margin-top: -55px;
-    }
-    input {
-        padding-left: 5px;
-        outline: none;
-        width: 250px;
-        margin-top: 15px;
-    }
-    .btn fa fa-download {
-        background-color: DodgerBlue;
-        border: none;
-        color: white;
-        padding: 12px 30px;
-        cursor: pointer;
-        font-size: 20px;
-    }
-
-    .input-group{width:80.5%}
-    .chat-container{position: relative;}
-    .chat-container .btn-group{position:absolute; bottom:-12px; right:-50px; transform: translate(-50%,-50%);}
-}
-
 .balloon_left {
     grid-area: content;
     position: relative;
     display: inline-block;
+    width: fit-content;
     max-width: 400px;
     padding: 10px;
     border-radius: 10px;
@@ -474,7 +438,7 @@ padding-left: 68px;
 }
 
 .sendEmoticonBtn{
-    max-width: 100px;
+    max-width: 70px;
     margin: 10px;
 }
 
@@ -494,6 +458,7 @@ padding-left: 68px;
     margin-top: 25px;
     overflow-y: scroll;
     height: 200px;
+    border-top: 1px solid #b7b7b7;
 }
 
 .hiddenEmoticon{-ms-overflow-style:none; }
@@ -519,6 +484,48 @@ padding-left: 68px;
     gap: 50px;
 }
 
+.newDateDiv{
+    display: flex;
+    flex-direction: column;
+    padding-left: 8px;
+    padding-right: 8px;
+    grid-area: date;
+    /* grid-column-start: 2; */
+    justify-content: flex-end;
+}
+
+.noCountDateDiv{
+    display: flex;
+    flex-direction: column;
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+.dateDiv{
+    display: flex;
+    flex-direction: column;
+    padding-left: 8px;
+    padding-right: 8px;
+    justify-content: flex-end;
+}
+
+.myDateDiv{
+    display: flex;
+    flex-direction: column;
+    padding-left: 8px;
+    padding-right: 8px;
+    justify-content: flex-end;
+    align-self: flex-end;
+}
+
+.chatDate{
+    font-size: 10pt;
+}
+
 .sendImageDiv{
+    
+}
+
+.newSendImageDiv{
     grid-area: content;
 }

@@ -112,6 +112,7 @@ label[for="sidebar-btn"] {
     margin-left: 0px;
     margin-right: 0px;
 	margin-top: 14px;
+	align-items: center;
 }
 
 
@@ -127,7 +128,7 @@ label[for="sidebar-btn"] {
 }
 
 .menu_item {
-    width: 150px;
+    width: 120px;
     text-align: center;
 	font-size: 20px;
 }
@@ -139,7 +140,7 @@ label[for="sidebar-btn"] {
 }
 
 .top_header{
-	height: 15px;
+	height: 7px;
     background-color: #5CA8B5;
 }
 
@@ -151,7 +152,6 @@ label[for="sidebar-btn"] {
 .sbody {
     display: flex;
 	align-items: center;
-    justify-content: center;
 }
 
 
@@ -159,11 +159,150 @@ label[for="sidebar-btn"] {
 	display: flex;
 	align-items: center;
     text-decoration: none;
-	width: 60vw;
+	min-width: 600px;
 }
 
 .subbody2{
 	display: flex;
 	z-index: 1000;
     width: 400px;
+	align-items: center;
 }
+
+@media screen and (max-width: 1100px) {
+	.textLogo{
+		font-size: 25px;
+	}
+	.menu_item{
+		font-size: 15px;
+	}
+	.menu{
+		gap: 10px;
+	}
+	.hbody{
+		padding-left: 1%;
+	}
+	.subbody1{
+		min-width: 500px;
+	}
+}
+
+@media screen and (max-width: 1000px){
+	.subbody1{
+		min-width: 400px;
+	}
+}
+
+@media screen and (max-width: 900px){
+	.subbody1{
+		min-width: 400px;
+	}
+}
+
+#menubarBody{
+	display: none;
+}
+.menubar{
+	display: none;
+}
+@media screen and (max-width: 850px){
+	
+	.hbody{
+		display: none;
+	}
+	.menu_item{
+		font-size: 20px;
+		margin-bottom: 0px !important;
+	}
+	#menubarBody{
+		display: block;
+		display: flex;
+		height: 40px;
+		background-color: #5ca8b5;
+	}
+
+	.menubar {
+		display: block !important;
+		overflow: hidden !important;
+		list-style: none !important;
+		position: absolute !important;
+    	right: 0 !important;
+		z-index: 9999;
+	}
+	
+	.menubar > li {
+		float: left !important;
+		text-align: center !important;
+		line-height: 40px !important;
+		background-color: #5ca8b5 !important;
+		
+	}
+	
+	.menubar a {
+		color: #fff !important;
+	}
+	
+	.submenubar > li {
+		line-height: 50px !important;
+		background-color: #5ca8b5 !important;
+		list-style: none !important;
+	}
+	
+	.submenubar {
+		height: 0 !important; /*ul의 높이를 안보이게 처리*/
+		overflow: hidden !important;
+		margin: 0px !important;
+	}
+	.menubar > li:hover {
+		background-color: #5ca8b5 !important;
+		transition-duration: 0.5s !important;
+	}
+	
+	.menubar > li:hover .submenubar {
+		height: 400px !important; /*서브메뉴 li한개의 높이 50*5*/
+		transition-duration: 1s !important;
+	}
+
+	.menubarsub{
+		margin: 0px !important;
+	}
+	.menu_item_logo{
+		text-align: center !important;
+		width: auto !important;
+	}
+	.textLogo{
+		font-weight: bold !important;
+		color: white !important;
+		font-size: 30px !important;
+		margin-left: 15px !important;
+	}
+
+	.userName {
+		display: flex !important;
+		position: relative !important;
+		justify-content: flex-end !important;
+		align-items: center !important;
+		width: 55% !important;
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
