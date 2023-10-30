@@ -2,6 +2,8 @@ package com.spring.boot.service;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.spring.boot.dto.GatchiDTO;
 import com.spring.boot.dto.MeetInfoDTO;
 
@@ -42,6 +44,8 @@ public interface GatchiService {
 	public List<GatchiDTO> getRownumList(int endList) throws Exception;
 	
 	public List<GatchiDTO> searchMeetMateList(String searchKey, String searchValue) throws Exception;
+
+	public List<GatchiDTO> searchMeetMateList2(@Param("searchKey")String searchKey, @Param("searchValue")String searchValue);
 	
 	public List<GatchiDTO> searchCommuniFindList(String searchKey, String searchValue) throws Exception;
 

@@ -679,3 +679,15 @@ margin: 0 10px;
   vertical-align: middle;
   height: 40px;
 }
+
+.block {
+  width: 130px;
+  height: 2px;
+  background: #e55d87;
+  background: -moz-linear-gradient(-45deg, #e55d87 0%, #5fc3e4 100%);
+  background: -webkit-linear-gradient(-45deg, #e55d87 0%, #5fc3e4 100%);
+  background: linear-gradient(135deg, #e55d87 0%, #5fc3e4 100%);
+  margin-bottom: 50px;
+  margin-left: auto;
+  margin-right: auto;
+}

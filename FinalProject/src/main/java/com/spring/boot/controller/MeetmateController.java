@@ -236,6 +236,7 @@ public class MeetmateController {
 		}
 
 		List<GatchiDTO> searchMeetMateList = gatchiService.searchMeetMateList(searchKey, searchValue);
+		List<GatchiDTO> searchMeetMateList2 = gatchiService.searchMeetMateList2(searchKey, searchValue);
 
  		//여기서부터 meetStatus 값 변경 위한 작업
 		Date currentDate = new Date();//현재 날짜, 시간 가져오기
@@ -255,6 +256,7 @@ public class MeetmateController {
 
 		//mav.addObject("picture", picture);********************
 		mav.addObject("searchMeetMateList", searchMeetMateList);
+		mav.addObject("searchMeetMateList2", searchMeetMateList2);
 		mav.addObject("meetMateSlideLists", meetMateSlideLists);		
 		mav.addObject("meetLists", meetMateLists);	
 		mav.setViewName("meetmate/meetMateList");
