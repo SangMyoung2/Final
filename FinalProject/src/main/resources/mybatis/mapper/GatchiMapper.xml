@@ -70,7 +70,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <foreach item="item" collection="list" open="(" separator="," close=")">
         #{item}
     </foreach>
-	AND MEETCHECK = 1
+	AND MEETCHECK = 1 AND meetStatus = 1
     ORDER BY meetListNum DESC
 </select>
 
@@ -81,7 +81,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <foreach item="item" collection="list" open="(" separator="," close=")">
         #{item}
     </foreach>
-	AND MEETCHECK = 2
+	AND MEETCHECK = 2 AND meetStatus = 1
     ORDER BY meetListNum DESC
 </select>
 
@@ -99,11 +99,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </select> -->
 
 <select id="getMeetMateLists" resultType="com.spring.boot.dto.GatchiDTO">
-	select * from gatchi where meetCheck = 1
+	select * from gatchi where meetCheck = 1 AND meetStatus = 1
 </select>
 
 <select id="getCommuniFindLists" resultType="com.spring.boot.dto.GatchiDTO">
-	select * from gatchi where meetCheck = 2
+	select * from gatchi where meetCheck = 2 AND meetStatus = 1
 </select>
 
 <select id="getMeetMateRandomList" parameterType="int" 
@@ -143,7 +143,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         (#{searchKey} = 'meetDday' AND meetDday LIKE '%' || #{searchValue} || '%')
         OR
         (#{searchKey} = 'meetPlace' AND meetPlace LIKE '%' || #{searchValue} || '%')
-    )  AND meetCheck = 1 order by meetListNum desc
+    )  AND meetCheck = 1 AND meetStatus = 1 order by meetListNum desc
+</select>
+
+<select id="searchMeetMateList2" parameterType="map" resultType="com.spring.boot.dto.GatchiDTO">
+    SELECT * FROM gatchi
+    WHERE 
+	(
+        (#{searchKey} = 'meetTitle' AND meetTitle LIKE '%' || #{searchValue} || '%')
+        OR
+        (#{searchKey} = 'meetDday' AND meetDday LIKE '%' || #{searchValue} || '%')
+        OR
+        (#{searchKey} = 'meetPlace' AND meetPlace LIKE '%' || #{searchValue} || '%')
+    )  AND meetCheck = 1 AND meetStatus = 2 order by meetListNum desc
 </select>
 
 <select id="searchCommuniFindList" parameterType="map" resultType="com.spring.boot.dto.GatchiDTO">
@@ -155,36 +167,36 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         (#{searchKey} = 'meetDday' AND meetDday LIKE '%' || #{searchValue} || '%')
         OR
         (#{searchKey} = 'meetPlace' AND meetPlace LIKE '%' || #{searchValue} || '%')
-    ) AND meetCheck = 2 order by meetListNum desc
+    ) AND meetCheck = 2  order by meetListNum desc
 </select>
 
 <select id="sortByLikeCountMeet" parameterType="map" resultType="com.spring.boot.dto.GatchiDTO">
     SELECT * FROM gatchi
-   WHERE meetCheck = 1
+   WHERE meetCheck = 1 AND meetStatus = 1
    ORDER BY meetLikeCount DESC
 </select>
 
 <select id="sortByHitCountMeet" parameterType="map" resultType="com.spring.boot.dto.GatchiDTO">
     SELECT * FROM gatchi
-   WHERE meetCheck = 1
+   WHERE meetCheck = 1 AND meetStatus = 1
    ORDER BY meetHitCount DESC
 </select>
 
 <select id="sortByDdayMeet" parameterType="map" resultType="com.spring.boot.dto.GatchiDTO">
    SELECT * FROM gatchi
-   WHERE meetCheck = 1 AND meetStatus != 2
+   WHERE meetCheck = 1 AND meetStatus = 1
    ORDER BY TO_DATE(meetDday, 'YYYY-MM-DD HH24:MI') - TO_DATE(SYSDATE, 'YYYY-MM-DD HH24:MI') ASC
 </select>
 
 <select id="sortByLikeCountFind" parameterType="map" resultType="com.spring.boot.dto.GatchiDTO">
     SELECT * FROM gatchi
-   WHERE meetCheck = 2
+   WHERE meetCheck = 2 AND meetStatus = 1
    ORDER BY meetLikeCount DESC
 </select>
 
 <select id="sortByHitCountFind" parameterType="map" resultType="com.spring.boot.dto.GatchiDTO">
     SELECT * FROM gatchi
-   WHERE meetCheck = 2
+   WHERE meetCheck = 2 AND meetStatus = 1
    ORDER BY meetHitCount DESC
 </select>
 

@@ -1,35 +1,37 @@
-package com.spring.boot.config;
+// package com.spring.boot.config;
 
-import java.io.IOException;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import com.spring.boot.dto.SessionUser;
+// import java.io.IOException;
+// import javax.servlet.ServletException;
+// import javax.servlet.http.HttpServletRequest;
+// import javax.servlet.http.HttpServletResponse;
+// import javax.servlet.http.HttpSession;
+// import org.springframework.security.core.Authentication;
+// import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+// import com.spring.boot.dto.SessionUser;
 
-public class OauthSuccessHandler implements AuthenticationSuccessHandler {
+// public class OauthSuccessHandler implements AuthenticationSuccessHandler {
 
-    @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-            Authentication authentication) throws IOException, ServletException {
+//     @Override
+//     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
+//             Authentication authentication) throws IOException, ServletException {
         
         
-        HttpSession session = request.getSession();
-        Object principal = authentication.getPrincipal();
+//         HttpSession session = request.getSession();
+//         Object principal = authentication.getPrincipal();
 
-        System.out.println("if문 전 : ");
-        
-        if (principal instanceof SessionUser) {
-            SessionUser userDetails = (SessionUser) principal;
-            SessionUser sessionUser = new SessionUser(userDetails);
-            session.setAttribute("user", sessionUser);
-            System.out.println("세션 유저 : " + sessionUser.getEmail());
-        }
 
-        // 리다이렉트 수행
-        response.sendRedirect("/");
-    }
+//         System.out.println("ㅎㅇㅎㅇㅎㅇㅎㅇㅎㅇㅎㅇㅎㅎㅇ");
+//         System.out.println("ㅎㅇㅎㅇㅎㅇㅎㅇㅎㅇㅎㅇㅎㅎㅇ");
+//         System.out.println("ㅎㅇㅎㅇㅎㅇㅎㅇㅎㅇㅎㅇㅎㅎㅇ");
+//         if (principal instanceof SessionUser) {
+//             SessionUser userDetails = (SessionUser) principal;
+//             SessionUser sessionUser = new SessionUser(userDetails);
+//             session.setAttribute("user", sessionUser);
+
+//         }
+
+//         리다이렉트 수행
+//         response.sendRedirect("/");
+//     }
     
-}
+// }

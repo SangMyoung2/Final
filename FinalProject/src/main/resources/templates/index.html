@@ -138,8 +138,9 @@
                 <p class="card__title" th:text="${items.meetTitle}">글제목</p>    
               </span>
           </span><br/>
-            <span class="card__status" th:text="'일시: ' + ${items.meetDday} + ', 장소: ' + ${items.meetPlace.replaceAll('.*?([^ ]+구).*', '$1')}">일시, 좋아요</span><br/>
-            <span class="card__status" th:text="' 참여인원 : ' + ${items.meetMemCnt} + ' / ' + ${items.meetMaxMemCnt}">현재 참석인원 / 최대인원</span>
+          <span class="card__status" th:text="'장소: ' + ${items.meetPlace.replaceAll('.*?([^ ]+구).*', '$1')} + '　　　　　　　'">일시, 좋아요</span><br/>
+          <span class="card__status" th:text="' 좋아요: ' + ${items.meetLikeCount} + ', 조회수: ' + ${items.meetHitCount} + '　　　　　'">좋아요 수, 조회수</span><br/>
+          <span class="card__status" th:text="' 참여인원 : ' + ${items.meetMemCnt} + ' / ' + ${items.meetMaxMemCnt} + '　　　　　　'">현재 참석인원 / 최대인원</span>
           </div>
     
         </div>
@@ -189,7 +190,7 @@
           </div>
           <div style="display: flex; justify-content: center; background-color:#F5F5F5;">
             <div class="card-item" style="width: 200px;">
-            <a style=" text-decoration: none;" href="/mainReview.action"> 더보기</a>
+            <a style=" text-decoration: none;" href="/challengeList.action"> 더보기</a>
             </div>
             </div>
         

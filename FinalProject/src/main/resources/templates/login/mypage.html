@@ -253,7 +253,7 @@
             </div>
             <footer class="card-footer">
              
-              <a class="card-footer-item" th:text="'일시: ' + ${items.meetDday} + ', 장소: ' + ${items.meetPlace.replaceAll('.*?([^ ]+구).*', '$1')}"></a>
+              <a class="card-footer-item" th:text="'장소: ' + ${items.meetPlace.replaceAll('.*?([^ ]+구).*', '$1')}"></a>
               <a class="card-footer-item" th:text="' 참여인원 : ' + ${items.meetMemCnt} + ' / ' + ${items.meetMaxMemCnt}"></a>
           
             </footer>
