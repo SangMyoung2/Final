@@ -36,10 +36,7 @@ public class WebSecurityConfig {
         return new SuccessHandler();
     }
 
-	 @Bean
-    public OauthSuccessHandler OauthSuccessHandler() {
-        return new OauthSuccessHandler();
-	}
+	
 	
 	@Bean
 	public SecurityFilterChain configure(HttpSecurity http) throws Exception{
@@ -76,7 +73,7 @@ public class WebSecurityConfig {
 			.sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
 
 			http.oauth2Login()
-			.successHandler(OauthSuccessHandler())
+			.defaultSuccessUrl("/", true)
 			.userInfoEndpoint()
 			.userService(baseCustomOAuth2UserService);
 		

@@ -66,6 +66,7 @@ public class BaseCustomOAuth2UserService implements OAuth2UserService<OAuth2User
 		//SessionUser : 세션에 사용자 정보를 저장하기 위한 DTO 클래스
 		httpSession.setAttribute("user", new SessionUser(authUser));
 		
+		
 		return new DefaultOAuth2User(
 				Collections.singleton(
 					new SimpleGrantedAuthority(authUser.getRoleKey())),
