@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.core.io.Resource;
@@ -35,6 +36,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.spring.boot.collection.ChatRoomCollection;
 import com.spring.boot.dto.ChallengeAuthDTO;
 import com.spring.boot.dto.ChallengeDTO;
 import com.spring.boot.dto.ChallengeInfoDTO;
@@ -48,6 +50,8 @@ import com.spring.boot.dto.SessionUser;
 import com.spring.boot.model.Users;
 import com.spring.boot.service.ChallengeLikeService;
 import com.spring.boot.service.ChallengeService;
+import com.spring.boot.service.ChatRoomService;
+import com.spring.boot.util.ChatUtil;
 
 
 
@@ -59,6 +63,12 @@ public class ChallengeController {
 
 	@Autowired
 	private ChallengeLikeService challengeLikeService;
+
+	@Autowired
+	private ChatRoomService chatRoomService;
+
+	@Autowired
+	private ChatUtil chatUtil;
 
 	@GetMapping("/challengeCreate.action")
 	public ModelAndView challengeCreate() throws Exception{
@@ -152,8 +162,16 @@ public class ChallengeController {
         challengeService.insertChallengeInfo(infoDTO);
 
 		Thread.sleep(2000);
-		mav.setViewName("redirect:/challengeList.action");
 		
+		
+		mav.addObject("roomName", dto.getChallengeTitle());
+		mav.addObject("roomType", "CHALLENGE");
+		mav.addObject("listNum", dto.getChallengeListNum());
+		mav.addObject("createType", 4);
+
+		//mav.setViewName("redirect:/challengeList.action");
+		mav.setViewName("redirect:/createroom.action");
+
 		return mav;	
 	}
 
@@ -277,7 +295,9 @@ System.out.println("에러잡기 3번@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 				}
 			mav.addObject("authStatus", authStatus);
 		}
-
+		ChallengeDTO chatRoomId = challengeService.getReadDataChatRoom(challengeListNum);
+		String roomId = chatRoomId.getChallengeChatRoomNum();
+		System.out.println("roomId : " + roomId);
 		
         mav.addObject("challengeDay",challengeDay);
         mav.addObject("challengeInfoDTO",challengeInfoDTO);
@@ -286,7 +306,7 @@ System.out.println("에러잡기 3번@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         mav.addObject("lists", lists);
         mav.addObject("masterInfoDTO",masterInfoDTO);
         mav.addObject("challengeDTO", challengeDTO);
-        
+        mav.addObject("roomId", roomId);
 		mav.setViewName("challenge/ChallengeArticle");
 		
 		return mav;
@@ -470,7 +490,26 @@ System.out.println("에러잡기 3번@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         infoDTO.setChallengeListNum(challengeListNum);
 
         challengeService.insertChallengeInfo(infoDTO);
+		ChallengeDTO challengeDTO = challengeService.getReadDataChatRoom(challengeListNum);
+		System.out.println("챌린지 방번호 : " + challengeListNum);
+		System.out.println(challengeDTO.getChallengeChatRoomNum());
+		//채팅방 가입
+		Optional<ChatRoomCollection> room = chatRoomService.getReadDate(challengeDTO.getChallengeChatRoomNum());
+		ChatRoomCollection rooms = (ChatRoomCollection)room.get();
+		System.out.println("rooms : " + rooms);
 
+		// 여기는 신규유저 인지 아닌지 확인 하는곳
+		if(!rooms.getUsers().contains(infoDTO.getEmail())){
+			System.out.println("신규 유저 입장!");
+
+			rooms.getUsers().add(infoDTO.getEmail());
+			String entryDate = chatUtil.todayYMDAndTime();
+			String newUser = chatUtil.emailSubString(infoDTO.getEmail());
+			rooms.setEntryDate(newUser, entryDate);
+			int userCnt = rooms.getUserCount();
+			rooms.setUserCount(userCnt + 1);
+			chatRoomService.updateChatRoom(rooms);
+		}
 
 		mav.setViewName("redirect:/challengeArticle.action?challengeListNum=" + challengeListNum);
 		
@@ -516,6 +555,23 @@ System.out.println("에러잡기 3번@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
       	challengeService.downChallengeMemCnt(challengeListNum);
 
         challengeService.deleteChallengeInfo(challengeListNum,email);
+
+		ChallengeDTO challengeDTO = challengeService.getReadDataChatRoom(challengeListNum);
+		// 채팅방 나가기
+		String chatRoomNum = challengeDTO.getChallengeChatRoomNum();
+		ChatRoomCollection chatRoom = chatRoomService.findByRoomId(chatRoomNum);
+		
+		List<String> users = chatRoom.getUsers();
+		for(int i=0; i<users.size(); i++){
+			if(users.get(i).equals(email) || users.get(i) == email){
+				System.out.println("같은 유저 찾아서 삭제");
+				users.remove(i);
+				break;
+			}
+		}
+		chatRoom.setUsers(users);
+		chatRoom.setUserCount(chatRoom.getUserCount() - 1);
+		chatRoomService.updateChatRoom(chatRoom);
        
 
         mav.setViewName("redirect:/challengeArticle.action?challengeListNum=" + challengeListNum);

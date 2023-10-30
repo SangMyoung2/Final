@@ -171,4 +171,14 @@ public class ChallengeServiceImpl implements ChallengeService{
     public List<ChallengeAuthDTO> getUserReview(int challengeListNum, String email) throws Exception {
         return challengeMapper.getUserReview(challengeListNum, email);
     }
+
+    @Override
+    public void updateChatRoomNum(ChallengeDTO dto) throws Exception{
+        challengeMapper.updateChatRoomNum(dto);
+    }
+
+    @Override
+    public ChallengeDTO getReadDataChatRoom(int challengeListNum) throws Exception{
+        return challengeMapper.getReadDataChatRoom(challengeListNum);
+    }
 }

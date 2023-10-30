@@ -75,4 +75,7 @@ public interface ChallengeMapper {
 
     public int getChallengeDay(@Param("challengeListNum")int challengeListNum) throws Exception;
 
+    public void updateChatRoomNum(ChallengeDTO dto) throws Exception;
+
+    public ChallengeDTO getReadDataChatRoom(int challengeListNum) throws Exception;
 }

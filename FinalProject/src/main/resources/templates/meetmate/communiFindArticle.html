@@ -57,17 +57,19 @@
 
     // 홈 내용 표시 함수
     function showHomeContent() {
+        document.querySelector('#homeAndreviw').classList.remove('reviwAndhome');
         document.querySelector('.yj-img').style.display = 'block';
         document.querySelector('.yj-img2').style.display = 'none';
-        document.querySelector('.c-meet-members').style.display = 'block';
+        document.querySelector('.meet-members').style.display = 'block';
         document.querySelector('.meet-mypage').style.display = 'block';
     }
 
     // 리뷰 내용 표시 함수
     function showReviewContent() {
+        document.querySelector('#homeAndreviw').classList.add('reviwAndhome');
         document.querySelector('.yj-img').style.display = 'none';
         document.querySelector('.yj-img2').style.display = 'block';
-        document.querySelector('.c-meet-members').style.display = 'none';
+        document.querySelector('.meet-members').style.display = 'none';
         document.querySelector('.meet-mypage').style.display = 'none';
     }
 
@@ -513,6 +515,55 @@ function chatRoom(){
             popupChat = window.open("articleChatRoom.action?meetListNum=" + meetListNum,"_blacnk",options);
 }
 
+setInterval(checkNotReadMessage, 500);
+
+function checkNotReadMessage(){
+
+    let user = {'userId': "article"};
+
+    let requestOption = {
+        method:'POST',
+        headers:{
+            'Content-Type':'application/json',
+        },
+        body:JSON.stringify(user)
+    };
+
+    fetch('/chat/checkNotReadMessage', requestOption)
+      .then(response => response.json())
+      .then(data => {
+        // 가져온 숫자를 화면에 표시
+        //console.log("데이타 : " + JSON.stringify(data));
+        console.log("checkNotReadMessage : " + JSON.stringify(data));
+        roomsNotReadMessage(data);
+      })
+      .catch(error => {
+        console.error('숫자 업데이트 중 오류 발생:', error);
+      });
+}
+
+function roomsNotReadMessage(data){
+    let rooms = document.getElementsByName("room");
+    let notReadCountObject = data.notReadCount;
+    let notReadCountKeys = Object.keys(notReadCountObject);
+    let notReadCountSize = notReadCountKeys.length;
+
+    // console.log("크기 : " + notReadCountSize);
+    // console.log(rooms[0].getAttribute('data-value'));
+    // console.log("위잉 : " + notReadCountKeys);
+
+    for(let i=0; i<notReadCountSize; i++){
+        for(let j=0; j<rooms.length; j++){
+            let roomId = rooms[j].getAttribute('data-value');
+            let notReadCountValue = notReadCountObject[roomId];
+            if(notReadCountValue <= 0){
+                continue;
+            }
+            rooms[j].textContent = notReadCountValue;
+        }
+    }
+}
+
 </script>
 
 </head>
@@ -537,7 +588,7 @@ function chatRoom(){
             </label>
             <!-- 리뷰 버튼 -->
             <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
-            <label class="btn btn-custom" for="btnradio2" onclick="showReviewContent()">
+            <label class="btn btn-custom" for="btnradio2">
                 <span style="color: #383535; font-size: 20px;">리뷰</span>
                 <div class="underline"></div>
             </label>
@@ -598,6 +649,9 @@ function chatRoom(){
 
                     <button class="chat-btn" th:if="${meetMemStatus == 1 or meetMemStatus == 2}" id="chatRoom" onclick="chatRoom()">
                         <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Speech%20Balloon.png" alt="Speech Balloon" width="25px" height="25px" /> 채팅 바로가기
+                        <span class="notreadcount" name="room" th:attr="data-value=${roomId}">
+                            -
+                        </span>
                         <input type="hidden" id="meet-memStatus" name="meetMemStatus" th:value="${meetMemStatus}" />
                     </button>
                       
