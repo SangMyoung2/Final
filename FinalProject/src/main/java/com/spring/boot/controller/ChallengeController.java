@@ -210,7 +210,7 @@ System.out.println("에러잡기 3번@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 		// System.out.println(challengeDay);
 		// System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++");
-		System.out.println(userAuthList.get(0).getChallengeAuthCreateDate());
+		// System.out.println(userAuthList.get(0).getChallengeAuthCreateDate());
 		// System.out.println(userAuthList.get(1).getChallengeAuthCreateDate());
 		// System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++");
 		int userAuthCnt = userAuthList.size();
@@ -378,6 +378,7 @@ System.out.println("에러잡기 3번@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 		challengeAuthDTO.setChallengeAuthImage(challengeAuthImage);
 
 		System.out.println(challengeAuthImage + "여기왔야!!!!!!!!!!!!!!!!");
+		
 		String srcFileName = null;
 
         try{
