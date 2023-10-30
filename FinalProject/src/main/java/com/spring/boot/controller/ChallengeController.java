@@ -379,6 +379,7 @@ System.out.println("에러잡기 3번@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 		challengeAuthDTO.setChallengeAuthImage(challengeAuthImage);
 
 		System.out.println(challengeAuthImage + "여기왔야!!!!!!!!!!!!!!!!");
+		
 		String srcFileName = null;
 
         try{
