@@ -247,7 +247,7 @@ public class MeetmateController {
 		//정렬 버튼 클릭 시
 		if (sortOrder != null) {
 			List<GatchiDTO> sortLists = new ArrayList<>();
-	  
+			
 			if ("meetHitCount".equals(sortOrder)){
 				sortLists = gatchiService.sortByHitCountMeet();
 				// System.out.println(sortLists);
@@ -258,6 +258,7 @@ public class MeetmateController {
 				sortLists = gatchiService.sortByDdayMeet();
 				// System.out.println(sortLists);
 			}
+			mav.addObject("searchMeetMateList2", searchMeetMateList2);		
 			mav.addObject("sortLists", sortLists);
 			mav.setViewName("meetmate/meetMateList");
 	  
