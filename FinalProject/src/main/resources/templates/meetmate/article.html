@@ -57,6 +57,7 @@
 
     // 홈 내용 표시 함수
     function showHomeContent() {
+        document.querySelector('#homeAndreviw').classList.remove('reviwAndhome');
         document.querySelector('.yj-img').style.display = 'block';
         document.querySelector('.yj-img2').style.display = 'none';
         document.querySelector('.meet-members').style.display = 'block';
@@ -65,6 +66,7 @@
 
     // 리뷰 내용 표시 함수
     function showReviewContent() {
+        document.querySelector('#homeAndreviw').classList.add('reviwAndhome');
         document.querySelector('.yj-img').style.display = 'none';
         document.querySelector('.yj-img2').style.display = 'block';
         document.querySelector('.meet-members').style.display = 'none';
@@ -229,7 +231,7 @@
             
             var progressBar = $(this).find('#progress');
             progressBar.css('width', percentage + '%');
-            progressBar.css('background-color', '#5CA8B5');
+            progressBar.css('background-color', '#1d65b2');
 
             var percentElement = $(this).find('#goal');
             percentElement.text(percentage + "%");
@@ -398,10 +400,40 @@ if(checkJoin){
 }
 
 function joinMeetInCommuni() {
-    alert('이 모임에 가입하실 경우 해당 communiFind 모임 먼저 가입해야합니다.\ncommuniFind 게시글로 이동하시겠습니까?')
+
+    let title = document.getElementById('meetTitle').textContent;
+
+    let checkJoin = confirm(title + ' 모임에 가입하시겠습니까?');
+
+    let meetListNum = document.getElementById('meetListNum').value;
     var code = document.getElementById("code").value;
 
-    location.href = '/communiArticle.action?meetListNum=' + code;
+    if(checkJoin){
+        $.ajax({
+            type: "POST",
+            url: "/checkBeforeJoin",
+            data: {
+                meetListNum: meetListNum
+            },
+            success: function (response) {
+                alert(response);
+                if(response == 0){
+                    alert('가입이 완료되었습니다');
+                    location.href = '/join-meet?meetListNum='+meetListNum;
+                }else if(response == 1){
+                    alert('이 모임에 가입하실 경우 해당 communiFind 모임 먼저 가입해야합니다.\ncommuniFind 게시글로 이동하시겠습니까?');
+
+                    location.href = '/communiArticle.action?meetListNum=' + code;
+                }else{
+                    alert('포인트가 부족합니다.');
+                }
+            },
+            error: function () {
+                alert('다시 시도 해주세요..');
+            }
+        });
+    }
+
 }
 
 function joinCancel(){
@@ -585,6 +617,58 @@ $(window).on('scroll', function () {
         })
     }
 });
+
+
+setInterval(checkNotReadMessage, 700);
+
+function checkNotReadMessage(){
+
+    let user = {'userId': "article"};
+
+    let requestOption = {
+        method:'POST',
+        headers:{
+            'Content-Type':'application/json',
+        },
+        body:JSON.stringify(user)
+    };
+
+    fetch('/chat/checkNotReadMessage', requestOption)
+      .then(response => response.json())
+      .then(data => {
+        // 가져온 숫자를 화면에 표시
+        //console.log("데이타 : " + JSON.stringify(data));
+        // console.log("checkNotReadMessage : " + JSON.stringify(data));
+        roomsNotReadMessage(data);
+      })
+      .catch(error => {
+        console.error('숫자 업데이트 중 오류 발생:', error);
+      });
+}
+
+function roomsNotReadMessage(data){
+    let rooms = document.getElementsByName("room");
+    let notReadCountObject = data.notReadCount;
+    let notReadCountKeys = Object.keys(notReadCountObject);
+    let notReadCountSize = notReadCountKeys.length;
+
+    // console.log("크기 : " + notReadCountSize);
+    // console.log(rooms[0].getAttribute('data-value'));
+    // console.log("위잉 : " + notReadCountKeys);
+
+    for(let i=0; i<notReadCountSize; i++){
+        for(let j=0; j<rooms.length; j++){
+            let roomId = rooms[j].getAttribute('data-value');
+            console.log(rooms[j].getAttribute('data-value'));
+            let notReadCountValue = notReadCountObject[roomId];
+            if(notReadCountValue <= 0){
+                continue;
+            }
+            rooms[j].textContent = notReadCountValue;
+        }
+    }
+}
+
 </script>
 
 
@@ -602,16 +686,16 @@ $(window).on('scroll', function () {
     
 
     <div class="text-center">
-        <div class="btn-group" role="group" aria-label="Basic radio toggle button group" style="width: 800px; margin-bottom: 5px; margin-top: 50px;">
+        <div class="btn-group" id="homeAndreviw" role="group" aria-label="Basic radio toggle button group">
             <!-- 홈 버튼 -->
             <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
-            <label class="btn btn-custom" for="btnradio1" onclick="showHomeContent()">
+            <label class="btn btn-custom" for="btnradio1">
                 <span style="color: #383535; font-size: 20px;">홈</span>
                 <div class="underline"></div>
             </label>
             <!-- 리뷰 버튼 -->
             <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
-            <label class="btn btn-custom" for="btnradio2" onclick="showReviewContent()">
+            <label class="btn btn-custom" for="btnradio2">
                 <span style="color: #383535; font-size: 20px;">리뷰</span>
                 <div class="underline"></div>
             </label>
@@ -661,7 +745,7 @@ $(window).on('scroll', function () {
                             <span class="goal-number" id="current-amount" th:text="${meetListInfo.meetMemCnt}"></span>
                             <span class="goal-label">현재 인원</span>
                         </div>
-                        <div class="goal-stat" style="margin-left: 187px;">
+                        <div class="goal-stat" style="margin-left: 160px; text-align: right;">
                             <span class="goal-number" id="max-amount" th:text="${meetListInfo.meetMaxMemCnt}"></span>
                             <span class="goal-label">모집 인원</span>
                         </div>
@@ -669,11 +753,14 @@ $(window).on('scroll', function () {
 
                     <button class="chat-btn" th:if="${meetMemStatus == 1 or meetMemStatus == 2}" id="chatRoom" onclick="chatRoom()">
                         <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Speech%20Balloon.png" alt="Speech Balloon" width="25px" height="25px" /> 채팅 바로가기
+                        <span class="notreadcount" name="room" th:attr="data-value=${roomId}">
+                            -
+                        </span>
                     </button>
                     
                     <div class="approval-back" th:if="${meetMemStatus == 1 and meetStatus == 2}"> 
-                        <div style="display: flex; align-items: center;">
-                            <div style="margin-left: 6px; font-size: 18px;">승인요청</div>
+                        <div style="display: flex; align-items: center; justify-content: space-between;">
+                            <div style="font-size: 18px;">승인요청</div>
                             <div class="approval-mem" id="expand-button">ⅴ펼치기</div>
                         </div>
                         <div style="margin-top: 10px;"></div>
@@ -813,35 +900,19 @@ $(window).on('scroll', function () {
                             <p class="Yj-text4 meet-money">무료</p>
                         </div>
                         
-                        <form th:if="${meetMemStatus < 0} and ${meetStatus == 1} and ${meetListInfo.meetMemCnt<meetListInfo.meetMaxMemCnt}">
+                        <form th:if="${meetMemStatus < 0} and ${meetStatus == 1} and ${meetListInfo.meetMemCnt<meetListInfo.meetMaxMemCnt} and ${meetListInfo.code == 0}">
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button form="joinForm" type="button" class="join-button" onclick="joinMeet()">
                                가입하기
                             </button>
                         </form>
                    
-
-
-                        <!-- <input type="button" th:value="${session.user1.email}"> -->
-
-                        <!-- <div  th:if="${#httpSession.getAttribute('user1') != null} and ${session.user1.email == meetReview.email}">
-                    </div> -->
-
-
-
-
-
-
-                        <!-- and ${meetInfo.meetListNum == meetListInfo.code} -->
-                        <!-- <div th:each="meetInfo : ${meetInfo}">
-                            <input type="button" th:value="${meetInfo.meetListNum}">
-                        </div>
-                        <input type="button" th:value="${meetListInfo.code}"> -->
-                        <!-- <form th:if="${meetMemStatus < 0} and ${meetStatus == 1} and ${meetListInfo.meetMemCnt<meetListInfo.meetMaxMemCnt} and ${meetListInfo.code != 0}">
+                        <form th:if="${meetMemStatus < 0} and ${meetStatus == 1} and ${meetListInfo.meetMemCnt<meetListInfo.meetMaxMemCnt} and ${meetListInfo.code > 0}">
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button form="joinForm" type="button" class="join-button" onclick="joinMeetInCommuni()">
                                가입하기
                             </button>
-                            <input type="hidden" name="code" id="code" th:value="${meetListInfo.code}"/>
-                        </form> -->
+                        </form>
+                        <input type="hidden" name="code" id="code" th:value="${meetListInfo.code}"/>
+
                         <form th:with="meetMemStatus=${meetMemStatus}" th:if="${meetMemStatus == 0}">
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="join-button" onclick="joinCancel()">
                                가입취소

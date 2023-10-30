@@ -34,4 +34,16 @@ public class ChallengeLikeServiceImpl implements ChallengeLikeService{
 	public List<ChallengeLikeDTO> getReadDataChallengeLike(String useremail) throws Exception{
         return challengeLikeMapper.getReadDataChallengeLike(useremail);
     }
+
+    @Override
+    public List<Integer> getChallengeLikeNumByUserEmail(String email) throws Exception {
+        
+        return challengeLikeMapper.getChallengeLikeNumByUserEmail(email);
+    }
+
+    @Override
+    public List<ChallengeDTO> getChallengeLikeNums(List<Integer> challengeListNum) {
+        return challengeLikeMapper.getChallengeLikeNums(challengeListNum);
+        
+    }
 }

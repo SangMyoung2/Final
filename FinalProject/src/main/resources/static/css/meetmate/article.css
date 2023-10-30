@@ -395,7 +395,7 @@
     height: 310px;
     background-color: #eff5fc;
     padding: 15px 14px 15px 15px;
-    border-top: 7px solid #5b5e67;
+    border-top: 7px solid #1d65b2;
     border-radius: 2px;
 }
 
@@ -475,12 +475,13 @@
 
 .meet-mypage {
     /* position: fixed; */
-    margin-left: -300px;
-    width: 500px;
+    margin-left: -260px;
+    width: 400px;
     min-height: 0;
     background-color: #F9F9F9;
     padding: 35px 40px 30px 40px;
     left: 0;
+    border-top: 7px solid #1d65b2;
 }
 
 .meetName-back {
@@ -559,7 +560,6 @@
     width: 100%;
     height: 200px;
     /* border: 1px solid black; */
-    padding: 0px 26px 0px 20px; /*위/양사이드/아래*/ 
     font-family: arial;
     max-width: 650px;
   }
@@ -587,7 +587,7 @@
     float: left;
     width: 16%;
     height: 20px;
-    background: #5CA8B5;
+    background: #1d65b2;
     z-index: 333;
     border-radius: 5px;
   }
@@ -618,7 +618,8 @@
     background-color: #383838;
     border: none;
     color: white;
-    padding: 10px 133px;
+    width: 300px;
+    height: 50px;
     text-align: center;
     text-decoration: none;
     display: block;
@@ -626,7 +627,6 @@
     border-radius: 7px;
     cursor: pointer;
     font-size: 20px;
-    margin-top: -40px;
     margin-bottom: 30px;
 }
 
@@ -719,7 +719,6 @@
 }
 
 .approval-mem {
-    margin-left: 230px;
     color: #AAAAAA;
     cursor: pointer;
     text-decoration: none;
@@ -938,12 +937,21 @@
     right: 25px;
 }
 
+@media screen and (min-width: 768px){
+    .col-md-2{
+        width: 12% !important;
+    }
+}
+
 @media screen and (max-width: 1400px) {
     .homeaticle{
         min-width: 800px;
         width: 100%;
         position: relative;
         right: -35px;
+    }
+    #mypage{
+        display: none;
     }
 }
 
@@ -956,10 +964,30 @@
     }
 }
 
-@media screen and (max-width: 1400px){
-    #mypage{
-        display: none;
+
+#homeAndreviw{
+    width: 800px;
+    margin-bottom: 5px;
+    margin-top: 50px;
+    margin-left: 120px;
+}
+@media screen and (max-width: 1200px){
+    #homeAndreviw{
+        margin-left: -222px;
+    }
+}
+@media screen and (max-width: 991px){
+    #homeAndreviw{
+        margin-left: -30px;
     }
 }
 
+@media screen and (max-width: 767px){
+    #homeAndreviw{
+        margin-left: 50px;
+    }
+}
 
+.reviwAndhome{
+    margin-left: 0px !important;
+}

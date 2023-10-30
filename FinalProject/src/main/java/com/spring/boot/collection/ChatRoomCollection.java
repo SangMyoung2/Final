@@ -23,7 +23,7 @@ public class ChatRoomCollection {
     private String type;
     private int userCount;
     private String createDate;
-
+    private int roomType; // 1 모임중 , 2 모임끝 또는 방삭제
     private List<String> users;
 
     private Map<String, String> entryDate;

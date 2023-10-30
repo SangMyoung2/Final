@@ -39,12 +39,12 @@
   .body7 {
     font-size: 0.9rem;
     letter-spacing: 0.1px;
-    height: 500px;
-    max-height: 500px;
+    height: 400px;
+    max-height: 400px;
   }
   
   h1 {
-    font-size: 2.8rem;
+    font-size: 3.8rem;
     line-height: 2.8rem;
     font-weight: bolder;
     color: #000000;
@@ -129,19 +129,19 @@
     min-width: 360px;
     /* background: #e8dcca; */
 
-    max-height: 500px;
+    max-height: 400px;
   }
   
   main .slide {
     position: relative;
     overflow: hidden;
-    max-height: 500px;
+    max-height: 400px;
   }
   
   main .panel {
     width: 300%;
     height: 100%;
-    max-height: 500px;
+    max-height: 400px;
     display: flex;
     justify-content: space-around;
     background-color: white;
@@ -165,7 +165,7 @@
   
 
 .li2_img{
-    max-height: 500px;
+    max-height: 400px;
     width: 11.111%;
     height: 800px;
     /* float: left; */
@@ -259,7 +259,7 @@
   main .dot {
     position: absolute;
     left: 50%;
-    bottom: 5%;
+    bottom: 0;
     transform: translateX(-50%);
   }
   
@@ -685,9 +685,14 @@ margin: 0 10px;
   height: 40px;
 }
 
-#masterProfile {
-  width: 90px;
-  height: 90px;
-  border-radius: 50%;
-  border: solid 0.1px white;
+.block {
+  width: 130px;
+  height: 2px;
+  background: #e55d87;
+  background: -moz-linear-gradient(-45deg, #e55d87 0%, #5fc3e4 100%);
+  background: -webkit-linear-gradient(-45deg, #e55d87 0%, #5fc3e4 100%);
+  background: linear-gradient(135deg, #e55d87 0%, #5fc3e4 100%);
+  margin-bottom: 50px;
+  margin-left: auto;
+  margin-right: auto;
 }

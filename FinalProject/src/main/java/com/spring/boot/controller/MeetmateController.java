@@ -150,10 +150,12 @@ public class MeetmateController {
 		}
 		mav.addObject("roomName", dto.getMeetTitle());
 		mav.addObject("roomType", "MEET");
-		mav.addObject("meetListNum", dto.getMeetListNum());
+		mav.addObject("listNum", dto.getMeetListNum());
+		mav.addObject("createType", 1);
+
 		//mav.setViewName("redirect:/meetMateList.action");
 		mav.setViewName("redirect:/createroom.action");
-
+		Thread.sleep(2000);
 		return mav;
 	}
 
@@ -173,9 +175,7 @@ public class MeetmateController {
 		} else if (user1 != null) {
 			infoDTO.setEmail(user1.getEmail()); 
 		}
-
-
-		
+	
 		String absolutePath = new File("").getAbsolutePath() + "\\";
 		String path = "FinalProject/src/main/resources/static/image/gatchiImage";
         File file = new File(path);
@@ -209,10 +209,13 @@ public class MeetmateController {
 		}
 
 		mav.addObject("roomName", dto.getMeetTitle());
-		mav.addObject("roomType", "MEET");
-		mav.addObject("meetListNum", dto.getMeetListNum());
+		mav.addObject("roomType", "CUMMUNITY");
+		mav.addObject("listNum", dto.getMeetListNum());
+		mav.addObject("createType", 2);
+
 		// mav.setViewName("redirect:/communiFindList.action");
 		mav.setViewName("redirect:/createroom.action");
+		Thread.sleep(2000);
 		return mav;
 	}
 		
@@ -242,11 +245,12 @@ public class MeetmateController {
 		}
 
 		List<GatchiDTO> searchMeetMateList = gatchiService.searchMeetMateList(searchKey, searchValue);
+		List<GatchiDTO> searchMeetMateList2 = gatchiService.searchMeetMateList2(searchKey, searchValue);
 
 		//정렬 버튼 클릭 시
 		if (sortOrder != null) {
 			List<GatchiDTO> sortLists = new ArrayList<>();
-	  
+			
 			if ("meetHitCount".equals(sortOrder)){
 				sortLists = gatchiService.sortByHitCountMeet();
 				// System.out.println(sortLists);
@@ -257,6 +261,7 @@ public class MeetmateController {
 				sortLists = gatchiService.sortByDdayMeet();
 				// System.out.println(sortLists);
 			}
+			mav.addObject("searchMeetMateList2", searchMeetMateList2);		
 			mav.addObject("sortLists", sortLists);
 			mav.setViewName("meetmate/meetMateList");
 	  
@@ -282,6 +287,7 @@ public class MeetmateController {
 
 		//mav.addObject("picture", picture);********************
 		mav.addObject("searchMeetMateList", searchMeetMateList);
+		mav.addObject("searchMeetMateList2", searchMeetMateList2);
 		mav.addObject("meetMateSlideLists", meetMateSlideLists);		
 		mav.addObject("meetLists", meetMateLists);	
 		mav.addObject("masterProfile", masterProfile);

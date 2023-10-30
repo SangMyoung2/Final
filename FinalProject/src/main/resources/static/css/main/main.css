@@ -17,6 +17,7 @@
 font-size: 23px;
   }
 
+  
   .card-item2 {
 	border: none;
 	overflow: hidden;
@@ -54,21 +55,22 @@ font-size: 23px;
 
 
   
-  
-  .card-item {
-	overflow: hidden;
-	text-overflow: ellipsis;
-    width: 560px;
-	background-color: white;
+.card-item {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 560px; /* 항상 560px로 고정 */
+    background-color: white;
     box-sizing: border-box;
     padding: 20px;
     text-align: center;
     margin: 10px;
     display: flex;
     flex-direction: column;
-	border-radius: 15px;
-   
-}
+    border-radius: 15px;
+} 
+
+
+
 .card-item .item-content {
     width: 555px;
     
@@ -223,8 +225,8 @@ a:hover {
     -webkit-box-pack: center;
     justify-content: center;
     width: 100%;
-    height: 80vh;
-	background-image: url('/image/main/main.jpg'); /* 이미지 파일의 경로를 여기에 넣어주세요 */
+    height: 90vh;
+	background-image: url('/image/main/main2.jpg'); /* 이미지 파일의 경로를 여기에 넣어주세요 */
     background-size: cover; /* 이미지가 헤더에 맞게 조절되도록 설정 */
     background-position: center; /* 이미지를 가운데 정렬 */
 
@@ -240,14 +242,27 @@ a:hover {
   
 }
 
+#main2{
+    background-color: #F5F5F5;
+    display: flex;
+    -webkit-box-pack: center;
+    justify-content: center;
+    width: 100%;
+    height: 87vh;
+	background-image: url('/image/main/main4.jpg'); /* 이미지 파일의 경로를 여기에 넣어주세요 */
+    background-size: cover; /* 이미지가 헤더에 맞게 조절되도록 설정 */
+    background-position: center; /* 이미지를 가운데 정렬 */
+  
+}
+
 #footer1{
     background-color: #F5F5F5;
     display: flex;
     -webkit-box-pack: center;
     justify-content: center;
     width: 100%;
-    height: 61vh;
-	background-image: url('/image/main/footer2.jpg'); /* 이미지 파일의 경로를 여기에 넣어주세요 */
+    height: 87vh;
+	background-image: url('/image/main/footer6.jpg'); /* 이미지 파일의 경로를 여기에 넣어주세요 */
     background-size: cover; /* 이미지가 헤더에 맞게 조절되도록 설정 */
     background-position: center; /* 이미지를 가운데 정렬 */
   
@@ -293,18 +308,6 @@ a:hover {
 
 
 
-@keyframes fadeInOut {
-	0% {
-	  opacity: 1;
-	}
-	50% {
-	  opacity: 0;
-	}
-	100% {
-	  opacity: 1;
-	}
-  }
-  
   .title h1 {
 	font-size: 150px;
 	font-weight: 300;
@@ -314,7 +317,7 @@ a:hover {
 	margin: 0;
 	padding: 0;
 	color: #6fe4dc;
-	animation: fadeInOut 6s infinite; /* 2초 동안 fadeInOut 애니메이션을 반복 */
+	
   }
 
 

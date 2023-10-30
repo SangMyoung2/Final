@@ -12,7 +12,7 @@
 </style>
 
 <link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/index.css}"/>
-<link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/meetmate/article.css}"/>
+<link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/meetmate/communiFindArticle.css}"/>
 <link rel="icon" type="image/png" th:href="@{http://localhost:8080/image/로고.png}"/>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"/>
 <script src="https://kit.fontawesome.com/1f0cefbb8e.js" crossorigin="anonymous"></script>
@@ -57,17 +57,19 @@
 
     // 홈 내용 표시 함수
     function showHomeContent() {
+        document.querySelector('#homeAndreviw').classList.remove('reviwAndhome');
         document.querySelector('.yj-img').style.display = 'block';
         document.querySelector('.yj-img2').style.display = 'none';
-        document.querySelector('.c-meet-members').style.display = 'block';
+        document.querySelector('.meet-members').style.display = 'block';
         document.querySelector('.meet-mypage').style.display = 'block';
     }
 
     // 리뷰 내용 표시 함수
     function showReviewContent() {
+        document.querySelector('#homeAndreviw').classList.add('reviwAndhome');
         document.querySelector('.yj-img').style.display = 'none';
         document.querySelector('.yj-img2').style.display = 'block';
-        document.querySelector('.c-meet-members').style.display = 'none';
+        document.querySelector('.meet-members').style.display = 'none';
         document.querySelector('.meet-mypage').style.display = 'none';
     }
 
@@ -229,7 +231,7 @@
             
             var progressBar = $(this).find('#progress');
             progressBar.css('width', percentage + '%');
-            progressBar.css('background-color', '#5CA8B5');
+            progressBar.css('background-color', '#00824a');
 
             var percentElement = $(this).find('#goal');
             percentElement.text(percentage + "%");
@@ -454,33 +456,14 @@ if(joincancel){
 }
 
 function outmeet(){
-let meetListNum = document.getElementById('meetListNum').value;
-let title = document.getElementById('meetTitle').textContent;
+    let meetListNum = document.getElementById('meetListNum').value;
+    let title = document.getElementById('meetTitle').textContent;
 
-let joincancel = confirm(title + ' 모임을 탈퇴 하시겠습니까?');
-if(joincancel){
-    $.ajax({
-            type: "POST",
-            url: "/meettimecheck",
-            data: {
-                meetListNum: meetListNum
-            },
-            success: function (response) {
-                if(response == 1){
-                    alert('탈퇴 되었습니다.');
-                    location.href = '/out-meet?meetListNum='+meetListNum;
-                }else if(response === 2){
-                    alert('모임 시간이 지났습니다.');
-                }
-                else{
-                    alert('다시 시도해 주세요..');
-                }
-            },
-            error: function () {
-                alert('다시 시도 해주세요..');
-            }
-        });
-}
+    let joincancel = confirm(title + ' 모임을 탈퇴 하시겠습니까?');
+    if(joincancel){
+        alert('탈퇴 되었습니다.');
+        location.href = '/out-meet?meetListNum='+meetListNum;
+    }
 }
 
 function testMeet() {
@@ -525,6 +508,62 @@ function hideTooltip() {
     tooltip.style.display = 'none';
 }
 
+function chatRoom(){
+    let meetListNum = document.getElementById('meetListNum').value;
+
+    var options = 'width=600px,height=700px,scrollbars=yes'
+            popupChat = window.open("articleChatRoom.action?meetListNum=" + meetListNum,"_blacnk",options);
+}
+
+setInterval(checkNotReadMessage, 500);
+
+function checkNotReadMessage(){
+
+    let user = {'userId': "article"};
+
+    let requestOption = {
+        method:'POST',
+        headers:{
+            'Content-Type':'application/json',
+        },
+        body:JSON.stringify(user)
+    };
+
+    fetch('/chat/checkNotReadMessage', requestOption)
+      .then(response => response.json())
+      .then(data => {
+        // 가져온 숫자를 화면에 표시
+        //console.log("데이타 : " + JSON.stringify(data));
+        console.log("checkNotReadMessage : " + JSON.stringify(data));
+        roomsNotReadMessage(data);
+      })
+      .catch(error => {
+        console.error('숫자 업데이트 중 오류 발생:', error);
+      });
+}
+
+function roomsNotReadMessage(data){
+    let rooms = document.getElementsByName("room");
+    let notReadCountObject = data.notReadCount;
+    let notReadCountKeys = Object.keys(notReadCountObject);
+    let notReadCountSize = notReadCountKeys.length;
+
+    // console.log("크기 : " + notReadCountSize);
+    // console.log(rooms[0].getAttribute('data-value'));
+    // console.log("위잉 : " + notReadCountKeys);
+
+    for(let i=0; i<notReadCountSize; i++){
+        for(let j=0; j<rooms.length; j++){
+            let roomId = rooms[j].getAttribute('data-value');
+            let notReadCountValue = notReadCountObject[roomId];
+            if(notReadCountValue <= 0){
+                continue;
+            }
+            rooms[j].textContent = notReadCountValue;
+        }
+    }
+}
+
 </script>
 
 </head>
@@ -540,7 +579,7 @@ function hideTooltip() {
     
 
     <div class="text-center">
-        <div class="btn-group" role="group" aria-label="Basic radio toggle button group" style="width: 800px; margin-bottom: 5px; margin-top: 50px;">
+        <div class="btn-group" id="homeAndreviw" role="group" aria-label="Basic radio toggle button group">
             <!-- 홈 버튼 -->
             <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
             <label class="btn btn-custom" for="btnradio1" onclick="showHomeContent()">
@@ -549,7 +588,7 @@ function hideTooltip() {
             </label>
             <!-- 리뷰 버튼 -->
             <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
-            <label class="btn btn-custom" for="btnradio2" onclick="showReviewContent()">
+            <label class="btn btn-custom" for="btnradio2">
                 <span style="color: #383535; font-size: 20px;">리뷰</span>
                 <div class="underline"></div>
             </label>
@@ -602,14 +641,17 @@ function hideTooltip() {
                             <span class="goal-number" id="current-amount" th:text="${meetListInfo.meetMemCnt}"></span>
                             <span class="goal-label">현재 인원</span>
                         </div>
-                        <div class="goal-stat" style="margin-left: 187px;">
+                        <div class="goal-stat" style="margin-left: 160px; text-align: right;">
                             <span class="goal-number" id="max-amount" th:text="${meetListInfo.meetMaxMemCnt}"></span>
                             <span class="goal-label">모집 인원</span>
                         </div>
                     </div>
 
-                    <button class="chat-btn" th:if="${meetMemStatus == 1 or meetMemStatus == 2}">
+                    <button class="chat-btn" th:if="${meetMemStatus == 1 or meetMemStatus == 2}" id="chatRoom" onclick="chatRoom()">
                         <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Speech%20Balloon.png" alt="Speech Balloon" width="25px" height="25px" /> 채팅 바로가기
+                        <span class="notreadcount" name="room" th:attr="data-value=${roomId}">
+                            -
+                        </span>
                         <input type="hidden" id="meet-memStatus" name="meetMemStatus" th:value="${meetMemStatus}" />
                     </button>
                       
@@ -629,7 +671,7 @@ function hideTooltip() {
                             <div class="like-hitCount">
                                 <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Beating%20Heart.png" alt="Beating Heart" style="width: 30px; height: 30px;"/>
                                 <div style="color: #383535; font-size: 17px;">좋아요
-                                    <span style="color: #5CA8B5; font-weight: bold;" th:text="${meetListInfo.meetLikeCount}">
+                                    <span style="color: #00824a; font-weight: bold;" th:text="${meetListInfo.meetLikeCount}">
                                     </span>
                                 </div>
                             </div>
@@ -637,7 +679,7 @@ function hideTooltip() {
                             <div class="like-hitCount">
                                 <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Eye%20in%20Speech%20Bubble.png" alt="Eye in Speech Bubble" style="width: 30px; height: 30px;"/>
                                 <div style="color: #383535; font-size: 17px;">조회수
-                                    <span style="color: #5CA8B5; font-weight: bold;" th:text="${meetListInfo.meetHitCount}">
+                                    <span style="color: #00824a; font-weight: bold;" th:text="${meetListInfo.meetHitCount}">
                                     </span>
                                 </div>
                             </div>
@@ -697,6 +739,7 @@ function hideTooltip() {
                                 모임 나가기
                             </button>
                         </form>
+                        
                         <form id="outForm" method="post">
                             <input type="hidden" name="meetListNum" th:value="${meetListNum}"/>
                             <input type="hidden" name="email" th:value="${dto.email}"/>
@@ -707,6 +750,7 @@ function hideTooltip() {
                                 모임 삭제
                             </button>
                         </form>
+                        
                         <form id="deleteForm" method="post">
                             <input type="hidden" name="meetListNum" th:value="${meetListNum}"/>
                         </form>
@@ -722,7 +766,7 @@ function hideTooltip() {
                     <p style="margin-top: 10px; margin-bottom: 5px;">
                         <span style="margin-left: 12px; font-size: 17px;">멤버목록</span>
                         <span th:each="meetListInfo : ${meetListInfo}" style="margin-left: 5px; color: #5CA8B5; font-size: 17px; font-weight: bold;" th:text="${meetListInfo.meetMemCnt}"></span>
-                        <span style="margin-right: 86px; color: #5CA8B5; font-size: 17px; font-weight: bold;">명</span>
+                        <span style="margin-right: 82px; color: #5CA8B5; font-size: 17px; font-weight: bold;">명</span>
                         <a th:if="${meetMemStatus == 1}" th:href="@{'/meetManager.action?meetListNum=' + ${meetListInfo.meetListNum}}" style="text-decoration: none;">
                             <span style="color: #adadad; font-size: 17px;">관리</span>
                             <i class="fa-solid fa-gear" style="color: #c3c3c3; font-size: 13px;"></i>
@@ -739,28 +783,21 @@ function hideTooltip() {
                         </div>
                     </div>
                     <hr style="width: 225px; border-width: 2px; border-color: #84A5FF;">
-
-                    <div style="margin-left: 12px; display: flex; align-items: center;">
-                        <p style="font-size: 17px; margin-right: 10px;">meetMate 목록</p>
-                        <select id="sortOption">
-                            <option value="default" selected disabled>선택</option>
-                            <option value="upcoming">모임임박순</option>
-                            <option value="latest">최신순</option>
-                            <option value="oldest">오래된순</option>
-                        </select>
-                    </div>
-                    
+             
+                    <p style="font-size: 17px; margin-right: 10px;">meetMate 목록</p>
                     <div class="meetmate-back">
-                        <div class="meet-title-list" th:each="onlyMeetListInfo : ${onlyMeetListInfo}" th:if="${onlyMeetListInfo.code} == ${meetListNum} and ${onlyMeetListInfo.meetStatus == 1}">
-                            <a class="pretty-link" th:href="@{'/meetArticle.action?meetListNum=' + ${onlyMeetListInfo.meetListNum}}">
-                                <div class="pretty-link-content">
-                                    <div class="only-meetTitle" th:text="${onlyMeetListInfo.meetTitle}"></div>
-                                </div>
-                            </a>
+                        <div th:if="${#lists.size(onlyMeetListInfo) > 0}">
+                            <div class="meet-title-list" th:each="onlyMeetListInfo : ${onlyMeetListInfo}">
+                                <a class="pretty-link" th:href="@{'/meetArticle.action?meetListNum=' + ${onlyMeetListInfo.meetListNum}}">
+                                    <div class="pretty-link-content">
+                                        <div class="only-meetTitle" th:text="${onlyMeetListInfo.meetTitle}"></div>
+                                    </div>
+                                </a>
+                            </div>
                         </div>
-                        <!-- <div th:if="${#lists.isEmpty(getOnlyMeetListInfo) and meetStatus != 1}">
+                        <div th:if="${#lists.size(onlyMeetListInfo) == 0}">
                             <p style="margin-top: 79px; font-size: 16px;">생성된 meetMate가 없습니다.</p>
-                        </div> -->
+                        </div>
                     </div>
                     
                     <form action="/communiFindGatchiChoice.action" method="GET">
