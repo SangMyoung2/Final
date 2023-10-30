@@ -9,13 +9,6 @@
         VALUES (#{email}, #{paid_amount}, #{paid_at}, #{pay_method,jdbcType=VARCHAR}, #{card_name,jdbcType=VARCHAR}, #{card_number,jdbcType=VARCHAR}, #{apply_num,jdbcType=VARCHAR}, #{name}, #{status})
     </insert>
 
-    <!-- 결제 성공 후 결제 금액에 맞게 User의 Point가 증가 -->
-    <update id="updateUserPoint" parameterType="com.spring.boot.dto.userPointDTO">
-        UPDATE userPoint
-        SET pointBalance = pointBalance + #{pointBalance}
-        WHERE email = #{email}
-    </update>
-    
     <update id="updateOrInsertUserPointWithMap" parameterType="java.util.Map">
     <!-- 해당 이메일 레코드가 존재하는지 확인 -->
     <selectKey resultType="int" keyProperty="count" order="BEFORE">
@@ -45,14 +38,28 @@
 
     <!-- 해당 email의 결제 내역을 가져오는 SQL -->
     <select id="findByEmail" resultType="com.spring.boot.dto.PaymentInfoDTO" parameterType="String">
-        SELECT * FROM PAYMENTINFO WHERE email = #{email}
+        SELECT * FROM PAYMENTINFO WHERE email = #{email} ORDER BY paid_at DESC
     </select>
 
-    <!-- 사용자 포인트 사용시 감소 -->
+    <!-- 모임 탈퇴시 포인트 환불 -->
+    <update id="updateUserPoint" parameterType="com.spring.boot.dto.userPointDTO">
+        update userPoint set pointBalance = pointBalance + #{pointBalance}
+        where email = #{email}
+    </update>
+
+    <!-- 모임 가입시 포인트 감소 -->
     <update id="updateUserUsePoint" parameterType="com.spring.boot.dto.userPointDTO">
         update userPoint set pointBalance = pointBalance - #{pointBalance}
         where email = #{email}
     </update>
+
+    <!-- 회원 가입 시 포인트 잔액을 0으로 초기화 -->
+    <insert id="insertUserAfterSignUp" parameterType="String">
+        INSERT INTO userPoint (email, pointBalance)
+        VALUES (#{email}, 0)
+    </insert>
+
+    
     <!-- 추가적인 결제 관련 SQL 문장을 작성할 수 있습니다. -->
 
 </mapper>

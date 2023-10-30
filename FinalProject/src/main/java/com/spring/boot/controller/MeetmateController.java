@@ -152,7 +152,7 @@ public class MeetmateController {
 		mav.addObject("roomType", "MEET");
 		mav.addObject("listNum", dto.getMeetListNum());
 		mav.addObject("createType", 1);
-
+		
 		//mav.setViewName("redirect:/meetMateList.action");
 		mav.setViewName("redirect:/createroom.action");
 		Thread.sleep(2000);
@@ -329,11 +329,11 @@ public class MeetmateController {
 			List<GatchiDTO> sortLists = new ArrayList<>();
 
 			if ("meetHitCount".equals(sortOrder)){
-			sortLists = gatchiService.sortByHitCountMeet();
+			sortLists = gatchiService.sortByHitCountFind();
 			} else if ("meetLikeCount".equals(sortOrder)) {
-			sortLists = gatchiService.sortByLikeCountMeet();
-			} else if ("meetDday".equals(sortOrder)) {
-			sortLists = gatchiService.sortByDdayMeet();
+			sortLists = gatchiService.sortByLikeCountFind();
+			} else if ("meetDate".equals(sortOrder)) {
+			sortLists = gatchiService.sortByCreatedFind();
 			}
 			mav.addObject("sortLists", sortLists);
 			mav.setViewName("meetmate/communiFindList");

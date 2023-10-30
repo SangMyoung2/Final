@@ -55,7 +55,7 @@ public interface GatchiService {
 
 	public void updateMeetStatusMate(GatchiDTO gatchiDTO) throws Exception;
 
-	public void updateMeetStatusFind(GatchiDTO gatchiDTO) throws Exception;
+	//public void updateMeetStatusFind(GatchiDTO gatchiDTO) throws Exception;
 
 	public List<GatchiDTO> sortByLikeCountMeet() throws Exception;
 
@@ -67,7 +67,7 @@ public interface GatchiService {
 
 	public List<GatchiDTO> sortByHitCountFind() throws Exception;
 
-	public List<GatchiDTO> sortByDdayFind() throws Exception;
+	public List<GatchiDTO> sortByCreatedFind() throws Exception;
 
 	//public void meetLikes(int meetListNum) throws Exception;
     //public GatchiLikeDTO meetLikes(String userEmail, int meetListNum);

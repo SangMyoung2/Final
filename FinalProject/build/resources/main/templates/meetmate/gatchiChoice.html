@@ -55,8 +55,7 @@
             
         <h1>GATCHI 개설하기</h1>
     
-        <form action="" method="post" name="myForm">
-        
+        <form action="" method="post" name="myForm">        
 
         <label>GATCHI 유형 선택</label>
         <div id="wrap_gatchiCheck"> 
@@ -74,8 +73,8 @@
             <label>communiFind 모임명</label>
             <label style="color: rgba(145, 142, 142, 0.808); font-weight: 150;">
                 모임명은 변경이 불가하오니, 충분히 고민 후 입력해주세요.</label>
-                <input type="text" id="meetName" name="meetName" placeholder="communiFind 모임명" 
-                    class="t1"  size="24" maxlength="24" required disabled/>
+            <input type="text" id="meetName" name="meetName" placeholder="communiFind 모임명" 
+                class="t1"  size="16" maxlength="16" required disabled/>
         </div>
         <br/><br/><br/>
 
@@ -249,7 +248,7 @@
         }
 
         if (response.v2.meta.totalCount === 0) {
-            return alert('검색결과가 없습니다. 정확한 주소를 입력하세요.');
+            return alert('검색결과가 없습니다. 정확한 주소를 입력해주세요.');
         }
 
         var htmlAddresses = [],
@@ -433,43 +432,44 @@
         }
     }       
 
-</script>
-
-<script>
 
     const sendIt = () => {
 
-    var f = document.myForm;
-    
-    var meetMate = document.getElementById("meetMate");
-    var communiFind = document.getElementById("communiFind");
-
-
-    if (!meetMate.checked && !communiFind.checked) {        
-        alert('Gatchi 유형을 선택하세요.')        
-        return;
-
-    }else{
-        // setMeetCheck(document.querySelector('input[name="meetcheck"]:checked'));
-        f.action = "/gatchiChoice.action";
-        f.submit();
+        var f = document.myForm;
         
-    }    
+        var meetMate = document.getElementById("meetMate");
+        var communiFind = document.getElementById("communiFind");
+        var meetName = document.getElementById("meetName");
 
-}
+        if (!meetMate.checked && !communiFind.checked) {        
+            alert('Gatchi 유형을 선택해주세요.')        
+            return;
+        // } 
+        
+        // if (communiFind.checked && meetName.value.trim() === '') {
+        //     alert('CommuniFind를 선택한 경우, 모임명을 입력해주세요.');
+        //     return;     이거 왜 안되지
+            
+        } else {
+            f.action = "/gatchiChoice.action";
+            f.submit();
+        }   
+    }
 
-function cancelAction() {//모임 생성을 했다가 취소 버튼을 눌렀을 경우 이동경로
-            var meetMate = document.getElementById("meetMate");
-            var communiFind = document.getElementById("communiFind");
 
-            if (meetMate.checked) {
-                location.href = '/meetMateList.action';
-            } else if (communiFind.checked) {
-                location.href = '/CommuniFindList.action';
-            } else {
-                location.href = '/';
-            }
+    function cancelAction() {//모임 생성을 했다가 취소 버튼을 눌렀을 경우 이동경로
+
+        var meetMate = document.getElementById("meetMate");
+        var communiFind = document.getElementById("communiFind");
+
+        if (meetMate.checked) {
+            location.href = '/meetMateList.action';
+        } else if (communiFind.checked) {
+            location.href = '/CommuniFindList.action';
+        } else {
+            location.href = '/';
         }
+    }
 
 </script>
 

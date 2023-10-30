@@ -126,10 +126,10 @@ public class GatchiServiceImpl implements GatchiService{
 		gatchiMapper.updateMeetStatusMate(gatchiDTO);
 	}
 	
-	@Override
-	public void updateMeetStatusFind(GatchiDTO gatchiDTO) throws Exception {
-		gatchiMapper.updateMeetStatusFind(gatchiDTO);
-	}
+//	@Override
+//	public void updateMeetStatusFind(GatchiDTO gatchiDTO) throws Exception {
+//		gatchiMapper.updateMeetStatusFind(gatchiDTO);
+//	}
 	
 	@Override
 	public List<GatchiDTO> sortByLikeCountMeet() throws Exception {
@@ -157,8 +157,8 @@ public class GatchiServiceImpl implements GatchiService{
 	}
 	
 	@Override
-	public List<GatchiDTO> sortByDdayFind() throws Exception {
-		return gatchiMapper.sortByDdayFind();
+	public List<GatchiDTO> sortByCreatedFind() throws Exception {
+		return gatchiMapper.sortByCreatedFind();
 	}
 
 	@Override
@@ -235,6 +235,8 @@ public class GatchiServiceImpl implements GatchiService{
 	public void updateChatRoom(GatchiDTO dto) throws Exception{
 		gatchiMapper.updateChatRoom(dto);
 	}
+
+	
 
 
 

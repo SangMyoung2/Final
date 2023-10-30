@@ -35,7 +35,7 @@ public interface GatchiMapper {
 
 	// public String masterPicture() throws Exception;
 
-	public GatchiDTO getReadData(int meetListNum) throws Exception;
+	//public GatchiDTO getReadData(int meetListNum) throws Exception;
 
 	public List<GatchiDTO> getMeetMateLists() throws Exception;
 
@@ -63,11 +63,11 @@ public interface GatchiMapper {
 
 	public List<GatchiDTO> sortByHitCountFind() throws Exception;
 
-	public List<GatchiDTO> sortByDdayFind() throws Exception;
+	public List<GatchiDTO> sortByCreatedFind() throws Exception;
 
 	public void updateMeetStatusMate(GatchiDTO gatchiDTO) throws Exception;
 
-	public void updateMeetStatusFind(GatchiDTO gatchiDTO) throws Exception;
+	//public void updateMeetStatusFind(GatchiDTO gatchiDTO) throws Exception;
 
 
 	//public void meetLikes(int meetListNum) throws Exception;

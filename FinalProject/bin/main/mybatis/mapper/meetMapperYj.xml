@@ -13,12 +13,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     and mi.meetMemStatus = 1
 </select>
 
+<select id="getMeetInfoByEmail" parameterType="com.spring.boot.dto.MeetInfoDTO" resultType="com.spring.boot.dto.MeetInfoDTO">
+    select * from meetinfo where meetListNum = #{meetListNum} and email = #{email} and meetMemStatus = 2
+</select>
+
 <select id="getAllCategories" resultType="com.spring.boot.dto.MeetCategoryDTO">
     select * from meetCategory order by meetCtgNum asc
 </select>
 
 <select id="getMeetListInfo" parameterType="int" resultType="com.spring.boot.dto.GatchiDTO">
     select * from gatchi where meetListNum = #{meetListNum}
+</select>
+
+<select id="getOnlyMeetListInfo" parameterType="int" resultType="com.spring.boot.dto.GatchiDTO">
+    select * from gatchi where meetCheck = 1 and meetStatus = 1 and code = #{meetListNum}
 </select>
 
 <select id="getMeetMembers" parameterType="int" resultType="com.spring.boot.dto.MeetInfoDTO">
@@ -28,6 +36,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     where mi.meetListNum = #{meetListNum}
     and (mi.meetMemStatus = 1 or mi.meetMemStatus = 2) order by u.name asc
 </select>
+
+<insert id="createMeetInCommuni" parameterType="com.spring.boot.dto.GatchiDTO">
+    insert into gatchi(
+	meetListNum,meetCheck,meetCtgNum,meetName,
+    meetTitle,meetContent,meetImage,meetDate,meetDday,
+    meetMemCnt,meetMaxMemCnt,meetHitCount,meetLikeCount,
+    meetHow,meetEntryfee,meetMoney,meetPlace,meetStatus,code) values (
+	#{meetListNum},#{meetCheck},#{meetCtgNum},#{meetName},
+	#{meetTitle},#{meetContent},#{meetImage},sysdate,#{meetDday},
+    1,#{meetMaxMemCnt},1,0,
+	#{meetHow},#{meetEntryfee},#{meetMoney},#{meetPlace},1,#{code})
+</insert>
 
 <select id="getMembersExMaster" parameterType="int" resultType="com.spring.boot.dto.MeetInfoDTO">
     select u.email,u.name,u.picture,u.role,mi.approvalStatus
@@ -91,6 +111,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <update id="updateMeetStatus" parameterType="com.spring.boot.dto.GatchiDTO">
     update gatchi set meetStatus = 0 where meetListNum = #{meetListNum}
+</update>
+
+<update id="updateCode" parameterType="com.spring.boot.dto.GatchiDTO">
+    update gatchi set code = 0 where code = #{meetListNum}
 </update>
 
 <update id="meetStatusCompletion" parameterType="com.spring.boot.dto.GatchiDTO">
@@ -158,6 +182,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <select id="getMeetInfo" parameterType="int" resultType="com.spring.boot.dto.MeetInfoDTO">
     select * from meetinfo where meetListNum = #{meetListNum}
+</select>
+
+
+<select id="getAllMeetReviews"  resultType="com.spring.boot.dto.MeetReviewDTO">
+    select * from meetreview order by meetlistnum DESC
+</select>
+
+
+
+<select id="getlatlng" parameterType="int" resultType="com.spring.boot.dto.MapDTO">
+    select l.* from latlng l, gatchi gc where gc.meetListNum = #{meetListNum} and gc.meetListNum = l.meetListNum
+</select>
+
+<select id="getMeetInfoCount" parameterType="int" resultType="int">
+    select count(*) from meetinfo where meetListNum = #{meetListNum}
+</select>
+
+<select id="getMeetInfoApprovalstatusCount" parameterType="int" resultType="int">
+    select count(*) from meetinfo where meetListnum = #{meetListNum} and APPROVALSTATUS = 1
 </select>
 
 </mapper>

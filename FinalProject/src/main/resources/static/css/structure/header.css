@@ -1,4 +1,8 @@
 
+a.link:hover {
+	text-decoration: none;
+}
+
 body{
 	
 	overflow: auto;
@@ -128,7 +132,7 @@ label[for="sidebar-btn"] {
 }
 
 .menu_item {
-    width: 120px;
+    width: 150px;
     text-align: center;
 	font-size: 20px;
 }
@@ -140,7 +144,7 @@ label[for="sidebar-btn"] {
 }
 
 .top_header{
-	height: 7px;
+	height: 15px;
     background-color: #5CA8B5;
 }
 
@@ -167,6 +171,10 @@ label[for="sidebar-btn"] {
 	z-index: 1000;
     width: 400px;
 	align-items: center;
+}
+
+.menubar{
+	display: none;
 }
 
 @media screen and (max-width: 1100px) {
@@ -202,9 +210,7 @@ label[for="sidebar-btn"] {
 #menubarBody{
 	display: none;
 }
-.menubar{
-	display: none;
-}
+
 @media screen and (max-width: 850px){
 	
 	.hbody{
@@ -249,9 +255,15 @@ label[for="sidebar-btn"] {
 	}
 	
 	.submenubar {
+<<<<<<< HEAD
+		height: 0; /*ul�쓽 �넂�씠瑜� �븞蹂댁씠寃� 泥섎━*/
+		overflow: hidden;
+		margin: 0px;
+=======
 		height: 0 !important; /*ul의 높이를 안보이게 처리*/
 		overflow: hidden !important;
 		margin: 0px !important;
+>>>>>>> d4c0ff578cbfdd9b1a3f4766f8678c570c3a8533
 	}
 	.menubar > li:hover {
 		background-color: #5ca8b5 !important;
@@ -259,8 +271,13 @@ label[for="sidebar-btn"] {
 	}
 	
 	.menubar > li:hover .submenubar {
+<<<<<<< HEAD
+		height: 250px; /*�꽌釉뚮찓�돱 li�븳媛쒖쓽 �넂�씠 50*5*/
+		transition-duration: 1s;
+=======
 		height: 400px !important; /*서브메뉴 li한개의 높이 50*5*/
 		transition-duration: 1s !important;
+>>>>>>> d4c0ff578cbfdd9b1a3f4766f8678c570c3a8533
 	}
 
 	.menubarsub{

@@ -6,15 +6,15 @@ footer {
     width: 100%;
     z-index: 9999;
     padding: 80px 0 116px;
-    background: #cfcfcf
+    background: #eeeeee;
 }
 
 #pageFooter {
 	/* grid-area: footer;
 	
-    height: 300px; /* 푸터 높이 조정 */
+    height: 300px; /* �뫖�꽣 �넂�씠 議곗젙 */
     color: #000000;
-	background: #cfcfcf;
+	background: #eeeeee;
 width: 100%;
 max-width: 1189px;
 display: flex;
@@ -29,9 +29,9 @@ position: relative;
 }
 
 .footer_title {
-    
+    line-height: 20px;
     font-weight: bold;
-
+	font-size: 18px;
 }
 
 .footer_a{

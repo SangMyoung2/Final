@@ -12,10 +12,14 @@ body {
   position: relative;
   margin-bottom: 90px;
   
+  border-radius: 15px; 
 }
 .col.s6 > .btn {
    width: 85%;
-   margin-left: 26px;
+   margin-left: 15px;
+   border-radius: 5px;
+   margin-top: 20px;
+   font-weight: bold;
 }
 .gender-male,.gender-female {
   display: inline-block;
@@ -29,10 +33,28 @@ radio:required {
 
 
 
-.row {margin-bottom: 10px;}
+.row {
+	margin-bottom: 10px; 
+	width: 85%; 
+    margin-top: 10px; 
+}
 
 .ngl {
   position: absolute;
   top: -20px;
   right: -20px;
 }
+
+#name, #userName, #password, #password2, #tel {
+	letter-spacing: 0.5pt;
+}
+
+#send {
+	height: 47px; 
+	line-height: 49px; 
+  	width: 35%;
+	margin-left: -44px;
+	border-radius: 5px; 
+	font-weight: bold;
+}
+

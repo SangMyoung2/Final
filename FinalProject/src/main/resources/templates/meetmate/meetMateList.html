@@ -72,10 +72,10 @@
     </main>  
   </div> -->
   <h2 th:if="${#httpSession.getAttribute('user1') != null}" 
-    th:text="|${session.user1.name}님의 참여를 기다리는 MeetMate List|" 
+    th:text="|${session.user1.name} 님의 참여를 기다리는 MeetMate List|" 
     style="text-align: center; font-weight: normal; margin-top: 100px;"></h2>
   <h2 th:if="${#httpSession.getAttribute('user') != null}" 
-    th:text="|${session.user.name}님의 참여를 기다리는 MeetMate List|" 
+    th:text="|${session.user.name} 님의 참여를 기다리는 MeetMate List|" 
     style="text-align: center; font-weight: normal; margin-top: 100px;"></h2>
 <br/>
 

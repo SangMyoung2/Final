@@ -65,6 +65,8 @@ function onConnected() {
     
     // connectingElement.classList.add('hidden');
     setInterval(updateNumber, 500);
+    setInterval(countZeroData, 1000);
+    
 }
 
 let chatMessage;
@@ -210,7 +212,8 @@ function sendMessage(event) {
             userId: userId,
             message: messageContent,
             type: 'TALK',
-            readCount: 0
+            readCount: 0,
+            picture:""
         };
         console.log(messageContent)
         stompClient.send("/pub/chat/sendMessage", {}, JSON.stringify(chatMessage));
@@ -279,7 +282,7 @@ function onMessageReceived(payload) {
 
     var messageElement = document.createElement('li');
     var textElement = document.createElement('div');
-
+    var sideElement = document.createElement('div');
     if (chat.type === 'ENTER') {  // chatType 이 enter 라면 아래 내용
         messageElement.classList.add('event-message');
         chat.content = chat.sender + chat.message;
@@ -293,7 +296,7 @@ function onMessageReceived(payload) {
     }
     
     else if(chat.sender === username) { // 내가 보낸 채팅 이라면
-
+        sideElement.classList.add('myDateDiv');
         if(chat.type === 'IMAGE'){
             messageElement.classList.add('chat-myMessage');
             var imageElement = document.createElement('img');
@@ -326,14 +329,17 @@ function onMessageReceived(payload) {
     }
     else{// 내가 보낸게 아니라면
         console.log("내가 보낸게 아니라면 : " + chat.sender);
-
+        
         // 이미지일때
         if(chat.type === 'IMAGE'){
+            
             messageElement.classList.add('chat-message');
 
             if(isReciveChat===false){
+                sideElement.classList.add('newDateDiv');
+
                 var avatarElement = document.createElement('img');
-                avatarElement.src="/image/chat/none.png"
+                avatarElement.src="/image/login/" + chat.picture;
                 
                 var usernameElement = document.createElement('span');
                 var usernameText = document.createTextNode(chat.sender);
@@ -344,22 +350,27 @@ function onMessageReceived(payload) {
                 messageElement.appendChild(avatarElement);
                 isReciveChat = true;
                 isSendCaht = false;
+                textElement.classList.add('newSendImageDiv')
             }
-
+            else{
+                sideElement.classList.add('dateDiv');
+                textElement.classList.add('sendImageDiv')
+            }
             let imageElement = document.createElement('img');
             imageElement.classList.add('sendImage');
             imageElement.src = chat.message;
             textElement.appendChild(imageElement);
-            textElement.classList.add('sendImageDiv')
+            
         }
         // 이모티콘 일때
         else if(chat.type === 'EMOTICON'){
             messageElement.classList.add('chat-message');
             console.log("이모티콘 들어옴.")
             if(isReciveChat===false){
+                sideElement.classList.add('newDateDiv');
                 console.log("isReciveChat === false 들어옴")
                 var avatarElement = document.createElement('img');
-                avatarElement.src="/image/chat/none.png"
+                avatarElement.src="/image/login/" + chat.picture;
                 
                 var usernameElement = document.createElement('span');
                 var usernameText = document.createTextNode(chat.sender);
@@ -370,21 +381,26 @@ function onMessageReceived(payload) {
                 messageElement.appendChild(avatarElement);
                 isReciveChat = true;
                 isSendCaht = false;
+                textElement.classList.add('newSendImageDiv')
+            }else{
+                sideElement.classList.add('dateDiv');
+                textElement.classList.add('sendImageDiv')
             }
 
             let imageElement = document.createElement('img');
             imageElement.classList.add('sendEmoticon');
             imageElement.src = chat.message;
             textElement.appendChild(imageElement);
-            textElement.classList.add('sendImageDiv')
+            
         }
         else{
             if(isReciveChat===false || sendUser != chat.sender){
+                sideElement.classList.add('newDateDiv');
                 sendUser = chat.sender;
                 messageElement.classList.add('chat-message');
 
                 var avatarElement = document.createElement('img');
-                avatarElement.src="/image/chat/none.png";
+                avatarElement.src="/image/login/" + chat.picture;
                 avatarElement.classList.add('profile');
                 var avatarText = document.createTextNode(chat.sender);
                 avatarElement.appendChild(avatarText);
@@ -400,6 +416,7 @@ function onMessageReceived(payload) {
                 isSendCaht = false;
             }
             else{
+                sideElement.classList.add('dateDiv');
                 messageElement.classList.add('chat-message');
                 textElement.classList.add('sendtext');
             }
@@ -413,28 +430,47 @@ function onMessageReceived(payload) {
     if(chat.type != 'ENTER' && chat.type != 'LEAVE'){
         // 읽음 count
         if(chat.sender === username){
+            
             var readCountElement = document.createElement('p');
-            readCountElement.classList.add('readCount');
+            readCountElement.classList.add('myReadCount');
             readCountElement.setAttribute('name', 'readCnt');
             readCountElement.value = chat.readCount;
             var readCountText = document.createTextNode(chat.readCount);
             readCountElement.appendChild(readCountText);
-            messageElement.appendChild(readCountElement);
+            sideElement.appendChild(readCountElement);
+
+            var dateElement = document.createElement('p');
+            dateElement.classList.add('chatDate');
+            var dateText = document.createTextNode(chat.time);
+            dateElement.appendChild(dateText);
+            sideElement.appendChild(dateElement);
+            
+            messageElement.appendChild(sideElement);
             messageElement.appendChild(textElement);
         }
         else{
             messageElement.appendChild(textElement);
+            
             var readCountElement = document.createElement('p');
             readCountElement.classList.add('readCount');
             readCountElement.setAttribute('name', 'readCnt');
             readCountElement.value = chat.readCount;
             var readCountText = document.createTextNode(chat.readCount);
             readCountElement.appendChild(readCountText);
-            messageElement.appendChild(readCountElement);
+            sideElement.appendChild(readCountElement);
+
+            var dateElement = document.createElement('p');
+            dateElement.classList.add('chatDate');
+            var dateText = document.createTextNode(chat.time);
+            dateElement.appendChild(dateText);
+            sideElement.appendChild(dateElement);
+
+            messageElement.appendChild(sideElement);
         }
     }
     //messageElement.appendChild(messageText);
     
+
     messageArea.appendChild(messageElement);
     messageArea.scrollTop = messageArea.scrollHeight;
 }
@@ -447,7 +483,7 @@ function messageDiv(chatMessages){
     let chat = chatMessages;
     var messageElement = document.createElement('li');
     var textElement = document.createElement('div');
-
+    var sideElement = document.createElement('div');
     if (chat.type === 'ENTER') {  // chatType 이 enter 라면 아래 내용
         messageElement.classList.add('event-message');
         chat.content = chat.sender + chat.message;
@@ -461,7 +497,7 @@ function messageDiv(chatMessages){
     }
     
     else if(chat.sender === username) { // 내가 보낸 채팅 이라면
-
+        sideElement.classList.add('myDateDiv');
         if(chat.type === 'IMAGE'){
             messageElement.classList.add('chat-myMessage');
             var imageElement = document.createElement('img');
@@ -494,14 +530,17 @@ function messageDiv(chatMessages){
     }
     else{// 내가 보낸게 아니라면
         console.log("내가 보낸게 아니라면 : " + chat.sender);
-
+        
         // 이미지일때
         if(chat.type === 'IMAGE'){
+            
             messageElement.classList.add('chat-message');
 
             if(isReciveChat===false){
+                sideElement.classList.add('newDateDiv');
+
                 var avatarElement = document.createElement('img');
-                avatarElement.src="/image/chat/none.png"
+                avatarElement.src="/image/login/" + chat.picture;
                 
                 var usernameElement = document.createElement('span');
                 var usernameText = document.createTextNode(chat.sender);
@@ -512,22 +551,27 @@ function messageDiv(chatMessages){
                 messageElement.appendChild(avatarElement);
                 isReciveChat = true;
                 isSendCaht = false;
+                textElement.classList.add('newSendImageDiv')
             }
-
+            else{
+                sideElement.classList.add('dateDiv');
+                textElement.classList.add('sendImageDiv')
+            }
             let imageElement = document.createElement('img');
             imageElement.classList.add('sendImage');
             imageElement.src = chat.message;
             textElement.appendChild(imageElement);
-            textElement.classList.add('sendImageDiv')
+            
         }
         // 이모티콘 일때
         else if(chat.type === 'EMOTICON'){
             messageElement.classList.add('chat-message');
             console.log("이모티콘 들어옴.")
             if(isReciveChat===false){
+                sideElement.classList.add('newDateDiv');
                 console.log("isReciveChat === false 들어옴")
                 var avatarElement = document.createElement('img');
-                avatarElement.src="/image/chat/none.png"
+                avatarElement.src="/image/login/" + chat.picture;
                 
                 var usernameElement = document.createElement('span');
                 var usernameText = document.createTextNode(chat.sender);
@@ -538,21 +582,26 @@ function messageDiv(chatMessages){
                 messageElement.appendChild(avatarElement);
                 isReciveChat = true;
                 isSendCaht = false;
+                textElement.classList.add('newSendImageDiv')
+            }else{
+                sideElement.classList.add('dateDiv');
+                textElement.classList.add('sendImageDiv')
             }
 
             let imageElement = document.createElement('img');
             imageElement.classList.add('sendEmoticon');
             imageElement.src = chat.message;
             textElement.appendChild(imageElement);
-            textElement.classList.add('sendImageDiv')
+            
         }
         else{
             if(isReciveChat===false || sendUser != chat.sender){
+                sideElement.classList.add('newDateDiv');
                 sendUser = chat.sender;
                 messageElement.classList.add('chat-message');
 
                 var avatarElement = document.createElement('img');
-                avatarElement.src="/image/chat/none.png";
+                avatarElement.src="/image/login/" + chat.picture;
                 avatarElement.classList.add('profile');
                 var avatarText = document.createTextNode(chat.sender);
                 avatarElement.appendChild(avatarText);
@@ -568,6 +617,7 @@ function messageDiv(chatMessages){
                 isSendCaht = false;
             }
             else{
+                sideElement.classList.add('dateDiv');
                 messageElement.classList.add('chat-message');
                 textElement.classList.add('sendtext');
             }
@@ -581,28 +631,47 @@ function messageDiv(chatMessages){
     if(chat.type != 'ENTER' && chat.type != 'LEAVE'){
         // 읽음 count
         if(chat.sender === username){
+            
             var readCountElement = document.createElement('p');
-            readCountElement.classList.add('readCount');
+            readCountElement.classList.add('myReadCount');
             readCountElement.setAttribute('name', 'readCnt');
             readCountElement.value = chat.readCount;
             var readCountText = document.createTextNode(chat.readCount);
             readCountElement.appendChild(readCountText);
-            messageElement.appendChild(readCountElement);
+            sideElement.appendChild(readCountElement);
+
+            var dateElement = document.createElement('p');
+            dateElement.classList.add('chatDate');
+            var dateText = document.createTextNode(chat.time);
+            dateElement.appendChild(dateText);
+            sideElement.appendChild(dateElement);
+            
+            messageElement.appendChild(sideElement);
             messageElement.appendChild(textElement);
         }
         else{
             messageElement.appendChild(textElement);
+            
             var readCountElement = document.createElement('p');
             readCountElement.classList.add('readCount');
             readCountElement.setAttribute('name', 'readCnt');
             readCountElement.value = chat.readCount;
             var readCountText = document.createTextNode(chat.readCount);
             readCountElement.appendChild(readCountText);
-            messageElement.appendChild(readCountElement);
+            sideElement.appendChild(readCountElement);
+
+            var dateElement = document.createElement('p');
+            dateElement.classList.add('chatDate');
+            var dateText = document.createTextNode(chat.time);
+            dateElement.appendChild(dateText);
+            sideElement.appendChild(dateElement);
+
+            messageElement.appendChild(sideElement);
         }
     }
     //messageElement.appendChild(messageText);
     
+
     messageArea.appendChild(messageElement);
     messageArea.scrollTop = messageArea.scrollHeight;
 
@@ -690,6 +759,7 @@ function countReadData(data){
     // console.log("read 갯수 : " + read.length);
     // console.log("myRead 갯수 : " + myRead.length);
     if(read.length <= 0 && myRead.length <= 0) {
+
         return;
     }
 
@@ -699,12 +769,12 @@ function countReadData(data){
 
             let childDiv = read[j].querySelector("div")
             let readcnt = read[j].querySelector("p");
-            if(readcnt != null && readcnt < 0){
+            if(readcnt != null && readcnt.value < 0){
                 read[j].classList.add("chat-Message-ok")
                 read[j].classList.remove("chat-message")
                 readcnt.remove();
             }
-            else if(data.data[i].message === childDiv.textContent ||
+            else if(readcnt != null && data.data[i].message === childDiv.textContent ||
                 data.data[i].type === 'IMAGE' || data.data[i].type === 'EMOTICON'){
                 
                 // console.log('받은 메세지 : ' + i)
@@ -723,13 +793,13 @@ function countReadData(data){
             // console.log("myChat");
             let childMyDiv = myRead[j].querySelector("div")
             
-            let myreadcnt = read[j].querySelector("p");
-            if(myreadcnt != null && myreadcnt < 0){
+            let myreadcnt = myRead[j].querySelector("p");
+            if(myreadcnt != null && myreadcnt.value < 0){
                 myRead[j].classList.add("chat-myMessage-ok")
                 myRead[j].classList.remove("chat-myMessage")
                 myreadcnt.remove();
             }
-            else if(data.data[i].message === childMyDiv.textContent ||
+            else if(myreadcnt != null && data.data[i].message === childMyDiv.textContent ||
                 data.data[i].type === 'IMAGE' || data.data[i].type === 'EMOTICON'){
                 // console.log('내가보낸 메세지 : ' + i)    
                 if(data.data[i].readCount <= 0){
@@ -741,6 +811,37 @@ function countReadData(data){
                 myreadcnt.textContent = data.data[i].readCount;
                 myreadcnt.value = data.data[i].readCount;
             }
+        }
+    }
+}
+
+function countZeroData(){
+    let read = document.getElementsByClassName("chat-message");
+    let myRead = document.getElementsByClassName("chat-myMessage");
+    console.log("들어옴들어옴들어옴")
+    if(read.length <= 0 && myRead.length <= 0) {
+        return;
+    }
+
+    for(let j=0; j<read.length; j++){
+        // let readcntDiv = read[j].querySelector("div");
+        let readcnt = read[j].querySelector("readCount");
+        if(readcnt != null && parseInt(readcnt.textContent) <= 0) {
+            read[j].classList.add("chat-Message-ok")
+            read[j].classList.remove("chat-message")
+            readcnt.remove();
+        }
+    }
+
+    for(let j=0; j<myRead.length; j++){
+        console.log("myChat");
+        let myreadcnt = myRead[j].querySelector(".myReadCount");
+        let chatDate = myRead[j].querySelector(".chatDate");
+        if(myreadcnt != null && parseInt(myreadcnt.textContent) <= 0) {
+            myRead[j].classList.add("chat-myMessage-ok")
+            myRead[j].classList.remove("chat-myMessage")
+            // chatDate.style.height = 7 + 'px';
+            myreadcnt.remove();
         }
     }
 }
@@ -806,6 +907,25 @@ emoticonMessageBtn.addEventListener('click', function(){
         isHidden = true;
     }
 });
+
+document.getElementById('messageArea').addEventListener('click', function (event) {
+    // 클릭된 요소 확인
+    const clickedElement = event.target;
+    
+    if (clickedElement === this || clickedElement.tagName === 'LI' || clickedElement.tagName === 'DIV' || clickedElement.tagName === 'IMG') {
+        if(!isHidden){
+            sendMessageBtn.classList.remove('hidden');
+            hiddenEmoticon.classList.add('hidden');
+            messageArea.classList.remove('emoticonArea');
+            isHidden = true;
+        }
+    }
+});
+
+function returnRoom(){
+    location.href = "/chatlist.action";
+}
+
 
 window.onload = function() {
     connect();
