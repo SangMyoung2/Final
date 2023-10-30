@@ -38,7 +38,7 @@ public class BaseAuthController {
 	@Autowired
 	private UserService userService;
 
-   @Autowired
+    @Autowired
     private UserRepository userRepository;
 
 	@Autowired

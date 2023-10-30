@@ -19,11 +19,13 @@ public class OauthSuccessHandler implements AuthenticationSuccessHandler {
         HttpSession session = request.getSession();
         Object principal = authentication.getPrincipal();
 
+        System.out.println("if문 전 : ");
+        
         if (principal instanceof SessionUser) {
             SessionUser userDetails = (SessionUser) principal;
             SessionUser sessionUser = new SessionUser(userDetails);
             session.setAttribute("user", sessionUser);
-
+            System.out.println("세션 유저 : " + sessionUser.getEmail());
         }
 
         // 리다이렉트 수행

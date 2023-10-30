@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.spring.boot.dto.PaymentInfoDTO;
 import com.spring.boot.dto.PointHistoryDTO;
 import com.spring.boot.dto.SessionUser;
+import com.spring.boot.dto.userPointDTO;
 import com.spring.boot.model.Users;
 import com.spring.boot.service.PaymentService;
 import com.spring.boot.service.PointHistoryService;
@@ -126,6 +127,30 @@ public class PaymentController {
     @GetMapping("/payFailurePage")
     public String payFailurePage() {
         return "pay/payFailurePage"; 
+    }
+
+    @GetMapping("/socialLogin")
+    public String socialLogin(HttpServletRequest req) {
+
+        HttpSession session = req.getSession();
+        
+        // Users social = (Users)session.getAttribute("user");
+        SessionUser sessionUser = (SessionUser)session.getAttribute("user"); // 소셜 로그인
+
+        String user = sessionUser.getEmail();
+        try {
+            userPointDTO dto = paymentService.getReadUserPoint(user);
+
+            if(dto == null){
+                paymentService.insertUserAfterSignUp(user);
+            }
+
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+        
+        return "/";
+    
     }
 
 
