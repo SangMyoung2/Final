@@ -87,7 +87,7 @@
         <option> --정렬--</option>
         <option value="meetHitCount"> 조회순</option>
         <option value="meetLikeCount"> 좋아요순</option>
-        <option value="meetDday"> 만남일순</option>
+       
         </select>
         </form>
         
@@ -156,9 +156,10 @@
                           <span th:case="5"><button class="ctgButton" disabled="disabled">운동·액티비티</button></span>
                         </span>
                         <h3 class="card__title" th:text="${items.meetTitle}">글제목</h3> <br/>   
-                      </span><br/>
-                    <span class="card__status" th:text="'일시: ' + ${items.meetDday} + ', 장소: ' + ${items.meetPlace.replaceAll('.*?([^ ]+구).*', '$1')}">일시, 좋아요</span><br/>
-                    <span class="card__status" th:text="' 참여인원 : ' + ${items.meetMemCnt} + ' / ' + ${items.meetMaxMemCnt}">현재 참석인원 / 최대인원</span>
+                      </span>
+                      <span class="card__status" th:text="'장소: ' + ${items.meetPlace.replaceAll('.*?([^ ]+구).*', '$1')} + '　　　　　　　'">일시, 좋아요</span><br/>
+                      <span class="card__status" th:text="' 좋아요: ' + ${items.meetLikeCount} + ', 조회수: ' + ${items.meetHitCount} + '　　　　　'">좋아요 수, 조회수</span><br/>
+                      <span class="card__status" th:text="' 참여인원 : ' + ${items.meetMemCnt} + ' / ' + ${items.meetMaxMemCnt} + '　　　　　　'">현재 참석인원 / 최대인원</span>
                   </div>
                 </div>
               </div>
