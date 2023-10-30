@@ -125,7 +125,9 @@
                 <div class="req-title">참여 대기 멤버</div>
                 <div class="req-background" th:each="meetWait : ${meetWait}">
                     <div class="round-image">
-                        <img th:src="@{/image/gatchiImage/1111.jpg}" alt="회원 프사(임의)"/>
+                        <!-- <img th:src="@{/image/gatchiImage/1111.jpg}" alt="회원 프사(임의)"/> -->
+                        <img th:if="${meetWait.role != 'GUEST'}" th:src="@{image/login/__${meetWait.picture}__}">
+
                     </div>
                     <div class="mem-request" th:text="${meetWait.name}"></div>
                     <div class="actions">
