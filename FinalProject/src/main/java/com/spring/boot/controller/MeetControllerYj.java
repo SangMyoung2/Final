@@ -1,6 +1,8 @@
 package com.spring.boot.controller;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -361,6 +363,22 @@ public class MeetControllerYj {
 		meetReviewDTO.setMeetReviewNum(meetReviewNum);
 
 		meetServiceYj.deleteMeetReview(meetReviewDTO);
+
+		// String srcFileName = null;
+
+        // try{
+        //     srcFileName = URLDecoder.decode(meetReviewImg,"UTF-8");
+        //     //UUID가 포함된 파일이름을 디코딩
+        //  String absolutePath = new File("").getAbsolutePath() + "\\";
+        //  String path = "FinalProject/src/main/resources/static/image/reviewImage";
+        //     File file = new File(absolutePath + path +File.separator + srcFileName);
+        //     boolean result = file.delete();
+        //  System.out.println(result + "11111111111111111111111111111111111111111111111111");
+           
+            
+        // }catch (UnsupportedEncodingException e){
+        //     e.printStackTrace();
+        // }
 
 		if (meetCheck == 1) {
 			return new ModelAndView("redirect:/meetArticle.action?meetListNum=" + meetListNum);

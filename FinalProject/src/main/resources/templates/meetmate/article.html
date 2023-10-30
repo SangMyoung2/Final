@@ -1016,6 +1016,8 @@ function roomsNotReadMessage(data){
 
                         <span class="card-text d-flex delete-review" th:if="${#httpSession.getAttribute('user1') != null} and ${session.user1.email == meetReview.email}" th:data-email="${meetReview.email}" th:data-meetListNum="${meetListNum}" th:data-meetReviewNum="${meetReview.meetReviewNum}" onclick="deleteReview(this.getAttribute('data-email'), this.getAttribute('data-meetListNum'), this.getAttribute('data-meetReviewNum'))">삭제</span>
                         <span class="card-text d-flex delete-review" th:if="${#httpSession.getAttribute('user') != null} and ${session.user.email == meetReview.email}" th:data-email="${meetReview.email}" th:data-meetListNum="${meetListNum}" th:data-meetReviewNum="${meetReview.meetReviewNum}" onclick="deleteReview(this.getAttribute('data-email'), this.getAttribute('data-meetListNum'), this.getAttribute('data-meetReviewNum'))">삭제</span>
+
+                        <input type="hidden" name="meetReviewImg" id="meetReviewImg" th:value="${meetReview.meetReviewImg}"/>
                     </div>
                 </div>
             </div>
