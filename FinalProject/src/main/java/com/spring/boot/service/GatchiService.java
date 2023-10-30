@@ -12,6 +12,8 @@ public interface GatchiService {
 	//BoardMapper로 연결된다.
 	
 	public void createGatchi(GatchiDTO dto) throws Exception;
+	
+	public void createCommuni(GatchiDTO dto) throws Exception;
 
 	public void createMeetInfo(MeetInfoDTO infoDTO) throws Exception;
 
@@ -94,4 +96,8 @@ public interface GatchiService {
 	public List<GatchiDTO> getReadDataInUser(String useremail) throws Exception;
 	public List<GatchiDTO> getReadDataInListNum(int meetListNum) throws Exception;
 	public void updateChatRoom(GatchiDTO dto) throws Exception;
+
+	public String getProfileByUsers(int meetListNum) throws Exception;
+
+
 }

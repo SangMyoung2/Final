@@ -79,8 +79,7 @@
     style="text-align: center; font-weight: normal; margin-top: 100px;"></h2>
 <br/>
 
-  <div class="search-input-box">
-
+  <div class="search-input-box" style="display: flex; align-items: center;     margin-top: 50px;">
     <button type="button" id="createBtn" class="createBtn" 
       onclick="javascript:location.href='/gatchiChoice.action';"> 생성하기 </button>
     <div class="searchBoxContainer">
@@ -121,9 +120,8 @@
 
   <div class="c2" style="margin-top: 100px;">
     <ul class="cards">
-      <li name="meetLists" class="meetList_hidden" th:each="items : ${searchMeetMateList}" 
-        th:style="${items.meetStatus == 2 ? 'border-radius: 40px;' : ''}" 
-        th:unless="${items.meetStatus == 3}">
+      <li name="meetLists" class="meetList_hidden" th:each="items : ${#lists.isEmpty(searchMeetMateList) ? sortLists : searchMeetMateList}"
+        th:style="${items.meetStatus == 2 ? 'border-radius: 40px;' : ''}" th:unless="${items.meetStatus == 0}">
           <div class="card">
             <input type="checkbox" th:id="'heartBtn' + ${items.meetListNum}" class="heartBtn" name="likeBtn" th:value="${items.meetListNum}">
             <label th:for="'heartBtn' + ${items.meetListNum}" th:id="'likeBtnLabel' + ${items.meetListNum}" class="heart"></label>

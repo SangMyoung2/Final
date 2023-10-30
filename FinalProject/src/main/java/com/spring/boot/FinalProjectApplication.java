@@ -16,7 +16,7 @@ import net.nurigo.java_sdk.exceptions.CoolsmsException;
 
 @SpringBootApplication
 @EnableMongoRepositories
-// @EnableScheduling
+@EnableScheduling
 public class FinalProjectApplication {
 
 	//주석대신 사용하려면 의존성주입을 여기서 해줘야한다.

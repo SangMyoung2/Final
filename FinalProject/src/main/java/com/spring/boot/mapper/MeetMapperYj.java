@@ -15,17 +15,13 @@ public interface MeetMapperYj {
 
     public MeetInfoDTO getMeetMaster(int meetListNum) throws Exception;
 
+    public MeetInfoDTO getMeetInfoByEmail(MeetInfoDTO dto) throws Exception;
+
     public List<MeetCategoryDTO> getAllCategories() throws Exception;
 
     public GatchiDTO getMeetListInfo(int meetListNum) throws Exception;
 
     public List<GatchiDTO> getOnlyMeetListInfo(int meetListNum) throws Exception;
-
-    public List<GatchiDTO> selectUpcomingDates(int meetListNum) throws Exception;
-
-    public List<GatchiDTO> selectLatestDates(int meetListNum) throws Exception;
-    
-    public List<GatchiDTO> selectOldestDates(int meetListNum) throws Exception;
 
     public void createMeetInCommuni(GatchiDTO dto) throws Exception;
 
@@ -52,8 +48,10 @@ public interface MeetMapperYj {
     public void insertMeetJoinOk(MeetInfoDTO dto) throws Exception;
 
     public void deleteMeetOut(MeetInfoDTO dto) throws Exception;
-
+    
     public void updateMeetStatus(GatchiDTO dto) throws Exception;
+    
+    public void updateCode(GatchiDTO dto) throws Exception;
 
     public void meetStatusCompletion(GatchiDTO dto) throws Exception;
 

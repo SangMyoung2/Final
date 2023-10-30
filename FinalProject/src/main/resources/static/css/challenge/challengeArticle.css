@@ -146,43 +146,43 @@
 
 .yj-intro {
     padding: 20px 30px 10px; /*위/양사이드/아래*/
-    color: #1d65b2;
+    color: red;
     font-size: 20px;
 }
 .yj-info {
     padding: 30px 30px 10px; /*위/양사이드/아래*/
-    color: #1d65b2;
+    color: red;
     font-size: 20px;
 }
 .yj-inwon {
     padding: 35px 30px 10px; /*위/양사이드/아래*/
-    color: #1d65b2;
+    color: red;
     font-size: 20px;
 }
 .yj-money {
     padding: 5px 30px 10px; /*위/양사이드/아래*/
-    color: #1d65b2;
+    color: red;
     font-size: 20px;
 }
 
 .c-intro {
     padding: 20px 30px 10px; /*위/양사이드/아래*/
-    color: #00824a;
+    color: red;
     font-size: 20px;
 }
 .c-info {
     padding: 30px 30px 10px; /*위/양사이드/아래*/
-    color: #00824a;
+    color: red;
     font-size: 20px;
 }
 .c-inwon {
     padding: 35px 30px 10px; /*위/양사이드/아래*/
-    color: #00824a;
+    color: red;
     font-size: 20px;
 }
 .c-money {
     padding: 5px 30px 10px; /*위/양사이드/아래*/
-    color: #00824a;
+    color: red;
     font-size: 20px;
 }
 
@@ -331,7 +331,7 @@
     display: inline-block;
     padding: 8px 18px;
     font-size: 18px;
-    background-color: #1d65b2;
+    background-color: red;
     color: #fff;
     border: none;
     border-radius: 10px;
@@ -348,7 +348,7 @@
     display: inline-block;
     padding: 8px 18px;
     font-size: 18px;
-    background-color: #00824a;
+    background-color: red;
     color: #fff;
     border: none;
     border-radius: 10px;
@@ -395,7 +395,7 @@
     height: 310px;
     background-color: #eff5fc;
     padding: 15px 14px 15px 15px;
-    border-top: 7px solid #1d65b2;
+    border-top: 7px solid red;
     border-radius: 2px;
 }
 
@@ -479,9 +479,9 @@
     width: 400px;
     min-height: 0;
     background-color: #F9F9F9;
-    padding: 35px 40px 30px 40px;
+    padding: 35px 37px 30px 37px;
     left: 0;
-    border-top: 7px solid #1d65b2;
+    border-top: 7px solid red;
 }
 
 .meetName-back {
@@ -520,7 +520,7 @@
     font-size: 15px;
   }
   .badge.communiFind {
-    background-color: #00824a;
+    background-color: red;
     font-size: 15px;
   }
   .badge.meetHow {
@@ -581,13 +581,14 @@
     border-radius: 10px;
     float: left;
     overflow: hidden;
+    margin-top: 10px;
   }
   
   #progress {
     float: left;
     width: 16%;
     height: 20px;
-    background: #1d65b2;
+    background: red;
     z-index: 333;
     border-radius: 5px;
   }

@@ -79,7 +79,7 @@
             <label th:for="'heartBtn' + ${items.challengeListNum}" th:id="'likeBtnLabel' + ${items.challengeListNum}" class="heart"></label>
 
             <a th:href="@{'/challengeArticle.action?challengeListNum=' + ${items.challengeListNum}}">
-              <img th:src="@{|/image/challengeImage/${items.challengeImageMain}|}" class="card__image" alt=""/>
+              <img th:src="@{|/image/challenge/challengeList/${items.challengeImageMain}|}" class="card__image" alt=""/>
             </a>
             <div class="card__overlay">
               <div class="card__header" th:style="${items.challengeStatus == 2 ? 

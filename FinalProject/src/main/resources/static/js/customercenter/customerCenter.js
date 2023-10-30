@@ -2,6 +2,13 @@ document.addEventListener("DOMContentLoaded", function() {
     let currentIndex = 0; 
     const itemsPerLoad = 5; 
 
+    function applyLineBreaks() {
+        document.querySelectorAll('div.faq-container > button').forEach(button => {
+            button.innerHTML = button.innerText.replace(/\n/g, '<br>');
+            button.nextElementSibling.innerHTML = button.nextElementSibling.innerText.replace(/\n/g, '<br>');
+        });
+    }
+
     function loadMore() {
         const faqContainers = Array.from(document.querySelectorAll('.faq-container')); 
         const visibleFaqContainers = faqContainers.filter(container => container.querySelector('button').style.display !== 'none'); 
@@ -101,6 +108,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
     resetAndLoad();
 
+    applyLineBreaks();
+
     document.getElementById('loadMore').addEventListener('click', function() {
         loadMore();
     });
@@ -108,5 +117,4 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById('clearBtn').addEventListener('click', function() {
         document.getElementById('searchInput').value = '';
     });
-
 });

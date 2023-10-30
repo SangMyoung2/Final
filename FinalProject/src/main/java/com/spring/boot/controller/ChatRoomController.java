@@ -61,22 +61,7 @@ public class ChatRoomController {
     @Autowired
     private ChatUtil chatUtil;
 
-    @RequestMapping("/chatbutton.action")
-    public ModelAndView chatButton(){
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("chat/chatbutton");
-        
-        return mav;
-    }
-
-    @RequestMapping("/chatlogin.action")
-    public ModelAndView chatLogin(){
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("chat/chatlogin");
-        
-        return mav;
-    }
-
+    
     //채팅 리스트 화면
     @RequestMapping("/chatlist.action")
     public ModelAndView chatRooms(HttpServletRequest req){
@@ -127,6 +112,8 @@ public class ChatRoomController {
     public ModelAndView createRoom(@RequestParam("roomName") String roomName, 
     @RequestParam("roomType") String roomType,
     @RequestParam("meetListNum") int meetListNum,
+    @RequestParam("createType") int createType,
+    @RequestParam(name = "redirectNum", required = false, defaultValue = "0") int redirectNum,
     HttpServletRequest req) throws Exception{
 
         //chatDAO.createChatRoom(roomName, roomMaster);
@@ -164,8 +151,9 @@ public class ChatRoomController {
         chatRoomCollection.setRoomMaster(userId);
         chatRoomCollection.setCreateDate(formattedDateTime);
         chatRoomCollection.setType(roomType);
+        chatRoomCollection.setRoomType(1);
         chatRoomCollection.setUserCount(1);
-
+        
         chatRoomCollection.setLists(userId);
 
         // map에는 '.' 이 저장 안되서 aaa@naver 까지 잘라서 저장
@@ -183,7 +171,15 @@ public class ChatRoomController {
         
         ModelAndView mav = new ModelAndView();
         //mav.addObject("roomName", room);
-        mav.setViewName("redirect:/meetMateList.action");
+        if(createType == 1){
+            mav.setViewName("redirect:/meetMateList.action");
+        }
+        else if(createType == 2){
+            mav.setViewName("redirect:/communiFindList.action");
+        }
+        else if(createType == 3){
+            mav.setViewName("redirect:/communiArticle.action?meetListNum=" + redirectNum);
+        }
         return mav;
     }
 
@@ -234,12 +230,25 @@ public class ChatRoomController {
     }
 
     @RequestMapping("/chat/checkNotReadMessage")
-    public Map<String,Object> checkNotReadMessage(@RequestBody Map<String, String> requestMap){
-        String username = requestMap.get("userId");
-        // System.out.println("유저 네임 : " + username);
-        System.out.println("유저이름은 : " + username);
+    public Map<String,Object> checkNotReadMessage(@RequestBody Map<String, String> requestMap, HttpServletRequest req){
+        
         // 유저가 참여한 채팅 다 가져와서
-        List<ChatRoomCollection> chats = chatRoomService.getFindNameInUsers(username);
+        HttpSession session = req.getSession();
+        Users user = (Users) session.getAttribute("user1");
+        SessionUser sessionUser = (SessionUser)session.getAttribute("user");
+        
+        String userName = "";
+        String userId = "";
+
+        if(user != null){
+            userName = user.getName();
+            userId = user.getEmail();
+        }else if(sessionUser != null){
+            userName = sessionUser.getName();
+            userId = sessionUser.getEmail();
+        }
+
+        List<ChatRoomCollection> chats = chatRoomService.getFindNameInUsers(userId);
         // 
         if(chats == null) return null;
         // List<String> roomIds = new ArrayList<>();
@@ -248,7 +257,7 @@ public class ChatRoomController {
         // }   
         // System.out.println("룸아이디 : " + roomIds);
 
-        Map<String, Integer> notReadCount = chatContentService.checkNotReadMessage(chats,username);
+        Map<String, Integer> notReadCount = chatContentService.checkNotReadMessage(chats,userId);
         Map<String, Object> data = new HashMap<>();
         data.put("notReadCount", notReadCount);
         
