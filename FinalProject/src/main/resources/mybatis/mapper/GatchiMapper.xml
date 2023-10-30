@@ -68,8 +68,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <foreach item="item" collection="list" open="(" separator="," close=")">
         #{item}
     </foreach>
-	AND MEETCHECK = 1
-	ORDER BY meetListNum DESC
+	AND MEETCHECK = 1 AND meetStatus = 1
+    ORDER BY meetListNum DESC
 </select>
 
 <select id="getGatchiByMeetcommuListNums" parameterType="java.util.List" resultType="com.spring.boot.dto.GatchiDTO">
@@ -79,7 +79,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <foreach item="item" collection="list" open="(" separator="," close=")">
         #{item}
     </foreach>
-	AND MEETCHECK = 2
+	AND MEETCHECK = 2 AND meetStatus = 1
     ORDER BY meetListNum DESC
 </select>
 
@@ -89,11 +89,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 
 <select id="getMeetMateLists" resultType="com.spring.boot.dto.GatchiDTO">
-	select * from gatchi where meetCheck = 1
+	select * from gatchi where meetCheck = 1 AND meetStatus = 1
 </select>
 
 <select id="getCommuniFindLists" resultType="com.spring.boot.dto.GatchiDTO">
-	select * from gatchi where meetCheck = 2
+	select * from gatchi where meetCheck = 2 AND meetStatus = 1
 </select>
 
 <select id="getMeetMateRandomList" parameterType="int"
