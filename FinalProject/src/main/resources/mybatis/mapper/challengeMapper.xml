@@ -113,7 +113,7 @@ INSERT INTO challenge (
 select * from challengeauth
 where challengeListNum = #{challengeListNum}
   and email = #{email}
-  and challengeAuthStatus = 0
+  and (challengeAuthStatus = 0 or challengeAuthStatus = 1)
   and TO_DATE(challengeAuthCreateDate, 'YYYY-MM-DD') = TO_DATE(SYSDATE, 'YYYY-MM-DD')
 </select>
 
