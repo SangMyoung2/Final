@@ -230,7 +230,7 @@ public class MeetControllerYj {
 
 			maxNum = gatchiService.maxNum();
 			dto.setMeetListNum(maxNum + 1);
-			dto.setMeetImage(originalFileName);
+			dto.setMeetImage(saveFileName);
 			dto.setCode(meetListNum);
 			meetServiceYj.createMeetInCommuni(dto);
 
