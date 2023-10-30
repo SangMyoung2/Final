@@ -29,6 +29,13 @@ public class ChatUtil {
         return today;
     }
 
+    public String changeChatContent(String time){
+        LocalDateTime currentDateTime = LocalDateTime.parse(time, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("a h:mm");
+        String today = currentDateTime.format(formatter);
+        return today;
+    }
+
     public String todayMinusDay(int day){
         LocalDateTime currentDateTime = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
