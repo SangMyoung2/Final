@@ -330,6 +330,7 @@ function roomsNotReadMessage(data){
             console.log(rooms[j].getAttribute('data-value'));
             let notReadCountValue = notReadCountObject[roomId];
             if(notReadCountValue <= 0){
+                rooms[j].textContent = "";
                 continue;
             }
             rooms[j].textContent = notReadCountValue;
@@ -462,7 +463,7 @@ tr{
                     <button class="chat-btn" th:if="${ChallengeMemberStatus == 1 or ChallengeMemberStatus == 2}"  id="chatRoom" onclick="chatRoom()">
                         <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Speech%20Balloon.png" alt="Speech Balloon" width="25px" height="25px" /> 채팅 바로가기
                         <span class="notreadcount" name="room" th:attr="data-value=${roomId}">
-                            -
+                            
                         </span>
                         <input type="hidden" id="ChallengeMemberStatus" name="ChallengeMemberStatus" th:value="${ChallengeMemberStatus}" />
                     </button>
