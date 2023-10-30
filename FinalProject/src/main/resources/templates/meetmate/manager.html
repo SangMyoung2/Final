@@ -20,10 +20,9 @@
     function accept(email, meetListNum, name) {
         var meetMemCnt = document.querySelector('#meetMemCnt').value;
         var meetMaxMemCnt = document.querySelector('#meetMaxMemCnt').value;
-alert(meetMemCnt)
-alert(meetMaxMemCnt)
-
-if(parseInt(meetMemCnt) >= parseInt(meetMaxMemCnt)){
+        
+        if(parseInt(meetMemCnt) >= parseInt(meetMaxMemCnt)){
+            
             alert('정원 초과로 인해 현재 수락이 불가능합니다.');
             return;
 

@@ -103,68 +103,6 @@ function createRoom() {
         return false;
     }
 
-    // if($rtcType.is(':checked')){
-    //     if($("#maxUserCnt").val() <= 1){
-    //         alert("채팅은 최소 2명 이상!!");
-    //         return false;
-    //     }else if ($("#maxUserCnt").val() > 4) {
-    //         alert("4명 이상은 서버가 아파요ㅠ.ㅠ");
-    //         return false;
-    //     }
-    // }else if($msgType.is(':checked')){
-    //     // 일반채팅 : 최소 방 인원 수는 2, 최대 100명
-    //     if($("#maxUserCnt").val() <= 1){
-    //         alert("채팅은 최소 2명 이상!!");
-    //         return false;
-    //     }else if ($("#maxUserCnt").val() > 100) {
-    //         alert("100명 이상은 서버가 못 버텨요ㅠ.ㅠ");
-    //         return false;
-    //     }
-    // }
-
-    // 채팅 타입 필수
-//     if ($('input[name=chatType]:checked').val() == null) {
-//         alert("채팅 타입은 필수입니다")
-//         return false;
-//     }
-
-//     if (secret) {
-//         secretChk.attr('value', true);
-//     } else {
-//         secretChk.attr('value', false);
-//     }
-
-//     if(!numberChk()){
-//         return false;
-//     }
-
-//     return true;
-// }
-
-// 채팅방 입장 시 비밀번호 확인
-// function enterRoom(){
-//     let $enterPwd = $("#enterPwd").val();
-
-//     $.ajax({
-//         type : "post",
-//         url : "/chat/confirmPwd/"+roomId,
-//         async : false,
-//         data : {
-//             "roomPwd" : $enterPwd
-//         },
-//         success : function(result){
-//             // console.log("동작완료")
-//             // console.log("확인 : "+chkRoomUserCnt(roomId))
-
-//             if(result){
-//                 if (chkRoomUserCnt(roomId)) {
-//                     location.href = "/chat/room?roomId="+roomId;
-//                 }
-//             }else{
-//                 alert("비밀번호가 틀립니다. \n 비밀번호를 확인해주세요")
-//             }
-//         }
-//     })
 }
 
 // 채팅방 삭제
@@ -233,9 +171,9 @@ function roomsNotReadMessage(data){
     let notReadCountKeys = Object.keys(notReadCountObject);
     let notReadCountSize = notReadCountKeys.length;
 
-    console.log("크기 : " + notReadCountSize);
-    console.log(rooms[0].getAttribute('data-value'));
-    console.log("위잉 : " + notReadCountKeys);
+    // console.log("크기 : " + notReadCountSize);
+    // console.log(rooms[0].getAttribute('data-value'));
+    // console.log("위잉 : " + notReadCountKeys);
 
     for(let i=0; i<notReadCountSize; i++){
         for(let j=0; j<rooms.length; j++){

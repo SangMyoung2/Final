@@ -230,12 +230,25 @@ public class ChatRoomController {
     }
 
     @RequestMapping("/chat/checkNotReadMessage")
-    public Map<String,Object> checkNotReadMessage(@RequestBody Map<String, String> requestMap){
-        String username = requestMap.get("userId");
-        // System.out.println("유저 네임 : " + username);
-        System.out.println("유저이름은 : " + username);
+    public Map<String,Object> checkNotReadMessage(@RequestBody Map<String, String> requestMap, HttpServletRequest req){
+        
         // 유저가 참여한 채팅 다 가져와서
-        List<ChatRoomCollection> chats = chatRoomService.getFindNameInUsers(username);
+        HttpSession session = req.getSession();
+        Users user = (Users) session.getAttribute("user1");
+        SessionUser sessionUser = (SessionUser)session.getAttribute("user");
+        
+        String userName = "";
+        String userId = "";
+
+        if(user != null){
+            userName = user.getName();
+            userId = user.getEmail();
+        }else if(sessionUser != null){
+            userName = sessionUser.getName();
+            userId = sessionUser.getEmail();
+        }
+
+        List<ChatRoomCollection> chats = chatRoomService.getFindNameInUsers(userId);
         // 
         if(chats == null) return null;
         // List<String> roomIds = new ArrayList<>();
@@ -244,7 +257,7 @@ public class ChatRoomController {
         // }   
         // System.out.println("룸아이디 : " + roomIds);
 
-        Map<String, Integer> notReadCount = chatContentService.checkNotReadMessage(chats,username);
+        Map<String, Integer> notReadCount = chatContentService.checkNotReadMessage(chats,userId);
         Map<String, Object> data = new HashMap<>();
         data.put("notReadCount", notReadCount);
         
