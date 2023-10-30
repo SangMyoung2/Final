@@ -131,6 +131,8 @@ public class MeetControllerYj {
 	Integer ret2 = meetServiceYj.getApprovalStatus(meetInfoDTO);
 	if (ret2 != null) approvalStatus = ret2.intValue();
 
+	String roomId = meetListInfo.getChatRoomNum();
+
 	MapDTO mapDto = meetServiceYj.getlatlng(meetListNum);
 	mav.addObject("mapDto", mapDto);
 
@@ -146,7 +148,7 @@ public class MeetControllerYj {
 	mav.addObject("meetMemStatus", memberStatus);
 	mav.addObject("approvalStatus", approvalStatus);
 	mav.addObject("dto", meetInfoDTO);
-
+	mav.addObject("roomId", roomId);
 	mav.setViewName(rurl);
 	return mav;
 
