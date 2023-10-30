@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/css/reset.css"/>
+    <link rel="stylesheet" href="/css/chat/chatroom.css"/>
+    <title>My Spring WebSocket Chatting</title>
+    
+</head>
+<body>
+<!-- <div id="username-page">
+    <div class="username-page-container">
+        <h1 class="title">Type your username</h1>
+        <form id="usernameForm" name="usernameForm">
+            <div class="form-group">
+                <input type="text" id="name" placeholder="Username" autocomplete="off" class="form-control" th:value="${userName}"/>
+            </div>
+            
+            <div class="form-group">
+                <button type="submit" class="accent username-submit">Start Chatting</button>
+            </div>
+        </form>
+    </div>
+</div> -->
+<input type="hidden" name="userName" id="userName" autocomplete="off" th:value="${userName}"/>
+<input type="hidden" name="userId" id="userId" autocomplete="off" th:value="${userId}"/>
+
+<div id="chat-page">
+
+    <div class="chat-container">
+        <!-- <div class="chat-headerline"></div> -->
+        <div class="chat-header">
+            <button id="returnChatRoom" onclick="returnRoom()"></button>
+            <label for="returnChatRoom" class="returnRoom">←</label>
+            <h2>[[${room.roomName}]]</h2>
+            <div></div>
+        </div>
+        <!-- <div class="connecting">
+            Connecting...
+        </div> -->
+        <ul id="messageArea">
+
+        </ul>
+        <div id="imageContainer">
+            <input type="image" src="/image/chat/imoticon_Btn.png"
+                        id="emoticonMessage" name="emoticon"/>
+
+            <input type="file" id="imageMessage" name="file" accept="image/*">
+            <label for="imageMessage" class="imageMessageLabel"></label>
+        </div>
+        <form id="messageForm" name="messageForm" nameForm="messageForm">
+            <div class="form-group" id="sendMessageBtn">
+                <div class="input-group clearfix">
+                    <!-- <img src="/image/chat/none.png" alt="이미지 없음"/> -->
+                    
+                    <input type="text" id="message" placeholder="" autocomplete="off"
+                           class="form-control messageInput"/>
+                    <button type="submit" class="primary">Send</button>
+                </div>
+            </div>
+
+            <div class="hiddenEmoticon hidden" id="emoticonBox">
+                <div class="emoticonAlign">
+                    <input type="image" src="/image/chat/emoticon/laion1.gif" class="sendEmoticonBtn" name="emoticonBtn" value="/image/chat/emoticon/laion1.gif">
+                    <input type="image" src="/image/chat/emoticon/wing.gif" class="sendEmoticonBtn" name="emoticonBtn" value="/image/chat/emoticon/wing.gif">
+                    <input type="image" src="/image/chat/emoticon/bird.gif" class="sendEmoticonBtn" name="emoticonBtn" value="/image/chat/emoticon/bird.gif">
+                    <input type="image" src="/image/chat/emoticon/cat.gif" class="sendEmoticonBtn" name="emoticonBtn" value="/image/chat/emoticon/cat.gif">
+                    <input type="image" src="/image/chat/emoticon/hi1.gif" class="sendEmoticonBtn" name="emoticonBtn" value="/image/chat/emoticon/hi1.gif">
+                    <input type="image" src="/image/chat/emoticon/none.png" class="sendEmoticonBtn" name="emoticonBtn" value="/image/chat/emoticon/none.png">
+                    <input type="image" src="/image/chat/emoticon/peng.gif" class="sendEmoticonBtn" name="emoticonBtn" value="/image/chat/emoticon/peng.gif">
+                    <input type="image" src="/image/chat/emoticon/peng2.gif" class="sendEmoticonBtn" name="emoticonBtn" value="/image/chat/emoticon/peng2.gif">
+                    <input type="image" src="/image/chat/emoticon/peng3.gif" class="sendEmoticonBtn" name="emoticonBtn" value="/image/chat/emoticon/peng3.gif">
+
+
+                    <input type="image" src="/image/chat/emoticon/peng3.gif" class="sendEmoticonBtn" name="emoticonBtn" value="/image/chat/emoticon/peng3.gif">
+                    <input type="image" src="/image/chat/emoticon/peng3.gif" class="sendEmoticonBtn" name="emoticonBtn" value="/image/chat/emoticon/peng3.gif">
+                    <input type="image" src="/image/chat/emoticon/peng3.gif" class="sendEmoticonBtn" name="emoticonBtn" value="/image/chat/emoticon/peng3.gif">
+                    <input type="image" src="/image/chat/emoticon/peng3.gif" class="sendEmoticonBtn" name="emoticonBtn" value="/image/chat/emoticon/peng3.gif">
+                    <input type="image" src="/image/chat/emoticon/peng3.gif" class="sendEmoticonBtn" name="emoticonBtn" value="/image/chat/emoticon/peng3.gif">
+                    <input type="image" src="/image/chat/emoticon/peng3.gif" class="sendEmoticonBtn" name="emoticonBtn" value="/image/chat/emoticon/peng3.gif">
+                    <input type="image" src="/image/chat/emoticon/peng3.gif" class="sendEmoticonBtn" name="emoticonBtn" value="/image/chat/emoticon/peng3.gif">
+                    <input type="image" src="/image/chat/emoticon/peng3.gif" class="sendEmoticonBtn" name="emoticonBtn" value="/image/chat/emoticon/peng3.gif">
+                    <input type="image" src="/image/chat/emoticon/peng3.gif" class="sendEmoticonBtn" name="emoticonBtn" value="/image/chat/emoticon/peng3.gif">
+                    <input type="image" src="/image/chat/emoticon/peng3.gif" class="sendEmoticonBtn" name="emoticonBtn" value="/image/chat/emoticon/peng3.gif">
+
+                </div>
+            </div>
+
+        </form>
+        <!-- <div class="chat-bottomline"></div> -->
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.4/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+<script src="/js/chat/Socket.js"></script>
+</body>
+</html>

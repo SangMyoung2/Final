@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.spring.boot.mapper.ChallengeMapper">
+
+
+<select id="maxNum" resultType="int">
+	select nvl(max(challengeListNum),0) from challenge
+</select>
+
+<insert id="createChallenge" parameterType="com.spring.boot.dto.ChallengeDTO">
+    insert into challenge(
+challengeListNum,challengeTitle,challengeImageMain,challengeWeekCheck,challengeDateCheck,challengeStartDate,challengeEndDate,challengeImageSuccess,challengeImageFail,challengeLikeCount,challengeContent,challengeMemberCount,challengeCreateDate,challengeStatus) values (
+#{challengeListNum},#{challengeTitle},#{challengeImageMain},#{challengeWeekCheck},#{challengeDateCheck},#{challengeStartDate},#{challengeEndDate},#{challengeImageSuccess},#{challengeImageFail},#{challengeLikeCount},#{challengeContent},#{challengeMemberCount},sysdate,1)
+</insert>
+
+<insert id="test" parameterType="com.spring.boot.dto.ChallengeDTO">
+    insert into challenge(
+	challengeStartDate) values (to_char(#{challengeStartDate}))
+</insert>
+
+
+<select id="getReadData" parameterType="int" resultType="com.spring.boot.dto.ChallengeDTO">
+	select * from challenge
+	where challengeListNum=#{challengeListNum}
+</select>
+
+<select id="getChallengeLists" parameterType="hashMap" resultType="com.spring.boot.dto.ChallengeDTO">
+	select * from challenge
+</select>
+
+<update id="deleteChallengeStatus" parameterType="int">
+    update challenge
+    set challengeStatus = 0
+    where challengeListNum = #{challengeListNum}
+</update>
+
+<update id="giveUpChallengeStatus" parameterType="int">
+    update challenge
+    set challengeStatus = 0
+    where challengeListNum = #{challengeListNum}
+</update>
+
+
+<!-- challengeInfo -->
+<insert id="insertChallengeInfo" parameterType="com.spring.boot.dto.ChallengeInfoDTO">
+    insert into challengeInfo(
+	challengeListNum,email,challengeMemberStatus) values (#{challengeListNum},#{email},#{challengeMemberStatus})
+</insert>
+
+<select id="getUserEmailData" parameterType="map" resultType="com.spring.boot.dto.ChallengeInfoDTO">
+	select * from challengeinfo
+	where email like #{email} and challengelistnum = #{challengeListNum}
+</select>
+
+<select id="getUserListData" parameterType="map" resultType="com.spring.boot.dto.ChallengeInfoDTO">
+	select u.email,u.name,u.picture
+    from users u
+    join challengeInfo ci on u.email = ci.email
+    where ci.challengeListNum = #{challengeListNum}
+    and (ci.challengeMemberStatus = 1 or ci.challengeMemberStatus = 2)
+</select>
+
+<select id="getMemberStatus" parameterType="com.spring.boot.dto.ChallengeInfoDTO" resultType="Integer">
+    select challengeMemberStatus from ChallengeInfo where challengeListNum = #{challengeListNum} and email = #{email}
+</select>
+
+<!-- users에서 master 정보 가져오기 -->
+<select id="getMasterData" parameterType="int" resultType="com.spring.boot.dto.ChallengeInfoDTO">
+    select u.email,u.name,u.picture
+    from users u
+    join challengeInfo ci on u.email = ci.email
+    where ci.challengeListNum = #{challengeListNum}
+    and ci.challengeMemberStatus = 1
+</select>
+
+<update id="updateChallengeInfoStatus" parameterType="map">
+    update challengeinfo
+    set challengeMemberStatus = #{challengeMemberStatus}
+    where challengeListNum = #{challengeListNum} and email = #{email}
+</update>
+
+<delete id="deleteChallengeInfo" parameterType="map">
+	delete challengeInfo
+	where challengeListNum =#{challengeListNum} and email =#{email}
+</delete>
+
+<!-- challengeReview -->
+<select id="authMaxNum" resultType="int">
+	select nvl(max(challengeListNum),0) from challengeAuth
+</select>
+
+<select id="getNoneAuthReview" parameterType="com.spring.boot.dto.ChallengeAuthDTO" resultType="com.spring.boot.dto.ChallengeAuthDTO">
+select * from challengeauth
+where challengeListNum = #{challengeListNum}
+  and email = #{email}
+  and challengeAuthStatus = 0
+  and TO_DATE(challengeAuthCreateDate, 'YYYY-MM-DD') = TO_DATE(SYSDATE, 'YYYY-MM-DD')
+
+</select>
+
+<insert id="insertAuthReview" parameterType="com.spring.boot.dto.ChallengeAuthDTO">
+    insert into challengeAuth (challengeListNum, challengeAuthListNum, email, challengeAuthContent, challengeAuthCreateDate, challengeAuthImage, challengeAuthStatus)
+    values (#{challengeListNum}, #{challengeAuthListNum}, #{email}, #{challengeAuthContent}, TO_DATE(#{challengeAuthCreateDate}, 'YYYY-MM-DD'), #{challengeAuthImage}, #{challengeAuthStatus})
+</insert>
+
+<select id="getAllReviewList" parameterType="int" resultType="com.spring.boot.dto.ChallengeAuthDTO">
+    select CA.*, U.picture, U.name 
+    from challengeAuth CA inner join users U
+    on CA.email = U.email
+    where CA.challengeListNum = ${challengeListNum}
+    order by challengeAuthCreateDate desc
+</select>
+
+<delete id="deleteChallengeReview" parameterType="com.spring.boot.dto.ChallengeAuthDTO">
+    delete from challengeAuth where challengeListNum = #{challengeListNum} and challengeAuthListNum = #{challengeAuthListNum} and email = #{email}
+</delete>
+
+<select id="getlatlng" parameterType="int" resultType="com.spring.boot.dto.MapDTO">
+select l.* from latlng l, gatchi gc where gc.meetListNum = #{meetListNum} and gc.meetListNum = l.meetListNum
+</select>
+
+<update id="successChallengeAuth" parameterType="map">
+    update challengeAuth
+    set challengeAuthStatus = 1
+    where challengeAuthImage = #{challengeAuthImage}
+</update>
+
+<update id="failChallengeAuth" parameterType="map">
+    update challengeAuth
+    set challengeAuthStatus = 2
+    where challengeAuthImage = #{challengeAuthImage}
+</update>
+
+<update id="updateChallengeStatus">
+    update challenge
+    set challengeStatus = 2
+    <![CDATA[
+    where TO_DATE(challengeEndDate, 'YYYY-MM-DD') < TRUNC(SYSDATE)
+    ]]>
+</update>
+
+
+
+<!-- myPage -->
+
+<select id="getChallengeListNumByUserEmail" parameterType="String" resultType="int">
+    SELECT challengeListNum
+    FROM challengeInfo
+    WHERE email = #{email}
+</select>
+
+
+<select id="getChallengeByChallengeListNums" parameterType="java.util.List" resultType="com.spring.boot.dto.ChallengeDTO">
+    SELECT *
+    FROM challenge
+    WHERE challengeListNum  IN
+    <foreach item="item" collection="list" open="(" separator="," close=")">
+        #{item}
+    </foreach>
+    ORDER BY challengeListNum DESC
+</select>
+
+<update id="plusChallengeCount" parameterType="int">
+	update challenge set CHALLENGELIKECOUNT = CHALLENGELIKECOUNT + 1
+	where CHALLENGELISTNUM = #{CHALLENGELISTNUM}
+</update>
+
+<update id="minusChallengeCount" parameterType="int">
+	update challenge set CHALLENGELIKECOUNT = CHALLENGELIKECOUNT - 1
+	where CHALLENGELISTNUM = #{CHALLENGELISTNUM} and
+	<![CDATA[
+	(select CHALLENGELIKECOUNT from challenge where CHALLENGELISTNUM = #{CHALLENGELISTNUM}) > 0
+	]]>
+</update>
+
+<select id="getListsSerchValue" parameterType="String" resultType="com.spring.boot.dto.ChallengeDTO">
+    select * from CHALLENGE where challengetitle like '%' || #{searchValue} || '%'
+</select>
+
+</mapper>

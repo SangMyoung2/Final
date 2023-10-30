@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 여기있는 sql을 호출할 인터페이스 패키지 위치를 정확하게 입력해야 사용이 가능하다. -->
+<mapper namespace="com.spring.boot.mapper.SignupMapper">
+
+
+<insert id="insertData" parameterType="com.spring.boot.dto.SignupDTO">
+	insert into signup(name,password,password2,email,tel,created)
+	 values (#{name},#{password},#{password2},#{email},#{tel},sysdate)
+</insert>
+
+
+<update id="updateData" parameterType="com.spring.boot.dto.SignupDTO">
+	update signup set name=#{name},password=#{password},email=#{email},
+	where num=#{num}
+</update>
+
+<delete id="deleteData" parameterType="int">
+	delete signup where email=#{email}
+</delete>
+
+
+<select id="findID" parameterType="map" resultType="java.lang.String">
+    SELECT email,name FROM signup WHERE tel = #{tel} AND name = #{name}
+</select>
+
+<select id="findPWD" parameterType="map" resultType="java.lang.String">
+    SELECT password,name FROM signup WHERE tel = #{tel} AND email = #{email} AND name = #{name}
+</select>
+
+
+
+</mapper>
