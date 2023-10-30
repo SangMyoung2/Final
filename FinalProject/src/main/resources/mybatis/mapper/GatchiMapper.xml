@@ -131,7 +131,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         (#{searchKey} = 'meetDday' AND meetDday LIKE '%' || #{searchValue} || '%')
         OR
         (#{searchKey} = 'meetPlace' AND meetPlace LIKE '%' || #{searchValue} || '%')
-    )  AND meetCheck = 1
+    )  AND meetCheck = 1 order by meetListNum desc
 </select>
 
 <select id="searchCommuniFindList" parameterType="map" resultType="com.spring.boot.dto.GatchiDTO">
@@ -143,7 +143,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         (#{searchKey} = 'meetDday' AND meetDday LIKE '%' || #{searchValue} || '%')
         OR
         (#{searchKey} = 'meetPlace' AND meetPlace LIKE '%' || #{searchValue} || '%')
-    ) AND meetCheck = 2
+    ) AND meetCheck = 2 order by meetListNum desc
 </select>
 
 <select id="sortByLikeCountMeet" parameterType="map" resultType="com.spring.boot.dto.GatchiDTO">
