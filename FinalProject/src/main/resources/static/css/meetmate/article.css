@@ -71,11 +71,11 @@
     position: relative;
     height: auto;
     background-color: #fefefe;
-    padding: 0px 45px 10px; /*위/양사이드/아래*/ 
+    padding: 0px 35px 10px; /*위/양사이드/아래*/ 
     color: #383535;
     letter-spacing: -.6px;
     font-size: 20px;
-    line-height: 32px;
+    line-height: 25px;
 }
 
 .Yj-text2 {
