@@ -187,18 +187,18 @@ public class ChallengeController {
         //게시글 번호로 1개의 게시글 불러옴
         int challengeListNum = Integer.parseInt( request.getParameter("challengeListNum"));
 
-		System.out.println("에러잡기 1번@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+		// System.out.println("에러잡기 1번@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
     
         List<ChallengeAuthDTO> allReviewList = challengeService.getAllReviewList(challengeListNum);
         List<ChallengeInfoDTO> lists = challengeService.getUserListData(challengeListNum);
 		ChallengeDTO challengeDTO = challengeService.getReadData(challengeListNum);
-System.out.println("에러잡 2번@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+		// System.out.println("에러잡 2번@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
         //user session정보 가져오기
         HttpSession session = request.getSession();
 		SessionUser social = (SessionUser)session.getAttribute("user");
 		Users user1 = (Users)session.getAttribute("user1");
         String email ="";
-System.out.println("에러잡기 3번@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+		// System.out.println("에러잡기 3번@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
         //접속한 user 정보 데이터 담기  
         if (social != null) { //소셜유저의 정보
             email = social.getEmail();
@@ -211,7 +211,7 @@ System.out.println("에러잡기 3번@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         challengeInfoDTO.setChallengeListNum(challengeListNum);
         challengeInfoDTO.setEmail(email);
         masterInfoDTO = challengeService.getMasterData(challengeListNum);
-        System.out.println("에러잡기 4번@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+        // System.out.println("에러잡기 4번@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
         int ChallengeMemberStatus = -1;
 
 		Integer ret = challengeService.getMemberStatus(challengeInfoDTO);
@@ -273,7 +273,7 @@ System.out.println("에러잡기 3번@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 					
 					// System.out.println(authDate);
 					if (authDate.toLocalDate().isEqual(startDate)) {
-						System.out.println("true @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+						// System.out.println("true @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 						flag = true;
 						break;
 					}else{
@@ -298,8 +298,19 @@ System.out.println("에러잡기 3번@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 		}
 		ChallengeDTO chatRoomId = challengeService.getReadDataChatRoom(challengeListNum);
 		String roomId = chatRoomId.getChallengeChatRoomNum();
-		System.out.println("roomId : " + roomId);
+		// System.out.println("roomId : " + roomId);
+
+		//오늘날짜보다 나중 챌린지 리뷰작성버튼 비활성
+		LocalDate today = LocalDate.now();
+		LocalDate startChallenge = challengeDTO.getChallengeStartDate().toLocalDate();
+		boolean challengeStartBoolean = false;
+		LocalDate endDay = challengeDTO.getChallengeEndDate().toLocalDate();
+
+		if(today.isBefore(startChallenge) || today.isEqual(startChallenge) || today.isAfter(endDay)){
+			challengeStartBoolean = true;
+		}
 		
+        mav.addObject("challengeStartBoolean",challengeStartBoolean);
         mav.addObject("challengeDay",challengeDay);
         mav.addObject("challengeInfoDTO",challengeInfoDTO);
         mav.addObject("ChallengeMemberStatus", ChallengeMemberStatus);
