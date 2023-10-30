@@ -128,24 +128,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	SELECT * FROM gatchi
 	WHERE
 	(
-		(#{searchKey} = 'meetTitle' AND meetTitle LIKE '%' || #{searchValue} || '%')
-		OR
-		(#{searchKey} = 'meetDday' AND meetDday LIKE '%' || #{searchValue} || '%')
-		OR
-		(#{searchKey} = 'meetPlace' AND meetPlace LIKE '%' || #{searchValue} || '%')
-	) AND meetCheck = 1
+        (#{searchKey} = 'meetTitle' AND meetTitle LIKE '%' || #{searchValue} || '%')
+        OR
+        (#{searchKey} = 'meetDday' AND meetDday LIKE '%' || #{searchValue} || '%')
+        OR
+        (#{searchKey} = 'meetPlace' AND meetPlace LIKE '%' || #{searchValue} || '%')
+    )  AND meetCheck = 1 order by meetListNum desc
 </select>
 
 <select id="searchCommuniFindList" parameterType="map" resultType="com.spring.boot.dto.GatchiDTO">
 	SELECT * FROM gatchi
 	WHERE
 	(
-		(#{searchKey} = 'meetTitle' AND meetTitle LIKE '%' || #{searchValue} || '%')
-		OR
-		(#{searchKey} = 'meetDday' AND meetDday LIKE '%' || #{searchValue} || '%')
-		OR
-		(#{searchKey} = 'meetPlace' AND meetPlace LIKE '%' || #{searchValue} || '%')
-	) AND meetCheck = 2
+        (#{searchKey} = 'meetTitle' AND meetTitle LIKE '%' || #{searchValue} || '%')
+        OR
+        (#{searchKey} = 'meetDday' AND meetDday LIKE '%' || #{searchValue} || '%')
+        OR
+        (#{searchKey} = 'meetPlace' AND meetPlace LIKE '%' || #{searchValue} || '%')
+    ) AND meetCheck = 2 order by meetListNum desc
 </select>
 
 <select id="sortByLikeCountMeet" parameterType="map" resultType="com.spring.boot.dto.GatchiDTO">

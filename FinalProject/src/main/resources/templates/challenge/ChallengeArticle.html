@@ -411,8 +411,7 @@ tr{
                     </button>
 
                     <br/>
-                    <h4>챌린지 진행상황</h2>
-                    <h6><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Challenge Record : </b><span th:text="${challengeDTO.challengeStartDate + ' ~ ' + challengeDTO.challengeEndDate}"></span> (총 <span th:text="${challengeDay}"></span>일)</h5>
+                    <h6><b>Challenge Record : </b><span th:text="${challengeDTO.challengeStartDate + ' ~ ' + challengeDTO.challengeEndDate}"></span> (총 <span th:text="${challengeDay}"></span>일)</h5>
 
                         <div id="countdown-wrap" style="height: 100px;">
                             <div id="goal"></div>
@@ -424,9 +423,9 @@ tr{
                                 <span class="goal-number" id="current-amount" th:text="${userAuthCnt}"></span>
                                 <span class="goal-label" style="width: fit-content;">현재 인증 횟수</span>
                             </div>
-                            <div class="goal-stat" style="margin-left: 187px;">
-                                <span class="goal-number" id="max-amount" th:text="${challengeDay}"></span>
-                                <span class="goal-label" style="width: fit-content;">챌린지 총 일수</span>
+                            <div class="goal-stat" style="margin-left: 140px; width: 31%;">
+                                <span class="goal-number" style="text-align: right;" id="max-amount" th:text="${challengeDay}"></span>
+                                <span class="goal-label">챌린지 총 횟수</span>
                             </div>
                         </div>
                         <br/>

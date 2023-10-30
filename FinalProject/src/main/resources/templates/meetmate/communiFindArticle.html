@@ -454,33 +454,14 @@ if(joincancel){
 }
 
 function outmeet(){
-let meetListNum = document.getElementById('meetListNum').value;
-let title = document.getElementById('meetTitle').textContent;
+    let meetListNum = document.getElementById('meetListNum').value;
+    let title = document.getElementById('meetTitle').textContent;
 
-let joincancel = confirm(title + ' 모임을 탈퇴 하시겠습니까?');
-if(joincancel){
-    $.ajax({
-            type: "POST",
-            url: "/meettimecheck",
-            data: {
-                meetListNum: meetListNum
-            },
-            success: function (response) {
-                if(response == 1){
-                    alert('탈퇴 되었습니다.');
-                    location.href = '/out-meet?meetListNum='+meetListNum;
-                }else if(response === 2){
-                    alert('모임 시간이 지났습니다.');
-                }
-                else{
-                    alert('다시 시도해 주세요..');
-                }
-            },
-            error: function () {
-                alert('다시 시도 해주세요..');
-            }
-        });
-}
+    let joincancel = confirm(title + ' 모임을 탈퇴 하시겠습니까?');
+    if(joincancel){
+        alert('탈퇴 되었습니다.');
+        location.href = '/out-meet?meetListNum='+meetListNum;
+    }
 }
 
 function testMeet() {
@@ -704,6 +685,7 @@ function chatRoom(){
                                 모임 나가기
                             </button>
                         </form>
+                        
                         <form id="outForm" method="post">
                             <input type="hidden" name="meetListNum" th:value="${meetListNum}"/>
                             <input type="hidden" name="email" th:value="${dto.email}"/>

@@ -21,14 +21,22 @@
   
   <div layout:fragment="content">    
   
-    <div class="meetTitle">
-      <h1>CommuniFind는 Community + Find의 합성어입니다.</h1>
+    <!--  <div class="meetTitle">
+      <h1>CommuniFind는 Community + Find의 합성어입니다.</h1> -->
+
+    <div class="meetTitle" style="margin-top: 90px;" >
+      <h1 style="margin: 0 auto;">CommuniFind</h1>
     </div>
     <div class="meetTitle_Sub">
-      <p>같은 관심사를 가진 사람들의 가치있는 매일을 위한 지속형 모임입니다.</p>
+      <p style="text-align: center; margin-bottom: 65px; margin-top: 30px; font-size: 35px;">같은 관심사를 가진 사람들의<br/> 가치있는 매일을 위한 지속형 모임!</p>
+    </div>
+  
+    <div>
+      <img style="width: 1550px; height: 470px;" src="/image/gatchiImage/12355.jpg"/>
+  
     </div>
 
-    <div class="body7">
+    <!-- <div class="body7">
   
       <main>  
       <article class="slide">
@@ -40,7 +48,7 @@
                   <div class="randomcard" th:style="'background-image: url(' + '/image/gatchiImage/' + ${communi.meetImage} + ');'">
                   <div class="opa">
                     <section>
-                      <!-- <img th:src="@{|/image/gatchiImage/${meet.meetImage}|}" class="card__image" alt=""/> -->
+                     
                       <h3 th:text="${communi.meetTitle}"></h3>
                       <h4 th:text="${communi.meetContent}"></h4>
                       <button th:attr="data-meetlistnum=${communi.meetListNum}" onclick="location.href='/communiArticle.action?meetListNum=' + this.getAttribute('data-meetlistnum')">more ⇁</button>
@@ -59,8 +67,8 @@
             </ul> 
         </article>  
       </main>  
-    </div>
-    
+    </div> -->
+
     <h2 th:if="${#httpSession.getAttribute('user1') != null}" 
       th:text="|${session.user1.name} 님의 참여를 기다리는 CommuniFind List|" 
       style="text-align: center; font-weight: normal; margin-top: 100px;"></h2>

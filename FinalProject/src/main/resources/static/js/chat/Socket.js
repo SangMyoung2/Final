@@ -483,7 +483,7 @@ function messageDiv(chatMessages){
     let chat = chatMessages;
     var messageElement = document.createElement('li');
     var textElement = document.createElement('div');
-
+    var sideElement = document.createElement('div');
     if (chat.type === 'ENTER') {  // chatType 이 enter 라면 아래 내용
         messageElement.classList.add('event-message');
         chat.content = chat.sender + chat.message;
@@ -497,7 +497,7 @@ function messageDiv(chatMessages){
     }
     
     else if(chat.sender === username) { // 내가 보낸 채팅 이라면
-
+        sideElement.classList.add('myDateDiv');
         if(chat.type === 'IMAGE'){
             messageElement.classList.add('chat-myMessage');
             var imageElement = document.createElement('img');
@@ -530,12 +530,15 @@ function messageDiv(chatMessages){
     }
     else{// 내가 보낸게 아니라면
         console.log("내가 보낸게 아니라면 : " + chat.sender);
-
+        
         // 이미지일때
         if(chat.type === 'IMAGE'){
+            
             messageElement.classList.add('chat-message');
 
             if(isReciveChat===false){
+                sideElement.classList.add('newDateDiv');
+
                 var avatarElement = document.createElement('img');
                 avatarElement.src="/image/login/" + chat.picture;
                 
@@ -548,19 +551,24 @@ function messageDiv(chatMessages){
                 messageElement.appendChild(avatarElement);
                 isReciveChat = true;
                 isSendCaht = false;
+                textElement.classList.add('newSendImageDiv')
             }
-
+            else{
+                sideElement.classList.add('dateDiv');
+                textElement.classList.add('sendImageDiv')
+            }
             let imageElement = document.createElement('img');
             imageElement.classList.add('sendImage');
             imageElement.src = chat.message;
             textElement.appendChild(imageElement);
-            textElement.classList.add('sendImageDiv')
+            
         }
         // 이모티콘 일때
         else if(chat.type === 'EMOTICON'){
             messageElement.classList.add('chat-message');
             console.log("이모티콘 들어옴.")
             if(isReciveChat===false){
+                sideElement.classList.add('newDateDiv');
                 console.log("isReciveChat === false 들어옴")
                 var avatarElement = document.createElement('img');
                 avatarElement.src="/image/login/" + chat.picture;
@@ -574,16 +582,21 @@ function messageDiv(chatMessages){
                 messageElement.appendChild(avatarElement);
                 isReciveChat = true;
                 isSendCaht = false;
+                textElement.classList.add('newSendImageDiv')
+            }else{
+                sideElement.classList.add('dateDiv');
+                textElement.classList.add('sendImageDiv')
             }
 
             let imageElement = document.createElement('img');
             imageElement.classList.add('sendEmoticon');
             imageElement.src = chat.message;
             textElement.appendChild(imageElement);
-            textElement.classList.add('sendImageDiv')
+            
         }
         else{
             if(isReciveChat===false || sendUser != chat.sender){
+                sideElement.classList.add('newDateDiv');
                 sendUser = chat.sender;
                 messageElement.classList.add('chat-message');
 
@@ -604,6 +617,7 @@ function messageDiv(chatMessages){
                 isSendCaht = false;
             }
             else{
+                sideElement.classList.add('dateDiv');
                 messageElement.classList.add('chat-message');
                 textElement.classList.add('sendtext');
             }
@@ -617,38 +631,47 @@ function messageDiv(chatMessages){
     if(chat.type != 'ENTER' && chat.type != 'LEAVE'){
         // 읽음 count
         if(chat.sender === username){
-            if(chat.readCount > 0){
-                var readCountElement = document.createElement('p');
-                readCountElement.classList.add('readCount');
-                readCountElement.setAttribute('name', 'readCnt');
-                readCountElement.value = chat.readCount;
-                var readCountText = document.createTextNode(chat.readCount);
-                readCountElement.appendChild(readCountText);
-                messageElement.appendChild(readCountElement);
-                messageElement.appendChild(textElement);
-            }
-            else{
-                messageElement.appendChild(textElement);
-            }
+            
+            var readCountElement = document.createElement('p');
+            readCountElement.classList.add('myReadCount');
+            readCountElement.setAttribute('name', 'readCnt');
+            readCountElement.value = chat.readCount;
+            var readCountText = document.createTextNode(chat.readCount);
+            readCountElement.appendChild(readCountText);
+            sideElement.appendChild(readCountElement);
+
+            var dateElement = document.createElement('p');
+            dateElement.classList.add('chatDate');
+            var dateText = document.createTextNode(chat.time);
+            dateElement.appendChild(dateText);
+            sideElement.appendChild(dateElement);
+            
+            messageElement.appendChild(sideElement);
+            messageElement.appendChild(textElement);
         }
         else{
-            if(chat.readCount > 0){
-                messageElement.appendChild(textElement);
-                var readCountElement = document.createElement('p');
-                readCountElement.classList.add('readCount');
-                readCountElement.setAttribute('name', 'readCnt');
-                readCountElement.value = chat.readCount;
-                var readCountText = document.createTextNode(chat.readCount);
-                readCountElement.appendChild(readCountText);
-                messageElement.appendChild(readCountElement);
-            }
-            else{
-                messageElement.appendChild(textElement);
-            }
+            messageElement.appendChild(textElement);
+            
+            var readCountElement = document.createElement('p');
+            readCountElement.classList.add('readCount');
+            readCountElement.setAttribute('name', 'readCnt');
+            readCountElement.value = chat.readCount;
+            var readCountText = document.createTextNode(chat.readCount);
+            readCountElement.appendChild(readCountText);
+            sideElement.appendChild(readCountElement);
+
+            var dateElement = document.createElement('p');
+            dateElement.classList.add('chatDate');
+            var dateText = document.createTextNode(chat.time);
+            dateElement.appendChild(dateText);
+            sideElement.appendChild(dateElement);
+
+            messageElement.appendChild(sideElement);
         }
     }
     //messageElement.appendChild(messageText);
     
+
     messageArea.appendChild(messageElement);
     messageArea.scrollTop = messageArea.scrollHeight;
 
@@ -899,7 +922,9 @@ document.getElementById('messageArea').addEventListener('click', function (event
     }
 });
 
-
+function returnRoom(){
+    location.href = "/chatlist.action";
+}
 
 
 window.onload = function() {

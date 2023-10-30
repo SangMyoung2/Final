@@ -139,12 +139,16 @@ button.accent {
     overflow: auto;
     overflow-y: scroll;
     padding: 0 0px 0px 30px;
-    height: calc(100% - 165px);
+    height: calc(100% - 180px);
     border-bottom: 1px solid #b7b7b7;
 }
 
 .emoticonArea {
     height: calc(100% - 300px) !important;
+}
+
+.emoticonAlign{
+    margin-left: 3%;
 }
 
 #chat-page #messageArea li {
@@ -338,11 +342,21 @@ padding-left: 68px;
     text-align: center;
     padding: 15px;
     border-bottom: 1px solid #b7b7b7;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .chat-header h2 {
     margin: 0;
     font-weight: 500;
+}
+
+#returnChatRoom{
+    display: none;
+}
+.returnRoom{
+    font-size: x-large;
 }
 
 .connecting {

@@ -31,7 +31,10 @@
     <div class="chat-container">
         <!-- <div class="chat-headerline"></div> -->
         <div class="chat-header">
+            <button id="returnChatRoom" onclick="returnRoom()"></button>
+            <label for="returnChatRoom" class="returnRoom">←</label>
             <h2>[[${room.roomName}]]</h2>
+            <div></div>
         </div>
         <!-- <div class="connecting">
             Connecting...
@@ -58,7 +61,7 @@
             </div>
 
             <div class="hiddenEmoticon hidden" id="emoticonBox">
-                <div>
+                <div class="emoticonAlign">
                     <input type="image" src="/image/chat/emoticon/laion1.gif" class="sendEmoticonBtn" name="emoticonBtn" value="/image/chat/emoticon/laion1.gif">
                     <input type="image" src="/image/chat/emoticon/wing.gif" class="sendEmoticonBtn" name="emoticonBtn" value="/image/chat/emoticon/wing.gif">
                     <input type="image" src="/image/chat/emoticon/bird.gif" class="sendEmoticonBtn" name="emoticonBtn" value="/image/chat/emoticon/bird.gif">
