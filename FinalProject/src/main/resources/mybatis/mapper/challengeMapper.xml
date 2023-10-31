@@ -201,7 +201,13 @@ select l.* from latlng l, gatchi gc where gc.meetListNum = #{meetListNum} and gc
 </update>
 
 <select id="getListsSerchValue" parameterType="String" resultType="com.spring.boot.dto.ChallengeDTO">
-    select * from CHALLENGE where challengetitle like '%' || #{searchValue} || '%' order by CHALLENGECREATEDATE desc
+    select b.CHALLENGELISTNUM as CHALLENGELISTNUM, b.CHALLENGETITLE as CHALLENGETITLE, b.CHALLENGEIMAGEMAIN as CHALLENGEIMAGEMAIN, b.CHALLENGEWEEKCHECK as CHALLENGEWEEKCHECK, b.CHALLENGEDATECHECK as CHALLENGEDATECHECK, b.CHALLENGESTARTDATE as CHALLENGESTARTDATE, 
+    b.CHALLENGEENDDATE as CHALLENGEENDDATE, b.CHALLENGEIMAGESUCCESS as CHALLENGEIMAGESUCCESS, b.CHALLENGEIMAGEFAIL as CHALLENGEIMAGEFAIL, b.CHALLENGELIKECOUNT as CHALLENGELIKECOUNT, b.CHALLENGECONTENT as CHALLENGECONTENT, b.CHALLENGEMEMBERCOUNT as CHALLENGEMEMBERCOUNT, b.CHALLENGECREATEDATE as CHALLENGECREATEDATE,
+    b.CHALLENGESTATUS as CHALLENGESTATUS, b.CHALLENGECHATROOMNUM as CHALLENGECHATROOMNUM,
+    a.PICTURE as PICTURE, a.ROLE as ROLE from users a join (select b.*, a.email from challengeinfo a join CHALLENGE b
+    on a.CHALLENGELISTNUM = b.challengelistnum
+    where a.challengememberstatus = 1) b
+    on a.email = b.email and b.CHALLENGETITLE LIKE '%'||#{searchValue}||'%'
 </select>
 
 <update id="updateChallengeMemCnt" parameterType="int">
