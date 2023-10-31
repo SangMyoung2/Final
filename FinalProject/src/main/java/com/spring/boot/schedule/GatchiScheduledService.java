@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import com.spring.boot.collection.ChatRoomCollection;
 import com.spring.boot.dto.GatchiDTO;
+import com.spring.boot.service.ChatRoomService;
 import com.spring.boot.service.GatchiService;
 
 @Service
@@ -17,9 +19,8 @@ public class GatchiScheduledService {
     @Autowired
 	private GatchiService gatchiService;
 
-    public GatchiScheduledService(GatchiService gatchiService){
-        this.gatchiService = gatchiService;
-    }
+	@Autowired
+	private ChatRoomService chatRoomService;
 
     // 5분단위로 모임 만들어서 1,6,11... 1분지난시간에 스케쥴러 돌게 만듬
     @Scheduled(cron = "0 1,6,11,16,21,26,31,36,41,46,51,56 * * * *")
@@ -37,6 +38,11 @@ public class GatchiScheduledService {
 			if (dto.getMeetCheck() == 1 && meetDday.before(currentDate)) {// meetCheck가 1이고 meetDday 지나면
 				dto.setMeetStatus(2);//meetStatus를 2로 업데이트				
 				gatchiService.updateMeetStatusMate(dto);//업데이트된 GatchiDTO 저장
+				ChatRoomCollection chatRoom = chatRoomService.findByRoomId(dto.getChatRoomNum());
+				chatRoom.setRoomType(2);
+				System.out.println("스케쥴러 들어옴 : " + chatRoom.getRoomType());
+				chatRoomService.updateChatRoom(chatRoom);
+
 			}
 		}
     }
