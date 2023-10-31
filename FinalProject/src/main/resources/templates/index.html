@@ -3,7 +3,7 @@
 <meta charset="UTF-8">
 
 
-<title>가치</title>
+<title>GATCHI</title>
 
 <link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/index.css}"/>
 <link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/main/main.css}"/>
@@ -57,7 +57,9 @@
     <div class="card-item" th:each="items, iterStat : ${meetLists}" th:if="${iterStat.index < 6}">
       <div class="item-content">
       <div class="image-container">
+        <a th:href="@{'/meetArticle.action?meetListNum=' + ${items.meetListNum}+'#home'}">
         <img th:src="@{|/image/gatchiImage/${items.meetImage}|}" alt="">
+        </a>
       </div>
       <div class="text-content">
       
