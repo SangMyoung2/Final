@@ -1,6 +1,6 @@
 
 function myChat(){
-    var options = 'width=600px,height=700px,scrollbars=yes'
+    var options = 'width=970px,height=700px,scrollbars=yes'
     popupChat = window.open("chatlist.action"
     ,"_blacnk",options);
 }

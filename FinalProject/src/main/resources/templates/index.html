@@ -5,8 +5,9 @@
 
 <title>가치</title>
 
-<link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/index.css}"/>
-<link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/main/main.css}"/>
+<link rel="stylesheet" type="text/css" th:href="@{/css/index.css}"/>
+<link rel="stylesheet" type="text/css" th:href="@{/css/main/main.css}"/>
+<link rel="icon" type="image/png" th:href="@{http://localhost:8080/image/로고.png}"/>
 <script src="https://kit.fontawesome.com/f1e715a543.js" crossorigin="anonymous"></script>
 <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=y4onbfnsxz"></script>
 </head>
@@ -57,7 +58,9 @@
     <div class="card-item" th:each="items, iterStat : ${meetLists}" th:if="${iterStat.index < 6}">
       <div class="item-content">
       <div class="image-container">
+        <a th:href="@{'/meetArticle.action?meetListNum=' + ${items.meetListNum}+'#home'}">
         <img th:src="@{|/image/gatchiImage/${items.meetImage}|}" alt="">
+        </a>
       </div>
       <div class="text-content">
       
@@ -90,6 +93,7 @@
   </div>
   </div>
     
+    
 
     <div style="display: flex; justify-content: center; background-color:#F5F5F5;">
       <div class="card-item" style="width: 200px;">
@@ -112,7 +116,9 @@
         <div class="card-item" th:each="items, iterStat : ${communiLists}" th:if="${iterStat.index < 6}">
           <div class="item-content">
           <div class="image-container">
+            <a th:href="@{'/communiArticle.action?meetListNum=' + ${items.meetListNum}+'#home'}">
             <img th:src="@{|/image/gatchiImage/${items.meetImage}|}" alt="">
+            </a>
           </div>
           <div class="text-content">
           
@@ -172,7 +178,9 @@
             <div class="card-item" th:each="items, iterStat : ${challengeList}" th:if="${iterStat.index < 6}">
               <div class="item-content">
               <div class="image-container">
-                <img th:src="@{|/image/challengeimage/${items.challengeImageMain}|}" alt="">
+                <a th:href="@{'/challengeArticle.action?challengeListNum=' + ${items.challengeListNum}+'#home'}">
+                <img th:src="@{|/image/challenge/challengeList/${items.challengeImageMain}|}" alt="">
+                </a>
               </div>
               <div class="text-content">
               
@@ -208,7 +216,7 @@
               </section>
             
               <div style="background-color:#F5F5F5; margin-left: -50px;">
-                <div style="display: grid; padding: 0; list-style-type: none; margin: 0rem 14vw; grid-template-columns: repeat(auto-fit, minmax(225px, 1fr)); gap: 2rem; height: 650px; ">
+                <div style="display: grid; padding: 0; list-style-type: none; margin: 0rem 14vw; grid-template-columns: repeat(auto-fit, minmax(225px, 1fr)); gap: 2rem; height: 370px; ">
                     <div class="card-item2" th:each="items, iterStat : ${allreview}" th:if="${iterStat.index < 8}" >
                       <div class="item-content2">
                         <div class="image-container2">

@@ -220,7 +220,7 @@ public class ChatController {
         
         //System.out.println(chat.getRoomId());
         //System.out.println(chat.getSender());
-        System.out.println(chat.getMessage());
+        // System.out.println(chat.getMessage());
         //System.out.println(todayAndTime);
         
         // 유저 사진 넣는 코드

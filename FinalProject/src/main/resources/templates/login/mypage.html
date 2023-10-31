@@ -7,9 +7,9 @@
 
                
         <script src="https://kit.fontawesome.com/f1e715a543.js" crossorigin="anonymous"></script>
-        <link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/structure/reset.css}"/>
-      <link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/login/mypage.css}"/>
-      <link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/login/mypage2.css}"/> 
+        <link rel="stylesheet" type="text/css" th:href="@{/css/structure/reset.css}"/>
+      <link rel="stylesheet" type="text/css" th:href="@{/css/login/mypage.css}"/>
+      <link rel="stylesheet" type="text/css" th:href="@{/css/login/mypage2.css}"/> 
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     </head>
 
@@ -27,12 +27,12 @@
           
           <div style="display: flex; width: 875px; font-size: 20px; margin-top: 20px; ">
            
-            <p style="width: 160px; font-weight: 100;" class="menu_item"><a href="http://localhost:8080/meetMateList.action" class="link">MeetMate</a></p>
-            <b style="width: 160px; font-weight: 100;" class="menu_item"><a href="http://localhost:8080/communiFindList.action" class="link">CommuniFind</a></b>
-            <b style="width: 160px; font-weight: 100;" class="menu_item"><a href="http://localhost:8080/challengeList.action" class="link">Challenge</a></b>
-            <b style="width: 160px; font-weight: 100;" class="menu_item"><a href="http://localhost:8080/mainReview.action" class="link">Review</a></b>
-            <b style="width: 160px; font-weight: 100;" class="menu_item"><a href="http://localhost:8080/mainMap.action" class="link">Discovery</a></b>
-            <b style="width: 160px; font-weight: 100;" class="menu_item"><a href="http://localhost:8080/customercenter.action" class="link">Service</a></b>
+            <p style="width: 160px; font-weight: 100;" class="menu_item"><a href="/meetMateList.action" class="link">MeetMate</a></p>
+            <b style="width: 160px; font-weight: 100;" class="menu_item"><a href="/communiFindList.action" class="link">CommuniFind</a></b>
+            <b style="width: 160px; font-weight: 100;" class="menu_item"><a href="/challengeList.action" class="link">Challenge</a></b>
+            <b style="width: 160px; font-weight: 100;" class="menu_item"><a href="/mainReview.action" class="link">Review</a></b>
+            <b style="width: 160px; font-weight: 100;" class="menu_item"><a href="/mainMap.action" class="link">Discovery</a></b>
+            <b style="width: 160px; font-weight: 100;" class="menu_item"><a href="/customercenter.action" class="link">Service</a></b>
              
               
               </div>
@@ -66,16 +66,16 @@
 
             <div th:if="${#httpSession.getAttribute('user') != null}" class="image is-128x128 avatar">
                 <img style="margin-bottom: 30px;" th:src="@{${session.user.picture}}">
-                <a  style=" color: #00d1b2; margin-left: -3px; font-size: 23px;" href="http://localhost:8080/pay.action">포인트 충전 하기</a>
-                <a  style=" color: #00d1b2; margin-left: -3px; font-size: 23px;" href="http://localhost:8080/paymentInfo.action">포인트 상세 조회</a>
+                <a  style=" color: #00d1b2; margin-left: -3px; font-size: 23px;" href="/pay.action">포인트 충전 하기</a>
+                <a  style=" color: #00d1b2; margin-left: -3px; font-size: 23px;" href="/paymentInfo.action">포인트 상세 조회</a>
               </div>
 
             <div th:if="${#httpSession.getAttribute('user1') != null}"  class="image is-128x128 avatar">
             <img style="margin-bottom: 30px;" th:src="@{image/login/__${session.user1.picture}__}">
           
               <a th:if="${#httpSession.getAttribute('user1') != null}" style=" color: #00d1b2; margin-left: 15px; font-size: 23px;" href="/userupdate.action">회원정보 수정 </a>
-              <a  style=" color: #00d1b2; margin-left: -3px; font-size: 23px;" href="http://localhost:8080/pay.action">포인트 충전 하기</a>
-              <a  style=" color: #00d1b2; margin-left: -3px; font-size: 23px;" href="http://localhost:8080/paymentInfo.action">포인트 상세 조회</a>
+              <a  style=" color: #00d1b2; margin-left: -3px; font-size: 23px;" href="/pay.action">포인트 충전 하기</a>
+              <a  style=" color: #00d1b2; margin-left: -3px; font-size: 23px;" href="/paymentInfo.action">포인트 상세 조회</a>
             </div>
            
           </div>
@@ -274,7 +274,7 @@
           <div class="card-image" >
             <figure class="image is-4by3">
               <a th:href="@{'/challengeArticle.action?challengeListNum=' + ${items.challengeListNum}}">
-                <img th:src="@{|/image/challengeimage/${items.challengeImageMain}|}" alt="">
+                <img th:src="@{|/image/challenge/challengeList/${items.challengeImageMain}|}" alt="">
             </a>
             </figure>
           </div>
@@ -392,7 +392,7 @@
       </div>
 
       <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-      <script type="text/javascript" src="http://localhost:8080/js/signup/mypage.js"></script>
+      <script type="text/javascript" src="/js/signup/mypage.js"></script>
   <script src="https://unpkg.com/vue/dist/vue.js"></script>
  
   
