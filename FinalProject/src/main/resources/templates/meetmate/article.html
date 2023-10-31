@@ -17,7 +17,7 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"/>
 <script src="https://kit.fontawesome.com/1f0cefbb8e.js" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=83bfuniegk"></script>
+<script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=y4onbfnsxz"></script>
 
 <script>
 
@@ -661,7 +661,10 @@ function roomsNotReadMessage(data){
             let roomId = rooms[j].getAttribute('data-value');
             console.log(rooms[j].getAttribute('data-value'));
             let notReadCountValue = notReadCountObject[roomId];
+            let preValue = rooms[j].textContent;
+            let intValue = parseInt(preValue, 10);
             if(notReadCountValue <= 0){
+                rooms[j].textContent = "";
                 continue;
             }
             rooms[j].textContent = notReadCountValue;
@@ -754,7 +757,7 @@ function roomsNotReadMessage(data){
                     <button class="chat-btn" th:if="${meetMemStatus == 1 or meetMemStatus == 2}" id="chatRoom" onclick="chatRoom()">
                         <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Speech%20Balloon.png" alt="Speech Balloon" width="25px" height="25px" /> 채팅 바로가기
                         <span class="notreadcount" name="room" th:attr="data-value=${roomId}">
-                            -
+                            
                         </span>
                     </button>
                     

@@ -26,5 +26,7 @@ public interface PaymentService {
 
     public void insertUserAfterSignUp(String email) throws Exception;
 
+    public userPointDTO getReadUserPoint(String email) throws Exception;
+
     // 이후 필요한 추가적인 비즈니스 로직 메서드를 여기에 추가할 수 있습니다.
 }

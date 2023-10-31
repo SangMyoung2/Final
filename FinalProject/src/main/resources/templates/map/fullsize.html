@@ -7,10 +7,10 @@
     <title>GATCHI MAP</title>
     <link rel="icon" type="image/png" href="/image/로고.png"/>
 
-    <script th:src="@{http://localhost:8080/js/map/jquery-1.9.1.js}"></script>
-    <script type="text/javascript" th:src="@{http://localhost:8080/js/map/examples-base.js}"></script>
-    <script type="text/javascript" th:src="@{http://localhost:8080/js/map/highlight.min.js}"></script>
-    <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=83bfuniegk"></script>
+    <script th:src="@{/js/map/jquery-1.9.1.js}"></script>
+    <script type="text/javascript" th:src="@{/js/map/examples-base.js}"></script>
+    <script type="text/javascript" th:src="@{/js/map/highlight.min.js}"></script>
+    <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=y4onbfnsxz"></script>
     <!-- 위도 경도 좌표가져오는 모듈 -->
     <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=YOUR_CLIENT_ID&submodules=geocoder"></script>
     <!-- <link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/map/examples-base.css}" /> -->
@@ -776,9 +776,9 @@ a {
     transition: left, right, 0.3s;
   position: fixed;
   left: 405px;
-  top: 95%;
-  width: 30px;
-  height: 30px;
+  top: 92%;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   background-color: #5CA8B5;
   display: -webkit-box;
@@ -1252,7 +1252,7 @@ for (var key in jsonArray) {
             <h2 class="card_title" id="meetTitle1">title</h2>
             <p class="card_text" id="meetContent1">content</p>
               <div>
-                <a href="http://localhost:8080/meetArticle.action?meetListNum=${jsonArray[key].meetListNum}">
+                <a href="http://192.168.16.12:8080/meetArticle.action?meetListNum=${jsonArray[key].meetListNum}">
                   <button class="btn1 card_btn"><b>참 여 하 기</b>&nbsp;&nbsp;<i class="fa-solid fa-right-to-bracket" style="color: #c7c7c7;"></i></button>
                 </a>
               </div>

@@ -35,12 +35,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
+import com.spring.boot.collection.ChatRoomCollection;
 import com.spring.boot.dto.GatchiDTO;
 import com.spring.boot.dto.GatchiLikeDTO;
 import com.spring.boot.dto.MapDTO;
 import com.spring.boot.dto.MeetInfoDTO;
 import com.spring.boot.dto.SessionUser;
 import com.spring.boot.model.Users;
+import com.spring.boot.service.ChatRoomService;
 import com.spring.boot.service.GatchiLikeService;
 import com.spring.boot.service.GatchiService;
 import com.spring.boot.service.MapService;
@@ -63,6 +65,9 @@ public class MeetmateController {
 
 	@Autowired
 	private MeetServiceYj meetServiceYj;
+
+	@Autowired
+	private ChatRoomService chatRoomService;
  	//여기서 호출 하면 BoardService -> BoardServiceImpl -> BoardMapper -> boardMapper.xml에서 데이터 반환을 BoardController로 해준다.
 
 	@GetMapping("/gatchiChoice.action")
@@ -279,6 +284,9 @@ public class MeetmateController {
 			if (meetMateList.getMeetCheck() == 1 && meetDday.before(currentDate)) {// meetCheck가 1이고 meetDday 지나면
 				meetMateList.setMeetStatus(2);//meetStatus를 2로 업데이트				
 				gatchiService.updateMeetStatusMate(meetMateList);//업데이트된 GatchiDTO 저장
+				ChatRoomCollection chatRoom = chatRoomService.findByRoomId(meetMateList.getChatRoomNum());
+				chatRoom.setRoomType(2);
+				chatRoomService.updateChatRoom(chatRoom);
 			}
 		}
 
