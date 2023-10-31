@@ -24,4 +24,7 @@ public class ChallengeDTO {
     private String challengeCreateDate;
     private int challengeStatus;
     private String challengeChatRoomNum;
+
+    private String picture;
+    private String role;
 }

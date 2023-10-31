@@ -280,7 +280,7 @@ $(document).ready(function() {
             
             var progressBar = $(this).find('#progress');
             progressBar.css('width', percentage + '%');
-            progressBar.css('background-color', '#1d65b2');
+            progressBar.css('background-color', 'red');
 
             var percentElement = $(this).find('#goal');
             percentElement.text(percentage + "%");
@@ -332,6 +332,7 @@ function roomsNotReadMessage(data){
             console.log(rooms[j].getAttribute('data-value'));
             let notReadCountValue = notReadCountObject[roomId];
             if(notReadCountValue <= 0){
+                rooms[j].textContent = "";
                 continue;
             }
             rooms[j].textContent = notReadCountValue;
@@ -464,7 +465,7 @@ tr{
                     <button class="chat-btn" th:if="${ChallengeMemberStatus == 1 or ChallengeMemberStatus == 2}"  id="chatRoom" onclick="chatRoom()">
                         <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Speech%20Balloon.png" alt="Speech Balloon" width="25px" height="25px" /> 채팅 바로가기
                         <span class="notreadcount" name="room" th:attr="data-value=${roomId}">
-                            -
+                            
                         </span>
                         <input type="hidden" id="ChallengeMemberStatus" name="ChallengeMemberStatus" th:value="${ChallengeMemberStatus}" />
                     </button>
@@ -661,7 +662,13 @@ tr{
         <div class="review-title">인증</div>
         <div class="review-sub">이 챌린지에서 당신의 생생한 후기를 남겨보세요!</div>
 
-        <div th:if="${challengeDTO.challengeStatus==1}">
+
+        <div>
+            <div class="noStart" th:if="${challengeStartBoolean == true}">진행중인 챌린지가 아닙니다.</div>
+        </div>
+
+
+        <div th:if="${challengeDTO.challengeStatus==1 && challengeStartBoolean==false}">
             <div class="review-write" th:if="${ChallengeMemberStatus == 2 or ChallengeMemberStatus == 1}">작성하기</div>
         </div>
 

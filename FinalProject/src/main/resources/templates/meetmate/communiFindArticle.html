@@ -60,7 +60,7 @@
         document.querySelector('#homeAndreviw').classList.remove('reviwAndhome');
         document.querySelector('.yj-img').style.display = 'block';
         document.querySelector('.yj-img2').style.display = 'none';
-        document.querySelector('.meet-members').style.display = 'block';
+        document.querySelector('.c-meet-members').style.display = 'block';
         document.querySelector('.meet-mypage').style.display = 'block';
     }
 
@@ -69,7 +69,7 @@
         document.querySelector('#homeAndreviw').classList.add('reviwAndhome');
         document.querySelector('.yj-img').style.display = 'none';
         document.querySelector('.yj-img2').style.display = 'block';
-        document.querySelector('.meet-members').style.display = 'none';
+        document.querySelector('.c-meet-members').style.display = 'none';
         document.querySelector('.meet-mypage').style.display = 'none';
     }
 
@@ -215,10 +215,10 @@
 
     document.addEventListener('DOMContentLoaded', function() {
         var meetMoneyElement = document.querySelector('.meet-money');
-        // var meetMoneyValue = meetMoneyElement.textContent;
-        // var formattedMeetMoney = inputNumberWithComma(meetMoneyValue);
+        var meetMoneyValue = meetMoneyElement.textContent;
+        var formattedMeetMoney = inputNumberWithComma(meetMoneyValue);
 
-        // meetMoneyElement.textContent = formattedMeetMoney;
+        meetMoneyElement.textContent = formattedMeetMoney;
     });
 
      // 인원수 달성률 계산 및 그래프 상태 업데이트
@@ -431,27 +431,8 @@ let title = document.getElementById('meetTitle').textContent;
 
 let joincancel = confirm(title + ' 모임을 삭제하시겠습니까?');
 if(joincancel){
-    $.ajax({
-            type: "POST",
-            url: "/meettimecheck",
-            data: {
-                meetListNum: meetListNum
-            },
-            success: function (response) {
-                if(response == 1){
-                    alert('취소 되었습니다.');
-                    location.href = '/delete-meet?meetListNum='+meetListNum;
-                }else if(response === 2){
-                    alert('모임 시간이 지났습니다.');
-                }
-                else{
-                    alert('다시 시도해 주세요..');
-                }
-            },
-            error: function () {
-                alert('다시 시도 해주세요..');
-            }
-        });
+    alert('삭제 되었습니다.');
+    location.href = '/delete-meet?meetListNum='+meetListNum;
 }
 }
 
@@ -557,6 +538,7 @@ function roomsNotReadMessage(data){
             let roomId = rooms[j].getAttribute('data-value');
             let notReadCountValue = notReadCountObject[roomId];
             if(notReadCountValue <= 0){
+                rooms[j].textContent = "";
                 continue;
             }
             rooms[j].textContent = notReadCountValue;
@@ -582,7 +564,7 @@ function roomsNotReadMessage(data){
         <div class="btn-group" id="homeAndreviw" role="group" aria-label="Basic radio toggle button group">
             <!-- 홈 버튼 -->
             <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
-            <label class="btn btn-custom" for="btnradio1" onclick="showHomeContent()">
+            <label class="btn btn-custom" for="btnradio1">
                 <span style="color: #383535; font-size: 20px;">홈</span>
                 <div class="underline"></div>
             </label>
@@ -650,7 +632,7 @@ function roomsNotReadMessage(data){
                     <button class="chat-btn" th:if="${meetMemStatus == 1 or meetMemStatus == 2}" id="chatRoom" onclick="chatRoom()">
                         <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Speech%20Balloon.png" alt="Speech Balloon" width="25px" height="25px" /> 채팅 바로가기
                         <span class="notreadcount" name="room" th:attr="data-value=${roomId}">
-                            -
+                            
                         </span>
                         <input type="hidden" id="meet-memStatus" name="meetMemStatus" th:value="${meetMemStatus}" />
                     </button>
