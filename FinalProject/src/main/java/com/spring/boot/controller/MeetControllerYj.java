@@ -284,10 +284,10 @@ public class MeetControllerYj {
 			meetReviewDTO.setEmail(user1.getEmail());
 		}
 		
-		String useremail = user1.getEmail();
+		// String useremail = user1.getEmail();
 
 		meetReviewDTO.setMeetListNum(meetListNum);
-		meetReviewDTO.setEmail(useremail);
+		meetReviewDTO.setEmail(meetInfoDTO.getEmail());
 
 		// 중복 리뷰 작성 여부 확인
 		int hasReviewed = meetServiceYj.hasUserReviewed(meetReviewDTO);

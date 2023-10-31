@@ -101,7 +101,7 @@
             hide();
             return;
         }
-        fetch('http://localhost:8080/meetMateList', {
+        fetch('/meetMateList', {
         method: 'POST',
         body: JSON.stringify({ userKeyword: userKeyword }),
         headers: {
