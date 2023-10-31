@@ -661,6 +661,8 @@ function roomsNotReadMessage(data){
             let roomId = rooms[j].getAttribute('data-value');
             console.log(rooms[j].getAttribute('data-value'));
             let notReadCountValue = notReadCountObject[roomId];
+            let preValue = rooms[j].textContent;
+            let intValue = parseInt(preValue, 10);
             if(notReadCountValue <= 0){
                 rooms[j].textContent = "";
                 continue;

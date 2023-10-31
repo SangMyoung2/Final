@@ -92,11 +92,11 @@ public class ChatRoomController {
             userId = sessionUser.getEmail();
         }
 
-        System.out.println("유저 이름 : " + userId);
+        // System.out.println("유저 이름 : " + userId);
 
         List<ChatRoomCollection> lists = chatRoomService.getFindNameInUsers(userId);
         // List<ChatRoomCollection> lists = chatRoomService.getFindAllChats();
-        System.out.println("lists : " + lists);
+        // System.out.println("lists : " + lists);
 
         // session.setAttribute("userName", userName);
 

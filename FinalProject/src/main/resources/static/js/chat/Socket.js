@@ -65,7 +65,7 @@ function onConnected() {
     
     // connectingElement.classList.add('hidden');
     setInterval(updateNumber, 500);
-    setInterval(countZeroData, 1000);
+    setInterval(countZeroData, 500);
     
 }
 
@@ -123,6 +123,9 @@ function isprevChatList(){
                 //   console.log(item);
                   messageDiv(item);
                 });
+                setTimeout(function (){
+                    messageArea.scrollBy(0,messageArea.scrollHeight);
+                },50);
               } else {
                 console.error('데이터 형식이 JSON이 아닙니다.');
               }
@@ -242,6 +245,7 @@ function sendImageToServer(fileContent){
         // 오류 처리
         console.error(error);
     });
+    
 }
 
 function sendMessageWithImage(imageData){
@@ -469,10 +473,23 @@ function onMessageReceived(payload) {
         }
     }
     //messageElement.appendChild(messageText);
+    var audio = new Audio("/audio/send.mp3");
+    audio.loop = false;
     
+    audio.volume = 0.5;
+    audio.play();
 
     messageArea.appendChild(messageElement);
-    messageArea.scrollTop = messageArea.scrollHeight;
+
+    if(chat.type == 'IMAGE'){
+        setTimeout(function (){
+            messageArea.scrollBy(0,messageArea.scrollHeight);
+        },500);
+    }else{
+        messageArea.scrollBy(0,messageArea.scrollHeight);
+    }
+    // messageArea.scrollTop = messageArea.scrollHeight + 1000;
+    
 }
 
 function messageDiv(chatMessages){
@@ -670,11 +687,12 @@ function messageDiv(chatMessages){
         }
     }
     //messageElement.appendChild(messageText);
-    
+    console.log("이미지도 들어옴")
 
     messageArea.appendChild(messageElement);
-    messageArea.scrollTop = messageArea.scrollHeight;
+    messageArea.scrollBy(0,messageArea.scrollHeight);
 
+    countZeroData();
 }
 
 // 이미지 드래그 해서 넣기 ( 여러개 가능 )
@@ -818,7 +836,7 @@ function countReadData(data){
 function countZeroData(){
     let read = document.getElementsByClassName("chat-message");
     let myRead = document.getElementsByClassName("chat-myMessage");
-    console.log("들어옴들어옴들어옴")
+    
     if(read.length <= 0 && myRead.length <= 0) {
         return;
     }
@@ -827,6 +845,7 @@ function countZeroData(){
         // let readcntDiv = read[j].querySelector("div");
         let readcnt = read[j].querySelector("readCount");
         if(readcnt != null && parseInt(readcnt.textContent) <= 0) {
+            console.log("여기는 상대편")
             read[j].classList.add("chat-Message-ok")
             read[j].classList.remove("chat-message")
             readcnt.remove();
@@ -834,10 +853,11 @@ function countZeroData(){
     }
 
     for(let j=0; j<myRead.length; j++){
-        console.log("myChat");
+        
         let myreadcnt = myRead[j].querySelector(".myReadCount");
         let chatDate = myRead[j].querySelector(".chatDate");
         if(myreadcnt != null && parseInt(myreadcnt.textContent) <= 0) {
+            console.log("여기는 내편")
             myRead[j].classList.add("chat-myMessage-ok")
             myRead[j].classList.remove("chat-myMessage")
             // chatDate.style.height = 7 + 'px';
