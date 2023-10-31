@@ -217,7 +217,7 @@
             
               <div style="background-color:#F5F5F5; margin-left: -50px;">
                 <div style="display: grid; padding: 0; list-style-type: none; margin: 0rem 14vw; grid-template-columns: repeat(auto-fit, minmax(225px, 1fr)); gap: 2rem; height: 370px; ">
-                    <div class="card-item2" th:each="items, iterStat : ${allreview}" th:if="${iterStat.index < 8}" >
+                    <div class="card-item2" th:each="items, iterStat : ${allreview}" th:if="${iterStat.index < 4}" >
                       <div class="item-content2">
                         <div class="image-container2">
                           <a th:href="@{'/meetArticle.action?meetListNum=' + ${items.meetListNum}+'#review'}">
