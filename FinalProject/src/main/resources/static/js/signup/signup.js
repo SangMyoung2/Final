@@ -163,15 +163,15 @@ const join = () => {
   
    
 
-    //    if (!isAuthenticated) {
-    //     const ErrorMessageDiv = document.getElementById("telErrorMessage");
-    //     ErrorMessageDiv.style.display = "block"; 
-    //     f.tel.focus();
-    //     setTimeout(function() {
-    //      ErrorMessageDiv.style.display = "none"; 
-    //  }, 5000); 
-    //  return;
-    // }
+       if (!isAuthenticated) {
+        const ErrorMessageDiv = document.getElementById("telErrorMessage");
+        ErrorMessageDiv.style.display = "block"; 
+        f.tel.focus();
+        setTimeout(function() {
+         ErrorMessageDiv.style.display = "none"; 
+     }, 5000); 
+     return;
+    }
 
    f.action = "/signup.action";
  f.submit();
