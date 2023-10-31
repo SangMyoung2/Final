@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import com.spring.boot.dao.BaseAuthUserRepository;
 import com.spring.boot.dto.OAuthAttributes;
 import com.spring.boot.dto.SessionUser;
+import com.spring.boot.dto.userPointDTO;
 import com.spring.boot.model.Users;
 
 import lombok.RequiredArgsConstructor;
@@ -30,6 +31,9 @@ public class BaseCustomOAuth2UserService implements OAuth2UserService<OAuth2User
 	
 	@Autowired
 	private final HttpSession httpSession;
+
+	@Autowired
+	private final PaymentService paymentService;
 
 	@Override
 	public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -65,6 +69,18 @@ public class BaseCustomOAuth2UserService implements OAuth2UserService<OAuth2User
 		
 		//SessionUser : 세션에 사용자 정보를 저장하기 위한 DTO 클래스
 		httpSession.setAttribute("user", new SessionUser(authUser));
+
+		
+		try {
+			userPointDTO dto = paymentService.getReadUserPoint(authUser.getEmail());
+			if(dto == null){
+                paymentService.insertUserAfterSignUp(authUser.getEmail());
+            }
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+
+
 		
 		return new DefaultOAuth2User(
 				Collections.singleton(
