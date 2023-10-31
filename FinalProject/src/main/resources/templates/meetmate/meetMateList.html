@@ -167,7 +167,7 @@
        <div class="block"></div>
       
         <ul class="cards">
-          <li name="meetLists" class="meetList_hidden" th:each="items : ${searchMeetMateList2}">
+          <li name="meetLists"  th:each="items : ${searchMeetMateList2}">
               <div class="card">
                 <input type="checkbox" th:id="'heartBtn' + ${items.meetListNum}" class="heartBtn" name="likeBtn" th:value="${items.meetListNum}">
                 <label th:for="'heartBtn' + ${items.meetListNum}" th:id="'likeBtnLabel' + ${items.meetListNum}" class="heart"></label>
