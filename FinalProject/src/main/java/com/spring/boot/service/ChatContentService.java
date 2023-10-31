@@ -53,8 +53,8 @@ public class ChatContentService {
 
         for(int i=10; i>=0; i--){
             String roomDate = chatUtil.todayMinusDay(i);
-            System.out.println("날짜 : " + roomDate);
-            System.out.println("채팅방 id : " + roomId + roomDate);
+            // System.out.println("날짜 : " + roomDate);
+            // System.out.println("채팅방 id : " + roomId + roomDate);
             ChatContentCollection chat = chatContentRepository.findByRoomIdIn(roomId+roomDate);
             if(chat == null){
                 continue;
@@ -127,8 +127,8 @@ public class ChatContentService {
     public Map<String, Integer> checkNotReadMessage(List<ChatRoomCollection> chats, String username){
         // System.out.println("checkNotReadMessage 들어온 유저 : " + username);
         Map<String, Integer> notReadCount = new HashMap<>();
-        System.out.println("서비스 유저네임 : " + username);
-        System.out.println("서비스 챗 : " + chats);
+        // System.out.println("서비스 유저네임 : " + username);
+        // System.out.println("서비스 챗 : " + chats);
         outerLoop:
         for(int i=0; i<chats.size(); i++){
             int result = 0;

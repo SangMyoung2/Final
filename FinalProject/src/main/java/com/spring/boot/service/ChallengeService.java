@@ -71,4 +71,7 @@ public interface ChallengeService {
 
     public List<ChallengeAuthDTO> getUserReview(int challengeListNum, String email) throws Exception;
 
+    public void updateChatRoomNum(ChallengeDTO dto) throws Exception;
+
+    public ChallengeDTO getReadDataChatRoom(int challengeListNum) throws Exception;
 }

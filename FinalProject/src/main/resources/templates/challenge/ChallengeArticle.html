@@ -47,6 +47,7 @@
 
     // 홈 내용 표시 함수
     function showHomeContent() {
+        document.querySelector('#homeAndreviw').classList.remove('reviwAndhome');
         document.querySelector('.yj-img').style.display = 'block';
         document.querySelector('.yj-img2').style.display = 'none';
         document.querySelector('.meet-members').style.display = 'block';
@@ -55,6 +56,7 @@
 
     // 리뷰 내용 표시 함수
     function showReviewContent() {
+        document.querySelector('#homeAndreviw').classList.add('reviwAndhome');
         document.querySelector('.yj-img').style.display = 'none';
         document.querySelector('.yj-img2').style.display = 'block';
         document.querySelector('.meet-members').style.display = 'none';
@@ -83,6 +85,8 @@
             var challengeListNum = document.querySelector('#challengeListNum').value;
             var challengeAuthContent= document.querySelector('#challengeAuthContent').value;
             var challengeAuthImage = document.querySelector('#challengeAuthImage').files[0];
+            
+            challengeAuthContent = challengeAuthContent.replace(/\n/g, '\n');
             
             // 리뷰 내용과 이미지 모두 필수로 입력되어야 함
             if (challengeAuthContent.trim() === '' && !challengeAuthImage) {
@@ -260,10 +264,10 @@
     }
 
     function chatRoom(){
-    let meetListNum = document.getElementById('meetListNum').value;
+    let challengeListNum = document.getElementById('challengeListNum').value;
 
     var options = 'width=600px,height=700px,scrollbars=yes'
-            popupChat = window.open("articleChatRoom.action?meetListNum=" + meetListNum,"_blacnk",options);
+            popupChat = window.open("articleChallengeChatRoom.action?challengeListNum=" + challengeListNum,"_blacnk",options);
 }
 
 // 달성률 표시
@@ -276,12 +280,65 @@ $(document).ready(function() {
             
             var progressBar = $(this).find('#progress');
             progressBar.css('width', percentage + '%');
-            progressBar.css('background-color', '#1d65b2');
+            progressBar.css('background-color', 'red');
 
             var percentElement = $(this).find('#goal');
             percentElement.text(percentage + "%");
         });
     });
+
+
+setInterval(checkNotReadMessage, 700);
+
+function checkNotReadMessage(){
+
+    let user = {'userId': "article"};
+
+    let requestOption = {
+        method:'POST',
+        headers:{
+            'Content-Type':'application/json',
+        },
+        body:JSON.stringify(user)
+    };
+
+    fetch('/chat/checkNotReadMessage', requestOption)
+      .then(response => response.json())
+      .then(data => {
+        // 가져온 숫자를 화면에 표시
+        //console.log("데이타 : " + JSON.stringify(data));
+        // console.log("checkNotReadMessage : " + JSON.stringify(data));
+        roomsNotReadMessage(data);
+      })
+      .catch(error => {
+        console.error('숫자 업데이트 중 오류 발생:', error);
+      });
+}
+
+
+function roomsNotReadMessage(data){
+    let rooms = document.getElementsByName("room");
+    let notReadCountObject = data.notReadCount;
+    let notReadCountKeys = Object.keys(notReadCountObject);
+    let notReadCountSize = notReadCountKeys.length;
+
+    // console.log("크기 : " + notReadCountSize);
+    // console.log(rooms[0].getAttribute('data-value'));
+    // console.log("위잉 : " + notReadCountKeys);
+
+    for(let i=0; i<notReadCountSize; i++){
+        for(let j=0; j<rooms.length; j++){
+            let roomId = rooms[j].getAttribute('data-value');
+            console.log(rooms[j].getAttribute('data-value'));
+            let notReadCountValue = notReadCountObject[roomId];
+            if(notReadCountValue <= 0){
+                rooms[j].textContent = "";
+                continue;
+            }
+            rooms[j].textContent = notReadCountValue;
+        }
+    }
+}
 
 </script>
 <style>
@@ -405,8 +462,11 @@ tr{
                     <br/>
                     <br/>
 
-                    <button class="chat-btn" th:if="${ChallengeMemberStatus == 1 or ChallengeMemberStatus == 2}">
+                    <button class="chat-btn" th:if="${ChallengeMemberStatus == 1 or ChallengeMemberStatus == 2}"  id="chatRoom" onclick="chatRoom()">
                         <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Speech%20Balloon.png" alt="Speech Balloon" width="25px" height="25px" /> 채팅 바로가기
+                        <span class="notreadcount" name="room" th:attr="data-value=${roomId}">
+                            
+                        </span>
                         <input type="hidden" id="ChallengeMemberStatus" name="ChallengeMemberStatus" th:value="${ChallengeMemberStatus}" />
                     </button>
 
@@ -429,13 +489,14 @@ tr{
                             </div>
                         </div>
                         <br/>
+                    <div style="margin-top: 60px;">
                         <th:block th:unless="${#lists.isEmpty(authStatus)}">
                             <div th:each="authStatus : ${authStatus}" style="display: inline-block; align-content: center;">
                                 <div th:if="${authStatus==0}" class="square gray"></div>
                                 <div th:if="${authStatus==1}" class="square green"></div>
                             </div>
                         </th:block>
-
+                    </div>
                 </div>
                 
             </div>
@@ -467,7 +528,7 @@ tr{
                     </div>
                   
                     <div class="main-text">
-                        <p class="Yj-text1" th:text="${challengeDTO.challengeContent}"></p>
+                        <p class="Yj-text1" th:utext="${challengeDTO.challengeContent.replaceAll('\n', '<br>')}"></p>
                         
                         <br/>
                         <br/>
@@ -601,7 +662,13 @@ tr{
         <div class="review-title">인증</div>
         <div class="review-sub">이 챌린지에서 당신의 생생한 후기를 남겨보세요!</div>
 
-        <div th:if="${challengeDTO.challengeStatus==1}">
+
+        <div>
+            <div class="noStart" th:if="${challengeStartBoolean == true}">진행중인 챌린지가 아닙니다.</div>
+        </div>
+
+
+        <div th:if="${challengeDTO.challengeStatus==1 && challengeStartBoolean==false}">
             <div class="review-write" th:if="${ChallengeMemberStatus == 2 or ChallengeMemberStatus == 1}">작성하기</div>
         </div>
 

@@ -649,7 +649,7 @@
 .approval-back {
     padding: 20px;
     background-color: #E4EEF7;
-    width: 390px;
+    width: 290px;
     display: flex;
     flex-direction: column;
     margin-left: 15px;
@@ -986,4 +986,8 @@
     #homeAndreviw{
         margin-left: 50px;
     }
+}
+
+.reviwAndhome{
+    margin-left: 0px !important;
 }

@@ -27,11 +27,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.boot.chat.ChatDAO;
 import com.spring.boot.collection.ChatRoomCollection;
+import com.spring.boot.dto.ChallengeDTO;
 import com.spring.boot.dto.ChatRoom;
 import com.spring.boot.dto.GatchiDTO;
 import com.spring.boot.dto.SessionUser;
 import com.spring.boot.mapper.ChatRoomRepository;
 import com.spring.boot.model.Users;
+import com.spring.boot.service.ChallengeService;
 import com.spring.boot.service.ChatContentService;
 import com.spring.boot.service.ChatRoomService;
 import com.spring.boot.service.GatchiLikeService;
@@ -61,7 +63,9 @@ public class ChatRoomController {
     @Autowired
     private ChatUtil chatUtil;
 
-    
+    @Autowired
+    private ChallengeService challengeService;
+
     //채팅 리스트 화면
     @RequestMapping("/chatlist.action")
     public ModelAndView chatRooms(HttpServletRequest req){
@@ -88,11 +92,11 @@ public class ChatRoomController {
             userId = sessionUser.getEmail();
         }
 
-        System.out.println("유저 이름 : " + userId);
+        // System.out.println("유저 이름 : " + userId);
 
         List<ChatRoomCollection> lists = chatRoomService.getFindNameInUsers(userId);
         // List<ChatRoomCollection> lists = chatRoomService.getFindAllChats();
-        System.out.println("lists : " + lists);
+        // System.out.println("lists : " + lists);
 
         // session.setAttribute("userName", userName);
 
@@ -111,7 +115,7 @@ public class ChatRoomController {
     @RequestMapping("/createroom.action")
     public ModelAndView createRoom(@RequestParam("roomName") String roomName, 
     @RequestParam("roomType") String roomType,
-    @RequestParam("meetListNum") int meetListNum,
+    @RequestParam("listNum") int listNum,
     @RequestParam("createType") int createType,
     @RequestParam(name = "redirectNum", required = false, defaultValue = "0") int redirectNum,
     HttpServletRequest req) throws Exception{
@@ -163,12 +167,18 @@ public class ChatRoomController {
         chatRoomService.createChat(chatRoomCollection);
         System.out.println("DB저장 완료");
 
-        GatchiDTO dto = new GatchiDTO();
-        dto.setMeetListNum(meetListNum);
-        dto.setChatRoomNum(chatRoomCollection.getRoomId());
-        gatchiService.updateChatRoom(dto);
-        //ChatRoom room = chatDAO.createChatRoom(roomName, roomMaster);
-        
+        if(createType == 4){
+            ChallengeDTO dto = new ChallengeDTO();
+            dto.setChallengeListNum(listNum);
+            dto.setChallengeChatRoomNum(chatRoomCollection.getRoomId());
+            challengeService.updateChatRoomNum(dto);
+        }else{
+            GatchiDTO dto = new GatchiDTO();
+            dto.setMeetListNum(listNum);
+            dto.setChatRoomNum(chatRoomCollection.getRoomId());
+            gatchiService.updateChatRoom(dto);
+            //ChatRoom room = chatDAO.createChatRoom(roomName, roomMaster);
+        }
         ModelAndView mav = new ModelAndView();
         //mav.addObject("roomName", room);
         if(createType == 1){
@@ -179,6 +189,9 @@ public class ChatRoomController {
         }
         else if(createType == 3){
             mav.setViewName("redirect:/communiArticle.action?meetListNum=" + redirectNum);
+        }
+        else if(createType == 4){
+            mav.setViewName("redirect:/challengeList.action");
         }
         return mav;
     }
@@ -211,12 +224,11 @@ public class ChatRoomController {
         
         // mav.addObject("room", chatDAO.findRoomById(roomId));
 
-        System.out.println("userName 정보 : " + userName);
-        System.out.println("room정보 : " + chatRoomService.getReadDate(roomId));
+        // System.out.println("userName 정보 : " + userName);
+        // System.out.println("room정보 : " + chatRoomService.getReadDate(roomId));
 
         Optional<ChatRoomCollection> room = chatRoomService.getReadDate(roomId);
-        System.out.println(room.isPresent());
-        System.out.println("room.get()은 : " + room.get());
+        
 
         ChatRoomCollection rooms = (ChatRoomCollection)room.get();
 
@@ -275,4 +287,15 @@ public class ChatRoomController {
         mav.setViewName("redirect:/chat/room?roomId=" + roomId);
         return mav;
     }
+
+    @RequestMapping("/articleChallengeChatRoom.action")
+    public ModelAndView articleChallengeChatRoom(@RequestParam("challengeListNum") int challengeListNum) throws Exception{
+        ChallengeDTO dto = challengeService.getReadDataChatRoom(challengeListNum);
+        if(dto == null) return null;
+        String roomId = dto.getChallengeChatRoomNum();
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("redirect:/chat/room?roomId=" + roomId);
+        return mav;
+    }
+    
 }

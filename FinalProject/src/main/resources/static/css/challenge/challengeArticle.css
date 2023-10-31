@@ -988,3 +988,16 @@
         margin-left: 50px;
     }
 }
+
+.reviwAndhome{
+    margin-left: 0px !important;
+}
+.noStart{
+    text-align: right;
+    color: #777777;
+    margin-right: 120px;
+    padding-bottom: 5px;
+
+    text-decoration: none;
+    font-size: 17px;
+}

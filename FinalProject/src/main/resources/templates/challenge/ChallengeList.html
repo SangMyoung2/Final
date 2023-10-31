@@ -2,12 +2,12 @@
 <head>
 <meta charset="UTF-8">
 
-<title>MeetMate 모임목록</title>
+<title>Challenge 목록</title>
 
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <link rel="stylesheet" type="text/css" th:href="@{http://localhost:8080/css/challenge/challengeList.css}"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/css/swiper.min.css">
-
+<script src="https://kit.fontawesome.com/f1e715a543.js" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/js/swiper.min.js"></script>
 <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
 <link rel="icon" type="image/png" th:href="@{http://localhost:8080/image/로고.png}"/>
@@ -22,11 +22,20 @@
 
 <div layout:fragment="content">    
 
-  <div class="meetTitle">
-    <h1>챌 린 지</h1>
+  <div class="meetTitle" style="margin-top: 90px;" >
+    
+    <h1 style="margin: 0 auto; color: red; font-size: 3.8rem;">Challenge</h1>
   </div>
+  <div class="block" style=" width: 200px;"></div>
   <div class="meetTitle_Sub">
-    <p>하루하루 열심히 힘을 내서 아자아자 화이팅</p>
+    
+    <p style="text-align: center; margin-bottom: 65px; margin-top: 30px; font-size: 35px;">함께 한다면 의지도 두 배!<br/>
+      함께 목표를 달성해 보세요!</p>
+  </div>
+
+  <div>
+    <img style="width: 100%; height: 470px;" src="/image/main/challentitle.jpg"/>
+
   </div>
 
   
@@ -78,8 +87,12 @@
               <div class="card__header" th:style="${items.challengeStatus == 2 ? 
                 'background-image: linear-gradient(to right bottom, transparent calc(50% - 1px), red, transparent calc(50% + 1px));' : ''}">
                 <svg class="card__arc" xmlns="http://www.w3.org/2000/svg"><path /></svg>
-                <img class="card__thumb" src="https://i.imgur.com/7D7I6dI.png" alt="" />
-                
+                <div th:if="${items.role == null}">
+                  <img class="card__thumb" th:src="@{|/image/login/${items.picture}|}" alt="" />
+                </div>
+                <div th:if="${items.role == GUEST}">
+                  <img class="card__thumb" th:src="${items.picture}" alt="" />
+                </div>
                 <div class="card__header-wrapper">
                   <div class="card__header-text">
                     <span class="card__status" >
